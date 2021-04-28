@@ -1,0 +1,26 @@
+# EditorConfig helps developers define and maintain consistent
+# coding styles between different editors and IDEs
+# https://editorconfig.org
+
+root = true
+
+# General
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Web & Data
+[*.{html,css,sass,scss,js,jsx,jsm,ts,tsx,vue,json,yaml,yml}]
+indent_size = 2
+
+# Windows
+[*.{bat,cmd,ps1}]
+end_of_line = crlf
+
+# Markdown & reStructuredText & AsciiDoc
+[*.{md,rst,adoc}]
+trim_trailing_whitespace = false

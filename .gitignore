@@ -1,0 +1,60 @@
+# IDE & System
+$RECYCLE.BIN/
+.AppleDouble
+.DS_Store
+.LSOverride
+.Trash-*
+.buildpath
+.c9
+.c9revisions
+.directory
+.fuse_hidden*
+.idea
+.nfs*
+.project
+.settings
+.vs
+.vscode
+*.iml
+[Dd]esktop.ini
+[Tt]humbs.db
+
+# Logs
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Distribution & Packaging
+build/
+debug/
+dist/
+pkg/
+target/
+
+# Cache & Temporary Files
+cache/
+tmp/
+.eslintcache
+.grunt
+.lock-wscript
+.node_repl_history
+.npm
+.nyc_output
+.yarn-integrity
+*.tmp
+*.rs.bk
+
+# Dependencies
+bower_components/
+jspm_packages/
+node_modules/
+web_modules/
+
+# Generated userchrome.wxs WiX file
+# File needs to be manually generated before running cargo wix
+/native/wix/userchrome.wxs
+
+# Do not ignore .gitkeep files
+!.gitkeep
