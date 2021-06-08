@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+
+# Remove dynamically-generated directories
+if [ "$1" = "remove" ]
+then
+    rm -rf /usr/share/firefoxpwa || true
+fi

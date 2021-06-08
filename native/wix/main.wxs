@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--
+  Installer uses the following icons redistributed under the Apache 2.0 license:
+  * "assets\exclamation.ico" from https://materialdesignicons.com/icon/exclamation by Austin Andrews
+  * "assets\information.ico" from https://materialdesignicons.com/icon/information by Google
+  * "assets\new.ico" from https://materialdesignicons.com/icon/folder-plus by Austin Andrews
+  * "assets\up.ico" from https://materialdesignicons.com/icon/folder-upload by Austin Andrews
+
+  Installer also contains images that are based on the official Firefox browser logo and the community-introduced PWA logo:
+  * https://mozilla.design/firefox/logos-usage
+  * https://github.com/webmaxru/progressive-web-apps-logo
+
+  Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries.
+  This project is NOT affiliated with Mozilla Foundation in any way.
+-->
+
+<!--
+  Important: Generate UserChrome component group before running cargo wix!
+  $ heat dir userchrome -o wix/userchrome.wxs -scom -frag -srd -sreg -gg -cg UserChrome -var wix.UserChromeSource -dr UserChromeDir -t wix/utils/transform.xslt
+-->
+
+<?include utils\config.wxi ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+    <Product
+        Id="*"
+        UpgradeCode="E1CD921B-369E-47CB-AD2E-3BCA94142512"
+
+        Name="FirefoxPWA"
+        Manufacturer="filips"
+        Version="$(var.Version)"
+
+        Language="1033"
+        Codepage="1252"
+    >
+        <!-- Installer package that installs all static FirefoxPWA components -->
+        <Package
+            Id="*"
+
+            Keywords="FirefoxPWA Installer"
+            Description="The native part of the FirefoxPWA project"
+            Comments="Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with Mozilla Foundation in any way."
+            Manufacturer="filips"
+
+            InstallerVersion="405"
+            Languages="1033"
+            SummaryCodepage="1252"
+
+            Compressed="yes"
+            InstallScope="perMachine"
+            Platform="$(var.Platform)"
+        />
+
+        <!-- Prevent downgrading application -->
+        <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A newer version of [ProductName] is already installed. Setup will now exit." />
+
+        <!-- Dynamically delete runtime directory with rmdir because Windows Installer cannot do that -->
+        <CustomAction
+            Id="RemoveRuntimeDir"
+            Directory="TARGETDIR"
+            ExeCommand="cmd /C &quot;rmdir /S /Q &quot;[RuntimeDir]&quot;&quot;"
+            Execute="deferred"
+            Return="ignore"
+            HideTarget="no"
+            Impersonate="no"
+        />
+        <InstallExecuteSequence>
+            <Custom Action="RemoveRuntimeDir" Before="RemoveFiles">
+                Installed AND NOT UPGRADINGPRODUCTCODE
+            </Custom>
+        </InstallExecuteSequence>
+
+        <!-- Apparently needed for WiX to work -->
+        <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" DiskPrompt="CD-ROM #1" />
+        <Property Id="DiskPrompt" Value="FirefoxPWA Installation [1]" />
+
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="$(var.PlatformProgramFilesFolder)" Name="PFiles">
+                <Directory Id="APPLICATIONFOLDER" Name="FirefoxPWA">
+                    <Component Id="License" Guid="B0F7D2BD-47D2-44DE-9F9F-AE5D5CEFE760" Win64="$(var.Win64)">
+                        <File
+                            Id="LicenseFile"
+                            Name="LICENSE"
+                            Source="LICENSE"
+                            DiskId="1"
+                            KeyPath="yes"
+                        />
+                    </Component>
+
+                    <Component Id="Binary" Guid="711E74CE-248B-48FA-B4B3-BD46B748DB46" Win64="$(var.Win64)">
+                        <File
+                            Id="BinaryFile"
+                            Name="firefoxpwa.exe"
+                            Source="target\$(var.Profile)\firefoxpwa.exe"
+                            DiskId="1"
+                            KeyPath="yes"
+                        />
+                        <Environment
+                            Id="PATH"
+                            Name="PATH"
+                            Value="[APPLICATIONFOLDER]"
+                            Part="last"
+                            Action="set"
+                            Permanent="yes"
+                            System="yes"
+                        />
+                    </Component>
+
+                    <Directory Id="CompletionsDir" Name="completions">
+                        <Component Id="BashCompletions" Guid="5E35D355-756E-4E0F-9F99-20F4E21534B2" Win64="$(var.Win64)">
+                            <File
+                                Id="BashCompletionsFile"
+                                Name="firefoxpwa.bash"
+                                Source="target\$(var.Profile)\completions\firefoxpwa.bash"
+                                DiskId="1"
+                                KeyPath="yes"
+                            />
+                        </Component>
+                        <Component Id="ElvishCompletions" Guid="336E7C03-E919-47EA-A206-A8FD0D9441A9" Win64="$(var.Win64)">
+                            <File
+                                Id="ElvishCompletionsFile"
+                                Name="firefoxpwa.elv"
+                                Source="target\$(var.Profile)\completions\firefoxpwa.elv"
+                                DiskId="1"
+                                KeyPath="yes"
+                            />
+                        </Component>
+                        <Component Id="FishCompletions" Guid="FF7D9ACA-FDC9-44EF-8204-905EAA8B2BA0" Win64="$(var.Win64)">
+                            <File
+                                Id="FishCompletionsFile"
+                                Name="firefoxpwa.fish"
+                                Source="target\$(var.Profile)\completions\firefoxpwa.fish"
+                                DiskId="1"
+                                KeyPath="yes"
+                            />
+                        </Component>
+                        <Component Id="PowerShellCompletions" Guid="352140E6-2977-4AF4-AB26-8FDF771A8B2E" Win64="$(var.Win64)">
+                            <File
+                                Id="PowerShellCompletionsFile"
+                                Name="_firefoxpwa.ps1"
+                                Source="target\$(var.Profile)\completions\_firefoxpwa.ps1"
+                                DiskId="1"
+                                KeyPath="yes"
+                            />
+                        </Component>
+                        <Component Id="ZshCompletions" Guid="60CDAC18-2A12-48FB-89EF-E4C293081307" Win64="$(var.Win64)">
+                            <File
+                                Id="ZshCompletionsFile"
+                                Name="_firefoxpwa"
+                                Source="target\$(var.Profile)\completions\_firefoxpwa"
+                                DiskId="1"
+                                KeyPath="yes"
+                            />
+                        </Component>
+                    </Directory>
+
+                    <Directory Id="ManifestsDir" Name="manifests">
+                        <Component Id="FirefoxManifest" Guid="44990C1D-C76C-4CFC-8A36-B94CFD277910" Win64="$(var.Win64)">
+                            <RegistryKey Root="HKLM" Key="SOFTWARE\Mozilla\NativeMessagingHosts\firefoxpwa">
+                                <RegistryValue Type="string" Value="[#FirefoxManifestFile]" />
+                            </RegistryKey>
+                            <File
+                                Id="FirefoxManifestFile"
+                                Name="firefox.json"
+                                Source="manifests/windows/firefox.json"
+                                DiskId="1"
+                                KeyPath="yes"
+                            />
+                        </Component>
+                        <Component Id="ChromeManifest" Guid="6053852A-55D5-441E-8FE0-8F0C9D138E70" Win64="$(var.Win64)">
+                            <RegistryKey Root="HKLM" Key="SOFTWARE\Google\Chrome\NativeMessagingHosts\firefoxpwa">
+                                <RegistryValue Type="string" Value="[#ChromeManifestFile]" />
+                            </RegistryKey>
+                            <File
+                                Id="ChromeManifestFile"
+                                Name="chrome.json"
+                                Source="manifests/windows/chrome.json"
+                                DiskId="1"
+                                KeyPath="yes"
+                            />
+                        </Component>
+                    </Directory>
+
+                    <!-- Writable runtime directory where Firefox is installed -->
+                    <!-- Directory needs to be writable so program can later install, update and modify Firefox if needed without elevated privileges -->
+                    <!-- Directory is deleted on uninstall and reinstall by a custom action because Windows Installer cannot remove dynamically-generated files/directories -->
+                    <Directory Id="RuntimeDir" Name="runtime">
+                        <Component Id="Runtime" Guid="28D96CA1-B270-48EE-AE67-694E3831FEB6" Win64="$(var.Win64)">
+                            <CreateFolder>
+                                <util:PermissionEx User="Users" GenericAll="yes" />
+                            </CreateFolder>
+                        </Component>
+                    </Directory>
+
+                    <!-- Directory where UserChrome modifications are stored -->
+                    <!-- All files are added by a component group that needs to be manually generated by running heat before building the installer -->
+                    <Directory Id="UserChromeDir" Name="userchrome" />
+
+                    <!-- Store installation directory and version in known registry location so the program can read it -->
+                    <Component Id="RegistryEntries" Guid="C0B6535A-9A56-411E-B8D5-F1Ee901Ec440" Win64="$(var.Win64)">
+                        <RegistryKey Root="HKLM" Key="Software\[Manufacturer]\[ProductName]">
+                            <RegistryValue Type="string" Name="Path" Value="[APPLICATIONFOLDER]" KeyPath="yes" />
+                            <RegistryValue Type="string" Name="Version" Value="$(var.Version)" />
+                        </RegistryKey>
+                    </Component>
+                </Directory>
+            </Directory>
+        </Directory>
+
+        <!-- Everything is packed in the same feature for now -->
+        <Feature
+            Id="Binaries"
+            Level="1"
+
+            Title="FirefoxPWA"
+            Description="Installs the native part of the FirefoxPWA project"
+
+            ConfigurableDirectory="APPLICATIONFOLDER"
+            Display="expand"
+            AllowAdvertise="no"
+            Absent="disallow"
+        >
+            <ComponentRef Id="RegistryEntries" />
+
+            <ComponentRef Id="License" />
+            <ComponentRef Id="Binary" />
+
+            <ComponentRef Id="BashCompletions" />
+            <ComponentRef Id="ElvishCompletions" />
+            <ComponentRef Id="FishCompletions" />
+            <ComponentRef Id="PowerShellCompletions" />
+            <ComponentRef Id="ZshCompletions" />
+
+            <ComponentRef Id="FirefoxManifest" />
+            <ComponentRef Id="ChromeManifest" />
+
+            <ComponentRef Id="Runtime" />
+            <ComponentGroupRef Id="UserChrome" />
+        </Feature>
+
+        <!-- Allow user to chose custom install directory -->
+        <SetProperty Id="ARPINSTALLLOCATION" Value="[APPLICATIONFOLDER]" After="CostFinalize" />
+        <Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONFOLDER" />
+
+        <!-- Configure info that are shown on Windows ARP page -->
+        <Icon Id="ProductICO" SourceFile="wix\assets\product.ico" />
+        <Property Id="ARPPRODUCTICON" Value="ProductICO" />
+        <Property Id="ARPHELPLINK" Value="https://github.com/filips123/FirefoxPWA" />
+        <Property Id="ARPURLINFOABOUT" Value="https://github.com/filips123/FirefoxPWA" />
+        <Property Id="ARPURLUPDATEINFO" Value="https://github.com/filips123/FirefoxPWA/releases" />
+
+        <!-- Configure license, images and icons that are displayed in installer -->
+        <WixVariable Id="WixUILicenseRtf" Value="wix\assets\license.rtf" />
+        <WixVariable Id="WixUIBannerBmp" Value="wix\assets\banner.png" />
+        <WixVariable Id="WixUIDialogBmp" Value="wix\assets\dialog.png" />
+        <WixVariable Id="WixUIExclamationIco" Value="wix\assets\exclamation.ico" />
+        <WixVariable Id="WixUIInfoIco" Value="wix\assets\information.ico" />
+        <WixVariable Id="WixUINewIco" Value="wix\assets\new.ico" />
+        <WixVariable Id="WixUIUpIco" Value="wix\assets\up.ico" />
+
+        <!-- Just use default UI with installation directory option -->
+        <UI>
+            <UIRef Id="WixUI_InstallDir" />
+        </UI>
+
+        <!-- Needed so UserChrome component group can properly determine correct source directory -->
+        <WixVariable Id="UserChromeSource" Value="userchrome" />
+    </Product>
+</Wix>

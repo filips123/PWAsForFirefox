@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+
+# Make dynamically-generated directories writable
+mkdir -p /usr/share/firefoxpwa
+chmod 777 /usr/share/firefoxpwa
+
+# Make shell completions executable
+chmod 755 /usr/share/bash-completion/completions/firefoxpwa
+chmod 755 /usr/share/fish/completions/firefoxpwa.fish
+chmod 755 /usr/share/zsh/vendor-completions/_firefoxpwa

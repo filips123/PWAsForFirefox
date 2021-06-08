@@ -1,0 +1,37 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Source: https://github.com/filips123/FirefoxPWA
+Upstream-Name: FirefoxPWA
+Upstream-Contact: filips <projects@filips.si>
+Copyright: filips <projects@filips.si>
+License: MPL-2.0
+Comment: The project also uses third-party dependencies that may be
+ licensed under different licenses. Check the `Cargo.lock` file in the
+ repository or project source for a full list of dependencies.
+ .
+ Installing the runtime will download the unmodified Mozilla Firefox
+ and locally modify it. By using this project you also agree to the
+ Firefox Privacy Notice <https://www.mozilla.org/privacy/firefox/>.
+ Firefox is licensed under the Mozilla Public License 2.0. Firefox and
+ the Firefox logo are trademarks of the Mozilla Foundation in the U.S.
+ and other countries. This project is not affiliated with the Mozilla
+ Foundation in any way.
+
+Files: *
+Copyright: filips <projects@filips.si>
+License: MPL-2.0
+
+Files: userchrome/profile/utils/hookFunction.jsm
+Copyright: xiaoxiaoflood <xiaoxiaoflood@gmail.com>
+Copyright: filips <projects@filips.si>
+License: MPL-2.0
+Comment: Original source: https://github.com/xiaoxiaoflood/firefox-scripts/blob/69675c7f09e9009b63b1cc239b94c03c5962a9d7/chrome/utils/hookFunction.jsm
+
+Files: userchrome/profile/utils/xPref.jsm
+Copyright: xiaoxiaoflood <xiaoxiaoflood@gmail.com>
+Copyright: filips <projects@filips.si>
+License: MPL-2.0
+Comment: Original source: https://github.com/xiaoxiaoflood/firefox-scripts/blob/69675c7f09e9009b63b1cc239b94c03c5962a9d7/chrome/utils/xPref.jsm
+
+License: MPL-2.0
+ On Debian systems, the complete text of the Mozilla Public License 2.0
+ can be found in the file `/usr/share/common-licenses/MPL-2.0`.
