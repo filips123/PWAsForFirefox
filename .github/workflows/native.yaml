@@ -1,0 +1,200 @@
+name: Native CI/CD
+
+on:
+  push:
+    paths:
+      - native/**
+  pull_request:
+    paths:
+      - native/**
+
+defaults:
+  run:
+    working-directory: native
+    shell: bash
+
+jobs:
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Rust and Clippy
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          components: clippy
+          override: true
+
+      - name: Configure cache
+        uses: Swatinem/rust-cache@v1
+        with:
+          working-directory: native
+
+      - name: Run Clippy
+        uses: marcopolo/cargo@a527bf4d534717ff4424a84446c5d710f8833139
+        with:
+          working-directory: native
+          command: clippy
+          args: --all-targets --all-features -- -D warnings
+
+  rustfmt:
+    name: Rustfmt
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Rust and Rustfmt
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          profile: minimal
+          components: rustfmt
+          override: true
+
+      - name: Configure cache
+        uses: Swatinem/rust-cache@v1
+        with:
+          working-directory: native
+
+      - name: Run Rustfmt
+        uses: marcopolo/cargo@a527bf4d534717ff4424a84446c5d710f8833139
+        with:
+          working-directory: native
+          command: fmt
+          args: --all -- --check
+
+  build:
+    name: Build (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: ubuntu-latest
+            target: i686-unknown-linux-gnu
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+          - os: windows-latest
+            target: i686-pc-windows-msvc
+          # - os: macos-latest
+          #   target: x86_64-apple-darwin
+          # - os: macos-latest
+          #   target: aarch64-apple-darwin
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install libraries for 32-bit Linux
+        if: matrix.target == 'i686-unknown-linux-gnu'
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get -y install gcc-multilib zlib1g-dev:i386 liblzma-dev:i386 libssl-dev:i386 libgcc1:i386
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable-${{ matrix.target }}
+          target: ${{ matrix.target }}
+          profile: minimal
+          override: true
+          default: true
+
+      - name: Configure cache
+        uses: Swatinem/rust-cache@v1
+        with:
+          working-directory: native
+
+      - name: Install Cargo DEB (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cargo install cargo-deb
+
+      - name: Install Cargo WiX (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          echo "C:\Program Files (x86)\WiX Toolset v3.11\bin" >> $GITHUB_PATH
+          cargo install cargo-wix
+
+      - name: Set version
+        run: |
+          if [[ $GITHUB_REF == refs/tags/v* ]]
+          then
+            VERSION=${GITHUB_REF/refs\/tags\/v}
+            sed -i "s/version = \"0.0.0\"/version = \"$VERSION\"/g" Cargo.toml
+          fi
+
+      - name: Build
+        uses: marcopolo/cargo@a527bf4d534717ff4424a84446c5d710f8833139
+        with:
+          working-directory: native
+          command: build
+          args: --release
+
+      - name: Package shell completions
+        if: matrix.target == 'x86_64-unknown-linux-gnu'
+        run: |
+          zip -rj target/completions.zip target/release/completions/*
+
+      - name: Package DEB (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cargo deb --verbose --no-build
+
+      - name: Package MSI (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          heat dir userchrome -o wix/userchrome.wxs -scom -frag -srd -sreg -gg -cg UserChrome -var wix.UserChromeSource -dr UserChromeDir -t wix/utils/transform.xslt
+          cargo wix --verbose --no-build --nocapture
+
+      - name: Upload artifacts
+        if: success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          path: |
+            native/target/completions.zip
+            native/target/debian/*.deb
+            native/target/wix/*.msi
+
+      - name: Remove artifacts from cache
+        if: success() || failure()
+        run: |
+          rm -rf target/completions.zip || true
+          rm -rf target/debian/ || true
+          rm -rf target/wix/ || true
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    needs:
+      - clippy
+      - rustfmt
+      - build
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+
+      - name: Upload artifacts to GitHub Release
+        uses: filips123/action-gh-release@a929a66f232c1b11af63782948aa2210f981808a
+        with:
+          fail_on_unmatched_files: true
+          files: |
+            artifact/completions.zip
+            artifact/debian/*.deb
+            artifact/wix/*.msi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
