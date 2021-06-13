@@ -14,7 +14,6 @@ const { hookFunction } = ChromeUtils.import('resource://pwa/utils/hookFunction.j
 // TODO: Handle links on websites
 
 // Website scope
-// TODO: Modify homepage widget to return you to PWA start URL
 // TODO: Sites outside PWA scope should have additional panel that also shows URL and allows you to close it and return to previous PWA URL (add new about:config preference)
 
 // System integration
@@ -28,11 +27,10 @@ class PWA {
   constructor () {
     this.prepareLayout();
 
-    if (ChromeLoader.initialized) return;
-    ChromeLoader.initialized = true;
-
-    this.prepareWidgets();
-    this.configureAll();
+    if (!ChromeLoader.initialized) {
+      this.prepareWidgets();
+      this.configureAll();
+    }
   }
 
   //////////////////////////////
@@ -46,6 +44,7 @@ class PWA {
     this.createNotificationAnchor();
     this.moveMenuButtons();
     this.switchPopupSides();
+    this.makeUrlBarReadOnly();
   }
 
   supportSmallWindowSizes () {
@@ -61,9 +60,6 @@ class PWA {
 
     const tabThrobber = this.createElement(document, 'hbox', { class: 'tab-throbber', layer: 'true', fadein: 'true' });
     siteInfo.append(tabThrobber);
-
-    const tabIconPending = this.createElement(document, 'hbox', { class: 'tab-icon-pending', role: 'presentation', fadein: 'true' });
-    siteInfo.append(tabIconPending);
 
     const tabIconImage = this.createElement(document, 'image', { class: 'tab-icon-image', role: 'presentation', fadein: 'true' });
     siteInfo.append(tabIconImage);
@@ -101,7 +97,6 @@ class PWA {
           case 'pending':
           case 'pendingicon':
             this.syncAttribute(mutation.target, tabThrobber, mutation.attributeName);
-            this.syncAttribute(mutation.target, tabIconPending, mutation.attributeName);
             this.syncAttribute(mutation.target, tabIconImage, mutation.attributeName);
             break;
 
@@ -135,6 +130,9 @@ class PWA {
   }
 
   moveMenuButtons () {
+    // Do not move buttons if inside a popup window
+    if (!window.toolbar.visible) return;
+
     // Move menu buttons
     const box = this.createElement(document, 'hbox');
 
@@ -189,6 +187,16 @@ class PWA {
     }
   }
 
+  makeUrlBarReadOnly () {
+    const originalToolbarVisibility = window.toolbar.visible;
+
+    // This will lazily construct the URL bar and force it to be read-only
+    window.toolbar.visible = false;
+    window.gURLBar.readOnly = true;
+
+    window.toolbar.visible = originalToolbarVisibility;
+  }
+
   //////////////////////////////
   // Widgets
   //////////////////////////////
@@ -204,6 +212,7 @@ class PWA {
     this.createIdentityInformationWidget();
     this.createPermissionsWidget();
     this.createNotificationsWidget();
+    this.modifyHomepageWidget();
   }
 
   createReaderViewWidget () {
@@ -638,6 +647,9 @@ class PWA {
         const document = node.ownerDocument;
         const window = document.defaultView;
 
+        // Do not override identity widget box if inside a popup window
+        if (!window.toolbar.visible) return;
+
         Object.defineProperty(window.gIdentityHandler, '_identityIconBox', { get: () => node });
         let defaultTooltip = node.getAttribute('tooltiptext');
 
@@ -804,6 +816,20 @@ class PWA {
         node.disabled = true;
         node.hidden = true;
       }
+    });
+  }
+
+  modifyHomepageWidget () {
+    window.HomePage._get = window.HomePage.get;
+    window.HomePage.get = function (window) {
+      if (!window) return this._get(window);
+
+      // The first window argument is the start URL
+      return window.arguments[0];
+    };
+
+    hookFunction(window, 'onload', null, () => {
+      this.modifyWidget('home-button', { tooltiptext: 'App Start Page' });
     });
   }
 

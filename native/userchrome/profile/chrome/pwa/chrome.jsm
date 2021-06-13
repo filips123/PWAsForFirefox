@@ -36,8 +36,12 @@ class ChromeLoader {
 
     // Load CSS and JS when a new browser window is created
     if (location.href === this.BROWSERCHROME) {
-      SSS.loadAndRegisterSheet(Services.io.newURI(this.FILES_BASE + this.STYLES_FILE), SSS.USER_SHEET);
+      if (!ChromeLoader.initialized) {
+        SSS.loadAndRegisterSheet(Services.io.newURI(this.FILES_BASE + this.STYLES_FILE), SSS.USER_SHEET);
+      }
+
       Services.scriptloader.loadSubScript(this.FILES_BASE + this.SCRIPT_FILE, window, 'UTF-8');
+      ChromeLoader.initialized = true;
     }
   }
 }

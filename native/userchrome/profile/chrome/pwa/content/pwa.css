@@ -1,7 +1,11 @@
 @-moz-document url('chrome://browser/content/browser.xhtml') {
   /* Hide tabs and address bar */
 
-  #nav-bar > :not(#customizationui-widget-panel), #new-tab-button, #alltabs-button, tabs, html:not([tabsintitlebar]) .site-info > * {
+  #new-tab-button, #alltabs-button, #star-button-box, tabs, html:not([tabsintitlebar]) .site-info > * {
+    visibility: collapse !important;
+  }
+
+  #nav-bar > :not(#customizationui-widget-panel) {
     visibility: collapse !important;
   }
 
@@ -11,6 +15,10 @@
 
   #navigator-toolbox {
     border-bottom-width: 0 !important;
+  }
+
+  #tracking-protection-icon-container {
+    display: none;
   }
 
   /* Make pre tabs spacer narrower */
@@ -90,6 +98,7 @@
   }
 
   /* Tracking protection toolbar widget */
+
   #tracking-protection-button > .toolbarbutton-icon {
     list-style-image: url("chrome://browser/skin/tracking-protection.svg");
   }
@@ -144,7 +153,7 @@
   /* Permissions toolbar widget */
 
   .sharing-icon, .notification-anchor-icon, .blocked-permission-icon {
-    margin-inline-end: -2px;
+    margin-right: 5px;
   }
 
   .sharing-icon {
