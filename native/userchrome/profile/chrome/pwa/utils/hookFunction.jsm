@@ -4,9 +4,12 @@ const EXPORTED_SYMBOLS = ['hookFunction'];
 // Original source: https://github.com/xiaoxiaoflood/firefox-scripts/blob/69675c7f09e9009b63b1cc239b94c03c5962a9d7/chrome/utils/hookFunction.jsm
 
 /**
- * Add hooks to a function to execute before and after it. The function to modify is functionContext[functionName]. Call only once per function - modification is not supported.
+ * Add hooks to a function to execute before and after it.
  *
- * Other addons wishing to access the original function may do so using the .originalFunction member of the replacement function. This member can also be set if required, to insert a new function replacement into the chain rather than appending.
+ * The function to modify is `functionContext[functionName]`. Call only once per function,
+ * modification is not supported. Other addons wishing to access the original function may
+ * do so using the `.originalFunction` member of the replacement function. This member can also
+ * be set if required, to insert a new function replacement into the chain rather than appending.
  *
  * @param {object} functionContext - The object on which the function is a property
  * @param {string} functionName - The name of the property containing the function (on functionContext)

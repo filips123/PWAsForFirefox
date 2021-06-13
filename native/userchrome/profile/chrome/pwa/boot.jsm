@@ -6,11 +6,25 @@ let {
   manager: Cm
 } = Components;
 
-function readConfig () {
-  const { OS } = ChromeUtils.import('resource://gre/modules/osfile.jsm');
-  const { AppConstants } = ChromeUtils.import('resource://gre/modules/AppConstants.jsm');
-  const { NetUtil } = ChromeUtils.import('resource://gre/modules/NetUtil.jsm');
+const { XPCOMUtils } = ChromeUtils.import('resource://gre/modules/XPCOMUtils.jsm');
+XPCOMUtils.defineLazyGetter(this, 'gSystemPrincipal', () => Services.scriptSecurityManager.getSystemPrincipal());
+XPCOMUtils.defineLazyModuleGetters(this, {
+  AppConstants: 'resource://gre/modules/AppConstants.jsm',
+  NetUtil: 'resource://gre/modules/NetUtil.jsm',
+  OS: 'resource://gre/modules/osfile.jsm',
+  Services: 'resource://gre/modules/Services.jsm',
+});
 
+/**
+ * Read the FirefoxPWA config file and parse it as JSON.
+ *
+ * Function determines config filename based on the current profile directory, and reads it
+ * using internal Firefox functions. This relies on specific directory structure, so relocating
+ * the profile directory or config file will break config reading.
+ *
+ * @returns {object} Config file as a parsed JSON object.
+ */
+function readConfig () {
   let configFilename = OS.Constants.Path.profileDir + '/../../config.json';
   if (AppConstants.platform === 'win') configFilename = configFilename.replaceAll('/', '\\');
 
@@ -24,37 +38,78 @@ function readConfig () {
   return JSON.parse(configJson);
 }
 
-function launchSite (url, id) {
-  const { AppConstants } = ChromeUtils.import('resource://gre/modules/AppConstants.jsm');
-  const { Services } = ChromeUtils.import('resource://gre/modules/Services.jsm');
+/**
+ * Launch the FirefoxPWA site with URL and ID.
+ *
+ * The browser window will be passed the site URL, which will be automatically opened by the original
+ * handler, and the site ID, which will be handled by our code to determine other PWA properies.
+ *
+ * @param {string} url - Site URL
+ * @param {string} id - Site ID
+ * @param {boolean} isStartup - Is this initial launch (used to attempt to use the `navigator:blank` window)
+ *
+ * @returns ChromeWindow The new window
+ */
+function launchSite (url, id, isStartup) {
+  // Abuse the unused second argument to pass the site ID
+  // Site URL is used by the original browser chrome handler to open the URL
+  // Site ID is used by our code so we can determine other PWA properties
+  const args = [
+    url,
+    id,
+    null,
+    null,
+    undefined,
+    undefined,
+    null,
+    null,
+    gSystemPrincipal,
+  ];
 
-  const urls = Cc['@mozilla.org/array;1'].createInstance(Ci.nsIMutableArray);
+  // Try to use the `navigator:blank` window opened by `BrowserGlue.jsm` during early startup
+  let win = Services.wm.getMostRecentWindow('navigator:blank');
+  if (isStartup && win) {
+    win.document.documentElement.removeAttribute('windowtype');
 
-  let urlStr = Cc['@mozilla.org/supports-string;1'].createInstance(Ci.nsISupportsString);
-  urlStr.data = url;
-  urls.appendElement(urlStr);
+    let openTime = win.openTime;
+    win.location = AppConstants.BROWSER_CHROME_URL;
+    win.arguments = args;
 
-  const idStr = Cc['@mozilla.org/supports-string;1'].createInstance(Ci.nsISupportsString);
-  idStr.data = id;
-  urls.appendElement(idStr);
+    ChromeUtils.addProfilerMarker('earlyBlankWindowVisible', openTime);
+    return win;
+  }
 
-  return Services.ww.openWindow(null, AppConstants.BROWSER_CHROME_URL, '_blank', 'chrome,dialog=no,all', urls);
+  // Convert the window args to the correct format for `openWindow`
+  let array = Cc['@mozilla.org/array;1'].createInstance(Ci.nsIMutableArray);
+  args.forEach(arg => {
+    if (typeof arg === 'string') {
+      let string = Cc['@mozilla.org/supports-string;1'].createInstance(Ci.nsISupportsString);
+      string.data = arg;
+      arg = string;
+    }
+
+    array.appendElement(arg);
+  });
+
+  // Open a new browser window
+  return Services.ww.openWindow(null, AppConstants.BROWSER_CHROME_URL, '_blank', 'chrome,dialog=no,all', array);
 }
 
+// Register chrome manifest to load FirefoxPWA browser chrome modifications
 const cmanifest = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get('UChrm', Ci.nsIFile);
 cmanifest.append('pwa');
 cmanifest.append('chrome.manifest');
 Cm.QueryInterface(Ci.nsIComponentRegistrar).autoRegister(cmanifest);
 
+// Override command line helper to intercept FirefoxPWA arguments and start loading the site
 const { nsDefaultCommandLineHandler } = Cu.import('resource:///modules/BrowserContentHandler.jsm');
 nsDefaultCommandLineHandler.prototype._handle = nsDefaultCommandLineHandler.prototype.handle;
 nsDefaultCommandLineHandler.prototype.handle = async function (cmdLine) {
-  let siteId = cmdLine.handleFlagWithParam('pwa', false);
+  const isStartup = cmdLine.state === Ci.nsICommandLine.STATE_INITIAL_LAUNCH;
+  const siteId = cmdLine.handleFlagWithParam('pwa', false);
+
   if (siteId) {
     cmdLine.preventDefault = true;
-
-    const { Services } = ChromeUtils.import('resource://gre/modules/Services.jsm');
-    Services.startup.enterLastWindowClosingSurvivalArea();
 
     let config;
     try {
@@ -66,6 +121,7 @@ nsDefaultCommandLineHandler.prototype.handle = async function (cmdLine) {
 
     let startUrl;
     try {
+      // Use user-specified start URL if it exists, otherwise use manifest-specified start URL
       let userStartUrl = config.sites[siteId].config.start_url;
       let manifestStartUrl = config.sites[siteId].manifest.start_url;
       startUrl = userStartUrl ? userStartUrl : manifestStartUrl;
@@ -74,12 +130,12 @@ nsDefaultCommandLineHandler.prototype.handle = async function (cmdLine) {
       return;
     }
 
-    launchSite(startUrl, siteId);
-    Services.startup.exitLastWindowClosingSurvivalArea();
+    launchSite(startUrl, siteId, isStartup);
 
   } else {
     this._handle(cmdLine);
   }
 }
 
+// Import browser chrome modifications
 ChromeUtils.import('resource://pwa/chrome.jsm');

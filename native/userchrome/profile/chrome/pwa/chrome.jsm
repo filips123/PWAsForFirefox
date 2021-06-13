@@ -1,10 +1,11 @@
 const EXPORTED_SYMBOLS = [];
 
+const { AppConstants } = ChromeUtils.import('resource://gre/modules/AppConstants.jsm');
 const { Services } = ChromeUtils.import('resource://gre/modules/Services.jsm');
 const SSS = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
 
 class ChromeLoader {
-  BROWSERCHROME = 'chrome://browser/content/browser.xhtml';
+  BROWSERCHROME = AppConstants.BROWSER_CHROME_URL;
 
   FILES_BASE = Services.io.getProtocolHandler('file').QueryInterface(Ci.nsIFileProtocolHandler).getURLSpecFromDir(Services.dirsvc.get('UChrm', Ci.nsIFile));
   SCRIPT_FILE = 'pwa/content/pwa.jsm';
@@ -33,6 +34,7 @@ class ChromeLoader {
     if (window._gBrowser) window.gBrowser = window._gBrowser;
     window.ChromeLoader = ChromeLoader;
 
+    // Load CSS and JS when a new browser window is created
     if (location.href === this.BROWSERCHROME) {
       SSS.loadAndRegisterSheet(Services.io.newURI(this.FILES_BASE + this.STYLES_FILE), SSS.USER_SHEET);
       Services.scriptloader.loadSubScript(this.FILES_BASE + this.SCRIPT_FILE, window, 'UTF-8');
