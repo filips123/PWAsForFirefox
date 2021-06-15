@@ -52,7 +52,8 @@ impl Profile {
             create_dir_all(&profile).context("Failed to create the profile")?;
         }
 
-        info!("Patching the profile with UserChrome modifications");
+        info!("Patching the profile");
+        let _ = remove_dir_all(&profile.join("startupCache"));
         let _ = remove_dir_all(&profile.join("chrome/pwa"));
         copy(&source, &profile, &options).context("Failed to patch the profile")?;
 

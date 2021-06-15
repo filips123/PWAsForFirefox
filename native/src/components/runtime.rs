@@ -206,7 +206,7 @@ impl Runtime {
         options.content_only = true;
         options.overwrite = true;
 
-        info!("Patching the runtime with UserChrome modifications");
+        info!("Patching the runtime");
         copy(source, &self.directory, &options).context("Failed to patch the runtime")?;
 
         info!("Runtime patched!");
