@@ -1,6 +1,8 @@
 const { xPref } = ChromeUtils.import('resource://pwa/utils/xPref.jsm');
 const { hookFunction } = ChromeUtils.import('resource://pwa/utils/hookFunction.jsm');
 
+const ioService = Components.classes['@mozilla.org/network/io-service;1'].getService(Components.interfaces.nsIIOService);
+
 //////////////////////////////
 // Plans
 //////////////////////////////
@@ -9,12 +11,8 @@ const { hookFunction } = ChromeUtils.import('resource://pwa/utils/hookFunction.j
 // TODO: For all widgets and UI elements - Localization of labels and tooltips
 // TODO: For reader view, mute and tracking protection widgets - Add ability to just disable widget instead of hiding it (like "auto hide" for downloads)
 
-// Tabs
-// TODO: Prevent creating new tabs/windows and instead open default browser (add new about:config preference)
-// TODO: Handle links on websites
-
-// Website scope
-// TODO: Sites outside PWA scope should have additional panel that also shows URL and allows you to close it and return to previous PWA URL (add new about:config preference)
+// Windows
+// TODO: New windows should still have access to gFFPWASiteConfig
 
 // System integration
 // TODO: Titlebar should use PWA color
@@ -45,6 +43,8 @@ class PWA {
     this.moveMenuButtons();
     this.switchPopupSides();
     this.makeUrlBarReadOnly();
+    this.handleOutOfScopeBar();
+    this.handleLinkTargets();
   }
 
   supportSmallWindowSizes () {
@@ -197,6 +197,30 @@ class PWA {
     window.toolbar.visible = originalToolbarVisibility;
   }
 
+  handleOutOfScopeBar () {
+    hookFunction(window.gURLBar, 'setURI', null, (_, [uri]) => {
+      const canLoad = this.canLoad(uri);
+
+      // Display URL bar when the website it out of scope
+      document.getElementById('nav-bar').classList.toggle('shown', !canLoad);
+      window.gURLBar.updateLayoutBreakout();
+
+      // Store the last in-scope URL so the close widget can return to it
+      if (canLoad && uri && uri.spec !== 'about:blank') {
+        window.gFFPWALastScopeUri = uri;
+      }
+    });
+  }
+
+  handleLinkTargets () {
+    // Force load window in the same tab if it wanted to be loaded in a new tab
+    window._openLinkIn = window.openLinkIn;
+    window.openLinkIn = function (url, where, params) {
+      if (where === 'tab' || where === 'tabshifted') where = 'current';
+      return window._openLinkIn(url, where, params);
+    }
+  }
+
   //////////////////////////////
   // Widgets
   //////////////////////////////
@@ -212,6 +236,7 @@ class PWA {
     this.createIdentityInformationWidget();
     this.createPermissionsWidget();
     this.createNotificationsWidget();
+    this.createCloseWidget();
     this.modifyHomepageWidget();
   }
 
@@ -819,17 +844,46 @@ class PWA {
     });
   }
 
+  createCloseWidget () {
+    // Create close page widget
+    CustomizableUI.createWidget({
+      id: 'close-page-button',
+      type: 'button',
+
+      label: 'Close',
+      tooltiptext: 'Close the current page',
+
+      removable: false,
+      overflows: false,
+      defaultArea: CustomizableUI.AREA_NAVBAR,
+
+      onClick (event) {
+        const window = event.target.ownerGlobal;
+
+        if (window.gFFPWALastScopeUri) {
+          window.openWebLinkIn(gFFPWALastScopeUri.spec, 'current');
+        } else {
+          window.close();
+        }
+      }
+    });
+  }
+
   modifyHomepageWidget () {
     window.HomePage._get = window.HomePage.get;
     window.HomePage.get = function (window) {
-      if (!window) return this._get(window);
+      if (!window || !window.gFFPWASiteConfig) return this._get(window);
 
-      // The first window argument is the start URL
-      return window.arguments[0];
+      // Use user-specified start URL if it exists, otherwise use manifest-specified start URL
+      let userStartUrl = window.gFFPWASiteConfig.config.start_url;
+      let manifestStartUrl = window.gFFPWASiteConfig.manifest.start_url;
+      return userStartUrl ? userStartUrl : manifestStartUrl;
     };
 
     hookFunction(window, 'onload', null, () => {
-      this.modifyWidget('home-button', { tooltiptext: 'App Start Page' });
+      try {
+        this.modifyWidget('home-button', { tooltiptext: 'App Start Page' });
+      } catch (_) {}
     });
   }
 
@@ -846,7 +900,7 @@ class PWA {
   configureLayout () {
     // Configure default layout
     let { gAreas } = Cu.import('resource:///modules/CustomizableUI.jsm');
-    gAreas.get(CustomizableUI.AREA_NAVBAR).set('defaultPlacements', ['back-button', 'forward-button', 'urlbar-container']);
+    gAreas.get(CustomizableUI.AREA_NAVBAR).set('defaultPlacements', ['close-page-button', 'back-button', 'forward-button', 'urlbar-container']);
     gAreas.get(CustomizableUI.AREA_TABSTRIP).set('defaultPlacements', ['site-info', 'tabbrowser-tabs', 'mute-button', 'notifications-button', 'permissions-button', 'downloads-button', 'tracking-protection-button', 'identity-button']);
     gAreas.get(CustomizableUI.AREA_BOOKMARKS).set('defaultCollapsed', 'never');
   }
@@ -875,6 +929,7 @@ class PWA {
     xPref.set('browser.tabs.warnOnClose', false, true);
     xPref.set('browser.shell.checkDefaultBrowser', false, true);
     xPref.set('browser.uidensity', 1, true);
+    xPref.set('browser.link.open_newwindow', 2, true);
   }
 
   //////////////////////////////
@@ -940,6 +995,29 @@ class PWA {
     }
 
     return element;
+  }
+
+  /**
+   * Checks whether the given URI is considered to be a part the current PWA or not.
+   *
+   * This checks whether a manifest's scope includes the given URI according to
+   * the W3C specification. It also always allows loading `about:blank` as it
+   * is the initial page for iframes.
+   *
+   * Any URIs that return false should be loaded with an out-of-scope URL bar.
+   *
+   * @param {nsIURI} uri The URI to check.
+   *
+   * @returns {boolean} Whether this PWA can load the URI.
+   */
+  canLoad (uri) {
+    if (!uri || uri.spec === 'about:blank') return true;
+    if (!window.gFFPWASiteConfig) return false;
+
+    const scope = ioService.newURI(window.gFFPWASiteConfig.manifest.scope);
+
+    if (scope.prePath !== uri.prePath) return false;
+    return uri.filePath.startsWith(scope.filePath);
   }
 }
 

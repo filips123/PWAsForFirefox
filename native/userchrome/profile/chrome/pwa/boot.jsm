@@ -42,21 +42,19 @@ function readConfig () {
  * Launch the FirefoxPWA site with URL and ID.
  *
  * The browser window will be passed the site URL, which will be automatically opened by the original
- * handler, and the site ID, which will be handled by our code to determine other PWA properies.
+ * handler. It will also set the window `gFFPWASiteConfig` property with the configuration of the
+ * specific site it's launching to allow to determining other PWA properties.
  *
- * @param {string} url - Site URL
- * @param {string} id - Site ID
+ * @param {string} siteUrl - Site URL
+ * @param {object} siteConfig - Site config
  * @param {boolean} isStartup - Is this initial launch (used to attempt to use the `navigator:blank` window)
  *
  * @returns ChromeWindow The new window
  */
-function launchSite (url, id, isStartup) {
-  // Abuse the unused second argument to pass the site ID
-  // Site URL is used by the original browser chrome handler to open the URL
-  // Site ID is used by our code so we can determine other PWA properties
+function launchSite (siteUrl, siteConfig, isStartup) {
   const args = [
-    url,
-    id,
+    siteUrl,
+    null,
     null,
     null,
     undefined,
@@ -75,6 +73,8 @@ function launchSite (url, id, isStartup) {
     win.location = AppConstants.BROWSER_CHROME_URL;
     win.arguments = args;
 
+    win.gFFPWASiteConfig = siteConfig;
+
     ChromeUtils.addProfilerMarker('earlyBlankWindowVisible', openTime);
     return win;
   }
@@ -92,7 +92,9 @@ function launchSite (url, id, isStartup) {
   });
 
   // Open a new browser window
-  return Services.ww.openWindow(null, AppConstants.BROWSER_CHROME_URL, '_blank', 'chrome,dialog=no,all', array);
+  win = Services.ww.openWindow(null, AppConstants.BROWSER_CHROME_URL, '_blank', 'chrome,dialog=no,all', array);
+  win.gFFPWASiteConfig = siteConfig;
+  return win;
 }
 
 // Register chrome manifest to load FirefoxPWA browser chrome modifications
@@ -104,7 +106,7 @@ Cm.QueryInterface(Ci.nsIComponentRegistrar).autoRegister(cmanifest);
 // Override command line helper to intercept FirefoxPWA arguments and start loading the site
 const { nsDefaultCommandLineHandler } = Cu.import('resource:///modules/BrowserContentHandler.jsm');
 nsDefaultCommandLineHandler.prototype._handle = nsDefaultCommandLineHandler.prototype.handle;
-nsDefaultCommandLineHandler.prototype.handle = async function (cmdLine) {
+nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
   const isStartup = cmdLine.state === Ci.nsICommandLine.STATE_INITIAL_LAUNCH;
   const siteId = cmdLine.handleFlagWithParam('pwa', false);
 
@@ -130,7 +132,7 @@ nsDefaultCommandLineHandler.prototype.handle = async function (cmdLine) {
       return;
     }
 
-    launchSite(startUrl, siteId, isStartup);
+    launchSite(startUrl, config.sites[siteId], isStartup);
 
   } else {
     this._handle(cmdLine);

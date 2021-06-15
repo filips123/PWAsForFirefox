@@ -5,7 +5,7 @@
     visibility: collapse !important;
   }
 
-  #nav-bar > :not(#customizationui-widget-panel) {
+  #nav-bar:not(.shown) > :not(#customizationui-widget-panel) {
     visibility: collapse !important;
   }
 
@@ -85,6 +85,15 @@
 
   #open-in-browser-button > .toolbarbutton-icon {
     list-style-image: url("chrome://browser/skin/window.svg");
+  }
+
+  #close-page-button > .toolbarbutton-icon {
+    list-style-image: url("chrome://browser/skin/window-controls/close.svg");
+    -moz-context-properties: stroke;
+    stroke: currentColor;
+    padding: 7.5px !important;
+    padding-top: 8.2px !important;
+    padding-bottom: 6.3px !important;
   }
 
   /* Mute toolbar widget */
