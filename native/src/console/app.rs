@@ -58,17 +58,21 @@ pub struct SiteInstallCommand {
     #[structopt(long)]
     pub profile: Option<Ulid>,
 
-    /// Optionally overwrite PWA start URL specified in the manifest
+    /// Optionally overwrites the PWA start URL specified in the manifest
     #[structopt(long)]
     pub start_url: Option<Url>,
 
-    /// Optionally overwrite PWA name specified in the manifest
+    /// Optionally overwrites the PWA name specified in the manifest
     #[structopt(long)]
     pub name: Option<String>,
 
-    /// Optionally overwrite PWA description specified in the manifest
+    /// Optionally overwrites the PWA description specified in the manifest
     #[structopt(long)]
     pub description: Option<String>,
+
+    /// Disables system integration
+    #[structopt(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
+    pub system_integration: bool,
 }
 
 #[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
@@ -88,17 +92,21 @@ pub struct SiteUpdateCommand {
     /// Identifier of the PWA
     pub id: Ulid,
 
-    /// Optionally overwrite PWA start URL specified in the manifest
+    /// Optionally overwrites the PWA start URL specified in the manifest
     #[structopt(long)]
     pub start_url: Option<Url>,
 
-    /// Optionally overwrite PWA name specified in the manifest
+    /// Optionally overwrites the PWA name specified in the manifest
     #[structopt(long)]
     pub name: Option<String>,
 
-    /// Optionally overwrite PWA description specified in the manifest
+    /// Optionally overwrites the PWA description specified in the manifest
     #[structopt(long)]
     pub description: Option<String>,
+
+    /// Disables system integration
+    #[structopt(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
+    pub system_integration: bool,
 }
 
 #[derive(StructOpt, Debug, Eq, PartialEq, Clone)]

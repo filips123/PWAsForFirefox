@@ -19,10 +19,10 @@ codegen-units = 8
 lto = true
 
 [dependencies]
-anyhow = "1.0.40"
+anyhow = "1.0.41"
 cfg-if = "1.0.0"
 clap = "2.33.3"
-configparser = "2.0.1"
+configparser = "2.1.0"
 const_format = "0.2.14"
 directories = "3.0.2"
 fs_extra = "1.2.0"
@@ -39,13 +39,14 @@ url = "2.2.2"
 web_app_manifest = { git = "https://github.com/filips123/WebAppManifestRS", branch = "main" }
 
 [target.'cfg(windows)'.dependencies]
+bindings = { path = "bindings" }
+image = "0.23.14"
 runas = "0.2.1"
-winapi = "0.3.9"
+windows = "0.11.0"
 winreg = "0.8.0"
 
 [target.'cfg(unix)'.dependencies]
-bzip2 = "0.4.2"
-nix = "0.21.0"
+bzip2 = "0.4.3"
 tar = "0.4.35"
 
 [build-dependencies]

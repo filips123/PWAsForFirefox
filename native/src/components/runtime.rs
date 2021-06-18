@@ -220,9 +220,9 @@ impl Runtime {
         cfg_if! {
             if #[cfg(windows)] {
                 use std::os::windows::process::CommandExt;
-                use winapi::um::winbase::{CREATE_BREAKAWAY_FROM_JOB, DETACHED_PROCESS};
+                use bindings::Windows::Win32::System::Threading::{CREATE_BREAKAWAY_FROM_JOB, DETACHED_PROCESS};
 
-                command.creation_flags((DETACHED_PROCESS | CREATE_BREAKAWAY_FROM_JOB) as u32);
+                command.creation_flags((CREATE_BREAKAWAY_FROM_JOB | DETACHED_PROCESS).0);
             } else if #[cfg(unix)] {
                 // TODO: Check what needs to be done on Unix-like systems to prevent main Firefox process killing processes spawned by native messaging process
                 // https://stackoverflow.com/questions/62978157/rust-how-to-spawn-child-process-that-continues-to-live-after-parent-receives-si

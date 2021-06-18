@@ -9,6 +9,7 @@ pub use web_app_manifest::WebAppManifest as SiteManifest;
 
 use crate::components::runtime::Runtime;
 use crate::directories::ProjectDirs;
+use crate::integrations;
 
 const DOWNLOAD_ERROR: &str = "Failed to download PWA manifest";
 const PARSE_ERROR: &str = "Failed to parse PWA manifest";
@@ -60,6 +61,18 @@ impl Site {
 
         self.manifest = manifest;
         Ok(())
+    }
+
+    #[inline]
+    pub fn install_system_integration(&self, dirs: &ProjectDirs) -> Result<()> {
+        info!("Installing system integration");
+        integrations::install(&self, &dirs)
+    }
+
+    #[inline]
+    pub fn uninstall_system_integration(&self, dirs: &ProjectDirs) -> Result<()> {
+        info!("Uninstalling system integration");
+        integrations::uninstall(&self, &dirs)
     }
 
     #[inline]

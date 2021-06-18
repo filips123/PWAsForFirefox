@@ -67,6 +67,11 @@ impl Run for SiteInstallCommand {
         let site = Site::new(profile.ulid, config)?;
         let ulid = site.ulid;
 
+        if self.system_integration {
+            site.install_system_integration(&dirs)
+                .context("Failed to install system integration")?;
+        }
+
         profile.sites.push(ulid);
         storage.sites.insert(ulid, site);
         storage.write(&dirs)?;
@@ -107,7 +112,12 @@ impl Run for SiteUninstallCommand {
             .context("Site with invalid profile")?
             .sites
             .retain(|id| *id != self.id);
-        storage.sites.remove(&self.id);
+        let site = storage.sites.remove(&self.id);
+
+        if let Some(site) = site {
+            site.uninstall_system_integration(&dirs)
+                .context("Failed to uninstall system integration")?;
+        }
 
         storage.write(&dirs)?;
 
@@ -134,6 +144,11 @@ impl Run for SiteUpdateCommand {
             site.config.start_url = self.start_url.clone();
         }
         site.update()?;
+
+        if self.system_integration {
+            site.install_system_integration(&dirs)
+                .context("Failed to update system integration")?;
+        }
 
         storage.write(&dirs)?;
 

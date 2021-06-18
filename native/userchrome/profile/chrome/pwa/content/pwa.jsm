@@ -1,11 +1,18 @@
-const { xPref } = ChromeUtils.import('resource://pwa/utils/xPref.jsm');
-const { hookFunction } = ChromeUtils.import('resource://pwa/utils/hookFunction.jsm');
+XPCOMUtils.defineLazyModuleGetters(this, {
+  xPref: 'resource://pwa/utils/xPref.jsm',
+  hookFunction: 'resource://pwa/utils/hookFunction.jsm',
+});
 
 const ioService = Components.classes['@mozilla.org/network/io-service;1'].getService(Components.interfaces.nsIIOService);
 
 //////////////////////////////
 // Plans
 //////////////////////////////
+
+// Preferences
+// TODO: Allow changing whether links are forced into the current tab or a new window
+// TODO: Allow changing whether URL bar is displayed always, when out of scope or never
+// TODO: Allow changing if manifest colors can override titlebar color
 
 // Widgets
 // TODO: For all widgets and UI elements - Localization of labels and tooltips
@@ -16,9 +23,7 @@ const ioService = Components.classes['@mozilla.org/network/io-service;1'].getSer
 
 // System integration
 // TODO: Titlebar should use PWA color
-// TODO: Taskbar should use PWA icon
 // TODO: Taskbar jump list should be replaced by shortcuts in PWA manifest
-// TODO: Windows in taskbar should not join together for different PWAs
 // TODO: Other system-related things specified in Web App Manifest
 
 class PWA {
@@ -193,6 +198,9 @@ class PWA {
     // This will lazily construct the URL bar and force it to be read-only
     window.toolbar.visible = false;
     window.gURLBar.readOnly = true;
+
+    // Also un-focus the URL bar in case it is focused for some reason
+    document.getElementById('urlbar').removeAttribute('focused');
 
     window.toolbar.visible = originalToolbarVisibility;
   }
@@ -689,7 +697,7 @@ class PWA {
           identityIcon.className = 'toolbarbutton-icon ' + document.getElementById('identity-box').className;
         });
 
-        hookFunction(document.getElementById('identity-box'), 'setAttribute', null, (_, [ name, value ]) => {
+        hookFunction(document.getElementById('identity-box'), 'setAttribute', null, () => {
           const identityIcon = node.getElementsByClassName('toolbarbutton-icon')[0];
           identityIcon.setAttribute('pageproxystate', document.getElementById('identity-box').getAttribute('pageproxystate'));
         });
@@ -925,6 +933,7 @@ class PWA {
   configureSettings () {
     // Configure default preferences
     xPref.set('browser.toolbars.bookmarks.visibility', 'never', true);
+    xPref.set('browser.taskbar.lists.enabled', false, true);
     xPref.set('browser.tabs.extraDragSpace', false, true);
     xPref.set('browser.tabs.warnOnClose', false, true);
     xPref.set('browser.shell.checkDefaultBrowser', false, true);

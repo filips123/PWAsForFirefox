@@ -13,6 +13,7 @@ XPCOMUtils.defineLazyModuleGetters(this, {
   NetUtil: 'resource://gre/modules/NetUtil.jsm',
   OS: 'resource://gre/modules/osfile.jsm',
   Services: 'resource://gre/modules/Services.jsm',
+  applySystemIntegration: 'resource://pwa/utils/systemIntegration.jsm',
 });
 
 /**
@@ -67,8 +68,13 @@ function launchSite (siteUrl, siteConfig, isStartup) {
   // Try to use the `navigator:blank` window opened by `BrowserGlue.jsm` during early startup
   let win = Services.wm.getMostRecentWindow('navigator:blank');
   if (isStartup && win) {
+    // Apply system integration
+    applySystemIntegration(win, siteConfig);
+
+    // Remove the window type of blank window so that we don't close it later
     win.document.documentElement.removeAttribute('windowtype');
 
+    // Load the browser chrome and set site config
     let openTime = win.openTime;
     win.location = AppConstants.BROWSER_CHROME_URL;
     win.arguments = args;
@@ -94,6 +100,11 @@ function launchSite (siteUrl, siteConfig, isStartup) {
   // Open a new browser window
   win = Services.ww.openWindow(null, AppConstants.BROWSER_CHROME_URL, '_blank', 'chrome,dialog=no,all', array);
   win.gFFPWASiteConfig = siteConfig;
+
+  // Apply system integration
+  applySystemIntegration(win, siteConfig);
+
+  // Return window
   return win;
 }
 

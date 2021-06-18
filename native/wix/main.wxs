@@ -198,10 +198,20 @@
                     <Directory Id="UserChromeDir" Name="userchrome" />
 
                     <!-- Store installation directory and version in known registry location so the program can read it -->
+                    <!-- Also mark binaries as a host processes for a better integration with the taskbar -->
                     <Component Id="RegistryEntries" Guid="C0B6535A-9A56-411E-B8D5-F1Ee901Ec440" Win64="$(var.Win64)">
                         <RegistryKey Root="HKLM" Key="Software\[Manufacturer]\[ProductName]">
                             <RegistryValue Type="string" Name="Path" Value="[APPLICATIONFOLDER]" KeyPath="yes" />
                             <RegistryValue Type="string" Name="Version" Value="$(var.Version)" />
+                        </RegistryKey>
+
+                        <RegistryKey Root="HKCR" Key="Applications\firefoxpwa.exe">
+                            <RegistryValue Type="string" Name="IsHostApp" Value="" />
+                            <RegistryValue Type="string" Name="NoOpenWith" Value="" />
+                        </RegistryKey>
+                        <RegistryKey Root="HKCR" Key="Applications\firefoxpwa-connector.exe">
+                            <RegistryValue Type="string" Name="IsHostApp" Value="" />
+                            <RegistryValue Type="string" Name="NoOpenWith" Value="" />
                         </RegistryKey>
                     </Component>
                 </Directory>

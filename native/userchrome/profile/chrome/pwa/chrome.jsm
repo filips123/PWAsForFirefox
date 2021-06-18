@@ -1,7 +1,12 @@
 const EXPORTED_SYMBOLS = [];
 
-const { AppConstants } = ChromeUtils.import('resource://gre/modules/AppConstants.jsm');
-const { Services } = ChromeUtils.import('resource://gre/modules/Services.jsm');
+const { XPCOMUtils } = ChromeUtils.import('resource://gre/modules/XPCOMUtils.jsm');
+XPCOMUtils.defineLazyModuleGetters(this, {
+  AppConstants: 'resource://gre/modules/AppConstants.jsm',
+  Services: 'resource://gre/modules/Services.jsm',
+  applySystemIntegration: 'resource://pwa/utils/systemIntegration.jsm',
+});
+
 const SSS = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
 
 class ChromeLoader {
@@ -17,8 +22,8 @@ class ChromeLoader {
     Services.obs.addObserver(this, 'chrome-document-global-created', false);
   }
 
-  observe (subject) {
-    subject.addEventListener('DOMContentLoaded', this, { once: true });
+  observe (window) {
+    window.addEventListener('DOMContentLoaded', this, { once: true });
   }
 
   handleEvent (event) {
@@ -33,6 +38,11 @@ class ChromeLoader {
 
     if (window._gBrowser) window.gBrowser = window._gBrowser;
     window.ChromeLoader = ChromeLoader;
+
+    // Apply system integration
+    if (window.gFFPWASiteConfig) {
+      applySystemIntegration(window, window.gFFPWASiteConfig);
+    }
 
     // Load CSS and JS when a new browser window is created
     if (location.href === this.BROWSERCHROME) {
