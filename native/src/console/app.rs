@@ -38,6 +38,10 @@ pub enum SiteCommand {
 pub struct SiteLaunchCommand {
     /// Identifier of the PWA
     pub id: Ulid,
+
+    /// Optionally launches the PWA with a custom start URL
+    #[structopt(long)]
+    pub url: Option<Url>,
 }
 
 #[derive(StructOpt, Debug, Eq, PartialEq, Clone)]

@@ -1,3 +1,5 @@
+use std::process::Child;
+
 use anyhow::{Context, Result};
 use log::info;
 use serde::{Deserialize, Serialize};
@@ -61,16 +63,28 @@ impl Site {
     }
 
     #[inline]
-    pub fn launch(&self, dirs: &ProjectDirs, runtime: &Runtime) -> Result<()> {
+    pub fn launch(
+        &self,
+        dirs: &ProjectDirs,
+        runtime: &Runtime,
+        url: &Option<Url>,
+    ) -> Result<Child> {
         let profile = dirs.data.join("profiles").join(&self.profile.to_string());
 
-        runtime.run(vec![
-            "--profile",
-            &profile.display().to_string(),
-            "--pwa",
-            &self.ulid.to_string(),
-        ])?;
+        #[rustfmt::skip]
+        let mut args = vec![
+            "--class".into(), format!("FFPWA-{}", self.ulid.to_string()),
+            "--profile".into(), profile.display().to_string(),
+            "--pwa".into(), self.ulid.to_string(),
+        ];
 
-        Ok(())
+        if let Some(url) = url {
+            #[rustfmt::skip]
+            args.extend_from_slice(&[
+                "--url".into(), url.to_string(),
+            ]);
+        }
+
+        runtime.run(args)
     }
 }

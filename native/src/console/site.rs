@@ -34,7 +34,7 @@ impl Run for SiteLaunchCommand {
         profile.patch(&dirs)?;
 
         info!("Launching the site");
-        site.launch(&dirs, &runtime)?;
+        site.launch(&dirs, &runtime, &self.url)?;
 
         info!("Site launched!");
         Ok(())

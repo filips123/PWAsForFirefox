@@ -132,6 +132,11 @@ nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
       return;
     }
 
+    // Overwrite start URL by a command line parameter if it exists
+    // This is used for launching site shortcuts and can be used to temporary overwrite start URL
+    let commandUrl = cmdLine.handleFlagWithParam('url', false);
+    if (commandUrl) startUrl = commandUrl;
+
     launchSite(startUrl, config.sites[siteId], isStartup);
 
   } else {

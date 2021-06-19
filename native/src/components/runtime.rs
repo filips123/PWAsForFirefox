@@ -214,7 +214,7 @@ impl Runtime {
     }
 
     #[inline]
-    pub fn run(&self, args: Vec<&str>) -> Result<Child> {
+    pub fn run(&self, args: Vec<String>) -> Result<Child> {
         let mut command = Command::new(&self.executable);
 
         cfg_if! {
