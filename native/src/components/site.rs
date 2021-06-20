@@ -18,10 +18,15 @@ const PARSE_ERROR: &str = "Failed to parse PWA manifest";
 pub struct SiteConfig {
     pub name: Option<String>,
     pub description: Option<String>,
-    pub categories: Vec<String>,
+    pub start_url: Option<Url>,
     pub document_url: Url,
     pub manifest_url: Url,
-    pub start_url: Option<Url>,
+
+    #[serde(default)]
+    pub categories: Vec<String>,
+
+    #[serde(default)]
+    pub keywords: Vec<String>,
 }
 
 #[non_exhaustive]

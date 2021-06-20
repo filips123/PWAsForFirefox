@@ -57,6 +57,7 @@ impl Run for SiteInstallCommand {
             name: self.name.clone(),
             description: self.description.clone(),
             categories: vec![],
+            keywords: vec![],
             document_url: match &self.document_url {
                 Some(url) => url.clone(),
                 None => self.manifest_url.join(".")?,

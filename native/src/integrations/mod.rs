@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use anyhow::Result;
 use cfg_if::cfg_if;
 use log::warn;
@@ -13,6 +15,9 @@ mod windows;
 #[cfg(target_os = "linux")]
 mod linux;
 
+#[cfg(target_os = "linux")]
+mod xdg;
+
 const INVALID_URL: &str = "Site without valid absolute URL is not possible";
 
 #[derive(Debug, Eq, PartialEq, Clone)]
@@ -22,6 +27,8 @@ pub struct SiteInfoInstall<'a> {
     domain: String,
     name: String,
     description: String,
+    categories: &'a Vec<String>,
+    keywords: &'a Vec<String>,
     icons: &'a Vec<IconResource>,
     shortcuts: &'a Vec<ShortcutResource>,
 }
@@ -69,13 +76,31 @@ pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
         domain.clone()
     };
 
-    // First try the user-specified name, then try manifest description
+    // First try the user-specified description, then try manifest description
     let description = if let Some(description) = &site.config.description {
         description.clone()
     } else if let Some(description) = &site.manifest.description {
         description.clone()
     } else {
         "".into()
+    };
+
+    // Categories can be used for user organization of sites and describe in which categories does site belong
+    // There is no fixed list of categories, but some known categories will be converted to XDG menu categories on Linux
+    // First try the user-specified categories, then try manifest categories
+    let categories = if !site.config.categories.is_empty() {
+        &site.config.categories
+    } else {
+        &site.manifest.categories
+    };
+
+    // Keywords can also be used for user organization of sites and contain additional words that can describe the site
+    // Keywords will be converted to XDG menu keywords on Linux and be used as additional search queries
+    // First try the user-specified keywords, then try manifest keywords
+    let keywords = if !site.config.keywords.is_empty() {
+        &site.config.keywords
+    } else {
+        &site.manifest.keywords
     };
 
     // Generate site info struct
@@ -85,6 +110,8 @@ pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
         domain,
         name,
         description,
+        categories,
+        keywords,
         icons: &site.manifest.icons,
         shortcuts: &site.manifest.shortcuts,
     };
@@ -94,7 +121,7 @@ pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
         if #[cfg(target_os = "windows")] {
             windows::install(&info, &dirs)
         } else if #[cfg(target_os = "linux")] {
-            linux::install(&info, &dirs)
+            linux::install(&info)
         } else if #[cfg(target_os = "macos")] {
             warn!("System integration currently does not work on macOS");
             Ok(())
@@ -139,7 +166,7 @@ pub fn uninstall(site: &Site, dirs: &ProjectDirs) -> Result<()> {
         if #[cfg(target_os = "windows")] {
             windows::uninstall(&info, &dirs)
         } else if #[cfg(target_os = "linux")] {
-            linux::uninstall(&info, &dirs)
+            linux::uninstall(&info)
         } else if #[cfg(target_os = "macos")] {
             warn!("System integration currently does not work on macOS");
             Ok(())

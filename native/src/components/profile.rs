@@ -17,6 +17,7 @@ pub struct Profile {
     pub description: Option<String>,
     pub default: bool,
 
+    #[serde(default)]
     pub sites: Vec<Ulid>,
 }
 

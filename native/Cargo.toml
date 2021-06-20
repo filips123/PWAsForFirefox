@@ -26,6 +26,8 @@ configparser = "2.1.0"
 const_format = "0.2.14"
 directories = "3.0.2"
 fs_extra = "1.2.0"
+glob = "0.3.0"
+image = "0.23.14"
 log = "0.4.14"
 reqwest = { version = "0.11.3", features = ["blocking"] }
 serde = { version = "1.0.126", features = ["derive"] }
@@ -40,13 +42,13 @@ web_app_manifest = { git = "https://github.com/filips123/WebAppManifestRS", bran
 
 [target.'cfg(windows)'.dependencies]
 bindings = { path = "bindings" }
-image = "0.23.14"
 runas = "0.2.1"
 windows = "0.11.0"
 winreg = "0.8.0"
 
 [target.'cfg(unix)'.dependencies]
 bzip2 = "0.4.3"
+phf = { version = "0.9", features = ["macros"] }
 tar = "0.4.35"
 
 [build-dependencies]

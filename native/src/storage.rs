@@ -12,6 +12,7 @@ use crate::directories::ProjectDirs;
 
 #[non_exhaustive]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone, SmartDefault)]
+#[serde(default)]
 pub struct Storage {
     #[default([(Ulid::nil(), Profile::default())].iter().cloned().collect())]
     pub profiles: BTreeMap<Ulid, Profile>,
