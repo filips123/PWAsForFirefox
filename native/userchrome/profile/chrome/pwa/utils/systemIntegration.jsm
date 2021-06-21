@@ -84,13 +84,64 @@ async function setWindowIcons (window, site) {
   }
 }
 
+function setWindowColors (window, site) {
+  // We need to remove alpha/transparency channel because windows cannot be transparent
+  // Colors will always be in #rrggbb or #rrggbbaa because they are processed by a Rust library
+
+  const stylesElementId = 'firefoxpwa-system-integration-styles';
+
+  let styles = window.document.getElementById(stylesElementId);
+  if (styles) {
+    styles.innerHTML = '';
+  } else {
+    styles = window.document.head.appendChild(window.document.createElement('style'));
+    styles.setAttribute('id', stylesElementId);
+  }
+
+  // Set the window background color
+  if (site.manifest.background_color) {
+    const backgroundColor = site.manifest.background_color.substring(0, 7);
+
+    // Set background color to the browser window
+    styles.innerHTML += `browser[primary="true"] { background-color: ${backgroundColor} !important; }`;
+
+    // Set background color to the website body
+    const bodyStyle = `@-moz-document url-prefix(${site.manifest.scope}) { html { background-color: ${backgroundColor}; } }`
+    const SSS = Cc['@mozilla.org/content/style-sheet-service;1'].getService(Ci.nsIStyleSheetService);
+    SSS.loadAndRegisterSheet(Services.io.newURI(`data:text/css;base64,${btoa(bodyStyle)}`), SSS.USER_SHEET);
+  }
+
+  // Set the theme (titlebar) background and text colors
+  if (site.manifest.theme_color) {
+    const themeColor = site.manifest.theme_color.substring(0, 7);
+
+    // Implementation of W3C contrast algorithm: https://www.w3.org/TR/AERT/#color-contrast
+    const colors = themeColor.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i).slice(1).map(c => parseInt(c, 16));
+    const brightness = Math.round(((colors[0] * 299) + (colors[1] * 587) + (colors[2] * 114)) / 1000);
+    const textColor = (brightness > 125) ? 'black' : 'white';
+
+    // Set background and text colors to the titlebar
+    styles.innerHTML += `#navigator-toolbox { background-color: ${themeColor} !important; color: ${textColor} !important; }`;
+
+    // Some Gtk+ themes use rounded corners, so Firefox by default disables styling of the titlebar
+    // We need to detect and prevent this, and add own rounded corners using CSS
+    // However, if user enabled a custom theme, we need to disable them to prevent white corners
+    if (window.matchMedia('(-moz-gtk-csd-available) and (-moz-gtk-csd-transparent-background)').matches) {
+      styles.innerHTML += '#titlebar { visibility: hidden; } #titlebar > * { visibility: visible; }';
+      styles.innerHTML += 'html[tabsintitlebar][sizemode="normal"]:not([gtktiledwindow="true"]):not([lwtheme="true"]) body { border-radius: 4px 4px 0 0; }';
+    }
+  }
+}
+
 /**
  * Apply system integration to the provided window for the provided PWA site.
  *
- * This function sets the AppUserModelID (GroupID) property of the window,
- * allowing grouping multiple windows of the same site in the Windows taskbar
- * and preventing grouping different sites. It also sets taskbar windows icons
- * to prevent incorrect behaviour when pinning/unpinning the shortcut.
+ * On Windows, this function sets the AppUserModelID (GroupID) property of the
+ * window,  allowing grouping multiple windows of the same site in the Windows
+ * taskbar and preventing grouping different sites. It also sets taskbar windows
+ * icons to prevent incorrect behaviour when pinning/unpinning the shortcut.
+ *
+ * On all systems it also sets window colors based on the colors from the manifest.
  *
  * @param {ChromeWindow} window - Window where integration should be applied
  * @param {object} site - Site config for which integration should be used
@@ -100,4 +151,6 @@ function applySystemIntegration (window, site) {
     WinTaskbar.setGroupIdForWindow(window, `filips.firefoxpwa.${site.ulid}`);
     setWindowIcons(window, site);
   }
+
+  setWindowColors(window, site);
 }

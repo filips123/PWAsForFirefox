@@ -7,7 +7,7 @@ XPCOMUtils.defineLazyModuleGetters(this, {
   applySystemIntegration: 'resource://pwa/utils/systemIntegration.jsm',
 });
 
-const SSS = Cc["@mozilla.org/content/style-sheet-service;1"].getService(Ci.nsIStyleSheetService);
+const SSS = Cc['@mozilla.org/content/style-sheet-service;1'].getService(Ci.nsIStyleSheetService);
 
 class ChromeLoader {
   BROWSERCHROME = AppConstants.BROWSER_CHROME_URL;

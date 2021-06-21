@@ -1,12 +1,23 @@
 @-moz-document url('chrome://browser/content/browser.xhtml') {
+  /* Make buttons and widgets sync colors with the titlebar */
+
+  html {
+    --toolbarbutton-icon-fill: color-mix(in srgb, currentColor 95%, transparent) !important;
+    --button-color: currentColor !important;
+    --button-bgcolor: color-mix(in srgb, currentColor 13%, transparent) !important;
+    --button-hover-bgcolor: color-mix(in srgb, currentColor 17%, transparent) !important;
+    --button-active-bgcolor: color-mix(in srgb, currentColor 30%, transparent) !important;
+    --toolbarseparator-color: color-mix(in srgb, currentColor 20%, transparent) !important;
+  }
+
   /* Hide tabs and address bar */
 
   #new-tab-button, #alltabs-button, #star-button-box, tabs, html:not([tabsintitlebar]) .site-info > * {
-    visibility: collapse !important;
+    display: none !important;
   }
 
   #nav-bar:not(.shown) > :not(#customizationui-widget-panel) {
-    visibility: collapse !important;
+    display: none !important;
   }
 
   #nav-bar {

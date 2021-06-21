@@ -22,8 +22,6 @@ const ioService = Components.classes['@mozilla.org/network/io-service;1'].getSer
 // TODO: New windows should still have access to gFFPWASiteConfig
 
 // System integration
-// TODO: Titlebar should use PWA color
-// TODO: Taskbar jump list should be replaced by shortcuts in PWA manifest
 // TODO: Other system-related things specified in Web App Manifest
 
 class PWA {
@@ -864,6 +862,8 @@ class PWA {
       removable: false,
       overflows: false,
       defaultArea: CustomizableUI.AREA_NAVBAR,
+
+      // TDOO: Some extensions (Firefox Color) still open URL in new tab and break closing
 
       onClick (event) {
         const window = event.target.ownerGlobal;
