@@ -6,6 +6,7 @@ XPCOMUtils.defineLazyModuleGetters(this, {
   ImageTools: 'resource:///modules/ssb/ImageTools.jsm',
   NetUtil: 'resource://gre/modules/NetUtil.jsm',
   Services: 'resource://gre/modules/Services.jsm',
+  xPref: 'resource://pwa/utils/xPref.jsm',
 });
 
 XPCOMUtils.defineLazyServiceGetter(this, 'ImgTools', '@mozilla.org/image/tools;1', Ci.imgITools);
@@ -99,7 +100,7 @@ function setWindowColors (window, site) {
   }
 
   // Set the window background color
-  if (site.manifest.background_color) {
+  if (xPref.get(window.ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR) && site.manifest.background_color) {
     const backgroundColor = site.manifest.background_color.substring(0, 7);
 
     // Set background color to the browser window
@@ -112,7 +113,7 @@ function setWindowColors (window, site) {
   }
 
   // Set the theme (titlebar) background and text colors
-  if (site.manifest.theme_color) {
+  if (xPref.get(window.ChromeLoader.PREF_SITES_SET_THEME_COLOR) && site.manifest.theme_color) {
     const themeColor = site.manifest.theme_color.substring(0, 7);
 
     // Implementation of W3C contrast algorithm: https://www.w3.org/TR/AERT/#color-contrast
@@ -121,7 +122,7 @@ function setWindowColors (window, site) {
     const textColor = (brightness > 125) ? 'black' : 'white';
 
     // Set background and text colors to the titlebar
-    styles.innerHTML += `#navigator-toolbox { background-color: ${themeColor} !important; color: ${textColor} !important; }`;
+    styles.innerHTML += `#navigator-toolbox, #titlebar > * { background-color: ${themeColor} !important; color: ${textColor} !important; }`;
 
     // Some Gtk+ themes use rounded corners, so Firefox by default disables styling of the titlebar
     // We need to detect and prevent this, and add own rounded corners using CSS
@@ -152,5 +153,8 @@ function applySystemIntegration (window, site) {
     setWindowIcons(window, site);
   }
 
-  setWindowColors(window, site);
+  // This needs some timeout so it can read preferences
+  window.setTimeout(() => {
+    setWindowColors(window, site);
+  }, 0);
 }

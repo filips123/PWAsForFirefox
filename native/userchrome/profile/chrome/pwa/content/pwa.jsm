@@ -1,6 +1,6 @@
 XPCOMUtils.defineLazyModuleGetters(this, {
-  xPref: 'resource://pwa/utils/xPref.jsm',
   hookFunction: 'resource://pwa/utils/hookFunction.jsm',
+  xPref: 'resource://pwa/utils/xPref.jsm',
 });
 
 const ioService = Components.classes['@mozilla.org/network/io-service;1'].getService(Components.interfaces.nsIIOService);
@@ -9,10 +9,9 @@ const ioService = Components.classes['@mozilla.org/network/io-service;1'].getSer
 // Plans
 //////////////////////////////
 
-// Preferences
-// TODO: Allow changing whether links are forced into the current tab or a new window
-// TODO: Allow changing whether URL bar is displayed always, when out of scope or never
-// TODO: Allow changing if manifest colors can override titlebar color
+// UI/UX
+// TODO: Make preferences accessible from the settings page
+// TODO: Remove/replace unnecessary UI elements, settings and keyboard shortcuts (those related to tabs and windows)
 
 // Widgets
 // TODO: For all widgets and UI elements - Localization of labels and tooltips
@@ -47,7 +46,7 @@ class PWA {
     this.switchPopupSides();
     this.makeUrlBarReadOnly();
     this.handleOutOfScopeBar();
-    this.handleLinkTargets();
+    setTimeout(() => { this.handleLinkTargets() });
   }
 
   supportSmallWindowSizes () {
@@ -206,9 +205,15 @@ class PWA {
   handleOutOfScopeBar () {
     hookFunction(window.gURLBar, 'setURI', null, (_, [uri]) => {
       const canLoad = this.canLoad(uri);
+      let displayBar = !canLoad;
+
+      // Change behaviour based on our custom preference
+      const userPreference = xPref.get(ChromeLoader.PREF_DISPLAY_URL_BAR);
+      if (userPreference === 1) displayBar = false;
+      else if (userPreference === 2) displayBar = true;
 
       // Display URL bar when the website it out of scope
-      document.getElementById('nav-bar').classList.toggle('shown', !canLoad);
+      document.getElementById('nav-bar').classList.toggle('shown', displayBar);
       window.gURLBar.updateLayoutBreakout();
 
       // Store the last in-scope URL so the close widget can return to it
@@ -219,22 +224,30 @@ class PWA {
   }
 
   handleLinkTargets () {
+    // Overwrite built-in preference based on our custom preference
+    const userPreference = xPref.get(ChromeLoader.PREF_LINKS_TARGET);
+    if (userPreference) xPref.set('browser.link.open_newwindow', userPreference);
+
     // Overwrite tab adding and instead open it in the same tab
     // Except if it was called from customize mode enter
     window.gBrowser._addTab = window.gBrowser.addTab
     window.gBrowser.addTab = function (url, params = {}) {
-      if (gCustomizeMode._wantToBeInCustomizeMode || gCustomizeMode._customizing) {
+      if (gCustomizeMode._wantToBeInCustomizeMode || gCustomizeMode._customizing || !userPreference) {
         return window.gBrowser._addTab(url, params);
       }
 
-      window.openLinkIn(url, 'current', params);
+      window.openLinkIn(url, userPreference === 1 ? 'current' : 'window', params);
       return window.gBrowser.selectedTab;
     }
 
     // Force open link in the same tab if it wanted to be opened in a new tab
     window._openLinkIn = window.openLinkIn;
     window.openLinkIn = function (url, where, params = {}) {
-      if (where === 'tab' || where === 'tabshifted') where = 'current';
+      if (where === 'tab' || where === 'tabshifted') {
+        if (userPreference === 1) where = 'current';
+        else if (userPreference === 2) where = 'window';
+      }
+
       return window._openLinkIn(url, where, params);
     }
   }
@@ -943,7 +956,7 @@ class PWA {
   }
 
   configureSettings () {
-    // Configure default preferences
+    // Configure default built-in preferences
     xPref.set('browser.toolbars.bookmarks.visibility', 'never', true);
     xPref.set('browser.taskbar.lists.enabled', false, true);
     xPref.set('browser.tabs.extraDragSpace', false, true);
@@ -951,6 +964,24 @@ class PWA {
     xPref.set('browser.shell.checkDefaultBrowser', false, true);
     xPref.set('browser.uidensity', 1, true);
     xPref.set('browser.link.open_newwindow', 1, true);
+
+    // Determines whether `_blank` links target is forced into the current tab or a new window
+    // 0 - Do not change link behaviour (strongly not recommended)
+    // 1 - Force links into the current tab (default)
+    // 2 - Force links into a new window
+    xPref.set(ChromeLoader.PREF_LINKS_TARGET, 1, true);
+
+    // Determines whether URL bar is displayed always, when out of scope or never
+    // 0 - Display URL bar when out of scope (default)
+    // 1 - Never display URL bar (strongly not recommended)
+    // 2 - Always display URL bar
+    xPref.set(ChromeLoader.PREF_DISPLAY_URL_BAR, 0, true);
+
+    // Determines whether the sites can override theme (titlebar) color
+    xPref.set(ChromeLoader.PREF_SITES_SET_THEME_COLOR, true, true);
+
+    // Determines whether the sites can override background color
+    xPref.set(ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR, true, true);
   }
 
   //////////////////////////////

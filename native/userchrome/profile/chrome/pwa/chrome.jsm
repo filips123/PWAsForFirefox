@@ -16,6 +16,11 @@ class ChromeLoader {
   SCRIPT_FILE = 'pwa/content/pwa.jsm';
   STYLES_FILE = 'pwa/content/pwa.css';
 
+  static PREF_LINKS_TARGET = 'firefoxpwa.linksTarget';
+  static PREF_DISPLAY_URL_BAR = 'firefoxpwa.displayUrlBar';
+  static PREF_SITES_SET_THEME_COLOR = 'firefoxpwa.sitesSetThemeColor';
+  static PREF_SITES_SET_BACKGROUND_COLOR = 'firefoxpwa.sitesSetBackgroundColor';
+
   static initialized = false;
 
   constructor () {
@@ -23,6 +28,7 @@ class ChromeLoader {
   }
 
   observe (window) {
+    window.ChromeLoader = ChromeLoader;
     window.addEventListener('DOMContentLoaded', this, { once: true });
   }
 
@@ -37,7 +43,6 @@ class ChromeLoader {
     let location = window.location;
 
     if (window._gBrowser) window.gBrowser = window._gBrowser;
-    window.ChromeLoader = ChromeLoader;
 
     // Apply system integration
     if (window.gFFPWASiteConfig) {
