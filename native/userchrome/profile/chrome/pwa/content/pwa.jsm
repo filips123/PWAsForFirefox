@@ -219,9 +219,21 @@ class PWA {
   }
 
   handleLinkTargets () {
-    // Force load window in the same tab if it wanted to be loaded in a new tab
+    // Overwrite tab adding and instead open it in the same tab
+    // Except if it was called from customize mode enter
+    window.gBrowser._addTab = window.gBrowser.addTab
+    window.gBrowser.addTab = function (url, params = {}) {
+      if (gCustomizeMode._wantToBeInCustomizeMode || gCustomizeMode._customizing) {
+        return window.gBrowser._addTab(url, params);
+      }
+
+      window.openLinkIn(url, 'current', params);
+      return window.gBrowser.selectedTab;
+    }
+
+    // Force open link in the same tab if it wanted to be opened in a new tab
     window._openLinkIn = window.openLinkIn;
-    window.openLinkIn = function (url, where, params) {
+    window.openLinkIn = function (url, where, params = {}) {
       if (where === 'tab' || where === 'tabshifted') where = 'current';
       return window._openLinkIn(url, where, params);
     }
@@ -938,7 +950,7 @@ class PWA {
     xPref.set('browser.tabs.warnOnClose', false, true);
     xPref.set('browser.shell.checkDefaultBrowser', false, true);
     xPref.set('browser.uidensity', 1, true);
-    xPref.set('browser.link.open_newwindow', 2, true);
+    xPref.set('browser.link.open_newwindow', 1, true);
   }
 
   //////////////////////////////
