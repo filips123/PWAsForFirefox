@@ -25,11 +25,11 @@ Read the [main README file](../README.md) for more details about the project.
 #### Windows
 
 1. Install the Rust language and Git.
-2. Install [`cargo-wix`](https://github.com/volks73/cargo-wix).
+2. Install [`cargo-wix`](https://github.com/volks73/cargo-wix) (you need to install it directly from repository).
 3. Clone the repository and cd into the `native` (this) directory.
 4. Generate WiX configuration for UserChrome modifications:
    ```shell
-   heat dir userchrome -o wix/userchrome.wxs -scom -frag -srd -sreg -gg -cg UserChrome -var wix.UserChromeSource -dr UserChromeDir -t wix/utils/transform.xslt
+   heat dir userchrome -o wix/userchrome.wxs -scom -frag -srd -sreg -gg -cg UserChrome -var wix.UserChromeSource -dr UserChromeDir
    ```
 5. Build the project in release mode and package it as an MSI installer:
    ```shell

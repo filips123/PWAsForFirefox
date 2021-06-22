@@ -3,9 +3,11 @@ name: Native CI/CD
 on:
   push:
     paths:
+      - .github/workflows/native.yaml
       - native/**
   pull_request:
     paths:
+      - .github/workflows/native.yaml
       - native/**
 
 defaults:
@@ -80,8 +82,10 @@ jobs:
         include:
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
+            cross: true
           - os: ubuntu-latest
             target: i686-unknown-linux-gnu
+            cross: true
           - os: windows-latest
             target: x86_64-pc-windows-msvc
           - os: windows-latest
@@ -95,17 +99,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install libraries for 32-bit Linux
-        if: matrix.target == 'i686-unknown-linux-gnu'
-        run: |
-          sudo dpkg --add-architecture i386
-          sudo apt-get update
-          sudo apt-get -y install gcc-multilib zlib1g-dev:i386 liblzma-dev:i386 libssl-dev:i386 libgcc1:i386
-
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: stable-${{ matrix.target }}
+          toolchain: stable
           target: ${{ matrix.target }}
           profile: minimal
           override: true
@@ -125,7 +122,24 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           echo "C:\Program Files (x86)\WiX Toolset v3.11\bin" >> $GITHUB_PATH
-          cargo install cargo-wix
+          cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev 764857d
+
+      - name: Workarounds for Linux builds
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          # Use vendored OpenSSL to fix build problems with cross
+          # See: https://github.com/rust-embedded/cross/issues/510
+          sed -i '/\[dependencies\]/a openssl = { version = "0.10", features = ["vendored"] }' Cargo.toml
+
+          # Manually specify minimum libc6 version because cargo-deb cannot determine it correcttly when using cross
+          # See: https://github.com/mmstick/cargo-deb/issues/117 & https://github.com/mmstick/cargo-deb/issues/178
+          if [[ ${{ matrix.target }} == x86_64-* ]]
+          then
+            sed -i '/\[package.metadata.deb\]/a depends = "libc6 (>= 2.18)"' Cargo.toml
+          elif [[ ${{ matrix.target }} == i686-* ]]
+          then
+            sed -i '/\[package.metadata.deb\]/a depends = "libc6-i386 (>= 2.18)"' Cargo.toml
+          fi
 
       - name: Set version
         run: |
@@ -138,9 +152,10 @@ jobs:
       - name: Build
         uses: marcopolo/cargo@a527bf4d534717ff4424a84446c5d710f8833139
         with:
+          use-cross: ${{ matrix.cross }}
           working-directory: native
           command: build
-          args: --release
+          args: --release --target ${{ matrix.target }}
 
       - name: Package shell completions
         if: matrix.target == 'x86_64-unknown-linux-gnu'
@@ -150,13 +165,14 @@ jobs:
       - name: Package DEB (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
-          cargo deb --verbose --no-build
+          cargo deb --verbose --no-build --target ${{ matrix.target }}
+          mkdir -p target/debian/ && cp -r target/${{ matrix.target }}/debian/*.deb target/debian/
 
       - name: Package MSI (Windows)
         if: matrix.os == 'windows-latest'
         run: |
-          heat dir userchrome -o wix/userchrome.wxs -scom -frag -srd -sreg -gg -cg UserChrome -var wix.UserChromeSource -dr UserChromeDir -t wix/utils/transform.xslt
-          cargo wix --verbose --no-build --nocapture
+          heat dir userchrome -o wix/userchrome.wxs -scom -frag -srd -sreg -gg -cg UserChrome -var wix.UserChromeSource -dr UserChromeDir
+          cargo wix --verbose --no-build --nocapture --target ${{ matrix.target }}
 
       - name: Upload artifacts
         if: success() || failure()

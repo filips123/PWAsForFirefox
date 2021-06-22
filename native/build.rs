@@ -5,14 +5,15 @@ use structopt::StructOpt;
 mod app;
 
 fn main() {
-    let profile = std::env::var_os("PROFILE").unwrap().into_string().unwrap();
-    let dir = format!("target/{}/completions", profile);
+    let out = std::path::PathBuf::from(std::env::var("OUT_DIR").unwrap());
+    let target = out.ancestors().nth(3).unwrap().to_owned();
+    let completions = target.join("completions");
 
-    std::fs::create_dir_all(&dir).unwrap();
+    std::fs::create_dir_all(&completions).unwrap();
 
-    app::App::clap().gen_completions(env!("CARGO_PKG_NAME"), Shell::Bash, &dir);
-    app::App::clap().gen_completions(env!("CARGO_PKG_NAME"), Shell::Elvish, &dir);
-    app::App::clap().gen_completions(env!("CARGO_PKG_NAME"), Shell::Fish, &dir);
-    app::App::clap().gen_completions(env!("CARGO_PKG_NAME"), Shell::PowerShell, &dir);
-    app::App::clap().gen_completions(env!("CARGO_PKG_NAME"), Shell::Zsh, &dir);
+    app::App::clap().gen_completions(env!("CARGO_PKG_NAME"), Shell::Bash, &completions);
+    app::App::clap().gen_completions(env!("CARGO_PKG_NAME"), Shell::Elvish, &completions);
+    app::App::clap().gen_completions(env!("CARGO_PKG_NAME"), Shell::Fish, &completions);
+    app::App::clap().gen_completions(env!("CARGO_PKG_NAME"), Shell::PowerShell, &completions);
+    app::App::clap().gen_completions(env!("CARGO_PKG_NAME"), Shell::Zsh, &completions);
 }
