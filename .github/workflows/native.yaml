@@ -160,7 +160,7 @@ jobs:
       - name: Package shell completions
         if: matrix.target == 'x86_64-unknown-linux-gnu'
         run: |
-          zip -rj target/completions.zip target/release/completions/*
+          zip -rj target/completions.zip target/x86_64-unknown-linux-gnu/release/completions/*
 
       - name: Package DEB (Linux)
         if: matrix.os == 'ubuntu-latest'
@@ -186,8 +186,11 @@ jobs:
       - name: Remove artifacts from cache
         if: success() || failure()
         run: |
+          rm -rf target/*/*/completions/ || true
           rm -rf target/completions.zip || true
+          rm -rf target/*/debian/ || true
           rm -rf target/debian/ || true
+          rm -rf target/*/wix/ || true
           rm -rf target/wix/ || true
 
   release:
