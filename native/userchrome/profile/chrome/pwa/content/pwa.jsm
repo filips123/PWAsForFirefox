@@ -19,6 +19,7 @@ const ioService = Components.classes['@mozilla.org/network/io-service;1'].getSer
 
 // Windows
 // TODO: New windows should still have access to gFFPWASiteConfig
+// TODO: On Linux, all Firefox processes will have the same WM_CLASS, causing all PWAs to group together
 
 // System integration
 // TODO: Other system-related things specified in Web App Manifest

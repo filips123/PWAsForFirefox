@@ -64,9 +64,13 @@ Read the [main README file](../README.md) for more details about the project.
 
 You can download and install [latest build artifact](https://github.com/filips123/FirefoxPWA/actions/workflows/native.yaml) from GitHub Actions builds. Note that these are development versions that may be unstable.
 
+On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package.
+
 ### From Release Binaries
 
 You can download installers/packages and the shell completions from the [latest GitHub release](https://github.com/filips123/FirefoxPWA/releases/latest).
+
+On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package.
 
 ## Usage
 

@@ -32,8 +32,6 @@ See the READMEs of the native and extension part for more details and instructio
 
 * Browser extension to easily manage and install Progressive Web Apps.
 * Localization of most UI elements.
-* Better support for some PWA features (correct scope handling, better tab handling...)
-* Better OS integration (installation to OS program list, start/app menu entry, desktop shortcut, taskbar icons...)
 * Support for different PWA sets depending on the main browser profile.
 * Support for installing non-PWA websites as PWAs.
 * [And more](native/userchrome/profile/chrome/pwa/content/pwa.jsm#L4-L6).
