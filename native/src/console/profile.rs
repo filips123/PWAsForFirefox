@@ -4,6 +4,7 @@ use std::io::Write;
 
 use anyhow::{Context, Result};
 use log::{info, warn};
+use ulid::Ulid;
 
 use crate::components::profile::Profile;
 use crate::console::app::{
@@ -51,6 +52,13 @@ impl Run for ProfileListCommand {
 
 impl Run for ProfileCreateCommand {
     fn run(&self) -> Result<()> {
+        self._run()?;
+        Ok(())
+    }
+}
+
+impl ProfileCreateCommand {
+    pub fn _run(&self) -> Result<Ulid> {
         let dirs = ProjectDirs::new()?;
         let mut storage = Storage::load(&dirs)?;
 
@@ -63,7 +71,7 @@ impl Run for ProfileCreateCommand {
         storage.write(&dirs)?;
 
         info!("Created a new profile: {}", ulid);
-        Ok(())
+        Ok(ulid)
     }
 }
 

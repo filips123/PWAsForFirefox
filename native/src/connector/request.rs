@@ -20,6 +20,7 @@ pub enum RequestMessage {
     GetSiteList,
 
     // TODO: Implement site launching
+    LaunchSite(Ulid),
 
     /// Installs the site from the manifest with optional user overwrites.
     InstallSite {
@@ -48,11 +49,18 @@ pub enum RequestMessage {
     GetProfileList,
 
     /// Creates a new profile with a name and description.
-    CreateProfile { name: Option<String>, description: Option<String> },
+    CreateProfile {
+        name: Option<String>,
+        description: Option<String>,
+    },
 
     /// Removes an existing profile by its ULID.
     RemoveProfile(Ulid),
 
     /// Updates an existing profile by its ULID with a new name and description.
-    UpdateProfile { id: Ulid, name: Option<String>, description: Option<String> },
+    UpdateProfile {
+        id: Ulid,
+        name: Option<String>,
+        description: Option<String>,
+    },
 }

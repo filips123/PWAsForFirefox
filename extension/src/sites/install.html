@@ -43,9 +43,7 @@
             </div>
             <div class="mb-3">
               <label for="web-app-profile" class="form-label">Profile</label>
-              <select class="form-select form-select-sm" id="web-app-profile" required>
-                <option selected value="00000000000000000000000000">Default</option>
-              </select>
+              <select class="form-select form-select-sm" id="web-app-profile" required></select>
             </div>
             <button type="submit" class="btn btn-primary" id="web-app-submit" disabled>Loading...</button>
           </form>
@@ -60,6 +58,30 @@
       <div class="toast-body" id="error-text"></div>
     </div>
 
+    <div class="modal fade" id="new-profile-modal" tabindex="-1" aria-labelledby="new-profile-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="new-profile-label">Create a new profile</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="new-profile-name" class="form-label">Name</label>
+              <input type="text" class="form-control form-control-sm" id="new-profile-name" />
+            </div>
+            <div class="mb-3">
+              <label for="new-profile-description" class="form-label">Description</label>
+              <input type="text" class="form-control form-control-sm" id="new-profile-description" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" id="new-profile-cancel" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="new-profile-create">Create</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="install.js"></script>
   </body>

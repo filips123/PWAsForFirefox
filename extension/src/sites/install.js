@@ -1,4 +1,4 @@
-import { Toast } from 'bootstrap'
+import { Modal, Toast } from 'bootstrap'
 import Tags from 'bootstrap5-tags/tags'
 
 async function obtainUrls () {
@@ -43,6 +43,28 @@ async function obtainManifest (manifestUrl, documentUrl) {
   return manifest
 }
 
+async function obtainSiteList () {
+  const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'GetSiteList' })
+
+  // Handle native connection errors
+  if (response.type === 'Error') throw new Error(response.data)
+  if (response.type !== 'SiteList') throw new Error(`Received invalid response type: ${response.type}`)
+
+  // Return the site list
+  return response.data
+}
+
+async function obtainProfileList () {
+  const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'GetProfileList' })
+
+  // Handle native connection errors
+  if (response.type === 'Error') throw new Error(response.data)
+  if (response.type !== 'ProfileList') throw new Error(`Received invalid response type: ${response.type}`)
+
+  // Return the site list
+  return response.data
+}
+
 async function initializeForm () {
   const form = document.getElementById('web-app-form')
   const submit = document.getElementById('web-app-submit')
@@ -55,6 +77,21 @@ async function initializeForm () {
   // Obtain manifest for the current site
   const { manifest: manifestUrl, document: documentUrl } = await obtainUrls()
   const manifest = await obtainManifest(manifestUrl, documentUrl)
+
+  // Obtain a list of existing sites and profiles
+  let sites
+  let profiles
+  try {
+    sites = await obtainSiteList()
+    profiles = await obtainProfileList()
+  } catch (error) {
+    console.error(error)
+
+    document.getElementById('error-text').innerText = error.message
+    Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
+
+    return
+  }
 
   // Determine web app name from the manifest name, short name or scope host
   let name = manifest.name
@@ -75,7 +112,62 @@ async function initializeForm () {
   const keywordsElement = document.getElementById('web-app-keywords')
   for (const keyword of manifest.keywords || []) keywordsElement.tagsInstance.addItem(keyword, keyword)
 
-  // TODO: Support to choose existing profile or create a new one
+  // Add available profiles to the select input
+  const profilesElement = document.getElementById('web-app-profile')
+  for (const profile of Object.values(profiles)) profilesElement.add(new Option(profile.name || profile.ulid, profile.ulid))
+
+  // Add an option to create a new profile to the select input
+  profilesElement.add(new Option('Create a new profile', 'create-new-profile'))
+
+  // Handle creating a new profile
+  let lastProfileSelection = profilesElement.value
+  profilesElement.addEventListener('change', function (event) {
+    if (this.value !== 'create-new-profile') {
+      lastProfileSelection = this.value
+      return
+    }
+
+    Modal.getOrCreateInstance(document.getElementById('new-profile-modal'), { backdrop: 'static', keyboard: false }).show()
+    event.preventDefault()
+  })
+
+  document.getElementById('new-profile-cancel').addEventListener('click', function () {
+    profilesElement.value = lastProfileSelection
+  })
+
+  document.getElementById('new-profile-create').addEventListener('click', async function () {
+    const name = document.getElementById('new-profile-name').value || null
+    const description = document.getElementById('new-profile-description').value || null
+    let id
+
+    this.disabled = true
+    this.innerText = 'Creating...'
+
+    // Create a new profile and get its ID
+    try {
+      const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+        cmd: 'CreateProfile',
+        params: { name, description }
+      })
+
+      if (response.type === 'Error') throw new Error(response.data)
+      if (response.type !== 'ProfileCreated') throw new Error(`Received invalid response type: ${response.type}`)
+
+      Toast.getOrCreateInstance(document.getElementById('error-toast')).hide()
+      id = response.data
+    } catch (error) {
+      console.error(error)
+
+      document.getElementById('error-text').innerText = error.message
+      Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
+    }
+
+    // Create a new option in the select input and select it
+    profilesElement.add(new Option(name, id, true, true))
+
+    // Hide the modal
+    Modal.getOrCreateInstance(document.getElementById('new-profile-modal'), { backdrop: 'static', keyboard: false }).hide()
+  })
 
   // Set form to be validated after all inputs are filled with default values and enable submit button
   form.classList.add('was-validated')
@@ -83,13 +175,29 @@ async function initializeForm () {
   submit.innerText = 'Install web app'
 
   // Validate the name input
-  document.getElementById('web-app-name').addEventListener('input', function () {
-    // const invalidLabel = document.getElementById('web-app-name-invalid')
-    // TODO: Check if any existing web app already has the same name and alert the user
-  })
+  const nameValidation = function () {
+    const invalidLabel = document.getElementById('web-app-name-invalid')
+    const nameInput = document.getElementById('web-app-name')
+
+    const currentName = nameInput.value || nameInput.getAttribute('placeholder')
+    const existingNames = Object.values(sites).map(site => site.config.name || site.manifest.name || site.manifest.short_name)
+
+    // If the name is already used for existing sites, this will cause problems
+    if (existingNames.includes(currentName)) {
+      this.setCustomValidity('Site name must not be reused from existing web apps')
+      invalidLabel.innerText = this.validationMessage
+      return
+    }
+
+    this.setCustomValidity('')
+  }
+
+  const nameInput = document.getElementById('web-app-name')
+  nameInput.addEventListener('input', nameValidation)
+  nameValidation.call(nameInput)
 
   // Validate start URL input
-  document.getElementById('web-app-start-url').addEventListener('input', function () {
+  const startUrlValidation = function () {
     const invalidLabel = document.getElementById('web-app-start-url-invalid')
 
     // Empty URL defaults to manifest start URL
@@ -116,7 +224,11 @@ async function initializeForm () {
 
     // All checks passed
     this.setCustomValidity('')
-  })
+  }
+
+  const startUrlInput = document.getElementById('web-app-start-url')
+  startUrlInput.addEventListener('input', startUrlValidation)
+  startUrlValidation.call(startUrlInput)
 
   // Handle form submission and validation
   submit.onclick = async (event) => {
@@ -172,6 +284,11 @@ async function initializeForm () {
       // Change button to success
       submit.disabled = true
       submit.innerText = 'Web app installed!'
+
+      // Close the popup after some time
+      setTimeout(() => {
+        window.close()
+      }, 5000)
     } catch (error) {
       console.error(error)
 

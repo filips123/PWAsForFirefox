@@ -57,8 +57,6 @@ Currently not available from the extension. Launch it directly from your system 
 
 When you open a valid PWA in the browser (that is loaded over HTTPS and has linked web app manifest), the site installation action will automatically appear in your address bar. When you click on it, the popup will appear where you can customize details about the site and install it. Installation will automatically install the PWA to the system and apply system integration.
 
-It is currently not possible to install PWA into non-default profile, but it will be in the future. Until them, you can install PWA into non-default profile using the console program.
-
 **Important:** You should not re-use the same name for multiple PWAs, otherwise, newer ones will overwrite older start menu entries and cause problems.
 
 # Uninstalling a Site

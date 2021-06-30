@@ -146,9 +146,9 @@ impl<'a> Connection<'a> {
                     keywords: keywords.to_vec(),
                     system_integration: true,
                 };
-                command.run()?;
+                let ulid = command._run()?;
 
-                Ok(ResponseMessage::SiteInstalled)
+                Ok(ResponseMessage::SiteInstalled(ulid))
             }
 
             RequestMessage::UninstallSite(id) => {
@@ -183,9 +183,9 @@ impl<'a> Connection<'a> {
                     name: name.to_owned(),
                     description: description.to_owned(),
                 };
-                command.run()?;
+                let ulid = command._run()?;
 
-                Ok(ResponseMessage::ProfileCreated)
+                Ok(ResponseMessage::ProfileCreated(ulid))
             }
 
             RequestMessage::RemoveProfile(id) => {

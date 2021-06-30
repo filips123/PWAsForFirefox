@@ -43,6 +43,13 @@ impl Run for SiteLaunchCommand {
 
 impl Run for SiteInstallCommand {
     fn run(&self) -> Result<()> {
+        self._run()?;
+        Ok(())
+    }
+}
+
+impl SiteInstallCommand {
+    pub fn _run(&self) -> Result<Ulid> {
         let dirs = ProjectDirs::new()?;
         let mut storage = Storage::load(&dirs)?;
 
@@ -78,7 +85,7 @@ impl Run for SiteInstallCommand {
         storage.write(&dirs)?;
 
         info!("Installed the site: {}", ulid);
-        Ok(())
+        Ok(ulid)
     }
 }
 

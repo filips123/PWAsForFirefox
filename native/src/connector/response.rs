@@ -24,7 +24,7 @@ pub enum ResponseMessage {
     SiteList(BTreeMap<Ulid, Site>),
 
     /// Site has been successfully installed.
-    SiteInstalled,
+    SiteInstalled(Ulid),
 
     /// Site has been successfully uninstalled.
     SiteUninstalled,
@@ -36,7 +36,7 @@ pub enum ResponseMessage {
     ProfileList(BTreeMap<Ulid, Profile>),
 
     /// Profile has been successfully created.
-    ProfileCreated,
+    ProfileCreated(Ulid),
 
     /// Profile has been successfully created.
     ProfileRemoved,
