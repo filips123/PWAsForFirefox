@@ -128,6 +128,9 @@ pub enum ProfileCommand {
 
     /// Removes an existing profile
     Remove(ProfileRemoveCommand),
+
+    /// Updates an extsing profile
+    Update(ProfileUpdateCommand),
 }
 
 #[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
@@ -155,6 +158,21 @@ pub struct ProfileRemoveCommand {
     /// Forces removal without any interactive prompts
     #[structopt(short, long)]
     pub quiet: bool,
+}
+
+#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
+#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+pub struct ProfileUpdateCommand {
+    /// Identifier of the profile
+    pub id: Ulid,
+
+    /// Name of the profile
+    #[structopt(long)]
+    pub name: Option<String>,
+
+    /// Description of the profile
+    #[structopt(long)]
+    pub description: Option<String>,
 }
 
 #[derive(StructOpt, Debug, Eq, PartialEq, Clone)]

@@ -6,7 +6,12 @@ use anyhow::{Context, Result};
 use log::{info, warn};
 
 use crate::components::profile::Profile;
-use crate::console::app::{ProfileCreateCommand, ProfileListCommand, ProfileRemoveCommand};
+use crate::console::app::{
+    ProfileCreateCommand,
+    ProfileListCommand,
+    ProfileRemoveCommand,
+    ProfileUpdateCommand,
+};
 use crate::console::Run;
 use crate::directories::ProjectDirs;
 use crate::storage::Storage;
@@ -109,6 +114,28 @@ impl Run for ProfileRemoveCommand {
         storage.write(&dirs)?;
 
         info!("Profile removed!");
+        Ok(())
+    }
+}
+
+impl Run for ProfileUpdateCommand {
+    fn run(&self) -> Result<()> {
+        let dirs = ProjectDirs::new()?;
+        let mut storage = Storage::load(&dirs)?;
+
+        let profile = storage.profiles.get_mut(&self.id).context("Profile does not exist")?;
+
+        info!("Updating the profile");
+        if self.name.is_some() {
+            profile.name = self.name.clone();
+        }
+        if self.description.is_some() {
+            profile.description = self.description.clone();
+        }
+
+        storage.write(&dirs)?;
+
+        info!("Profile updated!");
         Ok(())
     }
 }

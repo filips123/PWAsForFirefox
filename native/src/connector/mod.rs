@@ -1,21 +1,29 @@
 use std::io::{Read, Write};
 use std::{env, io};
 
-use anyhow::{anyhow, Context, Result};
+use anyhow::{Context, Result};
 use byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
 use log::info;
 
 use crate::components::runtime::Runtime;
-use crate::console::app::{RuntimeInstallCommand, RuntimeUninstallCommand, SiteInstallCommand};
+use crate::connector::request::RequestMessage;
+use crate::connector::response::ResponseMessage;
+use crate::console::app::{
+    ProfileCreateCommand,
+    ProfileRemoveCommand,
+    ProfileUpdateCommand,
+    RuntimeInstallCommand,
+    RuntimeUninstallCommand,
+    SiteInstallCommand,
+    SiteUninstallCommand,
+    SiteUpdateCommand,
+};
+use crate::console::Run;
 use crate::directories::ProjectDirs;
 use crate::storage::Storage;
 
 mod request;
 mod response;
-
-use crate::connector::request::RequestMessage;
-use crate::connector::response::ResponseMessage;
-use crate::console::Run;
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Connection<'a> {
@@ -112,6 +120,10 @@ impl<'a> Connection<'a> {
                 Ok(ResponseMessage::RuntimeUninstalled)
             }
 
+            RequestMessage::GetSiteList => {
+                Ok(ResponseMessage::SiteList(self.storage.sites.to_owned()))
+            }
+
             RequestMessage::InstallSite {
                 manifest_url,
                 document_url,
@@ -139,7 +151,62 @@ impl<'a> Connection<'a> {
                 Ok(ResponseMessage::SiteInstalled)
             }
 
-            _ => Err(anyhow!("Unknown request")),
+            RequestMessage::UninstallSite(id) => {
+                // Just simulate calling site uninstall command
+                let command = SiteUninstallCommand { id: *id, quiet: true };
+                command.run()?;
+
+                Ok(ResponseMessage::SiteUninstalled)
+            }
+
+            RequestMessage::UpdateSite { id, start_url, name, description } => {
+                // Just simulate calling site update command
+                let command = SiteUpdateCommand {
+                    id: *id,
+                    start_url: start_url.to_owned(),
+                    name: name.to_owned(),
+                    description: description.to_owned(),
+                    system_integration: true,
+                };
+                command.run()?;
+
+                Ok(ResponseMessage::SiteUpdated)
+            }
+
+            RequestMessage::GetProfileList => {
+                Ok(ResponseMessage::ProfileList(self.storage.profiles.to_owned()))
+            }
+
+            RequestMessage::CreateProfile { name, description } => {
+                // Just simulate calling profile create command
+                let command = ProfileCreateCommand {
+                    name: name.to_owned(),
+                    description: description.to_owned(),
+                };
+                command.run()?;
+
+                Ok(ResponseMessage::ProfileCreated)
+            }
+
+            RequestMessage::RemoveProfile(id) => {
+                // Just simulate calling profile remove command
+                let command = ProfileRemoveCommand { id: *id, quiet: true };
+                command.run()?;
+
+                Ok(ResponseMessage::ProfileRemoved)
+            }
+
+            RequestMessage::UpdateProfile { id, name, description } => {
+                // Just simulate calling profile update command
+                let command = ProfileUpdateCommand {
+                    id: *id,
+                    name: name.to_owned(),
+                    description: description.to_owned(),
+                };
+                command.run()?;
+
+                Ok(ResponseMessage::ProfileUpdated)
+            }
         }
     }
 }

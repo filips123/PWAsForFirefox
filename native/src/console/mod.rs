@@ -42,6 +42,7 @@ impl Run for ProfileCommand {
             ProfileCommand::List(cmd) => cmd.run(),
             ProfileCommand::Create(cmd) => cmd.run(),
             ProfileCommand::Remove(cmd) => cmd.run(),
+            ProfileCommand::Update(cmd) => cmd.run(),
         }
     }
 }

@@ -16,6 +16,11 @@ pub enum RequestMessage {
     /// Uninstalls the browser runtime.
     UninstallRuntime,
 
+    /// Lists all installed sites.
+    GetSiteList,
+
+    // TODO: Implement site launching
+
     /// Installs the site from the manifest with optional user overwrites.
     InstallSite {
         manifest_url: Url,
@@ -32,5 +37,22 @@ pub enum RequestMessage {
     UninstallSite(Ulid),
 
     /// Updates the site by its ULID with optional user overwrites.
-    UpdateSite(Ulid),
+    UpdateSite {
+        id: Ulid,
+        start_url: Option<Url>,
+        name: Option<String>,
+        description: Option<String>,
+    },
+
+    /// Lists all available profiles.
+    GetProfileList,
+
+    /// Creates a new profile with a name and description.
+    CreateProfile { name: Option<String>, description: Option<String> },
+
+    /// Removes an existing profile by its ULID.
+    RemoveProfile(Ulid),
+
+    /// Updates an existing profile by its ULID with a new name and description.
+    UpdateProfile { id: Ulid, name: Option<String>, description: Option<String> },
 }

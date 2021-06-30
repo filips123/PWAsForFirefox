@@ -115,6 +115,14 @@ By default, all PWA sites will be installed to a common profile with ID `0000000
 
   This will completely remove the profile and all sites installed in it, including all user data. You might not be able to fully recover this action. Note that a default profile cannot be completely removed, and trying to remove it will just clear all sites and user data, but keep a profile ID in the profile list.
 
+* To update an existing profile:
+
+   ```shell
+   firefoxpwa profile update ID --name NEW-PROFILE-NAME --description NEW-PROFILE-DESCRIPTION
+   ```
+  
+   This will just change your profile name and description, while keeping the ID and all sites intact.
+
 * To view all available profiles and installed sites:
 
   ```shell

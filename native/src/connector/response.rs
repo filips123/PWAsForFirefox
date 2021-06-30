@@ -1,6 +1,12 @@
 #![allow(clippy::large_enum_variant)]
 
+use std::collections::BTreeMap;
+
 use serde::{Deserialize, Serialize};
+use ulid::Ulid;
+
+use crate::components::profile::Profile;
+use crate::components::site::Site;
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 #[serde(tag = "type", content = "data")]
@@ -14,6 +20,9 @@ pub enum ResponseMessage {
     /// Runtime has been successfully uninstalled.
     RuntimeUninstalled,
 
+    /// List of all installed sites.
+    SiteList(BTreeMap<Ulid, Site>),
+
     /// Site has been successfully installed.
     SiteInstalled,
 
@@ -22,4 +31,16 @@ pub enum ResponseMessage {
 
     /// Site has been successfully updated.
     SiteUpdated,
+
+    /// List of all available profiles.
+    ProfileList(BTreeMap<Ulid, Profile>),
+
+    /// Profile has been successfully created.
+    ProfileCreated,
+
+    /// Profile has been successfully created.
+    ProfileRemoved,
+
+    /// Profile has been successfully updated.
+    ProfileUpdated,
 }
