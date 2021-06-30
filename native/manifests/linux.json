@@ -1,0 +1,9 @@
+{
+  "name": "firefoxpwa",
+  "description": "The native part of the FirefoxPWA project",
+  "path": "/usr/libexec/firefoxpwa-connector",
+  "type": "stdio",
+  "allowed_extensions": [
+    "firefoxpwa@filips.si"
+  ]
+}

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Setup FirefoxPWA</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+    <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
+    <link rel="stylesheet" href="install.scss" />
+  </head>
+
+  <body class="bg-light">
+    <div class="container-fluid vh-100">
+      <div class="row justify-content-center">
+        <div class="wrapper my-4 px-4 py-0">
+          <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+            <h1 class="text-center">Setup FirefoxPWA</h1>
+            <div class="row">
+              <div class="pb-3">
+                <ul class="text-center" id="progressbar">
+                  <li class="bi bi-clipboard-check" id="license-agreement"><strong>License Agreement</strong></li>
+                  <li class="bi bi-download" id="connector-installation"><strong>Connector Installation</strong></li>
+                  <li class="bi bi-cloud-download" id="runtime-installation"><strong>Runtime Installation</strong></li>
+                  <li class="bi bi-check" id="ready"><strong>Ready</strong></li>
+                </ul>
+
+                <!-- License Agreement -->
+                <div id="license-agreement-view" class="px-3 d-none">
+                  <blockquote class="text-justify text-secondary fst-italic">
+                    <p>The project is licensed under the <a href="https://www.mozilla.org/MPL/2.0/">Mozilla Public License 2.0</a>. By using, redistributing or modifying it, you must agree to the license, and the additional clauses provided below.</p>
+                    <p>Browser chrome modifications were largely inspired by the <a href="https://github.com/xiaoxiaoflood/firefox-scripts"><code>xiaoxiaoflood/firefox-scripts</code></a> repository on GitHub, also licensed under the Mozilla Public License 2.0. Detailed license information can be found in the respective files.</p>
+                    <p>Windows installer uses the <a href="https://materialdesignicons.com/">Material Design Icons</a> by Austin Andrews and Google, licensed under the Apache 2.0 license. Detailed license information can be found in the <a href="https://github.com/filips123/FirefoxPWA/blob/main/native/wix/main.wxs">WiX configuration file</a>.</p>
+                    <p>The project logo is based on the <a href="https://mozilla.design/firefox/logos-usage">official Firefox browser logo</a> and the <a href="https://github.com/webmaxru/progressive-web-apps-logo">community-introduced PWA logo</a>.</p>
+                    <p>Installing the runtime on Windows will install the <a href="https://7-zip.org/">official 7-Zip</a> if it is not already installed. The 7-Zip project is made by Igor Pavlov and <a href="https://7-zip.org/license.txt">licensed under the GNU LGPL license and others</a>. This project is not affiliated with the 7-Zip project or its developers in any way.</p>
+                    <p>Installing the runtime on any system will download the unmodified <a href="https://www.mozilla.org/firefox/">Mozilla Firefox</a> and locally modify it. By using this project you also agree to the <a href="https://www.mozilla.org/privacy/firefox/">Firefox Privacy Notice</a>. Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla Foundation in any way.</p>
+                  </blockquote>
+                  <div class="text-center">
+                    <button type="button" class="btn btn-outline-success" id="license-agreement-accept">I accept the license agreement</button>
+                  </div>
+                </div>
+
+                <!-- Connector Installation -->
+                <div id="connector-installation-view" class="px-3 d-none">
+                  <p>
+                    You need to install the additional program so the extension can manage and run separate
+                    runtime and profiles for your Progressive Web App sites. The extension will not work
+                    without this program. Please follow the instructions below to install it.
+                  </p>
+                  <div class="d-none" id="connector-version-error">
+                    <p>
+                      <strong>Error:</strong> The program has been detected and is already installed, but it has incompatible version that does not work
+                      correctly with the current version of the extension. You need to reinstall the program in order to make this extension work correctly.
+                    </p>
+                    <ul class="list-unstyled">
+                      <li><strong>Extension version:</strong> <span id="connector-version-error-extension"></span></li>
+                      <li><strong>Native version</strong>: <span id="connector-version-error-native"></span></li>
+                    </ul>
+                  </div>
+                  <div class="d-none" id="connector-native-error">
+                    <p>
+                      <strong>Error:</strong>
+                      <span id="connector-native-error-text"></span>
+                    </p>
+                  </div>
+                  <iframe id="connector-instructions" src="instructions.html"></iframe>
+                </div>
+
+                <!-- Runtime Installation -->
+                <div id="runtime-installation-view" class="px-3 d-none">
+                  <p>
+                    This extension also needs a separate Mozilla Firefox runtime where all your Progressive Web App sites
+                    will run. Pressing the button below will automatically download the unmodified Mozilla Firefox from
+                    the Mozilla servers and locally modify it with the required modifications.
+                  </p>
+                  <p id="runtime-needs-7zip" class="d-none">
+                    To install the runtime, you will need <a href="https://7-zip.org/">7-Zip</a> installed. Installing
+                    the runtime will automatically trigger the 7-Zip installer if needed. This may require accepting User
+                    Account Control prompt. You can also manually install 7-Zip or use your existing 7-zip installation.
+                    After the runtime is installed, you can delete 7-Zip manually.
+                  </p>
+                  <p>
+                    After the runtime is installed, you should be automatically proceeded to the
+                    next step. If nothing changes after around 30 seconds, restart the browser.
+                  </p>
+                  <p id="runtime-install-error" class="d-none">
+                    <strong>Error:</strong>
+                    <span id="runtime-install-error-text"></span>
+                  </p>
+                  <div class="text-center">
+                    <button type="button" class="btn btn-outline-success" id="runtime-install-start">Install the runtime</button>
+                  </div>
+                </div>
+
+                <!-- Ready -->
+                <div id="ready-view" class="px-3 d-none">
+                  <p>This extension is now ready to be used. You can close this page.</p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="install.js"></script>
+  </body>
+</html>

@@ -56,8 +56,8 @@ impl Run for SiteInstallCommand {
         let config = SiteConfig {
             name: self.name.clone(),
             description: self.description.clone(),
-            categories: vec![],
-            keywords: vec![],
+            categories: self.categories.clone(),
+            keywords: self.keywords.clone(),
             document_url: match &self.document_url {
                 Some(url) => url.clone(),
                 None => self.manifest_url.join(".")?,

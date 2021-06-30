@@ -6,6 +6,7 @@ categories = ["command-line-utilities"]
 authors = ["filips <projects@filips.si>"]
 homepage = "https://github.com/filips123/FirefoxPWA"
 repository = "https://github.com/filips123/FirefoxPWA"
+default-run = "firefoxpwa"
 readme = "README.md"
 license = "MPL-2.0"
 edition = "2018"
@@ -20,6 +21,7 @@ lto = true
 
 [dependencies]
 anyhow = "1.0.41"
+byteorder = "1.4.3"
 cfg-if = "1.0.0"
 clap = "2.33.3"
 configparser = "2.1.0"
@@ -29,7 +31,7 @@ fs_extra = "1.2.0"
 glob = "0.3.0"
 image = "0.23.14"
 log = "0.4.14"
-reqwest = { version = "0.11.3", features = ["blocking"] }
+reqwest = { version = "0.11.4", features = ["blocking"] }
 serde = { version = "1.0.126", features = ["derive"] }
 serde_json = "1.0.64"
 simplelog = "0.10.0"
@@ -42,6 +44,7 @@ web_app_manifest = { git = "https://github.com/filips123/WebAppManifestRS", bran
 
 [target.'cfg(target_os = "windows")'.dependencies]
 bindings = { path = "bindings" }
+gag = "1.0.0"
 runas = "0.2.1"
 windows = "0.11.0"
 winreg = "0.8.0"
@@ -66,24 +69,21 @@ license-file = ["debian/copyright", "0"]
 assets = [
     # Executables
     ["target/release/firefoxpwa", "/usr/bin/firefoxpwa", "755"],
-    # ["target/release/firefoxpwa-connector", "/usr/libexec/firefoxpwa-connector", "755"],
+    ["target/release/firefoxpwa-connector", "/usr/libexec/firefoxpwa-connector", "755"],
+
+    # Manifests
+    ["manifests/linux.json", "/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json", "644"],
+    ["manifests/linux.json", "/usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json", "644"],
 
     # Completions
     ["target/release/completions/firefoxpwa.bash", "/usr/share/bash-completion/completions/firefoxpwa", "644"],
     ["target/release/completions/firefoxpwa.fish", "/usr/share/fish/completions/firefoxpwa.fish", "644"],
     ["target/release/completions/_firefoxpwa", "/usr/share/zsh/vendor-completions/_firefoxpwa", "644"],
 
-    # Manifests
-    ["manifests/linux/firefox.json", "/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json", "644"],
-    ["manifests/linux/firefox.json", "/usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json", "644"],
-    ["manifests/linux/chrome.json", "/etc/opt/chrome/native-messaging-hosts/firefoxpwa.json", "644"],
-    ["manifests/linux/chrome.json", "/etc/opt/chromium/native-messaging-hosts/firefoxpwa.json", "644"],
-    ["manifests/linux/chrome.json", "/etc/opt/edge/native-messaging-hosts/firefoxpwa.json", "644"],
-
     # Documentation
     ["../README.md", "/usr/share/doc/firefoxpwa/README.md", "644"],
     ["../native/README.md", "/usr/share/doc/firefoxpwa/README-NATIVE.md", "644"],
-    # ["../extension/README.md", "/usr/share/doc/firefoxpwa/README-EXTENSION.md", "644"],
+    ["../extension/README.md", "/usr/share/doc/firefoxpwa/README-EXTENSION.md", "644"],
 
     # UserChrome
     ["userchrome/**/*", "/usr/share/firefoxpwa/userchrome/", "644"],

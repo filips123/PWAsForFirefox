@@ -5,7 +5,7 @@ The native part of the FirefoxPWA project.
 
 ## Description
 
-The native part is written in Rust and handles the parts that extension won't be able to do. This includes installing Firefox runtime, patching it with the chrome modifications, installing the sites, and launching them. Currently, the only way to do this is via the `firefoxpwa` console program, but in the future, it will connect to the extension to make usage easier.
+The native part is written in Rust and handles the parts that the extension cannot do alone. This includes installing Firefox runtime, patching it with the chrome modifications, installing the sites, and launching them. Currently, the only way to do this is via the `firefoxpwa` console program, but in the future, it will connect to the extension to make usage easier.
 
 The native part also contains browser chrome (UI) modifications written in JS and CSS to make the browser work as a standalone PWA: Hiding tab and address bar, re-arranging widgets, handling the site scope, and applying system integration.
 
@@ -19,6 +19,18 @@ Read the [main README file](../README.md) for more details about the project.
 * Debian-like Linux (pre-built DEB package & source installation)
 * Other Linux (source installation)
 * ~~macOS~~ (to be added in the future)
+
+### From Release Binaries
+
+You can download installers/packages and the shell completions from the [latest GitHub release](https://github.com/filips123/FirefoxPWA/releases/latest).
+
+On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package.
+
+### From Development Binaries
+
+You can download and install [latest build artifact](https://github.com/filips123/FirefoxPWA/actions/workflows/native.yaml) from GitHub Actions builds. Note that these are development versions that may be unstable.
+
+On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package.
 
 ### From Source
 
@@ -58,19 +70,10 @@ Read the [main README file](../README.md) for more details about the project.
    ```
 4. Copy the built files to the correct locations:
     * `target/release/firefoxpwa` -> `/usr/bin/firefoxpwa`
+    * `target/release/firefoxpwa-connector` -> `/usr/libexec/firefoxpwa-connector`
+    * `manifests/linux.json` -> `/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json`
+    * `manifests/linux.json` -> `/usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json`
     * `userchrome/` -> `/usr/share/firefoxpwa/userchrome/`
-
-### From Development Binaries
-
-You can download and install [latest build artifact](https://github.com/filips123/FirefoxPWA/actions/workflows/native.yaml) from GitHub Actions builds. Note that these are development versions that may be unstable.
-
-On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package.
-
-### From Release Binaries
-
-You can download installers/packages and the shell completions from the [latest GitHub release](https://github.com/filips123/FirefoxPWA/releases/latest).
-
-On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package.
 
 ## Usage
 

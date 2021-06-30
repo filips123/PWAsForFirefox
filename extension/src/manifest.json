@@ -1,0 +1,42 @@
+{
+  "manifest_version": 2,
+  "name": "__MSG_appName__",
+  "short_name": "__MSG_appShortName__",
+  "description": "__MSG_appDescription__",
+  "homepage_url": "https://github.com/filips123/FirefoxPWA",
+  "version": "0.0.0",
+  "default_locale": "en",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "firefoxpwa@filips.si"
+    }
+  },
+  "icons": {
+    "48": "images/addon-logo.svg",
+    "96": "images/addon-logo.svg",
+    "192": "images/addon-logo.svg"
+  },
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "js": ["content.js"],
+      "matches": ["https://*/*"],
+      "run_at": "document_end"
+    }
+  ],
+  "browser_action": {
+    "default_icon": "images/browser-action.svg",
+    "default_title": "__MSG_browserActionTitle__"
+  },
+  "page_action": {
+    "default_icon": "images/page-action.svg",
+    "default_title": "__MSG_pageActionTitle__"
+  },
+  "permissions": [
+    "https://*/*",
+    "nativeMessaging",
+    "storage"
+  ]
+}

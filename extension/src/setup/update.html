@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Update FirefoxPWA</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+    <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
+    <link rel="stylesheet" href="update.scss" />
+  </head>
+
+  <body class="bg-light">
+    <div class="container-fluid vh-100">
+      <div class="row justify-content-center">
+        <div class="wrapper my-4 px-4 py-0">
+          <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+            <h1 class="text-center pb-2">Update FirefoxPWA</h1>
+            <div class="row">
+              <div class="pb-3">
+                <p id="native-not-updated" class="px-3 d-none">
+                  This extension is currently at the newer version than the native connector. The extension may not function
+                  correctly until you update the native connector. Please follow the instructions below to update it.
+                </p>
+
+                <p id="extension-not-updated" class="px-3 d-none">
+                  This extension is currently at the older version than the native connector.
+                  <span id="extension-versions-compatible" class="d-none">Versions are compatible with each other, but it is highly recommended to update the extension to get the latest features and fixes.</span>
+                  <span id="extension-versions-incompatible" class="d-none">Versions are <strong>not</strong> compatible with each other, so you cannot use the extension until you update it.</span>
+                  Please update this extension from the browser addon store.
+                </p>
+
+                <p id="both-updated" class="px-3 d-none">
+                  The extension and the native connector are updated to the same version. You can close this page.
+                </p>
+
+                <p id="native-error" class="px-3 d-none">
+                  <strong>Error:</strong>
+                  <span id="native-error-text"></span>
+                </p>
+
+                <ul class="px-3 list-unstyled">
+                  <li><strong>Extension version:</strong> <span id="version-extension">Loading...</span></li>
+                  <li><strong>Native version</strong>: <span id="version-native">Loading...</span></li>
+                </ul>
+
+                <iframe class="px-3 d-none" id="connector-instructions" src="instructions.html"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="update.js"></script>
+  </body>
+</html>

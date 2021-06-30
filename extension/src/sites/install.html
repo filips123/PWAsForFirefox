@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Install this web app</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+    <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
+    <link rel="stylesheet" href="install.scss" />
+  </head>
+
+  <body>
+    <div class="card">
+      <div class="card-header">
+        Install this web app
+      </div>
+      <div class="card-body">
+          <form class="needs-validation" id="web-app-form">
+            <div class="mb-3">
+              <label for="web-app-name" class="form-label">Name</label>
+              <input type="text" class="form-control form-control-sm" id="web-app-name" />
+              <div class="invalid-feedback" id="web-app-name-invalid"></div>
+            </div>
+            <div class="mb-3">
+              <label for="web-app-description" class="form-label">Description</label>
+              <input type="text" class="form-control form-control-sm" id="web-app-description" />
+            </div>
+            <div class="mb-3">
+              <label for="web-app-categories" class="form-label">Categories</label>
+              <select class="form-select-tags" id="web-app-categories" multiple data-allow-new="true">
+                <option selected disabled hidden value="">​</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="web-app-keywords" class="form-label">Keywords</label>
+              <select class="form-select-tags" id="web-app-keywords" multiple data-allow-new="true">
+                <option selected disabled hidden value="">​</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="web-app-start-url" class="form-label">Start URL</label>
+              <input type="url" class="form-control form-control-sm" id="web-app-start-url" />
+              <div class="invalid-feedback" id="web-app-start-url-invalid"></div>
+            </div>
+            <div class="mb-3">
+              <label for="web-app-profile" class="form-label">Profile</label>
+              <select class="form-select form-select-sm" id="web-app-profile" required>
+                <option selected value="00000000000000000000000000">Default</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="web-app-submit" disabled>Loading...</button>
+          </form>
+      </div>
+    </div>
+
+    <div class="toast fade hide" id="error-toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto">Error</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body" id="error-text"></div>
+    </div>
+
+
+    <script src="install.js"></script>
+  </body>
+</html>

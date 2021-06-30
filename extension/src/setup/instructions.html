@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+    <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
+    <link rel="stylesheet" href="instructions.scss" />
+  </head>
+
+  <body>
+    <div class="d-flex align-items-start">
+      <div class="nav flex-column nav-pills me-3" role="tablist" aria-orientation="vertical">
+        <button class="nav-link" id="windows-install-tab" data-bs-toggle="tab" data-bs-target="#windows-install-pane" type="button" role="tab" aria-controls="windows-install-pane" aria-selected="false">Windows</button>
+        <button class="nav-link" id="linux-deb-install-tab" data-bs-toggle="tab" data-bs-target="#linux-deb-install-pane" type="button" role="tab" aria-controls="linux-deb-install-pane" aria-selected="false">Debian-like Linux (DEB)</button>
+        <button class="nav-link d-none" id="linux-rpm-install-tab" data-bs-toggle="tab" data-bs-target="#linux-rpm-install-pane" type="button" role="tab" aria-controls="linux-rpm-install-pane" aria-selected="false">Fedora-like Linux (RPM)</button>
+        <button class="nav-link" id="linux-source-install-tab" data-bs-toggle="tab" data-bs-target="#linux-source-install-pane" type="button" role="tab" aria-controls="linux-source-install-pane" aria-selected="false">Other Linux</button>
+        <button class="nav-link" id="macos-install-tab" data-bs-toggle="tab" data-bs-target="#macos-install-pane" type="button" role="tab" aria-controls="macos-install-pane" aria-selected="false">macOS</button>
+        <button class="nav-link" id="other-install-tab" data-bs-toggle="tab" data-bs-target="#other-install-pane" type="button" role="tab" aria-controls="other-install-pane" aria-selected="false">Other</button>
+      </div>
+
+      <div class="tab-content">
+        <div class="tab-pane fade" id="windows-install-pane" role="tabpanel" aria-labelledby="nav-home-tab">
+          <ol>
+            <li>Download and install the <a href="https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0">Visual C++ Redistributable</a>.</li>
+            <li>Download and run the <a id="connector-download-url-msi">FirefoxPWA MSI installer</a>.</li>
+            <li>After the programs are installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+          </ol>
+        </div>
+        <div class="tab-pane fade" id="linux-deb-install-pane" role="tabpanel" aria-labelledby="nav-home-tab">
+          <ol>
+            <li>Download and install the <a id="connector-download-url-deb">FirefoxPWA DEB file</a>.</li>
+            <li>After the program is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+          </ol>
+        </div>
+        <div class="tab-pane fade" id="linux-rpm-install-pane" role="tabpanel" aria-labelledby="nav-home-tab">
+          <ol>
+            <li>Download and install the <a id="connector-download-url-rpm">FirefoxPWA RPM file</a>.</li>
+            <li>After the program is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+          </ol>
+        </div>
+        <div class="tab-pane fade" id="linux-source-install-pane" role="tabpanel" aria-labelledby="nav-home-tab">
+          <ol>
+            <li>Clone the <a href="https://github.com/filips123/FirefoxPWA">FirefoxPWA Git repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
+            <li>Checkout the <kbd id="connector-repository-tag"></kbd> tag.</li>
+            <li>Modify <kbd>version</kbd> field inside <kbd>Cargo.toml</kbd> to <kbd id="connector-cargo-version"></kbd>.</li>
+            <li>Build the project in release mode:<br /><kbd>cargo build --release</kbd></li>
+            <li>Copy the built files to the correct locations:
+              <ul>
+                <li><kbd>target/release/firefoxpwa</kbd> → <kbd>/usr/bin/firefoxpwa</kbd></li>
+                <li><kbd>target/release/firefoxpwa-connector</kbd> → <kbd>/usr/libexec/firefoxpwa-connector</kbd></li>
+                <li><kbd>manifests/linux.json</kbd> → <kbd>/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json</kbd></li>
+                <li><kbd>manifests/linux.json</kbd> → <kbd>/usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json</kbd></li>
+                <li><kbd>userchrome/</kbd> → <kbd>/usr/share/firefoxpwa/userchrome/</kbd></li>
+              </ul>
+            </li>
+            <li>After the files are copied, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+          </ol>
+        </div>
+        <div class="tab-pane fade" id="macos-install-pane" role="tabpanel" aria-labelledby="nav-home-tab">
+          <p>
+            macOS is currently not supported. Any help to add support for it would be appreciated.
+          </p>
+        </div>
+        <div class="tab-pane fade" id="other-install-pane" role="tabpanel" aria-labelledby="nav-home-tab">
+          <p>
+            We provide no compiled packages for your operating system.
+            You can try building the program from source with instructions from "<span id="linux-source-install-name">Other Linux</span>" section.
+            You may need to adjust them to make it work with your operating system, and there is no guarantee that it will work.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="instructions.js"></script>
+  </body>
+</html>

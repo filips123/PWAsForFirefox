@@ -42,6 +42,7 @@ tmp/
 .node_repl_history
 .npm
 .nyc_output
+.parcel-cache
 .yarn-integrity
 *.tmp
 *.rs.bk

@@ -9,20 +9,21 @@ A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox
 
 [Progressive Web Apps (PWAs)](https://developer.mozilla.org/docs/Web/Progressive_web_apps) are web apps that use web APIs and features along with progressive enhancement strategy to bring a native app-like user experience to cross-platform web applications. Although Firefox supports many of Progressive Web App APIs, it does not support functionality to install them as a standalone system app with an app-like experience.
 
-This project modifies Firefox to allow websites to be installed as standalone apps and provides a console tool ~~and browser extension~~ to install, manage and use them.
+This project modifies Firefox to allow websites to be installed as standalone apps and provides a console tool and browser extension to install, manage and use them.
 
 ## Usage
 
 See the READMEs of the native and extension part for more details and instructions how to install them:
 
 * [Native](native/README.md)
-* [Extension](extension/README.md) (currently does not exist)
+* [Extension](extension/README.md)
 
 ## Features
 
 ### Current Features
 
 * Command-line tool to install and run Progressive Web Apps in Firefox.
+* Basic extension to set up the project and install Progressive Web Apps directly from the main Firefox browser.
 * Removal of tabs and address bar to make a better app-like feel.
 * Isolated Firefox installation and profile(s) that stores the PWAs.
 * Support for all Firefox addons/extensions and built-in Firefox features.
@@ -30,7 +31,7 @@ See the READMEs of the native and extension part for more details and instructio
 
 ### Planned Features
 
-* Browser extension to easily manage and install Progressive Web Apps.
+* More features for the extension (launching, editing, removing, viewing sites and profiles).
 * Localization of most UI elements.
 * Support for different PWA sets depending on the main browser profile.
 * Support for installing non-PWA websites as PWAs.

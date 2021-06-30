@@ -1,0 +1,9 @@
+{
+  "name": "firefoxpwa",
+  "description": "The native part of the FirefoxPWA project",
+  "path": "firefoxpwa-connector.exe",
+  "type": "stdio",
+  "allowed_extensions": [
+    "firefoxpwa@filips.si"
+  ]
+}

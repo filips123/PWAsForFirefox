@@ -1,0 +1,22 @@
+{
+  "appName": {
+    "message": "Progressive Web Apps for Firefox",
+    "description": "The name of the application"
+  },
+  "appShortName": {
+    "message": "FirefoxPWA",
+    "description": "The short name of the application"
+  },
+  "appDescription": {
+    "message": "A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox",
+    "description": "The description of the application"
+  },
+  "browserActionTitle": {
+    "message": "FirefoxPWA",
+    "description": "The title of the browser action button - Should be the same as the short application name"
+  },
+  "pageActionTitle": {
+    "message": "Install this site",
+    "description": "The title of the page action button - Should instruct users that they can install the current site here"
+  }
+}

@@ -70,6 +70,14 @@ pub struct SiteInstallCommand {
     #[structopt(long)]
     pub description: Option<String>,
 
+    /// Optionally overwrites the PWA categories specified in the manifest
+    #[structopt(long)]
+    pub categories: Vec<String>,
+
+    /// Optionally overwrites the PWA keywords specified in the manifest
+    #[structopt(long)]
+    pub keywords: Vec<String>,
+
     /// Disables system integration
     #[structopt(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
     pub system_integration: bool,

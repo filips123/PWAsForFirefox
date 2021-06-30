@@ -17,6 +17,10 @@ trim_trailing_whitespace = true
 [*.{html,css,sass,scss,js,jsx,jsm,ts,tsx,vue,json,yaml,yml}]
 indent_size = 2
 
+# Configuration
+[.*rc]
+indent_size = 2
+
 # Windows
 [*.{bat,cmd,ps1}]
 end_of_line = crlf
