@@ -15,6 +15,7 @@ use crate::console::app::{
     RuntimeInstallCommand,
     RuntimeUninstallCommand,
     SiteInstallCommand,
+    SiteLaunchCommand,
     SiteUninstallCommand,
     SiteUpdateCommand,
 };
@@ -122,6 +123,14 @@ impl<'a> Connection<'a> {
 
             RequestMessage::GetSiteList => {
                 Ok(ResponseMessage::SiteList(self.storage.sites.to_owned()))
+            }
+
+            RequestMessage::LaunchSite(ulid) => {
+                // Just simulate calling site launch command
+                let command = SiteLaunchCommand { id: *ulid, url: None };
+                command.run()?;
+
+                Ok(ResponseMessage::SiteLaunched)
             }
 
             RequestMessage::InstallSite {

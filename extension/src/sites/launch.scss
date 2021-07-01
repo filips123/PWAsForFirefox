@@ -1,0 +1,35 @@
+//////////////////////////////
+// Bootstrap
+//////////////////////////////
+
+@import "/node_modules/bootstrap-dark-5/dist/css/bootstrap-dark.css";
+
+//////////////////////////////
+// Various Modifications
+//////////////////////////////
+
+
+html, body {
+  min-width: 400px;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+.card {
+  z-index: 0;
+  border: none;
+  border-radius: 0;
+}
+
+.card-body {
+  max-width: 400px;
+  padding: 0;
+}
+
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translate(-50%, 0px);
+  z-index: 20;
+}

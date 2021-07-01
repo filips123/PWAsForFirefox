@@ -1,3 +1,6 @@
 {
-  "extends": "@parcel/config-webextension"
+  "extends": "@parcel/config-webextension",
+  "transformers": {
+    "*.svg": ["@parcel/transformer-raw"]
+  }
 }

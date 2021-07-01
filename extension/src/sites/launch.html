@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Install this web app</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+    <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
+    <link rel="stylesheet" href="launch.scss" />
+  </head>
+
+  <body>
+    <div class="card">
+      <div class="card-header">
+        Launch this web app
+      </div>
+      <div class="card-body">
+        <div class="list-group list-group-flush" id="instances-list"></div>
+      </div>
+    </div>
+
+    <div class="toast fade hide" id="error-toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto">Error</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body" id="error-text"></div>
+    </div>
+
+    <script src="launch.js"></script>
+  </body>
+</html>

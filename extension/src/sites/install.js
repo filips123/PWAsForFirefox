@@ -1,69 +1,7 @@
 import { Modal, Toast } from 'bootstrap'
 import Tags from 'bootstrap5-tags/tags'
 
-async function obtainUrls () {
-  const tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0]
-
-  // Ask the content script to obtain the manifest and the document URL
-  return await browser.tabs.sendMessage(tab.id, 'ObtainUrls')
-}
-
-async function obtainManifest (manifestUrl, documentUrl) {
-  const manifestResponse = await fetch(manifestUrl)
-  const manifest = await manifestResponse.json()
-
-  // Parse the start URL with the manifest URL as a base
-  // If it does not exist, set it to the document URL
-  if (manifest.start_url) {
-    manifest.start_url = new URL(manifest.start_url, documentUrl)
-    manifest.start_url = manifest.start_url.href
-  } else {
-    manifest.start_url = documentUrl
-  }
-
-  // Parse the scope with the manifest URL as a base
-  // If it does not exist, set it to the `.` with the start URL as a base
-  if (manifest.scope) {
-    manifest.scope = new URL(manifest.scope, documentUrl)
-    manifest.scope = manifest.scope.href
-  } else {
-    manifest.scope = new URL('.', manifest.start_url)
-    manifest.scope = manifest.scope.href
-  }
-
-  // Check if the start URL is the same origin as document URL and is within the scope
-  const _startUrl = new URL(manifest.start_url)
-  const _scopeUrl = new URL(manifest.scope)
-  const _documentUrl = new URL(documentUrl)
-
-  if (_startUrl.origin !== _documentUrl.origin) throw new Error('Start and document URL are not in the same origin')
-  if (_startUrl.origin !== _scopeUrl.origin || !_startUrl.pathname.startsWith(_scopeUrl.pathname)) throw new Error('Start URL is not within the scope')
-
-  // Return the validated and parsed manifest
-  return manifest
-}
-
-async function obtainSiteList () {
-  const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'GetSiteList' })
-
-  // Handle native connection errors
-  if (response.type === 'Error') throw new Error(response.data)
-  if (response.type !== 'SiteList') throw new Error(`Received invalid response type: ${response.type}`)
-
-  // Return the site list
-  return response.data
-}
-
-async function obtainProfileList () {
-  const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'GetProfileList' })
-
-  // Handle native connection errors
-  if (response.type === 'Error') throw new Error(response.data)
-  if (response.type !== 'ProfileList') throw new Error(`Received invalid response type: ${response.type}`)
-
-  // Return the site list
-  return response.data
-}
+import { obtainManifest, obtainProfileList, obtainSiteList, obtainUrls } from '../utils'
 
 async function initializeForm () {
   const form = document.getElementById('web-app-form')
@@ -177,10 +115,9 @@ async function initializeForm () {
   // Validate the name input
   const nameValidation = function () {
     const invalidLabel = document.getElementById('web-app-name-invalid')
-    const nameInput = document.getElementById('web-app-name')
 
-    const currentName = nameInput.value || nameInput.getAttribute('placeholder')
-    const existingNames = Object.values(sites).map(site => site.config.name || site.manifest.name || site.manifest.short_name)
+    const currentName = this.value || this.getAttribute('placeholder')
+    const existingNames = Object.values(sites).map(site => site.config.name || site.manifest.name || site.manifest.short_name || new URL(site.manifest.scope).host)
 
     // If the name is already used for existing sites, this will cause problems
     if (existingNames.includes(currentName)) {
@@ -230,6 +167,27 @@ async function initializeForm () {
   startUrlInput.addEventListener('input', startUrlValidation)
   startUrlValidation.call(startUrlInput)
 
+  // Validate the profile input
+  const profileValidation = function () {
+    const invalidLabel = document.getElementById('web-app-profile-invalid')
+
+    const existingInstances = Object.values(sites).filter(site => site.config.manifest_url === manifestUrl)
+    const existingProfiles = existingInstances.map(site => site.profile)
+
+    // If the profile is already used for another instance of the same site, they won't actually be separate instances
+    if (existingProfiles.includes(this.value)) {
+      this.setCustomValidity('Multiple site instances in the same profile are not possible')
+      invalidLabel.innerText = this.validationMessage
+      return
+    }
+
+    this.setCustomValidity('')
+  }
+
+  const profileInput = document.getElementById('web-app-profile')
+  profileInput.addEventListener('input', profileValidation)
+  profileValidation.call(profileInput)
+
   // Handle form submission and validation
   submit.onclick = async (event) => {
     event.preventDefault()
@@ -251,11 +209,11 @@ async function initializeForm () {
     // Get categories and keywords based on user form input and site manifest
     // If the user list is identical to the manifest, ignore it, otherwise, set it as a user overwrite
     const userCategories = [...document.getElementById('web-app-categories').selectedOptions].map(option => option.value)
-    const manifestCategories = manifest.categories
+    const manifestCategories = manifest.categories || []
     const categories = userCategories.toString() !== manifestCategories.toString() ? userCategories : []
 
     const userKeywords = [...document.getElementById('web-app-keywords').selectedOptions].map(option => option.value)
-    const manifestKeywords = manifest.keywords
+    const manifestKeywords = manifest.keywords || []
     const keywords = userKeywords.toString() !== manifestKeywords.toString() ? userKeywords : []
 
     // Tell the native connector to install the site
@@ -285,8 +243,14 @@ async function initializeForm () {
       submit.disabled = true
       submit.innerText = 'Web app installed!'
 
+      // Update page action
+      const tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0]
+      await browser.pageAction.setIcon({ tabId: tab.id, path: '/images/page-action-launch.svg' })
+      browser.pageAction.setTitle({ tabId: tab.id, title: browser.i18n.getMessage('actionLaunchSite') })
+      browser.pageAction.setPopup({ tabId: tab.id, popup: '/sites/launch.html' })
+
       // Close the popup after some time
-      setTimeout(() => {
+      setTimeout(async () => {
         window.close()
       }, 5000)
     } catch (error) {

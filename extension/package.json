@@ -17,10 +17,10 @@
   "scripts": {
     "watch": "run-s watch:*",
     "watch:clean": "rimraf dist",
-    "watch:parcel": "parcel watch src/manifest.json src/**/*.html --no-content-hash",
+    "watch:parcel": "parcel watch src/manifest.json src/**/*.html src/images/**/*.svg --no-content-hash",
     "build": "run-s build:*",
     "build:clean": "rimraf dist",
-    "build:parcel": "parcel build src/manifest.json src/**/*.html --no-content-hash",
+    "build:parcel": "parcel build src/manifest.json src/**/*.html src/images/**/*.svg --no-content-hash",
     "build:webext": "web-ext build -s dist/release -a dist -n firefoxpwa-{version}.zip",
     "lint": "run-s -c lint:*",
     "lint:eslint": "eslint src",

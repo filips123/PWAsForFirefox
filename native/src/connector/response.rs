@@ -23,6 +23,9 @@ pub enum ResponseMessage {
     /// List of all installed sites.
     SiteList(BTreeMap<Ulid, Site>),
 
+    /// Site has been successfully launched.
+    SiteLaunched,
+
     /// Site has been successfully installed.
     SiteInstalled(Ulid),
 

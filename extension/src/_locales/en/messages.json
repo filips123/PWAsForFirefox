@@ -11,12 +11,12 @@
     "message": "A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox",
     "description": "The description of the application"
   },
-  "browserActionTitle": {
-    "message": "FirefoxPWA",
-    "description": "The title of the browser action button - Should be the same as the short application name"
-  },
-  "pageActionTitle": {
+  "actionInstallSite": {
     "message": "Install this site",
-    "description": "The title of the page action button - Should instruct users that they can install the current site here"
+    "description": "Instruct users that they can install the current site here"
+  },
+  "actionLaunchSite": {
+    "message": "Launch this site",
+    "description": "Instruct users that they can launch the current site here"
   }
 }

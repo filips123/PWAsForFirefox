@@ -28,12 +28,9 @@
   ],
   "browser_action": {
     "default_icon": "images/browser-action.svg",
-    "default_title": "__MSG_browserActionTitle__"
+    "default_title": "__MSG_appShortName__"
   },
-  "page_action": {
-    "default_icon": "images/page-action.svg",
-    "default_title": "__MSG_pageActionTitle__"
-  },
+  "page_action": {},
   "permissions": [
     "https://*/*",
     "nativeMessaging",
