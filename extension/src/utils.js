@@ -1,3 +1,5 @@
+import { eq as semverEq } from 'semver'
+
 /**
  * Obtains the manifest and the document URLs by asking the content script of current tab.
  *
@@ -81,4 +83,28 @@ export async function obtainProfileList () {
 
   // Return the site list
   return response.data
+}
+
+/**
+ * Checks if the native program is installed and updated correctly.
+ *
+ * * If `ok` is returned, everything is ok
+ * * If `install` is returned, native program or the runtime is not installed, and install page should be opened.
+ * * If `update` is returned, native program is outdated, and update page should be opened.
+ *
+ * @returns {Promise<"ok"|"install"|"update">}
+ */
+export async function checkNativeStatus () {
+  try {
+    const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'GetSystemVersions' })
+
+    if (response.type === 'Error') throw new Error(response.data)
+    if (response.type !== 'SystemVersions') throw new Error(`Received invalid response type: ${response.type}`)
+
+    if (!response.data.firefox) return 'install'
+    if (!semverEq(browser.runtime.getManifest().version, response.data.firefoxpwa)) return 'update'
+  } catch (error) {
+    if (error.message === 'Attempt to postMessage on disconnected port') return 'install'
+    throw error
+  }
 }

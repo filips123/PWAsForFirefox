@@ -1,6 +1,6 @@
-// Display page on installation or update to notify users that they need to install/update the native program
-import { obtainSiteList } from './utils'
+import { checkNativeStatus, obtainSiteList } from './utils'
 
+// Display install/update page when extension is installed/updated to notify users
 browser.runtime.onInstalled.addListener(async ({ reason }) => {
   switch (reason) {
     case 'install':
@@ -12,12 +12,30 @@ browser.runtime.onInstalled.addListener(async ({ reason }) => {
   }
 })
 
-// TODO: Periodically check if the native program is not installed and then disable actions/popups and open install page
+// Display install/update page when clicked on browser action and the native program is not correctly installed
+browser.browserAction.onClicked.addListener(async () => {
+  switch (await checkNativeStatus()) {
+    case 'install':
+      await browser.tabs.create({ url: browser.runtime.getURL('setup/install.html') })
+      break
+    case 'update':
+      await browser.tabs.create({ url: browser.runtime.getURL('setup/update.html') })
+      break
+  }
+})
 
 // Detect manifest sent from content script
 browser.runtime.onMessage.addListener(async ({ manifest: manifestUrl }, { url: documentUrl, tab }) => {
   manifestUrl = new URL(manifestUrl)
   documentUrl = new URL(documentUrl)
+
+  // Check status of the native program and hide page action if needed
+  switch (await checkNativeStatus()) {
+    case 'install':
+    case 'update':
+      await browser.pageAction.hide(tab.id)
+      return
+  }
 
   // If both manifest and the page are in the same origin and are loaded over HTTPS, site is a valid web app
   if (manifestUrl.origin === documentUrl.origin && manifestUrl.protocol === 'https:') {
