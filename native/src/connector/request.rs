@@ -43,6 +43,8 @@ pub enum RequestMessage {
         start_url: Option<Url>,
         name: Option<String>,
         description: Option<String>,
+        categories: Vec<String>,
+        keywords: Vec<String>,
     },
 
     /// Lists all available profiles.

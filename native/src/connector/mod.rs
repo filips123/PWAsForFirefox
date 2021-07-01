@@ -168,14 +168,24 @@ impl<'a> Connection<'a> {
                 Ok(ResponseMessage::SiteUninstalled)
             }
 
-            RequestMessage::UpdateSite { id, start_url, name, description } => {
+            RequestMessage::UpdateSite {
+                id,
+                start_url,
+                name,
+                description,
+                categories,
+                keywords,
+            } => {
                 // Just simulate calling site update command
                 let command = SiteUpdateCommand {
                     id: *id,
                     start_url: start_url.to_owned(),
                     name: name.to_owned(),
                     description: description.to_owned(),
+                    categories: categories.to_owned(),
+                    keywords: keywords.to_owned(),
                     system_integration: true,
+                    store_none_values: true,
                 };
                 command.run()?;
 
@@ -211,6 +221,7 @@ impl<'a> Connection<'a> {
                     id: *id,
                     name: name.to_owned(),
                     description: description.to_owned(),
+                    store_none_values: true,
                 };
                 command.run()?;
 

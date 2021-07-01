@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Manage web apps and profiles</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+    <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
+    <link rel="stylesheet" href="manage.scss" />
+  </head>
+
+  <body>
+    <div class="card">
+      <div class="card-header">
+        <nav>
+          <div class="nav nav-tabs card-header-tabs" id="card-navigation" role="tablist">
+            <button class="nav-link active" id="sites-tab" data-bs-toggle="tab" data-bs-target="#sites-pane" type="button" role="tab" aria-controls="sites-pane" aria-selected="true">Apps</button>
+            <button class="nav-link" id="profiles-tab" data-bs-toggle="tab" data-bs-target="#profiles-pane" type="button" role="tab" aria-controls="profiles-pane" aria-selected="false">Profiles</button>
+          </div>
+        </nav>
+      </div>
+      <div class="card-body">
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="sites-pane" role="tabpanel" aria-labelledby="sites-tab">
+            <ul class="list-group list-group-flush" id="sites-list">
+              <template id="sites-list-template">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                  <img class="site-icon me-2 my-auto" id="sites-list-template-icon" alt="Icon" />
+                  <div class="ms-2 me-auto">
+                    <div id="sites-list-template-title"></div>
+                    <div id="sites-list-template-description"></div>
+                  </div>
+                  <div class="btn-group my-auto">
+                    <button type="button" class="btn btn-outline-primary bi-box-arrow-up-right" id="sites-list-template-launch" title="Launch web app" aria-label="Launch web app"></button>
+                    <button type="button" class="btn btn-outline-primary bi-pencil-square" id="sites-list-template-edit" title="Edit web app" aria-label="Edit web app"></button>
+                    <button type="button" class="btn btn-outline-primary bi-trash" id="sites-list-template-remove" title="Remove web app" aria-label="Remove web app"></button>
+                  </div>
+                </li>
+              </template>
+              <li class="list-group-item justify-content-between align-items-start d-flex" id="sites-list-loading">
+                <div class="ms-2 me-auto">
+                  <div><em>Loading...</em></div>
+                </div>
+              </li>
+              <li class="list-group-item justify-content-between align-items-start d-flex d-none" id="sites-list-empty">
+                <div class="ms-2 me-auto">
+                  <div><em>No sites installed!</em></div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="tab-pane fade" id="profiles-pane" role="tabpanel" aria-labelledby="profiles-tab">
+            <ul class="list-group list-group-flush" id="profiles-list">
+              <template id="profiles-list-template">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                  <div class="ms-2 me-auto">
+                    <div id="profiles-list-template-name"></div>
+                    <div id="profiles-list-template-description"></div>
+                  </div>
+                  <div class="btn-group my-auto">
+                    <button type="button" class="btn btn-outline-primary bi-pencil-square" id="profiles-list-template-edit" title="Edit profile" aria-label="Edit profile"></button>
+                    <button type="button" class="btn btn-outline-primary bi-trash" id="profiles-list-template-remove" title="Remove profile" aria-label="Remove remove"></button>
+                  </div>
+                </li>
+              </template>
+              <li class="list-group-item justify-content-between align-items-start d-flex" id="profiles-list-loading">
+                <div class="ms-2 me-auto">
+                  <div><em>Loading...</em></div>
+                </div>
+              </li>
+              <li class="list-group-item justify-content-between align-items-start d-flex d-none" id="profiles-list-empty">
+                <div class="ms-2 me-auto">
+                  <div><em>No profiles available!</em></div>
+                </div>
+              </li>
+            </ul>
+
+            <div class="px-4 py-2">
+              <button type="button" class="btn btn-outline-primary" id="profile-create-button">Create a new profile</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="site-edit-offcanvas" aria-labelledby="site-edit-label">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="site-edit-label">Edit web app</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <form class="needs-validation" id="web-app-form">
+          <div class="mb-3">
+            <label for="web-app-name" class="form-label">Name</label>
+            <input type="text" class="form-control form-control-sm" id="web-app-name" />
+            <div class="invalid-feedback" id="web-app-name-invalid"></div>
+          </div>
+          <div class="mb-3">
+            <label for="web-app-description" class="form-label">Description</label>
+            <input type="text" class="form-control form-control-sm" id="web-app-description" />
+          </div>
+          <div class="mb-3">
+            <label for="web-app-categories" class="form-label">Categories</label>
+            <select class="form-select-tags" id="web-app-categories" multiple data-allow-new="true">
+              <option selected disabled hidden value="">​</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="web-app-keywords" class="form-label">Keywords</label>
+            <select class="form-select-tags" id="web-app-keywords" multiple data-allow-new="true">
+              <option selected disabled hidden value="">​</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="web-app-start-url" class="form-label">Start URL</label>
+            <input type="url" class="form-control form-control-sm" id="web-app-start-url" />
+            <div class="invalid-feedback" id="web-app-start-url-invalid"></div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="web-app-submit" disabled>Loading...</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="profile-edit-offcanvas" aria-labelledby="profile-edit-label">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="profile-edit-label">Edit profile</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <form class="needs-validation" id="profile-form">
+          <div class="mb-3">
+            <label for="profile-name" class="form-label">Name</label>
+            <input type="text" class="form-control form-control-sm" id="profile-name" />
+          </div>
+          <div class="mb-3">
+            <label for="profile-description" class="form-label">Description</label>
+            <input type="text" class="form-control form-control-sm" id="profile-description" />
+          </div>
+          <button type="submit" class="btn btn-primary" id="profile-submit" disabled>Loading...</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal fade" id="site-remove-modal" tabindex="-1" aria-labelledby="site-remove-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="site-remove-label">Remove web app</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to remove this web app? App data will <strong>not</strong> be
+            removed, but you can remove them through browser or by deleting app's profile.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="site-remove-button">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="profile-remove-modal" tabindex="-1" aria-labelledby="profile-remove-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="profile-remove-label">Remove profile</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Are you sure you want to remove this profile? This will completely remove the profile and all
+              associated sites, including their data. You might not be able to fully recover this action.
+            </p>
+            <p class="d-none" id="profile-remove-default">
+              Default profile cannot be completely removed. Sites and data will be cleared, but the profile will stay.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="profile-remove-button">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast fade hide" id="error-toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="me-auto">Error</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body" id="error-text"></div>
+    </div>
+
+    <script src="manage.js"></script>
+  </body>
+</html>

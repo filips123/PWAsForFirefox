@@ -63,7 +63,7 @@ fn store_icon(
             icon.sizes.iter().max() >= Some(&ImageSize::Fixed(256, 256))
                 && icon.purpose.contains(&ImagePurpose::Any)
         })
-        .or_else(|| icons.last());
+        .or_else(|| icons.iter().rev().find(|icon| icon.purpose.contains(&ImagePurpose::Any)));
 
     // Convert the chosen icon into ICO and save it for usages in ARP page and start menu
     // Currently only one embedded image per ICO is supported: https://github.com/image-rs/image/issues/884

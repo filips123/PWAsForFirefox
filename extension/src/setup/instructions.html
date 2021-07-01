@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>Installation instructions</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
     <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
@@ -19,26 +20,26 @@
       </div>
 
       <div class="tab-content">
-        <div class="tab-pane fade" id="windows-install-pane" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div class="tab-pane fade" id="windows-install-pane" role="tabpanel" aria-labelledby="windows-install-tab">
           <ol>
             <li>Download and install the <a href="https://support.microsoft.com/en-us/topic/the-latest-supported-visual-c-downloads-2647da03-1eea-4433-9aff-95f26a218cc0">Visual C++ Redistributable</a>.</li>
             <li>Download and run the <a id="connector-download-url-msi">FirefoxPWA MSI installer</a>.</li>
             <li>After the programs are installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
           </ol>
         </div>
-        <div class="tab-pane fade" id="linux-deb-install-pane" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div class="tab-pane fade" id="linux-deb-install-pane" role="tabpanel" aria-labelledby="linux-deb-install-tab">
           <ol>
             <li>Download and install the <a id="connector-download-url-deb">FirefoxPWA DEB file</a>.</li>
             <li>After the program is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
           </ol>
         </div>
-        <div class="tab-pane fade" id="linux-rpm-install-pane" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div class="tab-pane fade" id="linux-rpm-install-pane" role="tabpanel" aria-labelledby="linux-rpm-install-tab">
           <ol>
             <li>Download and install the <a id="connector-download-url-rpm">FirefoxPWA RPM file</a>.</li>
             <li>After the program is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
           </ol>
         </div>
-        <div class="tab-pane fade" id="linux-source-install-pane" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div class="tab-pane fade" id="linux-source-install-pane" role="tabpanel" aria-labelledby="linux-source-install-tab">
           <ol>
             <li>Clone the <a href="https://github.com/filips123/FirefoxPWA">FirefoxPWA Git repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
             <li>Checkout the <kbd id="connector-repository-tag"></kbd> tag.</li>
@@ -56,12 +57,12 @@
             <li>After the files are copied, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
           </ol>
         </div>
-        <div class="tab-pane fade" id="macos-install-pane" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div class="tab-pane fade" id="macos-install-pane" role="tabpanel" aria-labelledby="macos-install-tab">
           <p>
             macOS is currently not supported. Any help to add support for it would be appreciated.
           </p>
         </div>
-        <div class="tab-pane fade" id="other-install-pane" role="tabpanel" aria-labelledby="nav-home-tab">
+        <div class="tab-pane fade" id="other-install-pane" role="tabpanel" aria-labelledby="other-install-tab">
           <p>
             We provide no compiled packages for your operating system.
             You can try building the program from source with instructions from "<span id="linux-source-install-name">Other Linux</span>" section.

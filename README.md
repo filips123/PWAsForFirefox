@@ -23,7 +23,7 @@ See the READMEs of the native and extension part for more details and instructio
 ### Current Features
 
 * Command-line tool to install and run Progressive Web Apps in Firefox.
-* Basic extension to set up the project and install and launch Progressive Web Apps directly from the main Firefox browser.
+* Extension to set up native programs, install, manage and launch PWAs, and manage PWA profiles directly from the main Firefox browser.
 * Removal of tabs and address bar to make a better app-like feel.
 * Isolated Firefox installation and profile(s) that stores the PWAs.
 * Support for all Firefox addons/extensions and built-in Firefox features.
@@ -31,7 +31,7 @@ See the READMEs of the native and extension part for more details and instructio
 
 ### Planned Features
 
-* More features for the extension (editing, removing, viewing sites and profiles).
+* Searching and filtering sites by name, description, categories, keywords...
 * Localization of most UI elements.
 * Support for different PWA sets depending on the main browser profile.
 * Support for installing non-PWA websites as PWAs.

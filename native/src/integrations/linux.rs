@@ -104,7 +104,7 @@ fn store_icons(id: &str, icons: &[IconResource], suffix: &str) -> Result<()> {
                 icon.sizes.iter().max() >= Some(&ImageSize::Fixed(48, 48))
                     && icon.purpose.contains(&ImagePurpose::Any)
             })
-            .or_else(|| icons.last());
+            .or_else(|| icons.iter().rev().find(|icon| icon.purpose.contains(&ImagePurpose::Any)));
 
         if let Some(icon) = icon {
             let url: Url = icon.src.clone().try_into().context(CONVERT_ICON_URL_ERROR)?;

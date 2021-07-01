@@ -12,18 +12,6 @@ browser.runtime.onInstalled.addListener(async ({ reason }) => {
   }
 })
 
-// Display install/update page when clicked on browser action and the native program is not correctly installed
-browser.browserAction.onClicked.addListener(async () => {
-  switch (await checkNativeStatus()) {
-    case 'install':
-      await browser.tabs.create({ url: browser.runtime.getURL('setup/install.html') })
-      break
-    case 'update':
-      await browser.tabs.create({ url: browser.runtime.getURL('setup/update.html') })
-      break
-  }
-})
-
 // Detect manifest sent from content script
 browser.runtime.onMessage.addListener(async ({ manifest: manifestUrl }, { url: documentUrl, tab }) => {
   manifestUrl = new URL(manifestUrl)

@@ -17,8 +17,16 @@ defaults:
 
 jobs:
   clippy:
-    name: Clippy
-    runs-on: ubuntu-latest
+    name: Clippy (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+          - os: windows-latest
+          # - os: macos-latest
 
     steps:
       - name: Checkout repository

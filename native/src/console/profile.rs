@@ -134,10 +134,10 @@ impl Run for ProfileUpdateCommand {
         let profile = storage.profiles.get_mut(&self.id).context("Profile does not exist")?;
 
         info!("Updating the profile");
-        if self.name.is_some() {
+        if self.name.is_some() || self.store_none_values {
             profile.name = self.name.clone();
         }
-        if self.description.is_some() {
+        if self.description.is_some() || self.store_none_values {
             profile.description = self.description.clone();
         }
 

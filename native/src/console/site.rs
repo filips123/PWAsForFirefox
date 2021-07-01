@@ -142,14 +142,20 @@ impl Run for SiteUpdateCommand {
         let site = storage.sites.get_mut(&self.id).context("Site does not exist")?;
 
         info!("Updating the site");
-        if self.name.is_some() {
+        if self.name.is_some() || self.store_none_values {
             site.config.name = self.name.clone();
         }
-        if self.description.is_some() {
+        if self.description.is_some() || self.store_none_values {
             site.config.description = self.description.clone();
         }
-        if self.start_url.is_some() {
+        if self.start_url.is_some() || self.store_none_values {
             site.config.start_url = self.start_url.clone();
+        }
+        if !self.categories.is_empty() || self.store_none_values {
+            site.config.categories = self.categories.clone();
+        }
+        if !self.keywords.is_empty() || self.store_none_values {
+            site.config.keywords = self.keywords.clone();
         }
         site.update()?;
 

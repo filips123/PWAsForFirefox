@@ -31,12 +31,8 @@ async function initializeForm () {
     return
   }
 
-  // Determine web app name from the manifest name, short name or scope host
-  let name = manifest.name
-  if (!name) name = manifest.short_name
-  if (!name) name = new URL(manifest.scope).host
-
-  // Determine web app description from the manifest description or fallback to an empty string
+  // Determine web app name and description
+  const name = manifest.name || manifest.short_name || new URL(manifest.scope).host
   const description = manifest.description || ''
 
   // Set web app data to inputs
@@ -224,9 +220,9 @@ async function initializeForm () {
           manifest_url: manifestUrl,
           document_url: documentUrl,
           start_url: startUrl,
-          profile: profile,
-          name: name,
-          description: description,
+          profile,
+          name,
+          description,
           categories,
           keywords
         }

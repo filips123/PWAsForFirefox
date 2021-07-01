@@ -5,7 +5,7 @@ The extension part of the FirefoxPWA project.
 
 ## Description
 
-The extension part of the project makes it easier to install and manage Progressive Web Apps directly from the main Firefox browser. It supports installing supported PWAs with just a few clicks, ~~creating and managing app profiles, and launching, updating, removing, and managing installed apps directly from the UI~~.
+The extension part of the project makes it easier to install and manage Progressive Web Apps directly from the main Firefox browser. It supports installing supported PWAs with just a few clicks, managing and launching them, and creating and managing app profiles directly from the UI.
 
 Read the [main README file](../README.md) for more details about the project.
 
@@ -61,9 +61,13 @@ When you open a valid PWA in the browser (that is loaded over HTTPS and has a li
 
 When you open a PWA which is already installed, the launch action will automatically appear in your address bar. When you click on it, the popup will appear where you can launch existing instances of the site or create a new one.
 
-### Other
+You can also launch the site through system start/app menus, or from the site list in the extension's browser action.
 
-Other features are currently not available in the extension. Use them through the system settings (e.g., Add or Remove Programs on Windows) or console program.
+### Managing Sites & Profiles
+
+You can launch, edit and remove sites, and create, edit and remove profiles, from the extension's browser action. Editing the site will also automatically update its manifest and icons.
+
+**Note:** It is not recommended to rename the existing site because this can cause problems on some systems.
 
 ## Contributing
 

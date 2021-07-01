@@ -1,3 +1,4 @@
+import { Toast } from 'bootstrap'
 import { eq as semverEq } from 'semver'
 
 /**
@@ -16,7 +17,7 @@ export async function obtainUrls () {
  * @param {string} manifestUrl
  * @param {string} documentUrl
  *
- * @returns {Promise<Object>} The processed manifest
+ * @returns {Promise<Object>}
  */
 export async function obtainManifest (manifestUrl, documentUrl) {
   const manifestResponse = await fetch(manifestUrl)
@@ -56,7 +57,7 @@ export async function obtainManifest (manifestUrl, documentUrl) {
 /**
  * Obtains the site list from the native program.
  *
- * @returns {Promise<Object>}
+ * @returns {Promise<Object[]>}
  */
 export async function obtainSiteList () {
   const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'GetSiteList' })
@@ -72,7 +73,7 @@ export async function obtainSiteList () {
 /**
  * Obtains the profile list from the native program.
  *
- * @returns {Promise<Object>}
+ * @returns {Promise<Object[]>}
  */
 export async function obtainProfileList () {
   const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'GetProfileList' })
@@ -107,4 +108,68 @@ export async function checkNativeStatus () {
     if (error.message === 'Attempt to postMessage on disconnected port') return 'install'
     throw error
   }
+}
+
+/**
+ * Launches the site in a PWA browser.
+ *
+ * @param {{id: string}} site
+ *
+ * @returns {Promise<void>}
+ */
+export async function launchSite (site) {
+  try {
+    const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'LaunchSite', params: site.ulid })
+
+    if (response.type === 'Error') throw new Error(response.data)
+    if (response.type !== 'SiteLaunched') throw new Error(`Received invalid response type: ${response.type}`)
+
+    window.close()
+  } catch (error) {
+    console.error(error)
+    document.getElementById('error-text').innerText = error.message
+    Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
+  }
+}
+
+/**
+ * Gets the sorted list of appropriate site icons.
+ *
+ * @param {{sizes: string, purpose: string}[]} icons
+ * @param {"any"|"maskable"|"monochrome"|} purpose
+ *
+ * @returns {Object[]}
+ */
+export function buildIconList (icons, purpose = 'any') {
+  const iconList = []
+
+  for (const icon of icons) {
+    if (!icon.purpose.split().includes(purpose)) continue
+
+    for (const sizeSpec of icon.sizes.split()) {
+      const size = sizeSpec === 'any' ? Number.MAX_SAFE_INTEGER : parseInt(sizeSpec)
+      iconList.push({ icon, size })
+    }
+  }
+
+  iconList.sort((a, b) => (a.size > b.size) ? 1 : -1)
+  return iconList
+}
+
+/**
+ * Gets the smallest icon that is larger than the provided size.
+ * If it does not exist, gets the largest icon overall.
+ *
+ * @param {{size: number, icon: {src: string}}[]} icons
+ * @param {number} size
+ *
+ * @returns {string|null}
+ */
+export function getIcon (icons, size) {
+  if (icons.length === 0) return null
+
+  let icon = icons.find(icon => icon.size >= size)
+  if (!icon) icon = icons[icons.length - 1]
+
+  return icon.icon.src
 }

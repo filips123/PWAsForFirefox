@@ -112,9 +112,21 @@ pub struct SiteUpdateCommand {
     #[structopt(long)]
     pub description: Option<String>,
 
+    /// Optionally overwrites the PWA categories specified in the manifest
+    #[structopt(long)]
+    pub categories: Vec<String>,
+
+    /// Optionally overwrites the PWA keywords specified in the manifest
+    #[structopt(long)]
+    pub keywords: Vec<String>,
+
     /// Disables system integration
     #[structopt(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
     pub system_integration: bool,
+
+    /// Internal: Treat `None` values as actual values
+    #[structopt(skip = true)]
+    pub store_none_values: bool,
 }
 
 #[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
@@ -173,6 +185,10 @@ pub struct ProfileUpdateCommand {
     /// Description of the profile
     #[structopt(long)]
     pub description: Option<String>,
+
+    /// Internal: Treat `None` values as actual values
+    #[structopt(skip = true)]
+    pub store_none_values: bool,
 }
 
 #[derive(StructOpt, Debug, Eq, PartialEq, Clone)]

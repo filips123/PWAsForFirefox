@@ -3,6 +3,7 @@
 //////////////////////////////
 
 @import "popup.scss";
+@import "/node_modules/bootstrap-icons/font/bootstrap-icons.css";
 
 //////////////////////////////
 // Form Styles
@@ -17,4 +18,25 @@
   padding-bottom: 0.25rem;
   padding-left: 0.5rem;
   font-size: 0.875rem;
+}
+
+//////////////////////////////
+// Card & Size Modifications
+//////////////////////////////
+
+html, body {
+  min-height: 33rem;
+}
+
+.card-body {
+  padding: 0;
+}
+
+.site-icon {
+  height: 32px;
+  width: 32px;
+}
+
+.offcanvas-body {
+  scrollbar-width: thin;
 }
