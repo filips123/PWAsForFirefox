@@ -1,0 +1,144 @@
+name: Extension CI/CD
+
+on:
+  push:
+    paths:
+      - .github/workflows/extension.yaml
+      - extension/**
+  pull_request:
+    paths:
+      - .github/workflows/extension.yaml
+      - extension/**
+
+defaults:
+  run:
+    working-directory: extension
+    shell: bash
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Configure cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            ~/.config/yarn
+            ./extension/.parcel-cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Lint the project
+        run: yarn lint
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Configure cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            ~/.config/yarn
+            ./extension/.parcel-cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+
+      - name: Set version
+        run: |
+          if [[ $GITHUB_REF == refs/tags/v* ]]
+          then
+            VERSION=${GITHUB_REF/refs\/tags\/v}
+            sed -i "s/\"version\": \"0.0.0\"/\"version\": \"$VERSION\"/g" package.json
+            sed -i "s/\"version\": \"0.0.0\"/\"version\": \"$VERSION\"/g" src/manifest.json
+          fi
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build the project
+        run: yarn build
+
+      - name: Upload artifacts
+        if: success() || failure()
+        uses: actions/upload-artifact@v2
+        with:
+          path: extension/dist/*.zip
+
+  release-github:
+    name: Release on GitHub
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    needs:
+      - lint
+      - build
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+
+      - name: Upload artifacts to GitHub Release
+        uses: filips123/action-gh-release@a929a66f232c1b11af63782948aa2210f981808a
+        with:
+          fail_on_unmatched_files: true
+          files: |
+            artifact/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release-amo:
+    name: Release on Mozilla Addon Store
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+
+    needs:
+      - lint
+      - build
+
+    steps:
+      - name: Configure cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            ~/.config/yarn
+            ./extension/.parcel-cache
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+
+      - name: Unpack artifacts
+        run: unzip ../artifact/*.zip -d ../artifact/extension/
+
+      - name: Upload artifacts to AMO
+        run: npx web-ext-submit --channel listed -s ../artifact/extension/
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.WEB_EXT_API_KEY }}
+          WEB_EXT_API_SECRET: ${{ secrets.WEB_EXT_API_SECRET }}

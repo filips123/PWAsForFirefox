@@ -13,7 +13,7 @@ Read the [main README file](../README.md) for more details about the project.
 
 ### From Addon Store
 
-Currently not available.
+You should install this extension from the [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/firefoxpwa/) website.
 
 ### From Release Artifacts
 
