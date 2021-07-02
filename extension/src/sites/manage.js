@@ -62,7 +62,7 @@ async function createSiteList () {
     const siteElement = templateElement.content.firstElementChild.cloneNode(true)
 
     const icons = buildIconList(site.manifest.icons)
-    const icon = getIcon(icons, 32)
+    const icon = getIcon(icons, 64)
 
     const iconElement = siteElement.querySelector('#sites-list-template-icon')
     if (!icon) iconElement.classList.add('d-none')
@@ -101,12 +101,14 @@ async function createSiteList () {
       const categoriesList = site.config.categories.length ? site.config.categories : site.manifest.categories
       while (categoriesElement.tagsInstance.containerElement.querySelectorAll('span').length) categoriesElement.tagsInstance.removeLastItem()
       for (const category of categoriesList || []) categoriesElement.tagsInstance.addItem(category, category)
+      categoriesElement.tagsInstance.searchInput.value = ''
 
       // Set keywords from config or manifest
       const keywordsElement = document.getElementById('web-app-keywords')
       const keywordsList = site.config.keywords.length ? site.config.keywords : site.manifest.keywords
       while (keywordsElement.tagsInstance.containerElement.querySelectorAll('span').length) keywordsElement.tagsInstance.removeLastItem()
       for (const keyword of keywordsList || []) keywordsElement.tagsInstance.addItem(keyword, keyword)
+      keywordsElement.tagsInstance.searchInput.value = ''
 
       // Set form to be validated after all inputs are filled with default values and enable submit button
       form.classList.add('was-validated')

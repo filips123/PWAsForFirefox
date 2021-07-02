@@ -32,11 +32,23 @@ html, body {
   padding: 0;
 }
 
+.card-body, .offcanvas-body {
+  scrollbar-width: thin;
+}
+
+.list-group-flush > * {
+  padding: 0.5rem 0.75rem;
+}
+
 .site-icon {
   height: 32px;
   width: 32px;
 }
 
-.offcanvas-body {
-  scrollbar-width: thin;
+.text-overflow-hide, .text-overflow-hide > * {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25rem;
 }
