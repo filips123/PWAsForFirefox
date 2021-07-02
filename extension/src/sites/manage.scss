@@ -36,8 +36,17 @@ html, body {
   scrollbar-width: thin;
 }
 
-.list-group-flush > * {
+.list-group-flush > .list-group-item {
   padding: 0.5rem 0.75rem;
+}
+
+.list-group-flush > .list-group-item:last-child {
+  border-bottom-width: 1px;
+}
+
+.list-group-item-action {
+  padding: 0.5rem 0.75rem;
+  border-top: none;
 }
 
 .site-icon {

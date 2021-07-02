@@ -421,7 +421,7 @@ async function createProfileList () {
     })
     removeElement.removeAttribute('id')
 
-    listElement.append(profileElement)
+    listElement.insertBefore(profileElement, templateElement)
   }
 
   // Handle creating new profile
