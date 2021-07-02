@@ -67,19 +67,19 @@ async function createSiteList () {
     const iconElement = siteElement.querySelector('#sites-list-template-icon')
     if (!icon) iconElement.classList.add('d-none')
     iconElement.src = icon
-    iconElement.id = null
+    iconElement.removeAttribute('id')
 
     const titleElement = siteElement.querySelector('#sites-list-template-title')
     titleElement.innerText = site.config.name || site.manifest.name || site.manifest.short_name || new URL(site.manifest.scope).host
-    titleElement.id = null
+    titleElement.removeAttribute('id')
 
     const descriptionElement = siteElement.querySelector('#sites-list-template-description')
     descriptionElement.innerText = site.config.description || site.manifest.description || ''
-    descriptionElement.id = null
+    descriptionElement.removeAttribute('id')
 
     const launchElement = siteElement.querySelector('#sites-list-template-launch')
     launchElement.addEventListener('click', () => { launchSite(site) })
-    launchElement.id = null
+    launchElement.removeAttribute('id')
 
     const editElement = siteElement.querySelector('#sites-list-template-edit')
     editElement.addEventListener('click', async (event) => {
@@ -237,7 +237,7 @@ async function createSiteList () {
       Offcanvas.getOrCreateInstance(document.getElementById('site-edit-offcanvas')).show()
       event.preventDefault()
     })
-    editElement.id = null
+    editElement.removeAttribute('id')
 
     const removeElement = siteElement.querySelector('#sites-list-template-remove')
     removeElement.addEventListener('click', () => {
@@ -271,7 +271,7 @@ async function createSiteList () {
 
       Modal.getOrCreateInstance(document.getElementById('site-remove-modal')).show()
     })
-    removeElement.id = null
+    removeElement.removeAttribute('id')
 
     listElement.append(siteElement)
   }
@@ -307,11 +307,11 @@ async function createProfileList () {
 
     const nameElement = profileElement.querySelector('#profiles-list-template-name')
     nameElement.innerText = profile.name || 'Unnamed'
-    nameElement.id = null
+    nameElement.removeAttribute('id')
 
     const descriptionElement = profileElement.querySelector('#profiles-list-template-description')
     descriptionElement.innerText = profile.description || ''
-    descriptionElement.id = null
+    descriptionElement.removeAttribute('id')
 
     const editElement = profileElement.querySelector('#profiles-list-template-edit')
     editElement.addEventListener('click', async (event) => {
@@ -380,7 +380,7 @@ async function createProfileList () {
       Offcanvas.getOrCreateInstance(document.getElementById('profile-edit-offcanvas')).show()
       event.preventDefault()
     })
-    editElement.id = null
+    editElement.removeAttribute('id')
 
     const removeElement = profileElement.querySelector('#profiles-list-template-remove')
     removeElement.addEventListener('click', () => {
@@ -417,7 +417,7 @@ async function createProfileList () {
 
       Modal.getOrCreateInstance(document.getElementById('profile-remove-modal')).show()
     })
-    removeElement.id = null
+    removeElement.removeAttribute('id')
 
     listElement.append(profileElement)
   }
