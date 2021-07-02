@@ -89,28 +89,6 @@ jobs:
         with:
           path: extension/dist/*.zip
 
-  release-github:
-    name: Release on GitHub
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
-
-    needs:
-      - lint
-      - build
-
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
-
-      - name: Upload artifacts to GitHub Release
-        uses: filips123/action-gh-release@a929a66f232c1b11af63782948aa2210f981808a
-        with:
-          fail_on_unmatched_files: true
-          files: |
-            artifact/*.zip
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   # Add auto-publishing to AMO once web-ext officially supports and recommends that
   # This also includes uploading source code because it is needed for built/bundled extensions
   # See: https://github.com/mozilla/web-ext/issues/804

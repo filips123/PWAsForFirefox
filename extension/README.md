@@ -15,11 +15,7 @@ Read the [main README file](../README.md) for more details about the project.
 
 You should install this extension from the [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/firefoxpwa/) website.
 
-### From Release Artifacts
-
-You can download the packed extension from the [latest GitHub release](https://github.com/filips123/FirefoxPWA/releases/latest). Note that it is not signed, so you will need to configure Firefox to accept non-signed extensions or just load it temporarily.
-
-### From Development Binaries
+### From Development Artifacts
 
 You can download and install [latest build artifact](https://github.com/filips123/FirefoxPWA/actions/workflows/native.yaml) of packed extension from GitHub Actions builds. Note that these are development versions that may be unstable and are not signed, so you will need to configure Firefox to accept non-signed extensions or just load it temporarily.
 
