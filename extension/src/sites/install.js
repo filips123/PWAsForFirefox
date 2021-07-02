@@ -65,9 +65,9 @@ async function initializeForm () {
     event.preventDefault()
   })
 
-  document.getElementById('new-profile-cancel').addEventListener('click', function () {
-    profilesElement.value = lastProfileSelection
-  })
+  const newProfileOnCancel = function () { profilesElement.value = lastProfileSelection }
+  document.getElementById('new-profile-cancel1').addEventListener('click', newProfileOnCancel)
+  document.getElementById('new-profile-cancel2').addEventListener('click', newProfileOnCancel)
 
   document.getElementById('new-profile-create').addEventListener('click', async function () {
     const name = document.getElementById('new-profile-name').value || null
