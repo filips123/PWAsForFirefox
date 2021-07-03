@@ -493,9 +493,31 @@ async function createProfileList () {
   })
 }
 
+// Handle site and profile search
+async function handleSearch () {
+  const searchHandler = function (listElement) {
+    document.getElementById('list-search').oninput = function () {
+      for (const item of document.getElementById(listElement).children) {
+        const itemName = item.querySelector('.list-group-item-name')?.innerText.toLowerCase()
+        const searchQuery = this.value.toLowerCase()
+
+        if (!itemName) continue
+        item.classList.toggle('d-none', itemName.indexOf(searchQuery) === -1)
+      }
+    }
+  }
+
+  document.getElementById('sites-tab').addEventListener('click', () => searchHandler('sites-list'))
+  document.getElementById('profiles-tab').addEventListener('click', () => searchHandler('profiles-list'))
+
+  searchHandler('sites-list')
+}
+
+// Prepare the page
 for (const element of document.querySelectorAll('.form-select-tags')) { element.tagsInstance = new Tags(element) }
 Tab.getOrCreateInstance(document.getElementById('card-navigation'))
 handleNativeStatus()
 checkViewport()
 createSiteList()
 createProfileList()
+handleSearch()

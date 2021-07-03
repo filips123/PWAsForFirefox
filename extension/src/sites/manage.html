@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <div class="card">
+    <div class="card vh-100">
       <div class="card-header">
         <nav>
           <div class="nav nav-tabs card-header-tabs" id="card-navigation" role="tablist">
@@ -26,8 +26,8 @@
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                   <img class="site-icon me-2 my-auto" id="sites-list-template-icon" alt="Icon" />
                   <div class="me-2 text-overflow-hide">
-                    <div id="sites-list-template-title"></div>
-                    <div id="sites-list-template-description"></div>
+                    <div class="list-group-item-name" id="sites-list-template-title"></div>
+                    <div class="list-group-item-description" id="sites-list-template-description"></div>
                   </div>
                   <div class="btn-group my-auto">
                     <button type="button" class="btn btn-outline-primary bi-box-arrow-up-right" id="sites-list-template-launch" title="Launch web app" aria-label="Launch web app"></button>
@@ -54,8 +54,8 @@
               <template id="profiles-list-template">
                 <li class="list-group-item d-flex justify-content-between align-items-start">
                   <div class="me-2 text-overflow-hide">
-                    <div id="profiles-list-template-name"></div>
-                    <div id="profiles-list-template-description"></div>
+                    <div class="list-group-item-name" id="profiles-list-template-name"></div>
+                    <div class="list-group-item-description" id="profiles-list-template-description"></div>
                   </div>
                   <div class="btn-group my-auto">
                     <button type="button" class="btn btn-outline-primary bi-pencil-square" id="profiles-list-template-edit" title="Edit profile" aria-label="Edit profile"></button>
@@ -81,6 +81,9 @@
             </ul>
           </div>
         </div>
+      </div>
+      <div class="card-footer px-2 mx-0 row">
+        <input class="form-control" id="list-search" type="search" placeholder="Search by name" aria-label="Search by name" />
       </div>
     </div>
 

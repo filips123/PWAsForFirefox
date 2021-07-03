@@ -31,7 +31,6 @@ See the READMEs of the native and extension part for more details and instructio
 
 ### Planned Features
 
-* Searching and filtering sites by name, description, categories, keywords...
 * Localization of most UI elements.
 * Support for different PWA sets depending on the main browser profile.
 * Support for installing non-PWA websites as PWAs.

@@ -61,7 +61,7 @@ You can also launch the site through system start/app menus, or from the site li
 
 ### Managing Sites & Profiles
 
-You can launch, edit and remove sites, and create, edit and remove profiles, from the extension's browser action. Editing the site will also automatically update its manifest and icons.
+You can launch, edit and remove sites, and create, edit and remove profiles, from the extension's browser action. Editing the site will also automatically update its manifest and icons. You can also search sites and profiles by their name.
 
 **Note:** It is not recommended to rename the existing site because this can cause problems on some systems.
 
