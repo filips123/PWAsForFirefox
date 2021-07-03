@@ -31,7 +31,7 @@ fs_extra = "1.2.0"
 glob = "0.3.0"
 image = "0.23.14"
 log = "0.4.14"
-reqwest = { version = "0.11.4", features = ["blocking"] }
+reqwest = { version = "0.11.4", features = ["blocking", "gzip", "brotli", "deflate"] }
 serde = { version = "1.0.126", features = ["derive"] }
 serde_json = "1.0.64"
 simplelog = "0.10.0"
