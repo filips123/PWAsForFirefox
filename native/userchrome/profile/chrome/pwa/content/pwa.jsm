@@ -966,6 +966,11 @@ class PWA {
     xPref.set('browser.uidensity', 1, true);
     xPref.set('browser.link.open_newwindow', 1, true);
 
+    // Set distribution details
+    xPref.set('distribution.id', ChromeLoader.DISTRIBUTION_ID, true);
+    xPref.set('distribution.version', ChromeLoader.DISTRIBUTION_VERSION, true);
+    xPref.set('distribution.about', ChromeLoader.DISTRIBUTION_ABOUT, true);
+
     // Determines whether `_blank` links target is forced into the current tab or a new window
     // 0 - Do not change link behaviour (strongly not recommended)
     // 1 - Force links into the current tab (default)

@@ -155,6 +155,7 @@ jobs:
           then
             VERSION=${GITHUB_REF/refs\/tags\/v}
             sed -i "s/version = \"0.0.0\"/version = \"$VERSION\"/g" Cargo.toml
+            sed -i "s/DISTRIBUTION_VERSION = '0.0.0'/DISTRIBUTION_VERSION = '$VERSION'/g" userchrome/profile/chrome/pwa/chrome.jsm
           fi
 
       - name: Build

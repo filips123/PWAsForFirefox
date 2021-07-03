@@ -10,11 +10,15 @@ XPCOMUtils.defineLazyModuleGetters(this, {
 const SSS = Cc['@mozilla.org/content/style-sheet-service;1'].getService(Ci.nsIStyleSheetService);
 
 class ChromeLoader {
-  BROWSERCHROME = AppConstants.BROWSER_CHROME_URL;
+  static BROWSERCHROME = AppConstants.BROWSER_CHROME_URL;
 
-  FILES_BASE = Services.io.getProtocolHandler('file').QueryInterface(Ci.nsIFileProtocolHandler).getURLSpecFromDir(Services.dirsvc.get('UChrm', Ci.nsIFile));
-  SCRIPT_FILE = 'pwa/content/pwa.jsm';
-  STYLES_FILE = 'pwa/content/pwa.css';
+  static FILES_BASE = Services.io.getProtocolHandler('file').QueryInterface(Ci.nsIFileProtocolHandler).getURLSpecFromDir(Services.dirsvc.get('UChrm', Ci.nsIFile));
+  static SCRIPT_FILE = 'pwa/content/pwa.jsm';
+  static STYLES_FILE = 'pwa/content/pwa.css';
+
+  static DISTRIBUTION_ID = 'firefoxpwa';
+  static DISTRIBUTION_VERSION = '0.0.0';
+  static DISTRIBUTION_ABOUT = 'With modifications by the FirefoxPWA project';
 
   static PREF_LINKS_TARGET = 'firefoxpwa.linksTarget';
   static PREF_DISPLAY_URL_BAR = 'firefoxpwa.displayUrlBar';
@@ -50,12 +54,12 @@ class ChromeLoader {
     }
 
     // Load CSS and JS when a new browser window is created
-    if (location.href === this.BROWSERCHROME) {
+    if (location.href === ChromeLoader.BROWSERCHROME) {
       if (!ChromeLoader.initialized) {
-        SSS.loadAndRegisterSheet(Services.io.newURI(this.FILES_BASE + this.STYLES_FILE), SSS.USER_SHEET);
+        SSS.loadAndRegisterSheet(Services.io.newURI(ChromeLoader.FILES_BASE + ChromeLoader.STYLES_FILE), SSS.USER_SHEET);
       }
 
-      Services.scriptloader.loadSubScript(this.FILES_BASE + this.SCRIPT_FILE, window, 'UTF-8');
+      Services.scriptloader.loadSubScript(ChromeLoader.FILES_BASE + ChromeLoader.SCRIPT_FILE, window, 'UTF-8');
       ChromeLoader.initialized = true;
     }
   }
