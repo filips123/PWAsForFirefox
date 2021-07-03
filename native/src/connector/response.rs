@@ -46,4 +46,7 @@ pub enum ResponseMessage {
 
     /// Profile has been successfully updated.
     ProfileUpdated,
+
+    /// Something went wrong...
+    Error(String),
 }

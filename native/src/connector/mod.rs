@@ -1,10 +1,11 @@
 use std::fs::OpenOptions;
 use std::io::{Read, Write};
+use std::process::exit;
 use std::{env, io};
 
 use anyhow::{Context, Result};
 use byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
-use log::info;
+use log::{error, info};
 
 use crate::components::runtime::Runtime;
 use crate::connector::request::RequestMessage;
@@ -46,8 +47,23 @@ impl<'a> Connection<'a> {
         let request = connection.receive().context("Failed to receive request")?;
         info!("Received a request: {:?}", request);
 
-        let response = connection.process(&request).context("Failed to process request")?;
-        info!("Processed the request: {:?}", response);
+        let response = match connection.process(&request) {
+            Ok(response) => {
+                // Everything seems to be ok
+                // Just unwrap the response and sent it back
+                info!("Processed the request: {:?}", response);
+                response
+            }
+            Err(error) => {
+                // There was some error while processing the request
+                // Pack it into a custom response message, send it back and abort the program
+                let response = ResponseMessage::Error(format!("{:#}", error));
+
+                error!("{:?}", error.context("Failed to process request"));
+                connection.send(&response).context("Failed to send response")?;
+                exit(1);
+            }
+        };
 
         connection.send(&response).context("Failed to send response")?;
         info!("Sent a response");
