@@ -12,7 +12,8 @@ fn main() -> Result<()> {
     let dirs = ProjectDirs::new()?;
 
     let debugfile = dirs.data.join("DEBUG");
-    let loglevel = if debugfile.exists() { LevelFilter::Info } else { LevelFilter::Warn };
+    let debugmode = debugfile.exists();
+    let loglevel = if debugmode { LevelFilter::Info } else { LevelFilter::Warn };
 
     let logfile = dirs.data.join("firefoxpwa.log");
     let logfile = OpenOptions::new().create(true).append(true).open(logfile)?;
@@ -22,7 +23,7 @@ fn main() -> Result<()> {
         WriteLogger::new(loglevel, Config::default(), logfile),
     ])?;
 
-    if let Err(error) = Connection::start(&dirs) {
+    if let Err(error) = Connection::start(&dirs, debugmode) {
         error!("{:?}", error);
         exit(1);
     }

@@ -1,3 +1,4 @@
+use std::fs::OpenOptions;
 use std::io::{Read, Write};
 use std::{env, io};
 
@@ -31,14 +32,15 @@ pub struct Connection<'a> {
     dirs: &'a ProjectDirs,
     runtime: Runtime,
     storage: Storage,
+    debugmode: bool,
 }
 
 impl<'a> Connection<'a> {
-    pub fn start(dirs: &'a ProjectDirs) -> Result<()> {
+    pub fn start(dirs: &'a ProjectDirs, debugmode: bool) -> Result<()> {
         let runtime = Runtime::new(&dirs)?;
         let storage = Storage::load(&dirs)?;
 
-        let connection = Self { dirs, runtime, storage };
+        let connection = Self { dirs, runtime, storage, debugmode };
         info!("Connection established: {:?}", env::args().collect::<Vec<String>>());
 
         let request = connection.receive().context("Failed to receive request")?;
@@ -82,6 +84,28 @@ impl<'a> Connection<'a> {
     }
 
     fn process(&self, request: &RequestMessage) -> Result<ResponseMessage> {
+        // If not in debug mode, discard both stdout and stderr
+        // If in debug mode, redirect them to the log files
+        // This is needed to prevent output that could corrupt response message
+        let _stdout_rdr;
+        let _stderr_rdr;
+        let _stdout_gag;
+        let _stderr_gag;
+
+        if self.debugmode {
+            let stdout = self.dirs.data.join("firefoxpwa-stdout.log");
+            let stdout = OpenOptions::new().create(true).append(true).open(stdout)?;
+            _stdout_rdr = gag::Redirect::stdout(stdout).context("Failed to redirect stdout")?;
+
+            let stderr = self.dirs.data.join("firefoxpwa-stderr.log");
+            let stderr = OpenOptions::new().create(true).append(true).open(stderr)?;
+            _stderr_rdr = gag::Redirect::stderr(stderr).context("Failed to redirect stderr")?;
+        } else {
+            _stdout_gag = gag::Gag::stdout().context("Failed to discard stdout")?;
+            _stderr_gag = gag::Gag::stderr().context("Failed to discard stderr")?;
+        }
+
+        // Process the request message and return a response
         match request {
             RequestMessage::GetSystemVersions => {
                 let mut _7zip = None;
@@ -100,15 +124,9 @@ impl<'a> Connection<'a> {
             }
 
             RequestMessage::InstallRuntime => {
-                {
-                    // This is needed to prevent output from spawned 7Zip process
-                    #[cfg(target_os = "windows")]
-                    let _ = gag::Gag::stdout().context("Failed to discard stdout")?;
-
-                    // Just simulate calling runtime install command
-                    let command = RuntimeInstallCommand {};
-                    command.run()?;
-                }
+                // Just simulate calling runtime install command
+                let command = RuntimeInstallCommand {};
+                command.run()?;
 
                 Ok(ResponseMessage::RuntimeInstalled)
             }
