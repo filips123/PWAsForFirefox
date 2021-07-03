@@ -25,8 +25,8 @@ browser.runtime.onMessage.addListener(async ({ manifest: manifestUrl }, { url: d
       return
   }
 
-  // If both manifest and the page are in the same origin and are loaded over HTTPS, site is a valid web app
-  if (manifestUrl.origin === documentUrl.origin && manifestUrl.protocol === 'https:') {
+  // If both manifest and the page are loaded over HTTPS, site is a valid web app
+  if (manifestUrl.protocol === 'https:' && documentUrl.protocol === 'https:') {
     // Check if this site is already installed
     const existingSites = Object.values(await obtainSiteList()).map(site => site.config.manifest_url)
     const siteInstalled = existingSites.includes(manifestUrl.toString())
