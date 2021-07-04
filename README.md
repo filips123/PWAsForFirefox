@@ -13,7 +13,9 @@ This project modifies Firefox to allow websites to be installed as standalone ap
 
 ## Usage
 
-See the READMEs of the native and extension part for more details and instructions how to install them:
+**TLDR**: Install [the browser extension](https://addons.mozilla.org/firefox/addon/firefoxpwa/) and follow in-browser installation instructions. Check [the repository wiki](https://github.com/filips123/FirefoxPWA/wiki) for simple usage instructions. 
+
+For detailed and more technical documentation how to set up, use and develop the project, see the READMEs of the native and extension part:
 
 * [Native](native/README.md)
 * [Extension](extension/README.md)
