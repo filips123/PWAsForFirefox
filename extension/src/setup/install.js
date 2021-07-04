@@ -106,7 +106,7 @@ async function provideRuntimeInstallInstructions (versions) {
   document.getElementById('runtime-installation').classList.add('active')
   document.getElementById('runtime-installation-view').classList.remove('d-none')
 
-  if (!versions._7zip) {
+  if (!versions._7zip && (await browser.runtime.getPlatformInfo()).os === 'win') {
     document.getElementById('runtime-needs-7zip').classList.remove('d-none')
   } else {
     document.getElementById('runtime-needs-7zip').classList.add('d-none')
