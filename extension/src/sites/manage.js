@@ -10,9 +10,17 @@ async function handleNativeStatus () {
       await browser.tabs.create({ url: browser.runtime.getURL('setup/install.html') })
       window.close()
       break
-    case 'update':
+    case 'update-required':
       await browser.tabs.create({ url: browser.runtime.getURL('setup/update.html') })
       window.close()
+      break
+    case 'update-optional':
+      {
+        const outdatedBox = document.getElementById('extension-outdated-box')
+        document.getElementById('extension-outdated-update').setAttribute('href', browser.runtime.getURL('setup/update.html'))
+        document.getElementById('extension-outdated-close').addEventListener('click', () => outdatedBox.classList.add('d-none'))
+        outdatedBox.classList.remove('d-none')
+      }
       break
   }
 }
@@ -513,10 +521,12 @@ async function handleSearch () {
   searchHandler('sites-list')
 }
 
-// Prepare the page
+// Switch to install/update page if needed
+handleNativeStatus()
+
+// Prepare the popup
 for (const element of document.querySelectorAll('.form-select-tags')) { element.tagsInstance = new Tags(element) }
 Tab.getOrCreateInstance(document.getElementById('card-navigation'))
-handleNativeStatus()
 checkViewport()
 createSiteList()
 createProfileList()

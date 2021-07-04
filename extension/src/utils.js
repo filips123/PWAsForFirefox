@@ -1,5 +1,5 @@
 import { Toast } from 'bootstrap'
-import { eq as semverEq } from 'semver'
+import { gt as semverGt, satisfies as semverSatisfies } from 'semver'
 
 /**
  * Obtains the manifest and the document URLs by asking the content script of current tab.
@@ -91,9 +91,10 @@ export async function obtainProfileList () {
  *
  * * If `ok` is returned, everything is ok
  * * If `install` is returned, native program or the runtime is not installed, and install page should be opened.
- * * If `update` is returned, native program is outdated, and update page should be opened.
+ * * If `update-required` is returned, native program is outdated oe incompatible, and update page should be opened.
+ * * If `update-optional` is returned, extension is outdated but compatible, and there should just be warning with a link to update page.
  *
- * @returns {Promise<"ok"|"install"|"update">}
+ * @returns {Promise<"ok"|"install"|"update-required"|"update-optional">}
  */
 export async function checkNativeStatus () {
   try {
@@ -102,8 +103,16 @@ export async function checkNativeStatus () {
     if (response.type === 'Error') throw new Error(response.data)
     if (response.type !== 'SystemVersions') throw new Error(`Received invalid response type: ${response.type}`)
 
+    const versionExtension = browser.runtime.getManifest().version
+    const versionNative = response.data.firefoxpwa
+
+    // Similar checks as in `setup/update.js`
     if (!response.data.firefox) return 'install'
-    if (!semverEq(browser.runtime.getManifest().version, response.data.firefoxpwa)) return 'update'
+    if (semverGt(versionExtension, versionNative)) return 'update-required'
+    if (semverGt(versionNative, versionExtension)) {
+      if (semverSatisfies(versionNative, `^${versionExtension}`)) return 'update-optional'
+      else return 'update-required'
+    }
   } catch (error) {
     if (error.message === 'Attempt to postMessage on disconnected port') return 'install'
     throw error

@@ -20,7 +20,7 @@ browser.runtime.onMessage.addListener(async ({ manifest: manifestUrl }, { url: d
   // Check status of the native program and hide page action if needed
   switch (await checkNativeStatus()) {
     case 'install':
-    case 'update':
+    case 'update-required':
       await browser.pageAction.hide(tab.id)
       return
   }
