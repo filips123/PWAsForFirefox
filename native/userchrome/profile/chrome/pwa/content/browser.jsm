@@ -10,8 +10,7 @@ const ioService = Components.classes['@mozilla.org/network/io-service;1'].getSer
 //////////////////////////////
 
 // UI/UX
-// TODO: Make preferences accessible from the settings page
-// TODO: Remove/replace unnecessary UI elements, settings and keyboard shortcuts (those related to tabs and windows)
+// TODO: Remove/replace unnecessary UI elements and keyboard shortcuts (those related to tabs and windows)
 
 // Widgets
 // TODO: For all widgets and UI elements - Localization of labels and tooltips
@@ -24,11 +23,11 @@ const ioService = Components.classes['@mozilla.org/network/io-service;1'].getSer
 // System integration
 // TODO: Other system-related things specified in Web App Manifest
 
-class PWA {
+class PwaBrowser {
   constructor () {
     this.prepareLayout();
 
-    if (!ChromeLoader.initialized) {
+    if (!ChromeLoader.INITIALIZED_BROWSER) {
       this.prepareWidgets();
       this.configureAll();
     }
@@ -1079,4 +1078,4 @@ class PWA {
   }
 }
 
-new PWA();
+new PwaBrowser();

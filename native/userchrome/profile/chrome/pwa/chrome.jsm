@@ -11,10 +11,14 @@ const SSS = Cc['@mozilla.org/content/style-sheet-service;1'].getService(Ci.nsISt
 
 class ChromeLoader {
   static BROWSERCHROME = AppConstants.BROWSER_CHROME_URL;
+  static ABOUTPREFERENCES = 'about:preferences';
 
   static FILES_BASE = Services.io.getProtocolHandler('file').QueryInterface(Ci.nsIFileProtocolHandler).getURLSpecFromDir(Services.dirsvc.get('UChrm', Ci.nsIFile));
-  static SCRIPT_FILE = 'pwa/content/pwa.jsm';
-  static STYLES_FILE = 'pwa/content/pwa.css';
+
+  static BROWSER_SCRIPT = 'pwa/content/browser.jsm';
+  static BROWSER_STYLES = 'pwa/content/browser.css';
+  static PREFERENCES_SCRIPT = 'pwa/content/preferences.jsm';
+  static PREFERENCES_STYLES = 'pwa/content/preferences.css';
 
   static DISTRIBUTION_ID = 'firefoxpwa';
   static DISTRIBUTION_VERSION = '0.0.0';
@@ -25,7 +29,8 @@ class ChromeLoader {
   static PREF_SITES_SET_THEME_COLOR = 'firefoxpwa.sitesSetThemeColor';
   static PREF_SITES_SET_BACKGROUND_COLOR = 'firefoxpwa.sitesSetBackgroundColor';
 
-  static initialized = false;
+  static INITIALIZED_BROWSER = false;
+  static INITIALIZED_PREFERENCES = false;
 
   constructor () {
     Services.obs.addObserver(this, 'chrome-document-global-created', false);
@@ -53,15 +58,28 @@ class ChromeLoader {
       applySystemIntegration(window, window.gFFPWASiteConfig);
     }
 
-    // Load CSS and JS when a new browser window is created
+    // Load browser CSS and JS when a new browser window is created
+    // Styles need to be loaded only once per session, but script needs to be loaded every time
     if (location.href === ChromeLoader.BROWSERCHROME) {
-      if (!ChromeLoader.initialized) {
-        SSS.loadAndRegisterSheet(Services.io.newURI(ChromeLoader.FILES_BASE + ChromeLoader.STYLES_FILE), SSS.USER_SHEET);
-      }
+      if (!ChromeLoader.INITIALIZED_BROWSER) this.loadUserStyles(ChromeLoader.BROWSER_STYLES);
+      this.loadUserScript(ChromeLoader.BROWSER_SCRIPT, window);
+      ChromeLoader.INITIALIZED_BROWSER = true;
 
-      Services.scriptloader.loadSubScript(ChromeLoader.FILES_BASE + ChromeLoader.SCRIPT_FILE, window, 'UTF-8');
-      ChromeLoader.initialized = true;
+    // Load preferences CSS and JS when a new preferences tab is opened
+    // Styles need to be loaded only once per session, but script needs to be loaded every time
+    } else if (location.href === ChromeLoader.ABOUTPREFERENCES) {
+      if (true || !ChromeLoader.INITIALIZED_PREFERENCES) this.loadUserStyles(ChromeLoader.PREFERENCES_STYLES);
+      this.loadUserScript(ChromeLoader.PREFERENCES_SCRIPT, window);
+      ChromeLoader.INITIALIZED_PREFERENCES = true;
     }
+  }
+
+  loadUserStyles (stylesFilename) {
+    return SSS.loadAndRegisterSheet(Services.io.newURI(ChromeLoader.FILES_BASE + stylesFilename), SSS.USER_SHEET);
+  }
+
+  loadUserScript (scriptFilename, window) {
+    return Services.scriptloader.loadSubScript(ChromeLoader.FILES_BASE + scriptFilename, window, 'UTF-8');
   }
 }
 

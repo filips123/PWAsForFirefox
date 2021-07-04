@@ -1,0 +1,21 @@
+@-moz-document url-prefix('about:preferences') {
+  /* Hide the home category */
+  /* Not needed because it only configures the home and new tab page, which are not accessible */
+  #category-home {
+    display: none;
+  }
+
+  /* Hide the default browser box */
+  /* Not needed because FirefoxPWA browser installation is not supposed to be made default */
+  #defaultBrowserBox {
+    display: none;
+  }
+
+  /* Hide the tabs section */
+  /* Not needed because there are no tabs in PWAs */
+  /* This may change in the future if we add tabbing option (issue #12) */
+  /* This seems to be the only section without ID, and the only where we would need ID... */
+  #mainPrefPane > groupbox:nth-child(8) {
+    display: none;
+  }
+}
