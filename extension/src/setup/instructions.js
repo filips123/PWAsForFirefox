@@ -6,6 +6,13 @@ async function prepareInstallInstructions () {
   const version = browser.runtime.getManifest().version
   const { os, arch } = await browser.runtime.getPlatformInfo()
 
+  // Set CRT download URL based on system arch and extension version
+  let crtArch
+  if (arch === 'x86-64') crtArch = 'x64'
+  else if (arch === 'x86-32') crtArch = 'x86'
+  else if (arch === 'arm') crtArch = 'arm64'
+  document.getElementById('connector-download-url-crt').setAttribute('href', `https://aka.ms/vs/16/release/vc_redist.${crtArch}.exe`)
+
   // Set MSI download URL based on system arch and extension version
   // Currently just relying on x86 emulation for Windows ARM
   const msiArch = arch === 'x86-64' ? 'x86_64' : 'x86'
