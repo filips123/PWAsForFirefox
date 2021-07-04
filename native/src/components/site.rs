@@ -44,6 +44,7 @@ impl Site {
         let url = config.manifest_url.clone();
         let response = reqwest::blocking::get(url).context(DOWNLOAD_ERROR)?;
         let json = response.text().context(DOWNLOAD_ERROR)?;
+        let json = json.trim_start_matches('\u{feff}');
 
         info!("Parsing the PWA manifest");
         let mut manifest: SiteManifest = serde_json::from_str(&json).context(PARSE_ERROR)?;
