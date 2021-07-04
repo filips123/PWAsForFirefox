@@ -74,6 +74,9 @@ On Windows, you will need to install the [Visual C++ Redistributable](https://su
     * `manifests/linux.json` -> `/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json`
     * `manifests/linux.json` -> `/usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json`
     * `userchrome/` -> `/usr/share/firefoxpwa/userchrome/`
+5. Create an empty directory `/usr/share/firefoxpwa/runtime/` and make it writable by normal users.
+   This is needed for FirefoxPWA runtime installation and Firefox auto-updates to work.
+   If you do not plan to use Firefox auto-updates, you can restore the permissions after the runtime is installed.
 
 ## Usage
 
