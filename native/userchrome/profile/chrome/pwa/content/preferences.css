@@ -10,12 +10,4 @@
   #defaultBrowserBox {
     display: none;
   }
-
-  /* Hide the tabs section */
-  /* Not needed because there are no tabs in PWAs */
-  /* This may change in the future if we add tabbing option (issue #12) */
-  /* This seems to be the only section without ID, and the only where we would need ID... */
-  #mainPrefPane > groupbox:nth-child(8) {
-    display: none;
-  }
 }

@@ -41,12 +41,13 @@ class PwaBrowser {
     this.createNotificationAnchor();
     this.moveMenuButtons();
     this.switchPopupSides();
-    this.disableNewTabShortcuts();
     this.makeUrlBarReadOnly();
     this.handleOutOfScopeNavigation();
     this.handleOpeningNewWindow();
+    setTimeout(() => { this.handleTabsMode() });
     setTimeout(() => { this.handleLinkTargets() });
-    setTimeout(() => { this.renameOpenImageAction(); });
+    setTimeout(() => { this.renameOpenImageAction() });
+    setTimeout(() => { this.disableNewTabShortcuts() });
   }
 
   supportSmallWindowSizes () {
@@ -189,12 +190,6 @@ class PwaBrowser {
     }
   }
 
-  disableNewTabShortcuts () {
-    // New tab shortcuts are useless because there are not tabs
-    document.getElementById('cmd_newNavigatorTab').remove();
-    document.getElementById('cmd_newNavigatorTabNoEvent').remove();
-  }
-
   makeUrlBarReadOnly () {
     const originalToolbarVisibility = window.toolbar.visible;
 
@@ -271,9 +266,21 @@ class PwaBrowser {
     });
   }
 
+  handleTabsMode () {
+    // Enable tabs mode if needed
+    const tabsModeEnabled = xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE);
+    document.documentElement.toggleAttribute('tabsmode', tabsModeEnabled);
+
+    // Set new tab URL to site start URL
+    let userStartUrl = window.gFFPWASiteConfig.config.start_url;
+    let manifestStartUrl = window.gFFPWASiteConfig.manifest.start_url;
+    window.AboutNewTab.newTabURL = userStartUrl ? userStartUrl : manifestStartUrl;
+  }
+
   handleLinkTargets () {
     // Overwrite built-in preference based on our custom preference
-    const userPreference = xPref.get(ChromeLoader.PREF_LINKS_TARGET);
+    // Links target overwrites need to be disabled when tab mode is enabled
+    const userPreference = xPref.get(ChromeLoader.PREF_LINKS_TARGET) && !xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE);
     if (userPreference) xPref.set('browser.link.open_newwindow', userPreference);
 
     // Overwrite tab adding and instead open it in the same tab
@@ -302,14 +309,23 @@ class PwaBrowser {
 
   renameOpenImageAction () {
     // Rename open/view image context menu action based on links target preference
+    // Links target overwrites need to be disabled when tab mode is enabled
     const userPreference = xPref.get(ChromeLoader.PREF_LINKS_TARGET);
-    if (userPreference === 0) return;
+    if (!userPreference || xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) return;
 
     let actionLabel;
     if (userPreference === 1) actionLabel = 'Open Image';
     else if (userPreference === 2) actionLabel = 'Open Image in New Window';
 
     document.getElementById('context-viewimage').setAttribute('label', actionLabel);
+  }
+
+  disableNewTabShortcuts () {
+    // New tab shortcuts are useless when tabs mode is disabled
+    if (!xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) {
+      document.getElementById('cmd_newNavigatorTab').remove();
+      document.getElementById('cmd_newNavigatorTabNoEvent').remove();
+    }
   }
 
   //////////////////////////////
@@ -948,8 +964,6 @@ class PwaBrowser {
       overflows: false,
       defaultArea: CustomizableUI.AREA_NAVBAR,
 
-      // TDOO: Some extensions (Firefox Color) still open URL in new tab and break closing
-
       onClick (event) {
         const window = event.target.ownerGlobal;
 
@@ -994,15 +1008,11 @@ class PwaBrowser {
     // Configure default layout
     let { gAreas } = Cu.import('resource:///modules/CustomizableUI.jsm');
     gAreas.get(CustomizableUI.AREA_NAVBAR).set('defaultPlacements', ['close-page-button', 'back-button', 'forward-button', 'urlbar-container']);
-    gAreas.get(CustomizableUI.AREA_TABSTRIP).set('defaultPlacements', ['site-info', 'tabbrowser-tabs', 'mute-button', 'notifications-button', 'permissions-button', 'downloads-button', 'tracking-protection-button', 'identity-button']);
+    gAreas.get(CustomizableUI.AREA_TABSTRIP).set('defaultPlacements', ['site-info', 'tabbrowser-tabs', 'new-tab-button', 'alltabs-button', 'mute-button', 'notifications-button', 'permissions-button', 'downloads-button', 'tracking-protection-button', 'identity-button']);
     gAreas.get(CustomizableUI.AREA_BOOKMARKS).set('defaultCollapsed', 'never');
   }
 
   configureWidgets () {
-    // Destroy unnecessary widgets
-    this.destroyWidget('new-tab-button');
-    this.destroyWidget('alltabs-button');
-
     // Make more widgets removable
     // Currently disabled because Firefox crashes when back and forward buttons don't exist
     // this.modifyWidget('back-button', { removable: true });
@@ -1050,6 +1060,9 @@ class PwaBrowser {
 
     // Determines whether out of scope URLs should be opened in a default browser
     xPref.set(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, false, true);
+
+    // Determines whether the tabs mode is enabled
+    xPref.set(ChromeLoader.PREF_ENABLE_TABS_MODE, false, true);
 
     // Determines which domains should always be allowed to open in the PWA browser
     // This is a comma-separated list of domains

@@ -10,15 +10,31 @@
     --toolbarseparator-color: color-mix(in srgb, currentColor 20%, transparent) !important;
   }
 
-  /* Hide tabs, address bar and other unnecessary elements */
+  /* Hide tabs and tab-related elements when tabs mode is disabled */
 
-  #new-tab-button, #alltabs-button, #star-button-box, tabs, html:not([tabsintitlebar]) .site-info > * {
+  html:not([tabsmode]) #new-tab-button,
+  html:not([tabsmode]) #alltabs-button,
+  html:not([tabsmode]) tabs {
+    display: none;
+  }
+
+  html:not([tabsmode]) #menu_newNavigatorTab,
+  html:not([tabsmode]) #appMenu-new-tab-button2,
+  html:not([tabsmode]) #context-openlinkintab {
+    display: none;
+  }
+
+  html[tabsmode] #site-info {
     display: none !important;
   }
+
+  /* Hide the navigation bar when the URL is in scope */
 
   #nav-bar:not(.shown) > :not(#customizationui-widget-panel) {
     display: none !important;
   }
+
+  /* Hide unnecessary elements & Set navigation bar height */
 
   #nav-bar {
     min-height: 0 !important;
@@ -28,11 +44,9 @@
     border-bottom-width: 0 !important;
   }
 
-  #tracking-protection-icon-container {
-    display: none;
-  }
-
-  #menu_newNavigatorTab, #appMenu-new-tab-button2, #context-openlinkintab {
+  #star-button-box,
+  #tracking-protection-icon-container,
+  html:not([tabsintitlebar]) .site-info > * {
     display: none;
   }
 
@@ -54,7 +68,9 @@
     --toolbar-display: none;
   }
 
-  toolbar[nonemptyoverflow], toolbar[overflowing], toolbar[customizing] {
+  toolbar[nonemptyoverflow],
+  toolbar[overflowing],
+  toolbar[customizing] {
     --toolbar-display: -moz-box;
   }
 
