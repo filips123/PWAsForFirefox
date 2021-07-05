@@ -243,7 +243,7 @@ class PwaBrowser {
     window._openDialog = window.openDialog;
     window.openDialog = function (...args) {
       // Set the URL to the site homepage
-      if (args[3].startsWith('about:')) {
+      if (typeof args[3] === 'string' && (args[3] === 'about:home' || args[3] === 'about:privatebrowsing')) {
         args[3] = window.HomePage.get(window);
       }
 
