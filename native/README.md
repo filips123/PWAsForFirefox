@@ -74,9 +74,34 @@ On Windows, you will need to install the [Visual C++ Redistributable](https://su
     * `manifests/linux.json` -> `/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json`
     * `manifests/linux.json` -> `/usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json`
     * `userchrome/` -> `/usr/share/firefoxpwa/userchrome/`
-5. Create an empty directory `/usr/share/firefoxpwa/runtime/` and make it writable by normal users.
+5. Create an empty directory `/usr/share/firefoxpwa/runtime/` and make it writable by normal users (`777`).
    This is needed for FirefoxPWA runtime installation and Firefox auto-updates to work.
    If you do not plan to use Firefox auto-updates, you can restore the permissions after the runtime is installed.
+
+You can also run the below commands to do this automatically (except Rust and Git installation):
+
+```shell
+# Clone the repository and switch into the correct directory
+git clone https://github.com/filips123/FirefoxPWA.git
+cd FirefoxPWA/native
+
+# Build the project in release mode
+cargo build --release
+
+# Copy the files to the correct locations
+sudo install -D target/release/firefoxpwa /usr/bin/firefoxpwa
+sudo install -D target/release/firefoxpwa-connector /usr/libexec/firefoxpwa-connector
+sudo install -D manifests/linux.json /usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json
+sudo install -D manifests/linux.json /usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json
+
+# Copy the userchrome directory to the correct location
+sudo mkdir -p /usr/share/firefoxpwa/userchrome/
+sudo cp -R userchrome/* /usr/share/firefoxpwa/userchrome/
+
+# Create an empty runtime directory and make it writable by normal users
+sudo mkdir -p /usr/share/firefoxpwa/runtime/
+sudo chmod 777 /usr/share/firefoxpwa/runtime/
+```
 
 ## Usage
 
