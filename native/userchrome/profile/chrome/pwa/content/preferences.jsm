@@ -6,7 +6,7 @@ XPCOMUtils.defineLazyModuleGetters(this, {
 class PwaPreferences {
   constructor () {
     this.addPreferenceData();
-    this.addPreferenceElements();
+    hookFunction(gMainPane, 'init', null, () => { this.addPreferenceElements(); });
   }
 
   addPreferenceData () {
@@ -19,12 +19,14 @@ class PwaPreferences {
   }
 
   addPreferenceElements () {
-    hookFunction(gMainPane, 'init', null, () => {
-      const group = MozXULElement.parseXULToFragment(`
+    const group = MozXULElement.parseXULToFragment(`
 <groupbox id="firefoxpwaGroup" data-category="paneGeneral">
-  <label><html:h2>Progressive Web Apps</html:h2></label>
+  <label>
+    <html:h2>Progressive Web Apps</html:h2>
+    <description>You may need to restart the browser to apply this settings</description>
+  </label>
 
-  <vbox id="colorsBox">
+  <vbox id="colorsBox" style="padding-top: 1rem;">
     <checkbox preference="${ChromeLoader.PREF_SITES_SET_THEME_COLOR}" label="Allow apps to override theme (titlebar) color" />
     <checkbox preference="${ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR}" label="Allow apps to override background (window) color" />
   </vbox>
@@ -52,8 +54,7 @@ class PwaPreferences {
   </vbox>
 </groupbox>
 `);
-      document.getElementById('startupGroup').nextElementSibling.after(group.firstChild);
-    });
+    document.getElementById('startupGroup').nextElementSibling.after(group.firstChild);
   }
 }
 

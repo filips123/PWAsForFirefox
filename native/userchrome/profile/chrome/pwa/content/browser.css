@@ -10,7 +10,7 @@
     --toolbarseparator-color: color-mix(in srgb, currentColor 20%, transparent) !important;
   }
 
-  /* Hide tabs and address bar */
+  /* Hide tabs, address bar and other unnecessary elements */
 
   #new-tab-button, #alltabs-button, #star-button-box, tabs, html:not([tabsintitlebar]) .site-info > * {
     display: none !important;
@@ -29,6 +29,10 @@
   }
 
   #tracking-protection-icon-container {
+    display: none;
+  }
+
+  #menu_newNavigatorTab, #appMenu-new-tab-button2, #context-openlinkintab {
     display: none;
   }
 

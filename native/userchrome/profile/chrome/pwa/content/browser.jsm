@@ -9,9 +9,6 @@ const ioService = Components.classes['@mozilla.org/network/io-service;1'].getSer
 // Plans
 //////////////////////////////
 
-// UI/UX
-// TODO: Remove/replace unnecessary UI elements and keyboard shortcuts (those related to tabs and windows)
-
 // Widgets
 // TODO: For all widgets and UI elements - Localization of labels and tooltips
 // TODO: For reader view, mute and tracking protection widgets - Add ability to just disable widget instead of hiding it (like "auto hide" for downloads)
@@ -44,9 +41,12 @@ class PwaBrowser {
     this.createNotificationAnchor();
     this.moveMenuButtons();
     this.switchPopupSides();
+    this.disableNewTabShortcuts();
     this.makeUrlBarReadOnly();
     this.handleOutOfScopeBar();
+    this.handleOpeningNewWindow();
     setTimeout(() => { this.handleLinkTargets() });
+    setTimeout(() => { this.renameOpenImageAction(); });
   }
 
   supportSmallWindowSizes () {
@@ -189,6 +189,12 @@ class PwaBrowser {
     }
   }
 
+  disableNewTabShortcuts () {
+    // New tab shortcuts are useless because there are not tabs
+    document.getElementById('cmd_newNavigatorTab').remove();
+    document.getElementById('cmd_newNavigatorTabNoEvent').remove();
+  }
+
   makeUrlBarReadOnly () {
     const originalToolbarVisibility = window.toolbar.visible;
 
@@ -223,6 +229,34 @@ class PwaBrowser {
     });
   }
 
+  handleOpeningNewWindow () {
+    // Handle opening new window from keyboard shortcuts
+    window._openDialog = window.openDialog;
+    window.openDialog = function (...args) {
+      // Set the URL to the site homepage
+      if (args[3].startsWith('about:')) {
+        args[3] = window.HomePage.get(window);
+      }
+
+      // Open a new window and set a site config
+      const win = window._openDialog(...args);
+      win.gFFPWASiteConfig = window.gFFPWASiteConfig;
+
+      // Return a new window
+      return win;
+    };
+
+    // Handle opening new window from context menus
+    hookFunction(window, 'openContextMenu', null, () => {
+      gContextMenu.openLink = function () {
+        return window.openDialog(AppConstants.BROWSER_CHROME_URL, '_blank', 'chrome,all,dialog=no,non-private', this.linkURL);
+      };
+      gContextMenu.openLinkInPrivateWindow = function () {
+        return window.openDialog(AppConstants.BROWSER_CHROME_URL, '_blank', 'chrome,all,dialog=no,private', this.linkURL);
+      };
+    });
+  }
+
   handleLinkTargets () {
     // Overwrite built-in preference based on our custom preference
     const userPreference = xPref.get(ChromeLoader.PREF_LINKS_TARGET);
@@ -250,6 +284,18 @@ class PwaBrowser {
 
       return window._openLinkIn(url, where, params);
     }
+  }
+
+  renameOpenImageAction () {
+    // Rename open/view image context menu action based on links target preference
+    const userPreference = xPref.get(ChromeLoader.PREF_LINKS_TARGET);
+    if (userPreference === 0) return;
+
+    let actionLabel;
+    if (userPreference === 1) actionLabel = 'Open Image';
+    else if (userPreference === 2) actionLabel = 'Open Image in New Window';
+
+    document.getElementById('context-viewimage').setAttribute('label', actionLabel);
   }
 
   //////////////////////////////
