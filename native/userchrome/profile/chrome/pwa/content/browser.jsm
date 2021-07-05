@@ -280,14 +280,15 @@ class PwaBrowser {
   handleLinkTargets () {
     // Overwrite built-in preference based on our custom preference
     // Links target overwrites need to be disabled when tab mode is enabled
-    const userPreference = xPref.get(ChromeLoader.PREF_LINKS_TARGET) && !xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE);
-    if (userPreference) xPref.set('browser.link.open_newwindow', userPreference);
+    const userPreference = xPref.get(ChromeLoader.PREF_LINKS_TARGET);
+    if (!userPreference || xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) return;
+    xPref.set('browser.link.open_newwindow', userPreference);
 
     // Overwrite tab adding and instead open it in the same tab
     // Except if it was called from customize mode enter
     window.gBrowser._addTab = window.gBrowser.addTab
     window.gBrowser.addTab = function (url, params = {}) {
-      if (gCustomizeMode._wantToBeInCustomizeMode || gCustomizeMode._customizing || !userPreference) {
+      if (gCustomizeMode._wantToBeInCustomizeMode || gCustomizeMode._customizing) {
         return window.gBrowser._addTab(url, params);
       }
 
