@@ -43,7 +43,7 @@ class PwaBrowser {
     this.switchPopupSides();
     this.disableNewTabShortcuts();
     this.makeUrlBarReadOnly();
-    this.handleOutOfScopeBar();
+    this.handleOutOfScopeNavigation();
     this.handleOpeningNewWindow();
     setTimeout(() => { this.handleLinkTargets() });
     setTimeout(() => { this.renameOpenImageAction(); });
@@ -208,12 +208,26 @@ class PwaBrowser {
     window.toolbar.visible = originalToolbarVisibility;
   }
 
-  handleOutOfScopeBar () {
+  handleOutOfScopeNavigation () {
     hookFunction(window.gURLBar, 'setURI', null, (_, [uri]) => {
       const canLoad = this.canLoad(uri);
       let displayBar = !canLoad;
 
-      // Change behaviour based on our custom preference
+      // Open the default browser and close the current window if out of scope and user enabled that
+      // Only do that for HTTP(S) and non-restricted domains because otherwise it is impossible to access certain parts of Firefox
+      if (
+        !canLoad &&
+        xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER) &&
+        (uri.scheme === 'http' || uri.scheme === 'https') &&
+        !xPref.get(ChromeLoader.PREF_ALLOWED_DOMAINS).split(',').includes(uri.host) &&
+        !xPref.get('extensions.webextensions.restrictedDomains').split(',').includes(uri.host)
+      ) {
+        MailIntegration._launchExternalUrl(makeURI(uri.spec));
+        window.close();
+        return;
+      }
+
+      // Change URL bar behaviour based on our custom preference
       const userPreference = xPref.get(ChromeLoader.PREF_DISPLAY_URL_BAR);
       if (userPreference === 1) displayBar = false;
       else if (userPreference === 2) displayBar = true;
@@ -1033,6 +1047,13 @@ class PwaBrowser {
 
     // Determines whether the sites can override background color
     xPref.set(ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR, true, true);
+
+    // Determines whether out of scope URLs should be opened in a default browser
+    xPref.set(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, false, true);
+
+    // Determines which domains should always be allowed to open in the PWA browser
+    // This is a comma-separated list of domains
+    xPref.set(ChromeLoader.PREF_ALLOWED_DOMAINS, '', true);
   }
 
   //////////////////////////////

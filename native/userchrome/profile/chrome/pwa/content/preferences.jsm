@@ -13,6 +13,7 @@ class PwaPreferences {
     Preferences.addAll([
       { id: ChromeLoader.PREF_LINKS_TARGET, type: 'int' },
       { id: ChromeLoader.PREF_DISPLAY_URL_BAR, type: 'int' },
+      { id: ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, type: 'bool' },
       { id: ChromeLoader.PREF_SITES_SET_THEME_COLOR, type: 'bool' },
       { id: ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR, type: 'bool' },
     ]);
@@ -29,6 +30,10 @@ class PwaPreferences {
   <vbox id="colorsBox" style="padding-top: 1rem;">
     <checkbox preference="${ChromeLoader.PREF_SITES_SET_THEME_COLOR}" label="Allow apps to override theme (titlebar) color" />
     <checkbox preference="${ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR}" label="Allow apps to override background (window) color" />
+  </vbox>
+
+   <vbox id="uxBox" style="padding-top: 1rem;">
+    <checkbox preference="${ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER}" label="Open out of scope URLs in a default browser (can break some websites)" />
   </vbox>
 
   <vbox id="linksTargetBox" style="padding-top: 1rem;">

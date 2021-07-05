@@ -28,6 +28,8 @@ class ChromeLoader {
   static PREF_DISPLAY_URL_BAR = 'firefoxpwa.displayUrlBar';
   static PREF_SITES_SET_THEME_COLOR = 'firefoxpwa.sitesSetThemeColor';
   static PREF_SITES_SET_BACKGROUND_COLOR = 'firefoxpwa.sitesSetBackgroundColor';
+  static PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER = 'firefoxpwa.openOutOfScopeInDefaultBrowser';
+  static PREF_ALLOWED_DOMAINS = 'firefoxpwa.allowedDomains';
 
   static INITIALIZED_BROWSER = false;
   static INITIALIZED_PREFERENCES = false;
@@ -68,7 +70,7 @@ class ChromeLoader {
     // Load preferences CSS and JS when a new preferences tab is opened
     // Styles need to be loaded only once per session, but script needs to be loaded every time
     } else if (location.href === ChromeLoader.ABOUTPREFERENCES) {
-      if (true || !ChromeLoader.INITIALIZED_PREFERENCES) this.loadUserStyles(ChromeLoader.PREFERENCES_STYLES);
+      if (!ChromeLoader.INITIALIZED_PREFERENCES) this.loadUserStyles(ChromeLoader.PREFERENCES_STYLES);
       this.loadUserScript(ChromeLoader.PREFERENCES_SCRIPT, window);
       ChromeLoader.INITIALIZED_PREFERENCES = true;
     }
