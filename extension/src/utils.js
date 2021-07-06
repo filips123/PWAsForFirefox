@@ -107,8 +107,14 @@ export async function checkNativeStatus () {
     const versionExtension = browser.runtime.getManifest().version
     const versionNative = response.data.firefoxpwa
 
-    // Similar checks as in `setup/update.js`
+    // Runtime always needs to be installed, we cannot disable that
     if (!response.data.firefox) return 'install'
+
+    // We can disable update/version checks with a "secret" local storage option
+    const UPDATES_CHECK_DISABLED = 'updates.native-version-check-disabled'
+    if ((await browser.storage.local.get(UPDATES_CHECK_DISABLED))[UPDATES_CHECK_DISABLED] === true) return 'ok'
+
+    // Similar checks as in `setup/update.js`
     if (semverGt(versionExtension, versionNative)) return 'update-required'
     if (semverGt(versionNative, versionExtension)) {
       if (semverSatisfies(versionNative, `^${versionExtension}`)) return 'update-optional'
@@ -118,6 +124,8 @@ export async function checkNativeStatus () {
     if (error.message === 'Attempt to postMessage on disconnected port') return 'install'
     throw error
   }
+
+  return 'ok'
 }
 
 /**
