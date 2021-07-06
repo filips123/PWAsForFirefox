@@ -60,7 +60,8 @@ async function initializeForm () {
     manifestExists = false
   }
 
-  // TODO: Add a way to force disable manifest
+  // Hide use manifest checkbox
+  if (!manifestExists) document.getElementById('web-app-use-manifest-box').classList.add('d-none')
 
   // Obtain a list of existing sites and profiles
   let sites, profiles
@@ -253,6 +254,9 @@ async function initializeForm () {
     submit.disabled = true
     submit.innerText = 'Installing web app...'
 
+    // Force disable manifest if the checkbox is not checked
+    if (!document.getElementById('web-app-use-manifest').checked) manifestExists = false
+
     // Get simple site data
     const startUrl = document.getElementById('web-app-start-url').value || null
     const profile = document.getElementById('web-app-profile').value || null
@@ -273,8 +277,8 @@ async function initializeForm () {
     if (!manifestExists) {
       manifest = {
         start_url: startUrl || documentUrl,
-        name: pageInfo.name,
-        description: pageInfo.description,
+        name: document.getElementById('web-app-name').getAttribute('placeholder') || pageInfo.name,
+        description: document.getElementById('web-app-description').getAttribute('placeholder') || pageInfo.description,
         icons: pageInfo.icons
       }
 
