@@ -9,11 +9,27 @@ if (manifestElement) {
 
 // Send the manifest URL and the document URL to the background script on the page load
 if (manifestUrl) {
-  browser.runtime.sendMessage({ manifest: manifestUrl, document: document.location.href })
+  browser.runtime.sendMessage({ manifestUrl, documentUrl: document.location.href })
 }
 
 // Send the manifest and the document URL to the sender of the request message
 browser.runtime.onMessage.addListener((message, _, sendResponse) => {
+  // Ignore invalid messages
   if (message !== 'ObtainUrls') return
-  sendResponse({ manifest: manifestUrl, document: document.location.href })
+
+  // Collect page info that can be used if manifest does not exist
+  const pageInfo = {
+    name: document.title,
+    description: document.querySelector('meta[name=description]')?.content,
+    icons: [...document.getElementsByTagName('link')]
+      .filter(link => link.hasAttribute('rel') && link.getAttribute('rel').toLowerCase().includes('icon'))
+      .map(link => ({
+        src: new URL(link.getAttribute('href'), window.location).href,
+        type: link.getAttribute('type') || null,
+        sizes: link.getAttribute('sizes') || ''
+      }))
+  }
+
+  // Send a response with the URLs and page info
+  sendResponse({ manifestUrl, documentUrl: document.location.href, pageInfo })
 })

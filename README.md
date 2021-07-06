@@ -35,7 +35,6 @@ For detailed and more technical documentation how to set up, use and develop the
 
 * Localization of most UI elements.
 * Support for different PWA sets depending on the main browser profile.
-* Support for installing non-PWA websites as PWAs.
 * [And more](native/userchrome/profile/chrome/pwa/content/browser.jsm#L4-L6).
 
 ### Not Planned Features

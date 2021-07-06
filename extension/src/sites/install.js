@@ -1,3 +1,4 @@
+import { fromByteArray } from 'base64-js'
 import { Modal, Toast } from 'bootstrap'
 import Tags from 'bootstrap5-tags/tags'
 
@@ -12,13 +13,57 @@ async function initializeForm () {
     element.tagsInstance = new Tags(element)
   }
 
-  // Obtain manifest for the current site
-  const { manifest: manifestUrl, document: documentUrl } = await obtainUrls()
-  const manifest = await obtainManifest(manifestUrl, documentUrl)
+  // Obtain manifest and document URLs for the current site
+  let manifestUrl, documentUrl, pageInfo
+  try {
+    ({ manifestUrl, documentUrl, pageInfo } = await obtainUrls())
+  } catch (error) {
+    console.error(error)
+
+    // Generate a nice error message
+    const errorMessage = document.getElementById('error-text')
+    errorMessage.innerHTML = '<p>Failed to access the content script.</p>'
+
+    // Sometimes live-reloading can break content script because of CSP
+    if (process.env.NODE_ENV === 'development') {
+      errorMessage.innerHTML += '<p>You are using a development build, so this is probably caused by a live-reloading feature.' +
+        ' The error may be fixed by disabling it or building in release mode.</p>'
+    }
+
+    // Get the current URL for checking for restricted domains
+    const tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0]
+
+    // Some Mozilla domains are restricted for security reasons
+    if (tab.url && ['firefox.net', 'mozilla.com', 'mozilla.net', 'mozilla.org'].some(domain => tab.url.includes(domain))) {
+      errorMessage.innerHTML += '<p>Some <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts">Mozilla websites</a> are restricted for extensions.' +
+        ' This is a Firefox security feature and cannot (should not) be disabled.' +
+        ' Restricted websites cannot be installed as apps.</p>'
+    }
+
+    // Display the error toast
+    Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
+    return
+  }
+
+  // Obtain the manifest for the current site if it exists, otherwise switch to the no manifest mode
+  let manifestExists, manifest
+  if (manifestUrl) {
+    try {
+      manifest = await obtainManifest(manifestUrl, documentUrl)
+      manifestExists = true
+    } catch (error) {
+      // Log the error and silently switch to the no manifest mode
+      console.log(error)
+      manifestExists = false
+    }
+  } else {
+    manifestExists = false
+  }
+
+  // TODO: Add a way to force disable manifest
 
   // Obtain a list of existing sites and profiles
-  let sites
-  let profiles
+  let sites, profiles
   try {
     sites = await obtainSiteList()
     profiles = await obtainProfileList()
@@ -31,20 +76,26 @@ async function initializeForm () {
     return
   }
 
-  // Determine web app name and description
-  const name = manifest.name || manifest.short_name || new URL(manifest.scope).host
-  const description = manifest.description || ''
+  // Determine web app name and description from manifest or page info
+  let name, description
+  if (manifestExists) {
+    name = manifest.name || manifest.short_name || new URL(manifest.scope).host
+    description = manifest.description || ''
+  } else {
+    name = pageInfo.name || new URL(documentUrl).host
+    description = pageInfo.description || ''
+  }
 
   // Set web app data to inputs
   document.getElementById('web-app-name').setAttribute('placeholder', name)
   document.getElementById('web-app-description').setAttribute('placeholder', description)
-  document.getElementById('web-app-start-url').setAttribute('placeholder', manifest.start_url)
+  document.getElementById('web-app-start-url').setAttribute('placeholder', manifest?.start_url || documentUrl)
 
   const categoriesElement = document.getElementById('web-app-categories')
-  for (const category of manifest.categories || []) categoriesElement.tagsInstance.addItem(category, category)
+  for (const category of manifest?.categories || []) categoriesElement.tagsInstance.addItem(category, category)
 
   const keywordsElement = document.getElementById('web-app-keywords')
-  for (const keyword of manifest.keywords || []) keywordsElement.tagsInstance.addItem(keyword, keyword)
+  for (const keyword of manifest?.keywords || []) keywordsElement.tagsInstance.addItem(keyword, keyword)
 
   // Add available profiles to the select input
   const profilesElement = document.getElementById('web-app-profile')
@@ -146,6 +197,12 @@ async function initializeForm () {
       return
     }
 
+    // If the manifest does not exist there is no scope
+    if (!manifestExists) {
+      this.setCustomValidity('')
+      return
+    }
+
     // Start URL needs to be within the scope
     const startUrl = new URL(this.value)
     const scope = new URL(manifest.scope)
@@ -205,12 +262,25 @@ async function initializeForm () {
     // Get categories and keywords based on user form input and site manifest
     // If the user list is identical to the manifest, ignore it, otherwise, set it as a user overwrite
     const userCategories = [...document.getElementById('web-app-categories').selectedOptions].map(option => option.value)
-    const manifestCategories = manifest.categories || []
+    const manifestCategories = manifest?.categories || []
     const categories = userCategories.toString() !== manifestCategories.toString() ? userCategories : []
 
     const userKeywords = [...document.getElementById('web-app-keywords').selectedOptions].map(option => option.value)
-    const manifestKeywords = manifest.keywords || []
+    const manifestKeywords = manifest?.keywords || []
     const keywords = userKeywords.toString() !== manifestKeywords.toString() ? userKeywords : []
+
+    // If the manifest does not exist, generate a "fake" manifest data URL
+    if (!manifestExists) {
+      manifest = {
+        start_url: startUrl || documentUrl,
+        name: pageInfo.name,
+        description: pageInfo.description,
+        icons: pageInfo.icons
+      }
+
+      manifestUrl = 'data:application/manifest+json;base64,'
+      manifestUrl += fromByteArray(new TextEncoder().encode(JSON.stringify(manifest)))
+    }
 
     // Tell the native connector to install the site
     try {

@@ -49,6 +49,8 @@ When the extension is updated, it will automatically open a new tab with the ins
 
 When you open a valid PWA in the browser (that is loaded over HTTPS and has a linked web app manifest), the installation action will automatically appear in your address bar. When you click on it, the popup will appear where you can customize details about the site and install it. The installation will automatically install the PWA to the system and apply system integration.
 
+If the site is not a valid PWA, the installation action will not appear. However, you can also install such sites from the extension's browser action. This way of installing sites does not require PWA manifest, so it should work with basically any website.
+
 **Note:** You cannot re-use the same name for multiple PWAs, because newer ones could overwrite older start menu entries and cause problems.
 
 **Note:** You cannot install multiple instances of the same site in the same profile, because they would actually be the same instance.

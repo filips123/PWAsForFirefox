@@ -3,8 +3,9 @@ import { gt as semverGt, satisfies as semverSatisfies } from 'semver'
 
 /**
  * Obtains the manifest and the document URLs by asking the content script of current tab.
+ * Also obtains some basic page info that can be used if the manifest does not exist.
  *
- * @returns {Promise<{manifest: string, document: string}>}
+ * @returns {Promise<{manifestUrl: string, documentUrl: string, pageInfo: Object}>}
  */
 export async function obtainUrls () {
   const tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0]

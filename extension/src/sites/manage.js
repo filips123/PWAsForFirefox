@@ -43,6 +43,20 @@ async function checkViewport () {
 
 // Fill the site list
 async function createSiteList () {
+  const siteInstallButton = document.getElementById('site-install-button')
+
+  // Hide the install button on sites where it wouldn't work
+  const tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0]
+  if (!tab.url || !(tab.url.startsWith('http://') || tab.url.startsWith('https://'))) {
+    siteInstallButton.classList.add('d-none')
+  }
+
+  // Handle installing current site
+  // Just open site install popup
+  siteInstallButton.addEventListener('click', async () => {
+    document.location = browser.runtime.getURL('sites/install.html')
+  })
+
   // Obtain a list of sites
   let sites
   try {
@@ -283,12 +297,80 @@ async function createSiteList () {
     })
     removeElement.removeAttribute('id')
 
-    listElement.append(siteElement)
+    listElement.insertBefore(siteElement, templateElement)
   }
 }
 
 // Fill the list of profiles
 async function createProfileList () {
+  // Handle creating new profile
+  // Just re-use the same form as for editing, but with different labels and handling
+  document.getElementById('profile-create-button').addEventListener('click', async (event) => {
+    const form = document.getElementById('profile-form')
+    const submit = document.getElementById('profile-submit')
+
+    // Set label to create
+    document.getElementById('profile-edit-label').innerText = 'Create profile'
+
+    // Clear inputs
+    document.getElementById('profile-name').value = ''
+    document.getElementById('profile-description').value = ''
+
+    // Set form to be validated after all inputs are filled with default values and enable submit button
+    form.classList.add('was-validated')
+    submit.disabled = false
+    submit.innerText = 'Create'
+
+    // Handle form submission and validation
+    submit.onclick = async (event) => {
+      event.preventDefault()
+      event.stopPropagation()
+
+      // Validate the form using built-in browser validation
+      if (!form.checkValidity()) return
+
+      // Change button to progress
+      submit.disabled = true
+      submit.innerText = 'Creating...'
+
+      // Tell the native connector to update the profile
+      try {
+        const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+          cmd: 'CreateProfile',
+          params: {
+            name: document.getElementById('profile-name').value || null,
+            description: document.getElementById('profile-description').value || null
+          }
+        })
+
+        // Handle native connection errors
+        if (response.type === 'Error') throw new Error(response.data)
+        if (response.type !== 'ProfileCreated') throw new Error(`Received invalid response type: ${response.type}`)
+
+        // Hide error toast
+        Toast.getOrCreateInstance(document.getElementById('error-toast')).hide()
+
+        // Change button to success
+        submit.disabled = true
+        submit.innerText = 'Created!'
+
+        // Close the popup after some time
+        setTimeout(async () => {
+          window.close()
+        }, 5000)
+      } catch (error) {
+        console.error(error)
+
+        document.getElementById('error-text').innerText = error.message
+        Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
+      }
+    }
+
+    // Show offcanvas element
+    Offcanvas.getOrCreateInstance(document.getElementById('profile-edit-offcanvas')).show()
+    event.preventDefault()
+  })
+
   // Obtain a list of profiles
   let profiles
   try {
@@ -431,74 +513,6 @@ async function createProfileList () {
 
     listElement.insertBefore(profileElement, templateElement)
   }
-
-  // Handle creating new profile
-  // Just re-use the same form as for editing, but with different labels and handling
-  document.getElementById('profile-create-button').addEventListener('click', async (event) => {
-    const form = document.getElementById('profile-form')
-    const submit = document.getElementById('profile-submit')
-
-    // Set label to create
-    document.getElementById('profile-edit-label').innerText = 'Create profile'
-
-    // Clear inputs
-    document.getElementById('profile-name').value = ''
-    document.getElementById('profile-description').value = ''
-
-    // Set form to be validated after all inputs are filled with default values and enable submit button
-    form.classList.add('was-validated')
-    submit.disabled = false
-    submit.innerText = 'Create'
-
-    // Handle form submission and validation
-    submit.onclick = async (event) => {
-      event.preventDefault()
-      event.stopPropagation()
-
-      // Validate the form using built-in browser validation
-      if (!form.checkValidity()) return
-
-      // Change button to progress
-      submit.disabled = true
-      submit.innerText = 'Creating...'
-
-      // Tell the native connector to update the profile
-      try {
-        const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
-          cmd: 'CreateProfile',
-          params: {
-            name: document.getElementById('profile-name').value || null,
-            description: document.getElementById('profile-description').value || null
-          }
-        })
-
-        // Handle native connection errors
-        if (response.type === 'Error') throw new Error(response.data)
-        if (response.type !== 'ProfileCreated') throw new Error(`Received invalid response type: ${response.type}`)
-
-        // Hide error toast
-        Toast.getOrCreateInstance(document.getElementById('error-toast')).hide()
-
-        // Change button to success
-        submit.disabled = true
-        submit.innerText = 'Created!'
-
-        // Close the popup after some time
-        setTimeout(async () => {
-          window.close()
-        }, 5000)
-      } catch (error) {
-        console.error(error)
-
-        document.getElementById('error-text').innerText = error.message
-        Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-      }
-    }
-
-    // Show offcanvas element
-    Offcanvas.getOrCreateInstance(document.getElementById('profile-edit-offcanvas')).show()
-    event.preventDefault()
-  })
 }
 
 // Handle site and profile search

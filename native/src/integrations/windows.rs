@@ -124,11 +124,15 @@ fn create_arp_entry(info: &SiteInfoInstall, exe: String, icon: String) -> Result
 #[inline]
 fn create_menu_shortcut(info: &SiteInfoInstall, exe: String, icon: String) -> Result<()> {
     unsafe {
+        // We need to limit the name and description to prevent overflows
+        let name: String = info.name.chars().take(60).collect();
+        let description: String = info.description.chars().take(240).collect();
+
         // Set general shortcut properties
         let link: IShellLinkW = windows::create_instance(&ShellLink)?;
         link.SetPath(exe).ok()?;
         link.SetArguments(format!("site launch {}", info.id)).ok()?;
-        link.SetDescription(info.description.clone()).ok()?;
+        link.SetDescription(description).ok()?;
         link.SetIconLocation(icon, 0).ok()?;
         link.SetShowCmd(7).ok()?;
 
@@ -152,7 +156,7 @@ fn create_menu_shortcut(info: &SiteInfoInstall, exe: String, icon: String) -> Re
             .context("Failed to determine base system directories")?
             .data_dir()
             .join(r"Microsoft\Windows\Start Menu\Programs")
-            .join(&info.name)
+            .join(name)
             .with_extension("lnk");
         let path = path.display().to_string();
 
@@ -271,6 +275,9 @@ pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
 }
 
 pub fn uninstall(info: &SiteInfoUninstall, dirs: &ProjectDirs) -> Result<()> {
+    // Shortcut name is limited to prevent overflows
+    let name: String = info.name.chars().take(60).collect();
+
     // Remove icons
     let icon = dirs.data.join("icons").join(&info.id);
     let _ = remove_dir_all(icon);
@@ -284,7 +291,7 @@ pub fn uninstall(info: &SiteInfoUninstall, dirs: &ProjectDirs) -> Result<()> {
     // Remove start menu shortcut
     let shortcut = PathBuf::from(std::env::var("AppData")?)
         .join(r"Microsoft\Windows\Start Menu\Programs")
-        .join(&info.name)
+        .join(name)
         .with_extension("lnk");
     let _ = remove_file(shortcut);
 

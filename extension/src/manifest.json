@@ -22,7 +22,7 @@
   "content_scripts": [
     {
       "js": ["content.js"],
-      "matches": ["https://*/*"],
+      "matches": ["http://*/*", "https://*/*"],
       "run_at": "document_end"
     }
   ],
@@ -33,6 +33,7 @@
   },
   "page_action": {},
   "permissions": [
+    "http://*/*",
     "https://*/*",
     "nativeMessaging",
     "storage"

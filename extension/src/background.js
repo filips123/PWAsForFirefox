@@ -13,7 +13,7 @@ browser.runtime.onInstalled.addListener(async ({ reason }) => {
 })
 
 // Detect manifest sent from content script
-browser.runtime.onMessage.addListener(async ({ manifest: manifestUrl }, { url: documentUrl, tab }) => {
+browser.runtime.onMessage.addListener(async ({ manifestUrl, documentUrl }, { tab }) => {
   manifestUrl = new URL(manifestUrl)
   documentUrl = new URL(documentUrl)
 
