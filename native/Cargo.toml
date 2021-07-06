@@ -26,6 +26,7 @@ cfg-if = "1.0.0"
 clap = "2.33.3"
 configparser = "2.1.0"
 const_format = "0.2.14"
+data-url = { git = "https://github.com/filips123/rust-url", branch = "impl-std-error" }
 directories = "3.0.2"
 fs_extra = "1.2.0"
 gag = "1.0.0"

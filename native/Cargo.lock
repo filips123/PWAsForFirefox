@@ -403,6 +403,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "data-url"
+version = "0.1.0"
+source = "git+https://github.com/filips123/rust-url?branch=impl-std-error#0032b9e8328f1a7ce2773f71adf316542ee8ddc9"
+dependencies = [
+ "matches",
+]
+
+[[package]]
 name = "deflate"
 version = "0.8.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -491,6 +499,7 @@ dependencies = [
  "clap",
  "configparser",
  "const_format",
+ "data-url",
  "directories",
  "fs_extra",
  "gag",

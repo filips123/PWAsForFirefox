@@ -50,6 +50,10 @@ impl Run for SiteInstallCommand {
 
 impl SiteInstallCommand {
     pub fn _run(&self) -> Result<Ulid> {
+        if self.manifest_url.scheme() == "data" && self.document_url.is_none() {
+            bail!("The document URL is required when the manifest URL is a data URL");
+        }
+
         let dirs = ProjectDirs::new()?;
         let mut storage = Storage::load(&dirs)?;
 
