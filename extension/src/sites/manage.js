@@ -1,7 +1,15 @@
 import { Modal, Offcanvas, Tab, Toast } from 'bootstrap'
 import Tags from 'bootstrap5-tags/tags'
 
-import { buildIconList, checkNativeStatus, getIcon, launchSite, obtainProfileList, obtainSiteList } from '../utils'
+import {
+  buildIconList,
+  checkNativeStatus,
+  getIcon,
+  launchSite,
+  obtainProfileList,
+  obtainSiteList,
+  setPopupSize
+} from '../utils'
 
 // Display install/update page when clicked on browser action and the native program is not correctly installed
 async function handleNativeStatus () {
@@ -22,22 +30,6 @@ async function handleNativeStatus () {
         outdatedBox.classList.remove('d-none')
       }
       break
-  }
-}
-
-// Set popup size to fit into the popup menu if needed
-async function checkViewport () {
-  const nextFrames = async n => {
-    for (let i = 0; i < n; i++) {
-      await new Promise(resolve => { self.requestAnimationFrame(() => { resolve() }) })
-    }
-  }
-
-  await nextFrames(4)
-
-  if (window.innerWidth < document.body.offsetWidth) {
-    document.documentElement.style.minWidth = 'initial'
-    document.body.style.minWidth = 'initial'
   }
 }
 
@@ -541,7 +533,7 @@ handleNativeStatus()
 // Prepare the popup
 for (const element of document.querySelectorAll('.form-select-tags')) { element.tagsInstance = new Tags(element) }
 Tab.getOrCreateInstance(document.getElementById('card-navigation'))
-checkViewport()
+setPopupSize()
 createSiteList()
 createProfileList()
 handleSearch()

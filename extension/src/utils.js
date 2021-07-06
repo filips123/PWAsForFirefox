@@ -191,3 +191,21 @@ export function getIcon (icons, size) {
 
   return icon.icon.src
 }
+
+/**
+ * Sets the popup size to fit into the popup menu if needed.
+ */
+export async function setPopupSize () {
+  const nextFrames = async n => {
+    for (let i = 0; i < n; i++) {
+      await new Promise(resolve => { self.requestAnimationFrame(() => { resolve() }) })
+    }
+  }
+
+  await nextFrames(4)
+
+  if (window.innerWidth < document.body.offsetWidth) {
+    document.documentElement.style.minWidth = 'initial'
+    document.body.style.minWidth = 'initial'
+  }
+}

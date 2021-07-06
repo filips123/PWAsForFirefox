@@ -2,7 +2,7 @@ import { fromByteArray } from 'base64-js'
 import { Modal, Toast } from 'bootstrap'
 import Tags from 'bootstrap5-tags/tags'
 
-import { obtainManifest, obtainProfileList, obtainSiteList, obtainUrls } from '../utils'
+import { obtainManifest, obtainProfileList, obtainSiteList, obtainUrls, setPopupSize } from '../utils'
 
 async function initializeForm () {
   const form = document.getElementById('web-app-form')
@@ -332,4 +332,5 @@ async function initializeForm () {
   }
 }
 
+setPopupSize()
 initializeForm()

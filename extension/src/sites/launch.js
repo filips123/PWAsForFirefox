@@ -1,6 +1,6 @@
 import { Toast } from 'bootstrap'
 
-import { launchSite, obtainSiteList, obtainUrls } from '../utils'
+import { launchSite, obtainSiteList, obtainUrls, setPopupSize } from '../utils'
 
 async function createInstanceList () {
   // Obtain a current manifest URL
@@ -46,4 +46,5 @@ async function createInstanceList () {
   }
 }
 
+setPopupSize()
 createInstanceList()
