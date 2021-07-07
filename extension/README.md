@@ -25,13 +25,18 @@ You can download and install [latest build artifact](https://github.com/filips12
 
 2. Clone the repository and cd into the `extension` (this) directory.
 
-3. Either:
+3. If building a specific version:
+    1. Checkout the correct Git tag.
+    2. Modify `version` field inside `package.json` to the correct version.
+    3. Modify `version` field inside `src/manifest.json` to the correct version.
+
+4. Either:
 
    a. Run `yarn build` to build the extension in release mode and package it.
 
    b. Run `yarn watch` to build the extension in development mode and automatically rebuild it on any changes.
 
-4. Either:
+5. Either:
 
    a. Install the packaged extension from `dist/firefoxpwa-{version}.zip` in `about:debugging`.
 
@@ -50,6 +55,8 @@ When the extension is updated, it will automatically open a new tab with the ins
 When you open a valid PWA in the browser (that is loaded over HTTPS and has a linked web app manifest), the installation action will automatically appear in your address bar. When you click on it, the popup will appear where you can customize details about the site and install it. The installation will automatically install the PWA to the system and apply system integration.
 
 If the site is not a valid PWA, the installation action will not appear. However, you can also install such sites from the extension's browser action. This way of installing sites does not require PWA manifest, so it should work with basically any website.
+
+**Note:** If the site installation fails because of a manifest-related error, you can try disabling the use of manifest for determining app properties and installing the site again.
 
 **Note:** You cannot re-use the same name for multiple PWAs, because newer ones could overwrite older start menu entries and cause problems.
 

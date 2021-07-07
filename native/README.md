@@ -64,17 +64,21 @@ On Windows, you will need to install the [Visual C++ Redistributable](https://su
 
 1. Install the Rust language and Git.
 2. Clone the repository and cd into the `native` (this) directory.
-3. Build the project in release mode:
+3. If building a specific version:
+    1. Checkout the correct Git tag.
+    2. Modify `version` field inside `Cargo.toml` to the correct version.
+    3. Modify `DISTRIBUTION_VERSION` variable inside `userchrome/profile/chrome/pwa/chrome.jsm` to the correct version.
+4. Build the project in release mode:
    ```shell
    cargo build --release
    ```
-4. Copy the built files to the correct locations:
+5. Copy the built files to the correct locations:
     * `target/release/firefoxpwa` -> `/usr/bin/firefoxpwa`
     * `target/release/firefoxpwa-connector` -> `/usr/libexec/firefoxpwa-connector`
     * `manifests/linux.json` -> `/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json`
     * `manifests/linux.json` -> `/usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json`
     * `userchrome/` -> `/usr/share/firefoxpwa/userchrome/`
-5. Create an empty directory `/usr/share/firefoxpwa/runtime/` and make it writable by normal users (`777`).
+6. Create an empty directory `/usr/share/firefoxpwa/runtime/` and make it writable by normal users (`777`).
    This is needed for FirefoxPWA runtime installation and Firefox auto-updates to work.
    If you do not plan to use Firefox auto-updates, you can restore the permissions after the runtime is installed.
 
@@ -84,6 +88,12 @@ You can also run the below commands to do this automatically (except Rust and Gi
 # Clone the repository and switch into the correct directory
 git clone https://github.com/filips123/FirefoxPWA.git
 cd FirefoxPWA/native
+
+# Optional: Building a specific version
+# Set the VERSION environment variable
+git checkout tags/v${VERSION}
+sed -i "s/version = \"0.0.0\"/version = \"$VERSION\"/g" Cargo.toml
+sed -i "s/DISTRIBUTION_VERSION = '0.0.0'/DISTRIBUTION_VERSION = '$VERSION'/g" userchrome/profile/chrome/pwa/chrome.jsm
 
 # Build the project in release mode
 cargo build --release
@@ -102,6 +112,8 @@ sudo cp -R userchrome/* /usr/share/firefoxpwa/userchrome/
 sudo mkdir -p /usr/share/firefoxpwa/runtime/
 sudo chmod 777 /usr/share/firefoxpwa/runtime/
 ```
+
+If you want to modify the installation or runtime directory, you will also need to modify the source code before building. Check [the FAQ in the repository wiki](https://github.com/filips123/FirefoxPWA/wiki/Frequently-Asked-Questions) for more details.
 
 ## Usage
 

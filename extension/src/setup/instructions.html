@@ -44,6 +44,7 @@
             <li>Clone the <a href="https://github.com/filips123/FirefoxPWA">FirefoxPWA Git repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
             <li>Checkout the <kbd id="connector-repository-tag"></kbd> tag.</li>
             <li>Modify <kbd>version</kbd> field inside <kbd>Cargo.toml</kbd> to <kbd id="connector-cargo-version"></kbd>.</li>
+            <li>Modify <kbd>DISTRIBUTION_VERSION</kbd> variable inside <kbd>userchrome/profile/chrome/pwa/chrome.jsm</kbd> to <kbd id="connector-userchrome-version"></kbd>.</li>
             <li>Build the project in release mode:<br /><kbd>cargo build --release</kbd></li>
             <li>Copy the built files to the correct locations:
               <ul>

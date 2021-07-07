@@ -29,6 +29,7 @@ async function prepareInstallInstructions () {
   // Set repository info based on system arch and extension version
   document.getElementById('connector-repository-tag').innerText = `v${version}`
   document.getElementById('connector-cargo-version').innerText = version
+  document.getElementById('connector-userchrome-version').innerText = version
 
   // Hide DEB and RPM tabs on ARM
   // And rename "Other Linux" to just "Linux"
