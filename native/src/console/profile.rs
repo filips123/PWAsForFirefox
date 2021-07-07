@@ -40,7 +40,13 @@ impl Run for ProfileListCommand {
                     site.manifest.name.clone().unwrap_or_else(|| "Unnamed".into())
                 });
 
-                println!("- {}: {} ({})", name, site.config.manifest_url, site.ulid);
+                let url = if site.config.manifest_url.scheme() != "data" {
+                    &site.config.manifest_url
+                } else {
+                    &site.config.document_url
+                };
+
+                println!("- {}: {} ({})", name, url, site.ulid);
             }
 
             println!();
