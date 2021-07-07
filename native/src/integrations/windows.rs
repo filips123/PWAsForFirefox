@@ -21,8 +21,10 @@ use bindings::Windows::Win32::UI::Shell::{
     IShellLinkW,
     ShellLink,
 };
+use data_url::DataUrl;
 use image::imageops::FilterType::Gaussian;
 use image::GenericImageView;
+use serde::de::Unexpected::Bytes;
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize};
@@ -69,10 +71,19 @@ fn store_icon(
     // Currently only one embedded image per ICO is supported: https://github.com/image-rs/image/issues/884
     let icon = match icon {
         Some(icon) => {
+            // Download the image from the URL
+            // Either download it from the network using request or decode it from a data URL
             let url: Url = icon.src.clone().try_into().context("Failed to convert icon URL")?;
-            let response = reqwest::blocking::get(url).context("Failed to download icon")?;
-            let bytes = &response.bytes().context("Failed to read icon")?;
-            let mut img = image::load_from_memory(bytes).context("Failed to load icon")?;
+            let bytes = if url.scheme() != "data" {
+                let response = reqwest::blocking::get(url).context("Failed to download icon")?;
+                response.bytes().context("Failed to read icon")?
+            } else {
+                let url =
+                    DataUrl::process(url.as_str()).context("Failed to process icon data URL")?;
+                let (body, _) = url.decode_to_vec().context("Failed to decode icon data URL")?;
+                body.into()
+            };
+            let mut img = image::load_from_memory(&bytes).context("Failed to load icon")?;
 
             if resize {
                 // Force resize to 256x256 which is needed for jump list tasks

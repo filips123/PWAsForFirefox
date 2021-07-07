@@ -4,6 +4,7 @@ use std::path::Path;
 use std::process::Command;
 
 use anyhow::{Context, Result};
+use data_url::DataUrl;
 use glob::glob;
 use image::imageops::FilterType::Gaussian;
 use url::Url;
@@ -15,6 +16,8 @@ use crate::integrations::{SiteInfoInstall, SiteInfoUninstall};
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
 const CONVERT_ICON_URL_ERROR: &str = "Failed to convert icon URL";
+const DATA_URL_PROCESS_ERROR: &str = "Failed to process icon data URL";
+const DATA_URL_DECODE_ERROR: &str = "Failed to decode icon data URL";
 const DOWNLOAD_ICON_ERROR: &str = "Failed to download icon";
 const READ_ICON_ERROR: &str = "Failed to read icon";
 const LOAD_ICON_ERROR: &str = "Failed to load icon";
@@ -34,7 +37,14 @@ fn store_icons(id: &str, icons: &[IconResource], suffix: &str) -> Result<()> {
 
     // Download and store all icons
     for icon in icons {
+        // Skip data URLs because supporting them would make code a lot more complicated
+        // The 48x48 icon is added later in any case because no "required icon" is found
         let url: Url = icon.src.clone().try_into().context(CONVERT_ICON_URL_ERROR)?;
+        if url.scheme() == "data" {
+            continue;
+        };
+
+        // Download the image from the URL
         let mut response = reqwest::blocking::get(url).context(DOWNLOAD_ICON_ERROR)?;
 
         if let Some(content_type) = response.headers().get(reqwest::header::CONTENT_TYPE) {
@@ -80,8 +90,6 @@ fn store_icons(id: &str, icons: &[IconResource], suffix: &str) -> Result<()> {
                 required_icon_found = true;
             }
 
-            let url: Url = icon.src.clone().try_into().context(CONVERT_ICON_URL_ERROR)?;
-            let response = reqwest::blocking::get(url).context(DOWNLOAD_ICON_ERROR)?;
             let bytes = &response.bytes().context(READ_ICON_ERROR)?;
             let img = image::load_from_memory(bytes).context(LOAD_ICON_ERROR)?;
 
@@ -107,10 +115,18 @@ fn store_icons(id: &str, icons: &[IconResource], suffix: &str) -> Result<()> {
             .or_else(|| icons.iter().rev().find(|icon| icon.purpose.contains(&ImagePurpose::Any)));
 
         if let Some(icon) = icon {
+            // Download the image from the URL
+            // Either download it from the network using request or decode it from a data URL
             let url: Url = icon.src.clone().try_into().context(CONVERT_ICON_URL_ERROR)?;
-            let response = reqwest::blocking::get(url).context(DOWNLOAD_ICON_ERROR)?;
-            let bytes = &response.bytes().context(READ_ICON_ERROR)?;
-            let img = image::load_from_memory(bytes).context(LOAD_ICON_ERROR)?;
+            let bytes = if url.scheme() != "data" {
+                let response = reqwest::blocking::get(url).context(DOWNLOAD_ICON_ERROR)?;
+                response.bytes().context(READ_ICON_ERROR)?
+            } else {
+                let url = DataUrl::process(url.as_str()).context(DATA_URL_PROCESS_ERROR)?;
+                let (body, _) = url.decode_to_vec().context(DATA_URL_DECODE_ERROR)?;
+                body.into()
+            };
+            let mut img = image::load_from_memory(&bytes).context("Failed to load icon")?;
             let img = img.resize(48, 48, Gaussian);
 
             let directory = directories::BaseDirs::new()
