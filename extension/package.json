@@ -20,24 +20,13 @@
     "watch:parcel": "parcel watch src/manifest.json src/**/*.html src/images/**/*.svg --no-content-hash",
     "build": "run-s build:*",
     "build:clean": "rimraf dist",
-    "build:parcel": "parcel build src/manifest.json src/**/*.html src/images/**/*.svg --no-content-hash",
-    "build:webext": "web-ext build -s dist/release -a dist -n firefoxpwa-{version}.zip",
+    "build:parcel": "parcel build src/manifest.json src/**/*.html src/images/**/*.svg --no-content-hash --no-source-maps",
+    "build:webext": "web-ext build -s dist -a dist -n firefoxpwa-{version}.zip",
     "lint": "run-s -c lint:*",
     "lint:eslint": "eslint src",
     "lint:webext": "web-ext lint -s src",
     "fix": "run-s -c fix:*",
     "fix:eslint": "eslint --fix src"
-  },
-  "targets": {
-    "debug": {
-      "sourceMap": {
-        "inline": true,
-        "inlineSources": true
-      }
-    },
-    "release": {
-      "sourceMap": false
-    }
   },
   "dependencies": {
     "@popperjs/core": "^2.9.2",

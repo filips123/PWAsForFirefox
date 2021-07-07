@@ -40,7 +40,7 @@ You can download and install [latest build artifact](https://github.com/filips12
 
    a. Install the packaged extension from `dist/firefoxpwa-{version}.zip` in `about:debugging`.
 
-   b. Install the development extension from `dist/debug/manifest.json` in `about:debugging`.
+   b. Install the development extension from `dist/manifest.json` in `about:debugging`.
 
 ## Usage
 
