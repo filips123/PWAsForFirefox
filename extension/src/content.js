@@ -18,6 +18,7 @@ browser.runtime.onMessage.addListener((message, _, sendResponse) => {
   if (message !== 'ObtainUrls') return
 
   // Collect page info that can be used if manifest does not exist
+  const isAppleMaskIcon = (link) => link.getAttribute('rel').toLowerCase().includes('mask-icon')
   const pageInfo = {
     name: document.title,
     description: document.querySelector('meta[name=description]')?.content,
@@ -25,7 +26,8 @@ browser.runtime.onMessage.addListener((message, _, sendResponse) => {
       .filter(link => link.hasAttribute('rel') && link.getAttribute('rel').toLowerCase().includes('icon'))
       .map(link => ({
         src: new URL(link.getAttribute('href'), window.location).href,
-        type: link.getAttribute('type') || null,
+        type: link.getAttribute('type') || isAppleMaskIcon(link) ? 'image/svg+xml' : null,
+        purpose: isAppleMaskIcon(link) ? 'monochrome' : 'any',
         sizes: link.getAttribute('sizes') || ''
       }))
   }

@@ -33,7 +33,7 @@ use winreg::enums::HKEY_CURRENT_USER;
 use winreg::RegKey;
 
 use crate::directories::ProjectDirs;
-use crate::integrations::{SiteInfoInstall, SiteInfoUninstall};
+use crate::integrations::{is_icon_supported, SiteInfoInstall, SiteInfoUninstall};
 
 fn store_icon(
     siteid: &str,
@@ -62,10 +62,9 @@ fn store_icon(
     let icon = icons
         .iter()
         .find(|icon| {
-            icon.sizes.iter().max() >= Some(&ImageSize::Fixed(256, 256))
-                && icon.purpose.contains(&ImagePurpose::Any)
+            icon.sizes.iter().max() >= Some(&ImageSize::Fixed(256, 256)) && is_icon_supported(icon)
         })
-        .or_else(|| icons.iter().rev().find(|icon| icon.purpose.contains(&ImagePurpose::Any)));
+        .or_else(|| icons.iter().rev().find(|icon| is_icon_supported(icon)));
 
     // Convert the chosen icon into ICO and save it for usages in ARP page and start menu
     // Currently only one embedded image per ICO is supported: https://github.com/image-rs/image/issues/884

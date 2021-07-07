@@ -12,7 +12,7 @@ use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize};
 
 use crate::integrations::xdg::XDG_CATEGORIES;
-use crate::integrations::{SiteInfoInstall, SiteInfoUninstall};
+use crate::integrations::{is_icon_supported, SiteInfoInstall, SiteInfoUninstall};
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
 const CONVERT_ICON_URL_ERROR: &str = "Failed to convert icon URL";
@@ -110,9 +110,9 @@ fn store_icons(id: &str, icons: &[IconResource], suffix: &str) -> Result<()> {
             .iter()
             .find(|icon| {
                 icon.sizes.iter().max() >= Some(&ImageSize::Fixed(48, 48))
-                    && icon.purpose.contains(&ImagePurpose::Any)
+                    && is_icon_supported(icon)
             })
-            .or_else(|| icons.iter().rev().find(|icon| icon.purpose.contains(&ImagePurpose::Any)));
+            .or_else(|| icons.iter().rev().find(|icon| is_icon_supported(icon)));
 
         if let Some(icon) = icon {
             // Download the image from the URL

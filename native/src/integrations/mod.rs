@@ -4,7 +4,7 @@ use anyhow::Result;
 use cfg_if::cfg_if;
 use log::warn;
 use web_app_manifest::resources::{IconResource, ShortcutResource};
-use web_app_manifest::types::Url;
+use web_app_manifest::types::{ImagePurpose, Url};
 
 use crate::components::site::Site;
 use crate::directories::ProjectDirs;
@@ -173,5 +173,21 @@ pub fn uninstall(site: &Site, dirs: &ProjectDirs) -> Result<()> {
         } else {
             compile_error!("Unknown operating system");
         }
+    }
+}
+
+/// Util: Check if the icon is supported
+pub(in crate::integrations) fn is_icon_supported(icon: &IconResource) -> bool {
+    // Normal icons must have "any" purpose
+    if !icon.purpose.contains(&ImagePurpose::Any) {
+        return false;
+    }
+
+    match &icon.src {
+        // We cannot use SVG icons because image crate does not support them
+        Url::Absolute(url) => !url.path().ends_with(".svg"),
+
+        // We also cannot use relative or unknown URLs
+        _ => false,
     }
 }
