@@ -134,9 +134,18 @@ fn create_arp_entry(info: &SiteInfoInstall, exe: String, icon: String) -> Result
 #[inline]
 fn create_menu_shortcut(info: &SiteInfoInstall, exe: String, icon: String) -> Result<()> {
     unsafe {
-        // We need to limit the name and description to prevent overflows
-        let name: String = info.name.chars().take(60).collect();
+        // Limit the name and description to prevent overflows
+        let mut name: String = info.name.chars().take(60).collect();
         let description: String = info.description.chars().take(240).collect();
+
+        // Sanitize the name to prevent invalid filenames
+        let pattern: &[_] = &['.', ' '];
+        name = sanitize_filename::sanitize(name);
+        name = name.trim_end_matches(pattern).into();
+        name = sanitize_filename::sanitize(name);
+        if name.is_empty() {
+            name = format!("Site {}", info.id);
+        }
 
         // Set general shortcut properties
         let link: IShellLinkW = windows::create_instance(&ShellLink)?;
@@ -286,7 +295,16 @@ pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
 
 pub fn uninstall(info: &SiteInfoUninstall, dirs: &ProjectDirs) -> Result<()> {
     // Shortcut name is limited to prevent overflows
-    let name: String = info.name.chars().take(60).collect();
+    let mut name: String = info.name.chars().take(60).collect();
+
+    // Shortcut name is sanitized to prevent invalid filenames
+    let pattern: &[_] = &['.', ' '];
+    name = sanitize_filename::sanitize(name);
+    name = name.trim_end_matches(pattern).into();
+    name = sanitize_filename::sanitize(name);
+    if name.is_empty() {
+        name = format!("Site {}", info.id);
+    }
 
     // Remove icons
     let icon = dirs.data.join("icons").join(&info.id);

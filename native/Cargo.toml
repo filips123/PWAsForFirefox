@@ -47,6 +47,7 @@ web_app_manifest = { git = "https://github.com/filips123/WebAppManifestRS", bran
 [target.'cfg(target_os = "windows")'.dependencies]
 bindings = { path = "bindings" }
 runas = "0.2.1"
+sanitize-filename = "0.3.0"
 windows = "0.11.0"
 winreg = "0.8.0"
 
