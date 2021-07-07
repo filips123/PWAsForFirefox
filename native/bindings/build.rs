@@ -1,9 +1,6 @@
 fn main() {
     windows::build! {
-        Windows::Win32::Foundation::{
-            BOOL,
-            PWSTR,
-        },
+        Windows::Win32::Foundation::PWSTR,
         Windows::Win32::System::Com::IPersistFile,
         Windows::Win32::System::PropertiesSystem::{
             PROPERTYKEY,

@@ -38,7 +38,7 @@ serde = { version = "1.0.126", features = ["derive"] }
 serde_json = "1.0.64"
 simplelog = "0.10.0"
 smart-default = "0.6.0"
-structopt = "0.3.21"
+structopt = "0.3.22"
 tempfile = "3.2.0"
 ulid = { version = "0.4.1", features = ["serde"] }
 url = "2.2.2"
@@ -48,17 +48,17 @@ web_app_manifest = { git = "https://github.com/filips123/WebAppManifestRS", bran
 bindings = { path = "bindings" }
 runas = "0.2.1"
 sanitize-filename = "0.3.0"
-windows = "0.11.0"
-winreg = "0.8.0"
+windows = "0.14.0"
+winreg = "0.9.0"
 
 [target.'cfg(target_os = "linux")'.dependencies]
 bzip2 = "0.4.3"
-phf = { version = "0.9", features = ["macros"] }
+phf = { version = "0.9.0", features = ["macros"] }
 tar = "0.4.35"
 
 [build-dependencies]
 clap = "2.33.3"
-structopt = "0.3.21"
+structopt = "0.3.22"
 ulid = "0.4.1"
 url = "2.2.2"
 
