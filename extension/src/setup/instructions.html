@@ -65,9 +65,34 @@
           <p>For a list of commands to do this, check <a href="https://github.com/filips123/FirefoxPWA/tree/main/native#other-linux">the README file in the repository</a>.</p>
         </div>
         <div class="tab-pane fade" id="macos-install-pane" role="tabpanel" aria-labelledby="macos-install-tab">
+          <p>⚠️ On macOS there is no automatic installer yet. The connector has to be built from source! ⚠️</p>
           <p>
-            macOS is currently not supported. Any help to add support for it would be appreciated.
+            ⚠️ macOS is not yet fully supported!
+            There is currently no proper system integration (**no** Icon in your application list, **no** correct icon when you launch the PWA, windows are **not** seperated by PWA).
+            Follow #33 to get updated on this issue. ⚠️
           </p>
+          <ol>
+            <li>Clone the <a href="https://github.com/filips123/FirefoxPWA">FirefoxPWA Git repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
+            <li>Checkout the <kbd id="connector-repository-tag"></kbd> tag.</li>
+            <li>Modify <kbd>version</kbd> field inside <kbd>Cargo.toml</kbd> to <kbd id="connector-cargo-version"></kbd>.</li>
+            <li>Modify <kbd>DISTRIBUTION_VERSION</kbd> variable inside <kbd>userchrome/profile/chrome/pwa/chrome.jsm</kbd> to <kbd id="connector-userchrome-version"></kbd>.</li>
+            <li>Build the project in release mode:<br /><kbd>cargo build --release</kbd></li>
+            <li>Copy the built files to the correct locations:
+              <ul>
+                <li><kbd>target/release/firefoxpwa</kbd> → <kbd>/usr/local/bin/firefoxpwa</kbd></li>
+                <li><kbd>target/release/firefoxpwa-connector</kbd> → <kbd>/usr/local/libexec/firefoxpwa-connector</kbd></li>
+                <li><kbd>manifests/macos.json</kbd> → <kbd>/Library/Application Support/Mozilla/NativeMessagingHosts/firefoxpwa.json</kbd></li>
+                <li><kbd>userchrome/</kbd> → <kbd>/usr/local/share/firefoxpwa/userchrome/</kbd></li>
+              </ul>
+            </li>
+            <li>
+              Create an empty directory <kbd>/usr/local/share/firefoxpwa/runtime/</kbd> and make it writable by normal users (<kbd>777</kbd>).
+              This is needed for FirefoxPWA runtime installation and Firefox auto-updates to work.
+              If you do not plan to use Firefox auto-updates, you can restore the permissions after the runtime is installed.
+            </li>
+            <li>After the files are copied, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+          </ol>
+          <p>For a list of commands to do this, check <a href="https://github.com/filips123/FirefoxPWA/tree/main/native#macos">the README file in the repository</a>.</p>
         </div>
         <div class="tab-pane fade" id="other-install-pane" role="tabpanel" aria-labelledby="other-install-tab">
           <p>
