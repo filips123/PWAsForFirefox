@@ -120,6 +120,7 @@ jobs:
         uses: Swatinem/rust-cache@v1
         with:
           working-directory: native
+          key: ${{ matrix.target }}
 
       - name: Install Cargo DEB (Linux)
         if: matrix.os == 'ubuntu-latest'
