@@ -844,13 +844,20 @@ class PwaBrowser {
         const permissionBox = document.getElementById('identity-permission-box');
         permissionBox.classList.add('toolbarbutton-icon');
 
-        // Reverse permissions icons
-        node.addEventListener('DOMNodeInserted', (event) => {
-          if (event.target.tagName === 'image' && event.target.className === 'toolbarbutton-icon') {
-            event.target.replaceWith(permissionBox);
-            this.reverseChildren(permissionBox);
+        // Replace generic widget icon with permission box
+        // Reverse permissions icons inside the permission box
+        const observer = new MutationObserver(mutations => {
+          for (const mutation of mutations) {
+            for (const addedNode of mutation.addedNodes) {
+              if (addedNode.tagName === 'image' && addedNode.className === 'toolbarbutton-icon') {
+                addedNode.replaceWith(permissionBox);
+                this.reverseChildren(permissionBox);
+                observer.disconnect();
+              }
+            }
           }
-        }, { capture: true, passive: true });
+        });
+        observer.observe(node, { childList: true });
 
         // Update permissions button
         let updatePermissionsButton = () => {
@@ -903,13 +910,20 @@ class PwaBrowser {
         const notificationsBox = document.getElementById('notification-popup-box');
         notificationsBox.classList.add('toolbarbutton-icon');
 
-        // Reverse permissions icons
-        node.addEventListener('DOMNodeInserted', (event) => {
-          if (event.target.tagName === 'image' && event.target.className === 'toolbarbutton-icon') {
-            event.target.replaceWith(notificationsBox);
-            this.reverseChildren(notificationsBox);
+        // Replace generic widget icon with notifications box
+        // Reverse permissions icons inside the notifications box
+        const observer = new MutationObserver(mutations => {
+          for (const mutation of mutations) {
+            for (const addedNode of mutation.addedNodes) {
+              if (addedNode.tagName === 'image' && addedNode.className === 'toolbarbutton-icon') {
+                addedNode.replaceWith(notificationsBox);
+                this.reverseChildren(notificationsBox);
+                observer.disconnect();
+              }
+            }
           }
-        }, { capture: true, passive: true });
+        });
+        observer.observe(node, { childList: true });
 
         // Show panel when needed
         hookFunction(window.PopupNotifications, '_showPanel', () => {
