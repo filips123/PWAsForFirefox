@@ -4,7 +4,7 @@ import { launchSite, obtainSiteList, obtainUrls, setPopupSize } from '../utils'
 
 async function createInstanceList () {
   // Obtain a current manifest URL
-  const { manifest: manifestUrl } = await obtainUrls()
+  const { manifestUrl } = await obtainUrls()
 
   // Obtain a list of existing sites and restrict them to the current manifest URL
   let sites
