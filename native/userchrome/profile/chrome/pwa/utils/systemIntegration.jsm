@@ -122,7 +122,7 @@ function setWindowColors (window, site) {
     const textColor = (brightness > 125) ? 'black' : 'white';
 
     // Set background and text colors to the titlebar
-    styles.innerHTML += `#navigator-toolbox, #titlebar > * { background-color: ${themeColor} !important; color: ${textColor} !important; }`;
+    styles.innerHTML += `#navigator-toolbox, html[tabsintitlebar] #main-menubar > *, html[tabsintitlebar] #titlebar > * { background-color: ${themeColor} !important; color: ${textColor} !important; }`;
 
     // Some Gtk+ themes use rounded corners, so Firefox by default disables styling of the titlebar
     // We need to detect and prevent this, and add own rounded corners using CSS
