@@ -106,10 +106,16 @@ function setWindowColors (window, site) {
     // Set background color to the browser window
     styles.innerHTML += `browser[primary="true"] { background-color: ${backgroundColor} !important; }`;
 
-    // Set background color to the website body
+    // Set background color to the website content
     const bodyStyle = `@-moz-document url-prefix(${site.manifest.scope}) { html { background-color: ${backgroundColor}; } }`
+    const bodyUrl = Services.io.newURI(`data:text/css;base64,${btoa(bodyStyle)}`);
     const SSS = Cc['@mozilla.org/content/style-sheet-service;1'].getService(Ci.nsIStyleSheetService);
-    SSS.loadAndRegisterSheet(Services.io.newURI(`data:text/css;base64,${btoa(bodyStyle)}`), SSS.USER_SHEET);
+    SSS.loadAndRegisterSheet(bodyUrl, SSS.USER_SHEET);
+
+    // Remove website content style modifications after some time (so website styles have time to load)
+    window.setTimeout(() => {
+      SSS.unregisterSheet(bodyUrl, SSS.USER_SHEET);
+    }, 800);
   }
 
   // Set the theme (titlebar) background and text colors
