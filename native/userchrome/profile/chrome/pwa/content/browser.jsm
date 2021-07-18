@@ -275,6 +275,22 @@ class PwaBrowser {
     let userStartUrl = window.gFFPWASiteConfig.config.start_url;
     let manifestStartUrl = window.gFFPWASiteConfig.manifest.start_url;
     window.AboutNewTab.newTabURL = userStartUrl ? userStartUrl : manifestStartUrl;
+
+    // Do not treat new tab URL as an initial and a blank page
+    // This is needed to prevent breaking start URL identity widget and URL display
+    window.isInitialPage = function (url) {
+      if (!(url instanceof Ci.nsIURI)) {
+        try { url = Services.io.newURI(url) }
+        catch (ex) { return false }
+      }
+
+      let nonQuery = url.prePath + url.filePath;
+      return gInitialPages.includes(nonQuery);
+    };
+
+    window.isBlankPageURL = function (url) {
+      return url === 'about:blank' || url === 'about:home' || url === 'about:welcome';
+    };
   }
 
   handleLinkTargets () {
