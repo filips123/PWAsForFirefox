@@ -1,6 +1,8 @@
 import { iframeResize } from 'iframe-resizer'
 import { satisfies as semverSatisfies } from 'semver'
 
+const iframeResizer = iframeResize({}, '#connector-instructions')[0].iFrameResizer
+
 /*****************************
  License Agreement
  *****************************/
@@ -8,6 +10,8 @@ import { satisfies as semverSatisfies } from 'semver'
 const STORAGE_LICENSE_ACCEPTED = 'storage.license-agreement-accepted'
 
 async function checkLicenseAgreement () {
+  iframeResizer.resize()
+
   if ((await browser.storage.local.get(STORAGE_LICENSE_ACCEPTED))[STORAGE_LICENSE_ACCEPTED] === true) {
     const nativeInstalled = await checkNativeConnection()
 
@@ -58,6 +62,9 @@ async function checkNativeConnection () {
      */
     const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'GetSystemVersions' })
 
+    // Resize instructions iframe
+    iframeResizer.resize()
+
     // Handle native connection errors
     if (response.type === 'Error') throw new Error(response.data)
     if (response.type !== 'SystemVersions') throw new Error(`Received invalid response type: ${response.type}`)
@@ -96,8 +103,6 @@ async function checkNativeConnection () {
 /*****************************
  Runtime Installation
  ****************************/
-
-iframeResize({}, '#connector-instructions')
 
 async function provideRuntimeInstallInstructions (versions) {
   document.getElementById('connector-installation').classList.add('active')

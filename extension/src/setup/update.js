@@ -3,6 +3,12 @@ import { eq as semverEq, gt as semverGt, satisfies as semverSatisfies } from 'se
 
 async function checkVersions () {
   try {
+    // Resize instructions iframe
+    iframeResizer.resize()
+
+    /**
+     * @type NativeResponse
+     */
     const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'GetSystemVersions' })
 
     // Handle native connection errors
@@ -24,6 +30,7 @@ async function checkVersions () {
     if (semverGt(versionExtension, versionNative)) {
       document.getElementById('native-not-updated').classList.remove('d-none')
       document.getElementById('connector-instructions').classList.remove('d-none')
+      iframeResizer.resize()
     } else {
       document.getElementById('native-not-updated').classList.add('d-none')
       document.getElementById('connector-instructions').classList.add('d-none')
@@ -61,5 +68,5 @@ async function checkVersions () {
   setTimeout(checkVersions, 10000)
 }
 
-iframeResize({}, '#connector-instructions')
+const iframeResizer = iframeResize({}, '#connector-instructions')[0].iFrameResizer
 checkVersions()
