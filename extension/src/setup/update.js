@@ -28,12 +28,16 @@ async function checkVersions () {
 
     // Native is outdated
     if (semverGt(versionExtension, versionNative)) {
+      if (!semverSatisfies(versionExtension, `^${versionNative}`)) {
+        document.getElementById('release-notes-incompatible').classList.remove('d-none')
+      }
       document.getElementById('native-not-updated').classList.remove('d-none')
       document.getElementById('connector-instructions').classList.remove('d-none')
       iframeResizer.resize()
     } else {
       document.getElementById('native-not-updated').classList.add('d-none')
       document.getElementById('connector-instructions').classList.add('d-none')
+      document.getElementById('release-notes-incompatible').classList.add('d-none')
     }
 
     // Extension is outdated
@@ -41,9 +45,11 @@ async function checkVersions () {
       if (semverSatisfies(versionNative, `^${versionExtension}`)) {
         document.getElementById('extension-versions-compatible').classList.remove('d-none')
         document.getElementById('extension-versions-incompatible').classList.add('d-none')
+        document.getElementById('release-notes-incompatible').classList.add('d-none')
       } else {
         document.getElementById('extension-versions-compatible').classList.add('d-none')
         document.getElementById('extension-versions-incompatible').classList.remove('d-none')
+        document.getElementById('release-notes-incompatible').classList.remove('d-none')
       }
       document.getElementById('extension-not-updated').classList.remove('d-none')
     } else {
@@ -53,9 +59,11 @@ async function checkVersions () {
     // Both are updated
     if (semverEq(versionExtension, versionNative)) {
       document.getElementById('both-updated').classList.remove('d-none')
+      document.getElementById('release-notes-show').classList.add('d-none')
       return
     } else {
       document.getElementById('both-updated').classList.add('d-none')
+      document.getElementById('release-notes-show').classList.remove('d-none')
     }
   } catch (error) {
     console.error(error)
