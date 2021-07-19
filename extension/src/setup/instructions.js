@@ -26,10 +26,9 @@ async function prepareInstallInstructions () {
   // TODO: Set RPM download URL based on system arch and extension version
   // For ARM it doesn't matter which version we set because RPM tab will be hidden later
 
-  // Set repository info based on system arch and extension version
-  document.getElementById('connector-repository-tag').innerText = `v${version}`
-  document.getElementById('connector-cargo-version').innerText = version
-  document.getElementById('connector-userchrome-version').innerText = version
+  // Set repository info based on extension version
+  for (const elem of document.getElementsByClassName('connector-repository-tag')) elem.innerText = `v${version}`
+  for (const elem of document.getElementsByClassName('connector-project-version')) elem.innerText = version
 
   // Hide DEB and RPM tabs on ARM
   // And rename "Other Linux" to just "Linux"
