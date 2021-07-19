@@ -26,7 +26,7 @@ impl ProjectDirs {
                 } else if #[cfg(target_os = "linux")] {
                     PathBuf::from("/usr/share/firefoxpwa")
                 } else if #[cfg(target_os = "macos")] {
-                    compile_error!("macOS is currently not supported")
+                    PathBuf::from("/usr/local/share/firefoxpwa")
                 } else {
                     compile_error!("Unknown operating system")
                 }
@@ -38,7 +38,7 @@ impl ProjectDirs {
             let appdata = base.data_dir();
 
             cfg_if! {
-                if #[cfg(target_os = "linux")] { appdata.join("firefoxpwa") }
+                if #[cfg(any(target_os = "linux", target_os = "macos"))] { appdata.join("firefoxpwa") }
                 else { appdata.join("FirefoxPWA") }
             }
         };

@@ -76,7 +76,7 @@ impl Runtime {
                 } else if #[cfg(target_os = "linux")] {
                     directory.join("firefox")
                 } else if #[cfg(target_os = "macos")] {
-                    compile_error!("macOS is currently not supported");
+                    directory.join("Firefox.app/Contents/MacOS/firefox")
                 } else {
                     compile_error!("Unknown operating system");
                 }
@@ -88,7 +88,7 @@ impl Runtime {
                 if #[cfg(any(target_os = "windows", target_os = "linux"))] {
                     directory.join("application.ini")
                 } else if #[cfg(target_os = "macos")] {
-                    compile_error!("macOS is currently not supported");
+                    directory.join("Firefox.app/Contents/Resources/application.ini")
                 } else {
                     compile_error!("Unknown operating system");
                 }
@@ -171,7 +171,19 @@ impl Runtime {
                 compressed.unpack(&extracted).context(EXTRACT_ERROR)?;
                 source.push("firefox");
             } else if #[cfg(target_os = "macos")] {
-                compile_error!("macOS is currently not supported");
+                use dmg::Attach;
+
+                let info = Attach::new(&archive).with().context(EXTRACT_ERROR)?;
+                let mut options = CopyOptions::new();
+                let mut mount_point = info.mount_point.clone();
+
+                mount_point.push("Firefox.app");
+                source.push("Firefox.app");
+                options.content_only = true;
+
+                copy(&mount_point, &source, &options)?;
+
+                source.pop();
             } else {
                 compile_error!("Unknown operating system");
             }
@@ -202,12 +214,21 @@ impl Runtime {
     pub fn patch(&self, dirs: &ProjectDirs) -> Result<()> {
         let source = dirs.install.join("userchrome/runtime");
 
+        cfg_if! {
+            if #[cfg(target_os = "macos")] {
+                let mut target = self.directory.clone();
+                target.push("Firefox.app/Contents/Resources");
+            } else {
+                let target = &self.directory;
+            }
+        }
+
         let mut options = CopyOptions::new();
         options.content_only = true;
         options.overwrite = true;
 
         info!("Patching the runtime");
-        copy(source, &self.directory, &options).context("Failed to patch the runtime")?;
+        copy(source, target, &options).context("Failed to patch the runtime")?;
 
         info!("Runtime patched!");
         Ok(())

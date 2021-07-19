@@ -18,7 +18,7 @@ Read the [main README file](../README.md) for more details about the project.
 * Windows (pre-built MSI installer & source installation)
 * Debian-like Linux (pre-built DEB package & source installation)
 * Other Linux (source installation)
-* ~~macOS~~ (to be added in the future)
+* macOS (partial support, source installation)
 
 ### From Release Binaries
 
@@ -115,6 +115,64 @@ sudo chmod 777 /usr/share/firefoxpwa/runtime/
 
 If you want to modify the installation or runtime directory, you will also need to modify the source code before building. Check [the FAQ in the repository wiki](https://github.com/filips123/FirefoxPWA/wiki/Frequently-Asked-Questions) for more details.
 
+#### macOS
+
+> ⚠️ macOS is not yet fully supported! There is currently no proper system integration (**no** Icon in your application list, **no** correct icon when you launch the PWA, windows are **not** separated by PWA). Follow #33 to get updated on this issue. ⚠️
+
+1. Install the Rust language and Git.
+2. Clone the repository and cd into the `native` (this) directory.
+3. If building a specific version:
+    1. Checkout the correct Git tag.
+    2. Modify `version` field inside `Cargo.toml` to the correct version.
+    3. Modify `DISTRIBUTION_VERSION` variable inside `userchrome/profile/chrome/pwa/chrome.jsm` to the correct version.
+4. Build the project in release mode:
+   ```shell
+   cargo build --release
+   ```
+5. Copy the built files to the correct locations:
+    * `target/release/firefoxpwa` -> `/usr/local/bin/firefoxpwa`
+    * `target/release/firefoxpwa-connector` -> `/usr/local/libexec/firefoxpwa-connector`
+    * `manifests/macos.json` -> `/Library/Application Support/Mozilla/NativeMessagingHosts/firefoxpwa.json`
+    * `userchrome/` -> `/usr/local/share/firefoxpwa/userchrome/`
+6. Create an empty directory `/usr/local/share/firefoxpwa/runtime/` and make it writable by normal users (`777`).
+   This is needed for FirefoxPWA runtime installation and Firefox auto-updates to work.
+   If you do not plan to use Firefox auto-updates, you can restore the permissions after the runtime is installed.
+
+```shell
+# Clone the repository and switch into the correct directory
+git clone https://github.com/filips123/FirefoxPWA.git
+cd FirefoxPWA/native
+
+# Optional: Building a specific version
+# Set the VERSION environment variable
+git checkout tags/v${VERSION}
+sed -i "" -e "s/version = \"0.0.0\"/version = \"$VERSION\"/g" Cargo.toml
+sed -i "" -e "s/DISTRIBUTION_VERSION = '0.0.0'/DISTRIBUTION_VERSION = '$VERSION'/g" userchrome/profile/chrome/pwa/chrome.jsm
+
+# Build the project in release mode
+cargo build --release
+
+# Copy the files to the correct locations
+sudo mkdir -p /usr/local/bin
+sudo install -v target/release/firefoxpwa /usr/local/bin/firefoxpwa
+
+sudo mkdir -p /usr/local/libexec
+sudo install -v target/release/firefoxpwa-connector /usr/local/libexec/firefoxpwa-connector
+
+sudo install -d /Library/Application\ Support/Mozilla/NativeMessagingHosts
+sudo install -v manifests/macos.json /Library/Application\ Support/Mozilla/NativeMessagingHosts/firefoxpwa.json
+
+# Copy the userchrome directory to the correct location
+sudo mkdir -p /usr/local/share/firefoxpwa/userchrome/
+sudo cp -R userchrome/* /usr/local/share/firefoxpwa/userchrome/
+
+# Create an empty runtime directory and make it writable by normal users
+sudo mkdir -p /usr/local/share/firefoxpwa/runtime/
+sudo chmod 777 /usr/local/share/firefoxpwa/runtime/
+```
+
+If you want to modify the installation or runtime directory, you will also need to modify the source code before building. Check [the FAQ in the repository wiki](https://github.com/filips123/FirefoxPWA/wiki/Frequently-Asked-Questions) for more details.
+
 ## Usage
 
 ### Runtime Management
@@ -160,7 +218,7 @@ By default, all PWA sites will be installed to a common profile with ID `0000000
    ```shell
    firefoxpwa profile update ID --name NEW-PROFILE-NAME --description NEW-PROFILE-DESCRIPTION
    ```
-  
+
    This will just change your profile name and description, while keeping the ID and all sites intact.
 
 * To view all available profiles and installed sites:
