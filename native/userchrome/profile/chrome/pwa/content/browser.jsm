@@ -39,6 +39,7 @@ class PwaBrowser {
     this.createInfoElements();
     this.createAddressInput();
     this.createNotificationAnchor();
+    this.createOpenInBrowserMenuItem();
     this.moveMenuButtons();
     this.switchPopupSides();
     this.makeUrlBarReadOnly();
@@ -130,6 +131,24 @@ class PwaBrowser {
     BrowserPageActions.panelAnchorNodeForAction = () => {
       return document.getElementById('PanelUI-menu-button');
     };
+  }
+
+  createOpenInBrowserMenuItem () {
+    // Create context menu item that opens link in a default browser
+    const menuItem = this.createElement(document, 'menuitem', { id: 'contextmenu-openlinkdefault', label: 'Open Link in Default Browser', oncommand: 'gContextMenu.openLinkInDefaultBrowser()' });
+    document.getElementById('context-sep-open').before(menuItem)
+
+    hookFunction(window, 'openContextMenu', null, () => {
+      // Display it only when clicked on links
+      const shouldShow = window.gContextMenu.onSaveableLink || window.gContextMenu.onPlainTextLink;
+      document.getElementById('context-sep-open').hidden = !shouldShow;
+      menuItem.hidden = !shouldShow;
+
+      // Handle clicking on it and open link in default browser
+      window.gContextMenu.openLinkInDefaultBrowser = function () {
+        MailIntegration._launchExternalUrl(makeURI(this.linkURL));
+      };
+    });
   }
 
   moveMenuButtons () {
