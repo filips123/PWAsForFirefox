@@ -107,6 +107,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Configure cache
+        uses: Swatinem/rust-cache@v1
+        with:
+          working-directory: native
+          key: ${{ matrix.target }}
+
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -116,22 +122,21 @@ jobs:
           override: true
           default: true
 
-      - name: Configure cache
-        uses: Swatinem/rust-cache@v1
-        with:
-          working-directory: native
-          key: ${{ matrix.target }}
-
       - name: Install Cargo DEB (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
           cargo install cargo-deb --git https://github.com/mmstick/cargo-deb.git --rev f603d105b4641e00640e46b189c6ee0c8f084de2
 
+      - name: Install Cargo RPM (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cargo install cargo-rpm --git https://github.com/filips123/cargo-rpm --rev 1f0f4baa3ef926de7497d705374c3f62c15c094c
+
       - name: Install Cargo WiX (Windows)
         if: matrix.os == 'windows-latest'
         run: |
           echo "C:\Program Files (x86)\WiX Toolset v3.11\bin" >> $GITHUB_PATH
-          cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev 764857d
+          cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev 764857d051871fda31a845816ba3df18a20648b0
 
       - name: Workarounds for Linux builds
         if: matrix.os == 'ubuntu-latest'
@@ -139,6 +144,9 @@ jobs:
           # Use vendored OpenSSL to fix build problems with cross
           # See: https://github.com/rust-embedded/cross/issues/510
           sed -i '/\[dependencies\]/a openssl = { version = "0.10", features = ["vendored"] }' Cargo.toml
+
+          # Replace completions paths with the correct paths for cross-compilation
+          sed -i 's/..\/target\/release\/completions\//..\/target\/${{ matrix.target }}\/release\/completions\//g' Cargo.toml
 
           # Manually specify minimum libc6 version because cargo-deb cannot determine it correcttly when using cross
           # See: https://github.com/mmstick/cargo-deb/issues/117 & https://github.com/mmstick/cargo-deb/issues/178
@@ -178,10 +186,15 @@ jobs:
           cargo deb --verbose --no-build --target ${{ matrix.target }}
           mkdir -p target/debian/ && cp -r target/${{ matrix.target }}/debian/*.deb target/debian/
 
+      - name: Package RPM (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cargo rpm build --verbose --no-cargo-build --target ${{ matrix.target }}
+
       - name: Package MSI (Windows)
         if: matrix.os == 'windows-latest'
         run: |
-          heat dir userchrome -o wix/userchrome.wxs -scom -frag -srd -sreg -gg -cg UserChrome -var wix.UserChromeSource -dr UserChromeDir
+          heat dir userchrome -o packages/wix/userchrome.wxs -scom -frag -srd -sreg -gg -cg UserChrome -var wix.UserChromeSource -dr UserChromeDir
           cargo wix --verbose --no-build --nocapture --target ${{ matrix.target }}
 
       - name: Upload artifacts
@@ -191,6 +204,7 @@ jobs:
           path: |
             native/target/completions.zip
             native/target/debian/*.deb
+            native/target/rpm/*.rpm
             native/target/wix/*.msi
 
       - name: Remove artifacts from cache
@@ -200,6 +214,8 @@ jobs:
           rm -rf target/completions.zip || true
           rm -rf target/*/debian/ || true
           rm -rf target/debian/ || true
+          rm -rf target/*/*/rpmbuild/ || true
+          rm -rf target/rpm/ || true
           rm -rf target/*/wix/ || true
           rm -rf target/wix/ || true
 
@@ -224,6 +240,7 @@ jobs:
           files: |
             artifact/completions.zip
             artifact/debian/*.deb
+            artifact/rpm/*.rpm
             artifact/wix/*.msi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

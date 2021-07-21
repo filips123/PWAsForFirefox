@@ -13,7 +13,7 @@
       <div class="nav flex-column nav-pills me-3" role="tablist" aria-orientation="vertical">
         <button class="nav-link" id="windows-install-tab" data-bs-toggle="tab" data-bs-target="#windows-install-pane" type="button" role="tab" aria-controls="windows-install-pane" aria-selected="false">Windows</button>
         <button class="nav-link" id="linux-deb-install-tab" data-bs-toggle="tab" data-bs-target="#linux-deb-install-pane" type="button" role="tab" aria-controls="linux-deb-install-pane" aria-selected="false">Debian-like Linux (DEB)</button>
-        <button class="nav-link d-none" id="linux-rpm-install-tab" data-bs-toggle="tab" data-bs-target="#linux-rpm-install-pane" type="button" role="tab" aria-controls="linux-rpm-install-pane" aria-selected="false">Fedora-like Linux (RPM)</button>
+        <button class="nav-link" id="linux-rpm-install-tab" data-bs-toggle="tab" data-bs-target="#linux-rpm-install-pane" type="button" role="tab" aria-controls="linux-rpm-install-pane" aria-selected="false">Red Hat-like Linux (RPM)</button>
         <button class="nav-link" id="linux-source-install-tab" data-bs-toggle="tab" data-bs-target="#linux-source-install-pane" type="button" role="tab" aria-controls="linux-source-install-pane" aria-selected="false">Other Linux</button>
         <button class="nav-link" id="macos-install-tab" data-bs-toggle="tab" data-bs-target="#macos-install-pane" type="button" role="tab" aria-controls="macos-install-pane" aria-selected="false">macOS</button>
         <button class="nav-link" id="other-install-tab" data-bs-toggle="tab" data-bs-target="#other-install-pane" type="button" role="tab" aria-controls="other-install-pane" aria-selected="false">Other</button>
@@ -22,26 +22,26 @@
       <div class="tab-content">
         <div class="tab-pane fade" id="windows-install-pane" role="tabpanel" aria-labelledby="windows-install-tab">
           <ol>
-            <li>Download and install the <a id="connector-download-url-crt">Visual C++ Redistributable</a>.</li>
-            <li>Download and run the <a id="connector-download-url-msi">FirefoxPWA MSI installer</a>.</li>
+            <li>Download and install the <a id="connector-download-url-crt" target="_blank">Visual C++ Redistributable</a>.</li>
+            <li>Download and run the <a id="connector-download-url-msi" target="_blank">FirefoxPWA MSI installer</a>.</li>
             <li>After the programs are installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
           </ol>
         </div>
         <div class="tab-pane fade" id="linux-deb-install-pane" role="tabpanel" aria-labelledby="linux-deb-install-tab">
           <ol>
-            <li>Download and install the <a id="connector-download-url-deb">FirefoxPWA DEB file</a>.</li>
-            <li>After the program is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+            <li>Download and install the <a id="connector-download-url-deb" target="_blank">FirefoxPWA DEB package</a>.</li>
+            <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
           </ol>
         </div>
         <div class="tab-pane fade" id="linux-rpm-install-pane" role="tabpanel" aria-labelledby="linux-rpm-install-tab">
           <ol>
-            <li>Download and install the <a id="connector-download-url-rpm">FirefoxPWA RPM file</a>.</li>
-            <li>After the program is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+            <li>Download and install the <a id="connector-download-url-rpm" target="_blank">FirefoxPWA RPM package</a>.</li>
+            <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
           </ol>
         </div>
         <div class="tab-pane fade" id="linux-source-install-pane" role="tabpanel" aria-labelledby="linux-source-install-tab">
           <ol>
-            <li>Clone the <a href="https://github.com/filips123/FirefoxPWA">FirefoxPWA Git repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
+            <li>Clone the <a href="https://github.com/filips123/FirefoxPWA" target="_blank">FirefoxPWA Git repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
             <li>Checkout the <kbd class="connector-repository-tag"></kbd> tag.</li>
             <li>Modify <kbd>version</kbd> field inside <kbd>Cargo.toml</kbd> to <kbd class="connector-project-version"></kbd>.</li>
             <li>Modify <kbd>DISTRIBUTION_VERSION</kbd> variable inside <kbd>userchrome/profile/chrome/pwa/chrome.jsm</kbd> to <kbd class="connector-project-version"></kbd>.</li>
@@ -57,7 +57,7 @@
             </li>
             <li>After the files are copied, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
           </ol>
-          <p>For a list of commands to do this, check <a href="https://github.com/filips123/FirefoxPWA/tree/main/native#other-linux">the README file in the repository</a>.</p>
+          <p>For a list of commands to do this, check <a id="connector-source-install-linux" target="_blank">the README file in the repository</a>.</p>
         </div>
         <div class="tab-pane fade" id="macos-install-pane" role="tabpanel" aria-labelledby="macos-install-tab">
           <p>⚠️ On macOS there is no automatic installer yet. The connector has to be built from source! ⚠️</p>
@@ -67,7 +67,7 @@
             Follow <a href="https://github.com/filips123/FirefoxPWA/issues/33" target="_blank">#33</a> for updates about macOS support. ⚠️
           </p>
           <ol>
-            <li>Clone the <a href="https://github.com/filips123/FirefoxPWA">FirefoxPWA Git repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
+            <li>Clone the <a href="https://github.com/filips123/FirefoxPWA" target="_blank">FirefoxPWA Git repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
             <li>Checkout the <kbd class="connector-repository-tag"></kbd> tag.</li>
             <li>Modify <kbd>version</kbd> field inside <kbd>Cargo.toml</kbd> to <kbd class="connector-project-version"></kbd>.</li>
             <li>Modify <kbd>DISTRIBUTION_VERSION</kbd> variable inside <kbd>userchrome/profile/chrome/pwa/chrome.jsm</kbd> to <kbd class="connector-project-version"></kbd>.</li>
@@ -82,7 +82,7 @@
             </li>
             <li>After the files are copied, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
           </ol>
-          <p>For a list of commands to do this, check <a href="https://github.com/filips123/FirefoxPWA/tree/main/native#macos">the README file in the repository</a>.</p>
+          <p>For a list of commands to do this, check <a id="connector-source-install-macos" target="_blank">the README file in the repository</a>.</p>
         </div>
         <div class="tab-pane fade" id="other-install-pane" role="tabpanel" aria-labelledby="other-install-tab">
           <p>

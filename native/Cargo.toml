@@ -101,3 +101,23 @@ assets = [
     # UserChrome
     ["userchrome/**/*", "/usr/share/firefoxpwa/userchrome/", "644"],
 ]
+
+[package.metadata.rpm]
+cargo = { buildflags = ["--release"] }
+config = "packages/rpm/"
+output = "target/rpm/"
+
+[package.metadata.rpm.targets]
+firefoxpwa = { path = "/usr/bin/firefoxpwa" }
+firefoxpwa-connector = { path = "/usr/libexec/firefoxpwa-connector" }
+
+[package.metadata.rpm.files]
+"../../manifests/linux.json" = { path = "/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json" }
+"../../target/release/completions/firefoxpwa.bash" = { path = "/usr/share/bash-completion/completions/firefoxpwa" }
+"../../target/release/completions/firefoxpwa.fish" = { path = "/usr/share/fish/completions/firefoxpwa.fish" }
+"../../target/release/completions/_firefoxpwa" = { path = "/usr/share/zsh/vendor-completions/_firefoxpwa" }
+"../../../README.md" = { path = "/usr/share/doc/firefoxpwa/README.md" }
+"../../../native/README.md" = { path = "/usr/share/doc/firefoxpwa/README-NATIVE.md" }
+"../../../extension/README.md" = { path = "/usr/share/doc/firefoxpwa/README-EXTENSION.md" }
+"../debian/copyright" = { path = "/usr/share/doc/firefoxpwa/copyright" }
+"../../userchrome/" = { path = "/usr/share/firefoxpwa/userchrome/" }

@@ -15,10 +15,11 @@ Read the [main README file](../README.md) for more details about the project.
 
 ### Supported Operating Systems
 
-* Windows (pre-built MSI installer & source installation)
-* Debian-like Linux (pre-built DEB package & source installation)
-* Other Linux (source installation)
-* macOS (partial support, source installation)
+* Windows (pre-built MSI installer)
+* Debian-like Linux (pre-built DEB package)
+* Red Hat-like Linux (pre-built RPM package)
+* Other Linux (source installation only)
+* macOS (partial support, source installation only)
 
 ### From Release Binaries
 
@@ -49,7 +50,7 @@ On Windows, you will need to install the [Visual C++ Redistributable](https://su
    ```
 6. Run the installer from the `target/wix` directory.
 
-#### Debian-like Linux
+#### Debian-like Linux (DEB)
 
 1. Install the Rust language and Git.
 2. Install [`cargo-deb`](https://github.com/mmstick/cargo-deb) (you need to install it directly from repository).
@@ -59,6 +60,17 @@ On Windows, you will need to install the [Visual C++ Redistributable](https://su
    cargo deb
    ```
 5. Install the DEB package from the `target/debian` directory.
+
+#### Red Hat-like Linux (RPM)
+
+1. Install the Rust language and Git.
+2. Install [`cargo-rpm`](https://github.com/filips123/cargo-rpm/tree/support-custom-config-dir) (you need to install it from my fork).
+3. Clone the repository and cd into the `native` (this) directory.
+4. Build the project in release mode and package it as an RPM package:
+   ```shell
+   cargo rpm build
+   ```
+5. Install the RPM package from the `target/rpm` directory.
 
 #### Other Linux
 

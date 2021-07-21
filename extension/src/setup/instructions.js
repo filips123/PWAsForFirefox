@@ -23,12 +23,19 @@ async function prepareInstallInstructions () {
   const debArch = arch === 'x86-64' ? 'amd64' : 'i386'
   document.getElementById('connector-download-url-deb').setAttribute('href', `https://github.com/filips123/FirefoxPWA/releases/download/v${version}/firefoxpwa_${version}_${debArch}.deb`)
 
-  // TODO: Set RPM download URL based on system arch and extension version
+  // Set RPM download URL based on system arch and extension version
   // For ARM it doesn't matter which version we set because RPM tab will be hidden later
+  const rpmArch = arch === 'x86-64' ? 'x86_64' : 'i686'
+  document.getElementById('connector-download-url-rpm').setAttribute('href', `https://github.com/filips123/FirefoxPWA/releases/download/v${version}/firefoxpwa-${version}-1.${rpmArch}.rpm`)
 
   // Set repository info based on extension version
   for (const elem of document.getElementsByClassName('connector-repository-tag')) elem.innerText = `v${version}`
   for (const elem of document.getElementsByClassName('connector-project-version')) elem.innerText = version
+
+  // Link to the specific version for the install script
+  const branchName = version === '0.0.0' ? 'main' : `v${version}`
+  document.getElementById('connector-source-install-linux').setAttribute('href', `https://github.com/filips123/FirefoxPWA/tree/${branchName}/native#other-linux`)
+  document.getElementById('connector-source-install-macos').setAttribute('href', `https://github.com/filips123/FirefoxPWA/tree/${branchName}/native#macos`)
 
   // Hide DEB and RPM tabs on ARM
   // And rename "Other Linux" to just "Linux"
