@@ -1,6 +1,8 @@
 import { Toast } from 'bootstrap'
 import { gt as semverGt, satisfies as semverSatisfies } from 'semver'
 
+export const PREF_DISPLAY_PAGE_ACTION = 'settings.display-page-action'
+
 /**
  * Obtains the manifest and the document URLs by asking the content script of current tab.
  * Also obtains some basic page info that can be used if the manifest does not exist.

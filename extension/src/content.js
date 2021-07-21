@@ -8,9 +8,7 @@ if (manifestElement) {
 }
 
 // Send the manifest URL and the document URL to the background script on the page load
-if (manifestUrl) {
-  browser.runtime.sendMessage({ manifestUrl, documentUrl: document.location.href })
-}
+browser.runtime.sendMessage({ manifestUrl, documentUrl: document.location.href })
 
 // Send the manifest and the document URL to the sender of the request message
 browser.runtime.onMessage.addListener((message, _, sendResponse) => {

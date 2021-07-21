@@ -8,6 +8,7 @@ import {
   launchSite,
   obtainProfileList,
   obtainSiteList,
+  PREF_DISPLAY_PAGE_ACTION,
   setPopupSize
 } from '../utils'
 
@@ -510,7 +511,9 @@ async function createProfileList () {
 // Handle site and profile search
 async function handleSearch () {
   const searchHandler = function (listElement) {
-    document.getElementById('list-search').oninput = function () {
+    document.getElementById('search-box').classList.remove('invisible')
+
+    document.getElementById('search-input').oninput = function () {
       for (const item of document.getElementById(listElement).children) {
         const itemName = item.querySelector('.list-group-item-name')?.innerText.toLowerCase()
         const searchQuery = this.value.toLowerCase()
@@ -521,10 +524,38 @@ async function handleSearch () {
     }
   }
 
+  const searchHide = function () {
+    document.getElementById('search-box').classList.add('invisible')
+  }
+
   document.getElementById('sites-tab').addEventListener('click', () => searchHandler('sites-list'))
   document.getElementById('profiles-tab').addEventListener('click', () => searchHandler('profiles-list'))
+  document.getElementById('settings-tab').addEventListener('click', () => searchHide())
 
   searchHandler('sites-list')
+}
+
+// Handle extension settings
+async function handleSettings (hasChanged = false) {
+  // Get settings from local storage and media query
+  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION])
+  const settingsDisplayPageAction = settings[PREF_DISPLAY_PAGE_ACTION] ? settings[PREF_DISPLAY_PAGE_ACTION] : 'valid'
+  const settingsEnableDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+
+  // Set settings input values
+  document.getElementById('settings-display-page-action').querySelector(`#settings-display-page-action-${settingsDisplayPageAction}`).checked = true
+  document.getElementById('settings-enable-dark-mode').checked = settingsEnableDarkMode
+
+  // Do not re-register listeners
+  if (hasChanged) return
+
+  // Listen for display page action input changes
+  document.getElementById('settings-display-page-action').addEventListener('change', async function () {
+    await browser.storage.local.set({ [PREF_DISPLAY_PAGE_ACTION]: this.querySelector(':checked').value })
+  })
+
+  // Listen for dark mode changes
+  window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => handleSettings(true))
 }
 
 // Switch to install/update page if needed
@@ -537,3 +568,4 @@ setPopupSize()
 createSiteList()
 createProfileList()
 handleSearch()
+handleSettings()

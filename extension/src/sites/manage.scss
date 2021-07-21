@@ -28,6 +28,10 @@ html, body {
   min-height: 33rem;
 }
 
+#card-navigation {
+  border-bottom-width: 0 !important;
+}
+
 .card-body {
   padding: 0;
 }
@@ -66,3 +70,43 @@ html, body {
   font-size: 0.7em;
 }
 
+#search-box {
+  transition: visibility 0.18s linear, opacity 0.18s linear;
+  visibility: visible;
+  opacity: 1;
+}
+
+#search-box.invisible {
+  visibility: hidden;
+  opacity: 0;
+}
+
+//////////////////////////////
+// Icon Link Tab
+//////////////////////////////
+
+.icon-link {
+  color: #555d65 !important;
+}
+
+.icon-link:hover {
+  color: #3e4449 !important;
+}
+
+.icon-link.active {
+  color: #272a2d !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .icon-link {
+    color: #989898 !important;
+  }
+
+  .icon-link:hover {
+    color: #b1b1b1 !important;
+  }
+
+  .icon-link.active {
+    color: #cbcbcb !important;
+  }
+}

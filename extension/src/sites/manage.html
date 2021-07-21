@@ -15,9 +15,11 @@
           <div class="nav nav-tabs card-header-tabs" id="card-navigation" role="tablist">
             <button class="nav-link active" id="sites-tab" data-bs-toggle="tab" data-bs-target="#sites-pane" type="button" role="tab" aria-controls="sites-pane" aria-selected="true">Apps</button>
             <button class="nav-link" id="profiles-tab" data-bs-toggle="tab" data-bs-target="#profiles-pane" type="button" role="tab" aria-controls="profiles-pane" aria-selected="false">Profiles</button>
+            <button class="nav-link icon-link ms-auto py-0 bi-gear-fill lead" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-pane" type="button" role="tab" aria-controls="settings-pane" aria-selected="false"></button>
           </div>
         </nav>
       </div>
+
       <div class="card-body">
         <div class="tab-content">
           <div class="tab-pane fade show active" id="sites-pane" role="tabpanel" aria-labelledby="sites-tab">
@@ -85,14 +87,54 @@
               </li>
             </ul>
           </div>
+
+          <div class="tab-pane fade" id="settings-pane" role="tabpanel" aria-labelledby="settings-tab">
+            <div class="list-group list-group-flush">
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div>
+                    <label class="fw-bold mb-0" for="settings-display-page-action">Display address bar widget</label>
+                  </div>
+                  <div id="settings-display-page-action">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="settings-display-page-action" id="settings-display-page-action-valid" value="valid" checked>
+                      <label class="form-check-label" for="settings-display-page-action-valid">On valid progressive web apps</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="settings-display-page-action" id="settings-display-page-action-always" value="always">
+                      <label class="form-check-label" for="settings-display-page-action-always">Always</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="settings-display-page-action" id="settings-display-page-action-never" value="never">
+                      <label class="form-check-label" for="settings-display-page-action-never">Never</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list-group-item">
+                <div class="row align-items-center" title="Can only be enabled in the system settings">
+                  <div class="col">
+                    <label class="fw-bold mb-0" for="settings-enable-dark-mode">Enable dark mode</label>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="settings-enable-dark-mode" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
       <div class="card-footer ps-2 pe-0 m-0 row bg-warning text-dark d-none" id="extension-outdated-box">
         <p class="col-11 mx-0 my-auto">This extension is outdated! <a id="extension-outdated-update" target="_blank">Please update it</a>!</p>
         <button type="button" class="col-1 btn-close my-auto tiny" id="extension-outdated-close" aria-label="Close"></button>
       </div>
-      <div class="card-footer px-2 mx-0 row">
-        <input class="form-control" id="list-search" type="search" placeholder="Search by name" aria-label="Search by name" />
+      <div class="card-footer px-2 mx-0 row" id="search-box">
+        <input class="form-control" id="search-input" type="search" placeholder="Search by name" aria-label="Search by name" />
       </div>
     </div>
 
