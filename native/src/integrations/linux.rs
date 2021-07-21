@@ -11,6 +11,7 @@ use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize};
 
+use crate::directories::ProjectDirs;
 use crate::integrations::xdg::XDG_CATEGORIES;
 use crate::integrations::{is_icon_supported, SiteInfoInstall, SiteInfoUninstall};
 
@@ -145,7 +146,7 @@ fn store_icons(id: &str, icons: &[IconResource], suffix: &str) -> Result<()> {
     Ok(())
 }
 
-fn create_application_entry(info: &SiteInfoInstall) -> Result<()> {
+fn create_application_entry(info: &SiteInfoInstall, exe: &str) -> Result<()> {
     // App ID is based on ste site ID
     let appid = format!("FFPWA-{}", &info.id);
 
@@ -194,7 +195,7 @@ StartupWMClass={wmclass}
         actions = (0..info.shortcuts.len()).map(|i| i.to_string() + ";").collect::<String>(),
         icon = &appid,
         wmclass = &appid,
-        exe = "/usr/bin/firefoxpwa",
+        exe = &exe,
     );
 
     // Store all shortcuts
@@ -215,7 +216,7 @@ Exec={exe} site launch {siteid} --url \"{url}\"
             name = &shortcut.name,
             url = &url,
             icon = format!("{}-{}", appid, i),
-            exe = "/usr/bin/firefoxpwa",
+            exe = &exe,
         );
 
         entry += &action;
@@ -239,9 +240,11 @@ fn update_application_cache() -> Result<()> {
 }
 
 #[inline]
-pub fn install(info: &SiteInfoInstall) -> Result<()> {
+pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
+    let exe = dirs.executables.join("firefoxpwa").display().to_string();
+
     store_icons(&info.id, &info.icons, "").context("Failed to process and store site icons")?;
-    create_application_entry(&info).context("Failed to create application entry")?;
+    create_application_entry(&info, &exe).context("Failed to create application entry")?;
     let _ = update_application_cache();
 
     Ok(())

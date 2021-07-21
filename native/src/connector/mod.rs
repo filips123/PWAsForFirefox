@@ -109,11 +109,11 @@ impl<'a> Connection<'a> {
         let _stderr_gag;
 
         if self.debugmode {
-            let stdout = self.dirs.data.join("firefoxpwa-stdout.log");
+            let stdout = self.dirs.userdata.join("firefoxpwa-stdout.log");
             let stdout = OpenOptions::new().create(true).append(true).open(stdout)?;
             _stdout_rdr = gag::Redirect::stdout(stdout).context("Failed to redirect stdout")?;
 
-            let stderr = self.dirs.data.join("firefoxpwa-stderr.log");
+            let stderr = self.dirs.userdata.join("firefoxpwa-stderr.log");
             let stderr = OpenOptions::new().create(true).append(true).open(stderr)?;
             _stderr_rdr = gag::Redirect::stderr(stderr).context("Failed to redirect stderr")?;
         } else {

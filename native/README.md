@@ -78,9 +78,6 @@ On Windows, you will need to install the [Visual C++ Redistributable](https://su
     * `manifests/linux.json` -> `/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json`
     * `manifests/linux.json` -> `/usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json`
     * `userchrome/` -> `/usr/share/firefoxpwa/userchrome/`
-6. Create an empty directory `/usr/share/firefoxpwa/runtime/` and make it writable by normal users (`777`).
-   This is needed for FirefoxPWA runtime installation and Firefox auto-updates to work.
-   If you do not plan to use Firefox auto-updates, you can restore the permissions after the runtime is installed.
 
 You can also run the below commands to do this automatically (except Rust and Git installation):
 
@@ -107,10 +104,6 @@ sudo install -D manifests/linux.json /usr/lib64/mozilla/native-messaging-hosts/f
 # Copy the userchrome directory to the correct location
 sudo mkdir -p /usr/share/firefoxpwa/userchrome/
 sudo cp -R userchrome/* /usr/share/firefoxpwa/userchrome/
-
-# Create an empty runtime directory and make it writable by normal users
-sudo mkdir -p /usr/share/firefoxpwa/runtime/
-sudo chmod 777 /usr/share/firefoxpwa/runtime/
 ```
 
 If you want to modify the installation or runtime directory, you will also need to modify the source code before building. Check [the FAQ in the repository wiki](https://github.com/filips123/FirefoxPWA/wiki/Frequently-Asked-Questions) for more details.
@@ -134,9 +127,6 @@ If you want to modify the installation or runtime directory, you will also need 
     * `target/release/firefoxpwa-connector` -> `/usr/local/libexec/firefoxpwa-connector`
     * `manifests/macos.json` -> `/Library/Application Support/Mozilla/NativeMessagingHosts/firefoxpwa.json`
     * `userchrome/` -> `/usr/local/share/firefoxpwa/userchrome/`
-6. Create an empty directory `/usr/local/share/firefoxpwa/runtime/` and make it writable by normal users (`777`).
-   This is needed for FirefoxPWA runtime installation and Firefox auto-updates to work.
-   If you do not plan to use Firefox auto-updates, you can restore the permissions after the runtime is installed.
 
 ```shell
 # Clone the repository and switch into the correct directory
@@ -165,10 +155,6 @@ sudo install -v manifests/macos.json /Library/Application\ Support/Mozilla/Nativ
 # Copy the userchrome directory to the correct location
 sudo mkdir -p /usr/local/share/firefoxpwa/userchrome/
 sudo cp -R userchrome/* /usr/local/share/firefoxpwa/userchrome/
-
-# Create an empty runtime directory and make it writable by normal users
-sudo mkdir -p /usr/local/share/firefoxpwa/runtime/
-sudo chmod 777 /usr/local/share/firefoxpwa/runtime/
 ```
 
 If you want to modify the installation or runtime directory, you will also need to modify the source code before building. Check [the FAQ in the repository wiki](https://github.com/filips123/FirefoxPWA/wiki/Frequently-Asked-Questions) for more details.

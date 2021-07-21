@@ -41,8 +41,8 @@ impl Profile {
     }
 
     pub fn patch(&self, dirs: &ProjectDirs) -> Result<()> {
-        let source = dirs.install.join("userchrome/profile");
-        let profile = dirs.data.join("profiles").join(self.ulid.to_string());
+        let source = dirs.sysdata.join("userchrome/profile");
+        let profile = dirs.userdata.join("profiles").join(self.ulid.to_string());
 
         let mut options = CopyOptions::new();
         options.content_only = true;

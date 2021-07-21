@@ -1,11 +1,9 @@
 #!/bin/sh
 set -e
 
-# Make dynamically-generated directories writable
-mkdir -p /usr/share/firefoxpwa
-chmod 777 /usr/share/firefoxpwa
-
 # Make shell completions executable
+# We cannot do this in Cargo.toml because of cargo-deb bug
+# See: https://github.com/mmstick/cargo-deb/issues/67
 chmod 755 /usr/share/bash-completion/completions/firefoxpwa
 chmod 755 /usr/share/fish/completions/firefoxpwa.fish
 chmod 755 /usr/share/zsh/vendor-completions/_firefoxpwa

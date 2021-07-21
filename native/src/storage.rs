@@ -21,7 +21,7 @@ pub struct Storage {
 
 impl Storage {
     pub fn load(dirs: &ProjectDirs) -> Result<Self> {
-        let filename = dirs.data.join("config.json");
+        let filename = dirs.userdata.join("config.json");
 
         if !filename.exists() {
             return Ok(Self::default());
@@ -32,7 +32,7 @@ impl Storage {
     }
 
     pub fn write(&self, dirs: &ProjectDirs) -> Result<()> {
-        let filename = dirs.data.join("config.json");
+        let filename = dirs.userdata.join("config.json");
         let file = File::create(filename).context("Failed to open storage")?;
 
         if cfg!(debug_assertions) {

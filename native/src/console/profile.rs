@@ -111,7 +111,7 @@ impl Run for ProfileRemoveCommand {
         }
 
         info!("Removing directories");
-        let _ = remove_dir_all(dirs.data.join("profiles").join(self.id.to_string()));
+        let _ = remove_dir_all(dirs.userdata.join("profiles").join(self.id.to_string()));
 
         info!("Removing sites");
         for site in &profile.sites {

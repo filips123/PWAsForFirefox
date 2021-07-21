@@ -95,7 +95,7 @@ fn store_icon(
                 }
             }
 
-            let directory = dirs.data.join("icons").join(&siteid);
+            let directory = dirs.userdata.join("icons").join(&siteid);
             let filename = directory.join(&iconid).with_extension("ico");
             create_dir_all(&directory).context("Failed to create icons directory")?;
             img.save(&filename).context("Failed to save icon")?;
@@ -270,9 +270,9 @@ fn create_jump_list_tasks(info: &SiteInfoInstall, dirs: &ProjectDirs, exe: Strin
 }
 
 pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
-    let _ = remove_dir_all(dirs.data.join("icons").join(&info.id));
+    let _ = remove_dir_all(dirs.userdata.join("icons").join(&info.id));
 
-    let exe = dirs.install.join("firefoxpwa.exe").display().to_string();
+    let exe = dirs.executables.join("firefoxpwa.exe").display().to_string();
     let icon = store_icon(&info.id, &"site", &info.icons, &dirs, false)
         .context("Failed to process and store site icon")?;
 
@@ -299,7 +299,7 @@ pub fn uninstall(info: &SiteInfoUninstall, dirs: &ProjectDirs) -> Result<()> {
     }
 
     // Remove icons
-    let icon = dirs.data.join("icons").join(&info.id);
+    let icon = dirs.userdata.join("icons").join(&info.id);
     let _ = remove_dir_all(icon);
 
     // Remove ARP entry

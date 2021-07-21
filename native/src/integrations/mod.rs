@@ -121,7 +121,7 @@ pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
         if #[cfg(target_os = "windows")] {
             windows::install(&info, &dirs)
         } else if #[cfg(target_os = "linux")] {
-            linux::install(&info)
+            linux::install(&info, &dirs)
         } else if #[cfg(target_os = "macos")] {
             warn!("System integration currently does not work on macOS");
             Ok(())

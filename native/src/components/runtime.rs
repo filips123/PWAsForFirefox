@@ -67,7 +67,10 @@ pub struct Runtime {
 
 impl Runtime {
     pub fn new(dirs: &ProjectDirs) -> Result<Self> {
-        let directory = dirs.install.join("runtime");
+        // Runtime is currently installed to a user-specific location along with other project files
+        // If you want to overwrite locations of all project files, check `directories.rs`
+        // If you want to overwrite only runtime location, replace the below line
+        let directory = dirs.userdata.join("runtime");
 
         let executable = {
             cfg_if! {
@@ -212,7 +215,7 @@ impl Runtime {
     }
 
     pub fn patch(&self, dirs: &ProjectDirs) -> Result<()> {
-        let source = dirs.install.join("userchrome/runtime");
+        let source = dirs.sysdata.join("userchrome/runtime");
 
         cfg_if! {
             if #[cfg(target_os = "macos")] {

@@ -58,22 +58,6 @@
         <!-- Prevent downgrading application -->
         <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A newer version of [ProductName] is already installed. Setup will now exit." />
 
-        <!-- Dynamically delete runtime directory with rmdir because Windows Installer cannot do that -->
-        <CustomAction
-            Id="RemoveRuntimeDir"
-            Directory="TARGETDIR"
-            ExeCommand="cmd /C &quot;rmdir /S /Q &quot;[RuntimeDir]&quot;&quot;"
-            Execute="deferred"
-            Return="ignore"
-            HideTarget="no"
-            Impersonate="no"
-        />
-        <InstallExecuteSequence>
-            <Custom Action="RemoveRuntimeDir" Before="RemoveFiles">
-                Installed AND NOT UPGRADINGPRODUCTCODE
-            </Custom>
-        </InstallExecuteSequence>
-
         <!-- Apparently needed for WiX to work -->
         <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" DiskPrompt="CD-ROM #1" />
         <Property Id="DiskPrompt" Value="FirefoxPWA Installation [1]" />
@@ -185,17 +169,6 @@
                                 DiskId="1"
                                 KeyPath="yes"
                             />
-                        </Component>
-                    </Directory>
-
-                    <!-- Writable runtime directory where Firefox is installed -->
-                    <!-- Directory needs to be writable so program can later install, update and modify Firefox if needed without elevated privileges -->
-                    <!-- Directory is deleted on uninstall and reinstall by a custom action because Windows Installer cannot remove dynamically-generated files/directories -->
-                    <Directory Id="RuntimeDir" Name="runtime">
-                        <Component Id="Runtime" Guid="28D96CA1-B270-48EE-AE67-694E3831FEB6">
-                            <CreateFolder>
-                                <util:PermissionEx User="Users" GenericAll="yes" />
-                            </CreateFolder>
                         </Component>
                     </Directory>
 

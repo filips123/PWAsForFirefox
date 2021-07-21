@@ -11,11 +11,11 @@ use firefoxpwa::{connector::Connection, directories::ProjectDirs};
 fn main() -> Result<()> {
     let dirs = ProjectDirs::new()?;
 
-    let debugfile = dirs.data.join("DEBUG");
+    let debugfile = dirs.userdata.join("DEBUG");
     let debugmode = debugfile.exists();
     let loglevel = if debugmode { LevelFilter::Info } else { LevelFilter::Warn };
 
-    let logfile = dirs.data.join("firefoxpwa.log");
+    let logfile = dirs.userdata.join("firefoxpwa.log");
     let logfile = OpenOptions::new().create(true).append(true).open(logfile)?;
 
     CombinedLogger::init(vec![

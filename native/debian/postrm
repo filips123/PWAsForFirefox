@@ -1,8 +1,10 @@
 #!/bin/sh
 set -e
 
-# Remove dynamically-generated directories
+# Add warning that runtime, profiles and sites are still installed
 if [ "$1" = "remove" ]
 then
-    rm -rf /usr/share/firefoxpwa || true
+    echo "Runtime, profiles and sites are still installed in user directories"
+    echo "You can remove them manually after this package is uninstalled"
+    echo "Doing that will remove all installed PWA sites and their data"
 fi

@@ -114,7 +114,7 @@ impl Site {
         runtime: &Runtime,
         url: &Option<Url>,
     ) -> Result<Child> {
-        let profile = dirs.data.join("profiles").join(&self.profile.to_string());
+        let profile = dirs.userdata.join("profiles").join(&self.profile.to_string());
 
         #[rustfmt::skip]
         let mut args = vec![
