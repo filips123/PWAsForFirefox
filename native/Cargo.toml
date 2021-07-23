@@ -65,12 +65,18 @@ structopt = "0.3.22"
 ulid = "0.4.1"
 url = "2.2.2"
 
+[package.metadata.wix]
+include = [
+    "packages/wix/main.wxs",
+    "packages/wix/userchrome.wxs"
+]
+
 [package.metadata.deb]
 section = "web"
 priority = "optional"
-maintainer-scripts = "debian"
-extended-description-file = "debian/description"
-license-file = ["debian/copyright", "0"]
+maintainer-scripts = "packages/debian"
+extended-description-file = "packages/debian/description"
+license-file = ["packages/debian/copyright", "0"]
 assets = [
     # Executables
     ["target/release/firefoxpwa", "/usr/bin/firefoxpwa", "755"],

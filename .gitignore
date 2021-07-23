@@ -55,7 +55,7 @@ web_modules/
 
 # Generated userchrome.wxs WiX file
 # File needs to be manually generated before running cargo wix
-/native/wix/userchrome.wxs
+/native/packages/wix/userchrome.wxs
 
 # Do not ignore .gitkeep files
 !.gitkeep

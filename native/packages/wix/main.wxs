@@ -17,7 +17,7 @@
 
 <!--
   Important: Generate UserChrome component group before running cargo wix!
-  $ heat dir userchrome -o wix/userchrome.wxs -scom -frag -srd -sreg -gg -cg UserChrome -var wix.UserChromeSource -dr UserChromeDir
+  $ heat dir userchrome -o packages/wix/userchrome.wxs -scom -frag -srd -sreg -gg -cg UserChrome -var wix.UserChromeSource -dr UserChromeDir
 -->
 
 <?if $(sys.BUILDARCH) = x64 or $(sys.BUILDARCH) = arm64 ?>
@@ -224,7 +224,6 @@
             <ComponentRef Id="PowerShellCompletions" />
             <ComponentRef Id="ZshCompletions" />
 
-            <ComponentRef Id="Runtime" />
             <ComponentGroupRef Id="UserChrome" />
         </Feature>
 
@@ -233,20 +232,20 @@
         <Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONFOLDER" />
 
         <!-- Configure info that are shown on Windows ARP page -->
-        <Icon Id="ProductICO" SourceFile="wix\assets\product.ico" />
+        <Icon Id="ProductICO" SourceFile="packages\wix\assets\product.ico" />
         <Property Id="ARPPRODUCTICON" Value="ProductICO" />
         <Property Id="ARPHELPLINK" Value="https://github.com/filips123/FirefoxPWA" />
         <Property Id="ARPURLINFOABOUT" Value="https://github.com/filips123/FirefoxPWA" />
         <Property Id="ARPURLUPDATEINFO" Value="https://github.com/filips123/FirefoxPWA/releases" />
 
         <!-- Configure license, images and icons that are displayed in installer -->
-        <WixVariable Id="WixUILicenseRtf" Value="wix\assets\license.rtf" />
-        <WixVariable Id="WixUIBannerBmp" Value="wix\assets\banner.png" />
-        <WixVariable Id="WixUIDialogBmp" Value="wix\assets\dialog.png" />
-        <WixVariable Id="WixUIExclamationIco" Value="wix\assets\exclamation.ico" />
-        <WixVariable Id="WixUIInfoIco" Value="wix\assets\information.ico" />
-        <WixVariable Id="WixUINewIco" Value="wix\assets\new.ico" />
-        <WixVariable Id="WixUIUpIco" Value="wix\assets\up.ico" />
+        <WixVariable Id="WixUILicenseRtf" Value="packages\wix\assets\license.rtf" />
+        <WixVariable Id="WixUIBannerBmp" Value="packages\wix\assets\banner.png" />
+        <WixVariable Id="WixUIDialogBmp" Value="packages\wix\assets\dialog.png" />
+        <WixVariable Id="WixUIExclamationIco" Value="packages\wix\assets\exclamation.ico" />
+        <WixVariable Id="WixUIInfoIco" Value="packages\wix\assets\information.ico" />
+        <WixVariable Id="WixUINewIco" Value="packages\wix\assets\new.ico" />
+        <WixVariable Id="WixUIUpIco" Value="packages\wix\assets\up.ico" />
 
         <!-- Just use default UI with installation directory option -->
         <UI>

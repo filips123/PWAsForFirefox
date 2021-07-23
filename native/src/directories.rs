@@ -105,6 +105,9 @@ impl ProjectDirs {
         // let sysdata = PathBuf::from("SYSDATA_DIR");
         // let userdata = PathBuf::from("USERDATA_DIR");
 
+        // You can rely on the below line as an injection target for tools such as `sed`
+        // INSTALL_LOCATIONS_INJECTION
+
         create_dir_all(&sysdata).context("Failed to create system data directory")?;
         create_dir_all(&userdata).context("Failed to create user data directory")?;
 
