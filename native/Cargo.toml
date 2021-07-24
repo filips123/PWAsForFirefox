@@ -74,9 +74,11 @@ include = [
 [package.metadata.deb]
 section = "web"
 priority = "optional"
+recommends = "firefox | firefox-esr | firefox-beta | firefox-trunk"
+enhances = "firefox, firefox-esr, firefox-beta, firefox-trunk"
 maintainer-scripts = "packages/debian"
 extended-description-file = "packages/debian/description"
-license-file = ["packages/debian/copyright", "0"]
+license-file = "packages/debian/copyright"
 assets = [
     # Executables
     ["target/release/firefoxpwa", "/usr/bin/firefoxpwa", "755"],

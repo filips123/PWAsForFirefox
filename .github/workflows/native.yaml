@@ -125,7 +125,7 @@ jobs:
       - name: Install Cargo DEB (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
-          cargo install cargo-deb
+          cargo install cargo-deb --git https://github.com/mmstick/cargo-deb.git --rev f603d105b4641e00640e46b189c6ee0c8f084de2
 
       - name: Install Cargo WiX (Windows)
         if: matrix.os == 'windows-latest'

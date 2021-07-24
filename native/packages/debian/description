@@ -7,3 +7,7 @@ as a standalone system app with an app-like experience.
 This project modifies Firefox to allow websites to be installed as standalone
 apps and provides a console tool and browser extension to install, manage and
 use them.
+
+This package contains only the native part of the FirefoxPWA project. You
+should also install the browser extension if you haven't already. You can
+download it from <https://addons.mozilla.org/firefox/addon/firefoxpwa/>.
