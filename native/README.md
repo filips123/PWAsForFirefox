@@ -18,8 +18,16 @@ Read the [main README file](../README.md) for more details about the project.
 * Windows (pre-built MSI installer)
 * Debian-like Linux (pre-built DEB package)
 * Red Hat-like Linux (pre-built RPM package)
+* Arch-like Linux (source and binary AUR packages)
 * Other Linux (source installation only)
 * macOS (partial support, source installation only)
+
+### From Package Archives
+
+#### Arch User Repository (AUR)
+
+* [`firefox-pwa`](https://aur.archlinux.org/packages/firefox-pwa/) (source)
+* [`firefox-pwa-bin`](https://aur.archlinux.org/packages/firefox-pwa-bin/) (pre-built)
 
 ### From Release Binaries
 
