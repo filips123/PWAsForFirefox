@@ -2,6 +2,7 @@ import { Toast } from 'bootstrap'
 import { gt as semverGt, satisfies as semverSatisfies } from 'semver'
 
 export const PREF_DISPLAY_PAGE_ACTION = 'settings.display-page-action'
+export const PREF_LAUNCH_CURRENT_URL = 'settings.launch-current-url'
 
 /**
  * Obtains the manifest and the document URLs by asking the content script of current tab.
@@ -133,13 +134,17 @@ export async function checkNativeStatus () {
 /**
  * Launches the site in a PWA browser.
  *
- * @param {{id: string}} site
+ * @param {{ulid: string}} site
+ * @param {string} [url]
  *
  * @returns {Promise<void>}
  */
-export async function launchSite (site) {
+export async function launchSite (site, url) {
   try {
-    const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'LaunchSite', params: site.ulid })
+    const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+      cmd: 'LaunchSite',
+      params: { id: site.ulid, url }
+    })
 
     if (response.type === 'Error') throw new Error(response.data)
     if (response.type !== 'SiteLaunched') throw new Error(`Received invalid response type: ${response.type}`)

@@ -159,9 +159,9 @@ impl<'a> Connection<'a> {
                 Ok(ResponseMessage::SiteList(self.storage.sites.to_owned()))
             }
 
-            RequestMessage::LaunchSite(ulid) => {
+            RequestMessage::LaunchSite { id, url } => {
                 // Just simulate calling site launch command
-                let command = SiteLaunchCommand { id: *ulid, url: None };
+                let command = SiteLaunchCommand { id: *id, url: url.to_owned() };
                 command.run()?;
 
                 Ok(ResponseMessage::SiteLaunched)

@@ -9,6 +9,7 @@ import {
   obtainProfileList,
   obtainSiteList,
   PREF_DISPLAY_PAGE_ACTION,
+  PREF_LAUNCH_CURRENT_URL,
   setPopupSize
 } from '../utils'
 
@@ -538,12 +539,14 @@ async function handleSearch () {
 // Handle extension settings
 async function handleSettings (hasChanged = false) {
   // Get settings from local storage and media query
-  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION])
+  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL])
   const settingsDisplayPageAction = settings[PREF_DISPLAY_PAGE_ACTION] ? settings[PREF_DISPLAY_PAGE_ACTION] : 'valid'
+  const settingsLaunchCurrentUrl = settings[PREF_LAUNCH_CURRENT_URL] !== undefined ? settings[PREF_LAUNCH_CURRENT_URL] : true
   const settingsEnableDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
 
   // Set settings input values
   document.getElementById('settings-display-page-action').querySelector(`#settings-display-page-action-${settingsDisplayPageAction}`).checked = true
+  document.getElementById('settings-launch-current-url').checked = settingsLaunchCurrentUrl
   document.getElementById('settings-enable-dark-mode').checked = settingsEnableDarkMode
 
   // Do not re-register listeners
@@ -552,6 +555,11 @@ async function handleSettings (hasChanged = false) {
   // Listen for display page action input changes
   document.getElementById('settings-display-page-action').addEventListener('change', async function () {
     await browser.storage.local.set({ [PREF_DISPLAY_PAGE_ACTION]: this.querySelector(':checked').value })
+  })
+
+  // Listen for launch current URL input changes
+  document.getElementById('settings-launch-current-url').addEventListener('change', async function () {
+    await browser.storage.local.set({ [PREF_LAUNCH_CURRENT_URL]: this.checked })
   })
 
   // Listen for dark mode changes

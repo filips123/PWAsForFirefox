@@ -19,8 +19,8 @@ pub enum RequestMessage {
     /// Lists all installed sites.
     GetSiteList,
 
-    /// Launches the site by its ULID.
-    LaunchSite(Ulid),
+    /// Launches the site by its ULID at the optional URL.
+    LaunchSite { id: Ulid, url: Option<Url> },
 
     /// Installs the site from the manifest with optional user overwrites.
     InstallSite {
