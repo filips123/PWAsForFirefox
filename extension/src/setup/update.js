@@ -58,6 +58,7 @@ async function checkVersions () {
 
     // Both are updated
     if (semverEq(versionExtension, versionNative)) {
+      if (!response.data.firefox) await browser.tabs.create({ url: browser.runtime.getURL('setup/install.html') })
       document.getElementById('both-updated').classList.remove('d-none')
       document.getElementById('release-notes-show').classList.add('d-none')
       return
