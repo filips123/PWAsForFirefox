@@ -3,7 +3,8 @@ XPCOMUtils.defineLazyModuleGetters(this, {
   xPref: 'resource://pwa/utils/xPref.jsm',
 });
 
-const ioService = Components.classes['@mozilla.org/network/io-service;1'].getService(Components.interfaces.nsIIOService);
+XPCOMUtils.defineLazyServiceGetter(this, 'ioService', '@mozilla.org/network/io-service;1', Ci.nsIIOService);
+XPCOMUtils.defineLazyServiceGetter(this, 'WindowsUIUtils', '@mozilla.org/windows-ui-utils;1', Ci.nsIWindowsUIUtils);
 
 //////////////////////////////
 // Plans
@@ -467,7 +468,9 @@ class PwaBrowser {
       tooltiptext: 'Copy a link to this page',
 
       onClick (event) {
-          event.target.ownerGlobal.BrowserPageActions.copyURL.onCommand(event, event.target);
+        const currentUrl = gURLBar.makeURIReadable(event.target.ownerGlobal.gBrowser.selectedBrowser.currentURI).displaySpec;
+        const clipboardHandler = Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper);
+        clipboardHandler.copyString(currentUrl);
       }
     });
   }
@@ -499,8 +502,36 @@ class PwaBrowser {
             const document = event.target.ownerDocument;
             const window = event.target.ownerGlobal;
 
-            window.BrowserPageActions.shareURL.onShowingInPanel();
-            window.BrowserPageActions.shareURL.onShowingSubview(document.getElementById('share-link-view'));
+            const selectedBrowser = window.gBrowser.selectedBrowser;
+            const currentUrl = gURLBar.makeURIReadable(selectedBrowser.currentURI).displaySpec;
+
+            const widgetView = document.getElementById('share-link-view');
+            const widgetBody = widgetView.getElementsByClassName('panel-subview-body')[0];
+
+            // Clear the panel view because it gets filled every time
+            widgetBody.innerHTML = '';
+
+            // Fil the view with all available services for the current URL
+            const sharingService = window.gBrowser.MacSharingService;
+            const services = sharingService.getSharingProviders(currentUrl);
+            services.forEach(share => {
+              const item = document.createXULElement('menuitem');
+              item.classList.add('menuitem-iconic');
+              item.setAttribute('label', share.menuItemTitle);
+              item.setAttribute('share-name', share.name);
+              item.setAttribute('image', share.image);
+              widgetBody.appendChild(item);
+            });
+
+            // Add share more button
+            const moreItem = document.createXULElement('menuitem');
+            document.l10n.setAttributes(moreItem, 'tab-context-share-more');
+            moreItem.classList.add('menuitem-iconic', 'share-more-button');
+            widgetBody.appendChild(moreItem);
+
+            // Rely on original tab context menu handler for sharing
+            widgetBody.addEventListener('command', window.TabContextMenu);
+            widgetBody.setAttribute('data-initialized', true);
 
             return true;
           })());
@@ -518,7 +549,11 @@ class PwaBrowser {
         tooltiptext: 'Share a link to this page',
 
         onClick (event) {
-            event.target.ownerGlobal.BrowserPageActions.shareURL.onCommand(event, event.target);
+          const browser = event.target.ownerGlobal.gBrowser.selectedBrowser;
+          const currentUrl = gURLBar.makeURIReadable(browser.currentURI).displaySpec;
+          const currentTitle = browser.contentTitle;
+
+          WindowsUIUtils.shareUrl(currentUrl, currentTitle);
         }
       });
     }
@@ -545,18 +580,28 @@ class PwaBrowser {
         },
         onCreated (node) {
           node.classList.add('subviewbutton-nav');
+
         },
         onViewShowing (event) {
           event.detail.addBlocker((async () => {
             const window = event.target.ownerGlobal;
             const document = event.target.ownerDocument;
-            const view = document.getElementById('send-to-device-view');
 
-            view.getElementsByClassName('panel-subview-body')[0].innerHTML = '';
+            const widgetView = document.getElementById('send-to-device-view');
+            const widgetBody = widgetView.getElementsByClassName('panel-subview-body')[0];
 
-            window.BrowserPageActions.sendToDevice.onSubviewPlaced(view);
-            window.BrowserPageActions.sendToDevice.onShowingSubview(view);
+            // Clear the panel view because it gets filled every time
+            widgetBody.innerHTML = '';
 
+            // If user is not logged in with an account, display log in button
+            if (!window.gSync.sendTabConfiguredAndLoading) {
+              const accountStatus = PanelMultiView.getViewNode(document, 'appMenu-fxa-status2').cloneNode(true);
+              widgetBody.appendChild(accountStatus);
+              return true;
+            }
+
+            // Populate the panel view with the device list
+            window.gSync.populateSendTabToDevicesView(widgetView);
             return true;
           })());
         }

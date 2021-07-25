@@ -13,7 +13,7 @@ This project modifies Firefox to allow websites to be installed as standalone ap
 
 ## Usage
 
-**TLDR**: Install [the browser extension](https://addons.mozilla.org/firefox/addon/firefoxpwa/) and follow in-browser installation instructions. Check [the repository wiki](https://github.com/filips123/FirefoxPWA/wiki) for simple usage instructions. 
+**TLDR**: Install [the browser extension](https://addons.mozilla.org/firefox/addon/firefoxpwa/) and follow in-browser installation instructions. Check [the repository wiki](https://github.com/filips123/FirefoxPWA/wiki) for simple usage instructions.
 
 For detailed and more technical documentation how to set up, use and develop the project, see the READMEs of the native and extension part:
 
@@ -27,7 +27,7 @@ For detailed and more technical documentation how to set up, use and develop the
 * Command-line tool to install, manage and run Progressive Web Apps in Firefox.
 * Extension to set up native programs, and install, manage and run PWAs and their profiles directly from the main Firefox browser.
 * Isolated Firefox installation and profile(s) that stores the PWAs.
-* Installed PWAs have their own start/app menu entry and taskbar icon, and live in their own window.  
+* Installed PWAs have their own start/app menu entry and taskbar icon, and live in their own window.
 * Installed PWAs have tabs and address bar for a better app-like feel.
 * Support for installing all websites as Progressive Web Apps.
 * Support for all Firefox addons/extensions and built-in Firefox features.
@@ -36,8 +36,7 @@ For detailed and more technical documentation how to set up, use and develop the
 ### Planned Features
 
 * Localization of most UI elements.
-* Support for different PWA sets depending on the main browser profile.
-* [And more](native/userchrome/profile/chrome/pwa/content/browser.jsm#L8-L10).
+* [And more](native/userchrome/profile/chrome/pwa/content/browser.jsm#L9-L11).
 
 ### Not Planned Features
 

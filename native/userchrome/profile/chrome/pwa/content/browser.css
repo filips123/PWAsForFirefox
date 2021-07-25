@@ -107,11 +107,7 @@
   }
 
   #share-link-button > .toolbarbutton-icon {
-    list-style-image: url("chrome://browser/skin/share.svg");
-  }
-
-  #send-to-device-button > .toolbarbutton-icon {
-    list-style-image: url("chrome://browser/skin/send-to-device.svg");
+    list-style-image: url("resource://pwa/icons/share.svg");
   }
 
   #open-in-browser-button > .toolbarbutton-icon {
@@ -125,6 +121,16 @@
     padding: 7.5px !important;
     padding-top: 8.2px !important;
     padding-bottom: 6.3px !important;
+  }
+
+  /* Send to device widget */
+
+  #send-to-device-button > .toolbarbutton-icon {
+    list-style-image: url("resource://pwa/icons/send-to-device.svg");
+  }
+
+  #send-to-device-view #appMenu-fxa-status2 {
+    padding: 0 !important;
   }
 
   /* Mute toolbar widget */
