@@ -135,12 +135,21 @@
 
   /* Mute toolbar widget */
 
-  #mute-button[playing] > .toolbarbutton-icon {
+  #mute-button > .toolbarbutton-icon {
     list-style-image: url("chrome://browser/skin/tabbrowser/tab-audio-playing-small.svg");
   }
 
   #mute-button[muted] > .toolbarbutton-icon {
     list-style-image: url("chrome://browser/skin/tabbrowser/tab-audio-muted-small.svg");
+  }
+
+  #mute-button-autohide-panel {
+    --arrowpanel-padding: 5px 12px;
+  }
+
+  #mute-button-autohide-checkbox {
+    margin: 0;
+    padding: 0;
   }
 
   /* Tracking protection toolbar widget */

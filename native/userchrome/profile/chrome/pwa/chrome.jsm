@@ -26,6 +26,7 @@ class ChromeLoader {
 
   static PREF_LINKS_TARGET = 'firefoxpwa.linksTarget';
   static PREF_DISPLAY_URL_BAR = 'firefoxpwa.displayUrlBar';
+  static PREF_AUTOHIDE_MUTE_BUTTON = 'firefoxpwa.autohideMuteButton';
   static PREF_SITES_SET_THEME_COLOR = 'firefoxpwa.sitesSetThemeColor';
   static PREF_SITES_SET_BACKGROUND_COLOR = 'firefoxpwa.sitesSetBackgroundColor';
   static PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER = 'firefoxpwa.openOutOfScopeInDefaultBrowser';

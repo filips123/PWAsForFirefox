@@ -7,19 +7,18 @@ XPCOMUtils.defineLazyServiceGetter(this, 'ioService', '@mozilla.org/network/io-s
 XPCOMUtils.defineLazyServiceGetter(this, 'WindowsUIUtils', '@mozilla.org/windows-ui-utils;1', Ci.nsIWindowsUIUtils);
 
 //////////////////////////////
-// Plans
+// Harder Fixes
 //////////////////////////////
 
-// Widgets
-// TODO: For all widgets and UI elements - Localization of labels and tooltips
-// TODO: For reader view, mute and tracking protection widgets - Add ability to just disable widget instead of hiding it (like "auto hide" for downloads)
+// TODO: All new windows should have access to gFFPWASiteConfig
+//  This is already done for windows that are opened with buttons or shortcuts
+//  But it currently cannot be done for windows that are opened by websites
+//  This means such windows will still use normal Firefox icons and won't be part of PWA
+//  This could be fixed if I found a way to intercept opening of every window and inject config
 
-// Windows
-// TODO: New windows should still have access to gFFPWASiteConfig
 // TODO: On Linux, all Firefox processes will have the same WM_CLASS, causing all PWAs to group together
-
-// System integration
-// TODO: Other system-related things specified in Web App Manifest
+//  Because of how Firefox processes are launched, all processes will have the same WM_CLASS
+//  This cannot be fixed without modifications to Firefox C++ code to allow JS to change WM_CLASS
 
 class PwaBrowser {
   constructor () {
@@ -663,11 +662,39 @@ class PwaBrowser {
         };
         CustomizableUI.addListener(listener);
 
+        // Create autohide panel with checkbox and handle changing the preference
+        setTimeout(() => {
+          const muteAutohidePanel = window.gFFPWABrowser.createElement(document, 'panel', {
+            id: 'mute-button-autohide-panel',
+            role: 'group',
+            type: 'arrow'
+          });
+
+          const muteAutohideCheckbox = window.gFFPWABrowser.createElement(document, 'checkbox', {
+            id: 'mute-button-autohide-checkbox',
+            label: 'Hide button when not playing',
+            checked: true,
+          });
+
+          muteAutohideCheckbox.onclick = function () {
+            xPref.set(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON, this.checked);
+          };
+
+          muteAutohidePanel.appendChild(muteAutohideCheckbox);
+          window.document.getElementById('downloads-button-autohide-panel').after(muteAutohidePanel);
+        });
+
         // Force show widget on customize mode page and reset its state
+        // Also handle showing autohide panel and the checkbox
         hookFunction(window.gCustomizeMode, 'enter', null, () => {
           node.setAttribute('playing', 'true');
           node.removeAttribute('muted');
           node.hidden = false;
+
+          document.getElementById('wrapper-mute-button').onclick = () => {
+            document.getElementById('mute-button-autohide-checkbox').checked = xPref.get(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON);
+            document.getElementById('mute-button-autohide-panel').openPopup(node, 'rightcenter topleft', -8, 0);
+          }
         });
 
         // Add audio playback hooks for every tab
@@ -690,7 +717,8 @@ class PwaBrowser {
           } else {
             if (muteWidgetAreaType === CustomizableUI.TYPE_TOOLBAR) {
               node.removeAttribute('playing');
-              if (!browser.audioMuted) node.hidden = true;
+              const autoHideEnabled = xPref.get(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON);
+              if (!browser.audioMuted) node.hidden = autoHideEnabled;
             }
           }
 
@@ -699,7 +727,8 @@ class PwaBrowser {
             node.hidden = false;
           } else {
             node.removeAttribute('muted');
-            if (!node.hasAttribute('playing')) node.hidden = true;
+            const autoHideEnabled = xPref.get(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON);
+            if (!node.hasAttribute('playing')) node.hidden = autoHideEnabled;
           }
 
           if ('_pwaPlaybackHooks' in browser) return;
@@ -715,7 +744,8 @@ class PwaBrowser {
             setTimeout(() => {
               if (muteWidgetAreaType === CustomizableUI.TYPE_TOOLBAR && (!tab.hasAttribute('soundplaying') || tab.hasAttribute('soundplaying-scheduledremoval'))) {
                 node.removeAttribute('playing');
-                if (!browser.audioMuted) node.hidden = true;
+                const autoHideEnabled = xPref.get(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON);
+                if (!browser.audioMuted) node.hidden = autoHideEnabled;
               }
             }, 1000);
           });
@@ -726,7 +756,8 @@ class PwaBrowser {
               node.hidden = false;
             } else {
               node.removeAttribute('muted');
-              if (!node.hasAttribute('playing')) node.hidden = true;
+              const autoHideEnabled = xPref.get(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON);
+              if (!node.hasAttribute('playing')) node.hidden = autoHideEnabled;
             }
           });
         }
@@ -736,14 +767,14 @@ class PwaBrowser {
 
         // Hide it by default when in toolbar, otherwise always show playing icon
         if (muteWidgetAreaType === CustomizableUI.TYPE_TOOLBAR) {
-          node.hidden = true;
+          node.hidden = xPref.get(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON);
         } else {
           node.setAttribute('playing', 'true');
           node.hidden = false;
         }
       },
       onClick (event) {
-          event.target.ownerGlobal.gBrowser.selectedTab.toggleMuteAudio();
+        event.target.ownerGlobal.gBrowser.selectedTab.toggleMuteAudio();
       }
     });
   }
@@ -1148,6 +1179,9 @@ class PwaBrowser {
     // 2 - Always display URL bar
     xPref.set(ChromeLoader.PREF_DISPLAY_URL_BAR, 0, true);
 
+    // Determines whether the mute (toggle sound) button should automatically hide when nothing is playing
+    xPref.set(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON, true, true);
+
     // Determines whether the sites can override theme (titlebar) color
     xPref.set(ChromeLoader.PREF_SITES_SET_THEME_COLOR, true, true);
 
@@ -1254,4 +1288,4 @@ class PwaBrowser {
   }
 }
 
-new PwaBrowser();
+window.gFFPWABrowser = new PwaBrowser();

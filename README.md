@@ -36,7 +36,7 @@ For detailed and more technical documentation how to set up, use and develop the
 ### Planned Features
 
 * Localization of most UI elements.
-* [And more](native/userchrome/profile/chrome/pwa/content/browser.jsm#L9-L11).
+* Support for more system-related web app manifest features.
 
 ### Not Planned Features
 
