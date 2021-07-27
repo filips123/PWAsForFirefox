@@ -1094,7 +1094,7 @@ class PwaBrowser {
         const window = event.target.ownerGlobal;
 
         if (window.gFFPWALastScopeUri) {
-          window.openWebLinkIn(gFFPWALastScopeUri.spec, 'current');
+          window.openWebLinkIn(window.gFFPWALastScopeUri.spec, 'current');
         } else {
           window.close();
         }
