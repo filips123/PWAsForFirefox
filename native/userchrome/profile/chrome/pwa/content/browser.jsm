@@ -6,20 +6,6 @@ XPCOMUtils.defineLazyModuleGetters(this, {
 XPCOMUtils.defineLazyServiceGetter(this, 'ioService', '@mozilla.org/network/io-service;1', Ci.nsIIOService);
 XPCOMUtils.defineLazyServiceGetter(this, 'WindowsUIUtils', '@mozilla.org/windows-ui-utils;1', Ci.nsIWindowsUIUtils);
 
-//////////////////////////////
-// Harder Fixes
-//////////////////////////////
-
-// TODO: All new windows should have access to gFFPWASiteConfig
-//  This is already done for windows that are opened with buttons or shortcuts
-//  But it currently cannot be done for windows that are opened by websites
-//  This means such windows will still use normal Firefox icons and won't be part of PWA
-//  This could be fixed if I found a way to intercept opening of every window and inject config
-
-// TODO: On Linux, all Firefox processes will have the same WM_CLASS, causing all PWAs to group together
-//  Because of how Firefox processes are launched, all processes will have the same WM_CLASS
-//  This cannot be fixed without modifications to Firefox C++ code to allow JS to change WM_CLASS
-
 class PwaBrowser {
   constructor () {
     this.prepareLayout();

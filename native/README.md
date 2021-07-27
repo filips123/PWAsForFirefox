@@ -72,7 +72,7 @@ On Windows, you will need to install the [Visual C++ Redistributable](https://su
 #### Red Hat-like Linux (RPM)
 
 1. Install the Rust language and Git.
-2. Install [`cargo-rpm`](https://github.com/filips123/cargo-rpm/tree/support-custom-config-dir) (you need to install it from my fork).
+2. Install [`cargo-rpm`](https://github.com/iqlusioninc/cargo-rpm) (you need to install it directly from repository).
 3. Clone the repository and cd into the `native` (this) directory.
 4. Build the project in release mode and package it as an RPM package:
    ```shell
