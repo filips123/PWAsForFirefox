@@ -8,7 +8,6 @@
 // Improve Card & Popup Width
 //////////////////////////////
 
-
 html, body {
   min-width: 400px;
   overflow-x: hidden;
@@ -22,7 +21,22 @@ html, body {
 }
 
 .card-body {
+  overflow-y: auto;
   max-width: 400px;
+}
+
+//////////////////////////////
+// Fix Header Background
+//////////////////////////////
+
+.card-header, .card-footer {
+  background-color: #f7f7f7;
+}
+
+@media (prefers-color-scheme: dark) {
+  .card-header, .card-footer {
+    background-color: #212121;
+  }
 }
 
 //////////////////////////////

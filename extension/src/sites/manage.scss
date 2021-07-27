@@ -25,7 +25,7 @@
 //////////////////////////////
 
 html, body {
-  min-height: 33rem;
+  min-height: 34rem;
 }
 
 #card-navigation {
@@ -38,6 +38,12 @@ html, body {
 
 .card-body, .offcanvas-body {
   scrollbar-width: thin;
+}
+
+.card-footer {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
 }
 
 .list-group-flush > .list-group-item {

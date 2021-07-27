@@ -10,7 +10,7 @@
 
   <body>
     <div class="card vh-100">
-      <div class="card-header">
+      <div class="card-header sticky-top">
         <nav>
           <div class="nav nav-tabs card-header-tabs" id="card-navigation" role="tablist">
             <button class="nav-link active" id="sites-tab" data-bs-toggle="tab" data-bs-target="#sites-pane" type="button" role="tab" aria-controls="sites-pane" aria-selected="true">Apps</button>
@@ -48,7 +48,7 @@
                   <div><em>No sites installed!</em></div>
                 </div>
               </li>
-              <li>
+              <li id="site-install-item">
                 <button type="button" class="list-group-item list-group-item-action" id="site-install-button">
                   <em>Install current site</em>
                 </button>
@@ -80,7 +80,7 @@
                   <div><em>No profiles available!</em></div>
                 </div>
               </li>
-              <li>
+              <li id="profile-create-item">
                 <button type="button" class="list-group-item list-group-item-action" id="profile-create-button">
                   <em>Create a new profile</em>
                 </button>

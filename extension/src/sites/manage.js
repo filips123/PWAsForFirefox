@@ -37,12 +37,13 @@ async function handleNativeStatus () {
 
 // Fill the site list
 async function createSiteList () {
+  const siteInstallItem = document.getElementById('site-install-item')
   const siteInstallButton = document.getElementById('site-install-button')
 
   // Hide the install button on sites where it wouldn't work
   const tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0]
   if (!tab.url || !(tab.url.startsWith('http://') || tab.url.startsWith('https://'))) {
-    siteInstallButton.classList.add('d-none')
+    siteInstallItem.classList.add('d-none')
   }
 
   // Handle installing current site
