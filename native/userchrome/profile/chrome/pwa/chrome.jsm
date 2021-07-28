@@ -12,6 +12,7 @@ const SSS = Cc['@mozilla.org/content/style-sheet-service;1'].getService(Ci.nsISt
 class ChromeLoader {
   static BROWSERCHROME = AppConstants.BROWSER_CHROME_URL;
   static ABOUTPREFERENCES = 'about:preferences';
+  static MACOS_HIDDEN_WINDOW = 'chrome://browser/content/hiddenWindowMac.xhtml';
 
   static FILES_BASE = Services.io.getProtocolHandler('file').QueryInterface(Ci.nsIFileProtocolHandler).getURLSpecFromDir(Services.dirsvc.get('UChrm', Ci.nsIFile));
 
@@ -19,6 +20,7 @@ class ChromeLoader {
   static BROWSER_STYLES = 'pwa/content/browser.css';
   static PREFERENCES_SCRIPT = 'pwa/content/preferences.jsm';
   static PREFERENCES_STYLES = 'pwa/content/preferences.css';
+  static MACOS_HIDDEN_WINDOW_SCRIPT = 'pwa/content/macosHiddenWindow.jsm';
 
   static DISTRIBUTION_ID = 'firefoxpwa';
   static DISTRIBUTION_VERSION = '0.0.0';
@@ -75,6 +77,8 @@ class ChromeLoader {
       if (!ChromeLoader.INITIALIZED_PREFERENCES) this.loadUserStyles(ChromeLoader.PREFERENCES_STYLES);
       this.loadUserScript(ChromeLoader.PREFERENCES_SCRIPT, window);
       ChromeLoader.INITIALIZED_PREFERENCES = true;
+    } else if (location.href === ChromeLoader.MACOS_HIDDEN_WINDOW) {
+      this.loadUserScript(ChromeLoader.MACOS_HIDDEN_WINDOW_SCRIPT, window);
     }
   }
 

@@ -42,6 +42,10 @@ pub struct SiteLaunchCommand {
     /// Optionally launches the PWA with a custom start URL
     #[structopt(long)]
     pub url: Option<Url>,
+
+    #[cfg(target_os = "macos")]
+    #[structopt(long = "direct-launch")]
+    pub direct_launch: bool,
 }
 
 #[derive(StructOpt, Debug, Eq, PartialEq, Clone)]

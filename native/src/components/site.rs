@@ -108,7 +108,8 @@ impl Site {
     }
 
     #[inline]
-    pub fn launch(
+    #[rustfmt::skip]
+    pub fn run(
         &self,
         dirs: &ProjectDirs,
         runtime: &Runtime,
@@ -131,5 +132,19 @@ impl Site {
         }
 
         runtime.run(args)
+    }
+
+    #[inline]
+    pub fn launch(&self, dirs: &ProjectDirs, url: &Option<Url>) -> Result<()> {
+        integrations::launch_site(dirs, self, url)
+    }
+
+    pub fn name(&self) -> Option<String> {
+        self.config
+            .name
+            .as_ref()
+            .cloned()
+            .or_else(|| self.manifest.name.as_ref().cloned())
+            .or_else(|| self.manifest.short_name.as_ref().cloned())
     }
 }

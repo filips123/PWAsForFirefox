@@ -60,13 +60,19 @@ These are things that I would like to fix eventually, but will currently stay, e
 
   This could be fixed if there is an easy way to intercept the opening of every new window, and pass it `window.gFFPWASiteConfig` from the original window just after it is created. I implemented this for some windows (mainly those opened by users), but don't know how to do it for all windows.
 
-* **All PWAs are merged with the first PWA that was opened (Linux-only):**
+* **All PWAs are merged with the first PWA that was opened (Linux & macOS):**
 
   When some PWA is already running, all newly launched PWAs will merge with it and remain merged until all of them are closed. This will cause the app menu to display all PWAs as part of the first PWA that was launched, with its icon and desktop actions (if any).
 
   *Users can prevent by installing each PWA into a different profile.*
 
-  This cannot be fixed easily. The native part of the project currently launches Firefox with the `--class` argument, which should set the `WM_CLASS` property of the window to the PWA ID. However, because all Firefox processes in the same profile are connected together, all windows have WM_CLASS of the first PWA. Fixing this would probably require modifying Firefox C++ code. Check [this comment](https://github.com/filips123/FirefoxPWA/issues/33#issuecomment-887382593) and related discussions for ideas and possible solutions to fix this.
+  * **Linux:**
+
+    This cannot be fixed easily. The native part of the project currently launches Firefox with the `--class` argument, which should set the `WM_CLASS` property of the window to the PWA ID. However, because all Firefox processes in the same profile are connected together, all windows have WM_CLASS of the first PWA. Fixing this would probably require modifying Firefox C++ code. Check [this comment](https://github.com/filips123/FirefoxPWA/issues/33#issuecomment-887382593) and related discussions for ideas and possible solutions to fix this.
+
+  * **macOS:**
+
+    Apple only allows a process to be associated with a single application at all times. Perhaps this could be solved by using an IPC link between a host process and the main Firefox runtime process, the same way the Firefox parent process handles it's content processes. This is just a wild theory though and has to be investigated further. See [this comment](https://github.com/filips123/FirefoxPWA/issues/33#issuecomment-888511078) for more.
 
 ## Versioning
 

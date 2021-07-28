@@ -2,11 +2,13 @@ use std::io;
 use std::io::Write;
 
 use anyhow::{bail, Context, Result};
+use cfg_if::cfg_if;
 use log::{info, warn};
 use ulid::Ulid;
 
 use crate::components::runtime::Runtime;
 use crate::components::site::{Site, SiteConfig};
+#[rustfmt::skip]
 use crate::console::app::{
     SiteInstallCommand,
     SiteLaunchCommand,
@@ -20,23 +22,40 @@ use crate::storage::Storage;
 impl Run for SiteLaunchCommand {
     fn run(&self) -> Result<()> {
         let dirs = ProjectDirs::new()?;
-        let runtime = Runtime::new(&dirs)?;
         let storage = Storage::load(&dirs)?;
+
+        let site = storage.sites.get(&self.id).context("Site does not exist")?;
+
+        cfg_if! {
+            if #[cfg(target_os = "macos")] {
+                use crate::integrations;
+
+                if !self.direct_launch {
+                    integrations::launch_site(&dirs, site, &self.url)?;
+
+                    return Ok(())
+                }
+            }
+        }
+
+        let runtime = Runtime::new(&dirs)?;
+        let profile = storage.profiles.get(&site.profile).context("Site without a profile")?;
 
         if runtime.version.is_none() {
             bail!("Runtime not installed");
         }
 
-        let site = storage.sites.get(&self.id).context("Site does not exist")?;
-        let profile = storage.profiles.get(&site.profile).context("Site without a profile")?;
-
-        runtime.patch(&dirs)?;
+        runtime.patch(&dirs, site)?;
         profile.patch(&dirs)?;
 
-        info!("Launching the site");
-        site.launch(&dirs, &runtime, &self.url)?;
+        cfg_if! {
+            if #[cfg(target_os = "macos")] {
+                site.run(&dirs, &runtime, &self.url)?.wait()?;
+            } else {
+                site.run(&dirs, &runtime, &self.url)?;
+            }
+        }
 
-        info!("Site launched!");
         Ok(())
     }
 }
