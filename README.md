@@ -82,7 +82,9 @@ The project is licensed under the Mozilla Public License 2.0. By using, redistri
 
 Browser chrome modifications were largely inspired by the [`xiaoxiaoflood/firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts) repository on GitHub, also licensed under the Mozilla Public License 2.0. Detailed license information can be found in the respective files.
 
-Windows installer uses the [Material Design Icons](https://materialdesignicons.com/) by Austin Andrews and Google, licensed under the Apache 2.0 license. Detailed license information can be found in the [WiX configuration file](native/packages/wix/main.wxs).
+The native part of the project includes the [Metropolis Semi Bold](https://fontsarena.com/metropolis-by-chris-simpson/) typeface by Chris Simpson, released into the public domain using the [Unlicense](https://unlicense.org/).
+
+Windows installer includes the [Material Design Icons](https://materialdesignicons.com/) by Austin Andrews and Google, licensed under the [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) license. Detailed license information can be found in the [WiX configuration file](native/packages/wix/main.wxs).
 
 The project logo is based on the [official Firefox browser logo](https://mozilla.design/firefox/logos-usage) and the [community-introduced PWA logo](https://github.com/webmaxru/progressive-web-apps-logo).
 

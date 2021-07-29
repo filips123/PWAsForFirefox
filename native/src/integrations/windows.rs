@@ -24,6 +24,7 @@ use bindings::Windows::Win32::UI::Shell::{
 use data_url::DataUrl;
 use image::imageops::FilterType::Gaussian;
 use image::GenericImageView;
+use log::error;
 use serde::de::Unexpected::Bytes;
 use url::Url;
 use web_app_manifest::resources::IconResource;
@@ -33,11 +34,12 @@ use winreg::enums::HKEY_CURRENT_USER;
 use winreg::RegKey;
 
 use crate::directories::ProjectDirs;
-use crate::integrations::{is_icon_supported, SiteInfoInstall, SiteInfoUninstall};
+use crate::integrations::{generate_icon, is_icon_supported, SiteInfoInstall, SiteInfoUninstall};
 
 fn store_icon(
     siteid: &str,
     iconid: &str,
+    name: &str,
     icons: &[IconResource],
     dirs: &ProjectDirs,
     resize: bool,
@@ -55,7 +57,7 @@ fn store_icon(
         let size1 = size1.unwrap();
         let size2 = size2.unwrap();
 
-        size1.cmp(&size2)
+        size1.cmp(size2)
     });
 
     // Get the first icon larger or equal to 256 (max ICO size), and if there is none, largest of all
@@ -65,6 +67,10 @@ fn store_icon(
             icon.sizes.iter().max() >= Some(&ImageSize::Fixed(256, 256)) && is_icon_supported(icon)
         })
         .or_else(|| icons.iter().rev().find(|icon| is_icon_supported(icon)));
+
+    // Get the icon filename and directory
+    let directory = dirs.userdata.join("icons").join(&siteid);
+    let filename = directory.join(&iconid).with_extension("ico");
 
     // Convert the chosen icon into ICO and save it for usages in ARP page and start menu
     // Currently only one embedded image per ICO is supported: https://github.com/image-rs/image/issues/884
@@ -84,6 +90,7 @@ fn store_icon(
             };
             let mut img = image::load_from_memory(&bytes).context("Failed to load icon")?;
 
+            // Resize the image if needed
             if resize {
                 // Force resize to 256x256 which is needed for jump list tasks
                 img = img.resize(256, 256, Gaussian);
@@ -95,16 +102,19 @@ fn store_icon(
                 }
             }
 
-            let directory = dirs.userdata.join("icons").join(&siteid);
-            let filename = directory.join(&iconid).with_extension("ico");
+            // Save the image to a file
             create_dir_all(&directory).context("Failed to create icons directory")?;
             img.save(&filename).context("Failed to save icon")?;
-
             filename.display().to_string()
         }
 
-        // TODO: Set up default PWA icon
-        None => "".into(),
+        None => {
+            // Generate icon from the first letter of the site/shortcut name
+            let letter = name.chars().next().context("Failed to get first letter")?;
+            create_dir_all(&directory).context("Failed to create icons directory")?;
+            generate_icon(letter, 256, &filename).context("Failed to generate icon")?;
+            filename.display().to_string()
+        }
     };
 
     Ok(icon)
@@ -211,9 +221,20 @@ fn create_jump_list_tasks(info: &SiteInfoInstall, dirs: &ProjectDirs, exe: Strin
                 "".into()
             };
 
-            let icon =
-                store_icon(&info.id, &format!("shortcut{}", i), &shortcut.icons, &dirs, true)
-                    .context("Failed to process and store shortcut icon")?;
+            let icon = store_icon(
+                &info.id,
+                &format!("shortcut{}", i),
+                &shortcut.name,
+                &shortcut.icons,
+                dirs,
+                true,
+            )
+            .context("Failed to process and store shortcut icon")
+            .unwrap_or_else(|error| {
+                // Shortcut icon is not important so much, so we can just log errors
+                error!("{:?}", error);
+                "".into()
+            });
 
             // Set general shortcut properties
             let link: IShellLinkW = windows::create_instance(&ShellLink)?;
@@ -273,14 +294,14 @@ pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
     let _ = remove_dir_all(dirs.userdata.join("icons").join(&info.id));
 
     let exe = dirs.executables.join("firefoxpwa.exe").display().to_string();
-    let icon = store_icon(&info.id, &"site", &info.icons, &dirs, false)
+    let icon = store_icon(&info.id, "site", &info.name, info.icons, dirs, false)
         .context("Failed to process and store site icon")?;
 
     windows::initialize_mta()?;
 
-    create_arp_entry(&info, exe.clone(), icon.clone()).context("Failed to create ARP entry")?;
-    create_menu_shortcut(&info, exe.clone(), icon).context("Failed to create menu shortcut")?;
-    create_jump_list_tasks(&info, &dirs, exe).context("Failed to create jump list tasks")?;
+    create_arp_entry(info, exe.clone(), icon.clone()).context("Failed to create ARP entry")?;
+    create_menu_shortcut(info, exe.clone(), icon).context("Failed to create menu shortcut")?;
+    create_jump_list_tasks(info, dirs, exe).context("Failed to create jump list tasks")?;
 
     Ok(())
 }

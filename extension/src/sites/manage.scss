@@ -88,6 +88,28 @@ html, body {
 }
 
 //////////////////////////////
+// Letter Icon
+//////////////////////////////
+
+.letter-icon {
+  background-color: #505050;
+}
+
+.letter-icon::before {
+  content: attr(data-letter);
+  text-transform: uppercase;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
+  height: 32px;
+  width: 32px;
+  font-size: 1.2rem;
+}
+
+//////////////////////////////
 // Icon Link Tab
 //////////////////////////////
 

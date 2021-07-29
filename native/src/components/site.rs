@@ -68,7 +68,7 @@ impl Site {
         };
 
         info!("Parsing the PWA manifest");
-        let mut manifest: SiteManifest = serde_json::from_str(&json).context(PARSE_ERROR)?;
+        let mut manifest: SiteManifest = serde_json::from_str(json).context(PARSE_ERROR)?;
         manifest.process(&config.document_url, manifest_url).context(PARSE_ERROR)?;
 
         Ok(Self { ulid: Ulid::new(), profile, config, manifest })
@@ -98,13 +98,13 @@ impl Site {
     #[inline]
     pub fn install_system_integration(&self, dirs: &ProjectDirs) -> Result<()> {
         info!("Installing system integration");
-        integrations::install(&self, &dirs)
+        integrations::install(self, dirs)
     }
 
     #[inline]
     pub fn uninstall_system_integration(&self, dirs: &ProjectDirs) -> Result<()> {
         info!("Uninstalling system integration");
-        integrations::uninstall(&self, &dirs)
+        integrations::uninstall(self, dirs)
     }
 
     #[inline]

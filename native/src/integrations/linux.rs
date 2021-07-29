@@ -7,13 +7,14 @@ use anyhow::{Context, Result};
 use data_url::DataUrl;
 use glob::glob;
 use image::imageops::FilterType::Gaussian;
+use log::error;
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize};
 
 use crate::directories::ProjectDirs;
 use crate::integrations::xdg::XDG_CATEGORIES;
-use crate::integrations::{is_icon_supported, SiteInfoInstall, SiteInfoUninstall};
+use crate::integrations::{generate_icon, is_icon_supported, SiteInfoInstall, SiteInfoUninstall};
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
 const CONVERT_ICON_URL_ERROR: &str = "Failed to convert icon URL";
@@ -23,12 +24,14 @@ const DOWNLOAD_ICON_ERROR: &str = "Failed to download icon";
 const READ_ICON_ERROR: &str = "Failed to read icon";
 const LOAD_ICON_ERROR: &str = "Failed to load icon";
 const SAVE_ICON_ERROR: &str = "Failed to save icon";
+const GENERATE_ICON_ERROR: &str = "Failed to generate icon";
+const GET_LETTER_ERROR: &str = "Failed to get first letter";
 const CREATE_ICON_DIRECTORY_ERROR: &str = "Failed to create icon directory";
 const CREATE_ICON_FILE_ERROR: &str = "Failed to create icon file";
 const CREATE_APPLICATION_DIRECTORY_ERROR: &str = "Failed to create application directory";
 const WRITE_APPLICATION_FILE_ERROR: &str = "Failed to write application file";
 
-fn store_icons(id: &str, icons: &[IconResource], suffix: &str) -> Result<()> {
+fn store_icons(id: &str, name: &str, icons: &[IconResource], suffix: &str) -> Result<()> {
     // The 48x48 icon always has to exist
     // We need to generate it manually if the manifest does not provide it
     let mut required_icon_found = false;
@@ -115,6 +118,12 @@ fn store_icons(id: &str, icons: &[IconResource], suffix: &str) -> Result<()> {
             })
             .or_else(|| icons.iter().rev().find(|icon| is_icon_supported(icon)));
 
+        let directory = directories::BaseDirs::new()
+            .context(BASE_DIRECTORIES_ERROR)?
+            .data_dir()
+            .join("icons/hicolor/48x48/apps");
+        let filename = directory.join(format!("{}{}.png", appid, suffix));
+
         if let Some(icon) = icon {
             // Download the image from the URL
             // Either download it from the network using request or decode it from a data URL
@@ -127,19 +136,16 @@ fn store_icons(id: &str, icons: &[IconResource], suffix: &str) -> Result<()> {
                 let (body, _) = url.decode_to_vec().context(DATA_URL_DECODE_ERROR)?;
                 body.into()
             };
-            let mut img = image::load_from_memory(&bytes).context("Failed to load icon")?;
+            let mut img = image::load_from_memory(&bytes).context(LOAD_ICON_ERROR)?;
             let img = img.resize(48, 48, Gaussian);
-
-            let directory = directories::BaseDirs::new()
-                .context(BASE_DIRECTORIES_ERROR)?
-                .data_dir()
-                .join("icons/hicolor/48x48/apps");
-            let filename = directory.join(format!("{}{}.png", appid, suffix));
 
             create_dir_all(directory).context(CREATE_ICON_DIRECTORY_ERROR)?;
             img.save(&filename).context(SAVE_ICON_ERROR)?;
         } else {
-            // TODO: Set up default PWA icon
+            // Generate icon from the first letter of the site/shortcut name
+            let letter = name.chars().next().context(GET_LETTER_ERROR)?;
+            create_dir_all(directory).context(CREATE_ICON_DIRECTORY_ERROR)?;
+            generate_icon(letter, 256, &filename).context(GENERATE_ICON_ERROR)?;
         }
     }
 
@@ -200,8 +206,12 @@ StartupWMClass={wmclass}
 
     // Store all shortcuts
     for (i, shortcut) in info.shortcuts.iter().enumerate() {
-        store_icons(&info.id, &shortcut.icons, &format!("-{}", i))
-            .context("Failed to process and store shortcut icons")?;
+        store_icons(&info.id, &shortcut.name, &shortcut.icons, &format!("-{}", i))
+            .context("Failed to process and store shortcut icons")
+            .unwrap_or_else(|error| {
+                // Shortcut icon is not important so much, so we can just log errors
+                error!("{:?}", error);
+            });
         let url: Url = shortcut.url.clone().try_into().context("Failed to convert shortcut URL")?;
 
         let action = format!(
@@ -243,8 +253,9 @@ fn update_application_cache() -> Result<()> {
 pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
     let exe = dirs.executables.join("firefoxpwa").display().to_string();
 
-    store_icons(&info.id, &info.icons, "").context("Failed to process and store site icons")?;
-    create_application_entry(&info, &exe).context("Failed to create application entry")?;
+    store_icons(&info.id, &info.name, info.icons, "")
+        .context("Failed to process and store site icons")?;
+    create_application_entry(info, &exe).context("Failed to create application entry")?;
     let _ = update_application_cache();
 
     Ok(())
@@ -278,8 +289,8 @@ fn remove_application_entry(info: &SiteInfoUninstall) -> Result<()> {
 
 #[inline]
 pub fn uninstall(info: &SiteInfoUninstall) -> Result<()> {
-    remove_icons(&info).context("Failed to remove site icons")?;
-    remove_application_entry(&info).context("Failed to remove application entry")?;
+    remove_icons(info).context("Failed to remove site icons")?;
+    remove_application_entry(info).context("Failed to remove application entry")?;
 
     Ok(())
 }

@@ -14,6 +14,7 @@ async function checkLicenseAgreement () {
 
   if ((await browser.storage.local.get(STORAGE_LICENSE_ACCEPTED))[STORAGE_LICENSE_ACCEPTED] === true) {
     const nativeInstalled = await checkNativeConnection()
+    iframeResizer.resize()
 
     document.getElementById('license-agreement').classList.add('active')
     document.getElementById('license-agreement-view').classList.add('d-none')

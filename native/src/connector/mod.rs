@@ -38,8 +38,8 @@ pub struct Connection<'a> {
 
 impl<'a> Connection<'a> {
     pub fn start(dirs: &'a ProjectDirs, debugmode: bool) -> Result<()> {
-        let runtime = Runtime::new(&dirs)?;
-        let storage = Storage::load(&dirs)?;
+        let runtime = Runtime::new(dirs)?;
+        let storage = Storage::load(dirs)?;
 
         let connection = Self { dirs, runtime, storage, debugmode };
         info!("Connection established: {:?}", env::args().collect::<Vec<String>>());

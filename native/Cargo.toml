@@ -16,7 +16,7 @@ publish = false
 version = "0.0.0"
 
 [profile.release]
-codegen-units = 8
+codegen-units = 2
 lto = true
 
 [dependencies]
@@ -30,10 +30,10 @@ data-url = { git = "https://github.com/filips123/rust-url", branch = "impl-std-e
 directories = "3.0.2"
 fs_extra = "1.2.0"
 gag = "1.0.0"
-glob = "0.3.0"
 image = "0.23.14"
 log = "0.4.14"
 reqwest = { version = "0.11.4", features = ["blocking", "gzip", "brotli", "deflate"] }
+rusttype = "0.9.2"
 serde = { version = "1.0.126", features = ["derive"] }
 serde_json = "1.0.64"
 simplelog = "0.10.0"
@@ -53,6 +53,7 @@ winreg = "0.9.0"
 
 [target.'cfg(target_os = "linux")'.dependencies]
 bzip2 = "0.4.3"
+glob = "0.3.0"
 phf = { version = "0.9.0", features = ["macros"] }
 tar = "0.4.35"
 

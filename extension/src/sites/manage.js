@@ -77,17 +77,27 @@ async function createSiteList () {
   // Create a list element for every instance with handlers for launching and editing
   for (const site of sites) {
     const siteElement = templateElement.content.firstElementChild.cloneNode(true)
+    const siteName = site.config.name || site.manifest.name || site.manifest.short_name || new URL(site.manifest.scope).host
 
     const icons = buildIconList(site.manifest.icons)
     const icon = getIcon(icons, 64)
+
+    const letterElement = siteElement.querySelector('#sites-list-template-letter')
+    if (icon) letterElement.classList.add('d-none')
+    letterElement.setAttribute('data-letter', siteName[0])
+    letterElement.removeAttribute('id')
 
     const iconElement = siteElement.querySelector('#sites-list-template-icon')
     if (!icon) iconElement.classList.add('d-none')
     iconElement.src = icon
     iconElement.removeAttribute('id')
+    iconElement.onerror = () => {
+      letterElement.classList.remove('d-none')
+      iconElement.classList.add('d-none')
+    }
 
     const titleElement = siteElement.querySelector('#sites-list-template-title')
-    titleElement.innerText = site.config.name || site.manifest.name || site.manifest.short_name || new URL(site.manifest.scope).host
+    titleElement.innerText = siteName
     titleElement.removeAttribute('id')
 
     const descriptionElement = siteElement.querySelector('#sites-list-template-description')
