@@ -148,9 +148,11 @@ function setWindowColors (window, site) {
  * taskbar and preventing grouping different sites. It also sets taskbar windows
  * icons to prevent incorrect behaviour when pinning/unpinning the shortcut.
  *
- * On all systems it also sets window colors based on the colors from the manifest.
+ * On all systems it also sets the window `icon` attribute to prevent problems
+ * on some desktop environments (for example, Xfce), and sets window colors
+ * based on the colors from the manifest.
  *
- * @param {ChromeWindow} window - Window where integration should be applied
+ * @param {ChromeWindow&Window} window - Window where integration should be applied
  * @param {object} site - Site config for which integration should be used
  */
 function applySystemIntegration (window, site) {
@@ -158,6 +160,8 @@ function applySystemIntegration (window, site) {
     WinTaskbar.setGroupIdForWindow(window, `filips.firefoxpwa.${site.ulid}`);
     setWindowIcons(window, site);
   }
+
+  window.document.documentElement.setAttribute('icon', `FFPWA-${site.ulid}`);
 
   // This needs some timeout so it can read preferences
   window.setTimeout(() => {
