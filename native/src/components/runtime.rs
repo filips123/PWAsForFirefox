@@ -245,8 +245,8 @@ impl Runtime {
                 let app_name = site.name().unwrap_or_else(|| "PWA".to_owned());
                 let temp_runtime_name = plist::Value::String(app_name);
 
-                // we remove the translation file so macOS shows the PWA name in the main menubar
-                // instead of the runtime name
+                // We remove the translation file so macOS shows the PWA name
+                // in the main menubar instead of the runtime name
                 remove_dir_contents(native_translation).context("Failed to patch the runtime")?;
 
                 let mut info_plist_file = plist::Value::from_file(&info_plist)
@@ -256,20 +256,20 @@ impl Runtime {
                     .as_dictionary_mut()
                     .context("Failed to read runtime info.plist content")?;
 
-                // we patch the runtime info.plist with the current app name, so the main menu shows
-                // the right name.
+                // We patch the runtime info.plist with the current app name,
+                // so the main menu shows the right name
                 info_plist_dict.insert("CFBundleName".into(), temp_runtime_name);
                 info_plist_file.to_file_xml(&info_plist).context("Failed to write runtime info.plist")?;
 
-                // we are messign with the runtime app bundle,
-                // so it's signed signature doesn't match any more... Removing the signature helps.
+                // We are messing with the runtime app bundle, so its signed signature doesn't match any more...
+                // Removing the signature helps
                 Command::new("codesign")
                     .args(["--remove-signature", bundle.to_str().unwrap()])
                     .output()
                     .context("Failed to remove code signature from modified runtime")?;
 
-                // we removed the signature and by removing the quarantine attribute
-                // we can skip the signature check.
+                // We removed the signature and by removing the quarantine attribute
+                // We can skip the signature check
                 Command::new("xattr")
                     .args(["-rd", "com.apple.quarantine", bundle.to_str().unwrap()])
                     .output()

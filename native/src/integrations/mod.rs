@@ -16,19 +16,17 @@ use crate::components::site::Site;
 use crate::console::Run;
 use crate::directories::ProjectDirs;
 
+#[cfg(any(target_os = "linux", target_os = "macos"))]
+mod categories;
+
 #[cfg(target_os = "windows")]
 mod windows;
 
 #[cfg(target_os = "linux")]
 mod linux;
 
-#[cfg(target_os = "linux")]
-mod xdg;
-
 #[cfg(target_os = "macos")]
 mod macos;
-
-const INVALID_URL: &str = "Site without valid absolute URL is not possible";
 
 #[derive(Debug, Eq, PartialEq, Clone)]
 pub struct SiteInfoInstall<'a> {
@@ -49,12 +47,6 @@ pub struct SiteInfoUninstall {
     name: String,
 }
 
-#[derive(Debug, Eq, PartialEq, Clone)]
-pub struct SiteInfoLaunch {
-    id: String,
-    name: String,
-}
-
 pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
     // Site ID is used to generate all commands and as an identifier at various places
     let id = site.ulid.to_string();
@@ -66,22 +58,10 @@ pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
     } else if let ManifestUrl::Absolute(url) = &site.manifest.start_url {
         url.to_string()
     } else {
-        unreachable!(INVALID_URL)
+        unreachable!("Site without valid absolute URL is not possible")
     };
 
-    // Scope domain is used as a publisher name or when the site name is undefined
-    // Using scope instead of start URL because user should not be able to overwrite it
-    let domain = if let ManifestUrl::Absolute(url) = &site.manifest.scope {
-        if let Some(domain) = url.host() {
-            domain.to_string()
-        } else {
-            unreachable!(INVALID_URL)
-        }
-    } else {
-        unreachable!(INVALID_URL)
-    };
-
-    // First try the user-specified name, then try manifest names, then fall back to domain name
+    let domain = site.domain();
     let name = site.name().unwrap_or_else(|| domain.clone());
 
     // First try the user-specified description, then try manifest description
@@ -131,7 +111,7 @@ pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
         } else if #[cfg(target_os = "linux")] {
             linux::install(&info, dirs)
         } else if #[cfg(target_os = "macos")] {
-            macos::install(&info)
+            macos::install(&info, dirs)
         } else {
             compile_error!("Unknown operating system");
         }
@@ -139,31 +119,8 @@ pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
 }
 
 pub fn uninstall(site: &Site, dirs: &ProjectDirs) -> Result<()> {
-    // Site ID is used to generate all commands and as an identifier at various places
     let id = site.ulid.to_string();
-
-    // Scope domain is used as a publisher name or when the site name is undefined
-    // Using scope instead of start URL because user should not be able to overwrite it
-    let domain = if let ManifestUrl::Absolute(url) = &site.manifest.scope {
-        if let Some(domain) = url.host() {
-            domain.to_string()
-        } else {
-            unreachable!(INVALID_URL)
-        }
-    } else {
-        unreachable!(INVALID_URL)
-    };
-
-    // First try the user-specified name, then try manifest names, then fall back to domain name
-    let name = if let Some(name) = &site.config.name {
-        name.clone()
-    } else if let Some(name) = &site.manifest.name {
-        name.clone()
-    } else if let Some(name) = &site.manifest.short_name {
-        name.clone()
-    } else {
-        domain
-    };
+    let name = site.name().unwrap_or_else(|| site.domain());
 
     // Generate site info struct
     let info = SiteInfoUninstall { id, name };
@@ -182,44 +139,9 @@ pub fn uninstall(site: &Site, dirs: &ProjectDirs) -> Result<()> {
     }
 }
 
-pub fn launch_site(dirs: &ProjectDirs, site: &Site, url: &Option<Url>) -> Result<()> {
-    // Site ID is used to generate all commands and as an identifier at various places
-    let id = site.ulid.to_string();
-
-    // Scope domain is used as a publisher name or when the site name is undefined
-    // Using scope instead of start URL because user should not be able to overwrite it
-    let domain = if let ManifestUrl::Absolute(url) = &site.manifest.scope {
-        if let Some(domain) = url.host() {
-            domain.to_string()
-        } else {
-            unreachable!(INVALID_URL)
-        }
-    } else {
-        unreachable!(INVALID_URL)
-    };
-
-    // First try the user-specified name, then try manifest names, then fall back to domain name
-    let name = if let Some(name) = &site.config.name {
-        name.clone()
-    } else if let Some(name) = &site.manifest.name {
-        name.clone()
-    } else if let Some(name) = &site.manifest.short_name {
-        name.clone()
-    } else {
-        domain
-    };
-
-    let info = SiteInfoLaunch { id, name };
-
-    cfg_if! {
-        if #[cfg(target_os = "macos")] {
-            macos::launch_site(&info)?;
-
-            Ok(())
-        } else {
-            unimplemented!("Failed to launch site via system integration on this platform!");
-        }
-    }
+#[cfg(target_os = "macos")]
+pub fn launch_site(site: &Site, url: &Option<Url>) -> Result<Child> {
+    macos::launch_site(site, url)
 }
 
 /// Util: Check if the icon is supported
@@ -238,7 +160,7 @@ pub(in crate::integrations) fn is_icon_supported(icon: &IconResource) -> bool {
     }
 }
 
-/// Util: Generate icon from the first letter of the site/shortcut name
+/// Util: Generate the icon from the first letter of the site/shortcut name
 fn generate_icon_internal(letter: char, size: u32) -> Result<RgbImage> {
     // Load the font from OTF file
     let bytes = include_bytes!("../../assets/Metropolis-SemiBold.otf");
@@ -295,18 +217,20 @@ fn generate_icon_internal(letter: char, size: u32) -> Result<RgbImage> {
     Ok(image)
 }
 
+/// Util: Generate the icon and save it to file
 #[cfg(not(target_os = "macos"))]
+#[inline]
 pub(in crate::integrations) fn generate_icon<P: AsRef<Path>>(
     letter: char,
     size: u32,
     filename: P,
 ) -> Result<()> {
-    // Save the image to a file
     generate_icon_internal(letter, size)?.save(filename).context("Failed to save generated image")
 }
 
+/// Util: Generate the icon and return it
 #[cfg(target_os = "macos")]
+#[inline]
 pub(in crate::integrations) fn generate_icon(letter: char, size: u32) -> Result<RgbImage> {
-    // Save the image to a file
     generate_icon_internal(letter, size)
 }

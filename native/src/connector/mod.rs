@@ -11,7 +11,6 @@ use log::{error, info};
 use crate::components::runtime::Runtime;
 use crate::connector::request::RequestMessage;
 use crate::connector::response::ResponseMessage;
-#[rustfmt::skip]
 use crate::console::app::{
     ProfileCreateCommand,
     ProfileRemoveCommand,

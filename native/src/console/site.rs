@@ -8,7 +8,6 @@ use ulid::Ulid;
 
 use crate::components::runtime::Runtime;
 use crate::components::site::{Site, SiteConfig};
-#[rustfmt::skip]
 use crate::console::app::{
     SiteInstallCommand,
     SiteLaunchCommand,
@@ -31,8 +30,7 @@ impl Run for SiteLaunchCommand {
                 use crate::integrations;
 
                 if !self.direct_launch {
-                    integrations::launch_site(&dirs, site, &self.url)?;
-
+                    integrations::launch_site(site, &self.url)?;
                     return Ok(())
                 }
             }
@@ -50,9 +48,9 @@ impl Run for SiteLaunchCommand {
 
         cfg_if! {
             if #[cfg(target_os = "macos")] {
-                site.run(&dirs, &runtime, &self.url)?.wait()?;
+                site.launch(&dirs, &runtime, &self.url)?.wait()?;
             } else {
-                site.run(&dirs, &runtime, &self.url)?;
+                site.launch(&dirs, &runtime, &self.url)?;
             }
         }
 

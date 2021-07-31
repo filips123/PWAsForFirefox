@@ -43,8 +43,9 @@ pub struct SiteLaunchCommand {
     #[structopt(long)]
     pub url: Option<Url>,
 
+    /// Internal: Directly launches the PWA without system integration
     #[cfg(target_os = "macos")]
-    #[structopt(long = "direct-launch")]
+    #[structopt(long, hidden = true)]
     pub direct_launch: bool,
 }
 
@@ -145,7 +146,7 @@ pub enum ProfileCommand {
     /// Removes an existing profile
     Remove(ProfileRemoveCommand),
 
-    /// Updates an extsing profile
+    /// Updates an existing profile
     Update(ProfileUpdateCommand),
 }
 

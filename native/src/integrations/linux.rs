@@ -13,7 +13,7 @@ use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize};
 
 use crate::directories::ProjectDirs;
-use crate::integrations::xdg::XDG_CATEGORIES;
+use crate::integrations::categories::XDG_CATEGORIES;
 use crate::integrations::{generate_icon, is_icon_supported, SiteInfoInstall, SiteInfoUninstall};
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
