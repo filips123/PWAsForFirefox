@@ -11,6 +11,7 @@ use fs_extra::dir::{copy, CopyOptions};
 use log::{info, warn};
 use tempfile::{NamedTempFile, TempDir};
 
+use crate::components::site::Site;
 use crate::directories::ProjectDirs;
 
 fn remove_dir_contents<P: AsRef<Path>>(path: P) -> IoResult<()> {
@@ -214,7 +215,8 @@ impl Runtime {
         Ok(())
     }
 
-    pub fn patch(&self, dirs: &ProjectDirs) -> Result<()> {
+    #[allow(unused_variables)]
+    pub fn patch(&self, dirs: &ProjectDirs, site: &Site) -> Result<()> {
         let source = dirs.sysdata.join("userchrome/runtime");
 
         cfg_if! {
@@ -231,7 +233,49 @@ impl Runtime {
         options.overwrite = true;
 
         info!("Patching the runtime");
-        copy(source, target, &options).context("Failed to patch the runtime")?;
+        copy(source, &target, &options).context("Failed to patch the runtime")?;
+
+        cfg_if! {
+            if #[cfg(target_os = "macos")] {
+                use plist;
+
+                let bundle = target.parent().unwrap().parent().unwrap();
+                let native_translation = target.join("en.lproj");
+                let info_plist = target.parent().unwrap().join("info.plist");
+                let app_name = site.name().unwrap_or_else(|| "PWA".to_owned());
+                let temp_runtime_name = plist::Value::String(app_name);
+
+                // We remove the translation file so macOS shows the PWA name
+                // in the main menubar instead of the runtime name
+                remove_dir_contents(native_translation).context("Failed to patch the runtime")?;
+
+                let mut info_plist_file = plist::Value::from_file(&info_plist)
+                    .context("Failed to read runtime info.plist")?;
+
+                let info_plist_dict = info_plist_file
+                    .as_dictionary_mut()
+                    .context("Failed to read runtime info.plist content")?;
+
+                // We patch the runtime info.plist with the current app name,
+                // so the main menu shows the right name
+                info_plist_dict.insert("CFBundleName".into(), temp_runtime_name);
+                info_plist_file.to_file_xml(&info_plist).context("Failed to write runtime info.plist")?;
+
+                // We are messing with the runtime app bundle, so its signed signature doesn't match any more...
+                // Removing the signature helps
+                Command::new("codesign")
+                    .args(["--remove-signature", bundle.to_str().unwrap()])
+                    .output()
+                    .context("Failed to remove code signature from modified runtime")?;
+
+                // We removed the signature and by removing the quarantine attribute
+                // We can skip the signature check
+                Command::new("xattr")
+                    .args(["-rd", "com.apple.quarantine", bundle.to_str().unwrap()])
+                    .output()
+                    .context("Failed to remove quarantine from runtime")?;
+            }
+        }
 
         info!("Runtime patched!");
         Ok(())

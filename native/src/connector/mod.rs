@@ -5,6 +5,7 @@ use std::{env, io};
 
 use anyhow::{Context, Result};
 use byteorder::{NativeEndian, ReadBytesExt, WriteBytesExt};
+use cfg_if::cfg_if;
 use log::{error, info};
 
 use crate::components::runtime::Runtime;
@@ -161,7 +162,14 @@ impl<'a> Connection<'a> {
 
             RequestMessage::LaunchSite { id, url } => {
                 // Just simulate calling site launch command
-                let command = SiteLaunchCommand { id: *id, url: url.to_owned() };
+                cfg_if! {
+                    if #[cfg(target_os = "macos")] {
+                        let command = SiteLaunchCommand { id: *id, url: url.to_owned(), direct_launch: false };
+                    } else {
+                        let command = SiteLaunchCommand { id: *id, url: url.to_owned() };
+                    }
+                };
+
                 command.run()?;
 
                 Ok(ResponseMessage::SiteLaunched)

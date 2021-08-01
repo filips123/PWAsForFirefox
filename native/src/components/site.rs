@@ -6,6 +6,7 @@ use log::info;
 use serde::{Deserialize, Serialize};
 use ulid::Ulid;
 use url::Url;
+use web_app_manifest::types::Url as ManifestUrl;
 pub use web_app_manifest::WebAppManifest as SiteManifest;
 
 use crate::components::runtime::Runtime;
@@ -131,5 +132,31 @@ impl Site {
         }
 
         runtime.run(args)
+    }
+
+    /// Scope domain is used as a publisher name or when the site name is undefined.
+    /// Using scope instead of start URL because user should not be able to overwrite it.
+    pub fn domain(&self) -> String {
+        const INVALID_URL: &str = "Site without valid absolute URL is not possible";
+
+        if let ManifestUrl::Absolute(url) = &self.manifest.scope {
+            match url.host() {
+                Some(domain) => domain.to_string(),
+                None => unreachable!(INVALID_URL),
+            }
+        } else {
+            unreachable!(INVALID_URL)
+        }
+    }
+
+    /// First try the user-specified name, then try manifest name and then short name.
+    /// If this returns `None`, the caller is expected to use the domain name instead.
+    pub fn name(&self) -> Option<String> {
+        self.config
+            .name
+            .as_ref()
+            .cloned()
+            .or_else(|| self.manifest.name.as_ref().cloned())
+            .or_else(|| self.manifest.short_name.as_ref().cloned())
     }
 }

@@ -130,8 +130,6 @@ If you want to modify the installation or runtime directory, you will also need 
 
 #### macOS
 
-> ⚠️ macOS is not yet fully supported! There is currently no proper system integration (**no** Icon in your application list, **no** correct icon when you launch the PWA, windows are **not** separated by PWA). Follow #33 to get updated on this issue. ⚠️
-
 1. Install the Rust language and Git.
 2. Clone the repository and cd into the `native` (this) directory.
 3. If building a specific version:
