@@ -90,7 +90,24 @@ fn store_icons(target: &Path, info: &SiteInfoInstall) -> Result<()> {
         MacOSIconSize { size: 512, hdpi: true },
     ];
 
-    let icons = info.icons;
+    // We filter out all unusable icons before attempting to find the right icon sizes
+    let icons: Vec<&IconResource> = info
+        .icons
+        .iter()
+        // We can only use icons with purpose any
+        .filter(|icon| icon.purpose.contains(&ImagePurpose::Any))
+        // We can not use SVG icons because the image crate doesn't support them
+        .filter(|icon| icon.r#type.as_ref().map_or(true, |_type| _type.subtype() != "svg+xml"))
+        // Skip data URLs because supporting them would make code a lot more complicated
+        // The 48x48 icon is added later in any case because no "required icon" is found
+        .filter(|icon| {
+            match icon.src.clone().try_into().context(CONVERT_ICON_URL_ERROR) as Result<Url> {
+                Ok(url) => url.scheme() != "data",
+                Err(_) => false
+            }
+        })
+        .collect();
+
     let mut icon_index = 0;
 
     // Download and store all icons
@@ -99,31 +116,6 @@ fn store_icons(target: &Path, info: &SiteInfoInstall) -> Result<()> {
         'icons: loop {
             let icon = icons.get(icon_index).unwrap_or_else(|| icons.last().unwrap());
             debug!("Got icon with sizes {:?}", icon.sizes);
-
-            // Skip data URLs because supporting them would make code a lot more complicated
-            // The 48x48 icon is added later in any case because no "required icon" is found
-            let url: Url = icon.src.clone().try_into().context(CONVERT_ICON_URL_ERROR)?;
-            if url.scheme() == "data" {
-                if icon_index < icons.len() {
-                    continue 'icons;
-                } else {
-                    break 'icons;
-                }
-            };
-
-            // Download the image from the URL
-            let mut response = reqwest::blocking::get(url).context(DOWNLOAD_ICON_ERROR)?;
-
-            // Icons can only be "any" type
-            if !icon.purpose.contains(&ImagePurpose::Any) {
-                icon_index += 1;
-
-                if icon_index < icons.len() {
-                    continue 'icons;
-                } else {
-                    break 'icons;
-                }
-            }
 
             // Icons need to be processed (converted to PNG)
             if let Some(size) = icon.sizes.iter().max() {
@@ -135,6 +127,10 @@ fn store_icons(target: &Path, info: &SiteInfoInstall) -> Result<()> {
                 }
 
                 debug!("Icon fits!");
+
+                // Download the image from the URL
+                let url: Url = icon.src.clone().try_into().context(CONVERT_ICON_URL_ERROR)?;
+                let mut response = reqwest::blocking::get(url).context(DOWNLOAD_ICON_ERROR)?;
 
                 let bytes = &response.bytes().context(READ_ICON_ERROR)?;
                 let img = image::load_from_memory(bytes).context(LOAD_ICON_ERROR)?.resize_to_fill(
