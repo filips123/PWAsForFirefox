@@ -1122,6 +1122,15 @@ class PwaBrowser {
     gAreas.get(CustomizableUI.AREA_NAVBAR).set('defaultPlacements', ['close-page-button', 'back-button', 'forward-button', 'urlbar-container']);
     gAreas.get(CustomizableUI.AREA_TABSTRIP).set('defaultPlacements', ['site-info', 'tabbrowser-tabs', 'new-tab-button', 'alltabs-button', 'mute-button', 'notifications-button', 'permissions-button', 'downloads-button', 'tracking-protection-button', 'identity-button']);
     gAreas.get(CustomizableUI.AREA_BOOKMARKS).set('defaultCollapsed', 'never');
+
+    // Reset layout to default on the first run, otherwise widgets are misplaced
+    // We can check for the first run using telemetry reporting policy preference
+    // Although this relies on the telemetry module, it still works on LibreWolf where telemetry is disabled
+    setTimeout(() => {
+      if (xPref.get('toolkit.telemetry.reportingpolicy.firstRun', false, true)) {
+        CustomizableUI.reset();
+      }
+    });
   }
 
   configureWidgets () {
@@ -1147,6 +1156,7 @@ class PwaBrowser {
     xPref.set('browser.shell.checkDefaultBrowser', false, true);
     xPref.set('browser.uidensity', 1, true);
     xPref.set('browser.link.open_newwindow', 1, true);
+    xPref.set('datareporting.policy.firstRunURL', '', true);
 
     // Set distribution details
     xPref.set('distribution.id', ChromeLoader.DISTRIBUTION_ID, true);

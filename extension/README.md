@@ -56,6 +56,8 @@ When you open a valid PWA in the browser (that is loaded over HTTPS and has a li
 
 If the site is not a valid PWA, the installation action will not appear. However, you can also install such sites from the extension's browser action. This way of installing sites does not require PWA manifest, so it should work with basically any website.
 
+**Warning:** On Linux and macOS, all PWAs that are opened at the same time will be merged with the first PWA that was opened. You can prevent this by installing each PWA into a separate profile. Check the [current limitations](../README.md#current-limitations) section for more details.
+
 **Note:** If the site installation fails because of a manifest-related error, you can try disabling the use of manifest for determining app properties and installing the site again.
 
 **Note:** You cannot re-use the same name for multiple PWAs, because newer ones could overwrite older start menu entries and cause problems.
