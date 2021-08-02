@@ -20,7 +20,3 @@ indent_size = 2
 # Configuration
 [.*rc]
 indent_size = 2
-
-# Windows
-[*.{bat,cmd,ps1}]
-end_of_line = crlf

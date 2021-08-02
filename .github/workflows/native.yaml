@@ -12,7 +12,6 @@ on:
 
 defaults:
   run:
-    working-directory: native
     shell: bash
 
 jobs:
@@ -84,6 +83,11 @@ jobs:
     name: Build (${{ matrix.target }})
     runs-on: ${{ matrix.os }}
 
+    defaults:
+      run:
+        working-directory: native
+        shell: bash
+
     strategy:
       fail-fast: false
       matrix:
@@ -98,20 +102,10 @@ jobs:
             target: x86_64-pc-windows-msvc
           - os: windows-latest
             target: i686-pc-windows-msvc
-          # - os: macos-latest
-          #   target: x86_64-apple-darwin
-          # - os: macos-latest
-          #   target: aarch64-apple-darwin
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Configure cache
-        uses: Swatinem/rust-cache@v1
-        with:
-          working-directory: native
-          key: ${{ matrix.target }}
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1
@@ -121,6 +115,12 @@ jobs:
           profile: minimal
           override: true
           default: true
+
+      - name: Configure cache
+        uses: Swatinem/rust-cache@v1
+        with:
+          working-directory: native
+          key: ${{ matrix.target }}
 
       - name: Install Cargo DEB (Linux)
         if: matrix.os == 'ubuntu-latest'
@@ -219,10 +219,10 @@ jobs:
           rm -rf target/*/wix/ || true
           rm -rf target/wix/ || true
 
-  release:
-    name: Release
-    runs-on: ubuntu-latest
+  release-github:
+    name: Release on GitHub
     if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
 
     needs:
       - clippy
@@ -234,7 +234,7 @@ jobs:
         uses: actions/download-artifact@v2
 
       - name: Upload artifacts to GitHub Release
-        uses: filips123/action-gh-release@a929a66f232c1b11af63782948aa2210f981808a
+        uses: softprops/action-gh-release@59c3b4891632ff9a897f99a91d7bc557467a3a22
         with:
           fail_on_unmatched_files: true
           files: |
@@ -244,3 +244,175 @@ jobs:
             artifact/wix/*.msi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release-packagecloud:
+    name: Release on packagecloud.io
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+
+    needs:
+      - clippy
+      - rustfmt
+      - build
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+
+      - name: Install packagecloud.io CLI
+        run: sudo gem install package_cloud
+
+      - name: Upload artifacts to packagecloud.io repositories
+        env:
+          PACKAGECLOUD_TOKEN: ${{ secrets.PACKAGECLOUD_TOKEN }}
+        run: |
+          package_cloud push filips/FirefoxPWA/any/any artifact/debian/*.deb
+          package_cloud push filips/FirefoxPWA/rpm_any/rpm_any artifact/rpm/*.rpm
+
+  release-aur:
+    name: Release on Arch User Repository
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    container: archlinux
+
+    needs:
+      - release-github
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install required packages
+        run: pacman -Syu pacman-contrib pacman sudo --noconfirm --needed
+
+      - name: Prepare non-root user
+        run: chown -R nobody .
+
+      - name: Update PKGBUILDs
+        run: |
+          echo "::group::Setting the package versions"
+          VERSION=${GITHUB_REF/refs\/tags\/v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          sed -i "s/pkgver=\$VERSION/pkgver=\"$VERSION\"/g" native/packages/aur/firefox-pwa/PKGBUILD
+          sed -i "s/pkgver=\$VERSION/pkgver=\"$VERSION\"/g" native/packages/aur/firefox-pwa-bin/PKGBUILD
+          echo "::endgroup::"
+
+          echo "::group::Updating the package checksums"
+          (cd native/packages/aur/firefox-pwa && sudo -u nobody updpkgsums)
+          (cd native/packages/aur/firefox-pwa-bin && sudo -u nobody updpkgsums)
+          echo "::endgroup::"
+
+      - name: Verify PKGBUILDs
+        run: |
+          # Binary version is skipped because namcap doesn't work with arch-specific sources
+          (cd native/packages/aur/firefox-pwa && namcap -i PKGBUILD)
+
+      - name: Release firefox-pwa package
+        uses: KSXGitHub/github-actions-deploy-aur@164fc9efce4e3d5031705e2e3be445ba16c82fe7
+        with:
+          pkgname: firefox-pwa
+          pkgbuild: ./native/packages/aur/firefox-pwa/PKGBUILD
+          assets: ./native/packages/aur/firefox-pwa/**
+          commit_message: Update to ${{ env.VERSION }}
+          commit_username: ${{ secrets.AUR_USERNAME }}
+          commit_email: ${{ secrets.AUR_EMAIL }}
+          ssh_private_key: ${{ secrets.AUR_PRIVATE_KEY }}
+          ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
+
+      - name: Release firefox-pwa-bin package
+        uses: KSXGitHub/github-actions-deploy-aur@164fc9efce4e3d5031705e2e3be445ba16c82fe7
+        with:
+          pkgname: firefox-pwa-bin
+          pkgbuild: ./native/packages/aur/firefox-pwa-bin/PKGBUILD
+          assets: ./native/packages/aur/firefox-pwa-bin/**
+          commit_message: Update to ${{ env.VERSION }}
+          commit_username: ${{ secrets.AUR_USERNAME }}
+          commit_email: ${{ secrets.AUR_EMAIL }}
+          ssh_private_key: ${{ secrets.AUR_PRIVATE_KEY }}
+          ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
+
+  release-winget:
+    name: Release on Windows Package Manager
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: windows-latest
+
+    needs:
+      - release-github
+
+    steps:
+      - name: Install winget-create
+        shell: powershell
+        run: iwr https://aka.ms/wingetcreate/latest -OutFile wingetcreate.exe
+
+      - name: Prepare Git user
+        run: |
+          git config --global user.name "${{ secrets.GH_USERNAME }}"
+          git config --global user.email "${{ secrets.GH_EMAIL }}"
+
+      - name: Update and release package manifest
+        run: |
+          VERSION=${GITHUB_REF/refs\/tags\/v}
+          INSTALLER_64BIT="https://github.com/filips123/FirefoxPWA/releases/download/v$VERSION/firefoxpwa-$VERSION-x86_64.msi"
+          INSTALLER_32BIT="https://github.com/filips123/FirefoxPWA/releases/download/v$VERSION/firefoxpwa-$VERSION-x86.msi"
+          .\wingetcreate.exe update -s filips.FirefoxPWA -u $INSTALLER_64BIT $INSTALLER_32BIT -v $VERSION -t ${{ secrets.GH_TOKEN }}
+
+  release-chocolatey:
+    name: Release on Chocolatey
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: windows-latest
+
+    needs:
+      - release-github
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+
+      - name: Calculate version and installer checksums
+        run: |
+          echo "::group::Copying installers to the package"
+          cp -R artifact/wix/*.msi native/packages/choco/tools/
+          echo "::endgroup::"
+
+          echo "::group::Setting the package version"
+          VERSION=${GITHUB_REF/refs\/tags\/v}
+          sed -i "s/{{PackageVersion}}/$VERSION/g" native/packages/choco/firefoxpwa.nuspec
+          echo "::endgroup::"
+
+          echo "::group::Updating installer checksums"
+          cd native/packages/choco/tools/
+          echo "$(sha256sum *.msi --tag)" >> ../legal/VERIFICATION.txt
+          echo "::endgroup::"
+
+      - name: Prepare Chocolatey package
+        run: |
+          cd native/packages/choco/
+          choco pack
+
+      - name: Release Chocolatey package
+        run: choco push native/packages/choco/*.nupkg --source https://push.chocolatey.org/ --key ${{secrets.CHOCO_TOKEN}}
+
+  release-homebrew:
+    name: Release on Homebrew
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: macos-latest
+
+    needs:
+      - release-github
+
+    steps:
+      - name: Prepare Git user
+        run: |
+          git config --global user.name "${{ secrets.GH_USERNAME }}"
+          git config --global user.email "${{ secrets.GH_EMAIL }}"
+
+      - name: Update and release Homebrew formula
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          VERSION=${GITHUB_REF/refs\/tags\/v}
+          brew tap filips123/firefoxpwa
+          brew bump-formula-pr --no-fork --no-browse --strict --online --version $VERSION filips123/firefoxpwa/firefoxpwa

@@ -20,26 +20,46 @@ Read the [main README file](../README.md) for more details about the project.
 * Red Hat-like Linux (pre-built RPM package)
 * Arch-like Linux (source and binary AUR packages)
 * Other Linux (source installation only)
-* macOS (partial support, source installation only)
+* macOS (Homebrew tap with a formula)
 
-### From Package Archives
+### From Package Repositories
 
-#### Arch User Repository (AUR)
+#### PackageCloud
 
-* [`firefox-pwa`](https://aur.archlinux.org/packages/firefox-pwa/) (source)
-* [`firefox-pwa-bin`](https://aur.archlinux.org/packages/firefox-pwa-bin/) (pre-built)
+The DEB and RPM packages are hosted on [the packagecloud.io repository](https://packagecloud.io/filips/FirefoxPWA). You can enable this repository and install packages from there if you prefer to manage FirefoxPWA updates using your system package manager.
+
+*Note:*  We are currently using a free plan for the packagecloud.io repository with limited bandwidth.
+In case the repository fails because of a bandwidth-related error, download and install the package manually.
+We will try to improve this in the future.
+
+#### Standard Repositories
+
+<details>
+  <summary>Expand packaging status</summary>
+
+  [![Packaging status](https://repology.org/badge/vertical-allrepos/firefoxpwa.svg)](https://repology.org/project/firefoxpwa/versions)
+</details>
+
+* Windows Package Manager: `filips.FirefoxPWA`
+* Chocolatey: [`firefoxpwa`](https://community.chocolatey.org/packages/firefoxpwa)
+* Npackd: [`firefoxpwa`](https://www.npackd.org/p/firefoxpwa)
+* Arch User Repository: [`firefox-pwa`](https://aur.archlinux.org/packages/firefox-pwa/) (source)
+* Arch User Repository: [`firefox-pwa-bin`](https://aur.archlinux.org/packages/firefox-pwa-bin/) (pre-built)
+* Homebrew Tap: [`filips123/firefoxpwa`](https://github.com/filips123/homebrew-firefoxpwa)
+<!-- * Homebrew: [`firefoxpwa`](https://formulae.brew.sh/formula/firefoxpwa) -->
+<!-- * Linuxbrew: [`firefoxpwa`](https://formulae.brew.sh/formula-linux/firefoxpwa) -->
 
 ### From Release Binaries
 
 You can download installers/packages and the shell completions from the [latest GitHub release](https://github.com/filips123/FirefoxPWA/releases/latest).
 
-On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package. On Linux, you need `glibc` 2.18 or later.
+On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package. On Linux, you need `glibc` 2.18 or later, which also is specified in the package dependencies.
 
 ### From Development Binaries
 
 You can download and install [latest build artifact](https://github.com/filips123/FirefoxPWA/actions/workflows/native.yaml) from GitHub Actions builds. Note that these are development versions that may be unstable.
 
-On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package.  On Linux, you need `glibc` 2.18 or later.
+On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package.  On Linux, you need `glibc` 2.18 or later, which also is specified in the package dependencies.
 
 ### From Source
 

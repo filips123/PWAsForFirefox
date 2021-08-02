@@ -55,9 +55,9 @@ cp -a * %{buildroot}
 # Just remove the build root
 rm -rf %{buildroot}
 
-%posttrans
+%post
 # Add notice that it is recommended to also install the extension
-if [ $1 == 0 ]
+if [ $1 == 1 ]
 then
     echo "You have successfully installed the native part of the FirefoxPWA project"
     echo "You should also install the Firefox extension if you haven't already"

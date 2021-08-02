@@ -45,7 +45,6 @@ labels: bug
 * System architecture:
 * Desktop environment: <!-- If on Linux -->
 * Installation method: <!-- MSI/DEB/RPM/AUR/source... -->
-
-* Firefox version:
 * FirefoxPWA extension version:
 * FirefoxPWA native version:
+* Firefox version:

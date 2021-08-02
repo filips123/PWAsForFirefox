@@ -1,0 +1,19 @@
+﻿VERIFICATION
+
+I am the author of the FirefoxPWA project.
+
+Both Windows installers are built automatically on every release using GitHub Actions from
+the project source, published as workflow artifacts, and then added to a new GitHub release.
+After the installers are built, another automated script downloads installers from artifacts
+automatically updates the version in the `.nuspec` file, calculates installer checksums and
+saves them into this file, and publishes a new version to Chocolatey.
+
+Installer checksums can be verified by downloading MSI installers from the correct GitHub
+release on the repository, generating their SHA-256 checksums (for example, using sha256sum),
+and comparing them to the checksums provided below.
+
+The source for building and publishing process can be found in the GitHub Actions workflow
+file for the native component in the GitHub repository.
+
+INSTALLER CHECKSUMS
+

@@ -64,7 +64,7 @@ These are things that I would like to fix eventually, but will currently stay, e
 
   When some PWA is already running, all newly launched PWAs will merge with it and remain merged until all of them are closed. This will cause the app menu to display all PWAs as part of the first PWA that was launched, with its icon and desktop actions (if any).
 
-  *Users can prevent by installing each PWA into a different profile.*
+  *Users can prevent this by installing each PWA into a different profile.*
 
   * **Linux:**
 

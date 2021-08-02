@@ -42,8 +42,6 @@ async function prepareInstallInstructions () {
   if (arch === 'arm') {
     document.getElementById('linux-deb-install-tab').classList.add('d-none')
     document.getElementById('linux-rpm-install-tab').classList.add('d-none')
-    document.getElementById('linux-source-install-tab').innerText = 'Linux'
-    document.getElementById('linux-source-install-name').innerText = 'Linux'
   }
 
   // Set the default tab to the current OS

@@ -1,0 +1,37 @@
+﻿From: https://github.com/filips123/FirefoxPWA#license
+
+LICENSE
+
+The project is licensed under the Mozilla Public License 2.0. By using, redistributing,
+or modifying it, you must agree to the license, and the additional clauses provided
+below. See the LICENSE file <https://github.com/filips123/FirefoxPWA/blob/main/LICENSE>
+in the project repository for the full license text.
+
+Browser chrome modifications were largely inspired by the `xiaoxiaoflood/firefox-scripts`
+repository on GitHub <https://github.com/xiaoxiaoflood/firefox-scripts>, also licensed
+under the Mozilla Public License 2.0. Detailed license information can be found in
+the respective files in the project repository.
+
+The native part of the project includes the Metropolis Semi Bold typeface by Chris Simpson
+<https://fontsarena.com/metropolis-by-chris-simpson/>, released into the public domain
+using the Unlicense <https://unlicense.org/>.
+
+Windows installer includes the Material Design Icons <https://materialdesignicons.com/>
+by Austin Andrews and Google, licensed under the Apache 2.0 license <https://www.apache.org/licenses/LICENSE-2.0>.
+Detailed license information can be found in the WiX configuration file in the project
+repository <https://github.com/filips123/FirefoxPWA/blob/main/native/packages/wix/main.wxs>.
+
+The project logo is based on the official Firefox browser logo <https://mozilla.design/firefox/logos-usage>
+and the community-introduced PWA logo <https://github.com/webmaxru/progressive-web-apps-logo>.
+
+Installing the runtime on Windows will install the 7-Zip <https://7-zip.org/> if it is
+not already installed. The 7-Zip project is made by Igor Pavlov and licensed under the
+GNU LGPL license and others <https://7-zip.org/license.txt>. This project is not
+affiliated with the 7-Zip project or its developers in any way.
+
+Installing the runtime on any system will download the unmodified Mozilla Firefox
+<https://www.mozilla.org/firefox/> and locally modify it. By using this project you
+also agree to the Firefox Privacy Notice <https://www.mozilla.org/privacy/firefox/>.
+Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo
+are trademarks of the Mozilla Foundation in the U.S. and other countries. This project
+is not affiliated with the Mozilla Foundation in any way.
