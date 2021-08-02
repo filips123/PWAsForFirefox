@@ -24,13 +24,14 @@ impl Run for SiteLaunchCommand {
         let storage = Storage::load(&dirs)?;
 
         let site = storage.sites.get(&self.id).context("Site does not exist")?;
+        let args = if !&self.arguments.is_empty() { &self.arguments } else { &storage.arguments };
 
         cfg_if! {
             if #[cfg(target_os = "macos")] {
                 use crate::integrations;
 
                 if !self.direct_launch {
-                    integrations::launch_site(site, &self.url)?;
+                    integrations::launch_site(site, &self.url, args)?;
                     return Ok(())
                 }
             }
@@ -46,11 +47,12 @@ impl Run for SiteLaunchCommand {
         runtime.patch(&dirs, site)?;
         profile.patch(&dirs)?;
 
+        info!("Launching the site");
         cfg_if! {
             if #[cfg(target_os = "macos")] {
-                site.launch(&dirs, &runtime, &self.url)?.wait()?;
+                site.launch(&dirs, &runtime, &self.url, args)?.wait()?;
             } else {
-                site.launch(&dirs, &runtime, &self.url)?;
+                site.launch(&dirs, &runtime, &self.url, args)?;
             }
         }
 

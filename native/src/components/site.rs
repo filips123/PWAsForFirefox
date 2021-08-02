@@ -114,6 +114,7 @@ impl Site {
         dirs: &ProjectDirs,
         runtime: &Runtime,
         url: &Option<Url>,
+        arguments: &[String],
     ) -> Result<Child> {
         let profile = dirs.userdata.join("profiles").join(&self.profile.to_string());
 
@@ -131,6 +132,7 @@ impl Site {
             ]);
         }
 
+        args.extend_from_slice(arguments);
         runtime.run(args)
     }
 

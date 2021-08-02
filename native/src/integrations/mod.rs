@@ -140,8 +140,9 @@ pub fn uninstall(site: &Site, dirs: &ProjectDirs) -> Result<()> {
 }
 
 #[cfg(target_os = "macos")]
-pub fn launch_site(site: &Site, url: &Option<Url>) -> Result<Child> {
-    macos::launch_site(site, url)
+#[inline]
+pub fn launch_site(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Child> {
+    macos::launch_site(site, url, arguments)
 }
 
 /// Util: Check if the icon is supported

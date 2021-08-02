@@ -164,12 +164,11 @@ impl<'a> Connection<'a> {
                 // Just simulate calling site launch command
                 cfg_if! {
                     if #[cfg(target_os = "macos")] {
-                        let command = SiteLaunchCommand { id: *id, url: url.to_owned(), direct_launch: false };
+                        let command = SiteLaunchCommand { id: *id, url: url.to_owned(), arguments: vec![], direct_launch: false };
                     } else {
-                        let command = SiteLaunchCommand { id: *id, url: url.to_owned() };
+                        let command = SiteLaunchCommand { id: *id, url: url.to_owned(), arguments: vec![] };
                     }
                 };
-
                 command.run()?;
 
                 Ok(ResponseMessage::SiteLaunched)

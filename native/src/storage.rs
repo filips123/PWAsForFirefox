@@ -17,6 +17,7 @@ pub struct Storage {
     #[default([(Ulid::nil(), Profile::default())].iter().cloned().collect())]
     pub profiles: BTreeMap<Ulid, Profile>,
     pub sites: BTreeMap<Ulid, Site>,
+    pub arguments: Vec<String>,
 }
 
 impl Storage {

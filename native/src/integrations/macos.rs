@@ -349,7 +349,7 @@ fn verify_app_is_pwa(app_bundle: &Path, appid: &str) -> Result<()> {
     Ok(())
 }
 
-pub fn launch_site(site: &Site, url: &Option<Url>) -> Result<Child> {
+pub fn launch_site(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Child> {
     let name = site.name().unwrap_or_else(|| site.domain());
 
     let appid = format!("FFPWA-{}", site.ulid.to_string());
@@ -359,18 +359,29 @@ pub fn launch_site(site: &Site, url: &Option<Url>) -> Result<Child> {
         .join(format!("Applications/{}.app", name));
 
     debug!("Verifying that {} is a PWA app bundle", app_path.to_str().unwrap());
-
     if app_path.exists() {
         verify_app_is_pwa(&app_path, &appid)?;
     }
 
     let mut args = vec![app_path.display().to_string()];
+
+    // We need to append `--args` when we provide additional arguments to the PWA
+    if url.is_some() || !arguments.is_empty() {
+        args.extend_from_slice(&["--args".into()]);
+    }
+
+    // Support launching PWA with custom URLs
     if let Some(url) = url {
         #[rustfmt::skip]
         args.extend_from_slice(&[
-            "--args".into(),
             "--url".into(), url.to_string(),
         ]);
+    }
+
+    // Support launching PWA with custom Firefox arguments
+    if !arguments.is_empty() {
+        args.extend_from_slice(&["---".into()]);
+        args.extend_from_slice(arguments);
     }
 
     let mut command = Command::new("open");

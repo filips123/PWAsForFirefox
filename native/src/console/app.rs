@@ -39,6 +39,9 @@ pub struct SiteLaunchCommand {
     /// Identifier of the PWA
     pub id: Ulid,
 
+    /// Additional arguments for the Firefox runtime
+    pub arguments: Vec<String>,
+
     /// Optionally launches the PWA with a custom start URL
     #[structopt(long)]
     pub url: Option<Url>,
