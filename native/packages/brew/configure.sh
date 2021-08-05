@@ -15,9 +15,9 @@ BIN=$2
 LIBEXEC=$3
 
 # Set the correct version in the source files
-sed -i "s/version = \"0.0.0\"/version = \"$VERSION\"/g" Cargo.toml
-sed -i "s/DISTRIBUTION_VERSION = '0.0.0'/DISTRIBUTION_VERSION = '$VERSION'/g" userchrome/profile/chrome/pwa/chrome.jsm
+sed -i"" -e "s/version = \"0.0.0\"/version = \"$VERSION\"/g" Cargo.toml
+sed -i"" -e "s/DISTRIBUTION_VERSION = '0.0.0'/DISTRIBUTION_VERSION = '$VERSION'/g" userchrome/profile/chrome/pwa/chrome.jsm
 
 # Set the path in the manifest to the Homebrew libexec directory
 cp manifests/macos.json manifests/brew.json
-sed -i "s@/usr/local/libexec/firefoxpwa-connector@$LIBEXEC/firefoxpwa-connector@g" manifests/brew.json
+sed -i"" -e "s@/usr/local/libexec/firefoxpwa-connector@$LIBEXEC/firefoxpwa-connector@g" manifests/brew.json
