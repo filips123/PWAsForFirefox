@@ -72,7 +72,13 @@ These are things that I would like to fix eventually, but will currently stay, e
 
   * **macOS:**
 
-    Apple only allows a process to be associated with a single application at all times. Perhaps this could be solved by using an IPC link between a host process and the main Firefox runtime process, the same way the Firefox parent process handles it's content processes. This is just a wild theory though and has to be investigated further. See [this comment](https://github.com/filips123/FirefoxPWA/issues/33#issuecomment-888511078) for more.
+    Apple only allows a process to be associated with a single application at all times. Perhaps this could be solved by using an IPC link between a host process and the main Firefox runtime process, the same way the Firefox parent process handles its content processes. This is just a wild theory though and has to be investigated further. See [this comment](https://github.com/filips123/FirefoxPWA/issues/33#issuecomment-888511078) for more.
+
+* **Reopening a PWA after closing all windows opens new tab page:**
+
+  When PWA is reopened after closing all windows, it will open the new tab page instead of PWA start URL. *Users have to close the app and restart it to get into the PWA.*
+
+  See [#42](https://github.com/filips123/FirefoxPWA/issues/42) for more details. Perhaps the fix could also be related to the first limitation, as it may involve passing PWA configuration between windows.
 
 ## Versioning
 
