@@ -1,3 +1,4 @@
+use std::cmp::Ordering;
 use std::convert::TryInto;
 use std::fs::{create_dir_all, remove_dir_all, remove_file, write, File, Permissions};
 use std::io::{BufWriter, Read, Write};
@@ -8,11 +9,14 @@ use std::process::{Child, Command};
 use anyhow::{bail, Context, Result};
 use data_url::DataUrl;
 use icns::{IconFamily, IconType, Image, PixelFormat};
+use image::imageops::resize;
 use image::imageops::FilterType::Gaussian;
+use image::{DynamicImage, Rgba, RgbaImage};
 use log::{debug, info};
 use phf::phf_map;
 use pix::rgb::{Rgba32, Rgba8};
 use pix::Raster;
+use rusttype::Point;
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize};
@@ -41,6 +45,8 @@ const APP_BUNDLE_NAME_ERROR: &str = "Failed to get name of app bundle";
 const APP_BUNDLE_UNICODE_ERROR: &str = "Failed to check name of app bundle for Unicode validity";
 const GENERATE_ICON_ERROR: &str = "Failed to generate icon";
 const GET_LETTER_ERROR: &str = "Failed to get first letter";
+
+const ICON_SAFE_ZONE_FACTOR: f64 = 0.697265625;
 
 struct MacOSIconSize {
     size: u32,
@@ -90,67 +96,78 @@ fn store_icons(target: &Path, info: &SiteInfoInstall) -> Result<()> {
         MacOSIconSize { size: 512, hdpi: true },
     ];
 
-    // We filter out all unusable icons before attempting to find the right icon sizes
-    let icons: Vec<&IconResource> = info
-        .icons
-        .iter()
-        // We can only use icons with purpose any
-        .filter(|icon| icon.purpose.contains(&ImagePurpose::Any))
-        // We can not use SVG icons because the image crate doesn't support them
-        .filter(|icon| icon.r#type.as_ref().map_or(true, |_type| _type.subtype() != "svg+xml"))
-        // Skip data URLs because supporting them would make code a lot more complicated
-        // The 48x48 icon is added later in any case because no "required icon" is found
-        .filter(|icon| {
-            match icon.src.clone().try_into().context(CONVERT_ICON_URL_ERROR) as Result<Url> {
-                Ok(url) => url.scheme() != "data",
-                Err(_) => false
-            }
-        })
-        .collect();
-
+    let icons = normalize_icons(info.icons);
     let mut icon_index = 0;
+    let mut best_fallback: Option<&&IconResource> = None;
 
     // Download and store all icons
+    // Icons need to be processed (scaled to the right sizes and masked)
     'sizes: for required_size in &icon_sizes {
         debug!("Looking for icon size {}", required_size.size());
         'icons: loop {
-            let icon = icons.get(icon_index).unwrap_or_else(|| icons.last().unwrap());
+            let icon = match icons.get(icon_index).or(best_fallback) {
+                Some(icon) => icon,
+                None => break 'sizes,
+            };
+
             debug!("Got icon with sizes {:?}", icon.sizes);
 
-            // Icons need to be processed (converted to PNG)
-            if let Some(size) = icon.sizes.iter().max() {
-                if size < &ImageSize::Fixed(required_size.size(), required_size.size())
-                    && icon_index < icons.len()
-                {
-                    icon_index += 1;
-                    continue 'icons;
+            let size = match icon.sizes.iter().max() {
+                Some(size) => size.clone(),
+                None => ImageSize::Any,
+            };
+
+            // We have to find the best fallback for when we run out of icons,
+            // but still need more of them to satisfy the platform requirements.
+            match best_fallback {
+                Some(fallback) => {
+                    let fallback_size = fallback.sizes.iter().max().unwrap_or(&ImageSize::Any);
+
+                    if fallback_size > &size
+                        || (fallback_size == &size
+                            && icon.purpose.contains(&ImagePurpose::Maskable))
+                    {
+                        best_fallback = Some(icon);
+                    }
                 }
 
-                debug!("Icon fits!");
-
-                // Download the image from the URL
-                let url: Url = icon.src.clone().try_into().context(CONVERT_ICON_URL_ERROR)?;
-                let mut response = reqwest::blocking::get(url).context(DOWNLOAD_ICON_ERROR)?;
-
-                let bytes = &response.bytes().context(READ_ICON_ERROR)?;
-                let img = image::load_from_memory(bytes).context(LOAD_ICON_ERROR)?.resize_to_fill(
-                    required_size.size(),
-                    required_size.size(),
-                    Gaussian,
-                );
-
-                iconset.add_icon_with_type(
-                    &Image::from_data(
-                        PixelFormat::RGBA,
-                        required_size.size(),
-                        required_size.size(),
-                        img.into_rgba8().to_vec(),
-                    )?,
-                    required_size.icon_type(),
-                );
-
-                debug!("Added size {}", required_size.size());
+                None => best_fallback = Some(icon),
             }
+
+            // If the size is smaller than what we need we pass,
+            // except if we are alredy down to our last option.
+            if size < ImageSize::Fixed(required_size.size(), required_size.size())
+                && icon_index < icons.len()
+            {
+                icon_index += 1;
+                continue 'icons;
+            }
+
+            debug!("Icon fits!");
+
+            // Download the image from the URL
+            let url: Url = icon.src.clone().try_into().context(CONVERT_ICON_URL_ERROR)?;
+            let mut response = reqwest::blocking::get(url).context(DOWNLOAD_ICON_ERROR)?;
+
+            let bytes = &response.bytes().context(READ_ICON_ERROR)?;
+            let mut img = image::load_from_memory(bytes)
+                .context(LOAD_ICON_ERROR)?
+                .resize_to_fill(required_size.size(), required_size.size(), Gaussian)
+                .into_rgba8();
+
+            mask_icon(&mut img, icon.purpose.contains(&ImagePurpose::Maskable))?;
+
+            iconset.add_icon_with_type(
+                &Image::from_data(
+                    PixelFormat::RGBA,
+                    required_size.size(),
+                    required_size.size(),
+                    img.to_vec(),
+                )?,
+                required_size.icon_type(),
+            );
+
+            debug!("Added size {}", required_size.size());
 
             break 'icons;
         }
@@ -161,15 +178,12 @@ fn store_icons(target: &Path, info: &SiteInfoInstall) -> Result<()> {
 
         for size in &icon_sizes {
             let image_data = generate_icon(letter, size.size()).context(GENERATE_ICON_ERROR)?;
-            let image = image::DynamicImage::ImageRgb8(image_data);
+            let mut image = DynamicImage::ImageRgb8(image_data).into_rgba8();
+
+            mask_icon(&mut image, true);
 
             iconset.add_icon_with_type(
-                &Image::from_data(
-                    PixelFormat::RGBA,
-                    size.size(),
-                    size.size(),
-                    image.into_rgba8().to_vec(),
-                )?,
+                &Image::from_data(PixelFormat::RGBA, size.size(), size.size(), image.to_vec())?,
                 size.icon_type(),
             );
         }
@@ -361,4 +375,119 @@ pub fn launch_site(site: &Site, url: &Option<Url>) -> Result<Child> {
 
     let mut command = Command::new("open");
     command.args(&args).spawn().context(LAUNCH_APPLICATION_BUNDLE)
+}
+
+// We filter out all unusable icons before attempting to find the right icon sizes
+fn normalize_icons(icons: &[IconResource]) -> Vec<&IconResource> {
+    let mut icons: Vec<&IconResource> = icons
+    .iter()
+    // We can only use icons with purpose any or maskable
+    .filter(|icon| icon.purpose.contains(&ImagePurpose::Any) || icon.purpose.contains(&ImagePurpose::Maskable))
+    // We can not use SVG icons because the image crate doesn't support them
+    .filter(|icon| icon.r#type.as_ref().map_or(true, |_type| _type.subtype() != "svg+xml"))
+    // Skip data URLs because supporting them would make code a lot more complicated
+    .filter(|icon| {
+        match icon.src.clone().try_into().context(CONVERT_ICON_URL_ERROR) as Result<Url> {
+            Ok(url) => url.scheme() != "data",
+            Err(_) => false
+        }
+    })
+    .collect();
+
+    // We prefer maskable icons so we put them at the start of the list
+    icons.sort_by(|a, b| {
+        if a.purpose.contains(&ImagePurpose::Maskable)
+            && b.purpose.contains(&ImagePurpose::Maskable)
+        {
+            Ordering::Equal
+        } else if a.purpose.contains(&ImagePurpose::Maskable) {
+            Ordering::Less
+        } else if b.purpose.contains(&ImagePurpose::Maskable) {
+            Ordering::Greater
+        } else {
+            Ordering::Equal
+        }
+    });
+
+    icons
+}
+
+// apply the the correct icon shape specified by apple for macOS
+// Source: https://developer.apple.com/design/human-interface-guidelines/macos/icons-and-images/app-icon/
+fn mask_icon(icon: &mut RgbaImage, maskable: bool) -> Result<()> {
+    let icon_size = Point { x: icon.width(), y: icon.height() };
+    let mask = image::load_from_memory(include_bytes!("../../assets/icon-mask-macos.png"))?;
+    let shadow = image::load_from_memory(include_bytes!("../../assets/icon-shadow-macos.png"))?;
+    let scaled_mask = mask.resize(icon_size.x, icon_size.y, Gaussian); // this is really slow in debug builds, up to ~1s
+    let scaled_shadow = shadow.resize(icon_size.x, icon_size.y, Gaussian); // this is really slow in debug builds, up to ~1s
+    let mask_data = scaled_mask.into_rgba8();
+    let shadow_data = scaled_shadow.into_rgba8();
+
+    let scaled_icon_size = if maskable {
+        Point { x: icon_size.x as u32, y: icon_size.y as u32 }
+    } else {
+        Point {
+            x: (icon_size.x as f64 * ICON_SAFE_ZONE_FACTOR).round() as u32,
+            y: (icon_size.y as f64 * ICON_SAFE_ZONE_FACTOR).round() as u32,
+        }
+    };
+
+    let icon_offset = Point {
+        x: (icon_size.x - scaled_icon_size.x) / 2,
+        y: (icon_size.y - scaled_icon_size.y) / 2,
+    };
+
+    let scaled_icon_data: RgbaImage = if maskable {
+        icon.clone()
+    } else {
+        resize(icon, scaled_icon_size.x, scaled_icon_size.y, Gaussian)
+    };
+
+    let mut icon_background =
+        RgbaImage::from_pixel(icon_size.x, icon_size.y, Rgba([255, 255, 255, 255]));
+
+    for pixel in icon_background.enumerate_pixels() {
+        let (pixel_x, pixel_y, original_pixel_value) = pixel;
+
+        let mut pixel_value = original_pixel_value.to_owned();
+        let icon_pixel_x = pixel_x as i32 - icon_offset.x as i32;
+        let icon_pixel_y = pixel_y as i32 - icon_offset.y as i32;
+
+        // add icon into background
+        if icon_pixel_x >= 0
+            && icon_pixel_y >= 0
+            && icon_pixel_x < scaled_icon_size.x as i32
+            && icon_pixel_y < scaled_icon_size.y as i32
+        {
+            let icon_pixel = scaled_icon_data.get_pixel(icon_pixel_x as u32, icon_pixel_y as u32);
+            let pixel_alpha = icon_pixel.0[3] as f64 / 255f64;
+            let pixel_r = (icon_pixel.0[0] as f64 * pixel_alpha).round();
+            let pixel_g = (icon_pixel.0[1] as f64 * pixel_alpha).round();
+            let pixel_b = (icon_pixel.0[2] as f64 * pixel_alpha).round();
+
+            pixel_value.0[0] =
+                ((pixel_value.0[0] as f64 * (1f64 - pixel_alpha)).round() + pixel_r) as u8;
+            pixel_value.0[1] =
+                ((pixel_value.0[1] as f64 * (1f64 - pixel_alpha)).round() + pixel_g) as u8;
+            pixel_value.0[2] =
+                ((pixel_value.0[2] as f64 * (1f64 - pixel_alpha)).round() + pixel_b) as u8;
+        }
+
+        // apply mask to icon
+        let mask_pixel = mask_data.get_pixel(pixel_x, pixel_y);
+
+        pixel_value.0[3] = mask_pixel.0[0];
+
+        // add shadow to composed icon
+        if (pixel_value.0[3] == 0) {
+            let shadow_pixel = shadow_data.get_pixel(pixel_x, pixel_y);
+
+            pixel_value.0 = shadow_pixel.0;
+        }
+
+        // write pixel data to original icon
+        icon.put_pixel(pixel_x, pixel_y, pixel_value);
+    }
+
+    Ok(())
 }
