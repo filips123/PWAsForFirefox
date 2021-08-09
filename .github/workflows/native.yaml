@@ -283,7 +283,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install required packages
-        run: pacman -Syu pacman-contrib pacman sudo --noconfirm --needed
+        run: pacman -Syu pacman-contrib pacman namcap sudo --noconfirm --needed
 
       - name: Prepare non-root user
         run: chown -R nobody .
@@ -354,7 +354,7 @@ jobs:
           VERSION=${GITHUB_REF/refs\/tags\/v}
           INSTALLER_64BIT="https://github.com/filips123/FirefoxPWA/releases/download/v$VERSION/firefoxpwa-$VERSION-x86_64.msi"
           INSTALLER_32BIT="https://github.com/filips123/FirefoxPWA/releases/download/v$VERSION/firefoxpwa-$VERSION-x86.msi"
-          .\wingetcreate.exe update -s filips.FirefoxPWA -u $INSTALLER_64BIT $INSTALLER_32BIT -v $VERSION -t ${{ secrets.GH_TOKEN }}
+          ./wingetcreate.exe update -s filips.FirefoxPWA -u $INSTALLER_64BIT $INSTALLER_32BIT -v $VERSION -t ${{ secrets.GH_TOKEN }}
 
   release-chocolatey:
     name: Release on Chocolatey
@@ -414,5 +414,7 @@ jobs:
           HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           VERSION=${GITHUB_REF/refs\/tags\/v}
+          brew update
           brew tap filips123/firefoxpwa
-          brew bump-formula-pr --no-fork --no-browse --strict --online --version $VERSION filips123/firefoxpwa/firefoxpwa
+          brew bump-formula-pr --no-browse --strict --online --version $VERSION firefoxpwa
+          brew bump-formula-pr --no-browse --strict --online --version $VERSION filips123/firefoxpwa/firefoxpwa

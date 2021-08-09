@@ -24,9 +24,9 @@ to cross-platform web applications. Although Firefox supports many of Progressiv
 Web App APIs, it does not support functionality to install them as a standalone
 system app with an app-like experience.
 
-This project modifies Firefox to allow websites to be installed as standalone
-apps and provides a console tool and browser extension to install, manage and
-use them.
+This project creates a custom modified Firefox runtime to allow websites to be
+installed as standalone apps and provides a console tool and browser extension
+to install, manage and use them.
 
 This package contains only the native part of the FirefoxPWA project. You
 should also install the browser extension if you haven't already. You can

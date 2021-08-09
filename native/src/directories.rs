@@ -35,6 +35,7 @@ pub struct ProjectDirs {
     /// - Windows: `C:\Program Files\FirefoxPWA\` or `C:\Program Files (x86)\FirefoxPWA\`
     /// - Linux: `/usr/bin/`
     /// - macOS: `/usr/local/bin/`
+    /// - Homebrew: `#{prefix}/bin/`
     ///
     pub executables: PathBuf,
 
@@ -49,6 +50,7 @@ pub struct ProjectDirs {
     /// - Windows: `C:\Program Files\FirefoxPWA\` or `C:\Program Files (x86)\FirefoxPWA\`
     /// - Linux: `/usr/share/firefoxpwa/`
     /// - macOS: `/usr/local/share/firefoxpwa/`
+    /// - Homebrew: `#{prefix}/share/`
     ///
     pub sysdata: PathBuf,
 
