@@ -3,6 +3,15 @@
 Progressive Web Apps for Firefox
 ================================
 
+
+[![Release](https://img.shields.io/github/v/release/filips123/FirefoxPWA?sort=semver&style=flat-square)](https://github.com/filips123/FirefoxPWA/releases/latest)
+[![Users](https://img.shields.io/amo/users/firefoxpwa?style=flat-square)](https://addons.mozilla.org/firefox/addon/firefoxpwa/)
+[![Rating](https://img.shields.io/amo/rating/firefoxpwa?style=flat-square)](https://addons.mozilla.org/firefox/addon/firefoxpwa/)
+[![License](https://img.shields.io/github/license/filips123/FirefoxPWA?style=flat-square)](https://github.com/filips123/FirefoxPWA/blob/main/LICENSE)
+[![Repositories](https://img.shields.io/repology/repositories/firefoxpwa?style=flat-square)](https://repology.org/project/firefoxpwa/versions)
+[![Packagecloud.io DEB](https://img.shields.io/badge/deb-packagecloud.io-844fec.svg?style=flat-square)](https://packagecloud.io/filips/FirefoxPWA)
+[![Packagecloud.io RPM](https://img.shields.io/badge/rpm-packagecloud.io-844fec.svg?style=flat-square)](https://packagecloud.io/filips/FirefoxPWA)
+
 A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox.
 
 ## Description
@@ -79,6 +88,22 @@ These are things that I would like to fix eventually, but will currently stay, e
   When PWA is reopened after closing all windows, it will open the new tab page instead of PWA start URL. *Users have to close the app and restart it to get into the PWA.*
 
   See [#42](https://github.com/filips123/FirefoxPWA/issues/42) for more details. Perhaps the fix could also be related to the first limitation, as it may involve passing PWA configuration between windows.
+
+## Contributors & Sponsors
+
+Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this project and providing us a free hosting for our DEB and RPM packages!
+
+  [<img src="https://assets-production.packagecloud.io/assets/packagecloud-logo-med-dark-7c50ed4f26093115365c0c6e4e0e8a232bd5f8ea3aca3bd8994a627382af64c6.png" alt="Private NPM registry and Maven, RPM, DEB, PyPi and RubyGem Repository · packagecloud" width="500">](https://packagecloud.io/)
+
+&nbsp;
+
+Thanks to [all contributors]((https://github.com/filips123/FirefoxPWA/graphs/contributors)) to this project for providing help and developing features!
+
+  [![Contributors](https://contrib.rocks/image?repo=filips123/FirefoxPWA)](https://github.com/filips123/FirefoxPWA/graphs/contributors)
+
+&nbsp;
+
+Thanks to all package maintainers making sure the project is up-to-date on all distributions, and donors for providing financial support for the project! Finally, thanks to Mozilla for creating Firefox and making it possible to modify the UI using JavaScript!
 
 ## Versioning
 

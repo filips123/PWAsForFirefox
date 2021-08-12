@@ -24,13 +24,11 @@ Read the [main README file](../README.md) for more details about the project.
 
 ### From Package Repositories
 
-#### PackageCloud
+#### Packagecloud.io
 
 The DEB and RPM packages are hosted on [the packagecloud.io repository](https://packagecloud.io/filips/FirefoxPWA). You can enable this repository and install packages from there if you prefer to manage FirefoxPWA updates using your system package manager.
 
-*Note:*  We are currently using a free plan for the packagecloud.io repository with limited bandwidth.
-In case the repository fails because of a bandwidth-related error, download and install the package manually.
-We will try to improve this in the future.
+Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this project and providing us a free hosting for our DEB and RPM packages!
 
 #### Standard Repositories
 
