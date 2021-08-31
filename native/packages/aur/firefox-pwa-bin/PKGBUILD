@@ -48,5 +48,5 @@ check() {
 }
 
 package() {
-    cp -r $srcdir/data/ $pkgdir
+    cp -r $srcdir/data/* $pkgdir
 }
