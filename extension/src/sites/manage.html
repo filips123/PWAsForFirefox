@@ -138,6 +138,10 @@
                   </div>
                 </div>
               </div>
+
+              <button type="button" class="list-group-item list-group-item-action fw-bold" id="reinstall-runtime">
+                Reinstall runtime
+              </button>
             </div>
           </div>
         </div>
@@ -248,6 +252,25 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" id="profile-remove-button">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="reinstall-runtime-modal" tabindex="-1" aria-labelledby="reinstall-runtime-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reinstall-runtime-label">Reinstall Firefox runtime</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to reinstall the FirefoxPWA runtime? This will remove your current runtime and download the latest version from Mozilla.</p>
+            <p>This will <strong>not</strong> affect your main Firefox browser and will <strong>not</strong> remove any PWA profiles or other data.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="reinstall-runtime-button">Reinstall</button>
           </div>
         </div>
       </div>

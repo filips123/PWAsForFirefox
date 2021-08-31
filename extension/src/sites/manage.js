@@ -575,6 +575,38 @@ async function handleSettings (hasChanged = false) {
 
   // Listen for dark mode changes
   window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => handleSettings(true))
+
+  // Handle runtime reinstallation
+  document.getElementById('reinstall-runtime-button').onclick = async function () {
+    this.disabled = true
+    this.innerText = 'Reinstalling...'
+
+    try {
+      const responseUninstall = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'UninstallRuntime' })
+      if (responseUninstall.type === 'Error') throw new Error(responseUninstall.data)
+      if (responseUninstall.type !== 'RuntimeUninstalled') throw new Error(`Received invalid response type: ${responseUninstall.type}`)
+
+      const responseInstall = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'InstallRuntime' })
+      if (responseInstall.type === 'Error') throw new Error(responseInstall.data)
+      if (responseInstall.type !== 'RuntimeInstalled') throw new Error(`Received invalid response type: ${responseInstall.type}`)
+
+      this.disabled = true
+      this.innerText = 'Reinstalled!'
+    } catch (error) {
+      console.error(error)
+
+      document.getElementById('error-text').innerText = error.message
+      Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
+    }
+  }
+
+  document.getElementById('reinstall-runtime').onclick = function () {
+    const confirmButton = document.getElementById('reinstall-runtime-button')
+    confirmButton.disabled = false
+    confirmButton.innerText = 'Reinstall'
+
+    Modal.getOrCreateInstance(document.getElementById('reinstall-runtime-modal')).show()
+  }
 }
 
 // Switch to install/update page if needed
