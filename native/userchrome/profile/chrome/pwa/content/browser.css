@@ -10,6 +10,13 @@
     --toolbarseparator-color: color-mix(in srgb, currentColor 20%, transparent) !important;
   }
 
+  /* Fix tab colors */
+
+  .tab-background[multiselected="true"], .tab-background[selected="true"] {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    background-image: none !important;
+  }
+
   /* Hide tabs and tab-related elements when tabs mode is disabled */
 
   html:not([tabsmode]) #new-tab-button,
