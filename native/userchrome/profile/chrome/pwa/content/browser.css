@@ -17,6 +17,12 @@
     background-image: none !important;
   }
 
+  /* Hide titlebar when icon bar is hidden */
+
+  #titlebar[autohide] {
+    appearance: initial !important;
+  }
+
   /* Hide tabs and tab-related elements when tabs mode is disabled */
 
   html:not([tabsmode]) #new-tab-button,

@@ -33,6 +33,7 @@ class ChromeLoader {
   static PREF_SITES_SET_BACKGROUND_COLOR = 'firefoxpwa.sitesSetBackgroundColor';
   static PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER = 'firefoxpwa.openOutOfScopeInDefaultBrowser';
   static PREF_ENABLE_TABS_MODE = 'firefoxpwa.enableTabsMode';
+  static PREF_ENABLE_HIDING_ICON_BAR = 'firefoxpwa.enableHidingIconBar';
   static PREF_ALLOWED_DOMAINS = 'firefoxpwa.allowedDomains';
 
   static INITIALIZED_BROWSER = false;

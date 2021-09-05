@@ -31,6 +31,7 @@ class PwaBrowser {
     this.makeUrlBarReadOnly();
     this.handleOutOfScopeNavigation();
     this.handleOpeningNewWindow();
+    setTimeout(() => { this.handleHiddenTitlebar() });
     setTimeout(() => { this.handleTabsMode() });
     setTimeout(() => { this.handleLinkTargets() });
     setTimeout(() => { this.renameOpenImageAction() });
@@ -268,6 +269,64 @@ class PwaBrowser {
       gContextMenu.openLinkInPrivateWindow = function () {
         return window.openDialog(AppConstants.BROWSER_CHROME_URL, '_blank', 'chrome,all,dialog=no,private', this.linkURL);
       };
+    });
+  }
+
+  handleHiddenTitlebar () {
+    // This can be unstable feature and is only meant for tiling window manager users
+    // So it is disabled by default and can be enabled using about:config preference
+    if (!xPref.get(ChromeLoader.PREF_ENABLE_HIDING_ICON_BAR)) return;
+
+    // Setting the toolbar name will automatically add it to toolbars menu in customize page
+    const titleBar = document.getElementById('titlebar');
+    const iconBar = document.getElementById('TabsToolbar');
+    iconBar.setAttribute('toolbarname', 'Icon Bar');
+
+    // Hide tabs/icon bar on launch if it should be hidden by default
+    // Also prevent un-collapsing of tabs/icon bar by some Firefox function
+    let shownByDefault = Services.xulStore.getValue(window.document.documentURI, iconBar.id, 'collapsed') !== 'true';
+    if (!shownByDefault) {
+      window.TabBarVisibility.update = function () {}
+      titleBar.setAttribute('autohide', 'true');
+      iconBar.setAttribute('collapsed', 'true');
+    }
+
+    // Handle hiding and showing tabs/icon bar using shortcuts
+    document.addEventListener('keyup', (event) => {
+      if (shownByDefault) return;
+
+      if ((event.ctrlKey && event.key === 'Alt') || (event.altKey && event.key === 'Control')) {
+        if (iconBar.hasAttribute('collapsed')) {
+          titleBar.removeAttribute('autohide');
+          iconBar.removeAttribute('collapsed');
+        } else {
+          titleBar.setAttribute('autohide', 'true');
+          iconBar.setAttribute('collapsed', 'true');
+        }
+      }
+    });
+
+    // Prevent hiding tabs/icon bar when it is shown by default
+    hookFunction(window, 'setToolbarVisibility', (toolbar, visible, persist) => {
+      if (toolbar === iconBar && persist) {
+        if (!visible) {
+          titleBar.setAttribute('autohide', 'true');
+          window.TabBarVisibility.update = function () {};
+        } else  {
+          titleBar.removeAttribute('autohide');
+        }
+
+        shownByDefault = visible;
+      }
+    })
+
+    // Show/hide main titlebar when menu bar is active/inactive
+    document.addEventListener('DOMMenuBarActive', () => {
+      titleBar.removeAttribute('autohide');
+    });
+
+    document.addEventListener('DOMMenuBarInactive', () => {
+      titleBar.setAttribute('autohide', 'true');
     });
   }
 
@@ -1189,6 +1248,9 @@ class PwaBrowser {
 
     // Determines whether the tabs mode is enabled
     xPref.set(ChromeLoader.PREF_ENABLE_TABS_MODE, false, true);
+
+    // Determines whether hiding icon bar is allowed and option is displayed in the customize page
+    xPref.set(ChromeLoader.PREF_ENABLE_HIDING_ICON_BAR, false, true);
 
     // Determines which domains should always be allowed to open in the PWA browser
     // This is a comma-separated list of domains
