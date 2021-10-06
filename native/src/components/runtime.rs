@@ -37,7 +37,7 @@ fn remove_dir_contents<P: AsRef<Path>>(path: P) -> IoResult<()> {
 const fn get_download_url() -> &'static str {
     cfg_if! {
         if #[cfg(all(target_os = "windows", target_arch = "x86"))] {
-            const OS_AND_ARCHITECTURE: &str = "win32";
+            const OS_AND_ARCHITECTURE: &str = "win";
         } else if #[cfg(all(target_os = "windows", target_arch = "x86_64"))] {
             const OS_AND_ARCHITECTURE: &str = "win64";
         } else if #[cfg(all(target_os = "windows", target_arch = "aarch64"))] {
