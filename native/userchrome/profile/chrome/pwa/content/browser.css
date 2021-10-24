@@ -136,6 +136,14 @@
     padding-bottom: 6.3px !important;
   }
 
+  #back-button-ffpwa > .toolbarbutton-icon {
+    list-style-image: url("chrome://browser/skin/back.svg");
+  }
+
+  #forward-button-ffpwa > .toolbarbutton-icon {
+    list-style-image: url("chrome://browser/skin/forward.svg");
+  }
+
   /* Send to device widget */
 
   #send-to-device-button > .toolbarbutton-icon {

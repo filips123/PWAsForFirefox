@@ -425,6 +425,7 @@ class PwaBrowser {
     this.createPermissionsWidget();
     this.createNotificationsWidget();
     this.createCloseWidget();
+    this.createNavigationWidgets();
     this.modifyHomepageWidget();
   }
 
@@ -1143,6 +1144,38 @@ class PwaBrowser {
         } else {
           window.close();
         }
+      }
+    });
+  }
+
+  createNavigationWidgets () {
+    // Create simple movable back and forward navigation widgets
+    // They do not support history list dropdown, but this is not very important
+    // Needed because vanilla navigation widgets cannot be moved because removing them causes crash
+
+    CustomizableUI.createWidget({
+      id: 'back-button-ffpwa',
+      type: 'button',
+
+      label: 'Back',
+      tooltiptext: 'Go back one page',
+
+      onClick (event) {
+        const window = event.target.ownerGlobal;
+        window.BrowserBack(event);
+      }
+    });
+
+    CustomizableUI.createWidget({
+      id: 'forward-button-ffpwa',
+      type: 'button',
+
+      label: 'Forward',
+      tooltiptext: 'Go back one page',
+
+      onClick (event) {
+        const window = event.target.ownerGlobal;
+        window.BrowserForward(event);
       }
     });
   }
