@@ -183,6 +183,11 @@ class PwaBrowser {
         args[1] = document.getElementById('nav-bar-overflow-button');
       }
 
+      // If identity panel is opened when widget is in menu, reassign anchor element
+      if (args[1].id === 'identity-button' && args[1].identityAreaType !== CustomizableUI.TYPE_TOOLBAR) {
+        args[1] = document.getElementById('nav-bar-overflow-button');
+      }
+
       return await PanelMultiView._openPopup(...args);
     }
 
@@ -929,10 +934,6 @@ class PwaBrowser {
       label: 'Site Information',
       tooltiptext: 'View information about this site',
 
-      removable: false,
-      overflows: false,
-      defaultArea: CustomizableUI.AREA_TABSTRIP,
-
       onCreated (node) {
         const document = node.ownerDocument;
         const window = document.defaultView;
@@ -943,6 +944,31 @@ class PwaBrowser {
         Object.defineProperty(window.gIdentityHandler, '_identityIconBox', { get: () => node });
         let defaultTooltip = node.getAttribute('tooltiptext');
 
+        // Store and update current widget area
+        node.identityAreaType = CustomizableUI.getAreaType(this.currentArea);
+
+        let listener = {
+          onWidgetAdded: (widget, area) => {
+            if (widget !== this.id) return;
+            node.identityAreaType = CustomizableUI.getAreaType(area);
+          },
+          onWidgetMoved: (widget, area) => {
+            if (widget !== this.id) return;
+            node.identityAreaType = CustomizableUI.getAreaType(area);
+          },
+          onWidgetRemoved: (widget) => {
+            if (widget !== this.id) return;
+            node.identityAreaType = undefined;
+          },
+          onWidgetInstanceRemoved: (widget, doc) => {
+            if (widget !== this.id || doc !== document) return;
+
+            CustomizableUI.removeListener(listener);
+            node.identityAreaType = undefined;
+          },
+        };
+        CustomizableUI.addListener(listener);
+
         // Sync attributes from old icon to the new one and update tooltip
         hookFunction(document.getElementById('identity-icon'), 'setAttribute', null, (_, [ name, value ]) => {
           if (name === 'tooltiptext') {
@@ -951,12 +977,12 @@ class PwaBrowser {
           }
 
           const identityIcon = node.getElementsByClassName('toolbarbutton-icon')[0];
-          identityIcon.className = 'toolbarbutton-icon ' + document.getElementById('identity-box').className;
+          if (identityIcon) identityIcon.className = 'toolbarbutton-icon ' + document.getElementById('identity-box').className;
         });
 
         hookFunction(document.getElementById('identity-box'), 'setAttribute', null, () => {
           const identityIcon = node.getElementsByClassName('toolbarbutton-icon')[0];
-          identityIcon.setAttribute('pageproxystate', document.getElementById('identity-box').getAttribute('pageproxystate'));
+          if (identityIcon) identityIcon.setAttribute('pageproxystate', document.getElementById('identity-box').getAttribute('pageproxystate'));
         });
       },
       onClick (event) {
