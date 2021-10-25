@@ -34,8 +34,9 @@
             <span><em>Or...</em> To install the package using Windows Package Manager:</span>
             <ol>
               <li>Make sure <a href="https://github.com/microsoft/winget-cli#installing-the-client" target="_blank">Windows Package Manager</a> is installed.</li>
-              <li>Install the package using winget: <kbd>winget install firefoxpwa --version <span class="connector-project-version"></span></kbd></li>
-              <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+              <li>Install Visual C++ Redistributable using winget: <kbd>winget install -e Microsoft.VC++2015-2019Redist-<span id="connector-crt-arch"></span></kbd>.</li>
+              <li>Install FirefoxPWA using winget: <kbd>winget install firefoxpwa --version <span class="connector-project-version"></span></kbd></li>
+              <li>After the packages are installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
             </ol>
           </div>
           <div>
