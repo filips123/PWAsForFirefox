@@ -236,16 +236,24 @@
     margin-inline-start: 0 !important;
   }
 
-  #permissions-button[customizing], #permissions-button[customizing] > #identity-permission-box {
+  #permissions-button[customizing], #permissions-button[customizing] > #identity-permission-box,
+  #permissions-button[in-menu], #permissions-button[in-menu] > #identity-permission-box {
     display: -moz-box !important;
   }
 
-  #permissions-button[customizing] > #identity-permission-box > #permissions-granted-icon {
+  #permissions-button[customizing] > #identity-permission-box > #permissions-granted-icon,
+  #permissions-button[in-menu] > #identity-permission-box > #permissions-granted-icon {
     display: -moz-box !important;
   }
 
-  #permissions-button[customizing] > #identity-permission-box > *:not(#permissions-granted-icon) {
+  #permissions-button[customizing] > #identity-permission-box > *:not(#permissions-granted-icon),
+  #permissions-button[in-menu] > #identity-permission-box > *:not(#permissions-granted-icon) {
     display: none !important;
+  }
+
+  #permissions-button[customizing] > #identity-permission-box,
+  #permissions-button[in-menu] > #identity-permission-box {
+    padding-left: 0 !important;
   }
 
   /* Notifications toolbar widget */

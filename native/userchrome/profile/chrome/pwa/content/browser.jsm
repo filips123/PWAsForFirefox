@@ -170,7 +170,7 @@ class PwaBrowser {
     // Do this only once per window to prevent recursion
     if ('_openPopup' in PanelMultiView) return;
 
-    // Switch popup sides for multiview panels if needed and handle tracking protection panel
+    // Switch popup sides for multiview panels if needed and handle panels shown from overflow menu
     PanelMultiView._openPopup = PanelMultiView.openPopup;
     PanelMultiView.openPopup = async (...args) => {
       if (typeof args[2] === 'string') args[2] = { position: args[2] };
@@ -185,6 +185,11 @@ class PwaBrowser {
 
       // If identity panel is opened when widget is in menu, reassign anchor element
       if (args[1].id === 'identity-button' && args[1].identityAreaType !== CustomizableUI.TYPE_TOOLBAR) {
+        args[1] = document.getElementById('nav-bar-overflow-button');
+      }
+
+      // If permissions panel is opened when widget is in menu, reassign anchor element
+      if (args[0].id === 'permission-popup' && args[1].permissionsAreaType !== CustomizableUI.TYPE_TOOLBAR) {
         args[1] = document.getElementById('nav-bar-overflow-button');
       }
 
@@ -1000,16 +1005,46 @@ class PwaBrowser {
       label: 'Site Permissions',
       tooltiptext: 'View permissions granted to this site',
 
-      removable: false,
-      overflows: false,
-      defaultArea: CustomizableUI.AREA_TABSTRIP,
-
       onCreated: (node) => {
         const document = node.ownerDocument;
         const window = document.defaultView;
 
         const permissionBox = document.getElementById('identity-permission-box');
         permissionBox.classList.add('toolbarbutton-icon');
+
+        // Store and update current widget area
+        node.permissionsAreaType = CustomizableUI.getWidget(node.id).areaType;
+
+        if (node.permissionsAreaType !== CustomizableUI.TYPE_TOOLBAR) node.setAttribute('in-menu', 'true');
+        else node.removeAttribute('in-menu');
+
+        let listener = {
+          onWidgetAdded: (widget, area) => {
+            if (widget !== node.id) return;
+            node.permissionsAreaType = CustomizableUI.getAreaType(area);
+
+            if (node.permissionsAreaType !== CustomizableUI.TYPE_TOOLBAR) node.setAttribute('in-menu', 'true');
+            else node.removeAttribute('in-menu');
+          },
+          onWidgetMoved: (widget, area) => {
+            if (widget !== node.id) return;
+            node.permissionsAreaType = CustomizableUI.getAreaType(area);
+
+            if (node.permissionsAreaType !== CustomizableUI.TYPE_TOOLBAR) node.setAttribute('in-menu', 'true');
+            else node.removeAttribute('in-menu');
+          },
+          onWidgetRemoved: (widget) => {
+            if (widget !== node.id) return;
+            node.permissionsAreaType = undefined;
+          },
+          onWidgetInstanceRemoved: (widget, doc) => {
+            if (widget !== node.id || doc !== document) return;
+
+            CustomizableUI.removeListener(listener);
+            node.permissionsAreaType = undefined;
+          },
+        };
+        CustomizableUI.addListener(listener);
 
         // Replace generic widget icon with permission box
         // Reverse permissions icons inside the permission box
@@ -1120,6 +1155,10 @@ class PwaBrowser {
           window.PopupNotifications.panel._openPopup = window.PopupNotifications.panel.openPopup;
           window.PopupNotifications.panel.openPopup = async (...args) => {
             if (!args[1]) args[1] = {};
+
+            if (!args[0]) {
+              args[0] = document.getElementById('PanelUI-menu-button');
+            }
 
             if (args[0].getBoundingClientRect().left < 500) {
               if (typeof args[1] === 'object') args[1].position = 'bottomcenter topleft';
