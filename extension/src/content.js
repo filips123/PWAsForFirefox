@@ -3,7 +3,7 @@ const manifestElement = document.querySelector('link[rel=manifest]')
 let manifestUrl
 
 if (manifestElement) {
-  manifestUrl = new URL(manifestElement.getAttribute('href'), window.location)
+  manifestUrl = new URL(manifestElement.getAttribute('href'), document.baseURI)
   manifestUrl = manifestUrl.href
 }
 
@@ -23,8 +23,8 @@ browser.runtime.onMessage.addListener((message, _, sendResponse) => {
     icons: [...document.getElementsByTagName('link')]
       .filter(link => link.hasAttribute('rel') && link.getAttribute('rel').toLowerCase().includes('icon'))
       .map(link => ({
-        src: new URL(link.getAttribute('href'), window.location).href,
-        type: link.getAttribute('type') || isAppleMaskIcon(link) ? 'image/svg+xml' : null,
+        src: new URL(link.getAttribute('href'), document.baseURI).href,
+        type: link.getAttribute('type') || (isAppleMaskIcon(link) ? 'image/svg+xml' : null),
         purpose: isAppleMaskIcon(link) ? 'monochrome' : 'any',
         sizes: link.getAttribute('sizes') || ''
       }))
