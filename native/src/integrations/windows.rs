@@ -24,7 +24,7 @@ use bindings::Windows::Win32::UI::Shell::{
 use data_url::DataUrl;
 use image::imageops::FilterType::Gaussian;
 use image::GenericImageView;
-use log::error;
+use log::{error, warn};
 use serde::de::Unexpected::Bytes;
 use url::Url;
 use web_app_manifest::resources::IconResource;
@@ -35,6 +35,21 @@ use winreg::RegKey;
 
 use crate::directories::ProjectDirs;
 use crate::integrations::{generate_icon, is_icon_supported, SiteInfoInstall, SiteInfoUninstall};
+
+fn sanitize_name<'a>(name: &'a str, id: &'a str) -> String {
+    let pattern: &[_] = &['.', ' '];
+
+    let mut sanitized: String = name.chars().take(60).collect();
+    sanitized = sanitize_filename::sanitize(sanitized);
+    sanitized = sanitized.trim_end_matches(pattern).into();
+    sanitized = sanitize_filename::sanitize(sanitized);
+
+    if sanitized.is_empty() {
+        format!("Site {}", &id)
+    } else {
+        sanitized
+    }
+}
 
 fn store_icon(
     siteid: &str,
@@ -120,7 +135,6 @@ fn store_icon(
     Ok(icon)
 }
 
-#[inline]
 fn create_arp_entry(info: &SiteInfoInstall, exe: String, icon: String) -> Result<()> {
     let (key, _) = RegKey::predef(HKEY_CURRENT_USER)
         .create_subkey(
@@ -141,27 +155,16 @@ fn create_arp_entry(info: &SiteInfoInstall, exe: String, icon: String) -> Result
     Ok(())
 }
 
-#[inline]
 fn create_menu_shortcut(info: &SiteInfoInstall, exe: String, icon: String) -> Result<()> {
     unsafe {
-        // Limit the name and description to prevent overflows
-        let mut name: String = info.name.chars().take(60).collect();
-        let description: String = info.description.chars().take(240).collect();
-
-        // Sanitize the name to prevent invalid filenames
-        let pattern: &[_] = &['.', ' '];
-        name = sanitize_filename::sanitize(name);
-        name = name.trim_end_matches(pattern).into();
-        name = sanitize_filename::sanitize(name);
-        if name.is_empty() {
-            name = format!("Site {}", info.id);
-        }
+        // Sanitize the name to prevent overflows and invalid filenames
+        let name = sanitize_name(&info.name, &info.id);
 
         // Set general shortcut properties
         let link: IShellLinkW = windows::create_instance(&ShellLink)?;
         link.SetPath(exe)?;
         link.SetArguments(format!("site launch {}", info.id))?;
-        link.SetDescription(description)?;
+        link.SetDescription(info.description.chars().take(240).collect::<String>())?;
         link.SetIconLocation(icon, 0)?;
         link.SetShowCmd(7)?;
 
@@ -192,7 +195,6 @@ fn create_menu_shortcut(info: &SiteInfoInstall, exe: String, icon: String) -> Re
     Ok(())
 }
 
-#[inline]
 fn create_jump_list_tasks(info: &SiteInfoInstall, dirs: &ProjectDirs, exe: String) -> Result<()> {
     unsafe {
         let appid = format!("filips.firefoxpwa.{}", info.id);
@@ -290,12 +292,27 @@ fn create_jump_list_tasks(info: &SiteInfoInstall, dirs: &ProjectDirs, exe: Strin
     Ok(())
 }
 
+#[inline]
 pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
     let _ = remove_dir_all(dirs.userdata.join("icons").join(&info.id));
 
     let exe = dirs.executables.join("firefoxpwa.exe").display().to_string();
     let icon = store_icon(&info.id, "site", &info.name, info.icons, dirs, false)
-        .context("Failed to process and store site icon")?;
+        .context("Failed to process and store site icon")
+        .or_else(|error| -> Result<String> {
+            // Something is wrong with the site icon, so we should just log error and fallback to generated icon from the site name
+            // TODO: In the future we should improve `store_icon` to fall back to the next available icon, and only generate icon if no icons work
+            error!("{:?}", error);
+            warn!("Falling back to the generated icon from the site name");
+
+            let directory = dirs.userdata.join("icons").join(&info.id);
+            let filename = directory.join("site.ico");
+
+            let letter = info.name.chars().next().context("Failed to get first letter")?;
+            create_dir_all(&directory).context("Failed to create icons directory")?;
+            generate_icon(letter, 256, &filename).context("Failed to generate icon")?;
+            Ok(filename.display().to_string())
+        })?;
 
     windows::initialize_mta()?;
 
@@ -306,18 +323,10 @@ pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
     Ok(())
 }
 
+#[inline]
 pub fn uninstall(info: &SiteInfoUninstall, dirs: &ProjectDirs) -> Result<()> {
-    // Shortcut name is limited to prevent overflows
-    let mut name: String = info.name.chars().take(60).collect();
-
-    // Shortcut name is sanitized to prevent invalid filenames
-    let pattern: &[_] = &['.', ' '];
-    name = sanitize_filename::sanitize(name);
-    name = name.trim_end_matches(pattern).into();
-    name = sanitize_filename::sanitize(name);
-    if name.is_empty() {
-        name = format!("Site {}", info.id);
-    }
+    // Sanitize the name to prevent overflows and invalid filenames
+    let name = sanitize_name(&info.name, &info.id);
 
     // Remove icons
     let icon = dirs.userdata.join("icons").join(&info.id);

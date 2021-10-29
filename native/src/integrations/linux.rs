@@ -7,7 +7,7 @@ use anyhow::{Context, Result};
 use data_url::DataUrl;
 use glob::glob;
 use image::imageops::FilterType::Gaussian;
-use log::error;
+use log::{error, warn};
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize};
@@ -254,7 +254,26 @@ pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
     let exe = dirs.executables.join("firefoxpwa").display().to_string();
 
     store_icons(&info.id, &info.name, info.icons, "")
-        .context("Failed to process and store site icons")?;
+        .context("Failed to process and store site icons")
+        .or_else(|error| -> Result<()> {
+            // Something is wrong with the site icon, so we should just log error and fallback to generated icon from the site name
+            // TODO: In the future we should improve `store_icons` to fall back to the next available icon, and only generate icon if no icons work
+            error!("{:?}", error);
+            warn!("Falling back to the generated icon from the site name");
+
+            let directory = directories::BaseDirs::new()
+                .context(BASE_DIRECTORIES_ERROR)?
+                .data_dir()
+                .join("icons/hicolor/48x48/apps");
+            let filename = directory.join(format!("FFPWA-{}.png", &info.id));
+
+            let letter = info.name.chars().next().context(GET_LETTER_ERROR)?;
+            create_dir_all(directory).context(CREATE_ICON_DIRECTORY_ERROR)?;
+            generate_icon(letter, 256, &filename).context(GENERATE_ICON_ERROR)?;
+
+            Ok(())
+        })?;
+
     create_application_entry(info, &exe).context("Failed to create application entry")?;
     let _ = update_application_cache();
 
