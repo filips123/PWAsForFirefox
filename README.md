@@ -69,6 +69,8 @@ These are things that I would like to fix eventually, but will currently stay, e
 
   This could be fixed if there is an easy way to intercept the opening of every new window, and pass it `window.gFFPWASiteConfig` from the original window just after it is created. I implemented this for some windows (mainly those opened by users), but don't know how to do it for all windows.
 
+  This problem is tracked as issue [#79](https://github.com/filips123/FirefoxPWA/issues/79).
+
 * **All PWAs are merged with the first PWA that was opened (Linux & macOS):**
 
   When some PWA is already running, all newly launched PWAs will merge with it and remain merged until all of them are closed. This will cause the app menu to display all PWAs as part of the first PWA that was launched, with its icon and desktop actions (if any).
@@ -79,15 +81,25 @@ These are things that I would like to fix eventually, but will currently stay, e
 
     This cannot be fixed easily. The native part of the project currently launches Firefox with the `--class` argument, which should set the `WM_CLASS` property of the window to the PWA ID. However, because all Firefox processes in the same profile are connected together, all windows have WM_CLASS of the first PWA. Fixing this would probably require modifying Firefox C++ code. Check [this comment](https://github.com/filips123/FirefoxPWA/issues/33#issuecomment-887382593) and related discussions for ideas and possible solutions to fix this.
 
+    This problem is tracked as issues [#80](https://github.com/filips123/FirefoxPWA/issues/80) and [#50](https://github.com/filips123/FirefoxPWA/issues/50).
+
   * **macOS:**
 
     Apple only allows a process to be associated with a single application at all times. Perhaps this could be solved by using an IPC link between a host process and the main Firefox runtime process, the same way the Firefox parent process handles its content processes. This is just a wild theory though and has to be investigated further. See [this comment](https://github.com/filips123/FirefoxPWA/issues/33#issuecomment-888511078) for more.
+
+    This problem is tracked as issue [#81](https://github.com/filips123/FirefoxPWA/issues/81).
 
 * **Reopening a PWA after closing all windows opens new tab page:**
 
   When PWA is reopened after closing all windows, it will open the new tab page instead of PWA start URL. *Users have to close the app and restart it to get into the PWA.*
 
   See [#42](https://github.com/filips123/FirefoxPWA/issues/42) for more details. Perhaps the fix could also be related to the first limitation, as it may involve passing PWA configuration between windows.
+
+* **Extension cannot detect the native program when using sandboxed Firefox (Linux: Snap & Flatpak):**
+
+  When using Firefox distributed as a Snap or Flatpak package (for example, the default Firefox installation in Ubuntu 21.10), the extension cannot detect the native program that is used. This is because Snap and Flatpak packages are sandboxed and cannot access/run other programs which is needed for Native Messaging API. This cannot be fixed until Native Messaging API gets support to work in sandboxed browsers (Snap and Flatpak).
+
+  The workaround for this is to uninstall Snap/Flatpak-based Firefox and install a normal DEB package instead. See [#76](https://github.com/filips123/FirefoxPWA/issues/76#issuecomment-962628218) for more details.
 
 ## Contributors & Sponsors
 
