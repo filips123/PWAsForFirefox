@@ -18,13 +18,39 @@ async function prepareInstallInstructions () {
   document.getElementById('connector-download-url-msi').setAttribute('href', `https://github.com/filips123/FirefoxPWA/releases/download/v${version}/firefoxpwa-${version}-${msiArch}.msi`)
 
   // Set DEB download URL based on system arch and extension version
-  // For ARM it doesn't matter which version we set because DEB tab will be hidden later
-  const debArch = arch === 'x86-64' ? 'amd64' : 'i386'
+  const debArch = (() => {
+    switch (arch) {
+      case 'x86-32':
+        return 'i386'
+      case 'x86-64':
+        return 'amd64'
+      case 'arm':
+        return 'armhf'
+      case 'arm64':
+      case 'aarch64':
+        return 'arm64'
+      default:
+        return null
+    }
+  })()
   document.getElementById('connector-download-url-deb').setAttribute('href', `https://github.com/filips123/FirefoxPWA/releases/download/v${version}/firefoxpwa_${version}_${debArch}.deb`)
 
   // Set RPM download URL based on system arch and extension version
-  // For ARM it doesn't matter which version we set because RPM tab will be hidden later
-  const rpmArch = arch === 'x86-64' ? 'x86_64' : 'i686'
+  const rpmArch = (() => {
+    switch (arch) {
+      case 'x86-32':
+        return 'i686'
+      case 'x86-64':
+        return 'x84_64'
+      case 'arm':
+        return 'armv7hl'
+      case 'arm64':
+      case 'aarch64':
+        return 'aarch64'
+      default:
+        return null
+    }
+  })()
   document.getElementById('connector-download-url-rpm').setAttribute('href', `https://github.com/filips123/FirefoxPWA/releases/download/v${version}/firefoxpwa-${version}-1.${rpmArch}.rpm`)
 
   // Set repository info based on extension version
@@ -36,12 +62,9 @@ async function prepareInstallInstructions () {
   document.getElementById('connector-source-install-linux').setAttribute('href', `https://github.com/filips123/FirefoxPWA/tree/${branchName}/native#other-linux`)
   document.getElementById('connector-source-install-macos').setAttribute('href', `https://github.com/filips123/FirefoxPWA/tree/${branchName}/native#macos`)
 
-  // Hide DEB and RPM tabs on ARM
-  // And rename "Other Linux" to just "Linux"
-  if (arch === 'arm') {
-    document.getElementById('linux-deb-install-tab').classList.add('d-none')
-    document.getElementById('linux-rpm-install-tab').classList.add('d-none')
-  }
+  // Hide DEB and RPM tabs on unsupported platforms
+  if (debArch === null) document.getElementById('linux-deb-install-tab').classList.add('d-none')
+  if (rpmArch === null) document.getElementById('linux-rpm-install-tab').classList.add('d-none')
 
   // Set the default tab to the current OS
   let defaultTab
@@ -49,7 +72,7 @@ async function prepareInstallInstructions () {
   if (os === 'win') {
     defaultTab = 'windows'
   } else if (os === 'linux') {
-    defaultTab = arch === 'arm' ? 'linux-source' : 'linux-deb'
+    defaultTab = debArch ? 'linux-deb' : 'linux-source'
   } else if (os === 'mac') {
     defaultTab = 'macos'
   } else {

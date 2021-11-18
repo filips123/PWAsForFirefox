@@ -42,7 +42,6 @@ Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this projec
 * Chocolatey: [`firefoxpwa`](https://community.chocolatey.org/packages/firefoxpwa)
 * Npackd: [`firefoxpwa`](https://www.npackd.org/p/firefoxpwa)
 * Homebrew: [`firefoxpwa`](https://formulae.brew.sh/formula/firefoxpwa)
-* Linuxbrew: [`firefoxpwa`](https://formulae.brew.sh/formula-linux/firefoxpwa)
 * Arch User Repository: [`firefox-pwa`](https://aur.archlinux.org/packages/firefox-pwa/) (source)
 * Arch User Repository: [`firefox-pwa-bin`](https://aur.archlinux.org/packages/firefox-pwa-bin/) (pre-built)
 
@@ -56,7 +55,7 @@ On Windows, you will need to install the [Visual C++ Redistributable](https://su
 
 ### From Development Binaries
 
-You can download and install [latest build artifact](https://github.com/filips123/FirefoxPWA/actions/workflows/native.yaml) from GitHub Actions builds. Note that these are development versions that may be unstable.
+You can download and install [latest build artifact](https://github.com/filips123/FirefoxPWA/actions/workflows/native.yaml?query=actor%3Afilips123) from GitHub Actions builds. Note that these are development versions that may be unstable.
 
 On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package.  On Linux, you need `glibc` 2.18 or later, which also is specified in the package dependencies.
 

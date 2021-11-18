@@ -98,6 +98,12 @@ jobs:
           - os: ubuntu-latest
             target: i686-unknown-linux-gnu
             cross: true
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+            cross: true
+          - os: ubuntu-latest
+            target: armv7-unknown-linux-gnueabihf
+            cross: true
           - os: windows-latest
             target: x86_64-pc-windows-msvc
           - os: windows-latest
@@ -125,7 +131,7 @@ jobs:
       - name: Install Cargo DEB (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
-          cargo install cargo-deb --git https://github.com/mmstick/cargo-deb.git --rev f603d105b4641e00640e46b189c6ee0c8f084de2
+          cargo install cargo-deb --git https://github.com/kornelski/cargo-deb.git --rev 1b1d55ea1c2a201953cb3ebb2e1e14af1d091d2e
 
       - name: Install Cargo RPM (Linux)
         if: matrix.os == 'ubuntu-latest'
@@ -150,12 +156,17 @@ jobs:
 
           # Manually specify minimum libc6 version because cargo-deb cannot determine it correcttly when using cross
           # See: https://github.com/mmstick/cargo-deb/issues/117 & https://github.com/mmstick/cargo-deb/issues/178
-          if [[ ${{ matrix.target }} == x86_64-* ]]
+          sed -i '/\[package.metadata.deb\]/a depends = "libc6 (>= 2.18)"' Cargo.toml
+
+          # Set the correct binutils for ARM targets
+          if [[ ${{ matrix.target }} == aarch64-* ]] || [[ ${{ matrix.target }} == armv7-* ]]
           then
-            sed -i '/\[package.metadata.deb\]/a depends = "libc6 (>= 2.18)"' Cargo.toml
-          elif [[ ${{ matrix.target }} == i686-* ]]
-          then
-            sed -i '/\[package.metadata.deb\]/a depends = "libc6-i386 (>= 2.18)"' Cargo.toml
+            sudo apt-get update
+            sudo apt-get install binutils-aarch64-linux-gnu binutils-arm-linux-gnueabihf
+
+            mkdir -p .cargo && touch .cargo/config
+            printf '[target.aarch64-unknown-linux-gnu]\nstrip = { path = "aarch64-linux-gnu-strip" }\nobjcopy = { path = "aarch64-linux-gnu-objcopy" }\n\n' >> .cargo/config
+            printf '[target.armv7-unknown-linux-gnueabihf]\nstrip = { path = "arm-linux-gnueabihf-strip" }\nobjcopy = { path = "arm-linux-gnueabihf-objcopy" }\n' >> .cargo/config
           fi
 
       - name: Set version
