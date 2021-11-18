@@ -6,7 +6,6 @@ use std::process::{Child, Command};
 use anyhow::{anyhow, Context, Result};
 use cfg_if::cfg_if;
 use configparser::ini::Ini;
-use const_format::formatcp;
 use fs_extra::dir::{copy, CopyOptions};
 use log::{info, warn};
 use tempfile::{NamedTempFile, TempDir};
@@ -34,26 +33,30 @@ fn remove_dir_contents<P: AsRef<Path>>(path: P) -> IoResult<()> {
 }
 
 #[inline]
-const fn get_download_url() -> &'static str {
+fn get_download_url() -> &'static str {
+    #[allow(unused_imports)]
+    use const_format::concatcp;
+
+    #[allow(dead_code)]
+    const BASE_DOWNLOAD_URL: &str = "https://download.mozilla.org/?product=firefox-latest-ssl&os=";
+
     cfg_if! {
         if #[cfg(all(target_os = "windows", target_arch = "x86"))] {
-            const OS_AND_ARCHITECTURE: &str = "win";
+            concatcp!(BASE_DOWNLOAD_URL, "win")
         } else if #[cfg(all(target_os = "windows", target_arch = "x86_64"))] {
-            const OS_AND_ARCHITECTURE: &str = "win64";
+            concatcp!(BASE_DOWNLOAD_URL, "win64")
         } else if #[cfg(all(target_os = "windows", target_arch = "aarch64"))] {
-            const OS_AND_ARCHITECTURE: &str = "win64-aarch64";
+            concatcp!(BASE_DOWNLOAD_URL, "win64-aarch64")
         } else if #[cfg(all(target_os = "linux", target_arch = "x86"))] {
-            const OS_AND_ARCHITECTURE: &str = "linux";
+            concatcp!(BASE_DOWNLOAD_URL, "linux")
         } else if #[cfg(all(target_os = "linux", target_arch = "x86_64"))] {
-            const OS_AND_ARCHITECTURE: &str = "linux64";
+            concatcp!(BASE_DOWNLOAD_URL, "linux64")
         } else if #[cfg(target_os = "macos")] {
-            const OS_AND_ARCHITECTURE: &str = "osx";
+            concatcp!(BASE_DOWNLOAD_URL, "osx")
         } else {
-            compile_error!("Unknown operating system and architecture");
+            panic!("Cannot install runtime: Unsupported operating system or architecture!");
         }
     }
-
-    formatcp!("https://download.mozilla.org/?product=firefox-latest-ssl&os={OS_AND_ARCHITECTURE}")
 }
 
 #[non_exhaustive]
