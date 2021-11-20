@@ -132,6 +132,21 @@ export async function checkNativeStatus () {
 }
 
 /**
+ * Check if the runtime can be automatically installed on this platform.
+ *
+ * Supported platforms:
+ * - Windows: All (x86, x64, ARM64)
+ * - MacOS: All (x64, ARM64)
+ * - Linux: x86, x64
+ *
+ * @returns {Promise<boolean>}
+ */
+export async function isAutoRuntimeInstallSupported () {
+  const { os, arch } = await browser.runtime.getPlatformInfo()
+  return os === 'win' || os === 'mac' || (os === 'linux' && (arch === 'x86-64' || arch === 'x86-32'))
+}
+
+/**
  * Launches the site in a PWA browser.
  *
  * @param {{ulid: string}} site

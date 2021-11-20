@@ -1,6 +1,8 @@
 import { iframeResize } from 'iframe-resizer'
 import { satisfies as semverSatisfies } from 'semver'
 
+import { isAutoRuntimeInstallSupported } from '../utils'
+
 const iframeResizer = iframeResize({}, '#connector-instructions')[0].iFrameResizer
 
 /*****************************
@@ -116,6 +118,12 @@ async function provideRuntimeInstallInstructions (versions) {
     document.getElementById('runtime-needs-7zip').classList.remove('d-none')
   } else {
     document.getElementById('runtime-needs-7zip').classList.add('d-none')
+  }
+
+  if (!await isAutoRuntimeInstallSupported()) {
+    document.getElementById('runtime-manual-install').classList.remove('d-none')
+    document.getElementById('runtime-auto-install').classList.add('d-none')
+    document.getElementById('runtime-install-start').classList.add('d-none')
   }
 }
 

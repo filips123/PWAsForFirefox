@@ -4,7 +4,7 @@ import Tags from 'bootstrap5-tags/tags'
 import {
   buildIconList,
   checkNativeStatus,
-  getIcon,
+  getIcon, isAutoRuntimeInstallSupported,
   launchSite,
   obtainProfileList,
   obtainSiteList,
@@ -606,6 +606,11 @@ async function handleSettings (hasChanged = false) {
     confirmButton.innerText = 'Reinstall'
 
     Modal.getOrCreateInstance(document.getElementById('reinstall-runtime-modal')).show()
+  }
+
+  // Hide runtime reinstallation button on unsupported platforms
+  if (!await isAutoRuntimeInstallSupported()) {
+    document.getElementById('reinstall-runtime').classList.add('d-none')
   }
 }
 

@@ -67,10 +67,16 @@
 
                 <!-- Runtime Installation -->
                 <div id="runtime-installation-view" class="px-3 d-none">
-                  <p>
+                  <p id="runtime-auto-install">
                     This extension also needs a separate Mozilla Firefox runtime where all your Progressive Web App sites
                     will run. Pressing the button below will automatically download the unmodified Mozilla Firefox from
-                    the Mozilla servers and locally modify it with the required modifications.
+                    the Mozilla servers and locally modify it with the required modifications. You can also check the
+                    advanced options below to manually install the runtime.
+                  </p>
+                  <p id="runtime-manual-install" class="d-none">
+                    This extension also needs a separate Mozilla Firefox runtime where all your Progressive Web App sites
+                    will run. However, your platform currently does not support automatic installation of the runtime.
+                    Please follow the advanced options below to install it manually.
                   </p>
                   <p id="runtime-needs-7zip" class="d-none">
                     To install the runtime, you will need <a href="https://7-zip.org/">7-Zip</a> installed. Installing
@@ -86,8 +92,44 @@
                     <strong>Error:</strong>
                     <span id="runtime-install-error-text"></span>
                   </p>
-                  <div class="text-center">
+                  <div class="text-center mt-3">
                     <button type="button" class="btn btn-outline-success" id="runtime-install-start">Install the runtime</button>
+                  </div>
+
+                  <div class="mt-3">
+                    <details>
+                      <summary><strong class="lead">Advanced options</strong></summary>
+                      <div style="padding-left: 1rem;" class="pb-1">
+                        <strong>Manually installing Firefox from the archive:</strong>
+                        <ol>
+                          <li>Download the Firefox archive from your preferred source (for example, from <a href="https://www.mozilla.org/firefox/all/" target="_blank">the official downloads page</a>).</li>
+                          <li>Extract the downloaded archive and copy files to the correct directory (see below).</li>
+                        </ol>
+                      </div>
+                      <div style="padding-left: 1rem;" class="pb-1">
+                        <strong>Manually installing Firefox using package manager:</strong>
+                        <ol>
+                          <li>Install Firefox using your distro's package manager (e.g., <kbd>sudo apt install firefox</kbd>, <kbd>sudo yum install firefox</kbd>, ...).</li>
+                          <li>Copy the installed Firefox files (commonly stored in <kbd>/usr/lib/firefox/</kbd>) to the correct directory (see below).</li>
+                        </ol>
+                      </div>
+                      <div style="padding-left: 1rem;" class="pb-1">
+                        <strong>Installing an alternative Firefox-based browser (for example, LibreWolf):</strong>
+                        <ol>
+                          <li>Download the "portable" archive (binary tarball) for your preferred Firefox-based browser.</li>
+                          <li>Extract downloaded archive and copy files to the correct directory (see below).</li>
+                          <li>Inside that directory, symlink the main binary of your browser (for example, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) as <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.</li>
+                        </ol>
+                      </div>
+                      <div style="padding-left: 1rem;" class="pb-1">
+                        <strong>Default runtime locations:</strong>
+                        <ul>
+                          <li>Windows: <kbd>%APPDATA%\FirefoxPWA\runtime\</kbd></li>
+                          <li>Linux: <kbd>$XDG_DATA_HOME/firefoxpwa/runtime/</kbd> or <kbd>$HOME/.local/share/firefoxpwa/runtime/</kbd></li>
+                          <li>macOS: <kbd>$HOME/Library/Application Support/firefoxpwa/runtime/</kbd></li>
+                        </ul>
+                      </div>
+                    </details>
                   </div>
                 </div>
 
