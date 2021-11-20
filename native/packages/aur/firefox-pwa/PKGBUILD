@@ -57,7 +57,7 @@ package() {
 
     # Completions
     install -Dm755 target/release/completions/firefoxpwa.bash $pkgdir/usr/share/bash-completion/completions/firefoxpwa
-    install -Dm755 target/release/completions/firefoxpwa.fish $pkgdir/usr/share/fish/completions/firefoxpwa.fish
+    install -Dm755 target/release/completions/firefoxpwa.fish $pkgdir/usr/share/fish/vendor_completions.d/firefoxpwa.fish
     install -Dm755 target/release/completions/_firefoxpwa $pkgdir/usr/share/zsh/vendor-completions/_firefoxpwa
 
     # Documentation

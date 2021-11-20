@@ -43,7 +43,7 @@ cp usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json usr/lib64/mozilla/nati
 
 # Make shell completions executable
 chmod 755 usr/share/bash-completion/completions/firefoxpwa
-chmod 755 usr/share/fish/completions/firefoxpwa.fish
+chmod 755 usr/share/fish/vendor_completions.d/firefoxpwa.fish
 chmod 755 usr/share/zsh/vendor-completions/_firefoxpwa
 
 # Copy all files to the build root
@@ -86,7 +86,7 @@ fi
 
 # Completions
 %{_datadir}/bash-completion/completions/firefoxpwa
-%{_datadir}/fish/completions/firefoxpwa.fish
+%{_datadir}/fish/vendor_completions.d/firefoxpwa.fish
 %{_datadir}/zsh/vendor-completions/_firefoxpwa
 
 # Documentation

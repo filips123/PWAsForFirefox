@@ -5,7 +5,7 @@ set -e
 # We cannot do this in Cargo.toml because of cargo-deb bug
 # See: https://github.com/mmstick/cargo-deb/issues/67
 chmod 755 /usr/share/bash-completion/completions/firefoxpwa
-chmod 755 /usr/share/fish/completions/firefoxpwa.fish
+chmod 755 /usr/share/fish/vendor_completions.d/firefoxpwa.fish
 chmod 755 /usr/share/zsh/vendor-completions/_firefoxpwa
 
 # Add notice that it is recommended to also install the extension

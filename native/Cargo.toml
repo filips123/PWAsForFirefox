@@ -95,7 +95,7 @@ assets = [
 
     # Completions
     ["target/release/completions/firefoxpwa.bash", "/usr/share/bash-completion/completions/firefoxpwa", "644"],
-    ["target/release/completions/firefoxpwa.fish", "/usr/share/fish/completions/firefoxpwa.fish", "644"],
+    ["target/release/completions/firefoxpwa.fish", "/usr/share/fish/vendor_completions.d/firefoxpwa.fish", "644"],
     ["target/release/completions/_firefoxpwa", "/usr/share/zsh/vendor-completions/_firefoxpwa", "644"],
 
     # Documentation
