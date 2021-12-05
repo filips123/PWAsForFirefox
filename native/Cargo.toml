@@ -119,7 +119,7 @@ firefoxpwa-connector = { path = "/usr/libexec/firefoxpwa-connector" }
 [package.metadata.rpm.files]
 "../../manifests/linux.json" = { path = "/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json" }
 "../../target/release/completions/firefoxpwa.bash" = { path = "/usr/share/bash-completion/completions/firefoxpwa" }
-"../../target/release/completions/firefoxpwa.fish" = { path = "/usr/share/fish/completions/firefoxpwa.fish" }
+"../../target/release/completions/firefoxpwa.fish" = { path = "/usr/share/fish/vendor_completions.d/firefoxpwa.fish" }
 "../../target/release/completions/_firefoxpwa" = { path = "/usr/share/zsh/vendor-completions/_firefoxpwa" }
 "../../../README.md" = { path = "/usr/share/doc/firefoxpwa/README.md" }
 "../../../native/README.md" = { path = "/usr/share/doc/firefoxpwa/README-NATIVE.md" }
