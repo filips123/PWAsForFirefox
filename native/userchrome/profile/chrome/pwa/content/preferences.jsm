@@ -9,7 +9,7 @@ class PwaPreferences {
     hookFunction(gMainPane, 'init', null, () => { this.addPreferenceElements(); });
 
     // Handle switch of preferences on load and when they changes
-    setTimeout(() => { this.handlePreferenceSwitch(); } );
+    setTimeout(() => { this.handlePreferenceSwitch(true); } );
     xPref.addListener(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, () => { this.handlePreferenceSwitch() } );
     xPref.addListener(ChromeLoader.PREF_ENABLE_TABS_MODE, () => { this.handlePreferenceSwitch() } );
   }
@@ -73,13 +73,15 @@ class PwaPreferences {
     document.getElementById('startupGroup').nextElementSibling.after(group.firstChild);
   }
 
-  handlePreferenceSwitch () {
-    if (xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER)) {
-      // If out of scope URLs in a default browser are enabled, links target should default to new windows
-      xPref.set(ChromeLoader.PREF_LINKS_TARGET, 2);
-    } else {
-      // Otherwise, it should default to current tab
-      xPref.set(ChromeLoader.PREF_LINKS_TARGET, 1);
+  handlePreferenceSwitch (onLoad = false) {
+    if (!onLoad) {
+      if (xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER)) {
+        // If out of scope URLs in a default browser are enabled, links target should default to new windows
+        xPref.set(ChromeLoader.PREF_LINKS_TARGET, 2);
+      } else {
+        // Otherwise, it should default to current tab
+        xPref.set(ChromeLoader.PREF_LINKS_TARGET, 1);
+      }
     }
 
     if (xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) {
