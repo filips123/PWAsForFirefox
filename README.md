@@ -1,4 +1,4 @@
-![Logo](https://raw.githack.com/wiki/filips123/PWAsForFirefox/images/banner.svg)
+![Logo](https://rawcdn.githack.com/wiki/filips123/PWAsForFirefox/images/banner.svg)
 
 Progressive Web Apps for Firefox
 ================================

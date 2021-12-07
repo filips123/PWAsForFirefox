@@ -14,7 +14,7 @@
     <bugTrackerUrl>https://github.com/filips123/PWAsForFirefox/issues</bugTrackerUrl>
     <docsUrl>https://github.com/filips123/PWAsForFirefox/wiki</docsUrl>
     <licenseUrl>https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE</licenseUrl>
-    <iconUrl>https://raw.githack.com/wiki/filips123/PWAsForFirefox/images/icon.png</iconUrl>
+    <iconUrl>https://rawcdn.githack.com/wiki/filips123/PWAsForFirefox/images/icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
 
     <tags>pwas-for-firefox firefoxpwa firefox progressive-web-app webapp web foss open-source cross-platform</tags>
