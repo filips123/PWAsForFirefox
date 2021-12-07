@@ -150,7 +150,7 @@ fn create_arp_entry(info: &SiteInfoInstall, exe: String, icon: String) -> Result
     key.set_value("URLInfoAbout", &info.url)?;
     key.set_value("NoModify", &1u32)?;
     key.set_value("NoRepair", &1u32)?;
-    key.set_value("Comments", &"Installed using FirefoxPWA")?;
+    key.set_value("Comments", &"Installed using PWAsForFirefox")?;
 
     Ok(())
 }

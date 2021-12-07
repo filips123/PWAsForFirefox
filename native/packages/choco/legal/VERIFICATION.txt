@@ -1,6 +1,6 @@
 ﻿VERIFICATION
 
-I am the author of the FirefoxPWA project.
+I am the author of the PWAs for Firefox project.
 
 Both Windows installers are built automatically on every release using GitHub Actions from
 the project source, published as workflow artifacts, and then added to a new GitHub release.

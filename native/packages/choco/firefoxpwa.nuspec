@@ -3,22 +3,22 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
   <metadata>
     <id>firefoxpwa</id>
-    <title>FirefoxPWA</title>
+    <title>Progressive Web Apps for Firefox</title>
     <version>{{PackageVersion}}</version>
     <owners>filips</owners>
     <authors>filips</authors>
 
-    <packageSourceUrl>https://github.com/filips123/FirefoxPWA/tree/main/native/packages/choco</packageSourceUrl>
-    <projectSourceUrl>https://github.com/filips123/FirefoxPWA</projectSourceUrl>
-    <projectUrl>https://github.com/filips123/FirefoxPWA</projectUrl>
-    <bugTrackerUrl>https://github.com/filips123/FirefoxPWA/issues</bugTrackerUrl>
-    <docsUrl>https://github.com/filips123/FirefoxPWA/wiki</docsUrl>
-    <licenseUrl>https://github.com/filips123/FirefoxPWA/blob/main/LICENSE</licenseUrl>
-    <iconUrl>https://gistcdn.githack.com/filips123/6f2a9eaf9261754110b361aabe6dff62/raw/1a16c2aa1d801bfd015b2a343e55b52d796642b4/firefoxpwa.png</iconUrl>
+    <packageSourceUrl>https://github.com/filips123/PWAsForFirefox/tree/main/native/packages/choco</packageSourceUrl>
+    <projectSourceUrl>https://github.com/filips123/PWAsForFirefox</projectSourceUrl>
+    <projectUrl>https://github.com/filips123/PWAsForFirefox</projectUrl>
+    <bugTrackerUrl>https://github.com/filips123/PWAsForFirefox/issues</bugTrackerUrl>
+    <docsUrl>https://github.com/filips123/PWAsForFirefox/wiki</docsUrl>
+    <licenseUrl>https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE</licenseUrl>
+    <iconUrl>https://raw.githack.com/wiki/filips123/PWAsForFirefox/images/icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
 
-    <tags>firefoxpwa firefox progressive-web-app webapp web foss open-source cross-platform</tags>
-    <releaseNotes>You can read release notes on [the repository releases page](https://github.com/filips123/FirefoxPWA/releases/tag/v{{PackageVersion}}).</releaseNotes>
+    <tags>pwas-for-firefox firefoxpwa firefox progressive-web-app webapp web foss open-source cross-platform</tags>
+    <releaseNotes>You can read release notes on [the repository releases page](https://github.com/filips123/PWAsForFirefox/releases/tag/v{{PackageVersion}}).</releaseNotes>
     <summary>A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox (native component)</summary>
     <description><![CDATA[
 **A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox.**
@@ -41,7 +41,7 @@ This project creates a custom modified Firefox runtime to allow websites to be i
 
 ## Notes
 
-* This package contains only the native part of the FirefoxPWA project. You should also install the browser extension if you haven't already. You can download it from the [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/firefoxpwa/) website.
+* This package contains only the native part of the PWAsForFirefox project. You should also install the browser extension if you haven't already. You can download it from the [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/pwas-for-firefox/) website.
 * This is an automatically updated package. If you find it is out of date by more than a day or two, please contact the maintainer(s) and let them know the package is no longer updating correctly.
 
 ]]></description>

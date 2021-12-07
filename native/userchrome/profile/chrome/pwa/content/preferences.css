@@ -6,7 +6,7 @@
   }
 
   /* Hide the default browser box */
-  /* Not needed because FirefoxPWA browser installation is not supposed to be made default */
+  /* Not needed because PWAsForFirefox browser installation is not supposed to be made default */
   #defaultBrowserBox {
     display: none;
   }

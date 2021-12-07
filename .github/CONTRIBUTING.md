@@ -10,7 +10,7 @@ Before creating bug reports, please check for any similar issues or
 pull requests. If they are already opened, please participle in that one.
 
 If no issues or pull requests that describe your problem exist, first try
-the [troubleshooting steps](https://github.com/filips123/FirefoxPWA/wiki/Troubleshooting).
+the [troubleshooting steps](https://github.com/filips123/PWAsForFirefox/wiki/Troubleshooting).
 If you cannot determine and fix the problem yourself, please open a new issue
 and provide all the required information. If you were able to fix the problem, but
 you think the same problem might happen to other users, please report it and
@@ -37,7 +37,7 @@ You can also submit a pull request with the implementation.
 ### Discussions
 
 For general discussions, project ideas, and support/help questions, please use
-a [discussions](https://github.com/filips123/FirefoxPWA/discussions) feature
+a [discussions](https://github.com/filips123/PWAsForFirefox/discussions) feature
 instead of the issue tracker. This will ensure the issue tracker stays clean,
 so we can focus on fixing bugs and resolving feature requests.
 

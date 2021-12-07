@@ -1,13 +1,12 @@
-![Logo](https://gist.githubusercontent.com/filips123/6f2a9eaf9261754110b361aabe6dff62/raw/c8e01c88fe6b7112579d4564907a1d75f07d5c5d/firefoxpwa.svg)
+![Logo](https://raw.githack.com/wiki/filips123/PWAsForFirefox/images/banner.svg)
 
 Progressive Web Apps for Firefox
 ================================
 
-
-[![Release](https://img.shields.io/github/v/release/filips123/FirefoxPWA?sort=semver&style=flat-square)](https://github.com/filips123/FirefoxPWA/releases/latest)
-[![Users](https://img.shields.io/amo/users/firefoxpwa?style=flat-square)](https://addons.mozilla.org/firefox/addon/firefoxpwa/)
-[![Rating](https://img.shields.io/amo/rating/firefoxpwa?style=flat-square)](https://addons.mozilla.org/firefox/addon/firefoxpwa/)
-[![License](https://img.shields.io/github/license/filips123/FirefoxPWA?style=flat-square)](https://github.com/filips123/FirefoxPWA/blob/main/LICENSE)
+[![Release](https://img.shields.io/github/v/release/filips123/PWAsForFirefox?sort=semver&style=flat-square)](https://github.com/filips123/PWAsForFirefox/releases/latest)
+[![Users](https://img.shields.io/amo/users/pwas-for-firefox?style=flat-square)](https://addons.mozilla.org/firefox/addon/pwas-for-firefox/)
+[![Rating](https://img.shields.io/amo/rating/pwas-for-firefox?style=flat-square)](https://addons.mozilla.org/firefox/addon/pwas-for-firefox/)
+[![License](https://img.shields.io/github/license/filips123/PWAsForFirefox?style=flat-square)](https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE)
 [![Repositories](https://img.shields.io/repology/repositories/firefoxpwa?style=flat-square)](https://repology.org/project/firefoxpwa/versions)
 [![Packagecloud.io DEB](https://img.shields.io/badge/deb-packagecloud.io-844fec.svg?style=flat-square)](https://packagecloud.io/filips/FirefoxPWA)
 [![Packagecloud.io RPM](https://img.shields.io/badge/rpm-packagecloud.io-844fec.svg?style=flat-square)](https://packagecloud.io/filips/FirefoxPWA)
@@ -22,7 +21,7 @@ This project creates a custom modified Firefox runtime to allow websites to be i
 
 ## Usage
 
-**TLDR**: Install [the browser extension](https://addons.mozilla.org/firefox/addon/firefoxpwa/) and follow in-browser installation instructions. Check [the repository wiki](https://github.com/filips123/FirefoxPWA/wiki) for simple usage instructions.
+**TLDR**: Install [the browser extension](https://addons.mozilla.org/firefox/addon/pwas-for-firefox/) and follow in-browser installation instructions. Check [the repository wiki](https://github.com/filips123/PWAsForFirefox/wiki) for simple usage instructions.
 
 For detailed and more technical documentation how to set up, use and develop the project, see the READMEs of the native and extension part:
 
@@ -69,7 +68,7 @@ These are things that I would like to fix eventually, but will currently stay, e
 
   This could be fixed if there is an easy way to intercept the opening of every new window, and pass it `window.gFFPWASiteConfig` from the original window just after it is created. I implemented this for some windows (mainly those opened by users), but don't know how to do it for all windows.
 
-  This problem is tracked as issue [#79](https://github.com/filips123/FirefoxPWA/issues/79).
+  This problem is tracked as issue [#79](https://github.com/filips123/PWAsForFirefox/issues/79).
 
 * **All PWAs are merged with the first PWA that was opened (Linux & macOS):**
 
@@ -79,27 +78,27 @@ These are things that I would like to fix eventually, but will currently stay, e
 
   * **Linux:**
 
-    This cannot be fixed easily. The native part of the project currently launches Firefox with the `--class` argument, which should set the `WM_CLASS` property of the window to the PWA ID. However, because all Firefox processes in the same profile are connected together, all windows have WM_CLASS of the first PWA. Fixing this would probably require modifying Firefox C++ code. Check [this comment](https://github.com/filips123/FirefoxPWA/issues/33#issuecomment-887382593) and related discussions for ideas and possible solutions to fix this.
+    This cannot be fixed easily. The native part of the project currently launches Firefox with the `--class` argument, which should set the `WM_CLASS` property of the window to the PWA ID. However, because all Firefox processes in the same profile are connected together, all windows have WM_CLASS of the first PWA. Fixing this would probably require modifying Firefox C++ code. Check [this comment](https://github.com/filips123/PWAsForFirefox/issues/33#issuecomment-887382593) and related discussions for ideas and possible solutions to fix this.
 
-    This problem is tracked as issues [#80](https://github.com/filips123/FirefoxPWA/issues/80) and [#50](https://github.com/filips123/FirefoxPWA/issues/50).
+    This problem is tracked as issues [#80](https://github.com/filips123/PWAsForFirefox/issues/80) and [#50](https://github.com/filips123/PWAsForFirefox/issues/50).
 
   * **macOS:**
 
-    Apple only allows a process to be associated with a single application at all times. Perhaps this could be solved by using an IPC link between a host process and the main Firefox runtime process, the same way the Firefox parent process handles its content processes. This is just a wild theory though and has to be investigated further. See [this comment](https://github.com/filips123/FirefoxPWA/issues/33#issuecomment-888511078) for more.
+    Apple only allows a process to be associated with a single application at all times. Perhaps this could be solved by using an IPC link between a host process and the main Firefox runtime process, the same way the Firefox parent process handles its content processes. This is just a wild theory though and has to be investigated further. See [this comment](https://github.com/filips123/PWAsForFirefox/issues/33#issuecomment-888511078) for more.
 
-    This problem is tracked as issue [#81](https://github.com/filips123/FirefoxPWA/issues/81).
+    This problem is tracked as issue [#81](https://github.com/filips123/PWAsForFirefox/issues/81).
 
 * **Reopening a PWA after closing all windows opens new tab page:**
 
   When PWA is reopened after closing all windows, it will open the new tab page instead of PWA start URL. *Users have to close the app and restart it to get into the PWA.*
 
-  See [#42](https://github.com/filips123/FirefoxPWA/issues/42) for more details. Perhaps the fix could also be related to the first limitation, as it may involve passing PWA configuration between windows.
+  See [#42](https://github.com/filips123/PWAsForFirefox/issues/42) for more details. Perhaps the fix could also be related to the first limitation, as it may involve passing PWA configuration between windows.
 
 * **Extension cannot detect the native program when using sandboxed Firefox (Linux: Snap & Flatpak):**
 
   When using Firefox distributed as a Snap or Flatpak package (for example, the default Firefox installation in Ubuntu 21.10), the extension cannot detect the native program that is used. This is because Snap and Flatpak packages are sandboxed and cannot access/run other programs which is needed for Native Messaging API. This cannot be fixed until Native Messaging API gets support to work in sandboxed browsers (Snap and Flatpak).
 
-  The workaround for this is to uninstall Snap/Flatpak-based Firefox and install a normal DEB package instead. See [#76](https://github.com/filips123/FirefoxPWA/issues/76#issuecomment-962628218) for more details.
+  The workaround for this is to uninstall Snap/Flatpak-based Firefox and install a normal DEB package instead. See [#76](https://github.com/filips123/PWAsForFirefox/issues/76#issuecomment-962628218) for more details.
 
 ## Contributors & Sponsors
 
@@ -109,9 +108,9 @@ Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this projec
 
 &nbsp;
 
-Thanks to [all contributors]((https://github.com/filips123/FirefoxPWA/graphs/contributors)) to this project for providing help and developing features!
+Thanks to [all contributors]((https://github.com/filips123/PWAsForFirefox/graphs/contributors)) to this project for providing help and developing features!
 
-  [![Contributors](https://contrib.rocks/image?repo=filips123/FirefoxPWA)](https://github.com/filips123/FirefoxPWA/graphs/contributors)
+  [![Contributors](https://contrib.rocks/image?repo=filips123/PWAsForFirefox)](https://github.com/filips123/PWAsForFirefox/graphs/contributors)
 
 &nbsp;
 
@@ -119,7 +118,7 @@ Thanks to all package maintainers making sure the project is up-to-date on all d
 
 ## Versioning
 
-The project uses [SemVer](https://semver.org/) for versioning. For the available versions and the changelog, see [the releases](https://github.com/filips123/FirefoxPWA/releases) on this repository.
+The project uses [SemVer](https://semver.org/) for versioning. For the available versions and the changelog, see [the releases](https://github.com/filips123/PWAsForFirefox/releases) on this repository.
 
 The native and extension part of the project at released tags are compatible with each other according to SemVer. The native and extension part at non-tagged commits may not be compatible with each other, because they are development versions that may not be both updated at the same time.
 
@@ -129,14 +128,18 @@ The project aims for compatibility with the latest stable Firefox version. It ma
 
 The project is licensed under the Mozilla Public License 2.0. By using, redistributing, or modifying it, you must agree to the license, and the additional clauses provided below. See the [LICENSE](LICENSE) file for the full license text.
 
-Browser chrome modifications were largely inspired by the [`xiaoxiaoflood/firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts) repository on GitHub, also licensed under the Mozilla Public License 2.0. Detailed license information can be found in the respective files.
+The project logo is based on the ["Fox SVG Vector"](https://www.svgrepo.com/svg/40267/fox) icon and the [community-introduced PWA logo](https://github.com/webmaxru/progressive-web-apps-logo), both dedicated to the public domain using the [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
 
-The native part of the project includes the [Metropolis Semi Bold](https://fontsarena.com/metropolis-by-chris-simpson/) typeface by Chris Simpson, released into the public domain using the [Unlicense](https://unlicense.org/).
+The project also uses additional third-party assets and code:
 
-Windows installer includes the [Material Design Icons](https://materialdesignicons.com/) by Austin Andrews and Google, licensed under the [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) license. Detailed license information can be found in the [WiX configuration file](native/packages/wix/main.wxs).
+* Browser chrome modifications were inspired by and partially derived from the [`xiaoxiaoflood/firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts) repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.
 
-The project logo is based on the [official Firefox browser logo](https://mozilla.design/firefox/logos-usage) and the [community-introduced PWA logo](https://github.com/webmaxru/progressive-web-apps-logo).
+* Native programs contain the [Metropolis Semi Bold](https://fontsarena.com/metropolis-by-chris-simpson/) typeface by Chris Simpson, released into the public domain using the [Unlicense](https://unlicense.org/).
 
-Installing the runtime on Windows will install the [7-Zip](https://7-zip.org/) if it is not already installed. The 7-Zip project is made by Igor Pavlov and [licensed under the GNU LGPL license and others](https://7-zip.org/license.txt). This project is not affiliated with the 7-Zip project or its developers in any way.
+* Windows installer contains [Bootstrap Icons](https://icons.getbootstrap.com/), licensed under the [MIT License](https://opensource.org/licenses/MIT). Detailed license information can be found in the [WiX configuration file](native/packages/wix/main.wxs).
 
-Installing the runtime on any system will download the unmodified [Mozilla Firefox](https://www.mozilla.org/firefox/) and locally modify it. By using this project you also agree to the [Firefox Privacy Notice](https://www.mozilla.org/privacy/firefox/). Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla Foundation in any way.
+Additional open source software will be downloaded and installed at runtime when initiated by the user:
+
+* Installing the runtime on Windows will install the [7-Zip](https://7-zip.org/) if it is not already installed. The 7-Zip project is made by Igor Pavlov and [licensed under the GNU LGPL license and others](https://7-zip.org/license.txt). This project is not affiliated with the 7-Zip project or its developers in any way.
+
+* Installing the runtime on any system will download the unmodified [Mozilla Firefox](https://www.mozilla.org/firefox/) browser and locally modify it. By using this project, you also agree to the [Firefox Privacy Notice](https://www.mozilla.org/privacy/firefox/). Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla Foundation in any way.

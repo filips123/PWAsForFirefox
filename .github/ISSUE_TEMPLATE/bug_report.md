@@ -6,7 +6,7 @@ labels: bug
 ---
 
 <!-- Before reporting a bug, read the troubleshooting steps: -->
-<!-- https://github.com/filips123/FirefoxPWA/wiki/Troubleshooting -->
+<!-- https://github.com/filips123/PWAsForFirefox/wiki/Troubleshooting -->
 
 <!-- Thank you for reporting a bug and helping to improve the project -->
 <!-- Please follow our issue template as much as possible -->
@@ -45,6 +45,6 @@ labels: bug
 * System architecture:
 * Desktop environment: <!-- If on Linux -->
 * Installation method: <!-- MSI/DEB/RPM/AUR/source... -->
-* FirefoxPWA extension version:
-* FirefoxPWA native version:
+* PWAsForFirefox extension version:
+* PWAsForFirefox native version:
 * Firefox version:

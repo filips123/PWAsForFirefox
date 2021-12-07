@@ -3,7 +3,7 @@
   "name": "__MSG_appName__",
   "short_name": "__MSG_appShortName__",
   "description": "__MSG_appDescription__",
-  "homepage_url": "https://github.com/filips123/FirefoxPWA",
+  "homepage_url": "https://github.com/filips123/PWAsForFirefox",
   "version": "0.0.0",
   "default_locale": "en",
   "browser_specific_settings": {

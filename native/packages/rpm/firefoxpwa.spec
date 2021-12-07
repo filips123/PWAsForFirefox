@@ -3,13 +3,13 @@
 %define debug_package %{nil}
 
 Name: firefoxpwa
-Summary: The native part of the FirefoxPWA project
+Summary: The native part of the PWAsForFirefox project
 Version: @@VERSION@@
 Release: @@RELEASE@@%{?dist}
 License: MPLv2.0
 Group: Applications/Internet
 Source: %{name}-%{version}.tar.gz
-URL: https://github.com/filips123/FirefoxPWA
+URL: https://github.com/filips123/PWAsForFirefox
 Packager: filips <projects@filips.si>
 
 Recommends: (firefox or firefox-esr or firefox-beta or firefox-nightly)
@@ -28,9 +28,9 @@ This project creates a custom modified Firefox runtime to allow websites to be
 installed as standalone apps and provides a console tool and browser extension
 to install, manage and use them.
 
-This package contains only the native part of the FirefoxPWA project. You
+This package contains only the native part of the PWAsForFirefox project. You
 should also install the browser extension if you haven't already. You can
-download it from <https://addons.mozilla.org/firefox/addon/firefoxpwa/>.
+download it from <https://addons.mozilla.org/firefox/addon/pwas-for-firefox/>.
 
 %prep
 %setup -q
@@ -59,9 +59,9 @@ rm -rf %{buildroot}
 # Add notice that it is recommended to also install the extension
 if [ $1 == 1 ]
 then
-    echo "You have successfully installed the native part of the FirefoxPWA project"
+    echo "You have successfully installed the native part of the PWAsForFirefox project"
     echo "You should also install the Firefox extension if you haven't already"
-    echo "Download: https://addons.mozilla.org/firefox/addon/firefoxpwa/"
+    echo "Download: https://addons.mozilla.org/firefox/addon/pwas-for-firefox/"
 fi
 
 %postun

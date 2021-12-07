@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Setup FirefoxPWA</title>
+    <title>Setup Progressive Web Apps for Firefox</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
     <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
@@ -13,7 +13,7 @@
       <div class="row justify-content-center">
         <div class="wrapper my-4 px-4 py-0">
           <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-            <h1 class="text-center">Setup FirefoxPWA</h1>
+            <h1 class="text-center">Setup Progressive Web Apps for Firefox</h1>
             <div class="row">
               <div class="pb-3">
                 <ul class="text-center" id="progressbar">
@@ -25,14 +25,20 @@
 
                 <!-- License Agreement -->
                 <div id="license-agreement-view" class="px-3 d-none">
-                  <blockquote class="text-justify text-secondary fst-italic">
-                    <p>The project is licensed under the <a href="https://www.mozilla.org/MPL/2.0/">Mozilla Public License 2.0</a>. By using, redistributing or modifying it, you must agree to the license, and the additional clauses provided below.</p>
-                    <p>Browser chrome modifications were largely inspired by the <a href="https://github.com/xiaoxiaoflood/firefox-scripts"><code>xiaoxiaoflood/firefox-scripts</code></a> repository on GitHub, also licensed under the Mozilla Public License 2.0. Detailed license information can be found in the respective files.</p>
-                    <p>The native part of the project includes the <a href="https://fontsarena.com/metropolis-by-chris-simpson/">Metropolis Semi Bold</a> typeface by Chris Simpson, released into the public domain using the <a href="https://unlicense.org/">Unlicense</a>.</p>
-                    <p>Windows installer includes the <a href="https://materialdesignicons.com/">Material Design Icons</a> by Austin Andrews and Google, licensed under the Apache 2.0 license. Detailed license information can be found in the <a href="https://github.com/filips123/FirefoxPWA/blob/main/native/packages/wix/main.wxs">WiX configuration file</a>.</p>
-                    <p>The project logo is based on the <a href="https://mozilla.design/firefox/logos-usage">official Firefox browser logo</a> and the <a href="https://github.com/webmaxru/progressive-web-apps-logo">community-introduced PWA logo</a>.</p>
-                    <p>Installing the runtime on Windows will install the <a href="https://7-zip.org/">official 7-Zip</a> if it is not already installed. The 7-Zip project is made by Igor Pavlov and <a href="https://7-zip.org/license.txt">licensed under the GNU LGPL license and others</a>. This project is not affiliated with the 7-Zip project or its developers in any way.</p>
-                    <p>Installing the runtime on any system will download the unmodified <a href="https://www.mozilla.org/firefox/">Mozilla Firefox</a> and locally modify it. By using this project you also agree to the <a href="https://www.mozilla.org/privacy/firefox/">Firefox Privacy Notice</a>. Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla Foundation in any way.</p>
+                  <blockquote class="text-justify text-secondary">
+                    <p>The project is licensed under the <a href="https://www.mozilla.org/MPL/2.0/">Mozilla Public License 2.0</a>. By using, redistributing, or modifying it, you must agree to the license, and the additional clauses provided below.</p>
+                    <p>The project logo is based on the <a href="https://www.svgrepo.com/svg/40267/fox">&quot;Fox SVG Vector&quot;</a> icon and the <a href="https://github.com/webmaxru/progressive-web-apps-logo">community-introduced PWA logo</a>, both dedicated to the public domain using the <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</p>
+                    <p>The project also uses additional third-party assets and code:</p>
+                    <ul>
+                      <li>Browser chrome modifications were inspired by and partially derived from the <a href="https://github.com/xiaoxiaoflood/firefox-scripts"><code>xiaoxiaoflood/firefox-scripts</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.</li>
+                      <li>Native programs contain the <a href="https://fontsarena.com/metropolis-by-chris-simpson/">Metropolis Semi Bold</a> typeface by Chris Simpson, released into the public domain using the <a href="https://unlicense.org/">Unlicense</a>.</li>
+                      <li>Windows installer contains <a href="https://icons.getbootstrap.com/">Bootstrap Icons</a>, licensed under the <a href="https://opensource.org/licenses/MIT">MIT License</a>. Detailed license information can be found in the <a href="https://github.com/filips123/PWAsForFirefox/blob/main/native/packages/wix/main.wxs">WiX configuration file</a>.</li>
+                    </ul>
+                    <p>Additional open source software will be downloaded and installed at runtime when initiated by the user:</p>
+                    <ul>
+                      <li>Installing the runtime on Windows will install the <a href="https://7-zip.org/">7-Zip</a> if it is not already installed. The 7-Zip project is made by Igor Pavlov and <a href="https://7-zip.org/license.txt">licensed under the GNU LGPL license and others</a>. This project is not affiliated with the 7-Zip project or its developers in any way.</li>
+                      <li>Installing the runtime on any system will download the unmodified <a href="https://www.mozilla.org/firefox/">Mozilla Firefox</a> browser and locally modify it. By using this project, you also agree to the <a href="https://www.mozilla.org/privacy/firefox/">Firefox Privacy Notice</a>. Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla Foundation in any way.</li>
+                    </ul>
                   </blockquote>
                   <div class="text-center">
                     <button type="button" class="btn btn-outline-success" id="license-agreement-accept">I accept the license agreement</button>

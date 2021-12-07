@@ -1,7 +1,7 @@
-FirefoxPWA - Native
-===================
+Progressive Web Apps for Firefox - Native
+=========================================
 
-The native part of the FirefoxPWA project.
+The native part of the PWAsForFirefox project.
 
 ## Description
 
@@ -26,7 +26,7 @@ Read the [main README file](../README.md) for more details about the project.
 
 #### Packagecloud.io
 
-The DEB and RPM packages are hosted on [the packagecloud.io repository](https://packagecloud.io/filips/FirefoxPWA). You can enable this repository and install packages from there if you prefer to manage FirefoxPWA updates using your system package manager.
+The DEB and RPM packages are hosted on [the packagecloud.io repository](https://packagecloud.io/filips/FirefoxPWA). You can enable this repository and install packages from there if you prefer to manage PWAsForFirefox updates using your system package manager.
 
 Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this project and providing us a free hosting for our DEB and RPM packages!
 
@@ -35,7 +35,7 @@ Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this projec
 <details>
   <summary>Expand packaging status</summary>
 
-  [![Packaging status](https://repology.org/badge/vertical-allrepos/firefoxpwa.svg)](https://repology.org/project/firefoxpwa/versions)
+[![Packaging status](https://repology.org/badge/vertical-allrepos/firefoxpwa.svg)](https://repology.org/project/firefoxpwa/versions)
 </details>
 
 * Windows Package Manager: `filips.FirefoxPWA`
@@ -45,17 +45,17 @@ Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this projec
 * Arch User Repository: [`firefox-pwa`](https://aur.archlinux.org/packages/firefox-pwa/) (source)
 * Arch User Repository: [`firefox-pwa-bin`](https://aur.archlinux.org/packages/firefox-pwa-bin/) (pre-built)
 
-*Note:* If you want to package FirefoxPWA for your distribution or package manager, or have already packaged it, please let me know, so I can help with the packaging and list it in the installation instructions. If the packaging platform supports any auto-submission/uploading feature, please also let me know, as I might integrate it directly with GitHub Actions to make sure the packages are always up-to-date.
+*Note:* If you want to package PWAsForFirefox for your distribution or package manager, or have already packaged it, please let me know, so I can help with the packaging and list it in the installation instructions. If the packaging platform supports any auto-submission/uploading feature, please also let me know, as I might integrate it directly with GitHub Actions to make sure the packages are always up-to-date.
 
 ### From Release Binaries
 
-You can download installers/packages and the shell completions from the [latest GitHub release](https://github.com/filips123/FirefoxPWA/releases/latest).
+You can download installers/packages and the shell completions from the [latest GitHub release](https://github.com/filips123/PWAsForFirefox/releases/latest).
 
 On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package. On Linux, you need `glibc` 2.18 or later, which also is specified in the package dependencies.
 
 ### From Development Binaries
 
-You can download and install [latest build artifact](https://github.com/filips123/FirefoxPWA/actions/workflows/native.yaml?query=actor%3Afilips123) from GitHub Actions builds. Note that these are development versions that may be unstable.
+You can download and install [latest build artifact](https://github.com/filips123/PWAsForFirefox/actions/workflows/native.yaml?query=actor%3Afilips123) from GitHub Actions builds. Note that these are development versions that may be unstable.
 
 On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package.  On Linux, you need `glibc` 2.18 or later, which also is specified in the package dependencies.
 
@@ -121,8 +121,8 @@ You can also run the below commands to do this automatically (except Rust and Gi
 
 ```shell
 # Clone the repository and switch into the correct directory
-git clone https://github.com/filips123/FirefoxPWA.git
-cd FirefoxPWA/native
+git clone https://github.com/filips123/PWAsForFirefox.git
+cd PWAsForFirefox/native
 
 # Optional: Building a specific version
 # Set the VERSION environment variable
@@ -144,7 +144,7 @@ sudo mkdir -p /usr/share/firefoxpwa/userchrome/
 sudo cp -R userchrome/* /usr/share/firefoxpwa/userchrome/
 ```
 
-If you want to modify the installation or runtime directory, you will also need to modify the source code before building. Check [the FAQ in the repository wiki](https://github.com/filips123/FirefoxPWA/wiki/Frequently-Asked-Questions) for more details.
+If you want to modify the installation or runtime directory, you will also need to modify the source code before building. Check [the FAQ in the repository wiki](https://github.com/filips123/PWAsForFirefox/wiki/Frequently-Asked-Questions) for more details.
 
 #### macOS
 
@@ -166,8 +166,8 @@ If you want to modify the installation or runtime directory, you will also need 
 
 ```shell
 # Clone the repository and switch into the correct directory
-git clone https://github.com/filips123/FirefoxPWA.git
-cd FirefoxPWA/native
+git clone https://github.com/filips123/PWAsForFirefox.git
+cd PWAsForFirefox/native
 
 # Optional: Building a specific version
 # Set the VERSION environment variable
@@ -193,7 +193,7 @@ sudo mkdir -p /usr/local/share/firefoxpwa/userchrome/
 sudo cp -R userchrome/* /usr/local/share/firefoxpwa/userchrome/
 ```
 
-If you want to modify the installation or runtime directory, you will also need to modify the source code before building. Check [the FAQ in the repository wiki](https://github.com/filips123/FirefoxPWA/wiki/Frequently-Asked-Questions) for more details.
+If you want to modify the installation or runtime directory, you will also need to modify the source code before building. Check [the FAQ in the repository wiki](https://github.com/filips123/PWAsForFirefox/wiki/Frequently-Asked-Questions) for more details.
 
 ## Usage
 
@@ -241,7 +241,7 @@ By default, all PWA sites will be installed to a common profile with ID `0000000
    firefoxpwa profile update ID --name NEW-PROFILE-NAME --description NEW-PROFILE-DESCRIPTION
    ```
 
-   This will just change your profile name and description, while keeping the ID and all sites intact.
+  This will just change your profile name and description, while keeping the ID and all sites intact.
 
 * To view all available profiles and installed sites:
 

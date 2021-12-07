@@ -3,14 +3,14 @@
 # This file is automatically updated/generated on every package release
 # Any changes made directly to the AUR repository will be overwritten
 # Please contribute changes to the main GitHub repository instead
-# See: https://github.com/filips123/FirefoxPWA/blob/main/native/packages/aur/firefox-pwa-bin/PKGBUILD
+# See: https://github.com/filips123/PWAsForFirefox/blob/main/native/packages/aur/firefox-pwa-bin/PKGBUILD
 
 _pkgname="FirefoxPWA"
 pkgname="firefox-pwa-bin"
 pkgdesc="A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox (native component)"
 pkgver=$VERSION
 pkgrel=1
-url="https://github.com/filips123/FirefoxPWA"
+url="https://github.com/filips123/PWAsForFirefox"
 arch=("x86_64" "i686")
 license=("MPL2")
 
@@ -20,8 +20,8 @@ provides=("firefox-pwa")
 conflicts=("firefox-pwa")
 install=package.install
 
-source_x86_64=("https://github.com/filips123/FirefoxPWA/releases/download/v${pkgver}/firefoxpwa_${pkgver}_amd64.deb")
-source_i686=("https://github.com/filips123/FirefoxPWA/releases/download/v${pkgver}/firefoxpwa_${pkgver}_i386.deb")
+source_x86_64=("https://github.com/filips123/PWAsForFirefox/releases/download/v${pkgver}/firefoxpwa_${pkgver}_amd64.deb")
+source_i686=("https://github.com/filips123/PWAsForFirefox/releases/download/v${pkgver}/firefoxpwa_${pkgver}_i386.deb")
 sha256sums_x86_64=(SKIP)
 sha256sums_i686=(SKIP)
 b2sums_x86_64=(SKIP)

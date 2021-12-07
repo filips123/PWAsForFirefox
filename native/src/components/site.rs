@@ -19,7 +19,7 @@ const DATA_URL_ERROR: &str = "Failed to process PWA manifest data URL";
 const PARSE_ERROR: &str = "Failed to parse PWA manifest";
 
 const APP_USER_AGENT: &str = concat!(
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0 FirefoxPWA/",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0 PWAsForFirefox/",
     env!("CARGO_PKG_VERSION")
 );
 

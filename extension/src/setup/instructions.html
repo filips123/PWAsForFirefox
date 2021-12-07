@@ -26,7 +26,7 @@
             <span>To install the program manually:</span>
             <ol>
               <li>Download and install the <a id="connector-download-url-crt" target="_blank">Visual C++ Redistributable</a>.</li>
-              <li>Download and run the <a id="connector-download-url-msi" target="_blank">FirefoxPWA MSI installer</a>.</li>
+              <li>Download and run the <a id="connector-download-url-msi" target="_blank">PWAsForFirefox MSI installer</a>.</li>
               <li>After the programs are installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
             </ol>
           </div>
@@ -35,7 +35,7 @@
             <ol>
               <li>Make sure <a href="https://github.com/microsoft/winget-cli#installing-the-client" target="_blank">Windows Package Manager</a> is installed.</li>
               <li>Install Visual C++ Redistributable using winget: <kbd>winget install -e Microsoft.VC++2015-2019Redist-<span id="connector-crt-arch"></span></kbd>.</li>
-              <li>Install FirefoxPWA using winget: <kbd>winget install firefoxpwa --version <span class="connector-project-version"></span></kbd></li>
+              <li>Install PWAsForFirefox using winget: <kbd>winget install firefoxpwa --version <span class="connector-project-version"></span></kbd></li>
               <li>After the packages are installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
             </ol>
           </div>
@@ -73,7 +73,7 @@
           <div>
             <span><em>Or...</em> To install the package manually:</span>
             <ol>
-              <li>Download and install the <a id="connector-download-url-deb" target="_blank">FirefoxPWA DEB package</a>.</li>
+              <li>Download and install the <a id="connector-download-url-deb" target="_blank">PWAsForFirefox DEB package</a>.</li>
               <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
             </ol>
           </div>
@@ -95,7 +95,7 @@
           <div>
             <span><em>Or...</em> To install the package manually:</span>
             <ol>
-              <li>Download and install the <a id="connector-download-url-rpm" target="_blank">FirefoxPWA RPM package</a>.</li>
+              <li>Download and install the <a id="connector-download-url-rpm" target="_blank">PWAsForFirefox RPM package</a>.</li>
               <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
             </ol>
           </div>
@@ -104,7 +104,7 @@
         <div class="tab-pane fade" id="linux-aur-install-pane" role="tabpanel" aria-labelledby="linux-rpm-install-tab">
           <ol>
             <li>
-              Download and install one of FirefoxPWA AUR packages:
+              Download and install one of PWAsForFirefox AUR packages:
               <ul>
                 <li><a href="https://aur.archlinux.org/packages/firefox-pwa/" target="_blank"><kbd>firefox-pwa</kbd></a> (source)</li>
                 <li><a href="https://aur.archlinux.org/packages/firefox-pwa-bin/" target="_blank"><kbd>firefox-pwa-bin</kbd></a> (pre-built)</li>
@@ -116,7 +116,7 @@
 
         <div class="tab-pane fade" id="linux-source-install-pane" role="tabpanel" aria-labelledby="linux-source-install-tab">
           <ol>
-            <li>Clone the <a href="https://github.com/filips123/FirefoxPWA" target="_blank">FirefoxPWA Git repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
+            <li>Clone the <a href="https://github.com/filips123/PWAsForFirefox" target="_blank">PWAsForFirefox Git repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
             <li>Checkout the <kbd class="connector-repository-tag"></kbd> tag.</li>
             <li>Modify <kbd>version</kbd> field inside <kbd>Cargo.toml</kbd> to <kbd class="connector-project-version"></kbd>.</li>
             <li>Modify <kbd>DISTRIBUTION_VERSION</kbd> variable inside <kbd>userchrome/profile/chrome/pwa/chrome.jsm</kbd> to <kbd class="connector-project-version"></kbd>.</li>
@@ -134,7 +134,7 @@
           </ol>
           <p>For a list of commands to do this, check <a id="connector-source-install-linux" target="_blank">the README file in the repository</a>.</p>
           <p>
-            If you want to package FirefoxPWA for your distribution or have already packaged it, please let me know, so I can help with the packaging and list it in the installation instructions.
+            If you want to package PWAsForFirefox for your distribution or have already packaged it, please let me know, so I can help with the packaging and list it in the installation instructions.
             If the packaging platform supports any auto-submission/uploading feature, please also let me know, as I might integrate it directly with GitHub Actions to make sure the packages are always up-to-date.
           </p>
         </div>
@@ -152,7 +152,7 @@
           <div>
             <span><em>Or...</em> To install the program from source:</span>
             <ol>
-              <li>Clone the <a href="https://github.com/filips123/FirefoxPWA" target="_blank">FirefoxPWA Git repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
+              <li>Clone the <a href="https://github.com/filips123/PWAsForFirefox" target="_blank">PWAsForFirefox Git repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
               <li>Checkout the <kbd class="connector-repository-tag"></kbd> tag.</li>
               <li>Modify <kbd>version</kbd> field inside <kbd>Cargo.toml</kbd> to <kbd class="connector-project-version"></kbd>.</li>
               <li>Modify <kbd>DISTRIBUTION_VERSION</kbd> variable inside <kbd>userchrome/profile/chrome/pwa/chrome.jsm</kbd> to <kbd class="connector-project-version"></kbd>.</li>

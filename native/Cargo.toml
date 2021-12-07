@@ -1,11 +1,11 @@
 [package]
 name = "firefoxpwa"
-description = "The native part of the FirefoxPWA project"
+description = "The native part of the PWAsForFirefox project"
 keywords = ["firefox", "progressive-web-app", "site-specific-browser", "pwa"]
 categories = ["command-line-utilities"]
 authors = ["filips <projects@filips.si>"]
-homepage = "https://github.com/filips123/FirefoxPWA"
-repository = "https://github.com/filips123/FirefoxPWA"
+homepage = "https://github.com/filips123/PWAsForFirefox"
+repository = "https://github.com/filips123/PWAsForFirefox"
 default-run = "firefoxpwa"
 readme = "README.md"
 license = "MPL-2.0"

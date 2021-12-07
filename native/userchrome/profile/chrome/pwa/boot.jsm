@@ -17,7 +17,7 @@ XPCOMUtils.defineLazyModuleGetters(this, {
 });
 
 /**
- * Read the FirefoxPWA config file and parse it as JSON.
+ * Read the PWAsForFirefox config file and parse it as JSON.
  *
  * Function determines config filename based on the current profile directory, and reads it
  * using internal Firefox functions. This relies on specific directory structure, so relocating
@@ -40,7 +40,7 @@ function readConfig () {
 }
 
 /**
- * Launch the FirefoxPWA site with URL and ID.
+ * Launch the PWAsForFirefox site with URL and ID.
  *
  * The browser window will be passed the site URL, which will be automatically opened by the original
  * handler. It will also set the window `gFFPWASiteConfig` property with the configuration of the
@@ -108,13 +108,13 @@ function launchSite (siteUrl, siteConfig, isStartup) {
   return win;
 }
 
-// Register chrome manifest to load FirefoxPWA browser chrome modifications
+// Register chrome manifest to load PWAsForFirefox browser chrome modifications
 const cmanifest = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get('UChrm', Ci.nsIFile);
 cmanifest.append('pwa');
 cmanifest.append('chrome.manifest');
 Cm.QueryInterface(Ci.nsIComponentRegistrar).autoRegister(cmanifest);
 
-// Override command line helper to intercept FirefoxPWA arguments and start loading the site
+// Override command line helper to intercept PWAsForFirefox arguments and start loading the site
 const { nsDefaultCommandLineHandler } = Cu.import('resource:///modules/BrowserContentHandler.jsm');
 nsDefaultCommandLineHandler.prototype._handle = nsDefaultCommandLineHandler.prototype.handle;
 nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
@@ -128,7 +128,7 @@ nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
     try {
       config = readConfig();
     } catch (_) {
-      dump('Failed to load the FirefoxPWA configuration file\n');
+      dump('Failed to load the PWAsForFirefox configuration file\n');
       return;
     }
 

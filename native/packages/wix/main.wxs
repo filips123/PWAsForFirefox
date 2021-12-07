@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <!--
-  Installer uses the following icons redistributed under the Apache 2.0 license:
-  * "assets\exclamation.ico" from https://materialdesignicons.com/icon/exclamation by Austin Andrews
-  * "assets\information.ico" from https://materialdesignicons.com/icon/information by Google
-  * "assets\new.ico" from https://materialdesignicons.com/icon/folder-plus by Austin Andrews
-  * "assets\up.ico" from https://materialdesignicons.com/icon/folder-upload by Austin Andrews
+  Installer uses the following icons licenced under the MIT license:
+  * "assets\exclamation.ico" from https://icons.getbootstrap.com/icons/exclamation-circle/
+  * "assets\information.ico" from https://icons.getbootstrap.com/icons/info-circle/
+  * "assets\new.ico" from https://icons.getbootstrap.com/icons/folder-plus/
+  * "assets\up.ico" from https://icons.getbootstrap.com/icons/folder-symlink/
 
-  Installer also contains images that are based on the official Firefox browser logo and the community-introduced PWA logo:
-  * https://mozilla.design/firefox/logos-usage
-  * https://github.com/webmaxru/progressive-web-apps-logo
+  The project logo is based on the "Fox SVG Vector" icon and the community-introduced PWA logo:
+  * https://www.svgrepo.com/svg/40267/fox (CC0)
+  * https://github.com/webmaxru/progressive-web-apps-logo (CC0)
 
   Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries.
-  This project is NOT affiliated with Mozilla Foundation in any way.
+  This project is not affiliated with Mozilla Foundation in any way.
 -->
 
 <!--
@@ -31,19 +31,19 @@
         Id="*"
         UpgradeCode="E1CD921B-369E-47CB-AD2E-3BCA94142512"
 
-        Name="FirefoxPWA"
+        Name="PWAsForFirefox"
         Manufacturer="filips"
         Version="$(var.Version)"
 
         Language="1033"
         Codepage="1252"
     >
-        <!-- Installer package that installs all static FirefoxPWA components -->
+        <!-- Installer package that installs all static PWAsForFirefox components -->
         <Package
             Id="*"
 
-            Keywords="FirefoxPWA Installer"
-            Description="The native part of the FirefoxPWA project"
+            Keywords="PWAsForFirefox Installer"
+            Description="The native part of the PWAsForFirefox project"
             Comments="Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with Mozilla Foundation in any way."
             Manufacturer="filips"
 
@@ -60,7 +60,7 @@
 
         <!-- Apparently needed for WiX to work -->
         <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" DiskPrompt="CD-ROM #1" />
-        <Property Id="DiskPrompt" Value="FirefoxPWA Installation [1]" />
+        <Property Id="DiskPrompt" Value="PWAsForFirefox Installation [1]" />
 
         <!-- Define all directories and components -->
         <Directory Id="TARGETDIR" Name="SourceDir">
@@ -202,8 +202,8 @@
             Id="Binaries"
             Level="1"
 
-            Title="FirefoxPWA"
-            Description="Installs the native part of the FirefoxPWA project"
+            Title="PWAsForFirefox"
+            Description="Installs the native part of the PWAsForFirefox project"
 
             ConfigurableDirectory="APPLICATIONFOLDER"
             Display="expand"
@@ -234,9 +234,9 @@
         <!-- Configure info that are shown on Windows ARP page -->
         <Icon Id="ProductICO" SourceFile="packages\wix\assets\product.ico" />
         <Property Id="ARPPRODUCTICON" Value="ProductICO" />
-        <Property Id="ARPHELPLINK" Value="https://github.com/filips123/FirefoxPWA" />
-        <Property Id="ARPURLINFOABOUT" Value="https://github.com/filips123/FirefoxPWA" />
-        <Property Id="ARPURLUPDATEINFO" Value="https://github.com/filips123/FirefoxPWA/releases" />
+        <Property Id="ARPHELPLINK" Value="https://github.com/filips123/PWAsForFirefox" />
+        <Property Id="ARPURLINFOABOUT" Value="https://github.com/filips123/PWAsForFirefox" />
+        <Property Id="ARPURLUPDATEINFO" Value="https://github.com/filips123/PWAsForFirefox/releases" />
 
         <!-- Configure license, images and icons that are displayed in installer -->
         <WixVariable Id="WixUILicenseRtf" Value="packages\wix\assets\license.rtf" />

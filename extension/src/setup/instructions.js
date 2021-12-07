@@ -15,7 +15,7 @@ async function prepareInstallInstructions () {
   // Set MSI download URL based on system arch and extension version
   // Currently just relying on x86 emulation for Windows ARM
   const msiArch = arch === 'x86-64' ? 'x86_64' : 'x86'
-  document.getElementById('connector-download-url-msi').setAttribute('href', `https://github.com/filips123/FirefoxPWA/releases/download/v${version}/firefoxpwa-${version}-${msiArch}.msi`)
+  document.getElementById('connector-download-url-msi').setAttribute('href', `https://github.com/filips123/PWAsForFirefox/releases/download/v${version}/firefoxpwa-${version}-${msiArch}.msi`)
 
   // Set DEB download URL based on system arch and extension version
   const debArch = (() => {
@@ -33,7 +33,7 @@ async function prepareInstallInstructions () {
         return null
     }
   })()
-  document.getElementById('connector-download-url-deb').setAttribute('href', `https://github.com/filips123/FirefoxPWA/releases/download/v${version}/firefoxpwa_${version}_${debArch}.deb`)
+  document.getElementById('connector-download-url-deb').setAttribute('href', `https://github.com/filips123/PWAsForFirefox/releases/download/v${version}/firefoxpwa_${version}_${debArch}.deb`)
 
   // Set RPM download URL based on system arch and extension version
   const rpmArch = (() => {
@@ -51,7 +51,7 @@ async function prepareInstallInstructions () {
         return null
     }
   })()
-  document.getElementById('connector-download-url-rpm').setAttribute('href', `https://github.com/filips123/FirefoxPWA/releases/download/v${version}/firefoxpwa-${version}-1.${rpmArch}.rpm`)
+  document.getElementById('connector-download-url-rpm').setAttribute('href', `https://github.com/filips123/PWAsForFirefox/releases/download/v${version}/firefoxpwa-${version}-1.${rpmArch}.rpm`)
 
   // Set repository info based on extension version
   for (const elem of document.getElementsByClassName('connector-repository-tag')) elem.innerText = `v${version}`
@@ -59,8 +59,8 @@ async function prepareInstallInstructions () {
 
   // Link to the specific version for the install script
   const branchName = version === '0.0.0' ? 'main' : `v${version}`
-  document.getElementById('connector-source-install-linux').setAttribute('href', `https://github.com/filips123/FirefoxPWA/tree/${branchName}/native#other-linux`)
-  document.getElementById('connector-source-install-macos').setAttribute('href', `https://github.com/filips123/FirefoxPWA/tree/${branchName}/native#macos`)
+  document.getElementById('connector-source-install-linux').setAttribute('href', `https://github.com/filips123/PWAsForFirefox/tree/${branchName}/native#other-linux`)
+  document.getElementById('connector-source-install-macos').setAttribute('href', `https://github.com/filips123/PWAsForFirefox/tree/${branchName}/native#macos`)
 
   // Hide DEB and RPM tabs on unsupported platforms
   if (debArch === null) document.getElementById('linux-deb-install-tab').classList.add('d-none')

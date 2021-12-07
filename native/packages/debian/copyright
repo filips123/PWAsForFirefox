@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Source: https://github.com/filips123/FirefoxPWA
-Upstream-Name: FirefoxPWA
+Source: https://github.com/filips123/PWAsForFirefox
+Upstream-Name: PWAsForFirefox
 Upstream-Contact: filips <projects@filips.si>
 Copyright: filips <projects@filips.si>
 License: MPL-2.0

@@ -1,11 +1,11 @@
 {
   "name": "firefoxpwa",
-  "description": "The browser extension part of the FirefoxPWA project",
+  "description": "The browser extension part of the PWAsForFirefox project",
   "license": "MPL-2.0",
   "version": "0.0.0",
-  "homepage": "https://github.com/filips123/FirefoxPWA",
-  "repository": "https://github.com/filips123/FirefoxPWA",
-  "bugs": "https://github.com/filips123/FirefoxPWA/issues",
+  "homepage": "https://github.com/filips123/PWAsForFirefox",
+  "repository": "https://github.com/filips123/PWAsForFirefox",
+  "bugs": "https://github.com/filips123/PWAsForFirefox/issues",
   "author": "filips <projects@filips.si>",
   "keywords": [
     "firefox",

@@ -1,5 +1,5 @@
 post_install() {
-    echo "You have successfully installed the native part of the FirefoxPWA project"
+    echo "You have successfully installed the native part of the PWAsForFirefox project"
     echo "You should also install the Firefox extension if you haven't already"
-    echo "Download: https://addons.mozilla.org/firefox/addon/firefoxpwa/"
+    echo "Download: https://addons.mozilla.org/firefox/addon/pwas-for-firefox/"
 }

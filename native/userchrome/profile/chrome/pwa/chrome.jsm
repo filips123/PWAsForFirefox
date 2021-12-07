@@ -24,7 +24,7 @@ class ChromeLoader {
 
   static DISTRIBUTION_ID = 'firefoxpwa';
   static DISTRIBUTION_VERSION = '0.0.0';
-  static DISTRIBUTION_ABOUT = 'With modifications by the FirefoxPWA project';
+  static DISTRIBUTION_ABOUT = 'With modifications by the PWAsForFirefox project';
 
   static PREF_LINKS_TARGET = 'firefoxpwa.linksTarget';
   static PREF_DISPLAY_URL_BAR = 'firefoxpwa.displayUrlBar';

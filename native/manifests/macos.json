@@ -1,6 +1,6 @@
 {
   "name": "firefoxpwa",
-  "description": "The native part of the FirefoxPWA project",
+  "description": "The native part of the PWAsForFirefox project",
   "path": "/usr/local/libexec/firefoxpwa-connector",
   "type": "stdio",
   "allowed_extensions": [
