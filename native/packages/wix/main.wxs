@@ -179,7 +179,7 @@
                     <!-- Store installation directory and version in known registry location so the program can read it -->
                     <!-- Also mark binaries as a host processes for a better integration with the taskbar -->
                     <Component Id="RegistryEntries" Guid="C0B6535A-9A56-411E-B8D5-F1Ee901Ec440">
-                        <RegistryKey Root="HKLM" Key="Software\[Manufacturer]\[ProductName]">
+                        <RegistryKey Root="HKLM" Key="Software\filips\FirefoxPWA">
                             <RegistryValue Type="string" Name="Path" Value="[APPLICATIONFOLDER]" KeyPath="yes" />
                             <RegistryValue Type="string" Name="Version" Value="$(var.Version)" />
                         </RegistryKey>

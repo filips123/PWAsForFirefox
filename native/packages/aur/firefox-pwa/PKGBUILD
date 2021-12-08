@@ -7,7 +7,7 @@
 # Please contribute changes to the main GitHub repository instead
 # See: https://github.com/filips123/PWAsForFirefox/blob/main/native/packages/aur/firefox-pwa/PKGBUILD
 
-_pkgname="FirefoxPWA"
+_pkgname="PWAsForFirefox"
 pkgname="firefox-pwa"
 pkgdesc="A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox (native component)"
 pkgver=$VERSION
