@@ -1,0 +1,55 @@
+# This is a recipe file for cargo-make <https://github.com/sagiegurari/cargo-make> used to manage the project
+
+### BUILDERS ###
+
+[tasks.build]
+description = "Build the project"
+command = "cargo"
+args = [ "build" ]
+
+### INSTALLERS ###
+
+[tasks.install-linux]
+description = "Install the build project to the system"
+depencencies = [ "build" ]
+script = '''
+#@shell
+
+# Helpers
+die() { printf 'FATAL: %s\n' "$2"; exit 1 ;}
+
+# Build check
+[ -s target/release/firefoxpwa ] || die 1 "Project not is not build, unable to install"
+
+# firefoxpwa
+[ -d /usr ] || mkdir /usr
+[ -d /usr/bin ] || mkdir /usr/bin
+[ -s /usr/bin/firefoxpwa ] || cp target/release/firefoxpwa /usr/bin/firefoxpwa
+[ -x /usr/bin/firefoxpwa ] || chmod +x /usr/bin/firefoxpwa
+
+# firefoxpwa-connector
+[ -d /usr/libexec ] || mkdir --parents /usr/libexec
+[ -s /usr/libexec/firefoxpwa-connector ] || cp target/release/firefoxpwa-connector /usr/libexec/firefoxpwa-connector
+
+# manifests
+[ -d /usr/lib/mozilla/native-messaging-hosts ] || mkdir --parents /usr/lib/mozilla/native-messaging-hosts 
+[ -s /usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json ] || cp manifests/linux.json /usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json
+[ -d /usr/lib64/mozilla/native-messaging-hosts ] || mkdir --parents /usr/lib64/mozilla/native-messaging-hosts
+[ -s /usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json ] || cp manifests/linux.json /usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json
+
+# userchrome
+[ -d /usr/share/firefoxpwa ] || mkdir --parents /usr/share/firefoxpwa
+[ -d /usr/share/firefoxpwa/userchrome/ ] || cp -r userchrome/ /usr/share/firefoxpwa/userchrome/
+'''
+
+[tasks.install-defautl]
+description = "Default installation"
+command = "echo"
+args = [ "This environment is not implemented for installation using cargo-make" ]
+
+[tasks.install]
+description = "Install the project on the system"
+run_task = [
+    { name = "install-linux", condition = { platforms = [ "linux" ] } },
+    { name = "install-default" }
+]
