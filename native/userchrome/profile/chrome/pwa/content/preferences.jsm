@@ -22,6 +22,7 @@ class PwaPreferences {
       { id: ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR, type: 'bool' },
       { id: ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, type: 'bool' },
       { id: ChromeLoader.PREF_ENABLE_TABS_MODE, type: 'bool' },
+      { id: ChromeLoader.PREF_ALLOWED_DOMAINS, type: 'wstring' },
     ]);
   }
 
@@ -66,6 +67,15 @@ class PwaPreferences {
         <radio value="2" label="Always" />
         <radio value="1" label="Never" />
       </radiogroup>
+    </vbox>
+  </vbox>
+
+  <vbox id="allowedDomainsBox" style="padding-top: 1rem;">
+    <label>
+      <description>Domains always allowed to be opened in the PWA browser</description>
+    </label>
+    <vbox>
+      <html:input type="text" placeholder="Enter a comma-separated list of domains..." preference="${ChromeLoader.PREF_ALLOWED_DOMAINS}" />
     </vbox>
   </vbox>
 </groupbox>
