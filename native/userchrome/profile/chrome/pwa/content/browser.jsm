@@ -26,6 +26,7 @@ class PwaBrowser {
     this.createAddressInput();
     this.createNotificationAnchor();
     this.createOpenInBrowserMenuItem();
+    this.createOpenDefaultBrowserShortcut();
     this.moveMenuButtons();
     this.switchPopupSides();
     this.makeUrlBarReadOnly();
@@ -121,8 +122,11 @@ class PwaBrowser {
   }
 
   createOpenInBrowserMenuItem () {
+    // Remap access key for opening new window to "N"
+    document.getElementById('context-openlink').accessKey = 'N';
+
     // Create context menu item that opens link in a default browser
-    const menuItem = this.createElement(document, 'menuitem', { id: 'contextmenu-openlinkdefault', label: 'Open Link in Default Browser', oncommand: 'gContextMenu.openLinkInDefaultBrowser()' });
+    const menuItem = this.createElement(document, 'menuitem', { id: 'contextmenu-openlinkdefault', label: 'Open Link in Default Browser', accesskey: 'D', oncommand: 'gContextMenu.openLinkInDefaultBrowser()' });
     document.getElementById('context-sep-open').before(menuItem)
 
     hookFunction(window, 'openContextMenu', null, () => {
@@ -135,6 +139,30 @@ class PwaBrowser {
       window.gContextMenu.openLinkInDefaultBrowser = function () {
         MailIntegration._launchExternalUrl(makeURI(this.linkURL));
       };
+    });
+  }
+
+  createOpenDefaultBrowserShortcut () {
+    // Create a shortcut (Ctrl+Shift+N) to open a default browser
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'N' && event.ctrlKey && event.shiftKey) {
+        MailIntegration._launchExternalUrl(makeURI('about:newtab'));
+        event.preventDefault();
+      }
+    });
+
+    // Create a menu item for this shortcut
+    let menuItemAdded = false;
+    document.getElementById('PanelUI-menu-button').addEventListener('click', () => {
+      if (menuItemAdded) return;
+      menuItemAdded = true;
+
+      document.getElementById('appMenu-new-private-window-button2').after(this.createElement(document, 'toolbarbutton', {
+        class: 'subviewbutton',
+        shortcut: 'Ctrl+Shift+N',
+        label: 'New default browser',
+        onclick: 'MailIntegration._launchExternalUrl(makeURI("about:newtab"))'
+      }));
     });
   }
 
