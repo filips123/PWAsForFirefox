@@ -131,6 +131,7 @@ impl Site {
         #[rustfmt::skip]
         let mut args = vec![
             "--class".into(), format!("FFPWA-{}", self.ulid.to_string()),
+            "--name".into(), format!("FFPWA-{}", self.ulid.to_string()),
             "--profile".into(), profile.display().to_string(),
             "--pwa".into(), self.ulid.to_string(),
         ];
