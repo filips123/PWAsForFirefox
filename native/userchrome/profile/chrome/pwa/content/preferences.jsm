@@ -9,9 +9,9 @@ class PwaPreferences {
     hookFunction(gMainPane, 'init', null, () => { this.addPreferenceElements(); });
 
     // Handle switch of preferences on load and when they changes
-    setTimeout(() => { this.handlePreferenceSwitch(true); } );
-    xPref.addListener(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, () => { this.handlePreferenceSwitch() } );
-    xPref.addListener(ChromeLoader.PREF_ENABLE_TABS_MODE, () => { this.handlePreferenceSwitch() } );
+    setTimeout(() => { this.handleTabsModePreferenceSwitch(true); } );
+    xPref.addListener(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, () => { this.handleOutOfScopePreferenceSwitch() } );
+    xPref.addListener(ChromeLoader.PREF_ENABLE_TABS_MODE, () => { this.handleTabsModePreferenceSwitch() } );
   }
 
   addPreferenceData () {
@@ -83,21 +83,22 @@ class PwaPreferences {
     document.getElementById('startupGroup').nextElementSibling.after(group.firstChild);
   }
 
-  handlePreferenceSwitch (onLoad = false) {
-    if (!onLoad) {
-      if (xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER)) {
-        // If out of scope URLs in a default browser are enabled, links target should default to new windows
-        xPref.set(ChromeLoader.PREF_LINKS_TARGET, 2);
-      } else {
-        // Otherwise, it should default to current tab
-        xPref.set(ChromeLoader.PREF_LINKS_TARGET, 1);
-      }
+  handleOutOfScopePreferenceSwitch () {
+    if (xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER)) {
+      // If out of scope URLs in a default browser are enabled, links target should default to new windows
+      xPref.set(ChromeLoader.PREF_LINKS_TARGET, 2)
+    } else {
+      // Otherwise, it should default to current tab
+      xPref.set(ChromeLoader.PREF_LINKS_TARGET, 1)
     }
+  }
 
+  handleTabsModePreferenceSwitch () {
     if (xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) {
       // If tabs mode is enabled, enable tabs section and disable links target preference
       document.querySelectorAll('#mainPrefPane > groupbox:nth-child(8) > *').forEach(elem => elem.disabled = false)
       document.querySelectorAll('#linksTargetBox > *, #linksTargetBox > vbox > radiogroup > *').forEach(elem => elem.disabled = true)
+      xPref.set(ChromeLoader.PREF_LINKS_TARGET, 0)
     } else {
       // If tabs mode is disabled, disable tabs section and enable links target preference
       document.querySelectorAll('#mainPrefPane > groupbox:nth-child(8) > *').forEach(elem => elem.disabled = true)
