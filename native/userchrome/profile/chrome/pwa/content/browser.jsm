@@ -1310,6 +1310,7 @@ class PwaBrowser {
     xPref.set('browser.tabs.drawInTitlebar', true, true);
     xPref.set('browser.tabs.extraDragSpace', false, true);
     xPref.set('browser.tabs.warnOnClose', false, true);
+    xPref.set('browser.sessionstore.resume_from_crash', false, true);
     xPref.set('browser.shell.checkDefaultBrowser', false, true);
     xPref.set('browser.uidensity', 1, true);
     xPref.set('browser.link.open_newwindow', 1, true);
