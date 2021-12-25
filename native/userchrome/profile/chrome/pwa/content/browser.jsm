@@ -1236,7 +1236,17 @@ class PwaBrowser {
         const window = event.target.ownerGlobal;
 
         if (window.gFFPWALastScopeUri) {
-          window.openWebLinkIn(window.gFFPWALastScopeUri.spec, 'current');
+          let lastScopeTab = window.gBrowser.tabs.find((tab, index) => window.gBrowser.getBrowserAtIndex(index).currentURI === window.gFFPWALastScopeUri);
+
+          if (lastScopeTab) {
+            // Switch to the last tab with scope URI if it exists
+            let currentTab = window.gBrowser.selectedTab;
+            window.gBrowser.tabContainer._selectNewTab(lastScopeTab);
+            window.gBrowser.removeTab(currentTab);
+          } else {
+            // Otherwise, open the last scope URI in the current tab
+            window.openWebLinkIn(window.gFFPWALastScopeUri.spec, 'current');
+          }
         } else {
           window.close();
         }
