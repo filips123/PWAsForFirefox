@@ -61,137 +61,36 @@ On Windows, you will need to install the [Visual C++ Redistributable](https://su
 
 ### From Source
 
-#### Windows
+First, you will need make sure you have the following tools installed:
 
-1. Install the Rust language and Git.
-2. Install [`cargo-wix`](https://github.com/volks73/cargo-wix) (you need to install it directly from repository).
-3. Clone the repository and cd into the `native` (this) directory.
-4. Generate WiX configuration for UserChrome modifications:
-   ```shell
-   heat dir userchrome -o packages/wix/userchrome.wxs -scom -frag -srd -sreg -gg -cg UserChrome -var wix.UserChromeSource -dr UserChromeDir
-   ```
-5. Build the project in release mode and package it as an MSI installer:
-   ```shell
-   cargo wix
-   ```
-6. Run the installer from the `target/wix` directory.
+* Git
+* Rust
+* [`cargo-make`](https://github.com/sagiegurari/cargo-make)
+* Windows-only: [WiX Toolset](https://wixtoolset.org/releases/)
 
-#### Debian-like Linux (DEB)
-
-1. Install the Rust language and Git.
-2. Install [`cargo-deb`](https://github.com/mmstick/cargo-deb) (you need to install it directly from repository).
-3. Clone the repository and cd into the `native` (this) directory.
-4. Build the project in release mode and package it as a DEB package:
-   ```shell
-   cargo deb
-   ```
-5. Install the DEB package from the `target/debian` directory.
-
-#### Red Hat-like Linux (RPM)
-
-1. Install the Rust language and Git.
-2. Install [`cargo-rpm`](https://github.com/iqlusioninc/cargo-rpm) (you need to install it directly from repository).
-3. Clone the repository and cd into the `native` (this) directory.
-4. Build the project in release mode and package it as an RPM package:
-   ```shell
-   cargo rpm build
-   ```
-5. Install the RPM package from the `target/rpm` directory.
-
-#### Other Linux
-
-1. Install the Rust language and Git.
-2. Clone the repository and cd into the `native` (this) directory.
-3. If building a specific version:
-    1. Checkout the correct Git tag.
-    2. Modify `version` field inside `Cargo.toml` to the correct version.
-    3. Modify `DISTRIBUTION_VERSION` variable inside `userchrome/profile/chrome/pwa/chrome.jsm` to the correct version.
-4. Build the project in release mode:
-   ```shell
-   cargo build --release
-   ```
-5. Copy the built files to the correct locations:
-    * `target/release/firefoxpwa` -> `/usr/bin/firefoxpwa`
-    * `target/release/firefoxpwa-connector` -> `/usr/libexec/firefoxpwa-connector`
-    * `manifests/linux.json` -> `/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json`
-    * `manifests/linux.json` -> `/usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json`
-    * `userchrome/` -> `/usr/share/firefoxpwa/userchrome/`
-
-You can also run the below commands to do this automatically (except Rust and Git installation):
+You can then run the following commands to build and install it using `cargo-make`:
 
 ```shell
 # Clone the repository and switch into the correct directory
 git clone https://github.com/filips123/PWAsForFirefox.git
 cd PWAsForFirefox/native
 
-# Optional: Building a specific version
+# If building a specific version
 # Set the VERSION environment variable
+# And run the following commands to set version
 git checkout tags/v${VERSION}
 sed -i "s/version = \"0.0.0\"/version = \"$VERSION\"/g" Cargo.toml
 sed -i "s/DISTRIBUTION_VERSION = '0.0.0'/DISTRIBUTION_VERSION = '$VERSION'/g" userchrome/profile/chrome/pwa/chrome.jsm
 
-# Build the project in release mode
-cargo build --release
-
-# Copy the files to the correct locations
-sudo install -D target/release/firefoxpwa /usr/bin/firefoxpwa
-sudo install -D target/release/firefoxpwa-connector /usr/libexec/firefoxpwa-connector
-sudo install -D manifests/linux.json /usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json
-sudo install -D manifests/linux.json /usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json
-
-# Copy the userchrome directory to the correct location
-sudo mkdir -p /usr/share/firefoxpwa/userchrome/
-sudo cp -R userchrome/* /usr/share/firefoxpwa/userchrome/
+# Build and install the project
+makers install
 ```
 
-If you want to modify the installation or runtime directory, you will also need to modify the source code before building. Check [the FAQ in the repository wiki](https://github.com/filips123/PWAsForFirefox/wiki/Frequently-Asked-Questions) for more details.
+Alternatively, you can:
 
-#### macOS
-
-1. Install the Rust language and Git.
-2. Clone the repository and cd into the `native` (this) directory.
-3. If building a specific version:
-    1. Checkout the correct Git tag.
-    2. Modify `version` field inside `Cargo.toml` to the correct version.
-    3. Modify `DISTRIBUTION_VERSION` variable inside `userchrome/profile/chrome/pwa/chrome.jsm` to the correct version.
-4. Build the project in release mode:
-   ```shell
-   cargo build --release
-   ```
-5. Copy the built files to the correct locations:
-    * `target/release/firefoxpwa` -> `/usr/local/bin/firefoxpwa`
-    * `target/release/firefoxpwa-connector` -> `/usr/local/libexec/firefoxpwa-connector`
-    * `manifests/macos.json` -> `/Library/Application Support/Mozilla/NativeMessagingHosts/firefoxpwa.json`
-    * `userchrome/` -> `/usr/local/share/firefoxpwa/userchrome/`
-
-```shell
-# Clone the repository and switch into the correct directory
-git clone https://github.com/filips123/PWAsForFirefox.git
-cd PWAsForFirefox/native
-
-# Optional: Building a specific version
-# Set the VERSION environment variable
-git checkout tags/v${VERSION}
-sed -i "" -e "s/version = \"0.0.0\"/version = \"$VERSION\"/g" Cargo.toml
-sed -i "" -e "s/DISTRIBUTION_VERSION = '0.0.0'/DISTRIBUTION_VERSION = '$VERSION'/g" userchrome/profile/chrome/pwa/chrome.jsm
-
-# Build the project in release mode
-cargo build --release
-
-# Copy the files to the correct locations
-sudo mkdir -p /usr/local/bin
-sudo install -v target/release/firefoxpwa /usr/local/bin/firefoxpwa
-
-sudo mkdir -p /usr/local/libexec
-sudo install -v target/release/firefoxpwa-connector /usr/local/libexec/firefoxpwa-connector
-
-sudo install -d /Library/Application\ Support/Mozilla/NativeMessagingHosts
-sudo install -v manifests/macos.json /Library/Application\ Support/Mozilla/NativeMessagingHosts/firefoxpwa.json
-
-# Copy the userchrome directory to the correct location
-sudo mkdir -p /usr/local/share/firefoxpwa/userchrome/
-sudo cp -R userchrome/* /usr/local/share/firefoxpwa/userchrome/
-```
+* Use [`cargo-wix`](https://github.com/volks73/cargo-wix) to build the MSI installer.
+* Use [`cargo-deb`](https://github.com/kornelski/cargo-deb) to build the DEB package.
+* Use [`cargo-rpm`](https://github.com/iqlusioninc/cargo-rpm) to build the RPM package.
 
 If you want to modify the installation or runtime directory, you will also need to modify the source code before building. Check [the FAQ in the repository wiki](https://github.com/filips123/PWAsForFirefox/wiki/Frequently-Asked-Questions) for more details.
 
