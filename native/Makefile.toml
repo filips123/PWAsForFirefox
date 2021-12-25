@@ -1,55 +1,69 @@
 # This is a recipe file for cargo-make <https://github.com/sagiegurari/cargo-make> used to manage the project
 
+[config]
+skip_core_tasks = true
+
 ### BUILDERS ###
 
 [tasks.build]
 description = "Build the project"
 command = "cargo"
-args = [ "build" ]
+args = ["build", "--release"]
 
 ### INSTALLERS ###
 
-[tasks.install-linux]
-description = "Install the build project to the system"
-depencencies = [ "build" ]
-script = '''
-#@shell
+[tasks.install.windows]
+dependencies = ["build"]
+install_script = [
+    "heat >nul 2>nul || echo FATAL: Make sure the WiX Toolset is installed and available in the PATH environment variable && exit 1",
+    "cargo-wix help >nul 2>nul || cargo install cargo-wix --git https://github.com/filips123/cargo-wix --rev 4448d466a45fe4210642d82ccb84ee9cdebd8ef7",
+]
+script = [
+    "heat dir userchrome -o packages/wix/userchrome.wxs -scom -frag -srd -sreg -gg -cg UserChrome -var wix.UserChromeSource -dr UserChromeDir",
+    "cargo wix --verbose --no-build --nocapture --install"
+]
 
-# Helpers
-die() { printf 'FATAL: %s\n' "$2"; exit 1 ;}
+[tasks.install.linux]
+dependencies = ["build"]
+script = """
+# Use sudo if it exists
+SUDO=$(which sudo) || $(echo "")
 
-# Build check
-[ -s target/release/firefoxpwa ] || die 1 "Project not is not build, unable to install"
+# Copy all files to the correct locations
+$SUDO install -D target/release/firefoxpwa /usr/bin/firefoxpwa
+$SUDO install -D target/release/firefoxpwa-connector /usr/libexec/firefoxpwa-connector
+$SUDO install -D manifests/linux.json /usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json
+$SUDO install -D manifests/linux.json /usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json
 
-# firefoxpwa
-[ -d /usr ] || mkdir /usr
-[ -d /usr/bin ] || mkdir /usr/bin
-[ -s /usr/bin/firefoxpwa ] || cp target/release/firefoxpwa /usr/bin/firefoxpwa
-[ -x /usr/bin/firefoxpwa ] || chmod +x /usr/bin/firefoxpwa
+# Copy the userchrome directory to the correct location
+$SUDO mkdir -p /usr/share/firefoxpwa/userchrome/
+$SUDO cp -R userchrome/* /usr/share/firefoxpwa/userchrome/
+"""
 
-# firefoxpwa-connector
-[ -d /usr/libexec ] || mkdir --parents /usr/libexec
-[ -s /usr/libexec/firefoxpwa-connector ] || cp target/release/firefoxpwa-connector /usr/libexec/firefoxpwa-connector
+[tasks.install.mac]
+dependencies = ["build"]
+script = """
+# Use sudo if it exists
+SUDO=$(which sudo) || $(echo "")
 
-# manifests
-[ -d /usr/lib/mozilla/native-messaging-hosts ] || mkdir --parents /usr/lib/mozilla/native-messaging-hosts 
-[ -s /usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json ] || cp manifests/linux.json /usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json
-[ -d /usr/lib64/mozilla/native-messaging-hosts ] || mkdir --parents /usr/lib64/mozilla/native-messaging-hosts
-[ -s /usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json ] || cp manifests/linux.json /usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json
+# Copy all files to the correct locations
+$SUDO install -d /usr/local/bin
+$SUDO install -v target/release/firefoxpwa /usr/local/bin/firefoxpwa
 
-# userchrome
-[ -d /usr/share/firefoxpwa ] || mkdir --parents /usr/share/firefoxpwa
-[ -d /usr/share/firefoxpwa/userchrome/ ] || cp -r userchrome/ /usr/share/firefoxpwa/userchrome/
-'''
+$SUDO install -d /usr/local/libexec
+$SUDO install -v target/release/firefoxpwa-connector /usr/local/libexec/firefoxpwa-connector
 
-[tasks.install-defautl]
-description = "Default installation"
-command = "echo"
-args = [ "This environment is not implemented for installation using cargo-make" ]
+$SUDO install -d /Library/Application\\ Support/Mozilla/NativeMessagingHosts
+$SUDO install -v manifests/macos.json /Library/Application\\ Support/Mozilla/NativeMessagingHosts/firefoxpwa.json
+
+# Copy the userchrome directory to the correct location
+$SUDO mkdir -p /usr/local/share/firefoxpwa/userchrome/
+$SUDO cp -R userchrome/* /usr/local/share/firefoxpwa/userchrome/
+"""
 
 [tasks.install]
-description = "Install the project on the system"
-run_task = [
-    { name = "install-linux", condition = { platforms = [ "linux" ] } },
-    { name = "install-default" }
+description = "Install the project"
+script = [
+    "echo FATAL: This environment does not support automatic installation using cargo-make",
+    "exit 1"
 ]
