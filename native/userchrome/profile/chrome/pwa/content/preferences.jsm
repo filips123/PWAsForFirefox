@@ -52,6 +52,7 @@ class PwaPreferences {
       <radiogroup id="linksTargetRadioGroup" preference="${ChromeLoader.PREF_LINKS_TARGET}">
         <radio value="1" label="Force links into the current tab" />
         <radio value="2" label="Force links into a new window" />
+        <radio value="3" label="Force links into a new tab" />
         <radio value="0" label="Do not change link behaviour" />
       </radiogroup>
     </vbox>
@@ -93,16 +94,15 @@ class PwaPreferences {
     }
   }
 
-  handleTabsModePreferenceSwitch () {
+  handleTabsModePreferenceSwitch (onLoad = false) {
     if (xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) {
-      // If tabs mode is enabled, enable tabs section and disable links target preference
+      // If tabs mode is enabled, enable tabs section and set links target to a new tab
       document.querySelectorAll('#mainPrefPane > groupbox:nth-child(8) > *').forEach(elem => elem.disabled = false)
-      document.querySelectorAll('#linksTargetBox > *, #linksTargetBox > vbox > radiogroup > *').forEach(elem => elem.disabled = true)
-      xPref.set(ChromeLoader.PREF_LINKS_TARGET, 0)
+      if (!onLoad) xPref.set(ChromeLoader.PREF_LINKS_TARGET, 3)
     } else {
-      // If tabs mode is disabled, disable tabs section and enable links target preference
+      // If tabs mode is disabled, disable tabs section and set links target to a current tab
       document.querySelectorAll('#mainPrefPane > groupbox:nth-child(8) > *').forEach(elem => elem.disabled = true)
-      document.querySelectorAll('#linksTargetBox > *, #linksTargetBox > vbox > radiogroup > *').forEach(elem => elem.disabled = false)
+      if (!onLoad) xPref.set(ChromeLoader.PREF_LINKS_TARGET, 1)
     }
   }
 }

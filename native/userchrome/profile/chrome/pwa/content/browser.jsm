@@ -396,11 +396,14 @@ class PwaBrowser {
   }
 
   handleLinkTargets () {
-    // Overwrite built-in preference based on our custom preference
-    // Links target overwrites need to be disabled when tab mode is enabled
     const userPreference = xPref.get(ChromeLoader.PREF_LINKS_TARGET);
-    if (!userPreference || xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) return;
+    if (!userPreference) return;
+
+    // Overwrite built-in preference based on our custom preference
     xPref.set('browser.link.open_newwindow', userPreference);
+
+    // Opening links in new tab is a default Firefox behavior, no need to overwrite it
+    if (userPreference === 3) return;
 
     // Overwrite tab adding and instead open it in the same tab
     // Except if it was called from customize mode enter
@@ -1353,6 +1356,7 @@ class PwaBrowser {
     // 0 - Do not change link behaviour (strongly not recommended)
     // 1 - Force links into the current tab (default)
     // 2 - Force links into a new window
+    // 3 - Force links into a new tab
     xPref.set(ChromeLoader.PREF_LINKS_TARGET, 1, true);
 
     // Determines whether URL bar is displayed always, when out of scope or never
