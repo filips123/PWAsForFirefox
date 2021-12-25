@@ -116,7 +116,7 @@
   }
 
   #copy-link-button > .toolbarbutton-icon {
-    list-style-image: url("chrome://browser/skin/link.svg");
+    list-style-image: url("chrome://global/skin/icons/link.svg");
   }
 
   #share-link-button > .toolbarbutton-icon {
@@ -128,12 +128,10 @@
   }
 
   #close-page-button > .toolbarbutton-icon {
-    list-style-image: url("chrome://browser/skin/window-controls/close.svg");
+    list-style-image: url("chrome://global/skin/icons/close.svg");
     -moz-context-properties: stroke;
     stroke: currentColor;
-    padding: 7.5px !important;
-    padding-top: 8.2px !important;
-    padding-bottom: 6.3px !important;
+    padding-top: 7px !important;
   }
 
   #back-button-ffpwa > .toolbarbutton-icon {
