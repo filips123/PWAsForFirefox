@@ -129,8 +129,6 @@
 
   #close-page-button > .toolbarbutton-icon {
     list-style-image: url("chrome://global/skin/icons/close.svg");
-    -moz-context-properties: stroke;
-    stroke: currentColor;
     padding-top: 7px !important;
   }
 
