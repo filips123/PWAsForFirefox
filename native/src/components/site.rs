@@ -1,3 +1,4 @@
+use std::collections::BTreeMap;
 use std::process::Child;
 
 use anyhow::{Context, Result};
@@ -13,6 +14,7 @@ pub use web_app_manifest::WebAppManifest as SiteManifest;
 use crate::components::runtime::Runtime;
 use crate::directories::ProjectDirs;
 use crate::integrations;
+use crate::storage::Config;
 
 const DOWNLOAD_ERROR: &str = "Failed to download PWA manifest";
 const DATA_URL_ERROR: &str = "Failed to process PWA manifest data URL";
@@ -123,12 +125,14 @@ impl Site {
         &self,
         dirs: &ProjectDirs,
         runtime: &Runtime,
+        config: &Config,
         url: &Option<Url>,
         arguments: &[String],
         variables: I,
     ) -> Result<Child> {
         let profile = dirs.userdata.join("profiles").join(&self.profile.to_string());
 
+        // Pass all required PWA arguments to the runtime
         #[rustfmt::skip]
         let mut args = vec![
             "--class".into(), format!("FFPWA-{}", self.ulid.to_string()),
@@ -137,6 +141,7 @@ impl Site {
             "--pwa".into(), self.ulid.to_string(),
         ];
 
+        // Allow launching PWA on a specific URL
         if let Some(url) = url {
             #[rustfmt::skip]
             args.extend_from_slice(&[
@@ -144,8 +149,22 @@ impl Site {
             ]);
         }
 
+        // Pass variables needed for specific runtime features
+        let mut vars = BTreeMap::new();
+        if config.runtime_enable_wayland {
+            vars.insert("MOZ_ENABLE_WAYLAND".into(), "1".into());
+        }
+        if config.runtime_use_xinput2 {
+            vars.insert("MOZ_USE_XINPUT2".into(), "1".into());
+        }
+        if config.runtime_use_portals {
+            vars.insert("GTK_USE_PORTAL".into(), "1".into());
+        }
+
+        // Include all user arguments and variables and launch the runtime
         args.extend_from_slice(arguments);
-        runtime.run(args, variables)
+        vars.extend(variables);
+        runtime.run(args, vars)
     }
 
     /// Scope domain is used as a publisher name or when the site name is undefined.

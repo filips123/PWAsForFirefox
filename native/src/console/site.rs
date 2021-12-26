@@ -51,12 +51,19 @@ impl Run for SiteLaunchCommand {
         } else {
             // Uses "chrome.jsm" file because it contains version info
             let source = dirs.sysdata.join("userchrome/profile/chrome/pwa/chrome.jsm");
-            let target = dirs.userdata.join("profiles").join(profile.ulid.to_string()).join("chrome/pwa/chrome.jsm");
+            let target = dirs
+                .userdata
+                .join("profiles")
+                .join(profile.ulid.to_string())
+                .join("chrome/pwa/chrome.jsm");
 
             // Only patch if modification dates of source and target are different
             // In case any error happens, just force patching
-            if let (Ok(source_metadata), Ok(target_metadata)) = (metadata(source), metadata(target)) {
-                if let (Ok(source_modified), Ok(target_modified)) = (source_metadata.modified(), target_metadata.modified()) {
+            if let (Ok(source_metadata), Ok(target_metadata)) = (metadata(source), metadata(target))
+            {
+                if let (Ok(source_modified), Ok(target_modified)) =
+                    (source_metadata.modified(), target_metadata.modified())
+                {
                     source_modified > target_modified
                 } else {
                     true
@@ -76,9 +83,9 @@ impl Run for SiteLaunchCommand {
         info!("Launching the site");
         cfg_if! {
             if #[cfg(target_os = "macos")] {
-                site.launch(&dirs, &runtime, &self.url, args, storage.variables)?.wait()?;
+                site.launch(&dirs, &runtime, &storage.config, &self.url, args, storage.variables)?.wait()?;
             } else {
-                site.launch(&dirs, &runtime, &self.url, args, storage.variables)?;
+                site.launch(&dirs, &runtime, &storage.config, &self.url, args, storage.variables)?;
             }
         }
 

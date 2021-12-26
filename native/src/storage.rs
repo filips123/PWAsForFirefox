@@ -15,6 +15,9 @@ use crate::directories::ProjectDirs;
 #[serde(default)]
 pub struct Config {
     pub always_patch: bool,
+    pub runtime_enable_wayland: bool,
+    pub runtime_use_xinput2: bool,
+    pub runtime_use_portals: bool,
 }
 
 #[non_exhaustive]
