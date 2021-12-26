@@ -11,6 +11,13 @@ use crate::components::site::Site;
 use crate::directories::ProjectDirs;
 
 #[non_exhaustive]
+#[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone, SmartDefault)]
+#[serde(default)]
+pub struct Config {
+    pub always_patch: bool,
+}
+
+#[non_exhaustive]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone, SmartDefault)]
 #[serde(default)]
 pub struct Storage {
@@ -19,6 +26,7 @@ pub struct Storage {
     pub sites: BTreeMap<Ulid, Site>,
     pub arguments: Vec<String>,
     pub variables: BTreeMap<String, String>,
+    pub config: Config,
 }
 
 impl Storage {

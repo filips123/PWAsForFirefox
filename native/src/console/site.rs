@@ -1,3 +1,4 @@
+use std::fs::metadata;
 use std::io;
 use std::io::Write;
 
@@ -44,8 +45,33 @@ impl Run for SiteLaunchCommand {
             bail!("Runtime not installed");
         }
 
-        runtime.patch(&dirs, site)?;
-        profile.patch(&dirs)?;
+        let should_patch = if storage.config.always_patch {
+            // Force patching if this is enabled
+            true
+        } else {
+            // Uses "chrome.jsm" file because it contains version info
+            let source = dirs.sysdata.join("userchrome/profile/chrome/pwa/chrome.jsm");
+            let target = dirs.userdata.join("profiles").join(profile.ulid.to_string()).join("chrome/pwa/chrome.jsm");
+
+            // Only patch if modification dates of source and target are different
+            // In case any error happens, just force patching
+            if let (Ok(source_metadata), Ok(target_metadata)) = (metadata(source), metadata(target)) {
+                if let (Ok(source_modified), Ok(target_modified)) = (source_metadata.modified(), target_metadata.modified()) {
+                    source_modified > target_modified
+                } else {
+                    true
+                }
+            } else {
+                true
+            }
+        };
+
+        // Patching on macOS is always needed to correctly show PWA name
+        // Otherwise, patch runtime and profile only if needed
+        if cfg!(target_os = "macos") || should_patch {
+            runtime.patch(&dirs, site)?;
+            profile.patch(&dirs)?;
+        }
 
         info!("Launching the site");
         cfg_if! {
