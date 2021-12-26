@@ -119,12 +119,13 @@ impl Site {
     }
 
     #[inline]
-    pub fn launch(
+    pub fn launch<I: IntoIterator<Item = (String, String)>>(
         &self,
         dirs: &ProjectDirs,
         runtime: &Runtime,
         url: &Option<Url>,
         arguments: &[String],
+        variables: I,
     ) -> Result<Child> {
         let profile = dirs.userdata.join("profiles").join(&self.profile.to_string());
 
@@ -144,7 +145,7 @@ impl Site {
         }
 
         args.extend_from_slice(arguments);
-        runtime.run(args)
+        runtime.run(args, variables)
     }
 
     /// Scope domain is used as a publisher name or when the site name is undefined.

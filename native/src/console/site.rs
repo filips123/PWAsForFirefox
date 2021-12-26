@@ -50,9 +50,9 @@ impl Run for SiteLaunchCommand {
         info!("Launching the site");
         cfg_if! {
             if #[cfg(target_os = "macos")] {
-                site.launch(&dirs, &runtime, &self.url, args)?.wait()?;
+                site.launch(&dirs, &runtime, &self.url, args, storage.variables)?.wait()?;
             } else {
-                site.launch(&dirs, &runtime, &self.url, args)?;
+                site.launch(&dirs, &runtime, &self.url, args, storage.variables)?;
             }
         }
 

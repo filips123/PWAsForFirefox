@@ -285,7 +285,11 @@ impl Runtime {
     }
 
     #[inline]
-    pub fn run(&self, args: Vec<String>) -> Result<Child> {
+    pub fn run<I: IntoIterator<Item = (String, String)>>(
+        &self,
+        args: Vec<String>,
+        vars: I,
+    ) -> Result<Child> {
         let mut command = Command::new(&self.executable);
 
         cfg_if! {
@@ -297,6 +301,6 @@ impl Runtime {
             }
         }
 
-        Ok(command.args(args).spawn()?)
+        Ok(command.args(args).envs(vars).spawn()?)
     }
 }

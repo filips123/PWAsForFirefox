@@ -18,6 +18,7 @@ pub struct Storage {
     pub profiles: BTreeMap<Ulid, Profile>,
     pub sites: BTreeMap<Ulid, Site>,
     pub arguments: Vec<String>,
+    pub variables: BTreeMap<String, String>,
 }
 
 impl Storage {
