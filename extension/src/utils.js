@@ -91,6 +91,35 @@ export async function obtainProfileList () {
 }
 
 /**
+ * Gets the configuration of the native program.
+ *
+ * @returns {Promise<Map>}
+ */
+export async function getConfig () {
+  const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'GetConfig' })
+
+  // Handle native connection errors
+  if (response.type === 'Error') throw new Error(response.data)
+  if (response.type !== 'Config') throw new Error(`Received invalid response type: ${response.type}`)
+
+  // Return the config
+  return response.data
+}
+
+/**
+ * Sets the configuration of the native program.
+ *
+ * @returns {Promise<void>}
+ */
+export async function setConfig (config) {
+  const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'SetConfig', params: config })
+
+  // Handle native connection errors
+  if (response.type === 'Error') throw new Error(response.data)
+  if (response.type !== 'ConfigSet') throw new Error(`Received invalid response type: ${response.type}`)
+}
+
+/**
  * Checks if the native program is installed and updated correctly.
  *
  * * If `ok` is returned, everything is ok

@@ -268,6 +268,17 @@ impl<'a> Connection<'a> {
 
                 Ok(ResponseMessage::ProfileUpdated)
             }
+
+            RequestMessage::GetConfig => {
+                Ok(ResponseMessage::Config(self.storage.config.to_owned()))
+            }
+
+            RequestMessage::SetConfig(config) => {
+                let mut storage = self.storage.to_owned();
+                storage.config = config.to_owned();
+                storage.write(self.dirs)?;
+                Ok(ResponseMessage::ConfigSet)
+            }
         }
     }
 }

@@ -7,6 +7,7 @@ use ulid::Ulid;
 
 use crate::components::profile::Profile;
 use crate::components::site::Site;
+use crate::storage::Config;
 
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 #[serde(tag = "type", content = "data")]
@@ -46,6 +47,12 @@ pub enum ResponseMessage {
 
     /// Profile has been successfully updated.
     ProfileUpdated,
+
+    /// Configuration of the native program.
+    Config(Config),
+
+    /// Configuration of the native program has been successfully set.
+    ConfigSet,
 
     /// Something went wrong...
     Error(String),

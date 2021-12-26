@@ -4,6 +4,8 @@ use serde::{Deserialize, Serialize};
 use ulid::Ulid;
 use url::Url;
 
+use crate::storage::Config;
+
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 #[serde(tag = "cmd", content = "params")]
 pub enum RequestMessage {
@@ -58,4 +60,10 @@ pub enum RequestMessage {
 
     /// Updates an existing profile by its ULID with a new name and description.
     UpdateProfile { id: Ulid, name: Option<String>, description: Option<String> },
+
+    /// Gets the configuration of the native program.
+    GetConfig,
+
+    /// Sets the configuration of the native program.
+    SetConfig(Config),
 }
