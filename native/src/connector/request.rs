@@ -47,6 +47,8 @@ pub enum RequestMessage {
         description: Option<String>,
         categories: Vec<String>,
         keywords: Vec<String>,
+        manifest_updates: bool,
+        system_integration: bool,
     },
 
     /// Lists all available profiles.

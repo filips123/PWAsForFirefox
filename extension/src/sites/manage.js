@@ -238,7 +238,9 @@ async function createSiteList () {
               name,
               description,
               categories,
-              keywords
+              keywords,
+              manifest_updates: true,
+              system_integration: true
             }
           })
 

@@ -213,7 +213,10 @@ impl Run for SiteUpdateCommand {
         if !self.keywords.is_empty() || self.store_none_values {
             site.config.keywords = self.keywords.clone();
         }
-        site.update()?;
+
+        if self.manifest_updates {
+            site.update()?;
+        }
 
         if self.system_integration {
             site.install_system_integration(&dirs)

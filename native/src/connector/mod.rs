@@ -216,6 +216,8 @@ impl<'a> Connection<'a> {
                 description,
                 categories,
                 keywords,
+                manifest_updates,
+                system_integration,
             } => {
                 // Just simulate calling site update command
                 let command = SiteUpdateCommand {
@@ -225,7 +227,8 @@ impl<'a> Connection<'a> {
                     description: description.to_owned(),
                     categories: categories.to_owned(),
                     keywords: keywords.to_owned(),
-                    system_integration: true,
+                    manifest_updates: *manifest_updates,
+                    system_integration: *system_integration,
                     store_none_values: true,
                 };
                 command.run()?;

@@ -128,6 +128,10 @@ pub struct SiteUpdateCommand {
     #[structopt(long)]
     pub keywords: Vec<String>,
 
+    /// Disables manifest updates
+    #[structopt(long = "no-manifest-updates", parse(from_flag = std::ops::Not::not))]
+    pub manifest_updates: bool,
+
     /// Disables system integration
     #[structopt(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
     pub system_integration: bool,
