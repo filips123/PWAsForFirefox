@@ -191,6 +191,10 @@
                 </div>
               </div>
 
+              <button type="button" class="list-group-item list-group-item-action fw-bold" id="update-all-sites">
+                Update web apps
+              </button>
+
               <button type="button" class="list-group-item list-group-item-action fw-bold" id="reinstall-runtime">
                 Reinstall runtime
               </button>
@@ -304,6 +308,29 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" id="profile-remove-button">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="update-all-sites-modal" tabindex="-1" aria-labelledby="update-all-sites-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="update-all-sites-label">Update web apps</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>This will download and parse manifests for all your web apps and register them again to the operating systems. Any changes in web app manifests will also be reflected on your system.</p>
+            <p>Alternatively, you can register all web apps to the operating system without performing any manifest updates. This can be used if you transferred your config file from another device.</p>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" value="" id="update-all-sites-manifests" checked>
+              <label class="form-check-label" for="update-all-sites-manifests">Perform manifest updates</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="update-all-sites-button">Update</button>
           </div>
         </div>
       </div>

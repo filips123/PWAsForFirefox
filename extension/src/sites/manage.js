@@ -581,6 +581,44 @@ async function handleSettings (hasChanged = false) {
   // Listen for dark mode changes
   window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => handleSettings(true))
 
+  // Handle updating all sites
+  document.getElementById('update-all-sites-button').onclick = async function () {
+    this.disabled = true
+    this.innerText = 'Updating...'
+
+    const manifestUpdatesCheckbox = document.getElementById('update-all-sites-manifests')
+    const manifestUpdatesEnabled = manifestUpdatesCheckbox.checked
+    manifestUpdatesCheckbox.disabled = true
+
+    try {
+      for (const site of Object.values(await obtainSiteList())) {
+        const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+          cmd: 'UpdateSite',
+          params: { ...site.config, id: site.ulid, manifest_updates: manifestUpdatesEnabled, system_integration: true }
+        })
+
+        if (response.type === 'Error') throw new Error(response.data)
+        if (response.type !== 'SiteUpdated') throw new Error(`Received invalid response type: ${response.type}`)
+      }
+
+      this.disabled = true
+      this.innerText = 'Updated!'
+    } catch (error) {
+      console.error(error)
+
+      document.getElementById('error-text').innerText = error.message
+      Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
+    }
+  }
+
+  document.getElementById('update-all-sites').onclick = function () {
+    const confirmButton = document.getElementById('update-all-sites-button')
+    confirmButton.disabled = false
+    confirmButton.innerText = 'Update'
+
+    Modal.getOrCreateInstance(document.getElementById('update-all-sites-modal')).show()
+  }
+
   // Handle runtime reinstallation
   document.getElementById('reinstall-runtime-button').onclick = async function () {
     this.disabled = true
