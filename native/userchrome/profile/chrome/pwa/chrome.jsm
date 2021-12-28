@@ -60,6 +60,13 @@ class ChromeLoader {
 
     if (window._gBrowser) window.gBrowser = window._gBrowser;
 
+    // Load a site config from the opener window
+    // Unfortunately, this fix only applies to windows opened by shift-clicking on links
+    // Windows opened using `target="_blank"` or `window.open` will still be disconnected
+    if (!window.gFFPWASiteConfig && window.opener && window.opener.gFFPWASiteConfig) {
+      window.gFFPWASiteConfig = window.opener.gFFPWASiteConfig;
+    }
+
     // Apply system integration
     if (window.gFFPWASiteConfig) {
       applySystemIntegration(window, window.gFFPWASiteConfig);

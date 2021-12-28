@@ -62,9 +62,9 @@ These are things that I would like to fix eventually, but will currently stay, e
 
 * **New windows become disconnected from the original PWA:**
 
-  This only applies to windows opened by PWAs (for example, using `target="_blank"` links or `window.open`) and windows opened by shift-clicking on links, and *not* windows opened by a user with app/context menus or keyboard shortcuts.
+  This only applies to windows opened by PWAs (for example, using `target="_blank"` links or `window.open`), but *not* windows opened by a user with app/context menus, keyboard shortcuts or shift-clicking on links.
 
-  On Windows, this means new windows will use the normal Firefox icon and probably merge with the normal Firefox shortcut in the taskbar. On all operating systems, it will also cause them to lose functionality of changing window colors and will always have an address bar displayed.
+  On Windows, this means new windows will use the normal Firefox icon and probably merge with the normal Firefox shortcut in the taskbar. On Linux and macOS, this won't be so noticeable due to other issues. It will also cause them to lose functionality of changing window colors and will always have an address bar displayed.
 
   This could be fixed if there is an easy way to intercept the opening of every new window, and pass it `window.gFFPWASiteConfig` from the original window just after it is created. I implemented this for some windows (mainly those opened by users), but don't know how to do it for all windows.
 
@@ -80,7 +80,7 @@ These are things that I would like to fix eventually, but will currently stay, e
 
     This cannot be fixed easily. The native part of the project currently launches Firefox with the `--class` argument, which should set the `WM_CLASS` property of the window to the PWA ID. However, because all Firefox processes in the same profile are connected together, all windows have WM_CLASS of the first PWA. Fixing this would probably require modifying Firefox C++ code. Check [this comment](https://github.com/filips123/PWAsForFirefox/issues/33#issuecomment-887382593) and related discussions for ideas and possible solutions to fix this.
 
-    This problem is tracked as issues [#80](https://github.com/filips123/PWAsForFirefox/issues/80) and [#50](https://github.com/filips123/PWAsForFirefox/issues/50).
+    This problem is tracked as issues [#80](https://github.com/filips123/PWAsForFirefox/issues/80) and [bug 1747722](https://bugzilla.mozilla.org/show_bug.cgi?id=1747722) on Bugzilla.
 
   * **macOS:**
 
@@ -88,7 +88,7 @@ These are things that I would like to fix eventually, but will currently stay, e
 
     This problem is tracked as issue [#81](https://github.com/filips123/PWAsForFirefox/issues/81).
 
-* **Reopening a PWA after closing all windows opens new tab page:**
+* **Reopening a PWA after closing all windows opens new tab page (macOS):**
 
   When PWA is reopened after closing all windows, it will open the new tab page instead of PWA start URL. *Users have to close the app and restart it to get into the PWA.*
 
