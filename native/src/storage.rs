@@ -1,5 +1,6 @@
 use std::collections::BTreeMap;
 use std::fs::File;
+use std::io::{BufReader, BufWriter, Read};
 
 use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
@@ -9,6 +10,10 @@ use ulid::Ulid;
 use crate::components::profile::Profile;
 use crate::components::site::Site;
 use crate::directories::ProjectDirs;
+
+const STORAGE_OPEN_ERROR: &str = "Failed to open storage";
+const STORAGE_LOAD_ERROR: &str = "Failed to load storage";
+const STORAGE_SAVE_ERROR: &str = "Failed to save storage";
 
 #[non_exhaustive]
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone, SmartDefault)]
@@ -40,18 +45,22 @@ impl Storage {
             return Ok(Self::default());
         }
 
-        let file = File::open(filename).context("Failed to open storage")?;
-        serde_json::from_reader(file).context("Failed to load storage")
+        let file = File::open(filename).context(STORAGE_OPEN_ERROR)?;
+        let mut reader = BufReader::new(file);
+        let mut data = String::new();
+        reader.read_to_string(&mut data).context(STORAGE_LOAD_ERROR)?;
+        serde_json::from_str(&data).context(STORAGE_LOAD_ERROR)
     }
 
     pub fn write(&self, dirs: &ProjectDirs) -> Result<()> {
         let filename = dirs.userdata.join("config.json");
-        let file = File::create(filename).context("Failed to open storage")?;
+        let file = File::create(filename).context(STORAGE_OPEN_ERROR)?;
+        let writer = BufWriter::new(file);
 
         if cfg!(debug_assertions) {
-            serde_json::to_writer_pretty(file, &self).context("Failed to write storage")
+            serde_json::to_writer_pretty(writer, &self).context(STORAGE_SAVE_ERROR)
         } else {
-            serde_json::to_writer(file, &self).context("Failed to write storage")
+            serde_json::to_writer(writer, &self).context(STORAGE_SAVE_ERROR)
         }
     }
 }

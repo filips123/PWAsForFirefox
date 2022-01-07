@@ -16,7 +16,7 @@ publish = false
 version = "0.0.0"
 
 [profile.release]
-codegen-units = 2
+codegen-units = 1
 lto = true
 
 [dependencies]
