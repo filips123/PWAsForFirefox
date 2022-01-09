@@ -295,9 +295,9 @@ impl Runtime {
         cfg_if! {
             if #[cfg(windows)] {
                 use std::os::windows::process::CommandExt;
-                use bindings::Windows::Win32::System::Threading::{CREATE_BREAKAWAY_FROM_JOB, DETACHED_PROCESS};
+                use windows::Win32::System::Threading::{CREATE_BREAKAWAY_FROM_JOB, DETACHED_PROCESS};
 
-                command.creation_flags((CREATE_BREAKAWAY_FROM_JOB | DETACHED_PROCESS).0);
+                command.creation_flags(CREATE_BREAKAWAY_FROM_JOB | DETACHED_PROCESS);
             }
         }
 

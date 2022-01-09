@@ -4,23 +4,6 @@ use std::fs::{create_dir_all, remove_dir_all, remove_file};
 use std::path::PathBuf;
 
 use anyhow::{Context, Result};
-use bindings::Windows::Win32::Foundation::PWSTR;
-use bindings::Windows::Win32::Storage::StructuredStorage::PROPVARIANT;
-use bindings::Windows::Win32::System::Com::IPersistFile;
-use bindings::Windows::Win32::System::PropertiesSystem::{
-    IPropertyStore,
-    InitPropVariantFromStringVector,
-    PROPERTYKEY,
-};
-use bindings::Windows::Win32::UI::Shell::{
-    DestinationList,
-    EnumerableObjectCollection,
-    ICustomDestinationList,
-    IObjectArray,
-    IObjectCollection,
-    IShellLinkW,
-    ShellLink,
-};
 use data_url::DataUrl;
 use image::imageops::FilterType::Gaussian;
 use image::GenericImageView;
@@ -29,12 +12,45 @@ use serde::de::Unexpected::Bytes;
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize};
-use windows::{Guid, Interface, IntoParam, Param};
+use windows::core::{Interface, IntoParam, Param, Result as WindowsResult, GUID};
+use windows::Win32::Foundation::PWSTR;
+use windows::Win32::Storage::EnhancedStorage::{PKEY_AppUserModel_ID, PKEY_Title};
+use windows::Win32::System::Com::StructuredStorage::PROPVARIANT;
+use windows::Win32::System::Com::{
+    CoCreateInstance,
+    CoInitializeEx,
+    IPersistFile,
+    CLSCTX_ALL,
+    COINIT_APARTMENTTHREADED,
+    COINIT_MULTITHREADED,
+};
+use windows::Win32::UI::Shell::Common::{IObjectArray, IObjectCollection};
+use windows::Win32::UI::Shell::PropertiesSystem::{
+    IPropertyStore,
+    InitPropVariantFromStringVector,
+};
+use windows::Win32::UI::Shell::{
+    DestinationList,
+    EnumerableObjectCollection,
+    ICustomDestinationList,
+    IShellLinkW,
+    ShellLink,
+};
 use winreg::enums::HKEY_CURRENT_USER;
 use winreg::RegKey;
 
 use crate::directories::ProjectDirs;
 use crate::integrations::{generate_icon, is_icon_supported, SiteInfoInstall, SiteInfoUninstall};
+
+#[inline]
+fn initialize_windows() -> WindowsResult<()> {
+    unsafe { CoInitializeEx(std::ptr::null_mut(), COINIT_MULTITHREADED) }
+}
+
+#[inline]
+fn create_instance<T: Interface>(clsid: &GUID) -> WindowsResult<T> {
+    unsafe { CoCreateInstance(clsid, None, CLSCTX_ALL) }
+}
 
 fn sanitize_name<'a>(name: &'a str, id: &'a str) -> String {
     let pattern: &[_] = &['.', ' '];
@@ -161,23 +177,21 @@ fn create_menu_shortcut(info: &SiteInfoInstall, exe: String, icon: String) -> Re
         let name = sanitize_name(&info.name, &info.id);
 
         // Set general shortcut properties
-        let link: IShellLinkW = windows::create_instance(&ShellLink)?;
+        let link: IShellLinkW = create_instance(&ShellLink)?;
         link.SetPath(exe)?;
         link.SetArguments(format!("site launch {}", info.id))?;
         link.SetDescription(info.description.chars().take(240).collect::<String>())?;
         link.SetIconLocation(icon, 0)?;
         link.SetShowCmd(7)?;
 
-        // Set AppUserModelID property
-        // https://docs.microsoft.com/en-us/windows/win32/properties/props-system-appusermodel-id
-        let store: IPropertyStore = link.cast()?;
-        let mut param: Param<PWSTR> = format!("filips.firefoxpwa.{}", info.id).into_param();
-        let mut variant: PROPVARIANT = InitPropVariantFromStringVector(&mut param.abi(), 1)?;
-        store.SetValue(
-            &PROPERTYKEY { fmtid: Guid::from("9F4C2855-9F79-4B39-A8D0-E1D42DE1D5F3"), pid: 5 },
-            &variant,
-        )?;
-        store.Commit()?;
+        {
+            // Docs: https://docs.microsoft.com/en-us/windows/win32/properties/props-system-appusermodel-id
+            let store: IPropertyStore = link.cast()?;
+            let mut param: Param<PWSTR> = format!("filips.firefoxpwa.{}", info.id).into_param();
+            let mut variant: PROPVARIANT = InitPropVariantFromStringVector(&param.abi(), 1)?;
+            store.SetValue(&PKEY_AppUserModel_ID, &variant)?;
+            store.Commit()?;
+        }
 
         // Save shortcut to file
         let path = directories::BaseDirs::new()
@@ -200,7 +214,7 @@ fn create_jump_list_tasks(info: &SiteInfoInstall, dirs: &ProjectDirs, exe: Strin
         let appid = format!("filips.firefoxpwa.{}", info.id);
 
         // Create jump list and set its app ID and number of tasks
-        let list: ICustomDestinationList = windows::create_instance(&DestinationList)?;
+        let list: ICustomDestinationList = create_instance(&DestinationList)?;
 
         if info.shortcuts.is_empty() {
             list.DeleteList(appid)?;
@@ -211,7 +225,7 @@ fn create_jump_list_tasks(info: &SiteInfoInstall, dirs: &ProjectDirs, exe: Strin
         }
 
         // Create task collection and add tasks
-        let collection: IObjectCollection = windows::create_instance(&EnumerableObjectCollection)?;
+        let collection: IObjectCollection = create_instance(&EnumerableObjectCollection)?;
 
         for (i, shortcut) in info.shortcuts.iter().enumerate() {
             let url: Url =
@@ -239,7 +253,7 @@ fn create_jump_list_tasks(info: &SiteInfoInstall, dirs: &ProjectDirs, exe: Strin
             });
 
             // Set general shortcut properties
-            let link: IShellLinkW = windows::create_instance(&ShellLink)?;
+            let link: IShellLinkW = create_instance(&ShellLink)?;
             link.SetPath(exe.clone())?;
             link.SetArguments(format!("site launch {} --url {}", info.id, url))?;
             link.SetDescription(description)?;
@@ -248,36 +262,18 @@ fn create_jump_list_tasks(info: &SiteInfoInstall, dirs: &ProjectDirs, exe: Strin
 
             let store: IPropertyStore = link.cast()?;
 
-            // Set AppUserModelID property
-            // https://docs.microsoft.com/en-us/windows/win32/properties/props-system-appusermodel-id
             {
+                // Docs: https://docs.microsoft.com/en-us/windows/win32/properties/props-system-appusermodel-id
                 let mut param: Param<PWSTR> = appid.clone().into_param();
-                let mut variant: PROPVARIANT =
-                    InitPropVariantFromStringVector(&mut param.abi(), 1)?;
-
-                store.SetValue(
-                    &PROPERTYKEY {
-                        fmtid: Guid::from("9F4C2855-9F79-4B39-A8D0-E1D42DE1D5F3"),
-                        pid: 5,
-                    },
-                    &variant,
-                )?;
+                let mut variant: PROPVARIANT = InitPropVariantFromStringVector(&param.abi(), 1)?;
+                store.SetValue(&PKEY_AppUserModel_ID, &variant)?;
             }
 
-            // Set SystemTitle property
-            // https://docs.microsoft.com/en-us/windows/win32/properties/props-system-title
             {
+                // Docs: https://docs.microsoft.com/en-us/windows/win32/properties/props-system-title
                 let mut param: Param<PWSTR> = shortcut.name.clone().into_param();
-                let mut variant: PROPVARIANT =
-                    InitPropVariantFromStringVector(&mut param.abi(), 1)?;
-
-                store.SetValue(
-                    &PROPERTYKEY {
-                        fmtid: Guid::from("F29F85E0-4FF9-1068-AB91-08002B27B3D9"),
-                        pid: 2,
-                    },
-                    &variant,
-                )?;
+                let mut variant: PROPVARIANT = InitPropVariantFromStringVector(&param.abi(), 1)?;
+                store.SetValue(&PKEY_Title, &variant)?;
             }
 
             store.Commit()?;
@@ -314,7 +310,7 @@ pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
             Ok(filename.display().to_string())
         })?;
 
-    windows::initialize_mta()?;
+    initialize_windows()?;
 
     create_arp_entry(info, exe.clone(), icon.clone()).context("Failed to create ARP entry")?;
     create_menu_shortcut(info, exe.clone(), icon).context("Failed to create menu shortcut")?;
@@ -347,8 +343,8 @@ pub fn uninstall(info: &SiteInfoUninstall, dirs: &ProjectDirs) -> Result<()> {
 
     // Remove jump list tasks
     unsafe {
-        windows::initialize_mta()?;
-        let list: ICustomDestinationList = windows::create_instance(&DestinationList)?;
+        initialize_windows()?;
+        let list: ICustomDestinationList = create_instance(&DestinationList)?;
         list.DeleteList(format!("filips.firefoxpwa.{}", info.id))?;
     }
 
