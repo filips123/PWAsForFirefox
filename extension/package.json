@@ -29,26 +29,26 @@
     "fix:eslint": "eslint --fix src"
   },
   "dependencies": {
-    "@popperjs/core": "^2.11.0",
+    "@popperjs/core": "^2.11.2",
     "base64-js": "^1.5.1",
     "bootstrap": "^5.1.3",
     "bootstrap-dark-5": "^1.1.3",
     "bootstrap-icons": "^1.7.2",
-    "bootstrap5-tags": "^1.3.5",
+    "bootstrap5-tags": "^1.4.6",
     "iframe-resizer": "^4.3.2",
     "semver": "^7.3.5"
   },
   "devDependencies": {
-    "@parcel/config-webextension": "^2.0.1",
-    "@parcel/transformer-sass": "^2.0.1",
-    "eslint": "^8.5.0",
+    "@parcel/config-webextension": "^2.1.1",
+    "@parcel/transformer-sass": "^2.1.1",
+    "eslint": "^8.6.0",
     "eslint-config-standard": "^16.0.3",
-    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "npm-run-all": "^4.1.5",
-    "parcel": "^2.0.1",
+    "parcel": "^2.1.1",
     "rimraf": "^3.0.2",
     "web-ext": "^6.6.0"
   }
