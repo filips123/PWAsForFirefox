@@ -1,24 +1,28 @@
 #![allow(clippy::large_enum_variant)]
 
-use structopt::StructOpt;
+use clap::Parser;
 use ulid::Ulid;
 use url::Url;
 
-#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
-#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
+#[clap(global_setting(clap::AppSettings::PropagateVersion))]
+#[clap(global_setting(clap::AppSettings::DeriveDisplayOrder))]
+#[clap(version)]
 pub enum App {
     /// Manages the sites (PWAs)
+    #[clap(subcommand)]
     Site(SiteCommand),
 
     /// Manages the profiles
+    #[clap(subcommand)]
     Profile(ProfileCommand),
 
     /// Manages the runtime
+    #[clap(subcommand)]
     Runtime(RuntimeCommand),
 }
 
-#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
-#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub enum SiteCommand {
     /// Launches the PWA by its ID
     Launch(SiteLaunchCommand),
@@ -33,8 +37,7 @@ pub enum SiteCommand {
     Update(SiteUpdateCommand),
 }
 
-#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
-#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct SiteLaunchCommand {
     /// Identifier of the PWA
     pub id: Ulid,
@@ -43,106 +46,102 @@ pub struct SiteLaunchCommand {
     pub arguments: Vec<String>,
 
     /// Optionally launches the PWA with a custom start URL
-    #[structopt(long)]
+    #[clap(long)]
     pub url: Option<Url>,
 
     /// Internal: Directly launches the PWA without system integration
     #[cfg(target_os = "macos")]
-    #[structopt(long, hidden = true)]
+    #[clap(long, hide)]
     pub direct_launch: bool,
 }
 
-#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
-#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct SiteInstallCommand {
     /// Direct URL to the PWA web app manifest
     pub manifest_url: Url,
 
     /// Direct URL to the main PWA document (defaults to the result of parsing manifest URL with `.`)
-    #[structopt(long)]
+    #[clap(long)]
     pub document_url: Option<Url>,
 
     /// Identifier of the custom profile for this PWA (defaults to the shared profile)
-    #[structopt(long)]
+    #[clap(long)]
     pub profile: Option<Ulid>,
 
     /// Optionally overwrites the PWA start URL specified in the manifest
-    #[structopt(long)]
+    #[clap(long)]
     pub start_url: Option<Url>,
 
     /// Optionally overwrites the PWA name specified in the manifest
-    #[structopt(long)]
+    #[clap(long)]
     pub name: Option<String>,
 
     /// Optionally overwrites the PWA description specified in the manifest
-    #[structopt(long)]
+    #[clap(long)]
     pub description: Option<String>,
 
     /// Optionally overwrites the PWA categories specified in the manifest
-    #[structopt(long)]
+    #[clap(long)]
     pub categories: Vec<String>,
 
     /// Optionally overwrites the PWA keywords specified in the manifest
-    #[structopt(long)]
+    #[clap(long)]
     pub keywords: Vec<String>,
 
     /// Disables system integration
-    #[structopt(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
+    #[clap(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
     pub system_integration: bool,
 }
 
-#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
-#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct SiteUninstallCommand {
     /// Identifier of the PWA
     pub id: Ulid,
 
     /// Forces removal without any interactive prompts
-    #[structopt(short, long)]
+    #[clap(short, long)]
     pub quiet: bool,
 }
 
-#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
-#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct SiteUpdateCommand {
     /// Identifier of the PWA
     pub id: Ulid,
 
     /// Optionally overwrites the PWA start URL specified in the manifest
-    #[structopt(long)]
+    #[clap(long)]
     pub start_url: Option<Url>,
 
     /// Optionally overwrites the PWA name specified in the manifest
-    #[structopt(long)]
+    #[clap(long)]
     pub name: Option<String>,
 
     /// Optionally overwrites the PWA description specified in the manifest
-    #[structopt(long)]
+    #[clap(long)]
     pub description: Option<String>,
 
     /// Optionally overwrites the PWA categories specified in the manifest
-    #[structopt(long)]
+    #[clap(long)]
     pub categories: Vec<String>,
 
     /// Optionally overwrites the PWA keywords specified in the manifest
-    #[structopt(long)]
+    #[clap(long)]
     pub keywords: Vec<String>,
 
     /// Disables manifest updates
-    #[structopt(long = "no-manifest-updates", parse(from_flag = std::ops::Not::not))]
+    #[clap(long = "no-manifest-updates", parse(from_flag = std::ops::Not::not))]
     pub manifest_updates: bool,
 
     /// Disables system integration
-    #[structopt(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
+    #[clap(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
     pub system_integration: bool,
 
     /// Internal: Treat `None` values as actual values
-    #[structopt(skip = true)]
+    #[clap(skip = true)]
     pub store_none_values: bool,
 }
 
-#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
-#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub enum ProfileCommand {
     /// Lists available profiles and their sites
     List(ProfileListCommand),
@@ -157,54 +156,49 @@ pub enum ProfileCommand {
     Update(ProfileUpdateCommand),
 }
 
-#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
-#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct ProfileListCommand {}
 
-#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
-#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct ProfileCreateCommand {
     /// Name of the profile
-    #[structopt(long)]
+    #[clap(long)]
     pub name: Option<String>,
 
     /// Description of the profile
-    #[structopt(long)]
+    #[clap(long)]
     pub description: Option<String>,
 }
 
-#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
-#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct ProfileRemoveCommand {
     /// Identifier of the profile
     pub id: Ulid,
 
     /// Forces removal without any interactive prompts
-    #[structopt(short, long)]
+    #[clap(short, long)]
     pub quiet: bool,
 }
 
-#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
-#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct ProfileUpdateCommand {
     /// Identifier of the profile
     pub id: Ulid,
 
     /// Name of the profile
-    #[structopt(long)]
+    #[clap(long)]
     pub name: Option<String>,
 
     /// Description of the profile
-    #[structopt(long)]
+    #[clap(long)]
     pub description: Option<String>,
 
     /// Internal: Treat `None` values as actual values
-    #[structopt(skip = true)]
+    #[clap(skip = true)]
     pub store_none_values: bool,
 }
 
-#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
-#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub enum RuntimeCommand {
     /// Installs the runtime
     Install(RuntimeInstallCommand),
@@ -213,10 +207,8 @@ pub enum RuntimeCommand {
     Uninstall(RuntimeUninstallCommand),
 }
 
-#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
-#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct RuntimeInstallCommand {}
 
-#[derive(StructOpt, Debug, Eq, PartialEq, Clone)]
-#[structopt(setting = clap::AppSettings::DeriveDisplayOrder)]
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct RuntimeUninstallCommand {}
