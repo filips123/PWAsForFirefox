@@ -71,6 +71,7 @@ impl Site {
         Ok(json.trim_start_matches('\u{feff}').into())
     }
 
+    #[inline]
     pub fn new(profile: Ulid, config: SiteConfig) -> Result<Self> {
         info!("Downloading the PWA manifest");
         let json = Self::download(&config.manifest_url).context(DOWNLOAD_ERROR)?;
@@ -89,6 +90,7 @@ impl Site {
         Ok(Self { ulid: Ulid::new(), profile, config, manifest })
     }
 
+    #[inline]
     pub fn update(&mut self) -> Result<()> {
         // There is nothing to update if the manifest is a data URL because it is always static
         if self.config.manifest_url.scheme() == "data" {
@@ -164,7 +166,7 @@ impl Site {
         // Include all user arguments and variables and launch the runtime
         args.extend_from_slice(arguments);
         vars.extend(variables);
-        runtime.run(args, vars)
+        runtime.run(&args, vars)
     }
 
     /// Scope domain is used as a publisher name or when the site name is undefined.

@@ -47,6 +47,7 @@ pub struct SiteInfoUninstall {
     name: String,
 }
 
+#[inline]
 pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
     // Site ID is used to generate all commands and as an identifier at various places
     let id = site.ulid.to_string();
@@ -118,6 +119,7 @@ pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
     }
 }
 
+#[inline]
 pub fn uninstall(site: &Site, dirs: &ProjectDirs) -> Result<()> {
     let id = site.ulid.to_string();
     let name = site.name().unwrap_or_else(|| site.domain());
@@ -141,24 +143,8 @@ pub fn uninstall(site: &Site, dirs: &ProjectDirs) -> Result<()> {
 
 #[cfg(target_os = "macos")]
 #[inline]
-pub fn launch_site(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Child> {
-    macos::launch_site(site, url, arguments)
-}
-
-/// Util: Check if the icon is supported
-pub(in crate::integrations) fn is_icon_supported(icon: &IconResource) -> bool {
-    // Normal icons must have "any" purpose
-    if !icon.purpose.contains(&ImagePurpose::Any) {
-        return false;
-    }
-
-    match &icon.src {
-        // We cannot use SVG icons because image crate does not support them
-        ManifestUrl::Absolute(url) => !url.path().ends_with(".svg"),
-
-        // We also cannot use relative or unknown URLs
-        _ => false,
-    }
+pub fn launch(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Child> {
+    macos::launch(site, url, arguments)
 }
 
 /// Util: Generate the icon from the first letter of the site/shortcut name

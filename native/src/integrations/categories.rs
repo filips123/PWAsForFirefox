@@ -8,7 +8,10 @@ use phf::phf_map;
 /// Please sort them in the same order as in the FreeDesktop website, and sort
 /// multiple "aliases" for the same category alphabetically.
 ///
-/// Source: https://specifications.freedesktop.org/menu-spec/menu-spec-1.0.html#category-registry
+/// Sources:
+/// - W3C: https://github.com/w3c/manifest/wiki/Categories#standardized-categories
+/// - FreeDesktop: https://specifications.freedesktop.org/menu-spec/menu-spec-1.0.html#category-registry
+///
 #[cfg(target_os = "linux")]
 pub static XDG_CATEGORIES: phf::Map<&'static str, &'static [&'static str]> = phf_map! {
     // Main Categories

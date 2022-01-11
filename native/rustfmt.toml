@@ -4,6 +4,7 @@ imports_layout = "HorizontalVertical"
 
 newline_style = "Unix"
 
+overflow_delimited_expr = true
 use_field_init_shorthand = true
 use_try_shorthand = true
 use_small_heuristics = "Max"

@@ -32,7 +32,7 @@ impl Run for SiteLaunchCommand {
                 use crate::integrations;
 
                 if !self.direct_launch {
-                    integrations::launch_site(site, &self.url, args)?;
+                    integrations::launch(site, &self.url, args)?;
                     return Ok(())
                 }
             }
@@ -59,12 +59,9 @@ impl Run for SiteLaunchCommand {
 
             // Only patch if modification dates of source and target are different
             // In case any error happens, just force patching
-            if let (Ok(source_metadata), Ok(target_metadata)) = (metadata(source), metadata(target))
-            {
-                if let (Ok(source_modified), Ok(target_modified)) =
-                    (source_metadata.modified(), target_metadata.modified())
-                {
-                    source_modified > target_modified
+            if let (Ok(source), Ok(target)) = (metadata(source), metadata(target)) {
+                if let (Ok(source), Ok(target)) = (source.modified(), target.modified()) {
+                    source > target
                 } else {
                     true
                 }
@@ -128,6 +125,7 @@ impl SiteInstallCommand {
             manifest_url: self.manifest_url.clone(),
             start_url: self.start_url.clone(),
         };
+
         let site = Site::new(profile.ulid, config)?;
         let ulid = site.ulid;
 

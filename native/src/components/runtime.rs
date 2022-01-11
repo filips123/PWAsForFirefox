@@ -186,8 +186,8 @@ impl Runtime {
 
                 mount_point.push("Firefox.app");
                 source.push("Firefox.app");
-                options.content_only = true;
 
+                options.content_only = true;
                 copy(&mount_point, &source, &options)?;
 
                 source.pop();
@@ -287,7 +287,7 @@ impl Runtime {
     #[inline]
     pub fn run<I: IntoIterator<Item = (String, String)>>(
         &self,
-        args: Vec<String>,
+        args: &[String],
         vars: I,
     ) -> Result<Child> {
         let mut command = Command::new(&self.executable);

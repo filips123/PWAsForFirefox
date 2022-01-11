@@ -237,6 +237,7 @@ impl<'a> Connection<'a> {
             }
 
             RequestMessage::GetProfileList => {
+                // Return profile list from storage
                 Ok(ResponseMessage::ProfileList(self.storage.profiles.to_owned()))
             }
 
@@ -273,10 +274,12 @@ impl<'a> Connection<'a> {
             }
 
             RequestMessage::GetConfig => {
+                // Return config from storage
                 Ok(ResponseMessage::Config(self.storage.config.to_owned()))
             }
 
             RequestMessage::SetConfig(config) => {
+                // Overwrite existing config and write it to storage
                 let mut storage = self.storage.to_owned();
                 storage.config = config.to_owned();
                 storage.write(self.dirs)?;

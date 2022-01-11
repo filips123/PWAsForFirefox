@@ -10,11 +10,11 @@ use image::imageops::FilterType::Gaussian;
 use log::{error, warn};
 use url::Url;
 use web_app_manifest::resources::IconResource;
-use web_app_manifest::types::{ImagePurpose, ImageSize};
+use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
 
 use crate::directories::ProjectDirs;
 use crate::integrations::categories::XDG_CATEGORIES;
-use crate::integrations::{generate_icon, is_icon_supported, SiteInfoInstall, SiteInfoUninstall};
+use crate::integrations::{generate_icon, SiteInfoInstall, SiteInfoUninstall};
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
 const CONVERT_ICON_URL_ERROR: &str = "Failed to convert icon URL";
@@ -30,6 +30,17 @@ const CREATE_ICON_DIRECTORY_ERROR: &str = "Failed to create icon directory";
 const CREATE_ICON_FILE_ERROR: &str = "Failed to create icon file";
 const CREATE_APPLICATION_DIRECTORY_ERROR: &str = "Failed to create application directory";
 const WRITE_APPLICATION_FILE_ERROR: &str = "Failed to write application file";
+
+/// Check if the icon is supported
+fn is_icon_supported(icon: &IconResource) -> bool {
+    // Normal icons must have "any" purpose
+    if !icon.purpose.contains(&ImagePurpose::Any) {
+        return false;
+    }
+
+    // Only icons with absolute URLs can be used
+    matches!(&icon.src, ManifestUrl::Absolute(_))
+}
 
 fn store_icons(id: &str, name: &str, icons: &[IconResource], suffix: &str) -> Result<()> {
     // The 48x48 icon always has to exist

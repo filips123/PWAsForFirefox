@@ -349,7 +349,7 @@ fn verify_app_is_pwa(app_bundle: &Path, appid: &str) -> Result<()> {
     Ok(())
 }
 
-pub fn launch_site(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Child> {
+pub fn launch(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Child> {
     let name = site.name().unwrap_or_else(|| site.domain());
 
     let appid = format!("FFPWA-{}", site.ulid.to_string());
