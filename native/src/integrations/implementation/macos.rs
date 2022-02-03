@@ -324,7 +324,7 @@ fn remove_application_entry(info: &SiteInfoUninstall) -> Result<()> {
 }
 
 #[inline]
-pub fn uninstall(info: &SiteInfoUninstall) -> Result<()> {
+pub fn uninstall(info: &SiteInfoUninstall, _dirs: &ProjectDirs) -> Result<()> {
     remove_application_entry(info).context("Failed to remove application entry")?;
     Ok(())
 }

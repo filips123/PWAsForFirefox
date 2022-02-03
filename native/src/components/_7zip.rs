@@ -13,6 +13,7 @@ use winreg::RegKey;
 
 #[inline]
 const fn get_download_url() -> &'static str {
+    #[allow(dead_code)]
     const VERSION: &str = "2107";
 
     cfg_if! {
@@ -23,7 +24,7 @@ const fn get_download_url() -> &'static str {
         } else if #[cfg(target_arch = "aarch64")] {
             const ARCHITECTURE: &str = "-arm64";
         } else {
-            compile_error!("Unknown architecture");
+            panic!("Cannot install 7-Zip: Unsupported architecture!");
         }
     }
 

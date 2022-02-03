@@ -1,32 +1,14 @@
-#![allow(unused)]
-
-use std::path::Path;
-use std::process::{Child, Command};
-
-use anyhow::{bail, Context, Result};
-use cfg_if::cfg_if;
-use image::{ImageBuffer, Pixel, Rgb, RgbImage};
-use log::warn;
-use rusttype::{point, Font, Scale};
-use url::Url;
+use anyhow::Result;
 use web_app_manifest::resources::{IconResource, ShortcutResource};
-use web_app_manifest::types::{ImagePurpose, Url as ManifestUrl};
+use web_app_manifest::types::Url as ManifestUrl;
 
 use crate::components::site::Site;
-use crate::console::Run;
 use crate::directories::ProjectDirs;
 
 #[cfg(any(target_os = "linux", target_os = "macos"))]
 mod categories;
-
-#[cfg(target_os = "windows")]
-mod windows;
-
-#[cfg(target_os = "linux")]
-mod linux;
-
-#[cfg(target_os = "macos")]
-mod macos;
+mod implementation;
+mod utils;
 
 #[derive(Debug, Eq, PartialEq, Clone)]
 pub struct SiteInfoInstall<'a> {
@@ -106,17 +88,7 @@ pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
     };
 
     // Apply system integration
-    cfg_if! {
-        if #[cfg(target_os = "windows")] {
-            windows::install(&info, dirs)
-        } else if #[cfg(target_os = "linux")] {
-            linux::install(&info, dirs)
-        } else if #[cfg(target_os = "macos")] {
-            macos::install(&info, dirs)
-        } else {
-            compile_error!("Unknown operating system");
-        }
-    }
+    implementation::install(&info, dirs)
 }
 
 #[inline]
@@ -124,100 +96,12 @@ pub fn uninstall(site: &Site, dirs: &ProjectDirs) -> Result<()> {
     let id = site.ulid.to_string();
     let name = site.name().unwrap_or_else(|| site.domain());
 
-    // Generate site info struct
     let info = SiteInfoUninstall { id, name };
-
-    // Unapply system integration
-    cfg_if! {
-        if #[cfg(target_os = "windows")] {
-            windows::uninstall(&info, dirs)
-        } else if #[cfg(target_os = "linux")] {
-            linux::uninstall(&info)
-        } else if #[cfg(target_os = "macos")] {
-            macos::uninstall(&info)
-        } else {
-            compile_error!("Unknown operating system");
-        }
-    }
+    implementation::uninstall(&info, dirs)
 }
 
 #[cfg(target_os = "macos")]
 #[inline]
 pub fn launch(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Child> {
-    macos::launch(site, url, arguments)
-}
-
-/// Util: Generate the icon from the first letter of the site/shortcut name
-fn generate_icon_internal(letter: char, size: u32) -> Result<RgbImage> {
-    // Load the font from OTF file
-    let bytes = include_bytes!("../../assets/Metropolis-SemiBold.otf");
-    let font = Font::try_from_bytes(bytes as &[u8]).context("Failed to construct the font")?;
-
-    // Check if glyph exists in font
-    if font.glyph(letter).id().0 == 0 {
-        bail!("Font does not support glyph \"{}\"", letter);
-    }
-
-    // Layout the first (and only) glyph
-    let scale = Scale::uniform(size as f32 / 1.6);
-    let glyph = font
-        .layout(letter.encode_utf8(&mut [0; 4]), scale, point(0.0, font.v_metrics(scale).ascent))
-        .next()
-        .context("Failed to layout the glyph")?;
-
-    // Store the background and foreground colors
-    let background = Rgb([80, 80, 80]);
-    let foreground = Rgb([255, 255, 255]);
-
-    // Create a new RGBA image with a gray background
-    let mut image: RgbImage = ImageBuffer::from_pixel(size, size, background);
-
-    if let Some(bounding_box) = glyph.pixel_bounding_box() {
-        // Get the glyph width and height
-        let width = (bounding_box.max.x - bounding_box.min.x) as u32;
-        let height = (bounding_box.max.y - bounding_box.min.y) as u32;
-
-        // Check for glyph size overflows
-        // This shouldn't happen, but just in case
-        if width > size || height > size {
-            bail!("Glyph is bigger than image");
-        }
-
-        // Calculate the offset so the glyph is in the middle
-        let offset_x = (size - width) / 2;
-        let offset_y = (size - height) / 2;
-
-        // Draw the glyph into the image per-pixel by using the draw closure
-        glyph.draw(|x, y, v| {
-            // Convert the alpha value with the background
-            let pixel = Rgb([
-                ((1.0 - v) * background.0[0] as f32 + v * foreground.0[0] as f32) as u8,
-                ((1.0 - v) * background.0[1] as f32 + v * foreground.0[1] as f32) as u8,
-                ((1.0 - v) * background.0[2] as f32 + v * foreground.0[2] as f32) as u8,
-            ]);
-
-            // Put the glyph pixel into the image
-            image.put_pixel(x + offset_x, y + offset_y, pixel)
-        });
-    }
-
-    Ok(image)
-}
-
-/// Util: Generate the icon and save it to file
-#[cfg(not(target_os = "macos"))]
-#[inline]
-pub(in crate::integrations) fn generate_icon<P: AsRef<Path>>(
-    letter: char,
-    size: u32,
-    filename: P,
-) -> Result<()> {
-    generate_icon_internal(letter, size)?.save(filename).context("Failed to save generated image")
-}
-
-/// Util: Generate the icon and return it
-#[cfg(target_os = "macos")]
-#[inline]
-pub(in crate::integrations) fn generate_icon(letter: char, size: u32) -> Result<RgbImage> {
-    generate_icon_internal(letter, size)
+    implementation::launch(site, url, arguments)
 }
