@@ -236,6 +236,27 @@ impl<'a> Connection<'a> {
                 Ok(ResponseMessage::SiteUpdated)
             }
 
+            RequestMessage::UpdateAllSites { manifest_updates, system_integration } => {
+                let dirs = ProjectDirs::new()?;
+                let mut storage = Storage::load(&dirs)?;
+
+                for site in storage.sites.values_mut() {
+                    info!("Updating site {}", site.ulid);
+
+                    if *manifest_updates {
+                        site.update().context("Failed to update site manifest")?;
+                    }
+
+                    if *system_integration {
+                        site.install_system_integration(&dirs)
+                            .context("Failed to update system integration")?;
+                    }
+                }
+
+                storage.write(&dirs)?;
+                Ok(ResponseMessage::AllSitesUpdated)
+            }
+
             RequestMessage::GetProfileList => {
                 // Return profile list from storage
                 Ok(ResponseMessage::ProfileList(self.storage.profiles.to_owned()))

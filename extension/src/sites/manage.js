@@ -591,15 +591,13 @@ async function handleSettings (hasChanged = false) {
     manifestUpdatesCheckbox.disabled = true
 
     try {
-      for (const site of Object.values(await obtainSiteList())) {
-        const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
-          cmd: 'UpdateSite',
-          params: { ...site.config, id: site.ulid, manifest_updates: manifestUpdatesEnabled, system_integration: true }
-        })
+      const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+        cmd: 'UpdateAllSites',
+        params: { manifest_updates: manifestUpdatesEnabled, system_integration: true }
+      })
 
-        if (response.type === 'Error') throw new Error(response.data)
-        if (response.type !== 'SiteUpdated') throw new Error(`Received invalid response type: ${response.type}`)
-      }
+      if (response.type === 'Error') throw new Error(response.data)
+      if (response.type !== 'AllSitesUpdated') throw new Error(`Received invalid response type: ${response.type}`)
 
       this.disabled = true
       this.innerText = 'Updated!'

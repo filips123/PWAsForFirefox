@@ -213,7 +213,7 @@ impl Run for SiteUpdateCommand {
         }
 
         if self.manifest_updates {
-            site.update()?;
+            site.update().context("Failed to update site manifest")?;
         }
 
         if self.system_integration {

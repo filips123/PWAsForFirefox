@@ -51,6 +51,9 @@ pub enum RequestMessage {
         system_integration: bool,
     },
 
+    /// Updates all installed sites.
+    UpdateAllSites { manifest_updates: bool, system_integration: bool },
+
     /// Lists all available profiles.
     GetProfileList,
 

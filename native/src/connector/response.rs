@@ -36,6 +36,9 @@ pub enum ResponseMessage {
     /// Site has been successfully updated.
     SiteUpdated,
 
+    /// All sites have been successfully updated.
+    AllSitesUpdated,
+
     /// List of all available profiles.
     ProfileList(BTreeMap<Ulid, Profile>),
 
