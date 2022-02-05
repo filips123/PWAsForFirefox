@@ -145,10 +145,7 @@ impl Site {
 
         // Allow launching PWA on a specific URL
         if let Some(url) = url {
-            #[rustfmt::skip]
-            args.extend_from_slice(&[
-                "--url".into(), url.to_string(),
-            ]);
+            args.extend_from_slice(&["--url".into(), url.to_string()]);
         }
 
         // Pass variables needed for specific runtime features

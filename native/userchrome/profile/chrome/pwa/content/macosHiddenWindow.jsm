@@ -12,14 +12,13 @@ class MacOSHiddenWindow {
     const mainWindow = Services.wm.getMostRecentWindow('navigator:browser');
     const dockMenu = document.getElementById('menu_mac_dockmenu');
     const { shortcuts = [] } = mainWindow.gFFPWASiteConfig.manifest;
-    const [defaultChild] = dockMenu.children;
 
     Array.from(dockMenu.children).forEach((child) => {
       dockMenu.removeChild(child);
     });
 
     shortcuts.forEach((item) => {
-      const menuItem = defaultChild.cloneNode();
+      const menuItem = document.createXULElement('menuitem');
 
       menuItem.setAttribute('oncommand', `OpenPwaShortcut("${item.url}");`);
       menuItem.setAttribute('label', item.name);

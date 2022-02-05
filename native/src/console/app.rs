@@ -51,7 +51,7 @@ pub struct SiteLaunchCommand {
 
     /// Internal: Directly launches the PWA without system integration
     #[cfg(target_os = "macos")]
-    #[clap(long, hide)]
+    #[clap(long, hide = true)]
     pub direct_launch: bool,
 }
 

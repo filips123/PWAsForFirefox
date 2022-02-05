@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::cmp::Ordering;
 use std::convert::TryInto;
 use std::path::Path;
@@ -41,149 +43,8 @@ pub fn download_icon(url: Url) -> Result<(Vec<u8>, String)> {
     }
 }
 
-/// Obtain and process the best available icon from the icon list.
-///
-/// Icon needs to be processed and converted to a correct format (determined from
-/// the filename). In case anything fails, the next icons are tried. If no provided
-/// icons are working, the icon is generated from the first letter of the name.
-///
-/// See [`normalize_icons`] and [`process_icon`] for more details.
-///
-/// # Parameters
-///
-/// - `icons`: A list of available icons for the site or shortcut.
-/// - `fallback`:  A site or shortcut name. Used to generate a fallback icon.
-/// - `size`: A target icon size. Must be a valid fixed (non-zero) size variant.
-/// - `path`:  A path where the icon should be saved.
-///
-pub fn process_icons(
-    icons: &[IconResource],
-    fallback: &str,
-    size: &ImageSize,
-    path: &Path,
-) -> Result<()> {
-    for icon in normalize_icons(icons, size) {
-        match process_icon(icon, size, path).context("Failed to process icon") {
-            Ok(_) => return Ok(()),
-            Err(error) => {
-                error!("{:?}", error);
-                warn!("Falling back to the next available icon");
-            }
-        }
-    }
-
-    warn!("No compatible or working icon was found");
-    warn!("Falling back to the generated icon from the name");
-    let letter = fallback.chars().next().context("Failed to get the first letter")?;
-    let icon = generate_icon(letter, size).context("Failed to generate icon")?;
-    icon.save(path).context("Failed to save generated image")?;
-    Ok(())
-}
-
-//////////////////////////////
-// Internal
-//////////////////////////////
-
-/// Check if the icon is supported.
-///
-/// Supported icons must contain "any" purpose and must only have absolute URLs.
-/// Other icons cannot / should not be parsed and need to be ignored.
-fn is_icon_supported(icon: &IconResource) -> bool {
-    // Normal icons must contain "any" purpose
-    if !icon.purpose.contains(&ImagePurpose::Any) {
-        return false;
-    }
-
-    // Only icons with absolute URLs can be used
-    matches!(&icon.src, ManifestUrl::Absolute(_))
-}
-
-/// Filter out all incompatible icons and sort them.
-///
-/// All icons are first filtered to remove unsupported icons, and then sorted
-/// by their largest size. Icons larger than the target icon size are sorted
-/// in the ascending order, and others are sorted in descending.
-fn normalize_icons<'a>(icons: &'a [IconResource], size: &'a ImageSize) -> Vec<&'a IconResource> {
-    let mut icons: Vec<&IconResource> =
-        icons.iter().filter(|icon| is_icon_supported(*icon)).collect();
-
-    icons.sort_by(|icon1, icon2| {
-        let size1 = icon1.sizes.iter().max();
-        let size2 = icon2.sizes.iter().max();
-
-        if size1.is_none() || size2.is_none() {
-            return Ordering::Equal;
-        };
-
-        // Unwrap is safe, because sizes is checked above
-        let size1 = size1.unwrap();
-        let size2 = size2.unwrap();
-
-        if size1 >= size && size2 >= size {
-            size1.cmp(size2)
-        } else {
-            size1.cmp(size2).reverse()
-        }
-    });
-
-    icons
-}
-
-/// Process the icon and stores it to a file.
-///
-/// Icon can be downloaded from the network or from a data URL using
-/// the [`download_icon`] function. Icon is then resized to a specified
-/// size and stored to a file. Both SVG and raster icons are supported.
-///
-/// # Parameters
-///
-/// - `icon`: An icon resource representing the icon. Must provide an absolute icon URL.
-/// - `size`: A target icon size. Must be a valid fixed (non-zero) size variant.
-/// - `path`: A path where the icon should be stored.
-///
-fn process_icon(icon: &IconResource, size: &ImageSize, path: &Path) -> Result<()> {
-    let size = match size {
-        ImageSize::Fixed(a, b) => (a, b),
-        _ => bail!("A fixed image size variant must be provided"),
-    };
-
-    let url: Url = icon.src.clone().try_into().context("An absolute URL must be provided")?;
-    debug!("Processing icon {}", url);
-
-    // Download icon and get its content type
-    let (content, content_type) = download_icon(url).context("Failed to download icon")?;
-
-    if content_type == "image/svg+xml" {
-        debug!("Processing as SVG icon");
-
-        let mut options = usvg::Options::default();
-        options.fontdb.load_system_fonts();
-
-        let mut pixmap = tiny_skia::Pixmap::new(*size.0, *size.1).context("Invalid target size")?;
-        let transform = tiny_skia::Transform::default();
-
-        // Parse and render SVG icons using `usvg` and `resvg` crates
-        let rtree = usvg::Tree::from_data(&content, &options.to_ref())
-            .context("Failed to parse SVG icon")?;
-        resvg::render(&rtree, usvg::FitTo::Size(*size.0, *size.1), transform, pixmap.as_mut())
-            .context("Failed to render SVG icon")?;
-        image::save_buffer(&path, pixmap.data(), *size.0, *size.1, image::ColorType::Rgba8)
-            .context("Failed to save SVG icon")?;
-
-        return Ok(());
-    }
-
-    // Parse raster icons using the `image` crate, resize them and store them to a file
-    debug!("Processing as raster icon");
-    let mut img = image::load_from_memory(&content).context("Failed to load icon")?;
-    img = img.resize(*size.0, *size.1, Gaussian);
-    img.save(&path).context("Failed to save icon")?;
-
-    Ok(())
-}
-
 /// Generate an icon from a letter.
-fn generate_icon(letter: char, size: &ImageSize) -> Result<RgbImage> {
+pub fn generate_icon(letter: char, size: &ImageSize) -> Result<RgbImage> {
     // Icon must have a fixed size
     let size = match size {
         ImageSize::Fixed(a, b) => (a, b),
@@ -243,4 +104,144 @@ fn generate_icon(letter: char, size: &ImageSize) -> Result<RgbImage> {
     }
 
     Ok(image)
+}
+
+/// Obtain and process the best available icon from the icon list.
+///
+/// Icon needs to be processed and converted to a correct format (determined from
+/// the filename). In case anything fails, the next icons are tried. If no provided
+/// icons are working, the icon is generated from the first letter of the name.
+///
+/// See [`normalize_icons`] and [`process_icon`] for more details.
+///
+/// # Parameters
+///
+/// - `icons`: A list of available icons for the site or shortcut.
+/// - `fallback`:  A site or shortcut name. Used to generate a fallback icon.
+/// - `size`: A target icon size. Must be a valid fixed (non-zero) size variant.
+/// - `path`:  A path where the icon should be saved.
+///
+pub fn process_icons(
+    icons: &[IconResource],
+    fallback: &str,
+    size: &ImageSize,
+    path: &Path,
+) -> Result<()> {
+    for icon in normalize_icons(icons, size) {
+        match process_icon(icon, size, path).context("Failed to process icon") {
+            Ok(_) => return Ok(()),
+            Err(error) => {
+                error!("{:?}", error);
+                warn!("Falling back to the next available icon");
+            }
+        }
+    }
+
+    warn!("No compatible or working icon was found");
+    warn!("Falling back to the generated icon from the name");
+    let letter = fallback.chars().next().context("Failed to get the first letter")?;
+    let icon = generate_icon(letter, size).context("Failed to generate icon")?;
+    icon.save(path).context("Failed to save generated image")?;
+    Ok(())
+}
+
+//////////////////////////////
+// Internal
+//////////////////////////////
+
+/// Check if the icon is supported.
+///
+/// Supported icons must contain "any" purpose and must only have absolute URLs.
+/// Other icons cannot / should not be parsed and need to be ignored.
+fn is_icon_supported(icon: &&IconResource) -> bool {
+    // Normal icons must contain "any" purpose
+    if !icon.purpose.contains(&ImagePurpose::Any) {
+        return false;
+    }
+
+    // Only icons with absolute URLs can be used
+    matches!(&icon.src, ManifestUrl::Absolute(_))
+}
+
+/// Filter out all incompatible icons and sort them.
+///
+/// All icons are first filtered to remove unsupported icons, and then sorted
+/// by their largest size. Icons larger than the target icon size are sorted
+/// in the ascending order, and others are sorted in descending.
+fn normalize_icons<'a>(icons: &'a [IconResource], size: &'a ImageSize) -> Vec<&'a IconResource> {
+    let mut icons: Vec<&IconResource> = icons.iter().filter(is_icon_supported).collect();
+
+    icons.sort_by(|icon1, icon2| {
+        let size1 = icon1.sizes.iter().max();
+        let size2 = icon2.sizes.iter().max();
+
+        if size1.is_none() || size2.is_none() {
+            return Ordering::Equal;
+        };
+
+        // Unwrap is safe, because sizes is checked above
+        let size1 = size1.unwrap();
+        let size2 = size2.unwrap();
+
+        if size1 >= size && size2 >= size {
+            size1.cmp(size2)
+        } else {
+            size1.cmp(size2).reverse()
+        }
+    });
+
+    icons
+}
+
+/// Process the icon and stores it to a file.
+///
+/// Icon can be downloaded from the network or from a data URL using
+/// the [`download_icon`] function. Icon is then resized to a specified
+/// size and stored to a file. Both SVG and raster icons are supported.
+///
+/// # Parameters
+///
+/// - `icon`: An icon resource representing the icon. Must provide an absolute icon URL.
+/// - `size`: A target icon size. Must be a valid fixed (non-zero) size variant.
+/// - `path`: A path where the icon should be stored.
+///
+fn process_icon(icon: &IconResource, size: &ImageSize, path: &Path) -> Result<()> {
+    let size = match size {
+        ImageSize::Fixed(a, b) => (a, b),
+        _ => bail!("A fixed image size variant must be provided"),
+    };
+
+    let url: Url = icon.src.clone().try_into().context("Failed to convert icon URL")?;
+    debug!("Processing icon {}", url);
+
+    // Download icon and get its content type
+    let (content, content_type) = download_icon(url).context("Failed to download icon")?;
+
+    if content_type == "image/svg+xml" {
+        debug!("Processing as SVG icon");
+
+        let mut options = usvg::Options::default();
+        options.fontdb.load_system_fonts();
+
+        let mut pixmap = tiny_skia::Pixmap::new(*size.0, *size.1).context("Invalid target size")?;
+        let transform = tiny_skia::Transform::default();
+
+        // Parse and render SVG icons using `usvg` and `resvg` crates
+        let rtree = usvg::Tree::from_data(&content, &options.to_ref())
+            .context("Failed to parse SVG icon")?;
+        resvg::render(&rtree, usvg::FitTo::Size(*size.0, *size.1), transform, pixmap.as_mut())
+            .context("Failed to render SVG icon")?;
+        image::save_buffer(&path, pixmap.data(), *size.0, *size.1, image::ColorType::Rgba8)
+            .context("Failed to save SVG icon")?;
+
+        return Ok(());
+    }
+
+    // Parse raster icons using the `image` crate, resize them and store them to a file
+    debug!("Processing as raster icon");
+    let mut img = image::load_from_memory(&content).context("Failed to load icon")?;
+    img = img.resize(*size.0, *size.1, Gaussian);
+    img.save(&path).context("Failed to save icon")?;
+
+    Ok(())
 }

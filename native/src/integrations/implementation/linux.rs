@@ -18,6 +18,8 @@ use crate::integrations::utils::{download_icon, process_icons};
 use crate::integrations::{SiteInfoInstall, SiteInfoUninstall};
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
+const CONVERT_ICON_URL_ERROR: &str = "Failed to convert icon URL";
+const CONVERT_SHORTCUT_URL_ERROR: &str = "Failed to convert shortcut URL";
 const DOWNLOAD_ICON_ERROR: &str = "Failed to download icon";
 const PROCESS_ICON_ERROR: &str = "Failed to process icon";
 const LOAD_ICON_ERROR: &str = "Failed to load icon";
@@ -35,6 +37,7 @@ const WRITE_APPLICATION_FILE_ERROR: &str = "Failed to write application file";
 ///
 /// Category name is converted to lower-case and all word separators (`-`, `_`, ` `)
 /// are removed. This allows easier matching with keys from the categories map.
+#[inline]
 fn normalize_category_name(category: &str) -> String {
     category.to_lowercase().replace("-", "").replace("_", "").replace(" ", "")
 }
@@ -80,7 +83,7 @@ fn store_icons(id: &str, name: &str, icons: &[IconResource], data: &Path) -> Res
         // Wrapped into a closure to emulate currently unstable `try` blocks
         let mut process = || -> Result<()> {
             // Only icons with absolute URLs can be used
-            let url: Url = icon.src.clone().try_into().context("Failed to convert icon URL")?;
+            let url: Url = icon.src.clone().try_into().context(CONVERT_ICON_URL_ERROR)?;
             debug!("Processing icon {}", url);
 
             // Download icon and get its content type
@@ -218,7 +221,7 @@ StartupWMClass={wmclass}
 
     // Store all shortcuts
     for (i, shortcut) in info.shortcuts.iter().enumerate() {
-        let url: Url = shortcut.url.clone().try_into().context("Failed to convert shortcut URL")?;
+        let url: Url = shortcut.url.clone().try_into().context(CONVERT_SHORTCUT_URL_ERROR)?;
         let icon = format!("{}-{}", appid, i);
 
         store_icons(&icon, &shortcut.name, &shortcut.icons, data)

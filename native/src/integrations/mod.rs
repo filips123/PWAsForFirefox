@@ -5,6 +5,10 @@ use web_app_manifest::types::Url as ManifestUrl;
 use crate::components::site::Site;
 use crate::directories::ProjectDirs;
 
+#[rustfmt::skip]
+#[cfg(target_os = "macos")]
+use {std::process::Child, url::Url};
+
 #[cfg(any(target_os = "linux", target_os = "macos"))]
 mod categories;
 mod implementation;

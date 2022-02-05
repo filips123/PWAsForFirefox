@@ -4,6 +4,10 @@ use cfg_if::cfg_if;
 use crate::directories::ProjectDirs;
 use crate::integrations::{SiteInfoInstall, SiteInfoUninstall};
 
+#[rustfmt::skip]
+#[cfg(target_os = "macos")]
+use {std::process::Child, url::Url, crate::components::site::Site};
+
 #[cfg(target_os = "windows")]
 mod windows;
 
@@ -45,6 +49,6 @@ pub fn uninstall(info: &SiteInfoUninstall, dirs: &ProjectDirs) -> Result<()> {
 
 #[cfg(target_os = "macos")]
 #[inline]
-pub fn launch(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<()> {
+pub fn launch(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Child> {
     macos::launch(site, url, arguments)
 }
