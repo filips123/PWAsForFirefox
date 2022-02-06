@@ -126,19 +126,23 @@ async function createSiteList () {
       document.getElementById('web-app-description').value = site.config.description || ''
       document.getElementById('web-app-start-url').value = site.config.start_url
 
-      // Set categories from config or manifest
+      // Clear previous categories
       const categoriesElement = document.getElementById('web-app-categories')
+      categoriesElement.nextElementSibling.querySelector('input').value = ''
+      categoriesElement.tagsInstance.reset()
+
+      // Set categories from config or manifest
       const categoriesList = site.config.categories.length ? site.config.categories : site.manifest.categories
-      while (categoriesElement.tagsInstance.containerElement.querySelectorAll('span').length) categoriesElement.tagsInstance.removeLastItem()
       for (const category of categoriesList || []) categoriesElement.tagsInstance.addItem(category, category)
-      categoriesElement.tagsInstance.searchInput.value = ''
+
+      // Clear previous keywords
+      const keywordsElement = document.getElementById('web-app-keywords')
+      keywordsElement.nextElementSibling.querySelector('input').value = ''
+      keywordsElement.tagsInstance.reset()
 
       // Set keywords from config or manifest
-      const keywordsElement = document.getElementById('web-app-keywords')
       const keywordsList = site.config.keywords.length ? site.config.keywords : site.manifest.keywords
-      while (keywordsElement.tagsInstance.containerElement.querySelectorAll('span').length) keywordsElement.tagsInstance.removeLastItem()
       for (const keyword of keywordsList || []) keywordsElement.tagsInstance.addItem(keyword, keyword)
-      keywordsElement.tagsInstance.searchInput.value = ''
 
       // Set form to be validated after all inputs are filled with default values and enable submit button
       form.classList.add('was-validated')
