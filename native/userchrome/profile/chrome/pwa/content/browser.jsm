@@ -590,6 +590,7 @@ class PwaBrowser {
 
             const selectedBrowser = window.gBrowser.selectedBrowser;
             const currentUrl = gURLBar.makeURIReadable(selectedBrowser.currentURI).displaySpec;
+            const currentTitle = selectedBrowser.contentTitle;
 
             const widgetView = document.getElementById('share-link-view');
             const widgetBody = widgetView.getElementsByClassName('panel-subview-body')[0];
@@ -601,8 +602,8 @@ class PwaBrowser {
             const sharingService = window.gBrowser.MacSharingService;
             const services = sharingService.getSharingProviders(currentUrl);
             services.forEach(share => {
-              const item = document.createXULElement('menuitem');
-              item.classList.add('menuitem-iconic');
+              const item = document.createXULElement('toolbarbutton');
+              item.classList.add('subviewbutton');
               item.setAttribute('label', share.menuItemTitle);
               item.setAttribute('share-name', share.name);
               item.setAttribute('image', share.image);
@@ -610,14 +611,24 @@ class PwaBrowser {
             });
 
             // Add share more button
-            const moreItem = document.createXULElement('menuitem');
-            document.l10n.setAttributes(moreItem, 'tab-context-share-more');
-            moreItem.classList.add('menuitem-iconic', 'share-more-button');
+            widgetBody.appendChild(document.createXULElement('toolbarseparator'));
+            const moreItem = document.createXULElement('toolbarbutton');
+            document.l10n.setAttributes(moreItem, 'menu-share-more');
+            moreItem.classList.add('subviewbutton', 'subviewbutton-iconic', 'share-more-button');
             widgetBody.appendChild(moreItem);
 
-            // Rely on original tab context menu handler for sharing
-            widgetBody.addEventListener('command', window.TabContextMenu);
-            widgetBody.setAttribute('data-initialized', true);
+            // Handle sharing using macOS services
+            widgetBody.onmouseup = (event) => {
+              if (event.target.classList.contains('share-more-button')) {
+                gBrowser.MacSharingService.openSharingPreferences();
+                return;
+              }
+
+              let shareName = event.target.getAttribute('share-name');
+              if (shareName) {
+                gBrowser.MacSharingService.shareUrl(shareName, currentUrl, currentTitle);
+              }
+            };
 
             return true;
           })());
