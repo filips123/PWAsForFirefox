@@ -245,7 +245,7 @@ impl Runtime {
                 let bundle = target.parent().unwrap().parent().unwrap();
                 let native_translation = target.join("en.lproj");
                 let info_plist = target.parent().unwrap().join("info.plist");
-                let app_name = site.name().unwrap_or_else(|| "PWA".to_owned());
+                let app_name = site.name().unwrap_or_else(|| site.domain().clone());
                 let temp_runtime_name = plist::Value::String(app_name);
 
                 // We remove the translation file so macOS shows the PWA name
