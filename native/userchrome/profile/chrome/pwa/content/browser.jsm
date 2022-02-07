@@ -217,7 +217,7 @@ class PwaBrowser {
       }
 
       // If permissions panel is opened when widget is in menu, reassign anchor element
-      if (args[0].id === 'permission-popup' && args[1].permissionsAreaType !== CustomizableUI.TYPE_TOOLBAR) {
+      if (args[0].id === 'permission-popup' && args[1].parentElement.permissionsAreaType !== CustomizableUI.TYPE_TOOLBAR) {
         args[1] = document.getElementById('nav-bar-overflow-button');
       }
 
@@ -1116,7 +1116,7 @@ class PwaBrowser {
         });
       },
       onCommand (event) {
-          event.target.ownerGlobal.gPermissionPanel.handleIdentityButtonEvent(event);
+        event.target.ownerGlobal.gPermissionPanel.handleIdentityButtonEvent(event);
       }
     });
   }
