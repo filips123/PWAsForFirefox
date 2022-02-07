@@ -514,7 +514,7 @@ class PwaBrowser {
         };
         CustomizableUI.addListener(listener);
       },
-      onClick (event) {
+      onCommand (event) {
         if (!event.target.disabled) AboutReaderParent.buttonClick(event);
       }
     });
@@ -553,7 +553,7 @@ class PwaBrowser {
       label: 'Copy Link',
       tooltiptext: 'Copy a link to this page',
 
-      onClick (event) {
+      onCommand (event) {
         const currentUrl = gURLBar.makeURIReadable(event.target.ownerGlobal.gBrowser.selectedBrowser.currentURI).displaySpec;
         const clipboardHandler = Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper);
         clipboardHandler.copyString(currentUrl);
@@ -634,7 +634,7 @@ class PwaBrowser {
         label: 'Share Link',
         tooltiptext: 'Share a link to this page',
 
-        onClick (event) {
+        onCommand (event) {
           const browser = event.target.ownerGlobal.gBrowser.selectedBrowser;
           const currentUrl = gURLBar.makeURIReadable(browser.currentURI).displaySpec;
           const currentTitle = browser.contentTitle;
@@ -704,7 +704,7 @@ class PwaBrowser {
       label: 'Open in Browser',
       tooltiptext: 'Open this page in browser',
 
-      onClick (event) {
+      onCommand (event) {
         // "Abusing" mail integration to open current URL in external browser
         MailIntegration._launchExternalUrl(makeURI(gURLBar.makeURIReadable(event.target.ownerGlobal.gBrowser.selectedBrowser.currentURI).displaySpec));
       }
@@ -860,7 +860,7 @@ class PwaBrowser {
           node.hidden = false;
         }
       },
-      onClick (event) {
+      onCommand (event) {
         event.target.ownerGlobal.gBrowser.selectedTab.toggleMuteAudio();
       }
     });
@@ -955,7 +955,7 @@ class PwaBrowser {
           });
         });
       },
-      onClick (event) {
+      onCommand (event) {
         if (!event.target.disabled) event.target.ownerGlobal.gProtectionsHandler.handleProtectionsButtonEvent(event);
       }
     });
@@ -1021,7 +1021,7 @@ class PwaBrowser {
           if (identityIcon) identityIcon.setAttribute('pageproxystate', document.getElementById('identity-box').getAttribute('pageproxystate'));
         });
       },
-      onClick (event) {
+      onCommand (event) {
           event.target.ownerGlobal.gIdentityHandler.handleIdentityButtonEvent(event);
       }
     });
@@ -1115,7 +1115,7 @@ class PwaBrowser {
           node.removeAttribute('customizing');
         });
       },
-      onClick (event) {
+      onCommand (event) {
           event.target.ownerGlobal.gPermissionPanel.handleIdentityButtonEvent(event);
       }
     });
@@ -1232,7 +1232,7 @@ class PwaBrowser {
       overflows: false,
       defaultArea: CustomizableUI.AREA_NAVBAR,
 
-      onClick (event) {
+      onCommand (event) {
         const window = event.target.ownerGlobal;
 
         if (window.gFFPWALastScopeUri) {
@@ -1266,7 +1266,7 @@ class PwaBrowser {
       label: 'Back',
       tooltiptext: 'Go back one page',
 
-      onClick (event) {
+      onCommand (event) {
         const window = event.target.ownerGlobal;
         window.BrowserBack(event);
       }
@@ -1279,7 +1279,7 @@ class PwaBrowser {
       label: 'Forward',
       tooltiptext: 'Go back one page',
 
-      onClick (event) {
+      onCommand (event) {
         const window = event.target.ownerGlobal;
         window.BrowserForward(event);
       }
