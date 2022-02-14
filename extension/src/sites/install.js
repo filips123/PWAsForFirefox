@@ -113,6 +113,14 @@ async function initializeForm () {
       return
     }
 
+    // Reset previous values
+    document.getElementById('new-profile-name').value = ''
+    document.getElementById('new-profile-description').value = ''
+    const profileButton = document.getElementById('new-profile-create')
+    profileButton.disabled = false
+    profileButton.innerText = 'Create'
+
+    // Show modal
     Modal.getOrCreateInstance(document.getElementById('new-profile-modal'), { backdrop: 'static', keyboard: false }).show()
     event.preventDefault()
   })
@@ -149,7 +157,8 @@ async function initializeForm () {
     }
 
     // Create a new option in the select input and select it
-    profilesElement.add(new Option(name, id, true, true))
+    profilesElement.add(new Option(name ?? id, id, true, true), profilesElement.length - 1)
+    profilesElement.value = profilesElement.length - 2
 
     // Hide the modal
     Modal.getOrCreateInstance(document.getElementById('new-profile-modal'), { backdrop: 'static', keyboard: false }).hide()
