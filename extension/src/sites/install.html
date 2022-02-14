@@ -46,12 +46,14 @@
               <select class="form-select form-select-sm" id="web-app-profile" required></select>
               <div class="invalid-feedback" id="web-app-profile-invalid"></div>
             </div>
-            <div class="form-check mb-3" id="web-app-use-manifest-box">
+            <div class="form-check" id="web-app-use-manifest-box">
               <input class="form-check-input" type="checkbox" value="" id="web-app-use-manifest" checked>
-              <label class="form-check-label" for="web-app-use-manifest" title="Disable only if you cannot install the web app when this is enabled">Use the manifest for determining app properties</label>
+              <label class="form-check-label" for="web-app-use-manifest" title="Disable only if you cannot install this web app with the manifest enabled">Use the manifest for determining app properties</label>
             </div>
-            <button type="submit" class="btn btn-primary" id="web-app-submit" disabled>Loading...</button>
           </form>
+      </div>
+      <div class="card-footer position-sticky bottom-0 py-2">
+        <button type="submit" class="btn btn-primary" id="web-app-submit" disabled>Loading...</button>
       </div>
     </div>
 

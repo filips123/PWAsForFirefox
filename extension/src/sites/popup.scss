@@ -10,7 +10,7 @@
 
 html, body {
   min-width: 400px;
-  overflow-x: hidden;
+  overflow-x: clip;
   scrollbar-width: thin;
 }
 
@@ -25,18 +25,23 @@ html, body {
   max-width: 400px;
 }
 
-//////////////////////////////
-// Fix Header Background
-//////////////////////////////
-
-.card-header, .card-footer {
-  background-color: #f7f7f7;
+.card-body, .offcanvas-body {
+  scrollbar-width: thin;
 }
 
-@media (prefers-color-scheme: dark) {
-  .card-header, .card-footer {
-    background-color: #212121;
-  }
+//////////////////////////////
+// Form Styles
+//////////////////////////////
+
+.form-label {
+  margin-bottom: 0.1rem;
+}
+
+.form-control {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.5rem;
+  font-size: 0.875rem;
 }
 
 //////////////////////////////
@@ -52,7 +57,25 @@ html, body {
 }
 
 //////////////////////////////
-// Color Modifications
+// Fix Header Background
+//////////////////////////////
+
+.card-header, .card-footer {
+  background-color: #f7f7f7;
+}
+
+@media (prefers-color-scheme: dark) {
+  .card-header, .card-footer {
+    background-color: #202020;
+  }
+
+  .card-offcanvas-body {
+    background-color: #222;
+  }
+}
+
+//////////////////////////////
+// Fix Dark Theme
 //////////////////////////////
 
 .bg-warning > .btn-close {

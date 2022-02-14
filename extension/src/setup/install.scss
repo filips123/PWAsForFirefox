@@ -1,23 +1,9 @@
 //////////////////////////////
-// Bootstrap
+// Setup Styles
 //////////////////////////////
 
-@import "/node_modules/bootstrap-dark-5/dist/css/bootstrap-dark.css";
+@import "setup.scss";
 @import "/node_modules/bootstrap-icons/font/bootstrap-icons.css";
-
-//////////////////////////////
-// Content Card
-//////////////////////////////
-
-.wrapper {
-  max-width: 67rem;
-}
-
-.card {
-  z-index: 0;
-  border: none;
-  border-radius: 0.5rem;
-}
 
 //////////////////////////////
 // Setup Wizard
@@ -65,17 +51,6 @@
 
 #progressbar li.active:before, #progressbar li.active:after {
   background-color: #0d6efd;
-}
-
-//////////////////////////////
-// Instructions Iframe
-//////////////////////////////
-
-iframe {
-  border: 0;
-  margin: 0;
-  padding: 0;
-  width: 100%;
 }
 
 //////////////////////////////

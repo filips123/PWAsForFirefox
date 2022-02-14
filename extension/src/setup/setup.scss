@@ -1,0 +1,30 @@
+//////////////////////////////
+// Bootstrap
+//////////////////////////////
+
+@import "/node_modules/bootstrap-dark-5/dist/css/bootstrap-dark.css";
+
+//////////////////////////////
+// Content Card
+//////////////////////////////
+
+.wrapper {
+  max-width: 67rem;
+}
+
+.card {
+  z-index: 0;
+  border: none;
+  border-radius: 0.5rem;
+}
+
+//////////////////////////////
+// Instructions Iframe
+//////////////////////////////
+
+iframe {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}

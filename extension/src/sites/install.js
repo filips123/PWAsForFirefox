@@ -169,7 +169,7 @@ async function initializeForm () {
 
     // If the name is already used for existing sites, this will cause problems
     if (existingNames.includes(currentName)) {
-      this.setCustomValidity('Site name must not be reused from existing web apps')
+      this.setCustomValidity('Name cannot reused from existing web apps')
       invalidLabel.innerText = this.validationMessage
       return
     }
@@ -230,7 +230,7 @@ async function initializeForm () {
 
     // If the profile is already used for another instance of the same site, they won't actually be separate instances
     if (existingProfiles.includes(this.value)) {
-      this.setCustomValidity('Multiple site instances in the same profile are not possible')
+      this.setCustomValidity('Only one instance per profile can be installed')
       invalidLabel.innerText = this.validationMessage
       return
     }

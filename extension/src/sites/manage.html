@@ -213,11 +213,11 @@
     </div>
 
     <div class="offcanvas offcanvas-start" tabindex="-1" id="site-edit-offcanvas" aria-labelledby="site-edit-label">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="site-edit-label">Edit web app</h5>
+      <div class="card-header card-offcanvas-header sticky-top">
+        <span>Edit web app</span>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div class="offcanvas-body">
+      <div class="card-body card-offcanvas-body">
         <form class="needs-validation" id="web-app-form">
           <div class="mb-3">
             <label for="web-app-name" class="form-label">Name</label>
@@ -240,13 +240,15 @@
               <option selected disabled hidden value="">​</option>
             </select>
           </div>
-          <div class="mb-3">
+          <div>
             <label for="web-app-start-url" class="form-label">Start URL</label>
             <input type="url" class="form-control form-control-sm" id="web-app-start-url" />
             <div class="invalid-feedback" id="web-app-start-url-invalid"></div>
           </div>
-          <button type="submit" class="btn btn-primary" id="web-app-submit" disabled>Loading...</button>
         </form>
+      </div>
+      <div class="card-footer position-sticky bottom-0 py-2">
+        <button type="submit" class="btn btn-primary" id="web-app-submit" disabled>Loading...</button>
       </div>
     </div>
 

@@ -6,21 +6,6 @@
 @import "/node_modules/bootstrap-icons/font/bootstrap-icons.css";
 
 //////////////////////////////
-// Form Styles
-//////////////////////////////
-
-.form-label {
-  margin-bottom: 0.1rem;
-}
-
-.form-control {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  padding-left: 0.5rem;
-  font-size: 0.875rem;
-}
-
-//////////////////////////////
 // Card & Size Modifications
 //////////////////////////////
 
@@ -36,14 +21,25 @@ html, body {
   padding: 0;
 }
 
-.card-body, .offcanvas-body {
-  scrollbar-width: thin;
-}
-
 .card-footer {
   position: sticky;
   bottom: 0;
   width: 100%;
+}
+
+.card-offcanvas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+}
+
+.card-offcanvas-header .btn-close {
+  margin-right: -0.5rem;
+}
+
+.card-offcanvas-body {
+  padding: 1rem 1rem;
 }
 
 .list-group-flush > .list-group-item {
