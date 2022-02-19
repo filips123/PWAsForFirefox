@@ -69,12 +69,6 @@ impl<'a> Connection<'a> {
         connection.send(&response).context("Failed to send response")?;
         info!("Sent a response");
 
-        connection.send(&ResponseMessage::SystemVersions {
-            firefoxpwa: Some("0.0.0".into()),
-            firefox: None,
-            _7zip: None,
-        })?;
-
         Ok(())
     }
 

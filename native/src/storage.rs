@@ -48,6 +48,7 @@ impl Storage {
         let file = File::open(filename).context(STORAGE_OPEN_ERROR)?;
         let mut reader = BufReader::new(file);
         let mut data = String::new();
+
         reader.read_to_string(&mut data).context(STORAGE_LOAD_ERROR)?;
         serde_json::from_str(&data).context(STORAGE_LOAD_ERROR)
     }

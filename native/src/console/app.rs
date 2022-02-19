@@ -137,7 +137,7 @@ pub struct SiteUpdateCommand {
     pub system_integration: bool,
 
     /// Internal: Treat `None` values as actual values
-    #[clap(skip = true)]
+    #[clap(skip = false)]
     pub store_none_values: bool,
 }
 
@@ -194,7 +194,7 @@ pub struct ProfileUpdateCommand {
     pub description: Option<String>,
 
     /// Internal: Treat `None` values as actual values
-    #[clap(skip = true)]
+    #[clap(skip = false)]
     pub store_none_values: bool,
 }
 

@@ -19,6 +19,51 @@ use crate::console::Run;
 use crate::directories::ProjectDirs;
 use crate::storage::Storage;
 
+macro_rules! store_value_str {
+    ($target:expr, $source:expr, $store_none:expr) => {
+        match $source.as_ref().map(|value| value.trim()) {
+            Some("") => $target = None,
+            Some(value) => $target = Some(value.into()),
+            None => {
+                if $store_none {
+                    $target = None
+                }
+            }
+        };
+    };
+}
+
+macro_rules! store_value_url {
+    ($target:expr, $source:expr, $store_none:expr) => {
+        if $source.is_some() || $store_none {
+            $target = $source.clone();
+        }
+    };
+}
+
+macro_rules! store_value_vec {
+    ($target:expr, $source:expr, $store_none:expr) => {
+        let mut source: Vec<&str> = $source.iter().map(|value| value.trim()).collect();
+        source.dedup();
+
+        match source.first() {
+            Some(&"") => $target = vec![],
+            Some(_) => {
+                $target = source
+                    .iter()
+                    .filter(|&value| !value.is_empty())
+                    .map(|&value| value.into())
+                    .collect()
+            }
+            None => {
+                if $store_none {
+                    $target = vec![]
+                }
+            }
+        }
+    };
+}
+
 impl Run for SiteLaunchCommand {
     fn run(&self) -> Result<()> {
         let dirs = ProjectDirs::new()?;
@@ -196,21 +241,11 @@ impl Run for SiteUpdateCommand {
         let site = storage.sites.get_mut(&self.id).context("Site does not exist")?;
 
         info!("Updating the site");
-        if self.name.is_some() || self.store_none_values {
-            site.config.name = self.name.clone();
-        }
-        if self.description.is_some() || self.store_none_values {
-            site.config.description = self.description.clone();
-        }
-        if self.start_url.is_some() || self.store_none_values {
-            site.config.start_url = self.start_url.clone();
-        }
-        if !self.categories.is_empty() || self.store_none_values {
-            site.config.categories = self.categories.clone();
-        }
-        if !self.keywords.is_empty() || self.store_none_values {
-            site.config.keywords = self.keywords.clone();
-        }
+        store_value_str!(site.config.name, self.name, self.store_none_values);
+        store_value_str!(site.config.description, self.description, self.store_none_values);
+        store_value_url!(site.config.start_url, self.start_url, self.store_none_values);
+        store_value_vec!(site.config.categories, self.categories, self.store_none_values);
+        store_value_vec!(site.config.keywords, self.keywords, self.store_none_values);
 
         if self.manifest_updates {
             site.update().context("Failed to update site manifest")?;
