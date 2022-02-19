@@ -20,7 +20,7 @@ use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
 use crate::components::site::Site;
 use crate::directories::ProjectDirs;
 use crate::integrations::categories::MACOS_CATEGORIES;
-use crate::integrations::utils::{download_icon, generate_icon};
+use crate::integrations::utils::{download_icon, generate_icon, sanitize_name};
 use crate::integrations::{SiteInfoInstall, SiteInfoUninstall};
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
@@ -401,7 +401,7 @@ fn create_app_bundle(info: &SiteInfoInstall, exe: &str) -> Result<()> {
         .home_dir()
         .join("Applications");
 
-    let bundle = directory.join(format!("{}.app", info.name));
+    let bundle = directory.join(format!("{}.app", sanitize_name(&info.name, &info.id)));
     let bundle_contents = bundle.join("Contents");
     let info_plist = bundle_contents.join("info.plist");
     let pkg_info = bundle_contents.join("PkgInfo");
@@ -489,7 +489,7 @@ fn remove_app_bundle(info: &SiteInfoUninstall) -> Result<()> {
         .home_dir()
         .join("Applications");
 
-    let filename = directory.join(format!("{}.app", info.name));
+    let filename = directory.join(format!("{}.app", sanitize_name(&info.name, &info.id)));
 
     verify_app_is_pwa(&filename, &info.id)?;
     let _ = remove_dir_all(filename);

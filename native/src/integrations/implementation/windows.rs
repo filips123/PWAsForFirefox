@@ -33,7 +33,7 @@ use winreg::enums::HKEY_CURRENT_USER;
 use winreg::RegKey;
 
 use crate::directories::ProjectDirs;
-use crate::integrations::utils::process_icons;
+use crate::integrations::utils::{process_icons, sanitize_name};
 use crate::integrations::{SiteInfoInstall, SiteInfoUninstall};
 
 const ADD_REMOVE_PROGRAMS_KEY: &str = r"Software\Microsoft\Windows\CurrentVersion\Uninstall";
@@ -53,26 +53,6 @@ fn initialize_windows() -> WindowsResult<()> {
 #[inline]
 fn create_instance<T: Interface>(clsid: &GUID) -> WindowsResult<T> {
     unsafe { CoCreateInstance(clsid, None, CLSCTX_ALL) }
-}
-
-/// Remove all invalid characters for Windows filenames and limit the length.
-///
-/// Name is capped at 60 characters is double-sanitized using the
-/// [`sanitize_filename`] crate to prevent it from containing any
-/// invalid Windows filenames.
-fn sanitize_name<'a>(name: &'a str, id: &'a str) -> String {
-    let pattern: &[_] = &['.', ' '];
-
-    let mut sanitized: String = name.chars().take(60).collect();
-    sanitized = sanitize_filename::sanitize(sanitized);
-    sanitized = sanitized.trim_end_matches(pattern).into();
-    sanitized = sanitize_filename::sanitize(sanitized);
-
-    if sanitized.is_empty() {
-        format!("Site {}", &id)
-    } else {
-        sanitized
-    }
 }
 
 //////////////////////////////

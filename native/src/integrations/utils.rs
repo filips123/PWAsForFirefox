@@ -18,6 +18,24 @@ use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
 // Public
 //////////////////////////////
 
+/// Remove all invalid filename characters and limit the length.
+///
+/// Name is capped at 60 characters is sanitized using the [`sanitize_filename`]
+/// crate to prevent it from containing any invalid filenames characters. Dots
+/// at the start are also removed to prevent the file from being hidden.
+#[cfg(any(target_os = "windows", target_os = "macos"))]
+pub fn sanitize_name<'a>(name: &'a str, id: &'a str) -> String {
+    let mut sanitized: String = name.chars().take(60).collect();
+    sanitized = sanitized.trim_start_matches(&[' ', '.']).into();
+    sanitized = sanitize_filename::sanitize(sanitized);
+
+    if sanitized.is_empty() {
+        format!("Site {}", &id)
+    } else {
+        sanitized
+    }
+}
+
 /// Download the icon from the URL.
 ///
 /// Icon can be downloaded from the network using the `reqwest` crate
