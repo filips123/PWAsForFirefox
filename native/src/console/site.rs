@@ -69,7 +69,7 @@ impl Run for SiteLaunchCommand {
         let dirs = ProjectDirs::new()?;
         let storage = Storage::load(&dirs)?;
 
-        let site = storage.sites.get(&self.id).context("Site does not exist")?;
+        let site = storage.sites.get(&self.id).context("Web app does not exist")?;
         let args = if !&self.arguments.is_empty() { &self.arguments } else { &storage.arguments };
 
         cfg_if! {
@@ -84,7 +84,7 @@ impl Run for SiteLaunchCommand {
         }
 
         let runtime = Runtime::new(&dirs)?;
-        let profile = storage.profiles.get(&site.profile).context("Site without a profile")?;
+        let profile = storage.profiles.get(&site.profile).context("Web app without a profile")?;
 
         if runtime.version.is_none() {
             bail!("Runtime not installed");
@@ -115,14 +115,14 @@ impl Run for SiteLaunchCommand {
             }
         };
 
-        // Patching on macOS is always needed to correctly show PWA name
+        // Patching on macOS is always needed to correctly show the web app name
         // Otherwise, patch runtime and profile only if needed
         if cfg!(target_os = "macos") || should_patch {
             runtime.patch(&dirs, site)?;
             profile.patch(&dirs)?;
         }
 
-        info!("Launching the site");
+        info!("Launching the web app");
         cfg_if! {
             if #[cfg(target_os = "macos")] {
                 site.launch(&dirs, &runtime, &storage.config, &self.url, args, storage.variables)?.wait()?;
@@ -156,7 +156,7 @@ impl SiteInstallCommand {
             .get_mut(&self.profile.unwrap_or_else(Ulid::nil))
             .context("Profile does not exist")?;
 
-        info!("Installing the site");
+        info!("Installing the web app");
 
         let config = SiteConfig {
             name: self.name.clone(),
@@ -183,7 +183,7 @@ impl SiteInstallCommand {
         storage.sites.insert(ulid, site);
         storage.write(&dirs)?;
 
-        info!("Installed the site: {}", ulid);
+        info!("Web app installed: {}", ulid);
         Ok(ulid)
     }
 }
@@ -193,11 +193,11 @@ impl Run for SiteUninstallCommand {
         let dirs = ProjectDirs::new()?;
         let mut storage = Storage::load(&dirs)?;
 
-        let site = storage.sites.get(&self.id).context("Site does not exist")?;
+        let site = storage.sites.get(&self.id).context("Web app does not exist")?;
 
         if !self.quiet {
-            warn!("This will remove the site");
-            warn!("Data will NOT be removed, remove them from the browser");
+            warn!("This will remove the web app");
+            warn!("Data will NOT be removed, remove them from the PWA browser");
 
             print!("Do you want to continue (y/n)? ");
             io::stdout().flush()?;
@@ -212,11 +212,11 @@ impl Run for SiteUninstallCommand {
             }
         }
 
-        info!("Uninstalling the site");
+        info!("Uninstalling the web app");
         storage
             .profiles
             .get_mut(&site.profile)
-            .context("Site with invalid profile")?
+            .context("Web app with invalid profile")?
             .sites
             .retain(|id| *id != self.id);
         let site = storage.sites.remove(&self.id);
@@ -228,7 +228,7 @@ impl Run for SiteUninstallCommand {
 
         storage.write(&dirs)?;
 
-        info!("Site uninstalled!");
+        info!("Web app uninstalled!");
         Ok(())
     }
 }
@@ -238,17 +238,17 @@ impl Run for SiteUpdateCommand {
         let dirs = ProjectDirs::new()?;
         let mut storage = Storage::load(&dirs)?;
 
-        let site = storage.sites.get_mut(&self.id).context("Site does not exist")?;
+        let site = storage.sites.get_mut(&self.id).context("Web app does not exist")?;
 
-        info!("Updating the site");
+        info!("Updating the web app");
         store_value_str!(site.config.name, self.name, self.store_none_values);
         store_value_str!(site.config.description, self.description, self.store_none_values);
         store_value_url!(site.config.start_url, self.start_url, self.store_none_values);
         store_value_vec!(site.config.categories, self.categories, self.store_none_values);
         store_value_vec!(site.config.keywords, self.keywords, self.store_none_values);
 
-        if self.manifest_updates {
-            site.update().context("Failed to update site manifest")?;
+        if self.update_manifest {
+            site.update().context("Failed to update web app manifest")?;
         }
 
         if self.system_integration {
@@ -258,7 +258,7 @@ impl Run for SiteUpdateCommand {
 
         storage.write(&dirs)?;
 
-        info!("Site updated!");
+        info!("Web app updated!");
         Ok(())
     }
 }

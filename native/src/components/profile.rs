@@ -27,7 +27,7 @@ impl Default for Profile {
         Self {
             ulid: Ulid::nil(),
             name: Some("Default".into()),
-            description: Some("Default profile for all sites".into()),
+            description: Some("Default profile for all web apps".into()),
             default: true,
             sites: vec![],
         }
@@ -49,8 +49,8 @@ impl Profile {
         options.overwrite = true;
 
         if !profile.exists() {
-            info!("Creating the profile directory");
-            create_dir_all(&profile).context("Failed to create the profile")?;
+            info!("Creating a profile directory");
+            create_dir_all(&profile).context("Failed to create a profile directory")?;
         }
 
         info!("Patching the profile");

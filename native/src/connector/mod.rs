@@ -221,7 +221,8 @@ impl<'a> Connection<'a> {
                     description: description.to_owned(),
                     categories: categories.to_owned(),
                     keywords: keywords.to_owned(),
-                    manifest_updates: *manifest_updates,
+                    update_manifest: *manifest_updates,
+                    update_icons: true, // TODO: Implement icon update switch
                     system_integration: *system_integration,
                     store_none_values: true,
                 };
@@ -235,10 +236,10 @@ impl<'a> Connection<'a> {
                 let mut storage = Storage::load(&dirs)?;
 
                 for site in storage.sites.values_mut() {
-                    info!("Updating site {}", site.ulid);
+                    info!("Updating web app {}", site.ulid);
 
                     if *manifest_updates {
-                        site.update().context("Failed to update site manifest")?;
+                        site.update().context("Failed to update web app manifest")?;
                     }
 
                     if *system_integration {

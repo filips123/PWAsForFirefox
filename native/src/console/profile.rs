@@ -45,14 +45,12 @@ impl Run for ProfileListCommand {
             );
 
             if !profile.sites.is_empty() {
-                println!("\nSites:");
+                println!("\nApps:");
             }
-            for site in profile.sites {
-                let site = storage.sites.get(&site).context("Profile with invalid site")?;
 
-                let name = site.config.name.clone().unwrap_or_else(|| {
-                    site.manifest.name.clone().unwrap_or_else(|| "Unnamed".into())
-                });
+            for site in profile.sites {
+                let site = storage.sites.get(&site).context("Profile with invalid web app")?;
+                let name = site.name().unwrap_or_else(|| site.domain());
 
                 let url = if site.config.manifest_url.scheme() != "data" {
                     &site.config.manifest_url
@@ -90,7 +88,7 @@ impl ProfileCreateCommand {
         storage.profiles.insert(ulid, profile);
         storage.write(&dirs)?;
 
-        info!("Created a new profile: {}", ulid);
+        info!("Profile created: {}", ulid);
         Ok(ulid)
     }
 }
@@ -103,7 +101,7 @@ impl Run for ProfileRemoveCommand {
         let profile = storage.profiles.get_mut(&self.id).context("Profile does not exist")?;
 
         if !self.quiet {
-            warn!("This will completely remove the profile and all associated sites, including their data");
+            warn!("This will completely remove the profile and all associated web apps, including their data");
             warn!("You might not be able to fully recover this action");
 
             print!("Do you want to continue (y/n)? ");
@@ -121,13 +119,13 @@ impl Run for ProfileRemoveCommand {
 
         if profile.default {
             warn!("Default profile cannot be completely removed");
-            warn!("Sites and data will be cleared, but the profile will stay");
+            warn!("Web apps and data will be cleared, but the profile will stay");
         }
 
         info!("Removing directories");
         let _ = remove_dir_all(dirs.userdata.join("profiles").join(self.id.to_string()));
 
-        info!("Removing sites");
+        info!("Removing web apps");
         for site in &profile.sites {
             storage.sites.remove(site);
         }

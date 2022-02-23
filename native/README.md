@@ -7,7 +7,7 @@ The native part of the PWAsForFirefox project.
 
 The native part is written in Rust and handles the parts that the extension cannot do alone. This includes installing Firefox runtime, patching it with the chrome modifications, installing the sites, and launching them. This can be done via the `firefoxpwa` console program, or via the browser extension that connects with this program using native messaging protocol for easier use.
 
-The native part also contains browser chrome (UI) modifications written in JS and CSS to make the browser work as a standalone PWA: Hiding tab and address bar, re-arranging widgets, handling the site scope, and applying system integration.
+The native part also contains browser chrome (UI) modifications written in JS and CSS to make the browser work as a standalone PWA: Hiding tab and address bar, re-arranging widgets, handling the web app scope, and applying system integration.
 
 Read the [main README file](../README.md) for more details about the project.
 
@@ -116,7 +116,7 @@ firefoxpwa runtime uninstall
 
 ### Profile Management
 
-By default, all PWA sites will be installed to a common profile with ID `00000000000000000000000000`. You can also create separate isolated profiles and install sites there. This means you can also install multiple instances of the same site with different accounts.
+By default, all web apps will be installed to a common profile with ID `00000000000000000000000000`. You can also create separate isolated profiles and install web apps there. This means you can also install multiple instances of the same web app with different accounts.
 
 * To create a new separate profile:
 
@@ -124,7 +124,7 @@ By default, all PWA sites will be installed to a common profile with ID `0000000
   firefoxpwa profile create --name PROFILE-NAME --description PROFILE-DESCRIPTION
   ```
 
-  Both the name and description arguments are optional. This will create a new profile directory and return its ID. You will need that ID to later install the sites into a profile or remove it.
+  Both the name and description arguments are optional. This will create a new profile directory and return its ID. You will need that ID to later install the web apps into a profile or remove it.
 
 * To remove an existing profile:
 
@@ -132,7 +132,7 @@ By default, all PWA sites will be installed to a common profile with ID `0000000
   firefoxpwa profile remove ID
   ```
 
-  This will completely remove the profile and all sites installed in it, including all user data. You might not be able to fully recover this action. Note that a default profile cannot be completely removed, and trying to remove it will just clear all sites and user data, but keep a profile ID in the profile list.
+  This will completely remove the profile and all web apps installed in it, including all user data. You might not be able to fully recover this action. Note that a default profile cannot be completely removed, and trying to remove it will just clear all web apps and user data, but keep a profile ID in the profile list.
 
 * To update an existing profile:
 
@@ -140,41 +140,41 @@ By default, all PWA sites will be installed to a common profile with ID `0000000
    firefoxpwa profile update ID --name NEW-PROFILE-NAME --description NEW-PROFILE-DESCRIPTION
    ```
 
-  This will just change your profile name and description, while keeping the ID and all sites intact.
+  This will just change your profile name and description, while keeping the ID and all web apps intact.
 
-* To view all available profiles and installed sites:
+* To view all available profiles and installed web apps:
 
   ```shell
   firefoxpwa profile list
   ```
 
-  This will print all your profiles and sites installed in them, including their IDs. You will need profile IDs to install a new site into a separate profile or remove a profile, and site IDs to launch or remove sites.
+  This will print all your profiles and web apps installed in them, including their IDs. You will need profile IDs to install a new web app into a separate profile or remove a profile, and web app IDs to launch or remove them.
 
-### Site Management
+### Web App Management
 
-* To install a site:
+* To install a site as a web app:
 
   ```shell
   firefoxpwa site install MANIFEST-URL --profile PROFILE-ID
   ```
 
-  The profile is optional and will default to a common profile. There are also some other options, you can check them in the program help. This will download the site manifest, parse it and register the site. It will also return the ID of the site that you will need to launch it.
+  The profile is optional and will default to a common profile. There are also some other options, you can check them in the program help. This will download the web app manifest, parse it and register the web app to the OS. It will also return the web app ID that you will need to launch it.
 
-* To uninstall a site:
+* To uninstall a web app:
 
   ```shell
   firefoxpwa site uninstall ID
   ```
 
-  This will uninstall the site and remove it from the list. However, site data will stay and will be reused if you later install it again in the same profile. To clear the data, do that through a browser, or also remove a profile.
+  This will uninstall the web app and remove it from the list. However, web app data will stay and will be reused if you later install it again in the same profile. To clear the data, do that through the PWA browser, or also remove a profile.
 
-* To launch a site:
+* To launch a web app:
 
   ```shell
   firefoxpwa site launch ID
   ```
 
-  This will launch the Firefox browser runtime and open the site.
+  This will launch the Firefox browser runtime and open the web app.
 
 ### Other
 

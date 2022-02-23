@@ -103,12 +103,11 @@ impl Runtime {
         };
 
         let version = if executable.exists() && config.exists() {
-            const PATH_ERROR: &str = "Failed to convert runtime INI file path to string";
             const PARSE_ERROR: &str = "Failed to parse runtime INI file";
             const KEY_ERROR: &str = "Failed to access non-existing key in runtime INI file";
 
             let map = Ini::new()
-                .load(config.to_str().context(PATH_ERROR)?)
+                .load(config.as_path())
                 .map_err(|error| anyhow!(error))
                 .context(PARSE_ERROR)?;
             let version = map
@@ -248,7 +247,7 @@ impl Runtime {
                 let app_name = site.name().unwrap_or_else(|| site.domain());
                 let temp_runtime_name = plist::Value::String(app_name);
 
-                // We remove the translation file so macOS shows the PWA name
+                // We remove the translation file so macOS shows the web app name
                 // in the main menubar instead of the runtime name
                 remove_dir_contents(native_translation).context("Failed to patch the runtime")?;
 
@@ -257,7 +256,7 @@ impl Runtime {
 
                 let info_plist_dict = info_plist_file
                     .as_dictionary_mut()
-                    .context("Failed to read runtime info.plist content")?;
+                    .context("Failed to parse runtime info.plist")?;
 
                 // We patch the runtime info.plist with the current app name,
                 // so the main menu shows the right name

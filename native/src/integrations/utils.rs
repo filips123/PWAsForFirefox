@@ -134,8 +134,8 @@ pub fn generate_icon(letter: char, size: &ImageSize) -> Result<RgbImage> {
 ///
 /// # Parameters
 ///
-/// - `icons`: A list of available icons for the site or shortcut.
-/// - `fallback`:  A site or shortcut name. Used to generate a fallback icon.
+/// - `icons`: A list of available icons for the web app or shortcut.
+/// - `fallback`:  A web app or shortcut name. Used to generate a fallback icon.
 /// - `size`: A target icon size. Must be a valid fixed (non-zero) size variant.
 /// - `path`:  A path where the icon should be saved.
 ///

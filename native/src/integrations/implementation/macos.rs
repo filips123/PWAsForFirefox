@@ -33,7 +33,7 @@ const CREATE_ICON_FILE_ERROR: &str = "Failed to create icon file";
 const CREATE_APPLICATION_DIRECTORY_ERROR: &str = "Failed to create application directory";
 const WRITE_APPLICATION_FILE_ERROR: &str = "Failed to write application file";
 const STORE_ICONS_ERROR: &str = "Failed to store icons";
-const LAUNCH_APPLICATION_BUNDLE: &str = "Failed to launch site via system integration";
+const LAUNCH_APPLICATION_BUNDLE: &str = "Failed to launch web app via system integration";
 const APP_BUNDLE_NAME_ERROR: &str = "Failed to get name of app bundle";
 const APP_BUNDLE_UNICODE_ERROR: &str = "Failed to check name of app bundle for Unicode validity";
 const GENERATE_ICON_ERROR: &str = "Failed to generate icon";
@@ -153,7 +153,7 @@ fn sort_icons_for_size(icons: &mut [&IconResource], size: &ImageSize) {
 /// For each size required by ICNS file, the best available icon
 /// is downloaded and converted to a correct format. If icon cannot
 /// be parsed, the next available icon is attempted. In case no
-/// icons are available, an icon is generated from the site name.
+/// icons are available, an icon is generated from the web app name.
 fn store_icons(target: &Path, info: &SiteInfoInstall) -> Result<()> {
     let icon_sizes = [
         MacOSIconSize { size: 16, hdpi: false },
@@ -215,7 +215,7 @@ fn store_icons(target: &Path, info: &SiteInfoInstall) -> Result<()> {
         }
     }
 
-    // If the site does not provide any valid icons, generate them from the name
+    // If the web app does not provide any valid icons, generate them from the name
     if iconset.is_empty() {
         warn!("No compatible or working icon was found");
         warn!("Falling back to the generated icon from the name");
@@ -351,7 +351,7 @@ fn mask_icon(icon: &mut RgbaImage, maskable: bool) -> Result<()> {
     Ok(())
 }
 
-/// Verify if the app bundle contains a PWA.
+/// Verify if the app bundle contains a web app.
 fn verify_app_is_pwa(app_bundle: &Path, app_id: &str) -> Result<()> {
     let mut pkg_info = File::open(app_bundle.join("Contents/PkgInfo"))?;
     let mut pkg_info_content = String::new();
@@ -366,7 +366,7 @@ fn verify_app_is_pwa(app_bundle: &Path, app_id: &str) -> Result<()> {
             .to_str()
             .context(APP_BUNDLE_UNICODE_ERROR)?;
 
-        bail!("{} is not a PWA", bundle_name);
+        bail!("{} is not a web app", bundle_name);
     }
 
     Ok(())
@@ -377,7 +377,7 @@ fn verify_app_is_pwa(app_bundle: &Path, app_id: &str) -> Result<()> {
 //////////////////////////////
 
 fn create_app_bundle(info: &SiteInfoInstall, exe: &str) -> Result<()> {
-    // App ID is based on the site ID
+    // App ID is based on the web app ID
     let appid = format!("FFPWA-{}", &info.id);
 
     // Process some known manifest categories and reformat them into Apple names
@@ -386,7 +386,7 @@ fn create_app_bundle(info: &SiteInfoInstall, exe: &str) -> Result<()> {
         // Make category lower-case and remove all word separators for easier matching
         let category = normalize_category_name(category);
 
-        // Get the mapped Apple category based on the site categories
+        // Get the mapped Apple category based on the web app categories
         match MACOS_CATEGORIES.get(&category) {
             Some(category) => category,
             None => "",

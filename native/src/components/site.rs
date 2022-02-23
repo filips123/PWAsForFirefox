@@ -16,9 +16,9 @@ use crate::directories::ProjectDirs;
 use crate::integrations;
 use crate::storage::Config;
 
-const DOWNLOAD_ERROR: &str = "Failed to download PWA manifest";
-const DATA_URL_ERROR: &str = "Failed to process PWA manifest data URL";
-const PARSE_ERROR: &str = "Failed to parse PWA manifest";
+const DOWNLOAD_ERROR: &str = "Failed to download web app manifest";
+const DATA_URL_ERROR: &str = "Failed to process web app manifest data URL";
+const PARSE_ERROR: &str = "Failed to parse web app manifest";
 
 const APP_USER_AGENT: &str = concat!(
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0 PWAsForFirefox/",
@@ -73,7 +73,7 @@ impl Site {
 
     #[inline]
     pub fn new(profile: Ulid, config: SiteConfig) -> Result<Self> {
-        info!("Downloading the PWA manifest");
+        info!("Downloading the web app manifest");
         let json = Self::download(&config.manifest_url).context(DOWNLOAD_ERROR)?;
 
         // If the manifest URL is a data URL, replace it with the document URL
@@ -83,7 +83,7 @@ impl Site {
             &config.document_url
         };
 
-        info!("Parsing the PWA manifest");
+        info!("Parsing the web app manifest");
         let mut manifest: SiteManifest = serde_json::from_str(&json).context(PARSE_ERROR)?;
         manifest.process(&config.document_url, manifest_url).context(PARSE_ERROR)?;
 
@@ -97,10 +97,10 @@ impl Site {
             return Ok(());
         }
 
-        info!("Downloading the PWA manifest");
+        info!("Downloading the web app manifest");
         let json = Self::download(&self.config.manifest_url).context(DOWNLOAD_ERROR)?;
 
-        info!("Parsing the PWA manifest");
+        info!("Parsing the web app manifest");
         let mut manifest: SiteManifest = serde_json::from_str(&json).context(PARSE_ERROR)?;
         manifest
             .process(&self.config.document_url, &self.config.manifest_url)
@@ -143,7 +143,7 @@ impl Site {
             "--pwa".into(), self.ulid.to_string(),
         ];
 
-        // Allow launching PWA on a specific URL
+        // Allow launching web app on a specific URL
         if let Some(url) = url {
             args.extend_from_slice(&["--url".into(), url.to_string()]);
         }
@@ -166,10 +166,10 @@ impl Site {
         runtime.run(&args, vars)
     }
 
-    /// Scope domain is used as a publisher name or when the site name is undefined.
+    /// Scope domain is used as a publisher name or when the name is undefined.
     /// Using scope instead of start URL because user should not be able to overwrite it.
     pub fn domain(&self) -> String {
-        const INVALID_URL: &str = "Site without valid absolute URL is not possible";
+        const INVALID_URL: &str = "Web app without valid absolute URL is not possible";
 
         if let ManifestUrl::Absolute(url) = &self.manifest.scope {
             match url.host() {

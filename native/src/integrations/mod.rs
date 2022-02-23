@@ -35,7 +35,7 @@ pub struct SiteInfoUninstall {
 
 #[inline]
 pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
-    // Site ID is used to generate all commands and as an identifier at various places
+    // Web app ID is used to generate all commands and as an identifier at various places
     let id = site.ulid.to_string();
 
     // Start URL is used as an info URL in ARP
@@ -45,7 +45,7 @@ pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
     } else if let ManifestUrl::Absolute(url) = &site.manifest.start_url {
         url.to_string()
     } else {
-        unreachable!("Site without valid absolute URL is not possible")
+        unreachable!("Web app without valid absolute URL is not possible")
     };
 
     let domain = site.domain();
@@ -60,7 +60,7 @@ pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
         "".into()
     };
 
-    // Categories can be used for user organization of sites and describe in which categories does site belong
+    // Categories can be used for user organization and describe in which categories does the web app belong
     // There is no fixed list of categories, but some known categories will be converted to XDG menu categories on Linux
     // First try the user-specified categories, then try manifest categories
     let categories = if !site.config.categories.is_empty() {
@@ -69,7 +69,7 @@ pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
         &site.manifest.categories
     };
 
-    // Keywords can also be used for user organization of sites and contain additional words that can describe the site
+    // Keywords can also be used for user organization and contain additional words that can describe the web app
     // Keywords will be converted to XDG menu keywords on Linux and be used as additional search queries
     // First try the user-specified keywords, then try manifest keywords
     let keywords = if !site.config.keywords.is_empty() {

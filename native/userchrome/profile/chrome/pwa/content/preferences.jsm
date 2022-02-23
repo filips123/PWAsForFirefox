@@ -35,13 +35,13 @@ class PwaPreferences {
   </label>
 
   <vbox id="colorsBox" style="padding-top: 1rem;">
-    <checkbox preference="${ChromeLoader.PREF_SITES_SET_THEME_COLOR}" label="Allow apps to override theme (titlebar) color" />
-    <checkbox preference="${ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR}" label="Allow apps to override background (window) color" />
+    <checkbox preference="${ChromeLoader.PREF_SITES_SET_THEME_COLOR}" label="Allow web apps to override a theme (titlebar) color" />
+    <checkbox preference="${ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR}" label="Allow web apps to override a background (window) color" />
   </vbox>
 
    <vbox id="uxBox" style="padding-top: 1rem;">
-    <checkbox preference="${ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER}" label="Open out of scope URLs in a default browser (can break some websites)" />
-    <checkbox preference="${ChromeLoader.PREF_ENABLE_TABS_MODE}" label="Show browser tabs and enable using multiple tabs of the same app" />
+    <checkbox preference="${ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER}" label="Open out-of-scope URLs in a default browser (can break some web apps)" />
+    <checkbox preference="${ChromeLoader.PREF_ENABLE_TABS_MODE}" label="Show browser tabs and enable using multiple tabs of the same web app" />
   </vbox>
 
   <vbox id="linksTargetBox" style="padding-top: 1rem;">

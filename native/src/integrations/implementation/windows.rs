@@ -59,7 +59,7 @@ fn create_instance<T: Interface>(clsid: &GUID) -> WindowsResult<T> {
 // Implementation
 //////////////////////////////
 
-/// Obtain and process the best available site/shortcut icon from the icon list.
+/// Obtain and process the best available app/shortcut icon from the icon list.
 ///
 /// Icon needs to be processed and converted to an ICO file. In case anything fails,
 /// the next icons are tried. If no provided icons are working, the icon is generated
@@ -69,8 +69,8 @@ fn create_instance<T: Interface>(clsid: &GUID) -> WindowsResult<T> {
 ///
 /// # Parameters
 ///
-/// - `name`:  A site or shortcut name. Used to generate a fallback icon.
-/// - `icons`: A list of available icons for the site or shortcut.
+/// - `name`:  A web app or shortcut name. Used to generate a fallback icon.
+/// - `icons`: A list of available icons for the web app or shortcut.
 /// - `path`:  A path where the icon should be saved.
 ///
 fn store_icon(name: &str, icons: &[IconResource], path: &Path) -> Result<()> {
@@ -229,7 +229,7 @@ pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
 
     let exe = dirs.executables.join("firefoxpwa.exe");
     let icon = dirs.userdata.join("icons").join(&info.id).join("site").with_extension("ico");
-    store_icon(&info.name, info.icons, &icon).context("Failed to store site icon")?;
+    store_icon(&info.name, info.icons, &icon).context("Failed to store web app icon")?;
 
     let exe = exe.display().to_string();
     let icon = icon.display().to_string();

@@ -159,7 +159,7 @@ async function createSiteList () {
 
         // If the name is already used for existing sites, this will cause problems
         if (existingNames.includes(currentName)) {
-          this.setCustomValidity('Site name must not be reused from existing web apps')
+          this.setCustomValidity('Name cannot be reused from existing web apps')
           invalidLabel.innerText = this.validationMessage
           return
         }

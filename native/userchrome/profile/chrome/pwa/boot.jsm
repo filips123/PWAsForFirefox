@@ -139,7 +139,7 @@ nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
       let manifestStartUrl = config.sites[siteId].manifest.start_url;
       startUrl = userStartUrl ? userStartUrl : manifestStartUrl;
     } catch (_) {
-      dump(`No PWA installed with requested ULID: ${siteId}\n`);
+      dump(`No web apps installed with requested ULID: ${siteId}\n`);
       return;
     }
 

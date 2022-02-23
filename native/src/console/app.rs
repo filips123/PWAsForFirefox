@@ -9,47 +9,47 @@ use url::Url;
 #[clap(global_setting(clap::AppSettings::DeriveDisplayOrder))]
 #[clap(version)]
 pub enum App {
-    /// Manages the sites (PWAs)
+    /// Manage web apps
     #[clap(subcommand)]
     Site(SiteCommand),
 
-    /// Manages the profiles
+    /// Manage profiles
     #[clap(subcommand)]
     Profile(ProfileCommand),
 
-    /// Manages the runtime
+    /// Manage the runtime
     #[clap(subcommand)]
     Runtime(RuntimeCommand),
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub enum SiteCommand {
-    /// Launches the PWA by its ID
+    /// Launch a web app
     Launch(SiteLaunchCommand),
 
-    /// Installs the PWA from its web app manifest
+    /// Install a web app
     Install(SiteInstallCommand),
 
-    /// Uninstalls the PWA by its ID
+    /// Uninstall a web app
     Uninstall(SiteUninstallCommand),
 
-    /// Updates the PWA by its ID
+    /// Update a web app
     Update(SiteUpdateCommand),
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct SiteLaunchCommand {
-    /// Identifier of the PWA
+    /// Web app ID
     pub id: Ulid,
 
-    /// Additional arguments for the Firefox runtime
+    /// Arguments passed to the runtime
     pub arguments: Vec<String>,
 
-    /// Optionally launches the PWA with a custom start URL
+    /// Launch web app on a custom start URL
     #[clap(long)]
     pub url: Option<Url>,
 
-    /// Internal: Directly launches the PWA without system integration
+    /// Internal: Directly launch web app without system integration
     #[cfg(target_os = "macos")]
     #[clap(long, hide = true)]
     pub direct_launch: bool,
@@ -57,102 +57,108 @@ pub struct SiteLaunchCommand {
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct SiteInstallCommand {
-    /// Direct URL to the PWA web app manifest
+    /// Direct URL of the site's web app manifest
     pub manifest_url: Url,
 
-    /// Direct URL to the main PWA document (defaults to the result of parsing manifest URL with `.`)
+    /// Direct URL of the site's main document
+    /// {n}Defaults to the result of parsing a manifest URL with `.`
     #[clap(long)]
     pub document_url: Option<Url>,
 
-    /// Identifier of the custom profile for this PWA (defaults to the shared profile)
+    /// Profile where this web app will be installed
+    /// {n}Defaults to the shared profile
     #[clap(long)]
     pub profile: Option<Ulid>,
 
-    /// Optionally overwrites the PWA start URL specified in the manifest
+    /// Set a custom web app start URL
     #[clap(long)]
     pub start_url: Option<Url>,
 
-    /// Optionally overwrites the PWA name specified in the manifest
+    /// Set a custom web app name
     #[clap(long)]
     pub name: Option<String>,
 
-    /// Optionally overwrites the PWA description specified in the manifest
+    /// Set a custom web app description
     #[clap(long)]
     pub description: Option<String>,
 
-    /// Optionally overwrites the PWA categories specified in the manifest
+    /// Set custom web app categories
     #[clap(long)]
     pub categories: Vec<String>,
 
-    /// Optionally overwrites the PWA keywords specified in the manifest
+    /// Set custom web app keywords
     #[clap(long)]
     pub keywords: Vec<String>,
 
-    /// Disables system integration
+    /// Disable system integration
     #[clap(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
     pub system_integration: bool,
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct SiteUninstallCommand {
-    /// Identifier of the PWA
+    /// Web app ID
     pub id: Ulid,
 
-    /// Forces removal without any interactive prompts
+    /// Disable any interactive prompts
     #[clap(short, long)]
     pub quiet: bool,
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct SiteUpdateCommand {
-    /// Identifier of the PWA
+    /// Web app ID
     pub id: Ulid,
 
-    /// Optionally overwrites the PWA start URL specified in the manifest
+    /// Set a custom web app start URL
     #[clap(long)]
     pub start_url: Option<Url>,
 
-    /// Optionally overwrites the PWA name specified in the manifest
+    /// Set a custom web app name
     #[clap(long)]
     pub name: Option<String>,
 
-    /// Optionally overwrites the PWA description specified in the manifest
+    /// Set a custom web app description
     #[clap(long)]
     pub description: Option<String>,
 
-    /// Optionally overwrites the PWA categories specified in the manifest
+    /// Set custom web app categories
     #[clap(long)]
     pub categories: Vec<String>,
 
-    /// Optionally overwrites the PWA keywords specified in the manifest
+    /// Set custom web app keywords
     #[clap(long)]
     pub keywords: Vec<String>,
 
-    /// Disables manifest updates
+    /// Disable manifest updates
     #[clap(long = "no-manifest-updates", parse(from_flag = std::ops::Not::not))]
-    pub manifest_updates: bool,
+    pub update_manifest: bool,
 
-    /// Disables system integration
+    /// Disable icon updates
+    #[clap(long = "no-icon-updates", parse(from_flag = std::ops::Not::not))]
+    pub update_icons: bool,
+
+    /// Disable system integration
     #[clap(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
     pub system_integration: bool,
 
     /// Internal: Treat `None` values as actual values
-    #[clap(skip = false)]
+    #[clap(long, hide = true)]
     pub store_none_values: bool,
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub enum ProfileCommand {
-    /// Lists available profiles and their sites
+    /// List available profiles and their web apps
     List(ProfileListCommand),
 
-    /// Creates a new profile
+    /// Create a new profile
     Create(ProfileCreateCommand),
 
-    /// Removes an existing profile
+    /// Remove an existing profile
     Remove(ProfileRemoveCommand),
 
-    /// Updates an existing profile
+    /// Update an existing profile
     Update(ProfileUpdateCommand),
 }
 
@@ -161,49 +167,49 @@ pub struct ProfileListCommand {}
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct ProfileCreateCommand {
-    /// Name of the profile
+    /// Set a profile name
     #[clap(long)]
     pub name: Option<String>,
 
-    /// Description of the profile
+    /// Set a profile description
     #[clap(long)]
     pub description: Option<String>,
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct ProfileRemoveCommand {
-    /// Identifier of the profile
+    /// Profile ID
     pub id: Ulid,
 
-    /// Forces removal without any interactive prompts
+    /// Disable any interactive prompts
     #[clap(short, long)]
     pub quiet: bool,
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct ProfileUpdateCommand {
-    /// Identifier of the profile
+    /// Profile ID
     pub id: Ulid,
 
-    /// Name of the profile
+    /// Set a profile name
     #[clap(long)]
     pub name: Option<String>,
 
-    /// Description of the profile
+    /// Set a profile description
     #[clap(long)]
     pub description: Option<String>,
 
     /// Internal: Treat `None` values as actual values
-    #[clap(skip = false)]
+    #[clap(long, hide = true)]
     pub store_none_values: bool,
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub enum RuntimeCommand {
-    /// Installs the runtime
+    /// Install the runtime
     Install(RuntimeInstallCommand),
 
-    /// Uninstalls the runtime
+    /// Uninstall the runtime
     Uninstall(RuntimeUninstallCommand),
 }
 

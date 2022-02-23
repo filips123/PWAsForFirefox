@@ -68,9 +68,9 @@ fn update_application_cache(data: &Path) -> Result<()> {
 ///
 /// # Parameters
 ///
-/// - `id`:    An icon ID, consisting from the site ID and shortcut ID.
-/// - `name`:  A site or shortcut name. Used to generate a fallback icon.
-/// - `icons`: A list of available icons for the site or shortcut.
+/// - `id`:    An icon ID, consisting from the web app ID and shortcut ID.
+/// - `name`:  A web app or shortcut name. Used to generate a fallback icon.
+/// - `icons`: A list of available icons for the web app or shortcut.
 /// - `data`:  A path to the XDG data directory.
 ///
 fn store_icons(id: &str, name: &str, icons: &[IconResource], data: &Path) -> Result<()> {
@@ -271,7 +271,7 @@ pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
     let data = directories::BaseDirs::new().context(BASE_DIRECTORIES_ERROR)?.data_dir().to_owned();
     let exe = dirs.executables.join("firefoxpwa").display().to_string();
 
-    store_icons(appid, &info.name, info.icons, &data).context("Failed to store site icons")?;
+    store_icons(appid, &info.name, info.icons, &data).context("Failed to store web app icons")?;
     create_desktop_entry(appid, info, &exe, &data).context("Failed to create application entry")?;
     let _ = update_application_cache(&data);
 
@@ -282,7 +282,7 @@ pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
 pub fn uninstall(info: &SiteInfoUninstall, _dirs: &ProjectDirs) -> Result<()> {
     let data = &directories::BaseDirs::new().context(BASE_DIRECTORIES_ERROR)?.data_dir().to_owned();
 
-    remove_icons(info, data).context("Failed to remove site icons")?;
+    remove_icons(info, data).context("Failed to remove web app icons")?;
     remove_desktop_entry(info, data).context("Failed to remove application entry")?;
     let _ = update_application_cache(data);
 
