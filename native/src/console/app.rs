@@ -103,6 +103,10 @@ pub struct SiteUninstallCommand {
     /// Disable any interactive prompts
     #[clap(short, long)]
     pub quiet: bool,
+
+    /// Disable system integration
+    #[clap(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
+    pub system_integration: bool,
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]

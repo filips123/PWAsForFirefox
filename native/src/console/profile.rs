@@ -117,7 +117,7 @@ impl Run for ProfileRemoveCommand {
             }
         }
 
-        if profile.default {
+        if profile.ulid == Ulid::nil() {
             warn!("Default profile cannot be completely removed");
             warn!("Web apps and data will be cleared, but the profile will stay");
         }
@@ -130,7 +130,7 @@ impl Run for ProfileRemoveCommand {
             storage.sites.remove(site);
         }
 
-        if !profile.default {
+        if profile.ulid != Ulid::nil() {
             info!("Removing the profile");
             storage.profiles.remove(&self.id);
         } else {

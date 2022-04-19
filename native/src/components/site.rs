@@ -25,17 +25,36 @@ const APP_USER_AGENT: &str = concat!(
     env!("CARGO_PKG_VERSION")
 );
 
+/// Contains configuration for the web app.
+///
+/// Most optional data here are just overwrites for information
+/// provided by the web app in its manifest. If not set, they will
+/// default to the value in the manifest.
+///
+/// This struct also contains few required configuration for
+/// the web app, such as a document and manifest URL.
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct SiteConfig {
+    /// A custom web app name.
     pub name: Option<String>,
+
+    /// A custom web app description.
     pub description: Option<String>,
+
+    /// A custom web app start URL.
     pub start_url: Option<Url>,
+
+    /// Direct URL of the site's main document.
     pub document_url: Url,
+
+    /// Direct URL of the site's web app manifest.
     pub manifest_url: Url,
 
+    /// Custom web app categories.
     #[serde(default)]
     pub categories: Vec<String>,
 
+    /// Custom web app keywords.
     #[serde(default)]
     pub keywords: Vec<String>,
 }
@@ -43,9 +62,21 @@ pub struct SiteConfig {
 #[non_exhaustive]
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct Site {
+    /// A web app ID.
+    ///
+    /// Stored as the ULID format. Unique for each web app
+    /// instance and auto-generated when a web app is installed.
     pub ulid: Ulid,
+
+    /// A profile ID.
+    ///
+    /// Represents the profile where this web app is installed.
     pub profile: Ulid,
+
+    /// A web app config.
     pub config: SiteConfig,
+
+    /// A web app manifest.
     pub manifest: SiteManifest,
 }
 
@@ -123,6 +154,12 @@ impl Site {
     }
 
     #[inline]
+    pub fn update_system_integration(&self, dirs: &ProjectDirs) -> Result<()> {
+        info!("Updating system integration");
+        integrations::install(self, dirs)
+    }
+
+    #[inline]
     pub fn launch<I: IntoIterator<Item = (String, String)>>(
         &self,
         dirs: &ProjectDirs,
@@ -174,10 +211,10 @@ impl Site {
         if let ManifestUrl::Absolute(url) = &self.manifest.scope {
             match url.host() {
                 Some(domain) => domain.to_string(),
-                None => unreachable!(INVALID_URL),
+                None => unreachable!("{}", INVALID_URL),
             }
         } else {
-            unreachable!(INVALID_URL)
+            unreachable!("{}", INVALID_URL)
         }
     }
 

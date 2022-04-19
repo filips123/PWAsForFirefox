@@ -19,9 +19,34 @@ const STORAGE_SAVE_ERROR: &str = "Failed to save storage";
 #[derive(Serialize, Deserialize, Debug, Eq, PartialEq, Clone, SmartDefault)]
 #[serde(default)]
 pub struct Config {
+    /// Whether the runtime and profile should always be patched when launching a web app.
+    ///
+    /// Does not have any effect on macOS, where web apps are
+    /// always patched to correctly display their names.
     pub always_patch: bool,
+
+    /// Whether the runtime should use Wayland Display Server.
+    ///
+    /// This sets `MOZ_ENABLE_WAYLAND` environment variable.
+    ///
+    /// Only affects Linux, on supported desktop environments.
+    /// May be overwritten with a system environment variable.
     pub runtime_enable_wayland: bool,
+
+    /// Whether the runtime should use X Input Extension 2.
+    ///
+    /// This sets `MOZ_USE_XINPUT2` environment variable.
+    ///
+    /// Only affects Linux, on supported desktop environments.
+    /// May be overwritten with a system environment variable.
     pub runtime_use_xinput2: bool,
+
+    /// Whether the runtime should use XDG Desktop Portals.
+    ///
+    /// This sets `GTK_USE_PORTAL` environment variable.
+    ///
+    /// Only affects Linux, on supported desktop environments.
+    /// May be overwritten with a system environment variable.
     pub runtime_use_portals: bool,
 }
 
@@ -29,11 +54,20 @@ pub struct Config {
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone, SmartDefault)]
 #[serde(default)]
 pub struct Storage {
+    /// A map of profiles and their IDs.
     #[default([(Ulid::nil(), Profile::default())].iter().cloned().collect())]
     pub profiles: BTreeMap<Ulid, Profile>,
+
+    /// A map of web apps and their IDs.
     pub sites: BTreeMap<Ulid, Site>,
+
+    /// Arguments to be passed to the Firefox runtime.
     pub arguments: Vec<String>,
+
+    /// Environment variables to be passed to the Firefox runtime.
     pub variables: BTreeMap<String, String>,
+
+    /// Config of the native program.
     pub config: Config,
 }
 

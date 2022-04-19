@@ -243,8 +243,8 @@ async function createSiteList () {
               description,
               categories,
               keywords,
-              manifest_updates: true,
-              system_integration: true
+              update_manifest: true,
+              update_icons: true
             }
           })
 
@@ -286,7 +286,7 @@ async function createSiteList () {
         try {
           const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
             cmd: 'UninstallSite',
-            params: site.ulid
+            params: { id: site.ulid }
           })
 
           if (response.type === 'Error') throw new Error(response.data)
@@ -497,7 +497,7 @@ async function createProfileList () {
         try {
           const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
             cmd: 'RemoveProfile',
-            params: profile.ulid
+            params: { id: profile.ulid }
           })
 
           if (response.type === 'Error') throw new Error(response.data)
@@ -518,7 +518,8 @@ async function createProfileList () {
         }
       }
 
-      if (profile.default) document.getElementById('profile-remove-default').classList.remove('d-none')
+      const nilUlid = '0'.repeat(26)
+      if (profile.ulid === nilUlid) document.getElementById('profile-remove-default').classList.remove('d-none')
       else document.getElementById('profile-remove-default').classList.add('d-none')
 
       Modal.getOrCreateInstance(document.getElementById('profile-remove-modal')).show()
@@ -597,7 +598,7 @@ async function handleSettings (hasChanged = false) {
     try {
       const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
         cmd: 'UpdateAllSites',
-        params: { manifest_updates: manifestUpdatesEnabled, system_integration: true }
+        params: { update_manifest: manifestUpdatesEnabled, update_icons: true }
       })
 
       if (response.type === 'Error') throw new Error(response.data)

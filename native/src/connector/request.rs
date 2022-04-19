@@ -1,74 +1,414 @@
-#![allow(clippy::large_enum_variant)]
-
-use serde::{Deserialize, Serialize};
+use anyhow::Result;
+use serde::Deserialize;
 use ulid::Ulid;
 use url::Url;
 
+use crate::connector::response::ConnectorResponse;
 use crate::storage::Config;
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
-#[serde(tag = "cmd", content = "params")]
-pub enum RequestMessage {
-    /// Gets the versions of the installed system components.
-    GetSystemVersions,
+/// Builds a connector request enum for all supported request types.
+macro_rules! build_request_enum {
+    ($($(#[$attr:meta])* $msg:ident),* $(,)?) => {
+        use crate::connector::Connection;
+        use crate::connector::process::Process;
 
-    /// Installs the browser runtime.
-    InstallRuntime,
+        /// TODO: Docs
+        #[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
+        #[serde(tag = "cmd", content = "params")]
+        pub enum ConnectorRequest {
+            $(
+                #[doc = concat!("Wrapper around [`", stringify!($msg), "`].")]
+                $(#[$attr])*
+                $msg($msg),
+            )*
+        }
 
-    /// Uninstalls the browser runtime.
-    UninstallRuntime,
-
-    /// Lists all installed sites.
-    GetSiteList,
-
-    /// Launches the site by its ULID at the optional URL.
-    LaunchSite { id: Ulid, url: Option<Url> },
-
-    /// Installs the site from the manifest with optional user overwrites.
-    InstallSite {
-        manifest_url: Url,
-        document_url: Option<Url>,
-        start_url: Option<Url>,
-        profile: Option<Ulid>,
-        name: Option<String>,
-        description: Option<String>,
-        categories: Vec<String>,
-        keywords: Vec<String>,
-    },
-
-    /// Uninstalls the site by its ULID.
-    UninstallSite(Ulid),
-
-    /// Updates the site by its ULID with optional user overwrites.
-    UpdateSite {
-        id: Ulid,
-        start_url: Option<Url>,
-        name: Option<String>,
-        description: Option<String>,
-        categories: Vec<String>,
-        keywords: Vec<String>,
-        manifest_updates: bool,
-        system_integration: bool,
-    },
-
-    /// Updates all installed sites.
-    UpdateAllSites { manifest_updates: bool, system_integration: bool },
-
-    /// Lists all available profiles.
-    GetProfileList,
-
-    /// Creates a new profile with a name and description.
-    CreateProfile { name: Option<String>, description: Option<String> },
-
-    /// Removes an existing profile by its ULID.
-    RemoveProfile(Ulid),
-
-    /// Updates an existing profile by its ULID with a new name and description.
-    UpdateProfile { id: Ulid, name: Option<String>, description: Option<String> },
-
-    /// Gets the configuration of the native program.
-    GetConfig,
-
-    /// Sets the configuration of the native program.
-    SetConfig(Config),
+        impl Process for ConnectorRequest {
+            fn process(&self, connection: &Connection) -> Result<ConnectorResponse> {
+                match self {
+                    $(Self::$msg(msg) => msg.process(&connection),)*
+                }
+            }
+        }
+    };
 }
+
+/// Implements a custom deserializer for unit structs that ignores
+/// their content to prevent failing deserialization when `null`
+/// is not provided in the `params`.
+macro_rules! deserialize_unit_struct {
+    ($msg:ty) => {
+        impl<'de> Deserialize<'de> for $msg {
+            fn deserialize<D>(_deserializer: D) -> Result<Self, D::Error>
+            where
+                D: serde::de::Deserializer<'de>,
+            {
+                Ok(Self)
+            }
+        }
+    };
+}
+
+/// Just a simple function that returns `true`.
+///
+/// Needed to set `true` as a default boolean value until
+/// Serde adds support for literals as default values.
+///
+/// See: https://github.com/serde-rs/serde/issues/368
+const fn default_as_true() -> bool {
+    true
+}
+
+/// Gets versions of the installed system components.
+///
+/// # Parameters
+///
+/// None.
+///
+/// # Returns
+///
+/// [`ConnectorResponse::SystemVersions`] - Versions of the installed system components.
+///
+#[derive(Debug, Eq, PartialEq, Clone)]
+pub struct GetSystemVersions;
+
+/// Gets config of the native program.
+///
+/// # Parameters
+///
+/// None.
+///
+/// # Returns
+///
+/// [`ConnectorResponse::Config`] - Config of the native program.
+///
+#[derive(Debug, Eq, PartialEq, Clone)]
+pub struct GetConfig;
+
+/// Sets config of the native program.
+///
+/// # Parameters
+///
+/// See [fields](#fields).
+///
+/// # Returns
+///
+/// [`ConnectorResponse::ConfigSet`] - No data.
+///
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct SetConfig(pub Config);
+
+/// Installs the Firefox runtime.
+///
+/// This command will download the unmodified Mozilla Firefox from
+/// the Mozilla servers and locally modify it. On Windows, this will
+/// automatically install 7-Zip if it is not already installed, which
+/// may require the user to accept the User Account Control prompt.
+///
+/// # Supported Platforms
+///
+/// - Windows: All (x86, x64, ARM64)
+/// - MacOS: All (x64, ARM64)
+/// - Linux: x86, x64
+///
+/// # Parameters
+///
+/// None.
+///
+/// # Returns
+///
+/// [`ConnectorResponse::RuntimeInstalled`] - No data.
+///
+#[derive(Debug, Eq, PartialEq, Clone)]
+pub struct InstallRuntime;
+
+/// Uninstalls the Firefox runtime.
+///
+/// # Parameters
+///
+/// None.
+///
+/// # Returns
+///
+/// [`ConnectorResponse::RuntimeUninstalled`] - No Data
+///
+#[derive(Debug, Eq, PartialEq, Clone)]
+pub struct UninstallRuntime;
+
+/// Gets all installed web apps.
+///
+/// # Parameters
+///
+/// None.
+///
+/// # Returns
+///
+/// [`ConnectorResponse::SiteList`]
+///
+#[derive(Debug, Eq, PartialEq, Clone)]
+pub struct GetSiteList;
+
+/// Launches a web app.
+///
+/// # Parameters
+///
+/// See [fields](#fields).
+///
+/// # Returns
+///
+/// [`ConnectorResponse::SiteLaunched`] - No data.
+///
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct LaunchSite {
+    /// A web app ID.
+    pub id: Ulid,
+
+    /// Optional URL where to start a web app.
+    ///
+    /// Used to launch a web app on custom URL.
+    /// If not specified, a default URL is used.
+    pub url: Option<Url>,
+}
+
+/// Installs a new web app.
+///
+/// # Parameters
+///
+/// See [fields](#fields).
+///
+/// # Returns
+///
+/// [`ConnectorResponse::SiteInstalled`] - Generated ID of the installed web app.
+///
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct InstallSite {
+    /// Direct URL of the site's web app manifest.
+    pub manifest_url: Url,
+
+    /// Direct URL of the site's main document.
+    ///
+    /// This is the URL from which the manifest parsing was triggered.
+    /// Defaults to the result of parsing a manifest URL with `.`.
+    pub document_url: Option<Url>,
+
+    /// A custom web app start URL.
+    ///
+    /// Can be set by the user to overwrite the default start URL.
+    /// If not set, defaults to the value specified in the manifest.
+    pub start_url: Option<Url>,
+
+    /// A custom web app name.
+    ///
+    /// Can be set by the user to overwrite the default name.
+    /// If not set, defaults to the value specified in the manifest.
+    pub name: Option<String>,
+
+    /// A custom web app description.
+    ///
+    /// Can be set by the user to overwrite the default description.
+    /// If not set, defaults to the value specified in the manifest.
+    pub description: Option<String>,
+
+    /// Custom web app categories.
+    ///
+    /// Can be set by the user to overwrite the default categories.
+    /// If empty, defaults to the value specified in the manifest.
+    pub categories: Vec<String>,
+
+    /// Custom web app keywords.
+    ///
+    /// Can be set by the user to overwrite the default keywords.
+    /// If empty, defaults to the value specified in the manifest.
+    pub keywords: Vec<String>,
+
+    /// Profile where this web app will be installed.
+    ///
+    /// Defaults to the default/shared profile.
+    pub profile: Option<Ulid>,
+}
+
+/// Uninstalls a web app.
+///
+/// # Parameters
+///
+/// See [fields](#fields).
+///
+/// # Returns
+///
+/// [`ConnectorResponse::SiteUninstalled`] - No data.
+///
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct UninstallSite {
+    /// A web app ID.
+    pub id: Ulid,
+}
+
+/// Updates a web app.
+///
+/// # Parameters
+///
+/// See [fields](#fields).
+///
+/// # Returns
+///
+/// [`ConnectorResponse::SiteUpdated`] - No data.
+///
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct UpdateSite {
+    /// A web app ID.
+    pub id: Ulid,
+
+    /// A custom web app start URL.
+    ///
+    /// Can be set by the user to overwrite the default start URL.
+    /// If not set, defaults to the value specified in the manifest.
+    pub start_url: Option<Url>,
+
+    /// A custom web app name.
+    ///
+    /// Can be set by the user to overwrite the default name.
+    /// If not set, defaults to the value specified in the manifest.
+    pub name: Option<String>,
+
+    /// A custom web app description.
+    ///
+    /// Can be set by the user to overwrite the default description.
+    /// If not set, defaults to the value specified in the manifest.
+    pub description: Option<String>,
+
+    /// Custom web app categories.
+    ///
+    /// Can be set by the user to overwrite the default categories.
+    /// If empty, defaults to the value specified in the manifest.
+    pub categories: Vec<String>,
+
+    /// Custom web app keywords.
+    ///
+    /// Can be set by the user to overwrite the default keywords.
+    /// If empty, defaults to the value specified in the manifest.
+    pub keywords: Vec<String>,
+
+    /// Whether the manifest should be updated (default: `true`).
+    #[serde(default = "default_as_true")]
+    pub update_manifest: bool,
+
+    /// Whether the icons should be updated (default: `true`).
+    #[serde(default = "default_as_true")]
+    pub update_icons: bool,
+}
+
+/// Updates all web apps.
+///
+/// # Parameters
+///
+/// None.
+///
+/// # Returns
+///
+/// [`ConnectorResponse::AllSitesUpdated`] - No data.
+///
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct UpdateAllSites {
+    /// Whether the manifest should be updated (default: `true`).
+    #[serde(default = "default_as_true")]
+    pub update_manifest: bool,
+
+    /// Whether the icons should be updated (default: `true`).
+    #[serde(default = "default_as_true")]
+    pub update_icons: bool,
+}
+
+/// Gets all available profiles.
+///
+/// # Parameters
+///
+/// None.
+///
+/// # Returns
+///
+/// [`ConnectorResponse::ProfileList`]
+///
+#[derive(Debug, Eq, PartialEq, Clone)]
+pub struct GetProfileList;
+
+/// Creates a new profile.
+///
+/// # Parameters
+///
+/// See [fields](#fields).
+///
+/// # Returns
+///
+/// [`ConnectorResponse::ProfileCreated`] - Generated ID of the created profile.
+///
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct CreateProfile {
+    /// A profile name.
+    pub name: Option<String>,
+
+    /// A profile description.
+    pub description: Option<String>,
+}
+
+/// Removes a profile.
+///
+/// # Parameters
+///
+/// See [fields](#fields).
+///
+/// # Returns
+///
+/// [`ConnectorResponse::ProfileRemoved`] - No data.
+///
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct RemoveProfile {
+    /// A profile ID.
+    pub id: Ulid,
+}
+
+/// Updates a profile.
+///
+/// # Parameters
+///
+/// See [fields](#fields).
+///
+/// # Returns
+///
+/// [`ConnectorResponse::ProfileUpdated`] - No data.
+///
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct UpdateProfile {
+    /// A profile ID.
+    pub id: Ulid,
+
+    /// A profile name.
+    pub name: Option<String>,
+
+    /// A profile description.
+    pub description: Option<String>,
+}
+
+deserialize_unit_struct!(GetSystemVersions);
+deserialize_unit_struct!(GetConfig);
+deserialize_unit_struct!(InstallRuntime);
+deserialize_unit_struct!(UninstallRuntime);
+deserialize_unit_struct!(GetSiteList);
+deserialize_unit_struct!(GetProfileList);
+
+build_request_enum!(
+    GetSystemVersions,
+    GetConfig,
+    SetConfig,
+    InstallRuntime,
+    UninstallRuntime,
+    GetSiteList,
+    LaunchSite,
+    InstallSite,
+    UninstallSite,
+    UpdateSite,
+    UpdateAllSites,
+    GetProfileList,
+    CreateProfile,
+    RemoveProfile,
+    UpdateProfile,
+);

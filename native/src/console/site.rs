@@ -221,9 +221,11 @@ impl Run for SiteUninstallCommand {
             .retain(|id| *id != self.id);
         let site = storage.sites.remove(&self.id);
 
-        if let Some(site) = site {
-            site.uninstall_system_integration(&dirs)
-                .context("Failed to uninstall system integration")?;
+        if self.system_integration {
+            if let Some(site) = site {
+                site.uninstall_system_integration(&dirs)
+                    .context("Failed to uninstall system integration")?;
+            }
         }
 
         storage.write(&dirs)?;
@@ -252,8 +254,7 @@ impl Run for SiteUpdateCommand {
         }
 
         if self.system_integration {
-            site.install_system_integration(&dirs)
-                .context("Failed to update system integration")?;
+            site.update_system_integration(&dirs).context("Failed to update system integration")?;
         }
 
         storage.write(&dirs)?;

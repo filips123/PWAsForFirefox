@@ -1,61 +1,76 @@
-#![allow(clippy::large_enum_variant)]
-
 use std::collections::BTreeMap;
 
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use ulid::Ulid;
 
 use crate::components::profile::Profile;
 use crate::components::site::Site;
 use crate::storage::Config;
 
-#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+/// TODO: Docs
+#[derive(Serialize, Debug, PartialEq, Clone)]
 #[serde(tag = "type", content = "data")]
-pub enum ResponseMessage {
-    /// The versions of the installed system components.
-    SystemVersions { firefoxpwa: Option<String>, firefox: Option<String>, _7zip: Option<String> },
+pub enum ConnectorResponse {
+    /// Versions of the installed system components.
+    SystemVersions {
+        /// Version of the PWAsForFirefox native program.
+        ///
+        /// Always set. When using a development version,
+        /// commonly set to `0.0.0`.
+        firefoxpwa: Option<String>,
 
-    /// Runtime has been successfully installed.
+        /// Version of the Firefox runtime.
+        ///
+        /// Only set if the runtime is installed.
+        firefox: Option<String>,
+
+        /// Version of the 7-Zip program.
+        ///
+        /// Only set on Windows, and if 7-Zip is installed.
+        _7zip: Option<String>,
+    },
+
+    /// Config of the native program.
+    Config(Config),
+
+    /// Config of the native program has been set.
+    ConfigSet,
+
+    /// Runtime has been installed.
     RuntimeInstalled,
 
-    /// Runtime has been successfully uninstalled.
+    /// Runtime has been uninstalled.
     RuntimeUninstalled,
 
-    /// List of all installed sites.
+    /// List of all installed web apps.
     SiteList(BTreeMap<Ulid, Site>),
 
-    /// Site has been successfully launched.
+    /// Web app has been launched.
     SiteLaunched,
 
-    /// Site has been successfully installed.
+    /// Web app has been installed.
     SiteInstalled(Ulid),
 
-    /// Site has been successfully uninstalled.
+    /// Web app has been uninstalled.
     SiteUninstalled,
 
-    /// Site has been successfully updated.
+    /// Web app has been updated.
     SiteUpdated,
 
-    /// All sites have been successfully updated.
+    /// All web apps have been updated.
     AllSitesUpdated,
 
     /// List of all available profiles.
     ProfileList(BTreeMap<Ulid, Profile>),
 
-    /// Profile has been successfully created.
+    /// Profile has been created.
     ProfileCreated(Ulid),
 
-    /// Profile has been successfully created.
+    /// Profile has been removed.
     ProfileRemoved,
 
-    /// Profile has been successfully updated.
+    /// Profile has been updated.
     ProfileUpdated,
-
-    /// Configuration of the native program.
-    Config(Config),
-
-    /// Configuration of the native program has been successfully set.
-    ConfigSet,
 
     /// Something went wrong...
     Error(String),
