@@ -1,27 +1,27 @@
-// Obtain the URL of the current page manifest
+const isAppleMaskIcon = (link) => link.getAttribute('rel').toLowerCase().includes('mask-icon')
+
+// Obtain the initial web app manifest URL
 const manifestElement = document.querySelector('link[rel=manifest]')
-let manifestUrl
+const manifestUrl = manifestElement ? new URL(manifestElement.getAttribute('href'), document.baseURI) : null
 
-if (manifestElement) {
-  manifestUrl = new URL(manifestElement.getAttribute('href'), document.baseURI)
-  manifestUrl = manifestUrl.href
-}
+// Send the initial manifest and document URLs on the page load
+browser.runtime.sendMessage({ manifestUrl: manifestUrl?.href, documentUrl: document.location.href })
 
-// Send the manifest URL and the document URL to the background script on the page load
-browser.runtime.sendMessage({ manifestUrl, documentUrl: document.location.href })
-
-// Send the manifest and the document URL to the sender of the request message
+// Send the current manifest and document URLs on request
 browser.runtime.onMessage.addListener((message, _, sendResponse) => {
   // Ignore invalid messages
   if (message !== 'ObtainUrls') return
 
-  // Collect page info that can be used if manifest does not exist
-  const isAppleMaskIcon = (link) => link.getAttribute('rel').toLowerCase().includes('mask-icon')
+  // Collect the current web app manifest URL
+  const manifestElement = document.querySelector('link[rel=manifest]')
+  const manifestUrl = manifestElement ? new URL(manifestElement.getAttribute('href'), document.baseURI) : null
+
+  // Collect page info that can be used if the manifest does not exist
   const pageInfo = {
     name: document.title,
     description: document.querySelector('meta[name=description]')?.content,
     icons: [...document.getElementsByTagName('link')]
-      .filter(link => link.hasAttribute('rel') && link.getAttribute('rel').toLowerCase().includes('icon'))
+      .filter(link => link.getAttribute('rel')?.toLowerCase().includes('icon'))
       .map(link => ({
         src: new URL(link.getAttribute('href'), document.baseURI).href,
         type: link.getAttribute('type') || (isAppleMaskIcon(link) ? 'image/svg+xml' : null),
@@ -31,5 +31,5 @@ browser.runtime.onMessage.addListener((message, _, sendResponse) => {
   }
 
   // Send a response with the URLs and page info
-  sendResponse({ manifestUrl, documentUrl: document.location.href, pageInfo })
+  sendResponse({ manifestUrl: manifestUrl?.href, documentUrl: document.location.href, pageInfo })
 })

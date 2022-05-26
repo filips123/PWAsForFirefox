@@ -34,7 +34,7 @@ async function initializeForm () {
     const tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0]
 
     // Some Mozilla domains are restricted for security reasons
-    if (tab.url && ['firefox.net', 'mozilla.com', 'mozilla.net', 'mozilla.org'].some(domain => tab.url.includes(domain))) {
+    if (tab.url && ['firefox.com', 'mozilla.com', 'mozilla.net', 'mozilla.org'].some(domain => tab.url.includes(domain))) {
       errorMessage.innerHTML += '<p>Some <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts">Mozilla websites</a> are restricted for extensions.' +
         ' This is a Firefox security feature and cannot (should not) be disabled.' +
         ' Restricted websites cannot be installed as apps.</p>'
