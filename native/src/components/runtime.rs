@@ -296,7 +296,7 @@ impl Runtime {
                 use std::os::windows::process::CommandExt;
                 use windows::Win32::System::Threading::{CREATE_BREAKAWAY_FROM_JOB, DETACHED_PROCESS};
 
-                command.creation_flags(CREATE_BREAKAWAY_FROM_JOB | DETACHED_PROCESS);
+                command.creation_flags((CREATE_BREAKAWAY_FROM_JOB | DETACHED_PROCESS).0);
             }
         }
 

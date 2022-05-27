@@ -6,15 +6,14 @@ use anyhow::{Context, Result};
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::ImageSize;
-use windows::core::{Interface, IntoParam, Param, Result as WindowsResult, GUID};
-use windows::Win32::Foundation::PWSTR;
+use windows::core::{Interface, Result as WindowsResult, GUID, PWSTR};
 use windows::Win32::Storage::EnhancedStorage::{PKEY_AppUserModel_ID, PKEY_Title};
-use windows::Win32::System::Com::StructuredStorage::PROPVARIANT;
 use windows::Win32::System::Com::{
     CoCreateInstance,
     CoInitializeEx,
     IPersistFile,
     CLSCTX_ALL,
+    COINIT_DISABLE_OLE1DDE,
     COINIT_MULTITHREADED,
 };
 use windows::Win32::UI::Shell::Common::{IObjectArray, IObjectCollection};
@@ -46,13 +45,22 @@ const START_MENU_PROGRAMS_PATH: &str = r"Microsoft\Windows\Start Menu\Programs";
 /// Initialize COM for use by the calling thread for the multi-threaded apartment (MTA).
 #[inline]
 fn initialize_windows() -> WindowsResult<()> {
-    unsafe { CoInitializeEx(std::ptr::null_mut(), COINIT_MULTITHREADED) }
+    unsafe { CoInitializeEx(std::ptr::null_mut(), COINIT_MULTITHREADED | COINIT_DISABLE_OLE1DDE) }
 }
 
 /// Create a COM object with the given CLSID.
 #[inline]
 fn create_instance<T: Interface>(clsid: &GUID) -> WindowsResult<T> {
     unsafe { CoCreateInstance(clsid, None, CLSCTX_ALL) }
+}
+
+/// Construct a `windows-rs`'s [`PWSTR`] from a [`&str`].
+///
+/// See: https://github.com/microsoft/windows-rs/issues/973#issue-942298423
+#[inline]
+fn string_to_pwstr(str: &str) -> PWSTR {
+    let mut encoded = str.encode_utf16().chain([0u16]).collect::<Vec<u16>>();
+    PWSTR(encoded.as_mut_ptr())
 }
 
 //////////////////////////////
@@ -119,8 +127,8 @@ fn create_menu_shortcut(info: &SiteInfoInstall, exe: &str, icon: &str) -> Result
         // Set app user model ID property
         // Docs: https://docs.microsoft.com/en-us/windows/win32/properties/props-system-appusermodel-id
         let store: IPropertyStore = link.cast()?;
-        let param: Param<PWSTR> = format!("filips.firefoxpwa.{}", info.id).into_param();
-        let variant: PROPVARIANT = InitPropVariantFromStringVector(&param.abi(), 1)?;
+        let appid = format!("filips.firefoxpwa.{}", info.id);
+        let variant = InitPropVariantFromStringVector(&[string_to_pwstr(&appid)])?;
         store.SetValue(&PKEY_AppUserModel_ID, &variant)?;
         store.Commit()?;
     }
@@ -192,15 +200,12 @@ fn create_jump_list_tasks(info: &SiteInfoInstall, dirs: &ProjectDirs, exe: &str)
 
             // Set app user model ID property
             // Docs: https://docs.microsoft.com/en-us/windows/win32/properties/props-system-appusermodel-id
-            let param: Param<PWSTR> = appid.clone().into_param();
-            let variant: PROPVARIANT = InitPropVariantFromStringVector(&param.abi(), 1)?;
+            let variant = InitPropVariantFromStringVector(&[string_to_pwstr(&appid)])?;
             store.SetValue(&PKEY_AppUserModel_ID, &variant)?;
-            store.Commit()?;
 
             // Set title property
             // Docs: https://docs.microsoft.com/en-us/windows/win32/properties/props-system-title
-            let param: Param<PWSTR> = shortcut.name.clone().into_param();
-            let variant: PROPVARIANT = InitPropVariantFromStringVector(&param.abi(), 1)?;
+            let variant = InitPropVariantFromStringVector(&[string_to_pwstr(&shortcut.name)])?;
             store.SetValue(&PKEY_Title, &variant)?;
 
             // Commit store and add it to collection

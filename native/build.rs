@@ -1,4 +1,4 @@
-use clap::IntoApp;
+use clap::CommandFactory;
 use clap_complete::{generate_to, Shell};
 
 #[path = "src/console/app.rs"]
@@ -11,7 +11,7 @@ fn main() {
 
     std::fs::create_dir_all(&completions).unwrap();
 
-    let mut app = app::App::into_app();
+    let mut app = app::App::command();
     generate_to(Shell::Bash, &mut app, env!("CARGO_PKG_NAME"), &completions).unwrap();
     generate_to(Shell::Elvish, &mut app, env!("CARGO_PKG_NAME"), &completions).unwrap();
     generate_to(Shell::Fish, &mut app, env!("CARGO_PKG_NAME"), &completions).unwrap();

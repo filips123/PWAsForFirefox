@@ -4,12 +4,12 @@ use std::cmp::Ordering;
 use std::convert::TryInto;
 use std::path::Path;
 
+use ab_glyph::{Font, FontRef, PxScale};
 use anyhow::{bail, Context, Result};
 use data_url::DataUrl;
 use image::imageops::FilterType::Gaussian;
 use image::{ImageBuffer, Rgb, RgbImage};
 use log::{debug, error, warn};
-use rusttype::{point, Font, Scale};
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
@@ -71,19 +71,11 @@ pub fn generate_icon(letter: char, size: &ImageSize) -> Result<RgbImage> {
 
     // Load the font from OTF file
     let bytes = include_bytes!("../../assets/Metropolis-SemiBold.otf");
-    let font = Font::try_from_bytes(bytes as &[u8]).context("Failed to construct the font")?;
+    let font = FontRef::try_from_slice(bytes).context("Failed to construct the font")?;
 
-    // Check if glyph exists in font
-    if font.glyph(letter).id().0 == 0 {
-        bail!("Font does not support glyph \"{}\"", letter);
-    }
-
-    // Layout the first (and only) glyph
-    let scale = Scale::uniform(*size.1 as f32 / 1.6);
-    let glyph = font
-        .layout(letter.encode_utf8(&mut [0; 4]), scale, point(0.0, font.v_metrics(scale).ascent))
-        .next()
-        .context("Failed to layout the glyph")?;
+    // Get and scale the glyph
+    let scale = PxScale::from(*size.1 as f32 / 1.6);
+    let glyph = font.glyph_id(letter).with_scale(scale);
 
     // Store the background and foreground colors
     let background = Rgb([80, 80, 80]);
@@ -92,10 +84,11 @@ pub fn generate_icon(letter: char, size: &ImageSize) -> Result<RgbImage> {
     // Create a new RGBA image with a gray background
     let mut image: RgbImage = ImageBuffer::from_pixel(*size.0, *size.1, background);
 
-    if let Some(bounding_box) = glyph.pixel_bounding_box() {
+    if let Some(outlined) = font.outline_glyph(glyph) {
         // Get the glyph width and height
-        let width = (bounding_box.max.x - bounding_box.min.x) as u32;
-        let height = (bounding_box.max.y - bounding_box.min.y) as u32;
+        let bounds = outlined.px_bounds();
+        let width = (bounds.max.x - bounds.min.x) as u32;
+        let height = (bounds.max.y - bounds.min.y) as u32;
 
         // Check for glyph size overflows
         // This shouldn't happen, but just in case
@@ -108,7 +101,7 @@ pub fn generate_icon(letter: char, size: &ImageSize) -> Result<RgbImage> {
         let offset_y = (size.1 - height) / 2;
 
         // Draw the glyph into the image per-pixel by using the draw closure
-        glyph.draw(|x, y, v| {
+        outlined.draw(|x, y, v| {
             // Convert the alpha value with the background
             let pixel = Rgb([
                 ((1.0 - v) * background.0[0] as f32 + v * foreground.0[0] as f32) as u8,

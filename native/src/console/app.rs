@@ -5,8 +5,8 @@ use ulid::Ulid;
 use url::Url;
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
-#[clap(global_setting(clap::AppSettings::PropagateVersion))]
 #[clap(global_setting(clap::AppSettings::DeriveDisplayOrder))]
+#[clap(propagate_version = true)]
 #[clap(version)]
 pub enum App {
     /// Manage web apps

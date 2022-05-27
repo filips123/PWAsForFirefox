@@ -39,7 +39,7 @@ const WRITE_APPLICATION_FILE_ERROR: &str = "Failed to write application file";
 /// are removed. This allows easier matching with keys from the categories map.
 #[inline]
 fn normalize_category_name(category: &str) -> String {
-    category.to_lowercase().replace("-", "").replace("_", "").replace(" ", "")
+    category.to_lowercase().replace(&['-', '_', ' '], "")
 }
 
 /// Update system's icon cache.

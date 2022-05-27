@@ -1,4 +1,6 @@
+use std::ffi::OsStr;
 use std::fs::remove_file;
+use std::os::windows::process::ExitStatusExt;
 use std::path::PathBuf;
 use std::process::{Command, ExitStatus};
 
@@ -6,8 +8,21 @@ use anyhow::{bail, Context, Result};
 use cfg_if::cfg_if;
 use const_format::formatcp;
 use log::{info, warn};
-use runas::Command as ElevatedCommand;
 use tempfile::Builder;
+use windows::core::{IntoParam, Param, PCWSTR};
+use windows::Win32::System::Com::{
+    CoInitializeEx,
+    COINIT_APARTMENTTHREADED,
+    COINIT_DISABLE_OLE1DDE,
+};
+use windows::Win32::System::Threading::{GetExitCodeProcess, WaitForSingleObject};
+use windows::Win32::System::WindowsProgramming::INFINITE;
+use windows::Win32::UI::Shell::{
+    ShellExecuteExW,
+    SEE_MASK_NOASYNC,
+    SEE_MASK_NOCLOSEPROCESS,
+    SHELLEXECUTEINFOW,
+};
 use winreg::enums::HKEY_LOCAL_MACHINE;
 use winreg::RegKey;
 
@@ -29,6 +44,39 @@ const fn get_download_url() -> &'static str {
     }
 
     formatcp!("https://7-zip.org/a/7z{VERSION}{ARCHITECTURE}.exe")
+}
+
+#[inline]
+fn run_as_admin<S: AsRef<OsStr>>(cmd: S) -> std::io::Result<ExitStatus> {
+    unsafe {
+        CoInitializeEx(std::ptr::null_mut(), COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)?
+    };
+
+    let mut code = 1;
+    let lp_verb: Param<PCWSTR> = "runas".into_param();
+    let lp_file: Param<PCWSTR> = cmd.as_ref().into_param();
+
+    let mut sei = SHELLEXECUTEINFOW {
+        cbSize: std::mem::size_of::<SHELLEXECUTEINFOW>() as u32,
+        fMask: SEE_MASK_NOASYNC | SEE_MASK_NOCLOSEPROCESS,
+        lpVerb: unsafe { lp_verb.abi() },
+        lpFile: unsafe { lp_file.abi() },
+        nShow: 1,
+        ..Default::default()
+    };
+
+    unsafe {
+        ShellExecuteExW(&mut sei).ok()?;
+
+        if sei.hProcess.is_invalid() {
+            return Err(std::io::Error::last_os_error());
+        };
+
+        WaitForSingleObject(sei.hProcess, INFINITE);
+        GetExitCodeProcess(sei.hProcess, &mut code).ok()?;
+    };
+
+    Ok(ExitStatus::from_raw(code))
 }
 
 #[non_exhaustive]
@@ -87,11 +135,12 @@ impl _7Zip {
         info!("Executing the 7-Zip installer");
         warn!("Please follow the installer to install 7-Zip");
         warn!("You might need to accept the User Account Control prompt");
-        if !(ElevatedCommand::new(&path).status().context(EXEC_ERROR)?).success() {
+
+        if !run_as_admin(&path).context(EXEC_ERROR)?.success() {
             bail!(EXEC_ERROR)
         }
 
-        remove_file(path).expect(CLEANUP_ERROR);
+        remove_file(path).context(CLEANUP_ERROR)?;
 
         info!("7-Zip installed!");
         Ok(())

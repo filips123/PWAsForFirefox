@@ -12,7 +12,6 @@ use image::imageops::resize;
 use image::imageops::FilterType::Gaussian;
 use image::{DynamicImage, Rgba, RgbaImage};
 use log::{debug, error, warn};
-use rusttype::Point;
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
@@ -41,6 +40,13 @@ const GET_LETTER_ERROR: &str = "Failed to get first letter";
 
 const ICON_SAFE_ZONE_FACTOR: f64 = 0.697265625;
 
+#[derive(Clone, Copy)]
+struct Point {
+    x: u32,
+    y: u32,
+}
+
+#[derive(Clone, Copy)]
 struct MacOSIconSize {
     size: u32,
     hdpi: bool,
@@ -83,7 +89,7 @@ impl MacOSIconSize {
 /// are removed. This allows easier matching with keys from the categories map.
 #[inline]
 fn normalize_category_name(category: &str) -> String {
-    category.to_lowercase().replace("-", "").replace("_", "").replace(" ", "")
+    category.to_lowercase().replace(&['-', '_', ' '], "")
 }
 
 /// Filter out all incompatible icons.
@@ -286,7 +292,7 @@ fn mask_icon(icon: &mut RgbaImage, maskable: bool) -> Result<()> {
     let shadow_data = scaled_shadow.into_rgba8();
 
     let scaled_icon_size = if maskable {
-        Point { x: icon_size.x as u32, y: icon_size.y as u32 }
+        icon_size
     } else {
         Point {
             x: (icon_size.x as f64 * ICON_SAFE_ZONE_FACTOR).round() as u32,
