@@ -1,5 +1,6 @@
 import { fromByteArray } from 'base64-js'
-import { Modal, Toast } from 'bootstrap'
+import Modal from 'bootstrap/js/src/modal'
+import Toast from 'bootstrap/js/src/toast'
 import Tags from 'bootstrap5-tags/tags'
 
 import { obtainManifest, obtainProfileList, obtainSiteList, obtainUrls, setPopupSize } from '../utils'
@@ -36,7 +37,7 @@ async function initializeForm () {
     // Some Mozilla domains are restricted for security reasons
     if (tab.url && ['firefox.com', 'mozilla.com', 'mozilla.net', 'mozilla.org'].some(domain => tab.url.includes(domain))) {
       errorMessage.innerHTML += '<p>Some <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts">Mozilla websites</a> are restricted for extensions.' +
-        ' This is a Firefox security feature and cannot (should not) be disabled.' +
+        ' This is a Firefox security feature and cannot be disabled.' +
         ' Restricted websites cannot be installed as apps.</p>'
     }
 

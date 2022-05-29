@@ -54,8 +54,12 @@ node_modules/
 web_modules/
 
 # Generated userchrome.wxs WiX file
-# File needs to be manually generated before running cargo wix
+# Needs to be manually generated before running cargo wix
 /native/packages/wix/userchrome.wxs
+
+# Generated Bootstrap Icons styles and font
+# Automatically generated when building the extension
+/extension/src/icons/
 
 # Do not ignore .gitkeep files
 !.gitkeep

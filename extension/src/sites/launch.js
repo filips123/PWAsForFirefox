@@ -1,4 +1,4 @@
-import { Toast } from 'bootstrap'
+import Toast from 'bootstrap/js/src/toast'
 
 import {
   launchSite,

@@ -1,6 +1,6 @@
 import 'iframe-resizer/js/iframeResizer.contentWindow'
 
-import { Tab } from 'bootstrap'
+import Tab from 'bootstrap/js/src/tab'
 
 async function prepareInstallInstructions () {
   const version = browser.runtime.getManifest().version

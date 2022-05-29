@@ -1,4 +1,4 @@
-import { Toast } from 'bootstrap'
+import Toast from 'bootstrap/js/src/toast'
 import { gt as semverGt, satisfies as semverSatisfies } from 'semver'
 
 export const PREF_DISPLAY_PAGE_ACTION = 'settings.display-page-action'

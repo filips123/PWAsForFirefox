@@ -1,4 +1,7 @@
-import { Modal, Offcanvas, Tab, Toast } from 'bootstrap'
+import Modal from 'bootstrap/js/src/modal'
+import Offcanvas from 'bootstrap/js/src/offcanvas'
+import Tab from 'bootstrap/js/src/tab'
+import Toast from 'bootstrap/js/src/toast'
 import Tags from 'bootstrap5-tags/tags'
 
 import {
