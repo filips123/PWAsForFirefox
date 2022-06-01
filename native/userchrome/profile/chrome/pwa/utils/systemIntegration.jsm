@@ -8,7 +8,6 @@ XPCOMUtils.defineLazyModuleGetters(this, {
   Services: 'resource://gre/modules/Services.jsm',
   xPref: 'resource://pwa/utils/xPref.jsm',
 });
-
 XPCOMUtils.defineLazyServiceGetter(this, 'ImgTools', '@mozilla.org/image/tools;1', Ci.imgITools);
 XPCOMUtils.defineLazyServiceGetter(this, 'WinUIUtils', '@mozilla.org/windows-ui-utils;1', Ci.nsIWindowsUIUtils);
 XPCOMUtils.defineLazyServiceGetter(this, 'WinTaskbar', '@mozilla.org/windows-taskbar;1', Ci.nsIWinTaskbar);
