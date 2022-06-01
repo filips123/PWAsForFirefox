@@ -44,12 +44,12 @@ jobs:
         with:
           working-directory: native
 
-      - name: Run Clippy
-        uses: marcopolo/cargo@a527bf4d534717ff4424a84446c5d710f8833139
-        with:
-          working-directory: native
-          command: clippy
-          args: --all-targets --all-features -- -D warnings
+      # - name: Run Clippy
+      #   uses: marcopolo/cargo@a527bf4d534717ff4424a84446c5d710f8833139
+      #   with:
+      #     working-directory: native
+      #     command: clippy
+      #     args: --all-targets --all-features -- -D warnings
 
   rustfmt:
     name: Rustfmt
