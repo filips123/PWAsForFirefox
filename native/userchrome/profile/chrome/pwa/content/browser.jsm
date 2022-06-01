@@ -2,7 +2,6 @@ XPCOMUtils.defineLazyModuleGetters(this, {
   hookFunction: 'resource://pwa/utils/hookFunction.jsm',
   xPref: 'resource://pwa/utils/xPref.jsm',
 });
-
 XPCOMUtils.defineLazyServiceGetter(this, 'ioService', '@mozilla.org/network/io-service;1', Ci.nsIIOService);
 XPCOMUtils.defineLazyServiceGetter(this, 'WindowsUIUtils', '@mozilla.org/windows-ui-utils;1', Ci.nsIWindowsUIUtils);
 
@@ -383,7 +382,7 @@ class PwaBrowser {
     window.isInitialPage = function (url) {
       if (!(url instanceof Ci.nsIURI)) {
         try { url = Services.io.newURI(url) }
-        catch (ex) { return false }
+        catch (_) { return false }
       }
 
       let nonQuery = url.prePath + url.filePath;

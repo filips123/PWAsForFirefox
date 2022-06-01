@@ -24,7 +24,7 @@ const xPref = {
         case 128:
           return sPrefs.getBoolPref(prefPath);
       }
-    } catch (ex) {
+    } catch (_) {
       return undefined;
     }
   },

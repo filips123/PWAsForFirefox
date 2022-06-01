@@ -1,9 +1,8 @@
 const EXPORTED_SYMBOLS = [];
 
-let {
+const {
   classes: Cc,
-  interfaces: Ci,
-  manager: Cm
+  interfaces: Ci
 } = Components;
 
 const { XPCOMUtils } = ChromeUtils.import('resource://gre/modules/XPCOMUtils.jsm');
@@ -11,10 +10,10 @@ XPCOMUtils.defineLazyGetter(this, 'gSystemPrincipal', () => Services.scriptSecur
 XPCOMUtils.defineLazyModuleGetters(this, {
   AppConstants: 'resource://gre/modules/AppConstants.jsm',
   NetUtil: 'resource://gre/modules/NetUtil.jsm',
-  OS: 'resource://gre/modules/osfile.jsm',
   Services: 'resource://gre/modules/Services.jsm',
   applySystemIntegration: 'resource://pwa/utils/systemIntegration.jsm',
 });
+XPCOMUtils.defineLazyServiceGetter(this, 'PromptService', '@mozilla.org/embedcomp/prompt-service;1', Ci.nsIPromptService);
 
 /**
  * Read the PWAsForFirefox config file and parse it as JSON.
@@ -23,20 +22,11 @@ XPCOMUtils.defineLazyModuleGetters(this, {
  * using internal Firefox functions. This relies on specific directory structure, so relocating
  * the profile directory or config file will break config reading.
  *
- * @returns {object} Config file as a parsed JSON object.
+ * @returns {Promise<object>} Config file as a parsed JSON object.
  */
 function readConfig () {
-  let configFilename = OS.Constants.Path.profileDir + '/../../config.json';
-  if (AppConstants.platform === 'win') configFilename = configFilename.replaceAll('/', '\\');
-
-  const configFile = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsIFile);
-  configFile.initWithPath(configFilename);
-
-  const configStream = Cc['@mozilla.org/network/file-input-stream;1'].createInstance(Ci.nsIFileInputStream);
-  configStream.init(configFile, -1, 0, 0);
-
-  const configJson = NetUtil.readInputStreamToString(configStream, configStream.available());
-  return JSON.parse(configJson);
+  const configFilename = PathUtils.join(PathUtils.parent(PathUtils.profileDir, 2), 'config.json');
+  return IOUtils.readJSON(configFilename);
 }
 
 /**
@@ -50,7 +40,7 @@ function readConfig () {
  * @param {object} siteConfig - Site config
  * @param {boolean} isStartup - Is this initial launch (used to attempt to use the `navigator:blank` window)
  *
- * @returns ChromeWindow The new window
+ * @returns {ChromeWindow&Window} The new window
  */
 function launchSite (siteUrl, siteConfig, isStartup) {
   const args = [
@@ -75,7 +65,7 @@ function launchSite (siteUrl, siteConfig, isStartup) {
     win.document.documentElement.removeAttribute('windowtype');
 
     // Load the browser chrome and set site config
-    let openTime = win.openTime;
+    const openTime = win.openTime;
     win.location = AppConstants.BROWSER_CHROME_URL;
     win.arguments = args;
 
@@ -86,10 +76,10 @@ function launchSite (siteUrl, siteConfig, isStartup) {
   }
 
   // Convert the window args to the correct format for `openWindow`
-  let array = Cc['@mozilla.org/array;1'].createInstance(Ci.nsIMutableArray);
+  const array = Cc['@mozilla.org/array;1'].createInstance(Ci.nsIMutableArray);
   args.forEach(arg => {
     if (typeof arg === 'string') {
-      let string = Cc['@mozilla.org/supports-string;1'].createInstance(Ci.nsISupportsString);
+      const string = Cc['@mozilla.org/supports-string;1'].createInstance(Ci.nsISupportsString);
       string.data = arg;
       arg = string;
     }
@@ -108,16 +98,10 @@ function launchSite (siteUrl, siteConfig, isStartup) {
   return win;
 }
 
-// Register chrome manifest to load PWAsForFirefox browser chrome modifications
-const cmanifest = Cc['@mozilla.org/file/directory_service;1'].getService(Ci.nsIProperties).get('UChrm', Ci.nsIFile);
-cmanifest.append('pwa');
-cmanifest.append('chrome.manifest');
-Cm.QueryInterface(Ci.nsIComponentRegistrar).autoRegister(cmanifest);
-
 // Override command line helper to intercept PWAsForFirefox arguments and start loading the site
 const { nsDefaultCommandLineHandler } = Cu.import('resource:///modules/BrowserContentHandler.jsm');
 nsDefaultCommandLineHandler.prototype._handle = nsDefaultCommandLineHandler.prototype.handle;
-nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
+nsDefaultCommandLineHandler.prototype.handle = async function (cmdLine) {
   const isStartup = cmdLine.state === Ci.nsICommandLine.STATE_INITIAL_LAUNCH;
   const siteId = cmdLine.handleFlagWithParam('pwa', false);
 
@@ -126,9 +110,11 @@ nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
 
     let config;
     try {
-      config = readConfig();
-    } catch (_) {
-      dump('Failed to load the PWAsForFirefox configuration file\n');
+      config = await readConfig();
+    } catch (error) {
+      console.error(error);
+      PromptService.alert(null, null, 'Failed to load the PWAsForFirefox configuration file.');
+      Services.wm.getMostRecentWindow('navigator:blank')?.close();
       return;
     }
 
@@ -139,7 +125,8 @@ nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
       let manifestStartUrl = config.sites[siteId].manifest.start_url;
       startUrl = userStartUrl ? userStartUrl : manifestStartUrl;
     } catch (_) {
-      dump(`No web apps installed with requested ULID: ${siteId}\n`);
+      PromptService.alert(null, null, `No web app installed with requested ULID: ${siteId}\n`);
+      Services.wm.getMostRecentWindow('navigator:blank')?.close();
       return;
     }
 
