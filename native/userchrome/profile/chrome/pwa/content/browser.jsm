@@ -1358,6 +1358,7 @@ class PwaBrowser {
     // Configure default built-in preferences
     xPref.set('browser.toolbars.bookmarks.visibility', 'never', true);
     xPref.set('browser.taskbar.lists.enabled', false, true);
+    xPref.set('browser.tabs.drawInTitlebar', true, true);
     xPref.set('browser.tabs.inTitlebar', 1, true);
     xPref.set('browser.tabs.extraDragSpace', false, true);
     xPref.set('browser.tabs.warnOnClose', false, true);
