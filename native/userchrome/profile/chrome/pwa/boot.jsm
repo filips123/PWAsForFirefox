@@ -22,11 +22,20 @@ XPCOMUtils.defineLazyServiceGetter(this, 'PromptService', '@mozilla.org/embedcom
  * using internal Firefox functions. This relies on specific directory structure, so relocating
  * the profile directory or config file will break config reading.
  *
- * @returns {Promise<object>} Config file as a parsed JSON object.
+ * @returns {object} Config file as a parsed JSON object.
  */
 function readConfig () {
-  const configFilename = PathUtils.join(PathUtils.parent(PathUtils.profileDir, 2), 'config.json');
-  return IOUtils.readJSON(configFilename);
+  const profileDir = PathUtils.profileDir || Services.dirsvc.get('ProfD', Ci.nsIFile).path;
+  const configDir = PathUtils.parent(PathUtils.parent(profileDir));
+  const configFilename = PathUtils.join(configDir, 'config.json');
+
+  const configFile = Cc['@mozilla.org/file/local;1'].createInstance(Ci.nsIFile);
+  const configStream = Cc['@mozilla.org/network/file-input-stream;1'].createInstance(Ci.nsIFileInputStream);
+  configFile.initWithPath(configFilename);
+  configStream.init(configFile, 0x01, 0, 0);
+
+  const configJson = NetUtil.readInputStreamToString(configStream, configStream.available());
+  return JSON.parse(configJson);
 }
 
 /**
@@ -101,7 +110,7 @@ function launchSite (siteUrl, siteConfig, isStartup) {
 // Override command line helper to intercept PWAsForFirefox arguments and start loading the site
 const { nsDefaultCommandLineHandler } = Cu.import('resource:///modules/BrowserContentHandler.jsm');
 nsDefaultCommandLineHandler.prototype._handle = nsDefaultCommandLineHandler.prototype.handle;
-nsDefaultCommandLineHandler.prototype.handle = async function (cmdLine) {
+nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
   const isStartup = cmdLine.state === Ci.nsICommandLine.STATE_INITIAL_LAUNCH;
   const siteId = cmdLine.handleFlagWithParam('pwa', false);
 
@@ -110,7 +119,7 @@ nsDefaultCommandLineHandler.prototype.handle = async function (cmdLine) {
 
     let config;
     try {
-      config = await readConfig();
+      config = readConfig();
     } catch (error) {
       console.error(error);
       PromptService.alert(null, null, 'Failed to load the PWAsForFirefox configuration file.');
