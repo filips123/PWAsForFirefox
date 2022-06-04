@@ -236,8 +236,8 @@ async function createSiteList () {
             description,
             categories,
             keywords,
-            update_manifest: true,
-            update_icons: true
+            update_manifest: document.getElementById('web-app-update-manifest').checked,
+            update_icons: document.getElementById('web-app-update-icons').checked
           }
         })
 

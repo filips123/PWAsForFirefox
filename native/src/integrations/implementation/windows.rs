@@ -1,5 +1,5 @@
 use std::convert::TryInto;
-use std::fs::{create_dir_all, remove_dir_all, remove_file};
+use std::fs::{create_dir_all, remove_dir_all, remove_file, rename};
 use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
@@ -110,8 +110,22 @@ fn create_arp_entry(info: &SiteInfoInstall, exe: &str, icon: &str) -> Result<()>
 }
 
 fn create_menu_shortcut(info: &SiteInfoInstall, exe: &str, icon: &str) -> Result<()> {
+    let start_menu_dir = directories::BaseDirs::new()
+        .context("Failed to determine base system directories")?
+        .data_dir()
+        .join(START_MENU_PROGRAMS_PATH);
+
     // Sanitize the name to prevent overflows and invalid filenames
     let name = sanitize_name(&info.name, &info.id);
+    let filename = start_menu_dir.join(name).with_extension("lnk");
+
+    // If the name has been changed, first rename the shortcut file
+    if let Some(old_name) = &info.old_name {
+        let old_name = sanitize_name(old_name, &info.id);
+        let old_filename = start_menu_dir.join(old_name).with_extension("lnk");
+
+        rename(&old_filename, &filename).context("Failed to rename shortcut")?;
+    }
 
     // Create shell link instance
     let link: IShellLinkW = create_instance(&ShellLink)?;
@@ -131,21 +145,10 @@ fn create_menu_shortcut(info: &SiteInfoInstall, exe: &str, icon: &str) -> Result
         let variant = InitPropVariantFromStringVector(&[string_to_pwstr(&appid)])?;
         store.SetValue(&PKEY_AppUserModel_ID, &variant)?;
         store.Commit()?;
-    }
 
-    let filename = directories::BaseDirs::new()
-        .context("Failed to determine base system directories")?
-        .data_dir()
-        .join(START_MENU_PROGRAMS_PATH)
-        .join(name)
-        .with_extension("lnk")
-        .display()
-        .to_string();
-
-    unsafe {
         // Save shortcut to file
         let persist: IPersistFile = link.cast()?;
-        persist.Save(filename, true)?;
+        persist.Save(filename.display().to_string(), true)?;
     }
 
     Ok(())

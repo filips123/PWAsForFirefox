@@ -241,6 +241,7 @@ impl Run for SiteUpdateCommand {
         let mut storage = Storage::load(&dirs)?;
 
         let site = storage.sites.get_mut(&self.id).context("Web app does not exist")?;
+        let old_name = site.name().unwrap_or_else(|| site.domain());
 
         info!("Updating the web app");
         store_value_str!(site.config.name, self.name, self.store_none_values);
@@ -254,7 +255,8 @@ impl Run for SiteUpdateCommand {
         }
 
         if self.system_integration {
-            site.update_system_integration(&dirs).context("Failed to update system integration")?;
+            site.update_system_integration(&dirs, old_name)
+                .context("Failed to update system integration")?;
         }
 
         storage.write(&dirs)?;

@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 use std::convert::TryInto;
-use std::fs::{create_dir_all, remove_dir_all, write, File, Permissions};
+use std::fs::{create_dir_all, remove_dir_all, rename, write, File, Permissions};
 use std::io::{BufWriter, Read, Write};
 use std::os::unix::fs::PermissionsExt;
 use std::path::Path;
@@ -414,6 +414,12 @@ fn create_app_bundle(info: &SiteInfoInstall, exe: &str) -> Result<()> {
     let binary_dir = bundle_contents.join("MacOS");
     let resources_dir = bundle_contents.join("Resources");
     let loader = binary_dir.join("loader");
+
+    // If the name has been changed, first rename the bundle directory
+    if let Some(old_name) = &info.old_name {
+        let old_bundle = directory.join(format!("{}.app", sanitize_name(old_name, &info.id)));
+        rename(&old_bundle, &bundle).context("Failed to rename bundle")?;
+    }
 
     // Store the entry data
     let info_plist_content = format!(

@@ -25,6 +25,7 @@ pub struct SiteInfoInstall<'a> {
     keywords: &'a Vec<String>,
     icons: &'a Vec<IconResource>,
     shortcuts: &'a Vec<ShortcutResource>,
+    old_name: Option<String>,
 }
 
 #[derive(Debug, Eq, PartialEq, Clone)]
@@ -34,7 +35,7 @@ pub struct SiteInfoUninstall {
 }
 
 #[inline]
-pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
+pub fn install(site: &Site, dirs: &ProjectDirs, old_name: Option<String>) -> Result<()> {
     // Web app ID is used to generate all commands and as an identifier at various places
     let id = site.ulid.to_string();
 
@@ -89,6 +90,7 @@ pub fn install(site: &Site, dirs: &ProjectDirs) -> Result<()> {
         keywords,
         icons: &site.manifest.icons,
         shortcuts: &site.manifest.shortcuts,
+        old_name,
     };
 
     // Apply system integration

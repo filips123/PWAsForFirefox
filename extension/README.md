@@ -74,8 +74,6 @@ You can also launch the web app through system start/app menus, or from the web 
 
 You can launch, edit and remove web apps, and create, edit and remove profiles, from the extension's browser action. Editing a web app will also automatically update its manifest and icons. You can also search web apps and profiles by their name.
 
-**Note:** It is not recommended to rename an existing web app because this can cause problems on some systems.
-
 ## Contributing
 
 Please make sure that your JS code is properly linted and formatted using `yarn lint` (to check the code) and `yarn fix` (to automatically apply some fixes).

@@ -167,11 +167,13 @@ impl Process for UpdateAllSites {
         for site in storage.sites.values_mut() {
             info!("Updating web app {}", site.ulid);
 
+            let old_name = site.name().unwrap_or_else(|| site.domain());
+
             if self.update_manifest {
                 site.update().context("Failed to update web app manifest")?;
             }
 
-            site.update_system_integration(connection.dirs)
+            site.update_system_integration(connection.dirs, old_name)
                 .context("Failed to update system integration")?;
         }
 

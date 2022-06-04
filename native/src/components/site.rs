@@ -144,7 +144,7 @@ impl Site {
     #[inline]
     pub fn install_system_integration(&self, dirs: &ProjectDirs) -> Result<()> {
         info!("Installing system integration");
-        integrations::install(self, dirs)
+        integrations::install(self, dirs, None)
     }
 
     #[inline]
@@ -154,9 +154,9 @@ impl Site {
     }
 
     #[inline]
-    pub fn update_system_integration(&self, dirs: &ProjectDirs) -> Result<()> {
+    pub fn update_system_integration(&self, dirs: &ProjectDirs, old_name: String) -> Result<()> {
         info!("Updating system integration");
-        integrations::install(self, dirs)
+        integrations::install(self, dirs, Some(old_name))
     }
 
     #[inline]
