@@ -1,3 +1,5 @@
+import '../errors'
+
 import { fromByteArray } from 'base64-js'
 import Modal from 'bootstrap/js/src/modal'
 import Toast from 'bootstrap/js/src/toast'
@@ -65,18 +67,8 @@ async function initializeForm () {
   if (!manifestExists) document.getElementById('web-app-use-manifest-box').classList.add('d-none')
 
   // Obtain a list of existing sites and profiles
-  let sites, profiles
-  try {
-    sites = await obtainSiteList()
-    profiles = await obtainProfileList()
-  } catch (error) {
-    console.error(error)
-
-    document.getElementById('error-text').innerText = error.message
-    Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-
-    return
-  }
+  const sites = await obtainSiteList()
+  const profiles = await obtainProfileList()
 
   // Determine web app name and description from manifest or page info
   let name, description
@@ -133,31 +125,24 @@ async function initializeForm () {
   document.getElementById('new-profile-create').addEventListener('click', async function () {
     const name = document.getElementById('new-profile-name').value || null
     const description = document.getElementById('new-profile-description').value || null
-    let id
 
     this.disabled = true
     this.innerText = 'Creating...'
 
     // Create a new profile and get its ID
-    try {
-      const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
-        cmd: 'CreateProfile',
-        params: { name, description }
-      })
+    const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+      cmd: 'CreateProfile',
+      params: { name, description }
+    })
 
-      if (response.type === 'Error') throw new Error(response.data)
-      if (response.type !== 'ProfileCreated') throw new Error(`Received invalid response type: ${response.type}`)
+    if (response.type === 'Error') throw new Error(response.data)
+    if (response.type !== 'ProfileCreated') throw new Error(`Received invalid response type: ${response.type}`)
 
-      Toast.getOrCreateInstance(document.getElementById('error-toast')).hide()
-      id = response.data
-    } catch (error) {
-      console.error(error)
-
-      document.getElementById('error-text').innerText = error.message
-      Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-    }
+    // Hide error toast
+    Toast.getOrCreateInstance(document.getElementById('error-toast')).hide()
 
     // Create a new option in the select input and select it
+    const id = response.data
     profilesElement.add(new Option(name ?? id, id, true, true), profilesElement.length - 1)
     profilesElement.value = profilesElement.length - 2
 
@@ -297,48 +282,41 @@ async function initializeForm () {
     }
 
     // Tell the native connector to install the site
-    try {
-      const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
-        cmd: 'InstallSite',
-        params: {
-          manifest_url: manifestUrl,
-          document_url: documentUrl,
-          start_url: startUrl,
-          profile,
-          name,
-          description,
-          categories,
-          keywords
-        }
-      })
+    const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+      cmd: 'InstallSite',
+      params: {
+        manifest_url: manifestUrl,
+        document_url: documentUrl,
+        start_url: startUrl,
+        profile,
+        name,
+        description,
+        categories,
+        keywords
+      }
+    })
 
-      // Handle native connection errors
-      if (response.type === 'Error') throw new Error(response.data)
-      if (response.type !== 'SiteInstalled') throw new Error(`Received invalid response type: ${response.type}`)
+    // Handle native connection errors
+    if (response.type === 'Error') throw new Error(response.data)
+    if (response.type !== 'SiteInstalled') throw new Error(`Received invalid response type: ${response.type}`)
 
-      // Hide error toast
-      Toast.getOrCreateInstance(document.getElementById('error-toast')).hide()
+    // Hide error toast
+    Toast.getOrCreateInstance(document.getElementById('error-toast')).hide()
 
-      // Change button to success
-      submit.disabled = true
-      submit.innerText = 'Web app installed!'
+    // Change button to success
+    submit.disabled = true
+    submit.innerText = 'Web app installed!'
 
-      // Update page action
-      const tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0]
-      await browser.pageAction.setIcon({ tabId: tab.id, path: '/images/page-action-launch.svg' })
-      browser.pageAction.setTitle({ tabId: tab.id, title: browser.i18n.getMessage('actionLaunchSite') })
-      browser.pageAction.setPopup({ tabId: tab.id, popup: '/sites/launch.html' })
+    // Update page action
+    const tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0]
+    await browser.pageAction.setIcon({ tabId: tab.id, path: '/images/page-action-launch.svg' })
+    browser.pageAction.setTitle({ tabId: tab.id, title: browser.i18n.getMessage('actionLaunchSite') })
+    browser.pageAction.setPopup({ tabId: tab.id, popup: '/sites/launch.html' })
 
-      // Close the popup after some time
-      setTimeout(async () => {
-        window.close()
-      }, 5000)
-    } catch (error) {
-      console.error(error)
-
-      document.getElementById('error-text').innerText = error.message
-      Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-    }
+    // Close the popup after some time
+    setTimeout(async () => {
+      window.close()
+    }, 5000)
   }
 }
 

@@ -1,3 +1,5 @@
+import '../errors'
+
 import Modal from 'bootstrap/js/src/modal'
 import Offcanvas from 'bootstrap/js/src/offcanvas'
 import Tab from 'bootstrap/js/src/tab'
@@ -58,17 +60,7 @@ async function createSiteList () {
   })
 
   // Obtain a list of sites
-  let sites
-  try {
-    sites = Object.values(await obtainSiteList())
-  } catch (error) {
-    console.error(error)
-
-    document.getElementById('error-text').innerText = error.message
-    Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-
-    return
-  }
+  const sites = Object.values(await obtainSiteList())
 
   // Get the list elements
   const listElement = document.getElementById('sites-list')
@@ -235,42 +227,35 @@ async function createSiteList () {
         const keywords = userKeywords.toString() !== manifestKeywords.toString() ? userKeywords : []
 
         // Tell the native connector to update the site
-        try {
-          const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
-            cmd: 'UpdateSite',
-            params: {
-              id: site.ulid,
-              start_url: startUrl,
-              name,
-              description,
-              categories,
-              keywords,
-              update_manifest: true,
-              update_icons: true
-            }
-          })
+        const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+          cmd: 'UpdateSite',
+          params: {
+            id: site.ulid,
+            start_url: startUrl,
+            name,
+            description,
+            categories,
+            keywords,
+            update_manifest: true,
+            update_icons: true
+          }
+        })
 
-          // Handle native connection errors
-          if (response.type === 'Error') throw new Error(response.data)
-          if (response.type !== 'SiteUpdated') throw new Error(`Received invalid response type: ${response.type}`)
+        // Handle native connection errors
+        if (response.type === 'Error') throw new Error(response.data)
+        if (response.type !== 'SiteUpdated') throw new Error(`Received invalid response type: ${response.type}`)
 
-          // Hide error toast
-          Toast.getOrCreateInstance(document.getElementById('error-toast')).hide()
+        // Hide error toast
+        Toast.getOrCreateInstance(document.getElementById('error-toast')).hide()
 
-          // Change button to success
-          submit.disabled = true
-          submit.innerText = 'Edited!'
+        // Change button to success
+        submit.disabled = true
+        submit.innerText = 'Edited!'
 
-          // Close the popup after some time
-          setTimeout(async () => {
-            window.close()
-          }, 5000)
-        } catch (error) {
-          console.error(error)
-
-          document.getElementById('error-text').innerText = error.message
-          Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-        }
+        // Close the popup after some time
+        setTimeout(async () => {
+          window.close()
+        }, 5000)
       }
 
       // Show offcanvas element
@@ -285,28 +270,21 @@ async function createSiteList () {
         this.disabled = true
         this.innerText = 'Removing...'
 
-        try {
-          const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
-            cmd: 'UninstallSite',
-            params: { id: site.ulid }
-          })
+        const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+          cmd: 'UninstallSite',
+          params: { id: site.ulid }
+        })
 
-          if (response.type === 'Error') throw new Error(response.data)
-          if (response.type !== 'SiteUninstalled') throw new Error(`Received invalid response type: ${response.type}`)
+        if (response.type === 'Error') throw new Error(response.data)
+        if (response.type !== 'SiteUninstalled') throw new Error(`Received invalid response type: ${response.type}`)
 
-          this.disabled = true
-          this.innerText = 'Removed!'
+        this.disabled = true
+        this.innerText = 'Removed!'
 
-          // Close the popup after some time
-          setTimeout(async () => {
-            window.close()
-          }, 5000)
-        } catch (error) {
-          console.error(error)
-
-          document.getElementById('error-text').innerText = error.message
-          Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-        }
+        // Close the popup after some time
+        setTimeout(async () => {
+          window.close()
+        }, 5000)
       }
 
       Modal.getOrCreateInstance(document.getElementById('site-remove-modal')).show()
@@ -350,36 +328,29 @@ async function createProfileList () {
       submit.innerText = 'Creating...'
 
       // Tell the native connector to update the profile
-      try {
-        const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
-          cmd: 'CreateProfile',
-          params: {
-            name: document.getElementById('profile-name').value || null,
-            description: document.getElementById('profile-description').value || null
-          }
-        })
+      const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+        cmd: 'CreateProfile',
+        params: {
+          name: document.getElementById('profile-name').value || null,
+          description: document.getElementById('profile-description').value || null
+        }
+      })
 
-        // Handle native connection errors
-        if (response.type === 'Error') throw new Error(response.data)
-        if (response.type !== 'ProfileCreated') throw new Error(`Received invalid response type: ${response.type}`)
+      // Handle native connection errors
+      if (response.type === 'Error') throw new Error(response.data)
+      if (response.type !== 'ProfileCreated') throw new Error(`Received invalid response type: ${response.type}`)
 
-        // Hide error toast
-        Toast.getOrCreateInstance(document.getElementById('error-toast')).hide()
+      // Hide error toast
+      Toast.getOrCreateInstance(document.getElementById('error-toast')).hide()
 
-        // Change button to success
-        submit.disabled = true
-        submit.innerText = 'Created!'
+      // Change button to success
+      submit.disabled = true
+      submit.innerText = 'Created!'
 
-        // Close the popup after some time
-        setTimeout(async () => {
-          window.close()
-        }, 5000)
-      } catch (error) {
-        console.error(error)
-
-        document.getElementById('error-text').innerText = error.message
-        Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-      }
+      // Close the popup after some time
+      setTimeout(async () => {
+        window.close()
+      }, 5000)
     }
 
     // Show offcanvas element
@@ -388,17 +359,7 @@ async function createProfileList () {
   })
 
   // Obtain a list of profiles
-  let profiles
-  try {
-    profiles = Object.values(await obtainProfileList())
-  } catch (error) {
-    console.error(error)
-
-    document.getElementById('error-text').innerText = error.message
-    Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-
-    return
-  }
+  const profiles = Object.values(await obtainProfileList())
 
   // Get the list elements
   const listElement = document.getElementById('profiles-list')
@@ -451,37 +412,30 @@ async function createProfileList () {
         submit.innerText = 'Editing...'
 
         // Tell the native connector to update the profile
-        try {
-          const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
-            cmd: 'UpdateProfile',
-            params: {
-              id: profile.ulid,
-              name: document.getElementById('profile-name').value || null,
-              description: document.getElementById('profile-description').value || null
-            }
-          })
+        const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+          cmd: 'UpdateProfile',
+          params: {
+            id: profile.ulid,
+            name: document.getElementById('profile-name').value || null,
+            description: document.getElementById('profile-description').value || null
+          }
+        })
 
-          // Handle native connection errors
-          if (response.type === 'Error') throw new Error(response.data)
-          if (response.type !== 'ProfileUpdated') throw new Error(`Received invalid response type: ${response.type}`)
+        // Handle native connection errors
+        if (response.type === 'Error') throw new Error(response.data)
+        if (response.type !== 'ProfileUpdated') throw new Error(`Received invalid response type: ${response.type}`)
 
-          // Hide error toast
-          Toast.getOrCreateInstance(document.getElementById('error-toast')).hide()
+        // Hide error toast
+        Toast.getOrCreateInstance(document.getElementById('error-toast')).hide()
 
-          // Change button to success
-          submit.disabled = true
-          submit.innerText = 'Edited!'
+        // Change button to success
+        submit.disabled = true
+        submit.innerText = 'Edited!'
 
-          // Close the popup after some time
-          setTimeout(async () => {
-            window.close()
-          }, 5000)
-        } catch (error) {
-          console.error(error)
-
-          document.getElementById('error-text').innerText = error.message
-          Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-        }
+        // Close the popup after some time
+        setTimeout(async () => {
+          window.close()
+        }, 5000)
       }
 
       // Show offcanvas element
@@ -496,28 +450,21 @@ async function createProfileList () {
         this.disabled = true
         this.innerText = 'Removing...'
 
-        try {
-          const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
-            cmd: 'RemoveProfile',
-            params: { id: profile.ulid }
-          })
+        const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+          cmd: 'RemoveProfile',
+          params: { id: profile.ulid }
+        })
 
-          if (response.type === 'Error') throw new Error(response.data)
-          if (response.type !== 'ProfileRemoved') throw new Error(`Received invalid response type: ${response.type}`)
+        if (response.type === 'Error') throw new Error(response.data)
+        if (response.type !== 'ProfileRemoved') throw new Error(`Received invalid response type: ${response.type}`)
 
-          this.disabled = true
-          this.innerText = 'Removed!'
+        this.disabled = true
+        this.innerText = 'Removed!'
 
-          // Close the popup after some time
-          setTimeout(async () => {
-            window.close()
-          }, 5000)
-        } catch (error) {
-          console.error(error)
-
-          document.getElementById('error-text').innerText = error.message
-          Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-        }
+        // Close the popup after some time
+        setTimeout(async () => {
+          window.close()
+        }, 5000)
       }
 
       const nilUlid = '0'.repeat(26)
@@ -597,23 +544,16 @@ async function handleSettings (hasChanged = false) {
     const manifestUpdatesEnabled = manifestUpdatesCheckbox.checked
     manifestUpdatesCheckbox.disabled = true
 
-    try {
-      const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
-        cmd: 'UpdateAllSites',
-        params: { update_manifest: manifestUpdatesEnabled, update_icons: true }
-      })
+    const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+      cmd: 'UpdateAllSites',
+      params: { update_manifest: manifestUpdatesEnabled, update_icons: true }
+    })
 
-      if (response.type === 'Error') throw new Error(response.data)
-      if (response.type !== 'AllSitesUpdated') throw new Error(`Received invalid response type: ${response.type}`)
+    if (response.type === 'Error') throw new Error(response.data)
+    if (response.type !== 'AllSitesUpdated') throw new Error(`Received invalid response type: ${response.type}`)
 
-      this.disabled = true
-      this.innerText = 'Updated!'
-    } catch (error) {
-      console.error(error)
-
-      document.getElementById('error-text').innerText = error.message
-      Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-    }
+    this.disabled = true
+    this.innerText = 'Updated!'
   }
 
   document.getElementById('update-all-sites').onclick = function () {
@@ -629,23 +569,16 @@ async function handleSettings (hasChanged = false) {
     this.disabled = true
     this.innerText = 'Reinstalling...'
 
-    try {
-      const responseUninstall = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'UninstallRuntime' })
-      if (responseUninstall.type === 'Error') throw new Error(responseUninstall.data)
-      if (responseUninstall.type !== 'RuntimeUninstalled') throw new Error(`Received invalid response type: ${responseUninstall.type}`)
+    const responseUninstall = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'UninstallRuntime' })
+    if (responseUninstall.type === 'Error') throw new Error(responseUninstall.data)
+    if (responseUninstall.type !== 'RuntimeUninstalled') throw new Error(`Received invalid response type: ${responseUninstall.type}`)
 
-      const responseInstall = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'InstallRuntime' })
-      if (responseInstall.type === 'Error') throw new Error(responseInstall.data)
-      if (responseInstall.type !== 'RuntimeInstalled') throw new Error(`Received invalid response type: ${responseInstall.type}`)
+    const responseInstall = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'InstallRuntime' })
+    if (responseInstall.type === 'Error') throw new Error(responseInstall.data)
+    if (responseInstall.type !== 'RuntimeInstalled') throw new Error(`Received invalid response type: ${responseInstall.type}`)
 
-      this.disabled = true
-      this.innerText = 'Reinstalled!'
-    } catch (error) {
-      console.error(error)
-
-      document.getElementById('error-text').innerText = error.message
-      Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-    }
+    this.disabled = true
+    this.innerText = 'Reinstalled!'
   }
 
   document.getElementById('reinstall-runtime').onclick = function () {
@@ -673,15 +606,7 @@ async function handleSettings (hasChanged = false) {
     }
 
     // Obtain the config from the native program
-    let config
-    try {
-      config = await getConfig()
-    } catch (error) {
-      console.error(error)
-      document.getElementById('error-text').innerText = error.message
-      Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-      return
-    }
+    const config = await getConfig()
 
     // Set settings values
     document.getElementById('settings-enable-wayland').checked = config.runtime_enable_wayland
@@ -700,38 +625,28 @@ async function handleSettings (hasChanged = false) {
     document.getElementById('settings-always-patch').disabled = false
 
     // Helper function to update config
-    async function updateConfig (config) {
-      try {
-        await setConfig(config)
-      } catch (error) {
-        console.error(error)
-        document.getElementById('error-text').innerText = error.message
-        Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-      }
-    }
-
     // Listen for enable Wayland changes
     document.getElementById('settings-enable-wayland').addEventListener('change', async function () {
       config.runtime_enable_wayland = this.checked
-      await updateConfig(config)
+      await setConfig(config)
     })
 
     // Listen for use XInput2 changes
     document.getElementById('settings-use-xinput2').addEventListener('change', async function () {
       config.runtime_use_xinput2 = this.checked
-      await updateConfig(config)
+      await setConfig(config)
     })
 
     // Listen for use XDG Portals changes
     document.getElementById('settings-use-portals').addEventListener('change', async function () {
       config.runtime_use_portals = this.checked
-      await updateConfig(config)
+      await setConfig(config)
     })
 
     // Listen for patching changes
     document.getElementById('settings-always-patch').addEventListener('change', async function () {
       config.always_patch = this.checked
-      await updateConfig(config)
+      await setConfig(config)
     })
   })
 

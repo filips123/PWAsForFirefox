@@ -60,6 +60,7 @@ async function prepareInstallInstructions () {
   // Link to the specific version for the install script
   const branchName = version === '0.0.0' ? 'main' : `v${version}`
   document.getElementById('connector-source-install').setAttribute('href', `https://github.com/filips123/PWAsForFirefox/tree/${branchName}/native#from-source`)
+
   // Hide DEB and RPM tabs on unsupported platforms
   if (debArch === null) document.getElementById('linux-deb-install-tab').classList.add('d-none')
   if (rpmArch === null) document.getElementById('linux-rpm-install-tab').classList.add('d-none')

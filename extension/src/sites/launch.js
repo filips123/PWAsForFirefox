@@ -1,4 +1,4 @@
-import Toast from 'bootstrap/js/src/toast'
+import '../errors'
 
 import {
   launchSite,
@@ -13,16 +13,8 @@ async function createInstanceList () {
   const { manifestUrl, documentUrl } = await obtainUrls()
 
   // Obtain a list of existing sites and restrict them to the current manifest URL
-  let sites
-  try {
-    sites = Object.values(await obtainSiteList())
-    sites = sites.filter(site => site.config.manifest_url === manifestUrl)
-  } catch (error) {
-    console.error(error)
-    document.getElementById('error-text').innerText = error.message
-    Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-    return
-  }
+  const sites = Object.values(await obtainSiteList())
+    .filter(site => site.config.manifest_url === manifestUrl)
 
   // Get the list element
   const listElement = document.getElementById('instances-list')

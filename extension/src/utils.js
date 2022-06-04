@@ -1,4 +1,3 @@
-import Toast from 'bootstrap/js/src/toast'
 import { gt as semverGt, satisfies as semverSatisfies } from 'semver'
 
 export const PREF_DISPLAY_PAGE_ACTION = 'settings.display-page-action'
@@ -184,21 +183,15 @@ export async function isAutoRuntimeInstallSupported () {
  * @returns {Promise<void>}
  */
 export async function launchSite (site, url) {
-  try {
-    const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
-      cmd: 'LaunchSite',
-      params: { id: site.ulid, url }
-    })
+  const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+    cmd: 'LaunchSite',
+    params: { id: site.ulid, url }
+  })
 
-    if (response.type === 'Error') throw new Error(response.data)
-    if (response.type !== 'SiteLaunched') throw new Error(`Received invalid response type: ${response.type}`)
+  if (response.type === 'Error') throw new Error(response.data)
+  if (response.type !== 'SiteLaunched') throw new Error(`Received invalid response type: ${response.type}`)
 
-    window.close()
-  } catch (error) {
-    console.error(error)
-    document.getElementById('error-text').innerText = error.message
-    Toast.getOrCreateInstance(document.getElementById('error-toast')).show()
-  }
+  window.close()
 }
 
 /**
