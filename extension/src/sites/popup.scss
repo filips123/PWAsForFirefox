@@ -20,6 +20,10 @@ html, body {
   border-radius: 0;
 }
 
+.card-header {
+  font-weight: 600 !important;
+}
+
 .card-body {
   overflow-y: auto;
   max-width: 400px;
@@ -35,6 +39,7 @@ html, body {
 
 .form-label {
   margin-bottom: 0.1rem;
+  font-weight: 600 !important;
 }
 
 .form-control {

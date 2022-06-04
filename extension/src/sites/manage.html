@@ -23,9 +23,9 @@
       <div class="card-body">
         <div class="tab-content">
           <div class="tab-pane fade show active" id="sites-pane" role="tabpanel" aria-labelledby="sites-tab">
-            <ul class="list-group list-group-flush" id="sites-list">
+            <div class="list-group list-group-flush list-group-border-last" id="sites-list">
               <template id="sites-list-template">
-                <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="list-group-item d-flex justify-content-between align-items-start">
                   <div class="site-icon me-2 my-auto letter-icon" id="sites-list-template-letter"></div>
                   <img class="site-icon me-2 my-auto" id="sites-list-template-icon" alt="Icon" />
                   <div class="me-2 text-overflow-hide">
@@ -37,30 +37,28 @@
                     <button type="button" class="btn btn-outline-primary bi-pencil-square" id="sites-list-template-edit" title="Edit web app" aria-label="Edit web app"></button>
                     <button type="button" class="btn btn-outline-primary bi-trash" id="sites-list-template-remove" title="Remove web app" aria-label="Remove web app"></button>
                   </div>
-                </li>
+                </div>
               </template>
-              <li class="list-group-item justify-content-between align-items-start d-flex" id="sites-list-loading">
+              <div class="list-group-item justify-content-between align-items-start d-flex" id="sites-list-loading">
                 <div>
                   <div><em>Loading...</em></div>
                 </div>
-              </li>
-              <li class="list-group-item justify-content-between align-items-start d-flex d-none" id="sites-list-empty">
+              </div>
+              <div class="list-group-item justify-content-between align-items-start d-flex d-none" id="sites-list-empty">
                 <div>
                   <div><em>No sites installed!</em></div>
                 </div>
-              </li>
-              <li id="site-install-item">
-                <button type="button" class="list-group-item list-group-item-action" id="site-install-button">
-                  <em>Install current site</em>
-                </button>
-              </li>
-            </ul>
+              </div>
+              <button type="button" class="list-group-item list-group-item-action fst-italic" id="site-install-button">
+                Install current site
+              </button>
+            </div>
           </div>
 
           <div class="tab-pane fade" id="profiles-pane" role="tabpanel" aria-labelledby="profiles-tab">
-            <ul class="list-group list-group-flush" id="profiles-list">
+            <div class="list-group list-group-flush list-group-border-last" id="profiles-list">
               <template id="profiles-list-template">
-                <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="list-group-item d-flex justify-content-between align-items-start">
                   <div class="me-2 text-overflow-hide">
                     <div class="list-group-item-name" id="profiles-list-template-name"></div>
                     <div class="list-group-item-description" id="profiles-list-template-description"></div>
@@ -69,28 +67,26 @@
                     <button type="button" class="btn btn-outline-primary bi-pencil-square" id="profiles-list-template-edit" title="Edit profile" aria-label="Edit profile"></button>
                     <button type="button" class="btn btn-outline-primary bi-trash" id="profiles-list-template-remove" title="Remove profile" aria-label="Remove remove"></button>
                   </div>
-                </li>
+                </div>
               </template>
-              <li class="list-group-item justify-content-between align-items-start d-flex" id="profiles-list-loading">
+              <div class="list-group-item justify-content-between align-items-start d-flex" id="profiles-list-loading">
                 <div>
                   <div><em>Loading...</em></div>
                 </div>
-              </li>
-              <li class="list-group-item justify-content-between align-items-start d-flex d-none" id="profiles-list-empty">
+              </div>
+              <div class="list-group-item justify-content-between align-items-start d-flex d-none" id="profiles-list-empty">
                 <div>
                   <div><em>No profiles available!</em></div>
                 </div>
-              </li>
-              <li id="profile-create-item">
-                <button type="button" class="list-group-item list-group-item-action" id="profile-create-button">
-                  <em>Create a new profile</em>
-                </button>
-              </li>
-            </ul>
+              </div>
+              <button type="button" class="list-group-item list-group-item-action fst-italic" id="profile-create-button">
+                Create a new profile
+              </button>
+            </div>
           </div>
 
           <div class="tab-pane fade" id="settings-pane" role="tabpanel" aria-labelledby="settings-tab">
-            <div class="list-group list-group-flush">
+            <div class="list-group list-group-flush list-group-border-last">
               <div class="list-group-item">
                 <div class="row align-items-center">
                   <div>
@@ -220,28 +216,28 @@
       <div class="card-body card-offcanvas-body">
         <form class="needs-validation" id="web-app-form">
           <div class="mb-3">
-            <label for="web-app-name" class="form-label">Name</label>
+            <label for="web-app-name" class="form-label fw-bold">Name</label>
             <input type="text" class="form-control form-control-sm" id="web-app-name" />
             <div class="invalid-feedback" id="web-app-name-invalid"></div>
           </div>
           <div class="mb-3">
-            <label for="web-app-description" class="form-label">Description</label>
+            <label for="web-app-description" class="form-label fw-bold">Description</label>
             <input type="text" class="form-control form-control-sm" id="web-app-description" />
           </div>
           <div class="mb-3">
-            <label for="web-app-categories" class="form-label">Categories</label>
+            <label for="web-app-categories" class="form-label fw-bold">Categories</label>
             <select class="form-select-tags" id="web-app-categories" multiple data-allow-new="true">
               <option selected disabled hidden value="">​</option>
             </select>
           </div>
           <div class="mb-3">
-            <label for="web-app-keywords" class="form-label">Keywords</label>
+            <label for="web-app-keywords" class="form-label fw-bold">Keywords</label>
             <select class="form-select-tags" id="web-app-keywords" multiple data-allow-new="true">
               <option selected disabled hidden value="">​</option>
             </select>
           </div>
-          <div>
-            <label for="web-app-start-url" class="form-label">Start URL</label>
+          <div class="mb-3">
+            <label for="web-app-start-url" class="form-label fw-bold">Start URL</label>
             <input type="url" class="form-control form-control-sm" id="web-app-start-url" />
             <div class="invalid-feedback" id="web-app-start-url-invalid"></div>
           </div>
