@@ -73,18 +73,20 @@ class ChromeLoader {
     }
 
     // Load browser CSS and JS when a new browser window is created
-    // Styles need to be loaded only once per session, but script needs to be loaded every time
+    // Styles need to be loaded only once per session, but the script needs to be loaded every time
     if (location.href === ChromeLoader.BROWSERCHROME) {
       if (!ChromeLoader.INITIALIZED_BROWSER) this.loadUserStyles(ChromeLoader.BROWSER_STYLES);
       this.loadUserScript(ChromeLoader.BROWSER_SCRIPT, window);
       ChromeLoader.INITIALIZED_BROWSER = true;
 
     // Load preferences CSS and JS when a new preferences tab is opened
-    // Styles need to be loaded only once per session, but script needs to be loaded every time
+    // Styles need to be loaded only once per session, but the script needs to be loaded every time
     } else if (location.href === ChromeLoader.ABOUTPREFERENCES) {
       if (!ChromeLoader.INITIALIZED_PREFERENCES) this.loadUserStyles(ChromeLoader.PREFERENCES_STYLES);
       this.loadUserScript(ChromeLoader.PREFERENCES_SCRIPT, window);
       ChromeLoader.INITIALIZED_PREFERENCES = true;
+
+    // Load macOS hidden window JS when it is created
     } else if (location.href === ChromeLoader.MACOS_HIDDEN_WINDOW) {
       this.loadUserScript(ChromeLoader.MACOS_HIDDEN_WINDOW_SCRIPT, window);
     }
