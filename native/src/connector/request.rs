@@ -1,5 +1,5 @@
 use anyhow::Result;
-use serde::Deserialize;
+use serde::{Deserialize, Deserializer};
 use ulid::Ulid;
 use url::Url;
 
@@ -57,6 +57,22 @@ macro_rules! deserialize_unit_struct {
 /// See: https://github.com/serde-rs/serde/issues/368
 const fn default_as_true() -> bool {
     true
+}
+
+/// Supports "double option" pattern for update requests.
+///
+/// - Parses missing field as `None`.
+/// - Parses field with value `None` as `Some(None)`.
+/// - Parses field with set value as `Some(Some(value))`.
+///
+/// See: https://github.com/serde-rs/serde/issues/984
+///      https://github.com/serde-rs/serde/issues/1042
+fn double_option<'de, T, D>(de: D) -> Result<Option<Option<T>>, D::Error>
+where
+    T: Deserialize<'de>,
+    D: Deserializer<'de>,
+{
+    Deserialize::deserialize(de).map(Some)
 }
 
 /// Gets versions of the installed system components.
@@ -212,14 +228,14 @@ pub struct InstallSite {
     /// Custom web app categories.
     ///
     /// Can be set by the user to overwrite the default categories.
-    /// If empty, defaults to the value specified in the manifest.
-    pub categories: Vec<String>,
+    /// If not set, defaults to the value specified in the manifest.
+    pub categories: Option<Vec<String>>,
 
     /// Custom web app keywords.
     ///
     /// Can be set by the user to overwrite the default keywords.
-    /// If empty, defaults to the value specified in the manifest.
-    pub keywords: Vec<String>,
+    /// If not set, defaults to the value specified in the manifest.
+    pub keywords: Option<Vec<String>>,
 
     /// Profile where this web app will be installed.
     ///
@@ -249,6 +265,10 @@ pub struct UninstallSite {
 ///
 /// See [fields](#fields).
 ///
+/// - If an optional parameter is skipped (not specified), its value remains unchanged.
+/// - If an optional parameter is set to `None`, its value is removed and replaced with the default.
+/// - If an optional parameter is set to `Some` value, the new value is saved.
+///
 /// # Returns
 ///
 /// [`ConnectorResponse::SiteUpdated`] - No data.
@@ -261,32 +281,32 @@ pub struct UpdateSite {
     /// A custom web app start URL.
     ///
     /// Can be set by the user to overwrite the default start URL.
-    /// If not set, defaults to the value specified in the manifest.
-    pub start_url: Option<Url>,
+    #[serde(default, deserialize_with = "double_option")]
+    pub start_url: Option<Option<Url>>,
 
     /// A custom web app name.
     ///
     /// Can be set by the user to overwrite the default name.
-    /// If not set, defaults to the value specified in the manifest.
-    pub name: Option<String>,
+    #[serde(default, deserialize_with = "double_option")]
+    pub name: Option<Option<String>>,
 
     /// A custom web app description.
     ///
     /// Can be set by the user to overwrite the default description.
-    /// If not set, defaults to the value specified in the manifest.
-    pub description: Option<String>,
+    #[serde(default, deserialize_with = "double_option")]
+    pub description: Option<Option<String>>,
 
     /// Custom web app categories.
     ///
     /// Can be set by the user to overwrite the default categories.
-    /// If empty, defaults to the value specified in the manifest.
-    pub categories: Vec<String>,
+    #[serde(default, deserialize_with = "double_option")]
+    pub categories: Option<Option<Vec<String>>>,
 
     /// Custom web app keywords.
     ///
     /// Can be set by the user to overwrite the default keywords.
-    /// If empty, defaults to the value specified in the manifest.
-    pub keywords: Vec<String>,
+    #[serde(default, deserialize_with = "double_option")]
+    pub keywords: Option<Option<Vec<String>>>,
 
     /// Whether the manifest should be updated (default: `true`).
     #[serde(default = "default_as_true")]
@@ -372,6 +392,10 @@ pub struct RemoveProfile {
 ///
 /// See [fields](#fields).
 ///
+/// - If an optional parameter is skipped (not specified), its value remains unchanged.
+/// - If an optional parameter is set to `None`, its value is removed and replaced with the default.
+/// - If an optional parameter is set to `Some` value, the new value is saved.
+///
 /// # Returns
 ///
 /// [`ConnectorResponse::ProfileUpdated`] - No data.
@@ -382,10 +406,12 @@ pub struct UpdateProfile {
     pub id: Ulid,
 
     /// A profile name.
-    pub name: Option<String>,
+    #[serde(default, deserialize_with = "double_option")]
+    pub name: Option<Option<String>>,
 
     /// A profile description.
-    pub description: Option<String>,
+    #[serde(default, deserialize_with = "double_option")]
+    pub description: Option<Option<String>>,
 }
 
 deserialize_unit_struct!(GetSystemVersions);

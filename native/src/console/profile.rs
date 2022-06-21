@@ -13,23 +13,9 @@ use crate::console::app::{
     ProfileRemoveCommand,
     ProfileUpdateCommand,
 };
-use crate::console::Run;
+use crate::console::{store_value, Run};
 use crate::directories::ProjectDirs;
 use crate::storage::Storage;
-
-macro_rules! store_value {
-    ($target:expr, $source:expr, $store_none:expr) => {
-        match $source.as_ref().map(|value| value.trim()) {
-            Some("") => $target = None,
-            Some(value) => $target = Some(value.into()),
-            None => {
-                if $store_none {
-                    $target = None
-                }
-            }
-        };
-    };
-}
 
 impl Run for ProfileListCommand {
     fn run(&self) -> Result<()> {
@@ -152,8 +138,8 @@ impl Run for ProfileUpdateCommand {
         let profile = storage.profiles.get_mut(&self.id).context("Profile does not exist")?;
 
         info!("Updating the profile");
-        store_value!(profile.name, self.name, self.store_none_values);
-        store_value!(profile.description, self.description, self.store_none_values);
+        store_value!(profile.name, self.name);
+        store_value!(profile.description, self.description);
         storage.write(&dirs)?;
 
         info!("Profile updated!");

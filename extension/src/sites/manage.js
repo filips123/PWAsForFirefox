@@ -126,7 +126,7 @@ async function createSiteList () {
       categoriesElement.tagsInstance.reset()
 
       // Set categories from config or manifest
-      const categoriesList = site.config.categories.length ? site.config.categories : site.manifest.categories
+      const categoriesList = site.config.categories?.length ? site.config.categories : site.manifest.categories
       for (const category of categoriesList || []) categoriesElement.tagsInstance.addItem(category, category)
 
       // Clear previous keywords
@@ -135,7 +135,7 @@ async function createSiteList () {
       keywordsElement.tagsInstance.reset()
 
       // Set keywords from config or manifest
-      const keywordsList = site.config.keywords.length ? site.config.keywords : site.manifest.keywords
+      const keywordsList = site.config.keywords?.length ? site.config.keywords : site.manifest.keywords
       for (const keyword of keywordsList || []) keywordsElement.tagsInstance.addItem(keyword, keyword)
 
       // Set form to be validated after all inputs are filled with default values and enable submit button
@@ -220,11 +220,11 @@ async function createSiteList () {
         // If the user list is identical to the manifest, ignore it, otherwise, set it as a user overwrite
         const userCategories = [...document.getElementById('web-app-categories').selectedOptions].map(option => option.value)
         const manifestCategories = site.manifest.categories || []
-        const categories = userCategories.toString() !== manifestCategories.toString() ? userCategories : []
+        const categories = userCategories.toString() !== manifestCategories.toString() ? userCategories : null
 
         const userKeywords = [...document.getElementById('web-app-keywords').selectedOptions].map(option => option.value)
         const manifestKeywords = site.manifest.keywords || []
-        const keywords = userKeywords.toString() !== manifestKeywords.toString() ? userKeywords : []
+        const keywords = userKeywords.toString() !== manifestKeywords.toString() ? userKeywords : null
 
         // Tell the native connector to update the site
         const response = await browser.runtime.sendNativeMessage('firefoxpwa', {

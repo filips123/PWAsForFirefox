@@ -84,11 +84,11 @@ pub struct SiteInstallCommand {
 
     /// Set custom web app categories
     #[clap(long)]
-    pub categories: Vec<String>,
+    pub categories: Option<Vec<String>>,
 
     /// Set custom web app keywords
     #[clap(long)]
-    pub keywords: Vec<String>,
+    pub keywords: Option<Vec<String>>,
 
     /// Disable system integration
     #[clap(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
@@ -116,23 +116,23 @@ pub struct SiteUpdateCommand {
 
     /// Set a custom web app start URL
     #[clap(long)]
-    pub start_url: Option<Url>,
+    pub start_url: Option<Option<Url>>,
 
     /// Set a custom web app name
     #[clap(long)]
-    pub name: Option<String>,
+    pub name: Option<Option<String>>,
 
     /// Set a custom web app description
     #[clap(long)]
-    pub description: Option<String>,
+    pub description: Option<Option<String>>,
 
     /// Set custom web app categories
     #[clap(long)]
-    pub categories: Vec<String>,
+    pub categories: Option<Vec<String>>,
 
     /// Set custom web app keywords
     #[clap(long)]
-    pub keywords: Vec<String>,
+    pub keywords: Option<Vec<String>>,
 
     /// Disable manifest updates
     #[clap(long = "no-manifest-updates", parse(from_flag = std::ops::Not::not))]
@@ -145,10 +145,6 @@ pub struct SiteUpdateCommand {
     /// Disable system integration
     #[clap(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
     pub system_integration: bool,
-
-    /// Internal: Treat `None` values as actual values
-    #[clap(long, hide = true)]
-    pub store_none_values: bool,
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
@@ -197,15 +193,11 @@ pub struct ProfileUpdateCommand {
 
     /// Set a profile name
     #[clap(long)]
-    pub name: Option<String>,
+    pub name: Option<Option<String>>,
 
     /// Set a profile description
     #[clap(long)]
-    pub description: Option<String>,
-
-    /// Internal: Treat `None` values as actual values
-    #[clap(long, hide = true)]
-    pub store_none_values: bool,
+    pub description: Option<Option<String>>,
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]

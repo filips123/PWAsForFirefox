@@ -262,11 +262,11 @@ async function initializeForm () {
     // If the user list is identical to the manifest, ignore it, otherwise, set it as a user overwrite
     const userCategories = [...document.getElementById('web-app-categories').selectedOptions].map(option => option.value)
     const manifestCategories = manifest?.categories || []
-    const categories = userCategories.toString() !== manifestCategories.toString() ? userCategories : []
+    const categories = userCategories.toString() !== manifestCategories.toString() ? userCategories : null
 
     const userKeywords = [...document.getElementById('web-app-keywords').selectedOptions].map(option => option.value)
     const manifestKeywords = manifest?.keywords || []
-    const keywords = userKeywords.toString() !== manifestKeywords.toString() ? userKeywords : []
+    const keywords = userKeywords.toString() !== manifestKeywords.toString() ? userKeywords : null
 
     // If the manifest does not exist, generate a "fake" manifest data URL
     if (!manifestExists) {

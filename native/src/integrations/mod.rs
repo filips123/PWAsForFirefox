@@ -64,19 +64,17 @@ pub fn install(site: &Site, dirs: &ProjectDirs, old_name: Option<String>) -> Res
     // Categories can be used for user organization and describe in which categories does the web app belong
     // There is no fixed list of categories, but some known categories will be converted to XDG menu categories on Linux
     // First try the user-specified categories, then try manifest categories
-    let categories = if !site.config.categories.is_empty() {
-        &site.config.categories
-    } else {
-        &site.manifest.categories
+    let categories = match &site.config.categories {
+        Some(categories) => categories,
+        None => &site.manifest.categories,
     };
 
     // Keywords can also be used for user organization and contain additional words that can describe the web app
     // Keywords will be converted to XDG menu keywords on Linux and be used as additional search queries
     // First try the user-specified keywords, then try manifest keywords
-    let keywords = if !site.config.keywords.is_empty() {
-        &site.config.keywords
-    } else {
-        &site.manifest.keywords
+    let keywords = match &site.config.keywords {
+        Some(keywords) => keywords,
+        None => &site.manifest.keywords,
     };
 
     // Generate site info struct

@@ -121,8 +121,8 @@ impl Process for InstallSite {
             profile: self.profile.to_owned(),
             name: self.name.to_owned(),
             description: self.description.to_owned(),
-            categories: self.categories.to_vec(),
-            keywords: self.keywords.to_vec(),
+            categories: self.categories.to_owned(),
+            keywords: self.keywords.to_owned(),
             system_integration: true,
         };
         let ulid = command._run()?;
@@ -142,17 +142,18 @@ impl Process for UninstallSite {
 
 impl Process for UpdateSite {
     fn process(&self, _connection: &Connection) -> Result<ConnectorResponse> {
+        // `categories` and `keywords` need some weird hack to be compatible with Clap
+        // See [`crate::console::store_value_vec`] for more details
         let command = SiteUpdateCommand {
             id: self.id,
             start_url: self.start_url.to_owned(),
             name: self.name.to_owned(),
             description: self.description.to_owned(),
-            categories: self.categories.to_vec(),
-            keywords: self.keywords.to_vec(),
+            categories: self.categories.clone().map(|x| x.unwrap_or_else(|| vec!["".into()])),
+            keywords: self.keywords.clone().map(|x| x.unwrap_or_else(|| vec!["".into()])),
             update_manifest: self.update_manifest,
             update_icons: self.update_icons,
             system_integration: true,
-            store_none_values: true,
         };
         command.run()?;
 
@@ -216,7 +217,6 @@ impl Process for UpdateProfile {
             id: self.id,
             name: self.name.to_owned(),
             description: self.description.to_owned(),
-            store_none_values: true,
         };
         command.run()?;
 

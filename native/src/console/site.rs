@@ -15,54 +15,9 @@ use crate::console::app::{
     SiteUninstallCommand,
     SiteUpdateCommand,
 };
-use crate::console::Run;
+use crate::console::{store_value, store_value_vec, Run};
 use crate::directories::ProjectDirs;
 use crate::storage::Storage;
-
-macro_rules! store_value_str {
-    ($target:expr, $source:expr, $store_none:expr) => {
-        match $source.as_ref().map(|value| value.trim()) {
-            Some("") => $target = None,
-            Some(value) => $target = Some(value.into()),
-            None => {
-                if $store_none {
-                    $target = None
-                }
-            }
-        };
-    };
-}
-
-macro_rules! store_value_url {
-    ($target:expr, $source:expr, $store_none:expr) => {
-        if $source.is_some() || $store_none {
-            $target = $source.clone();
-        }
-    };
-}
-
-macro_rules! store_value_vec {
-    ($target:expr, $source:expr, $store_none:expr) => {
-        let mut source: Vec<&str> = $source.iter().map(|value| value.trim()).collect();
-        source.dedup();
-
-        match source.first() {
-            Some(&"") => $target = vec![],
-            Some(_) => {
-                $target = source
-                    .iter()
-                    .filter(|&value| !value.is_empty())
-                    .map(|&value| value.into())
-                    .collect()
-            }
-            None => {
-                if $store_none {
-                    $target = vec![]
-                }
-            }
-        }
-    };
-}
 
 impl Run for SiteLaunchCommand {
     fn run(&self) -> Result<()> {
@@ -244,11 +199,11 @@ impl Run for SiteUpdateCommand {
         let old_name = site.name().unwrap_or_else(|| site.domain());
 
         info!("Updating the web app");
-        store_value_str!(site.config.name, self.name, self.store_none_values);
-        store_value_str!(site.config.description, self.description, self.store_none_values);
-        store_value_url!(site.config.start_url, self.start_url, self.store_none_values);
-        store_value_vec!(site.config.categories, self.categories, self.store_none_values);
-        store_value_vec!(site.config.keywords, self.keywords, self.store_none_values);
+        store_value!(site.config.name, self.name);
+        store_value!(site.config.description, self.description);
+        store_value!(site.config.start_url, self.start_url);
+        store_value_vec!(site.config.categories, self.categories);
+        store_value_vec!(site.config.keywords, self.keywords);
 
         if self.update_manifest {
             site.update().context("Failed to update web app manifest")?;

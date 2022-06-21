@@ -51,12 +51,10 @@ pub struct SiteConfig {
     pub manifest_url: Url,
 
     /// Custom web app categories.
-    #[serde(default)]
-    pub categories: Vec<String>,
+    pub categories: Option<Vec<String>>,
 
     /// Custom web app keywords.
-    #[serde(default)]
-    pub keywords: Vec<String>,
+    pub keywords: Option<Vec<String>>,
 }
 
 #[non_exhaustive]
