@@ -1,3 +1,4 @@
+use std::convert::TryInto;
 use std::fs::metadata;
 use std::io;
 use std::io::Write;
@@ -6,6 +7,7 @@ use anyhow::{bail, Context, Result};
 use cfg_if::cfg_if;
 use log::{info, warn};
 use ulid::Ulid;
+use url::Url;
 
 use crate::components::runtime::Runtime;
 use crate::components::site::{Site, SiteConfig};
@@ -17,6 +19,8 @@ use crate::console::app::{
 };
 use crate::console::{store_value, store_value_vec, Run};
 use crate::directories::ProjectDirs;
+use crate::integrations;
+use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 use crate::storage::Storage;
 
 impl Run for SiteLaunchCommand {
@@ -45,7 +49,9 @@ impl Run for SiteLaunchCommand {
             bail!("Runtime not installed");
         }
 
-        let should_patch = if storage.config.always_patch {
+        // Patching on macOS is always needed to correctly show the web app name
+        // Otherwise, patch runtime and profile only if needed
+        let should_patch = if cfg!(target_os = "macos") || storage.config.always_patch {
             // Force patching if this is enabled
             true
         } else {
@@ -70,19 +76,52 @@ impl Run for SiteLaunchCommand {
             }
         };
 
-        // Patching on macOS is always needed to correctly show the web app name
-        // Otherwise, patch runtime and profile only if needed
-        if cfg!(target_os = "macos") || should_patch {
+        if should_patch {
             runtime.patch(&dirs, site)?;
             profile.patch(&dirs)?;
         }
 
+        // Handle protocol handler URLs
+        // See: https://html.spec.whatwg.org/multipage/system-state.html#protocol-handler-invocation
+        let handler = if let Some(Some(protocol)) = &self.protocol {
+            let scheme = protocol.scheme().to_string();
+            let input = urlencoding::encode(protocol.as_str());
+
+            if !site.config.enabled_protocol_handlers.contains(&scheme) {
+                bail!("Scheme {} not enabled", scheme);
+            }
+
+            let handler: String = site
+                .config
+                .custom_protocol_handlers
+                .iter()
+                .find(|handler| handler.protocol == scheme)
+                .or_else(|| {
+                    site.manifest
+                        .protocol_handlers
+                        .iter()
+                        .find(|handler| handler.protocol == scheme)
+                })
+                .context(format!("Scheme {} not found", scheme))?
+                .to_owned()
+                .url
+                .try_into()
+                .context("Failed to convert protocol handler")?;
+            let handler = handler.replacen("%s", &input, 1);
+            let handler = Url::parse(&handler).context("Failed to convert protocol handler")?;
+            Some(handler)
+        } else {
+            None
+        };
+
+        let url = if handler.is_some() { &handler } else { &self.url };
+
         info!("Launching the web app");
         cfg_if! {
             if #[cfg(target_os = "macos")] {
-                site.launch(&dirs, &runtime, &storage.config, &self.url, args, storage.variables)?.wait()?;
+                site.launch(&dirs, &runtime, &storage.config, url, args, storage.variables)?.wait()?;
             } else {
-                site.launch(&dirs, &runtime, &storage.config, &self.url, args, storage.variables)?;
+                site.launch(&dirs, &runtime, &storage.config, url, args, storage.variables)?;
             }
         }
 
@@ -124,14 +163,23 @@ impl SiteInstallCommand {
             },
             manifest_url: self.manifest_url.clone(),
             start_url: self.start_url.clone(),
+            enabled_protocol_handlers: vec![],
+            custom_protocol_handlers: vec![],
         };
 
         let site = Site::new(profile.ulid, config)?;
         let ulid = site.ulid;
 
         if self.system_integration {
-            site.install_system_integration(&dirs)
-                .context("Failed to install system integration")?;
+            info!("Installing system integration");
+            integrations::install(&IntegrationInstallArgs {
+                site: &site,
+                dirs: &dirs,
+                update_manifest: true,
+                update_icons: true,
+                old_name: None,
+            })
+            .context("Failed to install system integration")?;
         }
 
         profile.sites.push(ulid);
@@ -178,7 +226,8 @@ impl Run for SiteUninstallCommand {
 
         if self.system_integration {
             if let Some(site) = site {
-                site.uninstall_system_integration(&dirs)
+                info!("Uninstalling system integration");
+                integrations::uninstall(&IntegrationUninstallArgs { site: &site, dirs: &dirs })
                     .context("Failed to uninstall system integration")?;
             }
         }
@@ -196,7 +245,7 @@ impl Run for SiteUpdateCommand {
         let mut storage = Storage::load(&dirs)?;
 
         let site = storage.sites.get_mut(&self.id).context("Web app does not exist")?;
-        let old_name = site.name().unwrap_or_else(|| site.domain());
+        let old_name = site.name();
 
         info!("Updating the web app");
         store_value!(site.config.name, self.name);
@@ -204,14 +253,22 @@ impl Run for SiteUpdateCommand {
         store_value!(site.config.start_url, self.start_url);
         store_value_vec!(site.config.categories, self.categories);
         store_value_vec!(site.config.keywords, self.keywords);
+        store_value!(site.config.enabled_protocol_handlers, self.enabled_protocol_handlers);
 
         if self.update_manifest {
             site.update().context("Failed to update web app manifest")?;
         }
 
         if self.system_integration {
-            site.update_system_integration(&dirs, old_name)
-                .context("Failed to update system integration")?;
+            info!("Updating system integration");
+            integrations::install(&IntegrationInstallArgs {
+                site,
+                dirs: &dirs,
+                update_manifest: self.update_manifest,
+                update_icons: self.update_icons,
+                old_name: Some(&old_name),
+            })
+            .context("Failed to update system integration")?;
         }
 
         storage.write(&dirs)?;

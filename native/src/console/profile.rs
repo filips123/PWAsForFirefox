@@ -36,7 +36,6 @@ impl Run for ProfileListCommand {
 
             for site in profile.sites {
                 let site = storage.sites.get(&site).context("Profile with invalid web app")?;
-                let name = site.name().unwrap_or_else(|| site.domain());
 
                 let url = if site.config.manifest_url.scheme() != "data" {
                     &site.config.manifest_url
@@ -44,7 +43,7 @@ impl Run for ProfileListCommand {
                     &site.config.document_url
                 };
 
-                println!("- {}: {} ({})", name, url, site.ulid);
+                println!("- {}: {} ({})", site.name(), url, site.ulid);
             }
 
             println!();

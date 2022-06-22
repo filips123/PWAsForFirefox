@@ -8,17 +8,18 @@ use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
 use ulid::Ulid;
 use url::Url;
+use web_app_manifest::resources::ProtocolHandlerResource;
 use web_app_manifest::types::Url as ManifestUrl;
 pub use web_app_manifest::WebAppManifest as SiteManifest;
 
 use crate::components::runtime::Runtime;
 use crate::directories::ProjectDirs;
-use crate::integrations;
 use crate::storage::Config;
 
 const DOWNLOAD_ERROR: &str = "Failed to download web app manifest";
 const DATA_URL_ERROR: &str = "Failed to process web app manifest data URL";
 const PARSE_ERROR: &str = "Failed to parse web app manifest";
+const INVALID_URL: &str = "Web app without valid absolute URL is not possible";
 
 const APP_USER_AGENT: &str = concat!(
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0 PWAsForFirefox/",
@@ -28,8 +29,8 @@ const APP_USER_AGENT: &str = concat!(
 /// Contains configuration for the web app.
 ///
 /// Most optional data here are just overwrites for information
-/// provided by the web app in its manifest. If not set, they will
-/// default to the value in the manifest.
+/// provided by the web app in its manifest. If they are not not
+/// set, they will default to the value in the manifest.
 ///
 /// This struct also contains few required configuration for
 /// the web app, such as a document and manifest URL.
@@ -55,6 +56,26 @@ pub struct SiteConfig {
 
     /// Custom web app keywords.
     pub keywords: Option<Vec<String>>,
+
+    /// Enabled protocol handlers.
+    ///
+    /// Contains web app's protocol schemes (without the trailing `:`)
+    /// that are registered to the operating system.
+    ///
+    /// Both the handlers specified in the manifest and ones added
+    /// using the `registerProtocolHandler` API must be included here
+    /// in order to be registered.
+    #[serde(default)]
+    pub enabled_protocol_handlers: Vec<String>,
+
+    /// Custom protocol handlers.
+    ///
+    /// Contains protocol handlers dynamically registered using
+    /// the [`registerProtocolHandler`] JavaScript API.
+    ///
+    /// [`registerProtocolHandler`]: https://developer.mozilla.org/docs/Web/API/Navigator/registerProtocolHandler
+    #[serde(default)]
+    pub custom_protocol_handlers: Vec<ProtocolHandlerResource>,
 }
 
 #[non_exhaustive]
@@ -140,24 +161,6 @@ impl Site {
     }
 
     #[inline]
-    pub fn install_system_integration(&self, dirs: &ProjectDirs) -> Result<()> {
-        info!("Installing system integration");
-        integrations::install(self, dirs, None)
-    }
-
-    #[inline]
-    pub fn uninstall_system_integration(&self, dirs: &ProjectDirs) -> Result<()> {
-        info!("Uninstalling system integration");
-        integrations::uninstall(self, dirs)
-    }
-
-    #[inline]
-    pub fn update_system_integration(&self, dirs: &ProjectDirs, old_name: String) -> Result<()> {
-        info!("Updating system integration");
-        integrations::install(self, dirs, Some(old_name))
-    }
-
-    #[inline]
     pub fn launch<I: IntoIterator<Item = (String, String)>>(
         &self,
         dirs: &ProjectDirs,
@@ -200,12 +203,25 @@ impl Site {
         vars.extend(variables);
         runtime.run(&args, vars)
     }
+}
 
-    /// Scope domain is used as a publisher name or when the name is undefined.
-    /// Using scope instead of start URL because user should not be able to overwrite it.
+impl Site {
+    /// Start URL is used as an info URL on supported systems.
+    #[rustfmt::skip]
+    pub fn url(&self) -> String {
+        // Try to get user-specified start URL
+        if let Some(url) = &self.config.start_url { url.to_string() }
+
+        // If not set, use manifest-provided start URL
+        else if let ManifestUrl::Absolute(url) = &self.manifest.start_url { url.to_string() }
+
+        // This should not happen on valid web apps
+        else { unreachable!("{}", INVALID_URL) }
+    }
+
+    /// Domain of a web app's scope is used as a publisher name
+    /// on supported systems or when the app name is undefined.
     pub fn domain(&self) -> String {
-        const INVALID_URL: &str = "Web app without valid absolute URL is not possible";
-
         if let ManifestUrl::Absolute(url) = &self.manifest.scope {
             match url.host() {
                 Some(domain) => domain.to_string(),
@@ -216,14 +232,52 @@ impl Site {
         }
     }
 
-    /// First try the user-specified name, then try manifest name and then short name.
-    /// If this returns `None`, the caller is expected to use the domain name instead.
-    pub fn name(&self) -> Option<String> {
+    /// First tries the user-specified name, then try manifest name
+    /// and then short name. If no name is specified, uses the domain.
+    pub fn name(&self) -> String {
         self.config
             .name
             .as_ref()
             .cloned()
             .or_else(|| self.manifest.name.as_ref().cloned())
             .or_else(|| self.manifest.short_name.as_ref().cloned())
+            .unwrap_or_else(|| self.domain())
+    }
+
+    /// First tries the user-specified description, then try manifest description.
+    /// If no description is specified, returns an empty string.
+    pub fn description(&self) -> String {
+        self.config
+            .description
+            .as_ref()
+            .cloned()
+            .or_else(|| self.manifest.description.as_ref().cloned())
+            .unwrap_or_else(|| "".into())
+    }
+
+    /// Categories can be used for user organization.
+    ///
+    /// There is no fixed list of categories, but some known categories are converted
+    /// to XDG menu categories on Linux and Apple App Store categories on macOS.
+    ///
+    /// First tries the user-specified categories, then try manifest categories.
+    pub fn categories(&self) -> &[String] {
+        match &self.config.categories {
+            Some(categories) => categories,
+            None => &self.manifest.categories,
+        }
+    }
+
+    /// Keywords can also be used for user organization and contain
+    /// additional information that can be used to describe the web app.
+    ///
+    /// Keywords are used as additional search queries on Linux.
+    ///
+    /// First tries the user-specified keywords, then try manifest keywords.
+    pub fn keywords(&self) -> &[String] {
+        match &self.config.keywords {
+            Some(keywords) => keywords,
+            None => &self.manifest.keywords,
+        }
     }
 }

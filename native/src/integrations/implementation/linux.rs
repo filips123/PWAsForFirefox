@@ -12,10 +12,10 @@ use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize};
 
-use crate::directories::ProjectDirs;
+use crate::components::site::Site;
 use crate::integrations::categories::XDG_CATEGORIES;
 use crate::integrations::utils::{download_icon, process_icons};
-use crate::integrations::{SiteInfoInstall, SiteInfoUninstall};
+use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
 const CONVERT_ICON_URL_ERROR: &str = "Failed to convert icon URL";
@@ -42,17 +42,37 @@ fn normalize_category_name(category: &str) -> String {
     category.to_lowercase().replace(&['-', '_', ' '], "")
 }
 
-/// Update system's icon cache.
+/// Update system's application cache.
 #[rustfmt::skip]
-fn update_application_cache(data: &Path) -> Result<()> {
-    Command::new("touch").arg(data.join("icons")).arg(data.join("icons/hicolor")).spawn()?;
-    Command::new("gtk-update-icon-cache").spawn()?;
-    Ok(())
+fn update_application_cache(data: &Path) {
+    let _ = Command::new("touch").arg(data.join("icons")).arg(data.join("icons/hicolor")).spawn();
+    let _ = Command::new("update-desktop-database").arg(data.join("applications")).spawn();
+    let _ = Command::new("update-mime-database").arg(data.join("mime")).spawn();
+    let _ = Command::new("gtk-update-icon-cache").spawn();
+    let _ = Command::new("xdg-desktop-menu").arg("forceupdate").spawn();
 }
 
 //////////////////////////////
 // Implementation
 //////////////////////////////
+
+#[derive(Debug, Clone)]
+struct SiteIds {
+    pub name: String,
+    pub description: String,
+    pub ulid: String,
+    pub classid: String,
+}
+
+impl SiteIds {
+    pub fn create_for(site: &Site) -> Self {
+        let name = site.name();
+        let description = site.description();
+        let ulid = site.ulid.to_string();
+        let classid = format!("FFPWA-{}", ulid);
+        Self { name, description, ulid, classid }
+    }
+}
 
 /// Obtain and process icons from the icon list.
 ///
@@ -162,9 +182,9 @@ fn store_icons(id: &str, name: &str, icons: &[IconResource], data: &Path) -> Res
     Ok(())
 }
 
-fn remove_icons(info: &SiteInfoUninstall, data: &Path) -> Result<()> {
+fn remove_icons(classid: &str, data: &Path) -> Result<()> {
     let directory = data.display().to_string();
-    let pattern = format!("{}/icons/hicolor/*/apps/FFPWA-{}*", directory, info.id);
+    let pattern = format!("{}/icons/hicolor/*/apps/{}*", directory, classid);
 
     for path in glob(&pattern)?.filter_map(Result::ok) {
         let _ = remove_file(path);
@@ -173,11 +193,16 @@ fn remove_icons(info: &SiteInfoUninstall, data: &Path) -> Result<()> {
     Ok(())
 }
 
-fn create_desktop_entry(appid: &str, info: &SiteInfoInstall, exe: &str, data: &Path) -> Result<()> {
+fn create_desktop_entry(
+    args: &IntegrationInstallArgs,
+    ids: &SiteIds,
+    exe: &str,
+    data: &Path,
+) -> Result<()> {
     // Process some known manifest categories and reformat them into XDG names
     let mut categories = vec![];
-    for category in info.categories {
-        // Normalize category name for eacher matching
+    for category in args.site.categories() {
+        // Normalize category name for easier matching
         let category = normalize_category_name(category);
 
         // Get the mapped XDG category based on the site categories
@@ -190,7 +215,7 @@ fn create_desktop_entry(appid: &str, info: &SiteInfoInstall, exe: &str, data: &P
 
     // Get the .desktop filename in the applications directory
     let directory = data.join("applications");
-    let filename = directory.join(format!("{}.desktop", appid));
+    let filename = directory.join(format!("{}.desktop", ids.classid));
 
     // Store entry data
     let mut entry = format!(
@@ -202,30 +227,42 @@ Comment={description}
 Keywords={keywords};
 Categories=GTK;WebApps;{categories};
 Icon={icon}
-Exec={exe} site launch {id}
+Exec={exe} site launch {id} --protocol %u
 Actions={actions}
+MimeType={protocols}
 Terminal=false
 StartupNotify=true
 StartupWMClass={wmclass}
 ",
-        id = &info.id,
-        name = &info.name,
-        description = &info.description,
-        keywords = &info.keywords.join(";"),
+        id = &ids.ulid,
+        name = &ids.name,
+        description = &ids.description,
+        keywords = &args.site.keywords().join(";"),
         categories = &categories.join(";"),
-        actions = (0..info.shortcuts.len()).map(|i| i.to_string() + ";").collect::<String>(),
-        icon = &appid,
-        wmclass = &appid,
+        actions = (0..args.site.manifest.shortcuts.len())
+            .map(|i| i.to_string() + ";")
+            .collect::<String>(),
+        protocols = args
+            .site
+            .config
+            .enabled_protocol_handlers
+            .iter()
+            .map(|protocol| format!("x-scheme-handler/{protocol};"))
+            .collect::<String>(),
+        icon = &ids.classid,
+        wmclass = &ids.classid,
         exe = &exe,
     );
 
     // Store all shortcuts
-    for (i, shortcut) in info.shortcuts.iter().enumerate() {
+    for (i, shortcut) in args.site.manifest.shortcuts.iter().enumerate() {
         let url: Url = shortcut.url.clone().try_into().context(CONVERT_SHORTCUT_URL_ERROR)?;
-        let icon = format!("{}-{}", appid, i);
+        let icon = format!("{}-{}", ids.classid, i);
 
-        store_icons(&icon, &shortcut.name, &shortcut.icons, data)
-            .context("Failed to store shortcut icons")?;
+        if args.update_icons {
+            store_icons(&icon, &shortcut.name, &shortcut.icons, data)
+                .context("Failed to store shortcut icons")?;
+        }
 
         let action = format!(
             "
@@ -235,7 +272,7 @@ Icon={icon}
 Exec={exe} site launch {siteid} --url \"{url}\"
 ",
             actionid = i,
-            siteid = &info.id,
+            siteid = &ids.ulid,
             name = &shortcut.name,
             icon = &icon,
             url = &url,
@@ -252,9 +289,9 @@ Exec={exe} site launch {siteid} --url \"{url}\"
     Ok(())
 }
 
-fn remove_desktop_entry(info: &SiteInfoUninstall, data: &Path) -> Result<()> {
+fn remove_desktop_entry(classid: &str, data: &Path) -> Result<()> {
     let directory = data.join("applications");
-    let filename = directory.join(format!("FFPWA-{}.desktop", info.id));
+    let filename = directory.join(format!("{}.desktop", classid));
 
     let _ = remove_file(filename);
     Ok(())
@@ -265,26 +302,30 @@ fn remove_desktop_entry(info: &SiteInfoUninstall, data: &Path) -> Result<()> {
 //////////////////////////////
 
 #[inline]
-pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
-    let appid = &format!("FFPWA-{}", &info.id);
-
+pub fn install(args: &IntegrationInstallArgs) -> Result<()> {
+    let ids = SiteIds::create_for(args.site);
+    let exe = args.dirs.executables.join("firefoxpwa").display().to_string();
     let data = directories::BaseDirs::new().context(BASE_DIRECTORIES_ERROR)?.data_dir().to_owned();
-    let exe = dirs.executables.join("firefoxpwa").display().to_string();
 
-    store_icons(appid, &info.name, info.icons, &data).context("Failed to store web app icons")?;
-    create_desktop_entry(appid, info, &exe, &data).context("Failed to create application entry")?;
-    let _ = update_application_cache(&data);
+    if args.update_icons {
+        store_icons(&ids.classid, &ids.name, &args.site.manifest.icons, &data)
+            .context("Failed to store web app icons")?;
+    }
+
+    create_desktop_entry(args, &ids, &exe, &data).context("Failed to create application entry")?;
+    update_application_cache(&data);
 
     Ok(())
 }
 
 #[inline]
-pub fn uninstall(info: &SiteInfoUninstall, _dirs: &ProjectDirs) -> Result<()> {
+pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
+    let ids = SiteIds::create_for(args.site);
     let data = &directories::BaseDirs::new().context(BASE_DIRECTORIES_ERROR)?.data_dir().to_owned();
 
-    remove_icons(info, data).context("Failed to remove web app icons")?;
-    remove_desktop_entry(info, data).context("Failed to remove application entry")?;
-    let _ = update_application_cache(data);
+    remove_icons(&ids.classid, data).context("Failed to remove web app icons")?;
+    remove_desktop_entry(&ids.classid, data).context("Failed to remove application entry")?;
+    update_application_cache(data);
 
     Ok(())
 }

@@ -17,10 +17,9 @@ use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
 
 use crate::components::site::Site;
-use crate::directories::ProjectDirs;
 use crate::integrations::categories::MACOS_CATEGORIES;
 use crate::integrations::utils::{download_icon, generate_icon, sanitize_name};
-use crate::integrations::{SiteInfoInstall, SiteInfoUninstall};
+use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
 const CONVERT_ICON_URL_ERROR: &str = "Failed to convert icon URL";
@@ -40,13 +39,13 @@ const GET_LETTER_ERROR: &str = "Failed to get first letter";
 
 const ICON_SAFE_ZONE_FACTOR: f64 = 0.697265625;
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 struct Point {
     x: u32,
     y: u32,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 struct MacOSIconSize {
     size: u32,
     hdpi: bool,
@@ -160,7 +159,7 @@ fn sort_icons_for_size(icons: &mut [&IconResource], size: &ImageSize) {
 /// is downloaded and converted to a correct format. If icon cannot
 /// be parsed, the next available icon is attempted. In case no
 /// icons are available, an icon is generated from the web app name.
-fn store_icons(target: &Path, info: &SiteInfoInstall) -> Result<()> {
+fn store_icons(target: &Path, name: &str, icons: &[IconResource]) -> Result<()> {
     let icon_sizes = [
         MacOSIconSize { size: 16, hdpi: false },
         MacOSIconSize { size: 16, hdpi: true },
@@ -177,7 +176,7 @@ fn store_icons(target: &Path, info: &SiteInfoInstall) -> Result<()> {
 
     let mut iconset = IconFamily::new();
 
-    let mut icons = filter_unsupported_icons(info.icons);
+    let mut icons = filter_unsupported_icons(icons);
     let icons = icons.as_mut_slice();
 
     for size in &icon_sizes {
@@ -225,7 +224,7 @@ fn store_icons(target: &Path, info: &SiteInfoInstall) -> Result<()> {
     if iconset.is_empty() {
         warn!("No compatible or working icon was found");
         warn!("Falling back to the generated icon from the name");
-        let letter = info.name.chars().next().context(GET_LETTER_ERROR)?;
+        let letter = name.chars().next().context(GET_LETTER_ERROR)?;
 
         for size in &icon_sizes {
             let image_size = ImageSize::Fixed(size.size(), size.size());
@@ -382,13 +381,16 @@ fn verify_app_is_pwa(app_bundle: &Path, app_id: &str) -> Result<()> {
 // Implementation
 //////////////////////////////
 
-fn create_app_bundle(info: &SiteInfoInstall, exe: &str) -> Result<()> {
-    // App ID is based on the web app ID
-    let appid = format!("FFPWA-{}", &info.id);
+fn create_app_bundle(args: &IntegrationInstallArgs) -> Result<()> {
+    let exe = args.dirs.executables.join("firefoxpwa").display().to_string();
+    let ulid = args.site.ulid.to_string();
+    let appid = format!("FFPWA-{ulid}");
+    let bundleid = format!("si.filips.firefoxpwa.site.{ulid}");
+    let name = args.site.name();
 
     // Process some known manifest categories and reformat them into Apple names
     // Apps can only have one category, so we will only use the first one
-    let category = if let Some(category) = info.categories.first() {
+    let category = if let Some(category) = args.site.categories().first() {
         // Make category lower-case and remove all word separators for easier matching
         let category = normalize_category_name(category);
 
@@ -407,58 +409,52 @@ fn create_app_bundle(info: &SiteInfoInstall, exe: &str) -> Result<()> {
         .home_dir()
         .join("Applications");
 
-    let bundle = directory.join(format!("{}.app", sanitize_name(&info.name, &info.id)));
+    let bundle = directory.join(format!("{}.app", sanitize_name(&name, &ulid)));
     let bundle_contents = bundle.join("Contents");
-    let info_plist = bundle_contents.join("info.plist");
+    let info_plist = bundle_contents.join("Info.plist");
     let pkg_info = bundle_contents.join("PkgInfo");
     let binary_dir = bundle_contents.join("MacOS");
     let resources_dir = bundle_contents.join("Resources");
     let loader = binary_dir.join("loader");
 
     // If the name has been changed, first rename the bundle directory
-    if let Some(old_name) = &info.old_name {
-        let old_bundle = directory.join(format!("{}.app", sanitize_name(old_name, &info.id)));
+    if let Some(old_name) = &args.old_name {
+        let old_bundle = directory.join(format!("{}.app", sanitize_name(old_name, &ulid)));
         rename(&old_bundle, &bundle).context("Failed to rename bundle")?;
     }
 
     // Store the entry data
-    let info_plist_content = format!(
-        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
-<plist version=\"1.0\">
-<dict>
-    <key>CFBundleDevelopmentRegion</key>
-    <string>en</string>
-    <key>CFBundleExecutable</key>
-    <string>loader</string>
-    <key>CFBundleIdentifier</key>
-    <string>si.filips.firefoxpwa.site.{id}</string>
-    <key>CFBundleInfoDictionaryVersion</key>
-    <string>6.0</string>
-    <key>CFBundleName</key>
-    <string>{name}</string>
-    <key>CFBundlePackageType</key>
-    <string>APPL</string>
-    <key>CFBundleShortVersionString</key>
-    <string>1.0.0</string>
-    <key>CFBundleSignature</key>
-    <string>{appid}</string>
-    <key>CFBundleVersion</key>
-    <string>1.0.0</string>
-    <key>NSHighResolutionCapable</key>
-    <true/>
-    <key>CFBundleIconFile</key>
-    <string>app.icns</string>
-    <key>LSApplicationCategoryType</key>
-    <string>{category}</string>
-</dict>
-</plist>
-",
-        id = &info.id,
-        name = &info.name,
-        appid = &appid,
-        category = &category,
-    );
+    let protocols = args
+        .site
+        .config
+        .enabled_protocol_handlers
+        .iter()
+        .map(|protocol| {
+            let mut handler = plist::dictionary::Dictionary::new();
+            handler.insert("CFBundleURLName".into(), format!("{protocol} URL").into());
+            handler.insert("CFBundleURLSchemes".into(), vec![protocol.clone().into()].into());
+            handler.into()
+        })
+        .collect::<Vec<plist::Value>>();
+
+    // FIXME: Protocol handlers do not work, they need to be fixed in the future
+    // TODO: Replace loader script with a proper binary (#131)
+
+    let mut info_plist_dict = plist::dictionary::Dictionary::new();
+    info_plist_dict.insert("CFBundlePackageType".into(), "APPL".into());
+    info_plist_dict.insert("CFBundleIdentifier".into(), bundleid.into());
+    info_plist_dict.insert("LSApplicationCategoryType".into(), category.into());
+    info_plist_dict.insert("CFBundleName".into(), name.clone().into());
+    info_plist_dict.insert("CFBundleVersion".into(), "1.0.0".into());
+    info_plist_dict.insert("CFBundleShortVersionString".into(), "1.0.0".into());
+    info_plist_dict.insert("CFBundleInfoDictionaryVersion".into(), "6.0".into());
+    info_plist_dict.insert("CFBundleSignature".into(), appid.clone().into());
+    info_plist_dict.insert("CFBundleDevelopmentRegion".into(), "en".into());
+    info_plist_dict.insert("CFBundleExecutable".into(), "loader".into());
+    info_plist_dict.insert("CFBundleIconFile".into(), "app.icns".into());
+    info_plist_dict.insert("NSHighResolutionCapable".into(), true.into());
+    info_plist_dict.insert("CFBundleURLTypes".into(), protocols.into());
+    let info_plist_value: plist::Value = info_plist_dict.into();
 
     let pkg_info_content = format!("APPL{}", appid);
 
@@ -468,25 +464,27 @@ fn create_app_bundle(info: &SiteInfoInstall, exe: &str) -> Result<()> {
 {exe} site launch --direct-launch {id} \"$@\"
 ",
         exe = &exe,
-        id = &info.id,
+        id = &ulid,
     );
 
     // Create the directory and write the file
     create_dir_all(&bundle_contents).context(CREATE_APPLICATION_DIRECTORY_ERROR)?;
     create_dir_all(binary_dir).context(CREATE_APPLICATION_DIRECTORY_ERROR)?;
     create_dir_all(&resources_dir).context(CREATE_APPLICATION_DIRECTORY_ERROR)?;
-    write(info_plist, info_plist_content).context(WRITE_APPLICATION_FILE_ERROR)?;
+
+    plist::to_file_xml(info_plist, &info_plist_value).context(WRITE_APPLICATION_FILE_ERROR)?;
     write(pkg_info, pkg_info_content).context(WRITE_APPLICATION_FILE_ERROR)?;
-    store_icons(&resources_dir, info).context(STORE_ICONS_ERROR)?;
+
+    if args.update_icons {
+        store_icons(&resources_dir, &name, &args.site.manifest.icons).context(STORE_ICONS_ERROR)?;
+    }
 
     let mut loader_file = File::create(loader).context(WRITE_APPLICATION_FILE_ERROR)?;
     let loader_permissions = Permissions::from_mode(0o755);
-    let loader_file_content: &[u8] = loader_content.as_ref();
-
     loader_file.set_permissions(loader_permissions).context(WRITE_APPLICATION_FILE_ERROR)?;
-    loader_file.write_all(loader_file_content).context(WRITE_APPLICATION_FILE_ERROR)?;
+    loader_file.write_all(loader_content.as_ref()).context(WRITE_APPLICATION_FILE_ERROR)?;
 
-    // Our PWA app bundle is not signed with an Apple developer certificate
+    // Our app bundle is not signed with an Apple developer certificate
     // By removing the quarantine attribute we can skip the signature verification
     Command::new("xattr")
         .args(["-rd", "com.apple.quarantine", bundle.to_str().unwrap()])
@@ -495,16 +493,17 @@ fn create_app_bundle(info: &SiteInfoInstall, exe: &str) -> Result<()> {
     Ok(())
 }
 
-fn remove_app_bundle(info: &SiteInfoUninstall) -> Result<()> {
-    let directory = directories::BaseDirs::new()
+fn remove_app_bundle(args: &IntegrationUninstallArgs) -> Result<()> {
+    let ulid = args.site.ulid.to_string();
+
+    let bundle = directories::BaseDirs::new()
         .context(BASE_DIRECTORIES_ERROR)?
         .home_dir()
-        .join("Applications");
+        .join("Applications")
+        .join(format!("{}.app", sanitize_name(&args.site.name(), &ulid)));
 
-    let filename = directory.join(format!("{}.app", sanitize_name(&info.name, &info.id)));
-
-    verify_app_is_pwa(&filename, &info.id)?;
-    let _ = remove_dir_all(filename);
+    verify_app_is_pwa(&bundle, &ulid)?;
+    let _ = remove_dir_all(bundle);
 
     Ok(())
 }
@@ -514,21 +513,20 @@ fn remove_app_bundle(info: &SiteInfoUninstall) -> Result<()> {
 //////////////////////////////
 
 #[inline]
-pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
-    let exe = dirs.executables.join("firefoxpwa").display().to_string();
-    create_app_bundle(info, &exe).context("Failed to create application bundle")?;
+pub fn install(args: &IntegrationInstallArgs) -> Result<()> {
+    create_app_bundle(args).context("Failed to create application bundle")?;
     Ok(())
 }
 
 #[inline]
-pub fn uninstall(info: &SiteInfoUninstall, _dirs: &ProjectDirs) -> Result<()> {
-    remove_app_bundle(info).context("Failed to remove application bundle")?;
+pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
+    remove_app_bundle(args).context("Failed to remove application bundle")?;
     Ok(())
 }
 
 #[inline]
 pub fn launch(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Child> {
-    let name = site.name().unwrap_or_else(|| site.domain());
+    let name = site.name();
 
     let app_id = format!("FFPWA-{}", site.ulid.to_string());
     let app_path = directories::BaseDirs::new()

@@ -160,7 +160,7 @@ export async function checkNativeStatus () {
 }
 
 /**
- * Check if the runtime can be automatically installed on this platform.
+ * Checks if the runtime can be automatically installed on this platform.
  *
  * Supported platforms:
  * - Windows: All (x86, x64, ARM64)
@@ -172,6 +172,61 @@ export async function checkNativeStatus () {
 export async function isAutoRuntimeInstallSupported () {
   const { os, arch } = await browser.runtime.getPlatformInfo()
   return os === 'win' || os === 'mac' || (os === 'linux' && (arch === 'x86-64' || arch === 'x86-32'))
+}
+
+/**
+ * Checks if the protocol scheme is permitted.
+ *
+ * See:
+ * * https://developer.mozilla.org/en-US/docs/Web/API/Navigator/registerProtocolHandler#permitted_schemes
+ * * https://html.spec.whatwg.org/multipage/system-state.html#normalize-protocol-handler-parameters
+ *
+ * @returns {boolean}
+ */
+export function isProtocolSchemePermitted (scheme) {
+  const safelistedSchemes = [
+    'bitcoin',
+    'ftp',
+    'ftps',
+    'geo',
+    'im',
+    'irc',
+    'ircs',
+    'magnet',
+    'mailto',
+    'matrix',
+    'mms',
+    'news',
+    'nntp',
+    'openpgp4fpr',
+    'sftp',
+    'sip',
+    'sms',
+    'smsto',
+    'ssh',
+    'tel',
+    'urn',
+    'webcal',
+    'wtai',
+    'xmpp'
+  ]
+
+  // The scheme must be converted to ASCII lowercase
+  scheme = scheme.toLowerCase()
+
+  // The scheme can be one of the safelisted schemes
+  if (safelistedSchemes.includes(scheme)) return true
+
+  // Otherwise, the scheme must start with `web+`
+  if (!scheme.startsWith('web+')) return false
+
+  // And it must be followed by one or more ASCII lower alphas
+  if (scheme.length <= 4) return false
+  for (const char of scheme.substring(4)) {
+    if (char < 'a' || char > 'z') return false
+  }
+
+  return true
 }
 
 /**

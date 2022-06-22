@@ -308,6 +308,12 @@ pub struct UpdateSite {
     #[serde(default, deserialize_with = "double_option")]
     pub keywords: Option<Option<Vec<String>>>,
 
+    /// Enabled protocol handlers.
+    ///
+    /// A list of enabled protocol handlers supported by this web app.
+    /// If empty, no handlers are registered to the operating system.
+    pub enabled_protocol_handlers: Option<Vec<String>>,
+
     /// Whether the manifest should be updated (default: `true`).
     #[serde(default = "default_as_true")]
     pub update_manifest: bool,

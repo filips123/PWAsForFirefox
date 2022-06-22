@@ -1,12 +1,11 @@
 use anyhow::Result;
 use cfg_if::cfg_if;
 
-use crate::directories::ProjectDirs;
-use crate::integrations::{SiteInfoInstall, SiteInfoUninstall};
-
 #[rustfmt::skip]
 #[cfg(target_os = "macos")]
-use {std::process::Child, url::Url, crate::components::site::Site};
+use {crate::components::site::Site, std::process::Child, url::Url};
+
+use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 
 #[cfg(target_os = "windows")]
 mod windows;
@@ -18,14 +17,14 @@ mod linux;
 mod macos;
 
 #[inline]
-pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
+pub fn install(args: &IntegrationInstallArgs) -> Result<()> {
     cfg_if! {
         if #[cfg(target_os = "windows")] {
-            windows::install(info, dirs)
+            windows::install(args)
         } else if #[cfg(target_os = "linux")] {
-            linux::install(info, dirs)
+            linux::install(args)
         } else if #[cfg(target_os = "macos")] {
-            macos::install(info, dirs)
+            macos::install(args)
         } else {
             compile_error!("Unknown operating system");
         }
@@ -33,14 +32,14 @@ pub fn install(info: &SiteInfoInstall, dirs: &ProjectDirs) -> Result<()> {
 }
 
 #[inline]
-pub fn uninstall(info: &SiteInfoUninstall, dirs: &ProjectDirs) -> Result<()> {
+pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
     cfg_if! {
         if #[cfg(target_os = "windows")] {
-            windows::uninstall(info, dirs)
+            windows::uninstall(args)
         } else if #[cfg(target_os = "linux")] {
-            linux::uninstall(info, dirs)
+            linux::uninstall(args)
         } else if #[cfg(target_os = "macos")] {
-            macos::uninstall(info, dirs)
+            macos::uninstall(args)
         } else {
             compile_error!("Unknown operating system");
         }

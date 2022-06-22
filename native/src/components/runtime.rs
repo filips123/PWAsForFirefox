@@ -241,27 +241,32 @@ impl Runtime {
             if #[cfg(target_os = "macos")] {
                 use plist;
 
-                let bundle = target.parent().unwrap().parent().unwrap();
-                let native_translation = target.join("en.lproj");
-                let info_plist = target.parent().unwrap().join("info.plist");
-                let app_name = site.name().unwrap_or_else(|| site.domain());
-                let temp_runtime_name = plist::Value::String(app_name);
-
                 // We remove the translation file so macOS shows the web app name
                 // in the main menubar instead of the runtime name
+                let native_translation = target.join("en.lproj");
                 remove_dir_contents(native_translation).context("Failed to patch the runtime")?;
 
+                let bundle = target.parent().unwrap().parent().unwrap();
+                let info_plist = target.parent().unwrap().join("Info.plist");
+
                 let mut info_plist_file = plist::Value::from_file(&info_plist)
-                    .context("Failed to read runtime info.plist")?;
+                    .context("Failed to read runtime Info.plist")?;
 
                 let info_plist_dict = info_plist_file
                     .as_dictionary_mut()
-                    .context("Failed to parse runtime info.plist")?;
+                    .context("Failed to parse runtime Info.plist")?;
 
-                // We patch the runtime info.plist with the current app name,
-                // so the main menu shows the right name
-                info_plist_dict.insert("CFBundleName".into(), temp_runtime_name);
-                info_plist_file.to_file_xml(&info_plist).context("Failed to write runtime info.plist")?;
+                // We patch the Info.plist with the current app name so the main menu shows the right name
+                info_plist_dict.insert("CFBundleName".into(), plist::Value::String(site.name()));
+
+                // TODO: We probably also need to modify runtime's bundle ID (#131)
+
+                // We also need to remove all Firefox system handlers to prevent interfering with ours
+                let _ = info_plist_dict.remove("CFBundleDocumentTypes");
+                let _ = info_plist_dict.remove("CFBundleURLTypes");
+                let _ = info_plist_dict.remove("NSUserActivityTypes");
+
+                info_plist_file.to_file_xml(&info_plist).context("Failed to write runtime Info.plist")?;
 
                 // We are messing with the runtime app bundle, so its signed signature doesn't match any more...
                 // Removing the signature helps
@@ -271,7 +276,7 @@ impl Runtime {
                     .context("Failed to remove code signature from modified runtime")?;
 
                 // We removed the signature and by removing the quarantine attribute
-                // We can skip the signature check
+                // we can skip the signature check
                 Command::new("xattr")
                     .args(["-rd", "com.apple.quarantine", bundle.to_str().unwrap()])
                     .output()

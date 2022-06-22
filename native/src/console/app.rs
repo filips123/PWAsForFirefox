@@ -46,8 +46,12 @@ pub struct SiteLaunchCommand {
     pub arguments: Vec<String>,
 
     /// Launch web app on a custom start URL
-    #[clap(long)]
+    #[clap(long, conflicts_with = "protocol")]
     pub url: Option<Url>,
+
+    /// Launch web app on a protocol handler URL
+    #[clap(long, conflicts_with = "url")]
+    pub protocol: Option<Option<Url>>,
 
     /// Internal: Directly launch web app without system integration
     #[cfg(target_os = "macos")]
@@ -133,6 +137,10 @@ pub struct SiteUpdateCommand {
     /// Set custom web app keywords
     #[clap(long)]
     pub keywords: Option<Vec<String>>,
+
+    /// Set enabled protocol handlers
+    #[clap(long)]
+    pub enabled_protocol_handlers: Option<Vec<String>>,
 
     /// Disable manifest updates
     #[clap(long = "no-manifest-updates", parse(from_flag = std::ops::Not::not))]

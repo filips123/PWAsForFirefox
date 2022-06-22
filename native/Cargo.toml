@@ -43,6 +43,7 @@ tempfile = "3.3.0"
 tiny-skia = "0.6.3"
 ulid = { version = "0.5.0", features = ["serde"] }
 url = "2.2.2"
+urlencoding = "2.1.0"
 usvg = "0.22.0"
 web_app_manifest = { git = "https://github.com/filips123/WebAppManifestRS", branch = "main" }
 

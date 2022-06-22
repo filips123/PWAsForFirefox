@@ -34,6 +34,8 @@ use crate::console::app::{
     SiteUpdateCommand,
 };
 use crate::console::Run;
+use crate::integrations;
+use crate::integrations::IntegrationInstallArgs;
 use crate::storage::Storage;
 
 pub trait Process {
@@ -103,8 +105,8 @@ impl Process for GetSiteList {
 impl Process for LaunchSite {
     fn process(&self, _connection: &Connection) -> Result<ConnectorResponse> {
         cfg_if! {
-            if #[cfg(target_os = "macos")] { let command = SiteLaunchCommand { id: self.id, url: self.url.to_owned(), arguments: vec![], direct_launch: false }; }
-            else { let command = SiteLaunchCommand { id: self.id, url: self.url.to_owned(), arguments: vec![] }; }
+            if #[cfg(target_os = "macos")] { let command = SiteLaunchCommand { id: self.id, url: self.url.to_owned(), protocol: None, arguments: vec![], direct_launch: false }; }
+            else { let command = SiteLaunchCommand { id: self.id, url: self.url.to_owned(), protocol: None, arguments: vec![] }; }
         };
         command.run()?;
 
@@ -149,8 +151,10 @@ impl Process for UpdateSite {
             start_url: self.start_url.to_owned(),
             name: self.name.to_owned(),
             description: self.description.to_owned(),
+
             categories: self.categories.clone().map(|x| x.unwrap_or_else(|| vec!["".into()])),
             keywords: self.keywords.clone().map(|x| x.unwrap_or_else(|| vec!["".into()])),
+            enabled_protocol_handlers: self.enabled_protocol_handlers.to_owned(),
             update_manifest: self.update_manifest,
             update_icons: self.update_icons,
             system_integration: true,
@@ -167,15 +171,20 @@ impl Process for UpdateAllSites {
 
         for site in storage.sites.values_mut() {
             info!("Updating web app {}", site.ulid);
-
-            let old_name = site.name().unwrap_or_else(|| site.domain());
+            let old_name = site.name();
 
             if self.update_manifest {
                 site.update().context("Failed to update web app manifest")?;
             }
 
-            site.update_system_integration(connection.dirs, old_name)
-                .context("Failed to update system integration")?;
+            integrations::install(&IntegrationInstallArgs {
+                site,
+                dirs: connection.dirs,
+                update_manifest: self.update_manifest,
+                update_icons: self.update_icons,
+                old_name: Some(&old_name),
+            })
+            .context("Failed to update system integration")?;
         }
 
         storage.write(connection.dirs)?;

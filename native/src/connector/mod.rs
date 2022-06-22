@@ -16,7 +16,7 @@ mod process;
 mod request;
 mod response;
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, Clone)]
 pub struct Connection<'a> {
     dirs: &'a ProjectDirs,
     debugmode: bool,

@@ -11,7 +11,7 @@ import {
   checkNativeStatus,
   getConfig,
   getIcon,
-  isAutoRuntimeInstallSupported,
+  isAutoRuntimeInstallSupported, isProtocolSchemePermitted,
   launchSite,
   obtainProfileList,
   obtainSiteList,
@@ -138,6 +138,39 @@ async function createSiteList () {
       const keywordsList = site.config.keywords?.length ? site.config.keywords : site.manifest.keywords
       for (const keyword of keywordsList || []) keywordsElement.tagsInstance.addItem(keyword, keyword)
 
+      // Create protocol handlers list and set enabled handlers
+      // Currently only supported on Windows and Linux (macOS does not work)
+      const platform = await browser.runtime.getPlatformInfo()
+      if (platform.os === 'win' || platform.os === 'linux') {
+        const possibleHandlers = new Set([...site.config.custom_protocol_handlers, ...site.manifest.protocol_handlers].map(handler => handler.protocol).sort())
+        const enabledHandlers = site.config.enabled_protocol_handlers
+
+        const handlersBox = document.getElementById('web-app-protocol-handlers-box')
+        const handlersList = document.getElementById('web-app-protocol-handlers-list')
+        handlersList.replaceChildren()
+
+        for (const handler of possibleHandlers) {
+          if (isProtocolSchemePermitted(handler)) {
+            const checkboxInput = document.createElement('input')
+            checkboxInput.classList.add('web-app-protocol-handler', 'form-check-input', 'me-1')
+            checkboxInput.type = 'checkbox'
+            checkboxInput.value = handler
+            if (enabledHandlers.includes(handler)) checkboxInput.checked = true
+
+            const checkboxLabel = document.createElement('span')
+            checkboxLabel.innerText = handler
+
+            const checkboxItemGroup = document.createElement('label')
+            checkboxItemGroup.classList.add('list-group-item')
+            checkboxItemGroup.append(checkboxInput, checkboxLabel)
+            handlersList.append(checkboxItemGroup)
+          }
+        }
+
+        if (handlersList.children.length) handlersBox.classList.remove('d-none')
+        else handlersBox.classList.add('d-none')
+      }
+
       // Set form to be validated after all inputs are filled with default values and enable submit button
       form.classList.add('was-validated')
       submit.disabled = false
@@ -226,6 +259,9 @@ async function createSiteList () {
         const manifestKeywords = site.manifest.keywords || []
         const keywords = userKeywords.toString() !== manifestKeywords.toString() ? userKeywords : null
 
+        // Get list of enabled protocol handlers
+        const enabledProtocolHandlers = [...document.querySelectorAll('.web-app-protocol-handler:checked')].map(check => check.value)
+
         // Tell the native connector to update the site
         const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
           cmd: 'UpdateSite',
@@ -236,6 +272,7 @@ async function createSiteList () {
             description,
             categories,
             keywords,
+            enabled_protocol_handlers: enabledProtocolHandlers,
             update_manifest: document.getElementById('web-app-update-manifest').checked,
             update_icons: document.getElementById('web-app-update-icons').checked
           }
