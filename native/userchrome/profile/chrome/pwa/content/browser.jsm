@@ -1,4 +1,5 @@
 XPCOMUtils.defineLazyModuleGetters(this, {
+  sendNativeMessage: 'resource://pwa/utils/nativeMessaging.jsm',
   hookFunction: 'resource://pwa/utils/hookFunction.jsm',
   xPref: 'resource://pwa/utils/xPref.jsm',
 });
@@ -29,6 +30,7 @@ class PwaBrowser {
     this.moveMenuButtons();
     this.switchPopupSides();
     this.makeUrlBarReadOnly();
+    this.handleRegisteringProtocols();
     this.handleOutOfScopeNavigation();
     this.handleOpeningNewWindow();
     setTimeout(() => { this.handleHiddenTitlebar() });
@@ -244,6 +246,107 @@ class PwaBrowser {
     document.getElementById('urlbar').removeAttribute('focused');
 
     window.toolbar.visible = originalToolbarVisibility;
+  }
+
+  handleRegisteringProtocols () {
+    // Overwrites original Firefox functions with our custom installation process
+    // Some checks here are directly based on the Firefox code, licensed under MPL 2.0
+    // Original source: https://github.com/mozilla/gecko-dev/blob/a62618baa72cd0ba6c0a5f5fc0b1d63f2866b7c6/browser/components/protocolhandler/WebProtocolHandlerRegistrar.jsm
+
+    const { WebProtocolHandlerRegistrar } = Cu.import('resource:///modules/WebProtocolHandlerRegistrar.jsm');
+
+    WebProtocolHandlerRegistrar.prototype.registerProtocolHandler = function (protocol, url, title, documentURI, browserOrWindow) {
+      protocol = (protocol || '').toLowerCase();
+      if (!url || !documentURI) return;
+
+      // Some special handling for e10s and non-e10s
+      let browser = browserOrWindow;
+      if (browserOrWindow instanceof Ci.nsIDOMWindow) {
+        let rootDocShell = browserOrWindow.docShell.sameTypeRootTreeItem;
+        browser = rootDocShell.QueryInterface(Ci.nsIDocShell).chromeEventHandler;
+      }
+
+      // Check if protocol handler is allowed
+      try { browser.ownerGlobal.navigator.checkProtocolHandlerAllowed(protocol, url, documentURI) }
+      catch (_) { return }
+
+      // If the protocol handler is already registered, just return early
+      // We only allow one handler (either manifest or custom) per protocol scheme
+      const existingHandlers = new Set([
+        ...window.gFFPWASiteConfig.config.custom_protocol_handlers,
+        ...window.gFFPWASiteConfig.manifest.protocol_handlers
+      ].map(handler => handler.protocol).sort());
+      if (existingHandlers.has(protocol)) return;
+
+      // Now ask the user and provide the proper callback
+      const message = this._getFormattedString('addProtocolHandlerMessage', [url.host, protocol,]);
+
+      const notificationBox = browser.getTabBrowser().getNotificationBox(browser);
+      const notificationIcon = url.prePath + '/favicon.ico';
+      const notificationValue = 'Protocol Registration: ' + protocol;
+
+      const addButton = {
+        label: this._getString('addProtocolHandlerAddButton'),
+        accessKey: this._getString('addProtocolHandlerAddButtonAccesskey'),
+        protocolInfo: { site: window.gFFPWASiteConfig.ulid, protocol: protocol, url: url.spec },
+
+        async callback (notification, buttonInfo) {
+          // Send a request to the native program to register the handler
+          const response = await sendNativeMessage({
+            cmd: 'RegisterProtocolHandler',
+            params: {
+              site: buttonInfo.protocolInfo.site,
+              protocol: buttonInfo.protocolInfo.protocol,
+              url: buttonInfo.protocolInfo.url,
+            }
+          })
+          if (response.type === 'Error') throw new Error(response.data)
+          if (response.type !== 'ProtocolHandlerRegistered') throw new Error(`Received invalid response type: ${response.type}`)
+
+          // Reset the handlerInfo to ask before the next use
+          const eps = Cc['@mozilla.org/uriloader/external-protocol-service;1'].getService(Ci.nsIExternalProtocolService);
+          const handlerInfo = eps.getProtocolHandlerInfo(buttonInfo.protocolInfo.protocol);
+          handlerInfo.alwaysAskBeforeHandling = true;
+
+          const hs = Cc['@mozilla.org/uriloader/handler-service;1'].getService(Ci.nsIHandlerService);
+          hs.store(handlerInfo);
+
+          // Hide the notification
+          notificationBox.currentNotification.close();
+        },
+      };
+
+      notificationBox.appendNotification(
+        notificationValue,
+        {
+          label: message,
+          image: notificationIcon,
+          priority: notificationBox.PRIORITY_INFO_LOW
+        },
+        [addButton]
+      );
+    }
+
+    WebProtocolHandlerRegistrar.prototype.removeProtocolHandler = function (protocol, url) {
+      (async () => {
+        // Send a request to the native program to unregister the handler
+        const response = await sendNativeMessage({
+          cmd: 'UnregisterProtocolHandler',
+          params: {
+            site: window.gFFPWASiteConfig.ulid,
+            protocol,
+            url,
+          }
+        })
+        if (response.type === 'Error') throw new Error(response.data)
+        if (response.type !== 'ProtocolHandlerUnregistered') throw new Error(`Received invalid response type: ${response.type}`)
+
+        // Reset the handlerInfo to ask before the next use
+        const eps = Cc['@mozilla.org/uriloader/external-protocol-service;1'].getService(Ci.nsIExternalProtocolService);
+        const handlerInfo = eps.getProtocolHandlerInfo(protocol);
+        handlerInfo.alwaysAskBeforeHandling = true;
+      })()
+    }
   }
 
   handleOutOfScopeNavigation () {

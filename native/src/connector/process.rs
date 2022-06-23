@@ -1,4 +1,4 @@
-use anyhow::{Context, Result};
+use anyhow::{bail, Context, Result};
 use cfg_if::cfg_if;
 use log::info;
 
@@ -12,10 +12,12 @@ use crate::connector::request::{
     InstallRuntime,
     InstallSite,
     LaunchSite,
+    RegisterProtocolHandler,
     RemoveProfile,
     SetConfig,
     UninstallRuntime,
     UninstallSite,
+    UnregisterProtocolHandler,
     UpdateAllSites,
     UpdateProfile,
     UpdateSite,
@@ -230,5 +232,64 @@ impl Process for UpdateProfile {
         command.run()?;
 
         Ok(ConnectorResponse::ProfileUpdated)
+    }
+}
+
+impl Process for RegisterProtocolHandler {
+    fn process(&self, connection: &Connection) -> Result<ConnectorResponse> {
+        let mut storage = Storage::load(connection.dirs)?;
+        let site = storage.sites.get_mut(&self.site).context("Web app does not exist")?;
+
+        // Check if this protocol scheme is already used in custom or manifest handlers
+        #[rustfmt::skip]
+        let exists = site.config.custom_protocol_handlers.iter().any(|handler| handler.protocol == self.handler.protocol)
+            || site.manifest.protocol_handlers.iter().any(|handler| handler.protocol == self.handler.protocol);
+        if exists {
+            bail!("Handler for this protocol scheme already exists");
+        }
+
+        // Add handler to a list of custom handlers
+        site.config.custom_protocol_handlers.push(self.handler.clone());
+
+        // If necessary, add it to a list of enabled handlers and register it to the OS
+        if self.enable {
+            site.config.enabled_protocol_handlers.push(self.handler.protocol.clone());
+
+            integrations::install(&IntegrationInstallArgs {
+                site,
+                dirs: connection.dirs,
+                update_manifest: false,
+                update_icons: false,
+                old_name: None,
+            })
+            .context("Failed to update system integration")?;
+        }
+
+        storage.write(connection.dirs)?;
+        Ok(ConnectorResponse::ProtocolHandlerRegistered)
+    }
+}
+
+impl Process for UnregisterProtocolHandler {
+    fn process(&self, connection: &Connection) -> Result<ConnectorResponse> {
+        let mut storage = Storage::load(connection.dirs)?;
+        let site = storage.sites.get_mut(&self.site).context("Web app does not exist")?;
+
+        // Remove handler from both lists
+        site.config.enabled_protocol_handlers.retain(|it| it != &self.handler.protocol);
+        site.config.custom_protocol_handlers.retain(|it| it.protocol != self.handler.protocol);
+
+        // Unregister it from the OS
+        integrations::install(&IntegrationInstallArgs {
+            site,
+            dirs: connection.dirs,
+            update_manifest: false,
+            update_icons: false,
+            old_name: None,
+        })
+        .context("Failed to update system integration")?;
+
+        storage.write(connection.dirs)?;
+        Ok(ConnectorResponse::ProtocolHandlerUnregistered)
     }
 }

@@ -2,6 +2,7 @@ use anyhow::Result;
 use serde::{Deserialize, Deserializer};
 use ulid::Ulid;
 use url::Url;
+use web_app_manifest::resources::ProtocolHandlerResource;
 
 use crate::connector::response::ConnectorResponse;
 use crate::storage::Config;
@@ -434,6 +435,54 @@ pub struct UpdateProfile {
     pub description: Option<Option<String>>,
 }
 
+/// Registers a custom protocol handler.
+///
+/// Only one handler (either manifest or custom) per protocol scheme can exist
+/// for each web app. Attempting to add another handler with the same scheme
+/// will result in an error.
+///
+/// # Parameters
+///
+/// See [fields](#fields).
+///
+/// # Returns
+///
+/// [`ConnectorResponse::ProtocolHandlerRegistered`] - No data.
+///
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct RegisterProtocolHandler {
+    /// A web app ID.
+    pub site: Ulid,
+
+    /// A handler to be registered.
+    #[serde(flatten)]
+    pub handler: ProtocolHandlerResource,
+
+    /// Whether to enable this handler automatically (default: `true`).
+    #[serde(default = "default_as_true")]
+    pub enable: bool,
+}
+
+/// Unregisters a custom protocol handler.
+///
+/// # Parameters
+///
+/// See [fields](#fields).
+///
+/// # Returns
+///
+/// [`ConnectorResponse::ProtocolHandlerUnregistered`] - No data.
+///
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct UnregisterProtocolHandler {
+    /// A web app ID.
+    pub site: Ulid,
+
+    /// A handler to be unregistered.
+    #[serde(flatten)]
+    pub handler: ProtocolHandlerResource,
+}
+
 deserialize_unit_struct!(GetSystemVersions);
 deserialize_unit_struct!(GetConfig);
 deserialize_unit_struct!(InstallRuntime);
@@ -457,4 +506,6 @@ build_request_enum!(
     CreateProfile,
     RemoveProfile,
     UpdateProfile,
+    RegisterProtocolHandler,
+    UnregisterProtocolHandler,
 );

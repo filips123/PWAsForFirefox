@@ -50,6 +50,11 @@ html, body {
   border-bottom-width: 1px;
 }
 
+.list-group-no-border > .list-group-item {
+  border: none;
+  padding-bottom: 0;
+}
+
 .list-group-item-action {
   padding: 0.5rem 0.75rem;
   border-top: none;

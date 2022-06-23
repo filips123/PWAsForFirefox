@@ -72,6 +72,12 @@ pub enum ConnectorResponse {
     /// Profile has been updated.
     ProfileUpdated,
 
+    /// Protocol handler has been registered.
+    ProtocolHandlerRegistered,
+
+    /// Protocol handler has been unregistered.
+    ProtocolHandlerUnregistered,
+
     /// Something went wrong...
     Error(String),
 }
