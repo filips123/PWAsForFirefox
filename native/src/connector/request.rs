@@ -39,10 +39,24 @@ macro_rules! build_request_enum {
 macro_rules! deserialize_unit_struct {
     ($msg:ty) => {
         impl<'de> Deserialize<'de> for $msg {
-            fn deserialize<D>(_deserializer: D) -> Result<Self, D::Error>
+            fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
             where
                 D: serde::de::Deserializer<'de>,
             {
+                struct Visitor;
+
+                impl<'de> serde::de::Visitor<'de> for Visitor {
+                    type Value = $msg;
+
+                    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+                        formatter.write_str(concat!(
+                            "either no parameters or unit struct ",
+                            stringify!($msg)
+                        ))
+                    }
+                }
+
+                let _ = deserializer.deserialize_unit_struct(stringify!($msg), Visitor);
                 Ok(Self)
             }
         }
