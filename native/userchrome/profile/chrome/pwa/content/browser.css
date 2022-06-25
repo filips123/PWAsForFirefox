@@ -17,7 +17,47 @@
     background-image: none !important;
   }
 
-  /* Hide titlebar when icon bar is hidden */
+  /* Fix window corners with CSD */
+
+  @media (-moz-gtk-csd-available) {
+    #titlebar {
+      visibility: hidden;
+    }
+
+    #titlebar > * {
+      visibility: visible;
+    }
+
+    :root[tabsintitlebar][sizemode="normal"]:not([gtktiledwindow="true"]) body {
+      border-top-left-radius: env(-moz-gtk-csd-titlebar-radius);
+      border-top-right-radius: env(-moz-gtk-csd-titlebar-radius);
+    }
+  }
+
+  /* Support native window controls when using lwtheme */
+
+  @media (-moz-gtk-csd-available) {
+    @supports -moz-bool-pref("firefoxpwa.alwaysUseNativeWindowControls") {
+      .titlebar-button:-moz-lwtheme {
+        appearance: auto !important;
+      }
+
+      .titlebar-min:-moz-lwtheme,
+      .titlebar-max:-moz-lwtheme,
+      .titlebar-restore:-moz-lwtheme,
+      .titlebar-close:-moz-lwtheme {
+        list-style-image: none !important;
+      }
+
+      .titlebar-button:-moz-lwtheme:hover,
+      .titlebar-button:-moz-lwtheme:hover:active {
+        background-color: unset !important;
+        color: unset !important;
+      }
+    }
+  }
+
+  /* Hide titlebar when the icon bar is hidden */
 
   #titlebar[autohide] {
     appearance: initial !important;

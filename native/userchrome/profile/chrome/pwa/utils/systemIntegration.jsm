@@ -103,7 +103,7 @@ function setWindowColors (window, site) {
     const backgroundColor = site.manifest.background_color.substring(0, 7);
 
     // Set background color to the browser window
-    styles.innerHTML += `browser[primary="true"] { background-color: ${backgroundColor} !important; }`;
+    styles.innerHTML += `#tabbrowser-tabpanels { background-color: ${backgroundColor} !important; }`;
 
     // Set background color to the website content
     const bodyStyle = `@-moz-document url-prefix(${site.manifest.scope}) { html { background-color: ${backgroundColor}; } }`
@@ -126,17 +126,15 @@ function setWindowColors (window, site) {
     const brightness = Math.round(((colors[0] * 299) + (colors[1] * 587) + (colors[2] * 114)) / 1000);
     const textColor = (brightness > 125) ? 'black' : 'white';
 
+    // Set toolbar color to fix wrong window controls on Linux
+    if (AppConstants.platform === 'linux' && window.document.documentElement.getAttribute('lwtheme') !== 'true') {
+      if (brightness > 125) xPref.set('browser.theme.toolbar-theme', 1); // Light theme
+      else xPref.set('browser.theme.toolbar-theme', 0); // Dark theme
+    }
+
     // Set background and text colors to the titlebar and tabs
     styles.innerHTML += `#navigator-toolbox, html[tabsintitlebar] #main-menubar > *, html[tabsintitlebar] #titlebar > * { background-color: ${themeColor} !important; color: ${textColor} !important; }`;
     styles.innerHTML += `.tabbrowser-tab { color: ${textColor} !important; }`;
-
-    // Some Gtk+ themes use rounded corners, so Firefox by default disables styling of the titlebar
-    // We need to detect and prevent this, and add own rounded corners using CSS
-    // However, if user enabled a custom theme, we need to disable them to prevent white corners
-    if (window.matchMedia('(-moz-gtk-csd-available) and (-moz-gtk-csd-transparent-background)').matches) {
-      styles.innerHTML += '#titlebar { visibility: hidden; } #titlebar > * { visibility: visible; }';
-      styles.innerHTML += 'html[tabsintitlebar][sizemode="normal"]:not([gtktiledwindow="true"]):not([lwtheme="true"]) body { border-radius: 4px 4px 0 0; }';
-    }
   }
 }
 

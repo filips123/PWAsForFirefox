@@ -1508,6 +1508,10 @@ class PwaBrowser {
     // Determines whether hiding icon bar is allowed and option is displayed in the customize page
     xPref.set(ChromeLoader.PREF_ENABLE_HIDING_ICON_BAR, false, true);
 
+    // Determines whether native window controls should be displayed even when using lwtheme
+    // Only has effect on Linux with CSD enabled
+    xPref.set(ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS, false, true);
+
     // Determines which domains should always be allowed to open in the PWA browser
     // This is a comma-separated list of domains
     xPref.set(ChromeLoader.PREF_ALLOWED_DOMAINS, '', true);

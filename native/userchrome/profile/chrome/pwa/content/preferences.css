@@ -10,4 +10,12 @@
   #defaultBrowserBox {
     display: none;
   }
+
+  /* Hide native window controls preference when CSD is not available */
+  /* Because it doesn't have effect on those platforms */
+  @media not (-moz-gtk-csd-available) {
+    .pref-csd-only {
+      display: none;
+    }
+  }
 }
