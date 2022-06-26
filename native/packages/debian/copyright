@@ -5,8 +5,8 @@ Upstream-Contact: filips <projects@filips.si>
 Copyright: filips <projects@filips.si>
 License: MPL-2.0
 Comment: The project also uses third-party dependencies that may be
- licensed under different licenses. Check the `Cargo.lock` file in the
- repository or project source for a full list of dependencies.
+ licensed under different licenses. Check the `Cargo.lock` and `yarn.lock`
+ files in the repository or project source for a full list of dependencies.
  .
  Installing the runtime will download the unmodified Mozilla Firefox
  and locally modify it. By using this project you also agree to the
@@ -36,6 +36,16 @@ Copyright: xiaoxiaoflood <xiaoxiaoflood@gmail.com>
 Copyright: filips <projects@filips.si>
 License: MPL-2.0
 Comment: Original source: https://github.com/xiaoxiaoflood/firefox-scripts/blob/69675c7f09e9009b63b1cc239b94c03c5962a9d7/chrome/utils/xPref.jsm
+
+Files: userchrome/profile/icons/send-to-device.svg
+Copyright: Mozilla Foundation
+License: MPL-2.0
+Comment: Original source: https://github.com/mozilla/gecko-dev/blob/ac4eb094074c4549f76c93aa7574d6e60781ad24/browser/themes/shared/icons/send-to-device.svg
+
+Files: userchrome/profile/icons/share.svg
+Copyright: Mozilla Foundation
+License: MPL-2.0
+Comment: Original source: https://github.com/mozilla/gecko-dev/blob/c6f2eb231d4ed130a5c35b9d28bd80ed795f73c1/browser/themes/windows/share.svg
 
 License: MPL-2.0
  On Debian systems, the complete text of the Mozilla Public License 2.0

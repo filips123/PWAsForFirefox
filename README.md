@@ -128,11 +128,15 @@ The project aims for compatibility with the latest stable Firefox version. It ma
 
 The project is licensed under the Mozilla Public License 2.0. By using, redistributing, or modifying it, you must agree to the license, and the additional clauses provided below. See the [LICENSE](LICENSE) file for the full license text.
 
-The project logo is based on the ["Fox SVG Vector"](https://www.svgrepo.com/svg/40267/fox) icon and the [community-introduced PWA logo](https://github.com/webmaxru/progressive-web-apps-logo), both dedicated to the public domain using the [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
+The project uses additional third-party assets and code:
 
-The project also uses additional third-party assets and code:
+* The project logo is based on the ["Fox SVG Vector"](https://www.svgrepo.com/svg/40267/fox) icon and the [community-introduced PWA logo](https://github.com/webmaxru/progressive-web-apps-logo), both dedicated to the public domain using the [CC0](https://creativecommons.org/publicdomain/zero/1.0/).
 
 * Browser chrome modifications were inspired by and partially derived from the [`xiaoxiaoflood/firefox-scripts`](https://github.com/xiaoxiaoflood/firefox-scripts) repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.
+
+* Browser chrome modifications partially use code derived from the [`black7375/Firefox-UI-Fix`](https://github.com/black7375/Firefox-UI-Fix) repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.
+
+* Browser chrome modifications partially use code and icons derived from the [original Firefox source](https://github.com/mozilla/gecko-dev), licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.
 
 * Native programs contain the [Metropolis Semi Bold](https://fontsarena.com/metropolis-by-chris-simpson/) typeface by Chris Simpson, released into the public domain using the [Unlicense](https://unlicense.org/).
 
