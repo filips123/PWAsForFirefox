@@ -31,6 +31,7 @@ class ChromeLoader {
   static PREF_AUTOHIDE_MUTE_BUTTON = 'firefoxpwa.autohideMuteButton';
   static PREF_SITES_SET_THEME_COLOR = 'firefoxpwa.sitesSetThemeColor';
   static PREF_SITES_SET_BACKGROUND_COLOR = 'firefoxpwa.sitesSetBackgroundColor';
+  static PREF_DYNAMIC_THEME_COLOR = 'firefoxpwa.dynamicThemeColor';
   static PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS = 'firefoxpwa.alwaysUseNativeWindowControls';
   static PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER = 'firefoxpwa.openOutOfScopeInDefaultBrowser';
   static PREF_ENABLE_TABS_MODE = 'firefoxpwa.enableTabsMode';

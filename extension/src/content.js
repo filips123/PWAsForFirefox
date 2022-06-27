@@ -18,7 +18,7 @@ browser.runtime.onMessage.addListener((message, _, sendResponse) => {
 
   // Collect page info that can be used if the manifest does not exist
   const pageInfo = {
-    name: document.title,
+    name: document.querySelector('meta[name=application-name]')?.content || document.title,
     description: document.querySelector('meta[name=description]')?.content,
     icons: [...document.getElementsByTagName('link')]
       .filter(link => link.getAttribute('rel')?.toLowerCase().includes('icon'))

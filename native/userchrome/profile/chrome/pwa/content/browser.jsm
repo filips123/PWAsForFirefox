@@ -1,4 +1,5 @@
 XPCOMUtils.defineLazyModuleGetters(this, {
+  applyDynamicThemeColor: 'resource://pwa/utils/systemIntegration.jsm',
   sendNativeMessage: 'resource://pwa/utils/nativeMessaging.jsm',
   hookFunction: 'resource://pwa/utils/hookFunction.jsm',
   xPref: 'resource://pwa/utils/xPref.jsm',
@@ -36,6 +37,7 @@ class PwaBrowser {
     setTimeout(() => { this.handleHiddenTitlebar() });
     setTimeout(() => { this.handleTabsMode() });
     setTimeout(() => { this.handleLinkTargets() });
+    setTimeout(() => { this.handleDynamicThemeColor() });
     setTimeout(() => { this.renameOpenImageAction() });
     setTimeout(() => { this.disableNewTabShortcuts() });
   }
@@ -529,6 +531,83 @@ class PwaBrowser {
 
       return window._openLinkIn(url, where, params);
     }
+  }
+
+  handleDynamicThemeColor () {
+    // Both normal theme color support and dynamic theme color need to be enabled
+    if (!xPref.get(ChromeLoader.PREF_SITES_SET_THEME_COLOR) || !xPref.get(ChromeLoader.PREF_DYNAMIC_THEME_COLOR)) return;
+
+    // Handle switching browser tabs in tabs mode
+    window.gBrowser.tabbox.addEventListener('select', () => {
+      if (!window.gBrowser.selectedBrowser.gFFPWACurrentColor || !this.canLoad(window.gBrowser.currentURI)) return;
+      applyDynamicThemeColor(window, window.gBrowser.selectedBrowser.gFFPWACurrentColor);
+    })
+
+    // Handle theme color messages from the frame script
+    // We also need to store color for each tab in case user switches it
+    Services.mm.addMessageListener('firefoxpwa:theme-color', (message) => {
+      if (window.gBrowser.selectedBrowser !== message.target || !this.canLoad(window.gBrowser.currentURI)) return;
+      window.gBrowser.selectedBrowser.gFFPWACurrentColor = message.data.color;
+      applyDynamicThemeColor(window, message.data.color);
+    });
+
+    // Inject frame script into website content
+    Services.mm.loadFrameScript('data:application/javascript;charset=UTF-8,' + encodeURIComponent('(' + (function () {
+      /** @typedef {Window} content */
+      /* global content */
+      /* global window:false, document:false, location:false */
+
+      /**
+       * @param {Element|Node} metaElement
+       * @returns {boolean} If `true`, stop processing further possible elements
+       */
+      function handleMetaElement (metaElement) {
+        if (
+          metaElement.tagName.toLowerCase() === 'meta'
+          && metaElement.getAttribute('name')?.toLowerCase() === 'theme-color'
+          && metaElement.getAttribute('content')
+          && content.matchMedia(metaElement.getAttribute('media') || '').matches
+        ) {
+          const colorSource = metaElement.getAttribute('content');
+
+          // Transparent and currentColor are not supported because toolbar cannot be transparent
+          // We need to return early, otherwise they would be parsed into incorrect colors
+          const colorSourceLower = colorSource.trim().toLowerCase();
+          if (colorSourceLower === 'transparent' || colorSourceLower === 'currentcolor') return false;
+
+          // We use `InspectorUtils.colorToRGBA` to parse the color to RGBA, as it's also used by normal lwthemes
+          // https://searchfox.org/mozilla-central/source/toolkit/modules/LightweightThemeConsumer.jsm#451-544
+          const colorParsed = content.document.defaultView.InspectorUtils.colorToRGBA(colorSource);
+          if (!colorParsed) return false;
+
+          sendAsyncMessage('firefoxpwa:theme-color', { color: colorParsed });
+          return true;
+        }
+      }
+
+      addEventListener('DOMContentLoaded', () => {
+        // Prevent loading observers and other stuff on internal pages
+        if (
+          content.document.location.href !== 'about:blank'
+          && content.document.location.protocol !== 'http:'
+          && content.document.location.protocol !== 'https:'
+        ) return;
+
+        // Obtain initial theme color
+        for (const metaElement of content.document.querySelectorAll('meta[name=theme-color]')) {
+          if (handleMetaElement(metaElement)) break;
+        }
+
+        // Watch for meta[name=theme-color] changes
+        const observer = new content.MutationObserver(function (mutations) {
+          mutations.forEach(mutation => handleMetaElement(mutation.target))
+        });
+        observer.observe(
+          content.document.head,
+          { subtree: true, childList: true, attributeFilter: ['name', 'content', 'media'] }
+        );
+      });
+    }).toString() + ')();'), true);
   }
 
   renameOpenImageAction () {
@@ -1498,6 +1577,9 @@ class PwaBrowser {
 
     // Determines whether the sites can override background color
     xPref.set(ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR, true, true);
+
+    // Determines whether sites can dynamically change theme color using meta element
+    xPref.set(ChromeLoader.PREF_DYNAMIC_THEME_COLOR, true, true);
 
     // Determines whether out of scope URLs should be opened in a default browser
     xPref.set(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, false, true);

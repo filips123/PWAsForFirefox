@@ -1,4 +1,4 @@
-const EXPORTED_SYMBOLS = ['applySystemIntegration'];
+const EXPORTED_SYMBOLS = ['applySystemIntegration', 'applyDynamicThemeColor'];
 
 const { XPCOMUtils } = ChromeUtils.import('resource://gre/modules/XPCOMUtils.jsm');
 XPCOMUtils.defineLazyModuleGetters(this, {
@@ -11,6 +11,42 @@ XPCOMUtils.defineLazyModuleGetters(this, {
 XPCOMUtils.defineLazyServiceGetter(this, 'ImgTools', '@mozilla.org/image/tools;1', Ci.imgITools);
 XPCOMUtils.defineLazyServiceGetter(this, 'WinUIUtils', '@mozilla.org/windows-ui-utils;1', Ci.nsIWindowsUIUtils);
 XPCOMUtils.defineLazyServiceGetter(this, 'WinTaskbar', '@mozilla.org/windows-taskbar;1', Ci.nsIWinTaskbar);
+
+/**
+ * @param {Window} window
+ * @param {String} elementId
+ * @returns {HTMLElement}
+ */
+function createOrGetStyles(window, elementId) {
+  let styles = window.document.getElementById(elementId);
+
+  if (styles) {
+    styles.innerHTML = '';
+  } else {
+    styles = window.document.head.appendChild(window.document.createElement('style'));
+    styles.setAttribute('id', elementId);
+  }
+
+  return styles;
+}
+
+function configureThemeColor (window, styles, colorR, colorG, colorB) {
+  const backgroundColor = `rgb(${colorR}, ${colorG}, ${colorB})`
+
+  // Implementation of W3C contrast algorithm: https://www.w3.org/TR/AERT/#color-contrast
+  const brightness = Math.round(((colorR * 299) + (colorG * 587) + (colorB * 114)) / 1000);
+  const textColor = (brightness > 125) ? 'black' : 'white';
+
+  // Set toolbar color to fix wrong window controls on Linux
+  if (AppConstants.platform === 'linux' && window.document.documentElement.getAttribute('lwtheme') !== 'true') {
+    if (brightness > 125) xPref.set('browser.theme.toolbar-theme', 1); // Light theme
+    else xPref.set('browser.theme.toolbar-theme', 0); // Dark theme
+  }
+
+  // Set background and text colors to the titlebar and tabs
+  styles.innerHTML += `#navigator-toolbox, html[tabsintitlebar] #main-menubar > *, html[tabsintitlebar] #titlebar > * { background-color: ${backgroundColor} !important; color: ${textColor} !important; }`;
+  styles.innerHTML += `.tabbrowser-tab { color: ${textColor} !important; }`;
+}
 
 function loadImage (uri) {
   return new Promise((resolve, reject) => {
@@ -89,14 +125,7 @@ function setWindowColors (window, site) {
   // Colors will always be in #rrggbb or #rrggbbaa because they are processed by a Rust library
 
   const stylesElementId = 'firefoxpwa-system-integration-styles';
-
-  let styles = window.document.getElementById(stylesElementId);
-  if (styles) {
-    styles.innerHTML = '';
-  } else {
-    styles = window.document.head.appendChild(window.document.createElement('style'));
-    styles.setAttribute('id', stylesElementId);
-  }
+  const styles = createOrGetStyles(window, stylesElementId);
 
   // Set the window background color
   if (xPref.get(window.ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR) && site.manifest.background_color) {
@@ -119,22 +148,9 @@ function setWindowColors (window, site) {
 
   // Set the theme (titlebar) background and text colors
   if (xPref.get(window.ChromeLoader.PREF_SITES_SET_THEME_COLOR) && site.manifest.theme_color) {
-    const themeColor = site.manifest.theme_color.substring(0, 7);
-
-    // Implementation of W3C contrast algorithm: https://www.w3.org/TR/AERT/#color-contrast
-    const colors = themeColor.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i).slice(1).map(c => parseInt(c, 16));
-    const brightness = Math.round(((colors[0] * 299) + (colors[1] * 587) + (colors[2] * 114)) / 1000);
-    const textColor = (brightness > 125) ? 'black' : 'white';
-
-    // Set toolbar color to fix wrong window controls on Linux
-    if (AppConstants.platform === 'linux' && window.document.documentElement.getAttribute('lwtheme') !== 'true') {
-      if (brightness > 125) xPref.set('browser.theme.toolbar-theme', 1); // Light theme
-      else xPref.set('browser.theme.toolbar-theme', 0); // Dark theme
-    }
-
-    // Set background and text colors to the titlebar and tabs
-    styles.innerHTML += `#navigator-toolbox, html[tabsintitlebar] #main-menubar > *, html[tabsintitlebar] #titlebar > * { background-color: ${themeColor} !important; color: ${textColor} !important; }`;
-    styles.innerHTML += `.tabbrowser-tab { color: ${textColor} !important; }`;
+    const colorHex = site.manifest.theme_color.substring(0, 7);
+    const colorRGB = colorHex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i).slice(1).map(c => parseInt(c, 16));
+    configureThemeColor(window, styles, colorRGB[0], colorRGB[1], colorRGB[2]);
   }
 }
 
@@ -165,4 +181,16 @@ function applySystemIntegration (window, site) {
   window.setTimeout(() => {
     setWindowColors(window, site);
   }, 0);
+}
+
+/**
+ * Apply dynamic theme color from the content's meta tag.
+ *
+ * @param {ChromeWindow&Window} window - Window where integration should be applied
+ * @param {{r: Number, g: Number, b: Number, a: Number}} color - Color that should be applied
+ */
+function applyDynamicThemeColor (window, color) {
+  const stylesElementId = 'firefoxpwa-system-integration-styles-dynamic';
+  const styles = createOrGetStyles(window, stylesElementId);
+  configureThemeColor(window, styles, color.r, color.g, color.b);
 }

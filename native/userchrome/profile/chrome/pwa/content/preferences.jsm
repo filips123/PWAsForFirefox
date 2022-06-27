@@ -20,6 +20,7 @@ class PwaPreferences {
       { id: ChromeLoader.PREF_DISPLAY_URL_BAR, type: 'int' },
       { id: ChromeLoader.PREF_SITES_SET_THEME_COLOR, type: 'bool' },
       { id: ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR, type: 'bool' },
+      { id: ChromeLoader.PREF_DYNAMIC_THEME_COLOR, type: 'bool' },
       { id: ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS, type: 'bool' },
       { id: ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, type: 'bool' },
       { id: ChromeLoader.PREF_ENABLE_TABS_MODE, type: 'bool' },
@@ -38,6 +39,7 @@ class PwaPreferences {
   <vbox id="colorsBox" style="padding-top: 1rem;">
     <checkbox preference="${ChromeLoader.PREF_SITES_SET_THEME_COLOR}" label="Allow web apps to override a theme (titlebar) color" />
     <checkbox preference="${ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR}" label="Allow web apps to override a background (window) color" />
+    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_THEME_COLOR}" label="Allow web apps to dynamically change theme color" />
     <checkbox preference="${ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS}" label="Always use native window controls" class="pref-csd-only" />
   </vbox>
 
