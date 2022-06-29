@@ -107,6 +107,7 @@ impl Site {
                 .user_agent(APP_USER_AGENT)
                 .build()?
                 .get(url.to_owned())
+                .header(reqwest::header::REFERER, url.to_string())
                 .send()?
                 .text()?
 
