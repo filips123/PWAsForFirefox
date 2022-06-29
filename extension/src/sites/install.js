@@ -16,6 +16,23 @@ async function initializeForm () {
     element.tagsInstance = new Tags(element)
   }
 
+  // Display profile warning on Linux and macOS
+  const platform = await browser.runtime.getPlatformInfo()
+  if (platform.os === 'linux' || platform.os === 'mac') {
+    const issueLink = document.getElementById('web-app-profile-warn-issue')
+    switch (platform.os) {
+      case 'linux':
+        issueLink.href = 'https://github.com/filips123/PWAsForFirefox/issues/80'
+        issueLink.innerText = '#80'
+        break
+      case 'mac':
+        issueLink.href = 'https://github.com/filips123/PWAsForFirefox/issues/81'
+        issueLink.innerText = '#81'
+    }
+
+    document.getElementById('web-app-profile-warn-box').classList.remove('d-none')
+  }
+
   // Obtain manifest and document URLs for the current site
   let manifestUrl, documentUrl, pageInfo
   try {
