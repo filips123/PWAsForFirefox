@@ -151,5 +151,22 @@ nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
   }
 }
 
+// Partial fix for reopening web app after closing all windows on macOS
+// Still not complete because it does not work when multiple web apps are used in the same profile
+// This does not matter currently because of #81, but once it is fixed, this also needs to be reworked
+if (AppConstants.platform === 'macosx') {
+  const { nsBrowserContentHandler } = Cu.import('resource:///modules/BrowserContentHandler.jsm');
+  nsBrowserContentHandler.prototype._getArgs = nsBrowserContentHandler.prototype.getArgs;
+  nsBrowserContentHandler.prototype.getArgs = function () {
+    if (globalThis.gFFPWASiteConfig) {
+      let userStartUrl = globalThis.gFFPWASiteConfig.config.start_url;
+      let manifestStartUrl = globalThis.gFFPWASiteConfig.manifest.start_url;
+      return userStartUrl ? userStartUrl : manifestStartUrl;
+    } else {
+      return this._getArgs(...arguments);
+    }
+  }
+}
+
 // Import browser chrome modifications
 ChromeUtils.import('resource://pwa/chrome.jsm');

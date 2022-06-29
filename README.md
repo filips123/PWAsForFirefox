@@ -88,12 +88,6 @@ These are things that I would like to fix eventually, but will currently stay, e
 
     This problem is tracked as issue [#81](https://github.com/filips123/PWAsForFirefox/issues/81).
 
-* **Reopening a PWA after closing all windows opens new tab page (macOS):**
-
-  When PWA is reopened after closing all windows, it will open the new tab page instead of PWA start URL. *Users have to close the app and restart it to get into the PWA.*
-
-  See [#42](https://github.com/filips123/PWAsForFirefox/issues/42) for more details. Perhaps the fix could also be related to the first limitation, as it may involve passing PWA configuration between windows.
-
 * **Extension cannot detect the native program when using sandboxed Firefox (Linux: Snap & Flatpak):**
 
   When using Firefox distributed as a Snap or Flatpak package (for example, the default Firefox installation in Ubuntu 21.10), the extension cannot detect the native program that is used. This is because Snap and Flatpak packages are sandboxed and cannot access/run other programs which is needed for Native Messaging API. This cannot be fixed until Native Messaging API gets support to work in sandboxed browsers (Snap and Flatpak).

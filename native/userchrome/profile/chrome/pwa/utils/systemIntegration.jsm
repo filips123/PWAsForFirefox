@@ -158,7 +158,7 @@ function setWindowColors (window, site) {
  * Apply system integration to the provided window for the provided PWA site.
  *
  * On Windows, this function sets the AppUserModelID (GroupID) property of the
- * window,  allowing grouping multiple windows of the same site in the Windows
+ * window, allowing grouping multiple windows of the same site in the Windows
  * taskbar and preventing grouping different sites. It also sets taskbar windows
  * icons to prevent incorrect behaviour when pinning/unpinning the shortcut.
  *

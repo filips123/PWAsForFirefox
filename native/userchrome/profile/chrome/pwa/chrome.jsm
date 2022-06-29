@@ -69,6 +69,14 @@ class ChromeLoader {
       window.gFFPWASiteConfig = window.opener.gFFPWASiteConfig;
     }
 
+    // Load a site config from a global object - Fix for reopening web app after closing all windows on macOS
+    // Cannot be applied to other OSes - Does not work with multiple web apps in the same profile
+    // Also has some other problems - See `nsBrowserContentHandler` in `boot.jsm` for more details
+    if (AppConstants.platform === 'macosx' || AppConstants.platform === 'linux') {
+      if (!window.gFFPWASiteConfig && globalThis.gFFPWASiteConfig) window.gFFPWASiteConfig = globalThis.gFFPWASiteConfig;
+      globalThis.gFFPWASiteConfig = window.gFFPWASiteConfig;
+    }
+
     // Apply system integration
     if (window.gFFPWASiteConfig) {
       applySystemIntegration(window, window.gFFPWASiteConfig);
