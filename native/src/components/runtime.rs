@@ -259,7 +259,8 @@ impl Runtime {
                 // We patch the Info.plist with the current app name so the main menu shows the right name
                 info_plist_dict.insert("CFBundleName".into(), plist::Value::String(site.name()));
 
-                // TODO: We probably also need to modify runtime's bundle ID (#131)
+                // We patch bundle identifier to prevent interfering with normal Firefox
+                info_plist_dict.insert("CFBundleIdentifier".into(), "si.filips.firefoxpwa.runtime".into());
 
                 // We also need to remove all Firefox system handlers to prevent interfering with ours
                 let _ = info_plist_dict.remove("CFBundleDocumentTypes");
