@@ -4,7 +4,7 @@ use std::fs::{create_dir_all, remove_dir_all, rename, write, File, Permissions};
 use std::io::{BufWriter, Read, Write};
 use std::os::unix::fs::PermissionsExt;
 use std::path::Path;
-use std::process::{Child, Command};
+use std::process::{Child, Command, Stdio};
 
 use anyhow::{bail, Context, Result};
 use icns::{IconFamily, IconType, Image, PixelFormat};
@@ -28,6 +28,7 @@ const PROCESS_ICON_ERROR: &str = "Failed to process icon";
 const LOAD_ICON_ERROR: &str = "Failed to load icon";
 const MASK_ICON_ERROR: &str = "Failed to mask icon";
 const CREATE_ICON_FILE_ERROR: &str = "Failed to create icon file";
+const CREATE_TEMP_FILE_ERROR: &str = "Failed to create temporary file";
 const CREATE_APPLICATION_DIRECTORY_ERROR: &str = "Failed to create application directory";
 const WRITE_APPLICATION_FILE_ERROR: &str = "Failed to write application file";
 const STORE_ICONS_ERROR: &str = "Failed to store icons";
@@ -420,8 +421,13 @@ fn create_app_bundle(args: &IntegrationInstallArgs) -> Result<()> {
     // If the name has been changed, first rename the bundle directory
     if let Some(old_name) = &args.old_name {
         let old_bundle = directory.join(format!("{}.app", sanitize_name(old_name, &ulid)));
-        rename(&old_bundle, &bundle).context("Failed to rename bundle")?;
+        let _ = rename(&old_bundle, &bundle);
     }
+
+    // Create the bundle directory
+    create_dir_all(&bundle_contents).context(CREATE_APPLICATION_DIRECTORY_ERROR)?;
+    create_dir_all(binary_dir).context(CREATE_APPLICATION_DIRECTORY_ERROR)?;
+    create_dir_all(&resources_dir).context(CREATE_APPLICATION_DIRECTORY_ERROR)?;
 
     // Store the entry data
     let protocols = args
@@ -438,7 +444,6 @@ fn create_app_bundle(args: &IntegrationInstallArgs) -> Result<()> {
         .collect::<Vec<plist::Value>>();
 
     // FIXME: Protocol handlers do not work, they need to be fixed in the future
-    // TODO: Replace loader script with a proper binary (#131)
 
     let mut info_plist_dict = plist::dictionary::Dictionary::new();
     info_plist_dict.insert("CFBundlePackageType".into(), "APPL".into());
@@ -456,33 +461,59 @@ fn create_app_bundle(args: &IntegrationInstallArgs) -> Result<()> {
     info_plist_dict.insert("CFBundleURLTypes".into(), protocols.into());
     let info_plist_value: plist::Value = info_plist_dict.into();
 
-    let pkg_info_content = format!("APPL{}", appid);
-
-    let loader_content = format!(
-        "#!/usr/bin/env sh
-
-{exe} site launch --direct-launch {id} \"$@\"
-",
-        exe = &exe,
-        id = &ulid,
-    );
-
-    // Create the directory and write the file
-    create_dir_all(&bundle_contents).context(CREATE_APPLICATION_DIRECTORY_ERROR)?;
-    create_dir_all(binary_dir).context(CREATE_APPLICATION_DIRECTORY_ERROR)?;
-    create_dir_all(&resources_dir).context(CREATE_APPLICATION_DIRECTORY_ERROR)?;
-
     plist::to_file_xml(info_plist, &info_plist_value).context(WRITE_APPLICATION_FILE_ERROR)?;
-    write(pkg_info, pkg_info_content).context(WRITE_APPLICATION_FILE_ERROR)?;
+    write(pkg_info, format!("APPL{}", appid)).context(WRITE_APPLICATION_FILE_ERROR)?;
 
+    // Create and compile loader executable using Swift compiler
+    // Swift compiler (swiftc) is part of Command Line Tools for Xcode which is required by Homebrew
+    // We can assume users will have it installed, but provide old script-based fallback just in case
+    if Command::new("xcode-select").stdout(Stdio::null()).arg("-p").status().is_ok() {
+        let loader_source_content = format!(
+            r#"import Foundation
+let task = Process()
+task.launchPath = "{exe}"
+task.arguments = ["site", "launch", "--direct-launch", "{ulid}"] + CommandLine.arguments[1...]
+task.launch()
+task.waitUntilExit()
+"#
+        );
+
+        let mut loader_source_file = tempfile::Builder::new()
+            .prefix("firefoxpwa-loader-")
+            .suffix(".swift")
+            .tempfile()
+            .context(CREATE_TEMP_FILE_ERROR)?;
+
+        loader_source_file
+            .as_file_mut()
+            .write_all(loader_source_content.as_bytes())
+            .context("Failed to write loader source")?;
+
+        Command::new("swiftc")
+            .arg("-O")
+            .arg("-o")
+            .arg(loader)
+            .arg(loader_source_file.path().as_os_str())
+            .status()
+            .context("Failed to compile loader source")?;
+    } else {
+        warn!("Could not find Command Line Tools for Xcode");
+        warn!("Falling back to the legacy script-based loader");
+        warn!("Tools can be installed using: xcode-select --install");
+        warn!("After installing, update your web app to apply changes");
+
+        #[rustfmt::skip]
+        let loader_content = format!("#!/usr/bin/env sh\n\n{exe} site launch --direct-launch {ulid} \"$@\"\n");
+        let mut loader_file = File::create(loader).context(WRITE_APPLICATION_FILE_ERROR)?;
+        let loader_permissions = Permissions::from_mode(0o755);
+        loader_file.set_permissions(loader_permissions).context(WRITE_APPLICATION_FILE_ERROR)?;
+        loader_file.write_all(loader_content.as_ref()).context(WRITE_APPLICATION_FILE_ERROR)?;
+    }
+
+    // Update icons if needed
     if args.update_icons {
         store_icons(&resources_dir, &name, &args.site.manifest.icons).context(STORE_ICONS_ERROR)?;
     }
-
-    let mut loader_file = File::create(loader).context(WRITE_APPLICATION_FILE_ERROR)?;
-    let loader_permissions = Permissions::from_mode(0o755);
-    loader_file.set_permissions(loader_permissions).context(WRITE_APPLICATION_FILE_ERROR)?;
-    loader_file.write_all(loader_content.as_ref()).context(WRITE_APPLICATION_FILE_ERROR)?;
 
     // Our app bundle is not signed with an Apple developer certificate
     // By removing the quarantine attribute we can skip the signature verification
