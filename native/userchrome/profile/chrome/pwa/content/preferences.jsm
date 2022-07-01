@@ -92,7 +92,10 @@ class PwaPreferences {
   </vbox>
 </groupbox>
 `);
-    document.getElementById('startupGroup').nextElementSibling.after(group.firstChild);
+
+    const startupGroup = document.getElementById('startupGroup');
+    if (startupGroup.hidden) group.firstChild.hidden = true;
+    startupGroup.nextElementSibling.after(group.firstChild);
   }
 
   handleOutOfScopePreferenceSwitch () {
@@ -106,14 +109,20 @@ class PwaPreferences {
   }
 
   handleTabsModePreferenceSwitch (onLoad = false) {
+    function setTabsSectionDisabled(disabled) {
+      document.querySelectorAll('#mainPrefPane > groupbox:nth-child(8) > *').forEach(elem => elem.disabled = disabled)
+    }
+
     if (xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) {
       // If tabs mode is enabled, enable tabs section and set links target to a new tab
-      document.querySelectorAll('#mainPrefPane > groupbox:nth-child(8) > *').forEach(elem => elem.disabled = false)
-      if (!onLoad) xPref.set(ChromeLoader.PREF_LINKS_TARGET, 3)
+      setTabsSectionDisabled(false);
+      setTimeout(() => setTabsSectionDisabled(false), 100);
+      if (!onLoad) xPref.set(ChromeLoader.PREF_LINKS_TARGET, 3);
     } else {
       // If tabs mode is disabled, disable tabs section and set links target to a current tab
-      document.querySelectorAll('#mainPrefPane > groupbox:nth-child(8) > *').forEach(elem => elem.disabled = true)
-      if (!onLoad) xPref.set(ChromeLoader.PREF_LINKS_TARGET, 1)
+      setTabsSectionDisabled(true)
+      setTimeout(() => setTabsSectionDisabled(true), 100);
+      if (!onLoad) xPref.set(ChromeLoader.PREF_LINKS_TARGET, 1);
     }
   }
 }

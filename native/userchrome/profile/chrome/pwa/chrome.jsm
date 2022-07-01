@@ -93,7 +93,7 @@ class ChromeLoader {
 
     // Load preferences CSS and JS when a new preferences tab is opened
     // Styles need to be loaded only once per session, but the script needs to be loaded every time
-    } else if (location.href === ChromeLoader.ABOUTPREFERENCES) {
+    } else if (location.href.startsWith(ChromeLoader.ABOUTPREFERENCES)) {
       if (!ChromeLoader.INITIALIZED_PREFERENCES) this.loadUserStyles(ChromeLoader.PREFERENCES_STYLES);
       this.loadUserScript(ChromeLoader.PREFERENCES_SCRIPT, window);
       ChromeLoader.INITIALIZED_PREFERENCES = true;
