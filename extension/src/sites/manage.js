@@ -59,8 +59,9 @@ async function createSiteList () {
     document.location = browser.runtime.getURL('sites/install.html')
   })
 
-  // Obtain a list of sites
+  // Obtain a list of sites and profiles
   const sites = Object.values(await obtainSiteList())
+  const profiles = await obtainProfileList()
 
   // Get the list elements
   const listElement = document.getElementById('sites-list')
@@ -119,6 +120,7 @@ async function createSiteList () {
       document.getElementById('web-app-name').value = site.config.name || ''
       document.getElementById('web-app-description').value = site.config.description || ''
       document.getElementById('web-app-start-url').value = site.config.start_url
+      document.getElementById('web-app-ulid').value = site.ulid
 
       // Clear previous categories
       const categoriesElement = document.getElementById('web-app-categories')
@@ -137,6 +139,10 @@ async function createSiteList () {
       // Set keywords from config or manifest
       const keywordsList = site.config.keywords?.length ? site.config.keywords : site.manifest.keywords
       for (const keyword of keywordsList || []) keywordsElement.tagsInstance.addItem(keyword, keyword)
+
+      // Set site's profile from config
+      const profilesElement = document.getElementById('web-app-profile')
+      profilesElement.add(new Option(profiles[site.profile].name || site.profile, site.profile))
 
       // Create protocol handlers list and set enabled handlers
       // Currently only supported on Windows and Linux (macOS does not work)
@@ -430,6 +436,7 @@ async function createProfileList () {
       // Set values from config
       document.getElementById('profile-name').value = profile.name || ''
       document.getElementById('profile-description').value = profile.description || ''
+      document.getElementById('profile-ulid').value = profile.ulid
 
       // Set form to be validated after all inputs are filled with default values and enable submit button
       form.classList.add('was-validated')

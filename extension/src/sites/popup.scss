@@ -49,6 +49,32 @@ html, body {
   font-size: 0.875rem;
 }
 
+.was-validated .form-control:valid, .form-control.is-valid,
+.was-validated .form-select:valid, .form-select.is-valid {
+  background-image: none !important;
+  border-color: #ced4da;
+}
+
+.was-validated .form-control:valid:focus, .form-control.is-valid:focus,
+.was-validated .form-select:valid:focus, .form-select.is-valid:focus {
+  box-shadow: 0 0 0 .25rem #0d6efd40;
+  border-color: #86b7fe;
+}
+
+@media (prefers-color-scheme: dark) {
+  .was-validated .form-control:valid, .form-control.is-valid,
+  .was-validated .form-select:valid, .form-select.is-valid {
+    background-image: none !important;
+    border-color: #515151;
+  }
+
+  .was-validated .form-control:valid:focus, .form-control.is-valid:focus,
+  .was-validated .form-select:valid:focus, .form-select.is-valid:focus {
+    box-shadow: 0 0 0 .25rem #375a7f40;
+    border-color: #9badbf;
+  }
+}
+
 //////////////////////////////
 // Error Toast
 //////////////////////////////
