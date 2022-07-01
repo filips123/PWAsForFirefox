@@ -22,6 +22,8 @@ class PwaPreferences {
       { id: ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR, type: 'bool' },
       { id: ChromeLoader.PREF_DYNAMIC_THEME_COLOR, type: 'bool' },
       { id: ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS, type: 'bool' },
+      { id: ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE, type: 'bool' },
+      { id: ChromeLoader.PREF_DYNAMIC_WINDOW_ICON, type: 'bool' },
       { id: ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, type: 'bool' },
       { id: ChromeLoader.PREF_ENABLE_TABS_MODE, type: 'bool' },
       { id: ChromeLoader.PREF_ALLOWED_DOMAINS, type: 'wstring' },
@@ -33,7 +35,7 @@ class PwaPreferences {
 <groupbox id="firefoxpwaGroup" data-category="paneGeneral">
   <label>
     <html:h2>Progressive Web Apps</html:h2>
-    <description>You may need to restart the browser to apply this settings</description>
+    <description>You may need to restart the browser to apply these settings</description>
   </label>
 
   <vbox id="colorsBox" style="padding-top: 1rem;">
@@ -41,6 +43,11 @@ class PwaPreferences {
     <checkbox preference="${ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR}" label="Allow web apps to override a background (window) color" />
     <checkbox preference="${ChromeLoader.PREF_DYNAMIC_THEME_COLOR}" label="Allow web apps to dynamically change theme color" />
     <checkbox preference="${ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS}" label="Always use native window controls" class="pref-csd-only" />
+  </vbox>
+
+  <vbox id="colorsBox" style="padding-top: 1rem;">
+    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE}" label="Change window title based on the web app's title" />
+    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_WINDOW_ICON}" label="Change window icon based on the web app's icon" />
   </vbox>
 
    <vbox id="uxBox" style="padding-top: 1rem;">

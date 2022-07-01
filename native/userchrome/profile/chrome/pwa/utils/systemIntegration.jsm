@@ -1,4 +1,4 @@
-const EXPORTED_SYMBOLS = ['applySystemIntegration', 'applyDynamicThemeColor'];
+const EXPORTED_SYMBOLS = ['buildIconList', 'applySystemIntegration', 'applyDynamicThemeColor'];
 
 const { XPCOMUtils } = ChromeUtils.import('resource://gre/modules/XPCOMUtils.jsm');
 XPCOMUtils.defineLazyModuleGetters(this, {
@@ -162,23 +162,25 @@ function setWindowColors (window, site) {
  * taskbar and preventing grouping different sites. It also sets taskbar windows
  * icons to prevent incorrect behaviour when pinning/unpinning the shortcut.
  *
- * On all systems it also sets the window `icon` attribute to prevent problems
- * on some desktop environments (for example, Xfce), and sets window colors
+ * On all systems it sets the window name, the window `icon` attribute to prevent
+ * problems on some desktop environments (for example, Xfce), and window colors
  * based on the colors from the manifest.
  *
  * @param {ChromeWindow&Window} window - Window where integration should be applied
  * @param {object} site - Site config for which integration should be used
  */
 function applySystemIntegration (window, site) {
+  window.document.title = site.config.name || site.manifest.name || site.manifest.short_name;
+  window.document.documentElement.setAttribute('icon', `FFPWA-${site.ulid}`);
+
   if (AppConstants.platform === 'win') {
     WinTaskbar.setGroupIdForWindow(window, `filips.firefoxpwa.${site.ulid}`);
     setWindowIcons(window, site);
   }
 
-  window.document.documentElement.setAttribute('icon', `FFPWA-${site.ulid}`);
-
   // This needs some timeout so it can read preferences
   window.setTimeout(() => {
+    if (!window.document.head) return;
     setWindowColors(window, site);
   }, 0);
 }

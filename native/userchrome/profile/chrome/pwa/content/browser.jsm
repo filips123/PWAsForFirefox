@@ -1,5 +1,6 @@
 XPCOMUtils.defineLazyModuleGetters(this, {
   applyDynamicThemeColor: 'resource://pwa/utils/systemIntegration.jsm',
+  buildIconList: 'resource://pwa/utils/systemIntegration.jsm',
   sendNativeMessage: 'resource://pwa/utils/nativeMessaging.jsm',
   hookFunction: 'resource://pwa/utils/hookFunction.jsm',
   xPref: 'resource://pwa/utils/xPref.jsm',
@@ -66,8 +67,34 @@ class PwaBrowser {
 
     document.getElementById('TabsToolbar-customization-target').append(siteInfo);
 
+    // Set initial favicon and title to the site's static info
+    const siteIcons = buildIconList(window.gFFPWASiteConfig.manifest.icons);
+    const siteIcon = siteIcons.find(icon => icon.size >= 32) || siteIcons[siteIcons.length - 1];
+    if (siteIcon) tabIconImage.setAttribute('src', siteIcon.icon.src);
+
+    const siteName = window.gFFPWASiteConfig.config.name || window.gFFPWASiteConfig.manifest.name || window.gFFPWASiteConfig.manifest.short_name
+    tabLabel.replaceChildren(siteName);
+    document.title = siteName;
+
     // Sync current tab favicon and title with custom info elements
-    const browserTabs = document.getElementById('tabbrowser-tabs');
+    // This can be disabled by user using our preferences
+    const docDS = document.documentElement.dataset;
+    docDS['contentTitleDefault'] = docDS['contentTitlePrivate'] = 'CONTENTTITLE'
+    docDS['titleDefault'] = docDS['titlePrivate'] = siteName
+
+    window.gBrowser.updateTitlebar = function () {
+      const dynamicTitle = xPref.get(ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE);
+      if (dynamicTitle) document.title = this.getWindowTitleForBrowser(this.selectedBrowser);
+    };
+
+    function updateNameAndIcon (source) {
+      const dynamicIcon = xPref.get(ChromeLoader.PREF_DYNAMIC_WINDOW_ICON);
+      if (dynamicIcon) tabIconImage.setAttribute('src', source.getAttribute('image'));
+
+      const dynamicTitle = xPref.get(ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE);
+      if (dynamicTitle) tabLabel.replaceChildren(source.getAttribute('label'));
+      else tabLabel.replaceChildren(siteName);
+    }
 
     const observer = new MutationObserver(mutations => {
       for (const mutation of mutations) {
@@ -76,16 +103,16 @@ class PwaBrowser {
 
         switch (mutation.attributeName) {
           case 'image':
-            tabIconImage.setAttribute('src', mutation.target.getAttribute('image'));
+            updateNameAndIcon(mutation.target);
             break;
 
           case 'label':
-            tabLabel.replaceChildren(mutation.target.getAttribute('label'));
-            document.title = mutation.target.getAttribute('label');
+            updateNameAndIcon(mutation.target);
             break;
 
           case 'labeldirection':
-            this.syncAttribute(mutation.target, tabLabelContainer, 'labeldirection');
+            const dynamicTitle = xPref.get(ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE);
+            if (dynamicTitle) this.syncAttribute(mutation.target, tabLabelContainer, 'labeldirection');
             break;
 
           case 'busy':
@@ -96,13 +123,16 @@ class PwaBrowser {
             break;
 
           case 'selected':
-            tabIconImage.setAttribute('src', mutation.target.getAttribute('image'));
-            tabLabel.replaceChildren(mutation.target.getAttribute('label'));
+            updateNameAndIcon(mutation.target);
             break;
         }
       }
     });
-    observer.observe(browserTabs, { attributes: true, subtree: true });
+
+    observer.observe(
+      document.getElementById('tabbrowser-tabs'),
+      { attributes: true, subtree: true }
+    );
   }
 
   createAddressInput () {
@@ -1580,6 +1610,12 @@ class PwaBrowser {
 
     // Determines whether sites can dynamically change theme color using meta element
     xPref.set(ChromeLoader.PREF_DYNAMIC_THEME_COLOR, true, true);
+
+    // Determines whether the window title is dynamically changed to the site title
+    xPref.set(ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE, true, true);
+
+    // Determines whether the window icon is dynamically changed to the site icon
+    xPref.set(ChromeLoader.PREF_DYNAMIC_WINDOW_ICON, true, true);
 
     // Determines whether out of scope URLs should be opened in a default browser
     xPref.set(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, false, true);
