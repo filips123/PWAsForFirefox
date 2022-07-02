@@ -464,10 +464,36 @@ class PwaBrowser {
     }
 
     // Handle hiding and showing tabs/icon bar using shortcuts
-    document.addEventListener('keyup', (event) => {
+    // Only Ctrl and Alt keys have to be pressed for the bar to toggle
+    // Pressing other keys cancels the shortcut to prevent interfering with other shortcuts
+    const pressedKeysAll = new Map();
+    const pressedKeysNow = new Map();
+
+    document.addEventListener('keydown', event => {
       if (shownByDefault) return;
 
-      if ((event.ctrlKey && event.key === 'Alt') || (event.altKey && event.key === 'Control')) {
+      const pressedCode = event.code.replace('Right', 'Left')
+      pressedKeysAll.set(pressedCode, true);
+      pressedKeysNow.set(pressedCode, true);
+    })
+
+    document.addEventListener('keyup', event => {
+      if (shownByDefault) return;
+
+      const pressedCode = event.code.replace('Right', 'Left')
+      pressedKeysNow.delete(pressedCode);
+
+      // Both Ctrl and Alt have to be pressed
+      // No other keys have been pressed in this combination
+      // All keys have been released (this is the last keyup)
+      // We add additional check to prevent triggering on AltGraph
+      if (
+        pressedKeysAll.get('ControlLeft') &&
+        pressedKeysAll.get('AltLeft') &&
+        pressedKeysAll.size === 2 &&
+        pressedKeysNow.size === 0 &&
+        (event.key !== 'AltGraph')
+      ) {
         if (iconBar.hasAttribute('collapsed')) {
           titleBar.removeAttribute('autohide');
           iconBar.removeAttribute('collapsed');
@@ -475,6 +501,11 @@ class PwaBrowser {
           titleBar.setAttribute('autohide', 'true');
           iconBar.setAttribute('collapsed', 'true');
         }
+      }
+
+      if (pressedKeysNow.size === 0) {
+        pressedKeysAll.clear();
+        pressedKeysNow.clear();
       }
     });
 
