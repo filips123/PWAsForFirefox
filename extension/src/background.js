@@ -1,7 +1,16 @@
-import { checkNativeStatus, obtainSiteList, PREF_DISPLAY_PAGE_ACTION } from './utils'
+import {
+  AUTO_LAUNCH_PERMISSIONS,
+  checkNativeStatus,
+  obtainSiteList,
+  PREF_DISPLAY_PAGE_ACTION,
+  PREF_ENABLE_AUTO_LAUNCH
+} from './utils'
 
 // Display install/update page when extension is installed/updated to notify users
 browser.runtime.onInstalled.addListener(async ({ reason }) => {
+  const nativeStatus = await checkNativeStatus()
+  if (nativeStatus === 'ok') return
+
   switch (reason) {
     case 'install':
       await browser.tabs.create({ url: browser.runtime.getURL('setup/install.html') })
@@ -55,4 +64,75 @@ browser.runtime.onMessage.addListener(async ({ manifestUrl, documentUrl }, { tab
     // Hide the page action
     await browser.pageAction.hide(tab.id)
   }
+})
+
+// Reload the extension after auto launch permissions have been added
+// Or disable the preference if permissions have been revoked
+const permissionsListener = async () => {
+  // Disable the preference if permissions are not correct
+  const permissionsOk = await browser.permissions.contains(AUTO_LAUNCH_PERMISSIONS)
+  if (!permissionsOk) await browser.storage.local.set({ [PREF_ENABLE_AUTO_LAUNCH]: false })
+
+  // Reload the extension so listeners become registered
+  const preferenceEnabled = (await browser.storage.local.get([PREF_ENABLE_AUTO_LAUNCH]))[PREF_ENABLE_AUTO_LAUNCH]
+  if (permissionsOk && preferenceEnabled) browser.runtime.reload()
+}
+
+browser.permissions.onAdded.addListener(permissionsListener)
+browser.permissions.onRemoved.addListener(permissionsListener)
+
+// Handle opening new URLs and redirect enable URLs to web apps
+// This will obtain site list for every request (twice) which will impact performance
+// In the future, we should find a way to cache it and only update it when it changes
+
+const getMatchingUrlHandler = async target => {
+  target = new URL(target)
+
+  for (const site of Object.values(await obtainSiteList())) {
+    if (site.config.enabled_url_handlers?.some(handler =>
+      target.origin === new URL(handler).origin &&
+      target.pathname.startsWith(new URL(handler).pathname)
+    )) {
+      return site
+    }
+  }
+}
+
+browser.webRequest?.onBeforeRequest.addListener(
+  async details => {
+    // Only handle top-level GET requests
+    if (details.type !== 'main_frame' || details.method !== 'GET') return
+
+    // Only handle when the auto launch feature is enabled
+    const autoLaunch = (await browser.storage.local.get([PREF_ENABLE_AUTO_LAUNCH]))[PREF_ENABLE_AUTO_LAUNCH]
+    if (!autoLaunch) return
+
+    // Find the matching web app
+    const site = await getMatchingUrlHandler(details.url)
+    if (!site) return
+
+    // Launch the web app on target URL
+    await browser.runtime.sendNativeMessage('firefoxpwa', {
+      cmd: 'LaunchSite',
+      params: { id: site.ulid, url: details.url }
+    })
+
+    // Prevent the request
+    return { cancel: true }
+  },
+  { urls: ['<all_urls>'] },
+  ['blocking']
+)
+
+browser.webNavigation?.onCreatedNavigationTarget.addListener(async details => {
+  // Only handle when the auto launch feature is enabled
+  const autoLaunch = (await browser.storage.local.get([PREF_ENABLE_AUTO_LAUNCH]))[PREF_ENABLE_AUTO_LAUNCH]
+  if (!autoLaunch) return
+
+  // Find the matching web app
+  const site = await getMatchingUrlHandler(details.url)
+  if (!site) return
+
+  // Close the newly opened tab/window
+  await browser.tabs.remove(details.tabId)
 })

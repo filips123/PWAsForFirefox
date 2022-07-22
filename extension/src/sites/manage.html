@@ -112,11 +112,24 @@
               <div class="list-group-item">
                 <div class="row align-items-center">
                   <div class="col">
-                    <label class="fw-bold mb-0" for="settings-launch-current-url">Launch PWAs with the current URLs</label>
+                    <label class="fw-bold mb-0" for="settings-launch-current-url">Launch web apps on active URLs</label>
                   </div>
                   <div class="col-auto">
                     <div class="form-check form-switch">
                       <input class="form-check-input" type="checkbox" id="settings-launch-current-url">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <label class="fw-bold mb-0" for="settings-enable-auto-launch">Enable automatic web app launching</label>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="settings-enable-auto-launch">
                     </div>
                   </div>
                 </div>
@@ -255,6 +268,10 @@
             <div class="form-label fw-bold">Protocol Handlers</div>
             <div class="list-group list-group-flush list-group-no-border" id="web-app-protocol-handlers-list"></div>
           </div>
+          <div class="form-check mt-4 mb-3 d-none" id="web-app-auto-launch-box">
+            <input class="form-check-input" type="checkbox" id="web-app-auto-launch" checked>
+            <label class="form-check-label" for="web-app-auto-launch">Auto launch this web app</label>
+          </div>
           <div class="form-check mb-1" id="web-app-update-manifest-box">
             <input class="form-check-input" type="checkbox" id="web-app-update-manifest" checked>
             <label class="form-check-label" for="web-app-update-manifest">Update web app manifest</label>
@@ -332,6 +349,26 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" id="profile-remove-button">Remove</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="enable-auto-launch-modal" tabindex="-1" aria-labelledby="enable-auto-launch-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="enable-auto-launch-label">Automatic web app launching</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>Enabling <em>automatic web app launching</em> will automatically launch all URLs that match the scopes of your enabled web apps as a web app.</p>
+            <p>This feature is experimental, may not work with all websites correctly, and may impact performance. It needs to be additionally enabled per web app in the web app settings.</p>
+            <p>Additional browser permissions are required for this to work. They will be requested automatically after enabling it if they are not already permitted.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="enable-auto-launch-confirm">Enable</button>
           </div>
         </div>
       </div>

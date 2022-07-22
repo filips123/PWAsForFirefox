@@ -323,6 +323,13 @@ pub struct UpdateSite {
     #[serde(default, deserialize_with = "double_option")]
     pub keywords: Option<Option<Vec<String>>>,
 
+    /// Enabled URL handlers.
+    ///
+    /// A list of enabled web app URL scopes that the browser
+    /// extension will intercept and open in the web app window.
+    /// If empty, no handlers are intercepted by the extension.
+    pub enabled_url_handlers: Option<Vec<String>>,
+
     /// Enabled protocol handlers.
     ///
     /// A list of enabled protocol handlers supported by this web app.

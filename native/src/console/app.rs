@@ -138,6 +138,10 @@ pub struct SiteUpdateCommand {
     #[clap(long)]
     pub keywords: Option<Vec<String>>,
 
+    /// Set enabled URL handlers
+    #[clap(long)]
+    pub enabled_url_handlers: Option<Vec<String>>,
+
     /// Set enabled protocol handlers
     #[clap(long)]
     pub enabled_protocol_handlers: Option<Vec<String>>,

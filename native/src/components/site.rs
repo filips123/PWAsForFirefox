@@ -57,6 +57,13 @@ pub struct SiteConfig {
     /// Custom web app keywords.
     pub keywords: Option<Vec<String>>,
 
+    /// Enabled URL handlers.
+    ///
+    /// Contains web app URL scopes that the browser extension
+    /// will intercept and open in the web app window.
+    #[serde(default)]
+    pub enabled_url_handlers: Vec<String>,
+
     /// Enabled protocol handlers.
     ///
     /// Contains web app's protocol schemes (without the trailing `:`)

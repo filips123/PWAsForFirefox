@@ -7,15 +7,18 @@ import Toast from 'bootstrap/js/src/toast'
 import Tags from 'bootstrap5-tags/tags'
 
 import {
+  AUTO_LAUNCH_PERMISSIONS,
   buildIconList,
   checkNativeStatus,
   getConfig,
   getIcon,
-  isAutoRuntimeInstallSupported, isProtocolSchemePermitted,
+  isAutoRuntimeInstallSupported,
+  isProtocolSchemePermitted,
   launchSite,
   obtainProfileList,
   obtainSiteList,
   PREF_DISPLAY_PAGE_ACTION,
+  PREF_ENABLE_AUTO_LAUNCH,
   PREF_LAUNCH_CURRENT_URL,
   setConfig,
   setPopupSize
@@ -32,13 +35,12 @@ async function handleNativeStatus () {
       await browser.tabs.create({ url: browser.runtime.getURL('setup/update.html') })
       window.close()
       break
-    case 'update-optional':
-      {
-        const outdatedBox = document.getElementById('extension-outdated-box')
-        document.getElementById('extension-outdated-update').setAttribute('href', browser.runtime.getURL('setup/update.html'))
-        document.getElementById('extension-outdated-close').addEventListener('click', () => outdatedBox.classList.add('d-none'))
-        outdatedBox.classList.remove('d-none')
-      }
+    case 'update-optional': {
+      const outdatedBox = document.getElementById('extension-outdated-box')
+      document.getElementById('extension-outdated-update').setAttribute('href', browser.runtime.getURL('setup/update.html'))
+      document.getElementById('extension-outdated-close').addEventListener('click', () => outdatedBox.classList.add('d-none'))
+      outdatedBox.classList.remove('d-none')
+    }
       break
   }
 }
@@ -47,7 +49,7 @@ async function handleNativeStatus () {
 async function createSiteList () {
   const siteInstallButton = document.getElementById('site-install-button')
 
-  // Hide the install button on sites where it wouldn't work
+  // Hide the installation button on sites where it wouldn't work
   const tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0]
   if (!tab.url || !(tab.url.startsWith('http://') || tab.url.startsWith('https://'))) {
     siteInstallButton.classList.add('d-none')
@@ -177,6 +179,15 @@ async function createSiteList () {
         else handlersBox.classList.add('d-none')
       }
 
+      // Set auto launch preference from config
+      const autoLaunchGlobal = (await browser.storage.local.get([PREF_ENABLE_AUTO_LAUNCH]))[PREF_ENABLE_AUTO_LAUNCH]
+      if (autoLaunchGlobal) {
+        document.getElementById('web-app-auto-launch').checked = site.config.enabled_url_handlers?.length
+        document.getElementById('web-app-auto-launch-box').classList.remove('d-none')
+      } else {
+        document.getElementById('web-app-auto-launch-box').classList.add('d-none')
+      }
+
       // Set form to be validated after all inputs are filled with default values and enable submit button
       form.classList.add('was-validated')
       submit.disabled = false
@@ -268,6 +279,11 @@ async function createSiteList () {
         // Get list of enabled protocol handlers
         const enabledProtocolHandlers = [...document.querySelectorAll('.web-app-protocol-handler:checked')].map(check => check.value)
 
+        // Control whether the auto launch is enabled
+        const autoLaunchEnabled = document.getElementById('web-app-auto-launch').checked
+        const enabledUrlHandlers = []
+        if (autoLaunchEnabled) enabledUrlHandlers.push(site.manifest.scope)
+
         // Tell the native connector to update the site
         const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
           cmd: 'UpdateSite',
@@ -278,6 +294,7 @@ async function createSiteList () {
             description,
             categories,
             keywords,
+            enabled_url_handlers: enabledUrlHandlers,
             enabled_protocol_handlers: enabledProtocolHandlers,
             update_manifest: document.getElementById('web-app-update-manifest').checked,
             update_icons: document.getElementById('web-app-update-icons').checked
@@ -553,15 +570,17 @@ async function handleSearch () {
 // Handle extension settings
 async function handleSettings (hasChanged = false) {
   // Get settings from local storage and media query
-  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL])
+  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL, PREF_ENABLE_AUTO_LAUNCH])
   const settingsDisplayPageAction = settings[PREF_DISPLAY_PAGE_ACTION] ? settings[PREF_DISPLAY_PAGE_ACTION] : 'valid'
   const settingsLaunchCurrentUrl = settings[PREF_LAUNCH_CURRENT_URL] !== undefined ? settings[PREF_LAUNCH_CURRENT_URL] : true
+  const settingsEnableAutoLaunch = settings[PREF_ENABLE_AUTO_LAUNCH] !== undefined ? settings[PREF_ENABLE_AUTO_LAUNCH] : false
   const settingsEnableDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
 
   // Set settings input values
   document.getElementById('settings-display-page-action').querySelector(`#settings-display-page-action-${settingsDisplayPageAction}`).checked = true
   document.getElementById('settings-launch-current-url').checked = settingsLaunchCurrentUrl
   document.getElementById('settings-enable-dark-mode').checked = settingsEnableDarkMode
+  document.getElementById('settings-enable-auto-launch').checked = settingsEnableAutoLaunch
 
   // Do not re-register listeners
   if (hasChanged) return
@@ -574,6 +593,36 @@ async function handleSettings (hasChanged = false) {
   // Listen for launch current URL input changes
   document.getElementById('settings-launch-current-url').addEventListener('change', async function () {
     await browser.storage.local.set({ [PREF_LAUNCH_CURRENT_URL]: this.checked })
+  })
+
+  // Listen for enabled auto launch input changes
+  const enableAutoLaunchSwitch = document.getElementById('settings-enable-auto-launch')
+  const enableAutoLaunchModal = document.getElementById('enable-auto-launch-modal')
+  const enableAutoLaunchConfirm = document.getElementById('enable-auto-launch-confirm')
+
+  enableAutoLaunchModal.addEventListener('hide.bs.modal', async function () {
+    // Reset the switch in case user closed the modal without confirming
+    if (!(await browser.storage.local.get([PREF_ENABLE_AUTO_LAUNCH]))[PREF_ENABLE_AUTO_LAUNCH]) {
+      enableAutoLaunchSwitch.checked = false
+    }
+  })
+
+  enableAutoLaunchConfirm.onclick = async function () {
+    // Request the required permissions
+    const granted = await browser.permissions.request(AUTO_LAUNCH_PERMISSIONS)
+    if (!granted) return
+
+    // If permissions are already permitted, just switch the preference
+    await browser.storage.local.set({ [PREF_ENABLE_AUTO_LAUNCH]: true })
+    Modal.getOrCreateInstance(enableAutoLaunchModal).hide()
+  }
+
+  enableAutoLaunchSwitch.addEventListener('change', async function () {
+    // Show the modal when enabling the preference
+    if (this.checked) Modal.getOrCreateInstance(enableAutoLaunchModal).show()
+
+    // Otherwise store the disabled preference
+    else await browser.storage.local.set({ [PREF_ENABLE_AUTO_LAUNCH]: false })
   })
 
   // Listen for dark mode changes

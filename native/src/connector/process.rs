@@ -156,6 +156,7 @@ impl Process for UpdateSite {
 
             categories: self.categories.clone().map(|x| x.unwrap_or_else(|| vec!["".into()])),
             keywords: self.keywords.clone().map(|x| x.unwrap_or_else(|| vec!["".into()])),
+            enabled_url_handlers: self.enabled_url_handlers.to_owned(),
             enabled_protocol_handlers: self.enabled_protocol_handlers.to_owned(),
             update_manifest: self.update_manifest,
             update_icons: self.update_icons,

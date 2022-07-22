@@ -2,6 +2,9 @@ import { gt as semverGt, satisfies as semverSatisfies } from 'semver'
 
 export const PREF_DISPLAY_PAGE_ACTION = 'settings.display-page-action'
 export const PREF_LAUNCH_CURRENT_URL = 'settings.launch-current-url'
+export const PREF_ENABLE_AUTO_LAUNCH = 'settings.enable-auto-launch'
+
+export const AUTO_LAUNCH_PERMISSIONS = { permissions: ['webNavigation', 'webRequest', 'webRequestBlocking'] }
 
 /**
  * Obtains the manifest and the document URLs by asking the content script of current tab.
