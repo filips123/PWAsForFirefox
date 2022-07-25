@@ -98,9 +98,9 @@ section = "web"
 priority = "optional"
 recommends = "firefox | firefox-esr | firefox-beta | firefox-trunk"
 enhances = "firefox, firefox-esr, firefox-beta, firefox-trunk"
-maintainer-scripts = "packages/debian"
-extended-description-file = "packages/debian/description"
-license-file = "packages/debian/copyright"
+maintainer-scripts = "packages/deb"
+extended-description-file = "packages/deb/description"
+license-file = "packages/deb/copyright"
 assets = [
     # Executables
     ["target/release/firefoxpwa", "/usr/bin/firefoxpwa", "755"],
@@ -141,5 +141,5 @@ firefoxpwa-connector = { path = "/usr/libexec/firefoxpwa-connector" }
 "../../../README.md" = { path = "/usr/share/doc/firefoxpwa/README.md" }
 "../../../native/README.md" = { path = "/usr/share/doc/firefoxpwa/README-NATIVE.md" }
 "../../../extension/README.md" = { path = "/usr/share/doc/firefoxpwa/README-EXTENSION.md" }
-"../debian/copyright" = { path = "/usr/share/doc/firefoxpwa/copyright" }
+"../deb/copyright" = { path = "/usr/share/doc/firefoxpwa/copyright" }
 "../../userchrome/" = { path = "/usr/share/firefoxpwa/userchrome/" }
