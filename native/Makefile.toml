@@ -19,7 +19,7 @@ install_script = [
     "cargo-wix help >nul 2>nul || cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev ab5bd2ec92dcb679d68c21c5220a64f3a1d7f9da",
 ]
 script = [
-    "heat dir userchrome -o packages/wix/userchrome.wxs -scom -frag -srd -sreg -gg -cg UserChrome -var wix.UserChromeSource -dr UserChromeDir",
+    "heat dir userchrome -o packages/wix/userchrome.wxs -scom -srd -sreg -gg -cg UserChrome -dr UserChromeDir -var wix.UserChromeSource",
     "cargo wix --verbose --no-build --nocapture --install"
 ]
 

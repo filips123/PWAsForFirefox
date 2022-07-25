@@ -205,7 +205,7 @@ jobs:
       - name: Package MSI (Windows)
         if: matrix.os == 'windows-latest'
         run: |
-          heat dir userchrome -o packages/wix/userchrome.wxs -scom -frag -srd -sreg -gg -cg UserChrome -var wix.UserChromeSource -dr UserChromeDir
+          heat dir userchrome -o packages/wix/userchrome.wxs -scom -srd -sreg -gg -cg UserChrome -dr UserChromeDir -var wix.UserChromeSource
           cargo wix --verbose --no-build --nocapture --target ${{ matrix.target }}
 
       - name: Upload artifacts

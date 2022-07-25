@@ -81,12 +81,20 @@ impl ProjectDirs {
         let _install = {
             cfg_if! {
                 if #[cfg(target_os = "windows")] {
-                    use winreg::{enums::HKEY_LOCAL_MACHINE, RegKey};
+                    use winreg::{enums::HKEY_LOCAL_MACHINE, enums::HKEY_CURRENT_USER, RegKey};
 
-                    let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
-                    let subkey = hklm.open_subkey(r"Software\filips\FirefoxPWA").context("Failed to open registry key")?;
-                    let path: String = subkey.get_value("Path").context("Failed to read registry key")?;
-                    PathBuf::from(path)
+                    let path = |root: RegKey| -> Result<PathBuf> {
+                        let subkey = root.open_subkey(r"Software\filips\FirefoxPWA").context("Failed to open registry key")?;
+                        let path: String = subkey.get_value("Path").context("Failed to read registry key")?;
+                        Ok(PathBuf::from(path))
+                    };
+
+                    // We try to use per-user install if it exists, otherwise per-machine install
+                    // If both keys are absent, something is wrong with the installation
+                    path(RegKey::predef(HKEY_CURRENT_USER))
+                        .or_else(|_| path(RegKey::predef(HKEY_LOCAL_MACHINE)))
+                        .context("Failed to obtain path from registry")?
+
                 }
             }
         };
