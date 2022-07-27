@@ -270,7 +270,7 @@ fn register_protocol_handlers(
     };
 
     let hkcu = RegKey::predef(HKEY_CURRENT_USER);
-    let capabilities_path = format!(r"Software\FirefoxPWA\{}\Capabilities", ids.regid);
+    let capabilities_path = format!(r"Software\filips\FirefoxPWA\{}\Capabilities", ids.regid);
     let classes_path = format!(r"Software\Classes\{}", ids.regid);
 
     // Add web app to a list of registered applications
