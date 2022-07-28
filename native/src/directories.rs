@@ -5,6 +5,15 @@ use anyhow::{Context, Result};
 use cfg_if::cfg_if;
 use directories::BaseDirs;
 
+macro_rules! set_path_from_env {
+    ($target:expr, $source:expr, $base:expr) => {
+        match std::env::var($source) {
+            Ok(value) => $target = expand_tilde(value, $base.home_dir()),
+            Err(_) => {}
+        };
+    };
+}
+
 fn expand_tilde<P: AsRef<str>, H: AsRef<Path>>(path: P, home: H) -> PathBuf {
     let path = path.as_ref();
     let home = home.as_ref();
@@ -23,48 +32,65 @@ fn expand_tilde<P: AsRef<str>, H: AsRef<Path>>(path: P, home: H) -> PathBuf {
 pub struct ProjectDirs {
     /// Global system directory for the main executable files.
     ///
-    /// On all systems, it contains the main `firefoxpwa` executable
-    /// that handles the command-line features and launches the sites.
-    /// On Windows, it also contains `firefoxpwa-connector` that handles
-    /// native messaging connections from the browser extension, native
-    /// app manifest, and the shell completions.
+    /// Contains the main `firefoxpwa` executable that handles the command-line features and
+    /// launches web apps. On Windows, also contains the `firefoxpwa-connector` executable
+    /// that handles native messaging connections from the browser extension, and the
+    /// native app manifest.
     ///
-    /// Can be overwritten by a `FFPWA_EXECUTABLES` build-time environment variable.
+    /// Can be overwritten by a `FFPWA_EXECUTABLES` build- or run-time environment variable.
     ///
-    /// Default value:
+    /// **Important:** Changing this variable to another directory also requires modifying
+    /// the installation scripts to install executables into that directory and set the
+    /// correct native app manifest path.
+    ///
+    /// ## Default value
     /// - Windows: `C:\Program Files\FirefoxPWA\` or `C:\Program Files (x86)\FirefoxPWA\`
     /// - Linux: `/usr/bin/`
     /// - macOS: `/usr/local/bin/`
     /// - Homebrew: `#{prefix}/bin/`
     ///
+    /// ## Required permissions
+    /// - Read
+    ///
     pub executables: PathBuf,
 
     /// Global system directory for the project data.
     ///
-    /// Stores the UserChrome modifications which are later copied to
-    /// the user-specific profile directories at the site-launch-time.
+    /// Stores the UserChrome modifications which are later copied to the user-specific
+    /// profile directories at the web-app-launch-time. On Windows, also contains the
+    /// shell completions files.
     ///
-    /// Can be overwritten by a `FFPWA_SYSDATA` build-time environment variable.
+    /// Can be overwritten by a `FFPWA_SYSDATA` build- or run-time environment variable.
     ///
-    /// Default value:
+    /// **Important:** Changing this variable to another directory also requires modifying
+    /// the installation scripts to install system project data into that directory.
+    ///
+    /// ## Default value
     /// - Windows: `C:\Program Files\FirefoxPWA\` or `C:\Program Files (x86)\FirefoxPWA\`
     /// - Linux: `/usr/share/firefoxpwa/`
     /// - macOS: `/usr/local/share/firefoxpwa/`
     /// - Homebrew: `#{prefix}/share/`
     ///
+    /// ## Required permissions
+    /// - Read
+    ///
     pub sysdata: PathBuf,
 
     /// User-specific directory for the project data.
     ///
-    /// Stores the installed browser runtime, profile directories with
-    /// user data, site icons (on Windows), as well as config and log files.
+    /// Stores the internal Firefox instance, profile directories with user data,
+    /// web app icons (on Windows), as well as the configuration and log files.
     ///
-    /// Can be overwritten by a `FFPWA_USERDATA` build-time environment variable.
+    /// Can be overwritten by a `FFPWA_USERDATA` build- or run-time environment variable.
     ///
-    /// Default value:
+    /// ## Default value
     /// - Windows: `%APPDATA%\FirefoxPWA\`
     /// - Linux: `$XDG_DATA_HOME/firefoxpwa/` or `$HOME/.local/share/firefoxpwa/`
     /// - macOS: `$HOME/Library/Application Support/firefoxpwa/`
+    ///
+    /// ## Required permissions
+    /// - Read
+    /// - Write
     ///
     pub userdata: PathBuf,
 }
@@ -74,6 +100,16 @@ impl ProjectDirs {
         // We need base directories to get the user directory (for expanding tilde)
         // and the app data directory (for a default user data location)
         let base = BaseDirs::new().context("Failed to determine base system directories")?;
+
+        // Provide a way to prevent using run-time environment variables to change directories
+        // This should only be used in specific circumstances (like some packaging requirements)
+        // To enable this, set a `FFPWA_STATIC_DIRS` build-time environment variable to `1`
+        // Note that the user might still be able to change some directories through other means
+        // To prevent this, explicitly set all `FFPWA_` build-time directory variables
+        let static_only_dirs = match option_env!("FFPWA_STATIC_DIRS") {
+            Some(var) => var == "1",
+            None => false,
+        };
 
         // On Windows, executables and system data are in the same directory
         // We can just obtain it once, store it, and re-use it for both directories
@@ -99,7 +135,7 @@ impl ProjectDirs {
             }
         };
 
-        let executables = if let Some(envvar) = option_env!("FFPWA_EXECUTABLES") {
+        let mut executables = if let Some(envvar) = option_env!("FFPWA_EXECUTABLES") {
             expand_tilde(envvar, base.home_dir())
         } else {
             cfg_if! {
@@ -115,7 +151,7 @@ impl ProjectDirs {
             }
         };
 
-        let sysdata = if let Some(envvar) = option_env!("FFPWA_SYSDATA") {
+        let mut sysdata = if let Some(envvar) = option_env!("FFPWA_SYSDATA") {
             expand_tilde(envvar, base.home_dir())
         } else {
             cfg_if! {
@@ -131,7 +167,7 @@ impl ProjectDirs {
             }
         };
 
-        let userdata = if let Some(envvar) = option_env!("FFPWA_USERDATA") {
+        let mut userdata = if let Some(envvar) = option_env!("FFPWA_USERDATA") {
             expand_tilde(envvar, base.home_dir())
         } else {
             cfg_if! {
@@ -140,14 +176,19 @@ impl ProjectDirs {
             }
         };
 
-        // If you want to overwrite install locations, use build-time environment variables
+        // If you want to overwrite default install locations, use build-time environment variables
         // See the struct fields comments for description about each directory
 
         // If you really need to overwrite install locations by editing source code, do this here
         // You can rely on the below line as an injection target for tools such as `sed`
         // INSTALL_LOCATIONS_INJECTION
 
-        create_dir_all(&sysdata).context("Failed to create system data directory")?;
+        if !static_only_dirs {
+            set_path_from_env!(executables, "FFPWA_EXECUTABLES", base);
+            set_path_from_env!(sysdata, "FFPWA_SYSDATA", base);
+            set_path_from_env!(userdata, "FFPWA_USERDATA", base);
+        }
+
         create_dir_all(&userdata).context("Failed to create user data directory")?;
 
         Ok(Self { executables, sysdata, userdata })
