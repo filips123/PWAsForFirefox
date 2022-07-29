@@ -19,7 +19,7 @@ import {
   obtainSiteList,
   PREF_DISPLAY_PAGE_ACTION,
   PREF_ENABLE_AUTO_LAUNCH,
-  PREF_LAUNCH_CURRENT_URL,
+  PREF_LAUNCH_CURRENT_URL, PREF_SHOW_UPDATE_POPUP,
   setConfig,
   setPopupSize
 } from '../utils'
@@ -31,11 +31,11 @@ async function handleNativeStatus () {
       await browser.tabs.create({ url: browser.runtime.getURL('setup/install.html') })
       window.close()
       break
-    case 'update-required':
+    case 'update-major':
       await browser.tabs.create({ url: browser.runtime.getURL('setup/update.html') })
       window.close()
       break
-    case 'update-optional': {
+    case 'update-minor': {
       const outdatedBox = document.getElementById('extension-outdated-box')
       document.getElementById('extension-outdated-update').setAttribute('href', browser.runtime.getURL('setup/update.html'))
       document.getElementById('extension-outdated-close').addEventListener('click', () => outdatedBox.classList.add('d-none'))
@@ -180,7 +180,7 @@ async function createSiteList () {
       }
 
       // Set auto launch preference from config
-      const autoLaunchGlobal = (await browser.storage.local.get([PREF_ENABLE_AUTO_LAUNCH]))[PREF_ENABLE_AUTO_LAUNCH]
+      const autoLaunchGlobal = (await browser.storage.local.get(PREF_ENABLE_AUTO_LAUNCH))[PREF_ENABLE_AUTO_LAUNCH]
       if (autoLaunchGlobal) {
         document.getElementById('web-app-auto-launch').checked = site.config.enabled_url_handlers?.length
         document.getElementById('web-app-auto-launch-box').classList.remove('d-none')
@@ -570,17 +570,19 @@ async function handleSearch () {
 // Handle extension settings
 async function handleSettings (hasChanged = false) {
   // Get settings from local storage and media query
-  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL, PREF_ENABLE_AUTO_LAUNCH])
+  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL, PREF_SHOW_UPDATE_POPUP, PREF_ENABLE_AUTO_LAUNCH])
   const settingsDisplayPageAction = settings[PREF_DISPLAY_PAGE_ACTION] ? settings[PREF_DISPLAY_PAGE_ACTION] : 'valid'
   const settingsLaunchCurrentUrl = settings[PREF_LAUNCH_CURRENT_URL] !== undefined ? settings[PREF_LAUNCH_CURRENT_URL] : true
+  const settingsShowUpdatePopup = settings[PREF_SHOW_UPDATE_POPUP] !== undefined ? settings[PREF_SHOW_UPDATE_POPUP] : true
   const settingsEnableAutoLaunch = settings[PREF_ENABLE_AUTO_LAUNCH] !== undefined ? settings[PREF_ENABLE_AUTO_LAUNCH] : false
   const settingsEnableDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
 
   // Set settings input values
   document.getElementById('settings-display-page-action').querySelector(`#settings-display-page-action-${settingsDisplayPageAction}`).checked = true
   document.getElementById('settings-launch-current-url').checked = settingsLaunchCurrentUrl
-  document.getElementById('settings-enable-dark-mode').checked = settingsEnableDarkMode
+  document.getElementById('settings-show-update-popup').checked = settingsShowUpdatePopup
   document.getElementById('settings-enable-auto-launch').checked = settingsEnableAutoLaunch
+  document.getElementById('settings-enable-dark-mode').checked = settingsEnableDarkMode
 
   // Do not re-register listeners
   if (hasChanged) return
@@ -595,6 +597,11 @@ async function handleSettings (hasChanged = false) {
     await browser.storage.local.set({ [PREF_LAUNCH_CURRENT_URL]: this.checked })
   })
 
+  // Listen for show updates popup input changes
+  document.getElementById('settings-show-update-popup').addEventListener('change', async function () {
+    await browser.storage.local.set({ [PREF_SHOW_UPDATE_POPUP]: this.checked })
+  })
+
   // Listen for enabled auto launch input changes
   const enableAutoLaunchSwitch = document.getElementById('settings-enable-auto-launch')
   const enableAutoLaunchModal = document.getElementById('enable-auto-launch-modal')
@@ -602,7 +609,7 @@ async function handleSettings (hasChanged = false) {
 
   enableAutoLaunchModal.addEventListener('hide.bs.modal', async function () {
     // Reset the switch in case user closed the modal without confirming
-    if (!(await browser.storage.local.get([PREF_ENABLE_AUTO_LAUNCH]))[PREF_ENABLE_AUTO_LAUNCH]) {
+    if (!(await browser.storage.local.get(PREF_ENABLE_AUTO_LAUNCH))[PREF_ENABLE_AUTO_LAUNCH]) {
       enableAutoLaunchSwitch.checked = false
     }
   })

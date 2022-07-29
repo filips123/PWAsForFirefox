@@ -1,4 +1,4 @@
-const isAppleMaskIcon = (link) => link.getAttribute('rel').toLowerCase().includes('mask-icon')
+const isAppleMaskIcon = link => link.getAttribute('rel').toLowerCase().includes('mask-icon')
 
 // Obtain the initial web app manifest URL
 const manifestElement = document.querySelector('link[rel=manifest]')

@@ -31,10 +31,7 @@ async function generateIcons () {
     codepoints: selectedCodepoints,
     inputDir: selectedIcons,
     outputDir: targetDir,
-    templates: {
-      css: path.join(__dirname, './_css.hbs'),
-      scss: path.join(__dirname, './_scss.hbs')
-    }
+    templates: { css: path.join(__dirname, './_css.hbs') }
   })
 }
 

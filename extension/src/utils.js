@@ -1,8 +1,8 @@
-import { gt as semverGt, satisfies as semverSatisfies } from 'semver'
-
 export const PREF_DISPLAY_PAGE_ACTION = 'settings.display-page-action'
 export const PREF_LAUNCH_CURRENT_URL = 'settings.launch-current-url'
+export const PREF_SHOW_UPDATE_POPUP = 'settings.show-update-popup'
 export const PREF_ENABLE_AUTO_LAUNCH = 'settings.enable-auto-launch'
+export const PREF_DISABLE_UPDATE_CHECKING = 'settings.disable-update-checking'
 
 export const AUTO_LAUNCH_PERMISSIONS = { permissions: ['webNavigation', 'webRequest', 'webRequestBlocking'] }
 
@@ -124,42 +124,41 @@ export async function setConfig (config) {
 /**
  * Checks if the native program is installed and updated correctly.
  *
- * * If `ok` is returned, everything is ok
- * * If `install` is returned, native program or the runtime is not installed, and install page should be opened.
- * * If `update-required` is returned, native program is outdated oe incompatible, and update page should be opened.
- * * If `update-optional` is returned, extension is outdated but compatible, and there should just be warning with a link to update page.
+ * * If `ok` is returned, no additional actions are required.
+ * * If `install` is returned, the native program or the runtime is not installed.
+ * * If `update-major` is returned, versions of extension and native are different and incompatible.
+ * * If `update-minor` is returned, versions of extension and native are different but compatible.
  *
- * @returns {Promise<"ok"|"install"|"update-required"|"update-optional">}
+ * @returns {Promise<"ok"|"install"|"update-major"|"update-minor">}
  */
 export async function checkNativeStatus () {
   try {
+    // Get system versions from the connector
     const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'GetSystemVersions' })
-
     if (response.type === 'Error') throw new Error(response.data)
     if (response.type !== 'SystemVersions') throw new Error(`Received invalid response type: ${response.type}`)
-
-    const versionExtension = browser.runtime.getManifest().version
-    const versionNative = response.data.firefoxpwa
 
     // Runtime always needs to be installed, we cannot disable that
     if (!response.data.firefox) return 'install'
 
-    // We can disable update/version checks with a "secret" local storage option
-    const UPDATES_CHECK_DISABLED = 'updates.native-version-check-disabled'
-    if ((await browser.storage.local.get(UPDATES_CHECK_DISABLED))[UPDATES_CHECK_DISABLED] === true) return 'ok'
+    // We can disable update/version checks with a "secret" setting
+    if ((await browser.storage.local.get(PREF_DISABLE_UPDATE_CHECKING))[PREF_DISABLE_UPDATE_CHECKING] === true) return 'ok'
 
-    // Similar checks as in `setup/update.js`
-    if (semverGt(versionExtension, versionNative)) return 'update-required'
-    if (semverGt(versionNative, versionExtension)) {
-      if (semverSatisfies(versionNative, `^${versionExtension}`)) return 'update-optional'
-      else return 'update-required'
-    }
+    // Get both extension and native versions
+    const versionExtension = browser.runtime.getManifest().version
+    const versionNative = response.data.firefoxpwa
+
+    // If versions are the same, everything is fine
+    if (versionExtension === versionNative) return 'ok'
+
+    // Check if versions are compatible (have the same major component)
+    const majorExtension = versionExtension.split('.', 1)[0]
+    const majorNative = versionNative.split('.', 1)[0]
+    return majorExtension === majorNative ? 'update-minor' : 'update-major'
   } catch (error) {
     if (error.message === 'Attempt to postMessage on disconnected port') return 'install'
     throw error
   }
-
-  return 'ok'
 }
 
 /**
@@ -256,7 +255,7 @@ export async function launchSite (site, url) {
  * Gets the sorted list of appropriate site icons.
  *
  * @param {{sizes: string, purpose: string}[]} icons
- * @param {"any"|"maskable"|"monochrome"|} purpose
+ * @param {"any"|"maskable"|"monochrome"} purpose
  *
  * @returns {Object[]}
  */
@@ -264,9 +263,9 @@ export function buildIconList (icons, purpose = 'any') {
   const iconList = []
 
   for (const icon of icons) {
-    if (!icon.purpose.split().includes(purpose)) continue
+    if (!icon.purpose.split(' ').includes(purpose)) continue
 
-    for (const sizeSpec of icon.sizes.split()) {
+    for (const sizeSpec of icon.sizes.split(' ')) {
       const size = sizeSpec === 'any' ? Number.MAX_SAFE_INTEGER : parseInt(sizeSpec)
       iconList.push({ icon, size })
     }

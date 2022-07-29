@@ -3,21 +3,23 @@ import {
   checkNativeStatus,
   obtainSiteList,
   PREF_DISPLAY_PAGE_ACTION,
-  PREF_ENABLE_AUTO_LAUNCH
+  PREF_ENABLE_AUTO_LAUNCH,
+  PREF_SHOW_UPDATE_POPUP
 } from './utils'
 
 // Display install/update page when extension is installed/updated to notify users
 browser.runtime.onInstalled.addListener(async ({ reason }) => {
-  const nativeStatus = await checkNativeStatus()
-  if (nativeStatus === 'ok') return
-
   switch (reason) {
     case 'install':
       await browser.tabs.create({ url: browser.runtime.getURL('setup/install.html') })
       break
     case 'update':
-      await browser.tabs.create({ url: browser.runtime.getURL('setup/update.html') })
-      break
+      if (
+        (await browser.storage.local.get({ [PREF_SHOW_UPDATE_POPUP]: true }))[PREF_SHOW_UPDATE_POPUP] &&
+        (await checkNativeStatus()) !== 'ok'
+      ) {
+        await browser.tabs.create({ url: browser.runtime.getURL('setup/update.html') })
+      }
   }
 })
 
@@ -29,7 +31,7 @@ browser.runtime.onMessage.addListener(async ({ manifestUrl, documentUrl }, { tab
   // Check status of the native program and hide page action if needed
   switch (await checkNativeStatus()) {
     case 'install':
-    case 'update-required':
+    case 'update-major':
       await browser.pageAction.hide(tab.id)
       return
   }
@@ -74,7 +76,7 @@ const permissionsListener = async () => {
   if (!permissionsOk) await browser.storage.local.set({ [PREF_ENABLE_AUTO_LAUNCH]: false })
 
   // Reload the extension so listeners become registered
-  const preferenceEnabled = (await browser.storage.local.get([PREF_ENABLE_AUTO_LAUNCH]))[PREF_ENABLE_AUTO_LAUNCH]
+  const preferenceEnabled = (await browser.storage.local.get(PREF_ENABLE_AUTO_LAUNCH))[PREF_ENABLE_AUTO_LAUNCH]
   if (permissionsOk && preferenceEnabled) browser.runtime.reload()
 }
 
@@ -104,7 +106,7 @@ browser.webRequest?.onBeforeRequest.addListener(
     if (details.type !== 'main_frame' || details.method !== 'GET') return
 
     // Only handle when the auto launch feature is enabled
-    const autoLaunch = (await browser.storage.local.get([PREF_ENABLE_AUTO_LAUNCH]))[PREF_ENABLE_AUTO_LAUNCH]
+    const autoLaunch = (await browser.storage.local.get(PREF_ENABLE_AUTO_LAUNCH))[PREF_ENABLE_AUTO_LAUNCH]
     if (!autoLaunch) return
 
     // Find the matching web app
@@ -126,7 +128,7 @@ browser.webRequest?.onBeforeRequest.addListener(
 
 browser.webNavigation?.onCreatedNavigationTarget.addListener(async details => {
   // Only handle when the auto launch feature is enabled
-  const autoLaunch = (await browser.storage.local.get([PREF_ENABLE_AUTO_LAUNCH]))[PREF_ENABLE_AUTO_LAUNCH]
+  const autoLaunch = (await browser.storage.local.get(PREF_ENABLE_AUTO_LAUNCH))[PREF_ENABLE_AUTO_LAUNCH]
   if (!autoLaunch) return
 
   // Find the matching web app

@@ -17,15 +17,17 @@
             <div class="row">
               <div class="pb-3">
                 <p id="native-not-updated" class="px-3 d-none">
-                  This extension is currently at the newer version than the native connector. The extension may not function
-                  correctly until you update the native connector. Please follow the instructions below to update it.
+                  The native connector is currently outdated.
+                  <span id="native-versions-compatible" class="d-none">It is compatible with the current extension version, but it is strongly recommended to update it to get the latest features and fixes.</span>
+                  <span id="native-versions-incompatible" class="d-none">It is <strong>not</strong> compatible with the current extension version, so you cannot use the extension until you update it.</span>
+                  Please follow the instructions below.
                 </p>
 
                 <p id="extension-not-updated" class="px-3 d-none">
-                  This extension is currently at the older version than the native connector.
-                  <span id="extension-versions-compatible" class="d-none">Versions are compatible with each other, but it is highly recommended to update the extension to get the latest features and fixes.</span>
-                  <span id="extension-versions-incompatible" class="d-none">Versions are <strong>not</strong> compatible with each other, so you cannot use the extension until you update it.</span>
-                  Please update this extension from <a href="https://addons.mozilla.org/firefox/addon/pwas-for-firefox/" target="_blank">the browser addon store</a>.
+                  This extension is currently outdated.
+                  <span id="extension-versions-compatible" class="d-none">It is compatible with the current connector version, but it is strongly recommended to update it to get the latest features and fixes.</span>
+                  <span id="extension-versions-incompatible" class="d-none">It is <strong>not</strong> compatible with the current connector version, so you cannot use the extension until you update it.</span>
+                  Please update it from the Firefox addon manager (<kbd>about:addons</kbd>).
                 </p>
 
                 <p id="both-updated" class="px-3 d-none">
@@ -33,7 +35,7 @@
                 </p>
 
                 <p id="release-notes-show" class="px-3 d-none">
-                  Please read <a href="https://github.com/filips123/PWAsForFirefox/releases" target="_blank">the release notes</a> for a list of new features, bug fixes and other improvements.
+                  You can read <a href="https://github.com/filips123/PWAsForFirefox/releases" target="_blank">the release notes</a> for a list of new features, bug fixes and other improvements.
                   <span id="release-notes-incompatible" class="d-none">This update <strong>may contain backward-incompatible changes</strong>, so you may also need to re-configure some things as specified in the release notes to make it work.</span>
                 </p>
 
