@@ -16,7 +16,7 @@ args = ["build", "--release"]
 dependencies = ["build"]
 install_script = [
     "heat >nul 2>nul || echo FATAL: Make sure the WiX Toolset is installed and available in the PATH environment variable && exit 1",
-    "cargo-wix help >nul 2>nul || cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev ab5bd2ec92dcb679d68c21c5220a64f3a1d7f9da",
+    "cargo-wix help >nul 2>nul || cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev cc582226702a793fc9e1c20cdf99399663d6a2df",
 ]
 script = [
     "heat dir userchrome -o packages/wix/userchrome.wxs -scom -srd -sreg -gg -cg UserChrome -dr UserChromeDir -var wix.UserChromeSource",

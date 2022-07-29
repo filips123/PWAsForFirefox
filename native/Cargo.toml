@@ -21,30 +21,30 @@ lto = true
 
 [dependencies]
 ab_glyph = "0.2.15"
-anyhow = "1.0.57"
+anyhow = "1.0.58"
 byteorder = "1.4.3"
 cfg-if = "1.0.0"
-clap = { version = "3.1.18", features = ["derive"] }
+clap = { version = "3.2.16", features = ["derive"] }
 configparser = "3.0.0"
-const_format = "0.2.24"
+const_format = "0.2.26"
 data-url = { git = "https://github.com/filips123/rust-url", branch = "impl-std-error" }
 directories = "4.0.1"
 fs_extra = "1.2.0"
 gag = "1.0.0"
-image = "0.24.2"
+image = "0.24.3"
 log = "0.4.17"
-reqwest = { version = "0.11.10", features = ["blocking", "gzip", "brotli", "deflate"] }
-resvg = "0.22.0"
-serde = { version = "1.0.137", features = ["derive"] }
-serde_json = "1.0.81"
+reqwest = { version = "0.11.11", features = ["blocking", "gzip", "brotli", "deflate"] }
+resvg = "0.23.0"
+serde = { version = "1.0.140", features = ["derive"] }
+serde_json = "1.0.82"
 simplelog = "0.12.0"
 smart-default = "0.6.0"
 tempfile = "3.3.0"
-tiny-skia = "0.6.3"
-ulid = { version = "0.5.0", features = ["serde"] }
+tiny-skia = "0.6.6"
+ulid = { version = "0.6.0", features = ["serde"] }
 url = "2.2.2"
 urlencoding = "2.1.0"
-usvg = "0.22.0"
+usvg = "0.23.0"
 web_app_manifest = { git = "https://github.com/filips123/WebAppManifestRS", branch = "main" }
 
 [target.'cfg(target_os = "windows")'.dependencies]
@@ -52,7 +52,7 @@ sanitize-filename = "0.4.0"
 winreg = "0.10.1"
 
 [target.'cfg(target_os = "windows")'.dependencies.windows]
-version = "0.37.0"
+version = "0.38.0"
 features = [
     "alloc",
     "Win32_Foundation",
@@ -70,21 +70,21 @@ features = [
 [target.'cfg(target_os = "linux")'.dependencies]
 bzip2 = "0.4.3"
 glob = "0.3.0"
-phf = { version = "0.10.1", features = ["macros"] }
+phf = { version = "0.11.0", features = ["macros"] }
 tar = "0.4.38"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 dmg = "0.1.1"
-phf = { version = "0.10.1", features = ["macros"] }
+phf = { version = "0.11.0", features = ["macros"] }
 icns = "0.3.1"
-pix = "0.13.1"
+pix = "0.13.2"
 plist = "1.3.1"
 sanitize-filename = "0.4.0"
 
 [build-dependencies]
-clap = { version = "3.1.18", features = ["derive"] }
-clap_complete = "3.1.4"
-ulid = "0.5.0"
+clap = { version = "3.2.16", features = ["derive"] }
+clap_complete = "3.2.3"
+ulid = "0.6.0"
 url = "2.2.2"
 
 [package.metadata.wix]

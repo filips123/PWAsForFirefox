@@ -29,7 +29,7 @@ use winreg::RegKey;
 #[inline]
 const fn get_download_url() -> &'static str {
     #[allow(dead_code)]
-    const VERSION: &str = "2107";
+    const VERSION: &str = "2201";
 
     cfg_if! {
         if #[cfg(target_arch = "x86")] {
