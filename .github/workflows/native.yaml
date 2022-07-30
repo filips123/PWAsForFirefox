@@ -12,6 +12,7 @@ on:
 
 defaults:
   run:
+    working-directory: native
     shell: bash
 
 jobs:
@@ -29,27 +30,23 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Install Rust and Clippy
-        uses: actions-rs/toolchain@v1
+      - name: Configure Rust and Clippy
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: stable
-          profile: minimal
           components: clippy
-          override: true
+          cache: false
 
       - name: Configure cache
-        uses: Swatinem/rust-cache@v1
+        uses: Swatinem/rust-cache@v2
         with:
-          working-directory: native
+          workspaces: native
+          cache-on-failure: true
 
       - name: Run Clippy
-        uses: marcopolo/cargo@a527bf4d534717ff4424a84446c5d710f8833139
-        with:
-          working-directory: native
-          command: clippy
-          args: --all-targets --all-features -- -D warnings
+        run: cargo clippy --all-targets --all-features -- -D warnings
 
   rustfmt:
     name: Rustfmt
@@ -57,36 +54,27 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Install Rust and Rustfmt
-        uses: actions-rs/toolchain@v1
+      - name: Configure Rust and Rustfmt
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: nightly
-          profile: minimal
           components: rustfmt
-          override: true
+          cache: false
 
       - name: Configure cache
-        uses: Swatinem/rust-cache@v1
+        uses: Swatinem/rust-cache@v2
         with:
-          working-directory: native
+          workspaces: native
+          cache-on-failure: true
 
       - name: Run Rustfmt
-        uses: marcopolo/cargo@a527bf4d534717ff4424a84446c5d710f8833139
-        with:
-          working-directory: native
-          command: fmt
-          args: --all -- --check
+        run: cargo fmt --all -- --check
 
   build:
     name: Build (${{ matrix.target }})
     runs-on: ${{ matrix.os }}
-
-    defaults:
-      run:
-        working-directory: native
-        shell: bash
 
     strategy:
       fail-fast: false
@@ -106,32 +94,40 @@ jobs:
             cross: true
           - os: windows-latest
             target: x86_64-pc-windows-msvc
+            cross: false
           - os: windows-latest
             target: i686-pc-windows-msvc
+            cross: false
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
+      - name: Configure Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: stable
           target: ${{ matrix.target }}
-          profile: minimal
-          override: true
-          default: true
+          cache: false
 
       - name: Configure cache
-        uses: Swatinem/rust-cache@v1
+        uses: Swatinem/rust-cache@v2
         with:
-          working-directory: native
+          workspaces: native
+          cache-on-failure: true
           key: ${{ matrix.target }}
+
+      - name: Install cross (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          # Use cross 0.2.4 for now because newer versions require too new glibc versions
+          # In the future, we should update cross and configure zig to link to older glibc
+          cargo install cross --git https://github.com/cross-rs/cross --rev 4645d937bdae6952d9df38eff3ecb91fd719c3bd
 
       - name: Install Cargo DEB (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
-          cargo install cargo-deb --git https://github.com/kornelski/cargo-deb.git --rev 1b1d55ea1c2a201953cb3ebb2e1e14af1d091d2e
+          cargo install cargo-deb --git https://github.com/kornelski/cargo-deb.git --rev b4a659cfa8309275f80800793346e13c9e0ef806
 
       - name: Install Cargo RPM (Linux)
         if: matrix.os == 'ubuntu-latest'
@@ -142,23 +138,27 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           echo "C:\Program Files (x86)\WiX Toolset v3.11\bin" >> $GITHUB_PATH
-          cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev 764857d051871fda31a845816ba3df18a20648b0
+          cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev cc582226702a793fc9e1c20cdf99399663d6a2df
 
-      - name: Workarounds for Linux builds
+      - name: Configure Linux builds
         if: matrix.os == 'ubuntu-latest'
         run: |
-          # Use vendored OpenSSL to fix build problems with cross
-          # See: https://github.com/rust-embedded/cross/issues/510
+          # Use vendored OpenSSL as dynamically-linked libraries are harder to use with cross
           sed -i '/\[dependencies\]/a openssl = { version = "0.10", features = ["vendored"] }' Cargo.toml
 
           # Replace completions paths with the correct paths for cross-compilation
           sed -i 's/..\/target\/release\/completions\//..\/target\/${{ matrix.target }}\/release\/completions\//g' Cargo.toml
 
-          # Manually specify minimum libc6 version because cargo-deb cannot determine it correcttly when using cross
-          # See: https://github.com/mmstick/cargo-deb/issues/117 & https://github.com/mmstick/cargo-deb/issues/178
+          # Pin cross images to 0.2.4 as newer versions require too new glibc versions
+          printf '[target.x86_64-unknown-linux-gnu]\nimage = "ghcr.io/cross-rs/x86_64-unknown-linux-gnu:0.2.4"\n\n' >> Cross.toml
+          printf '[target.i686-unknown-linux-gnu]\nimage = "ghcr.io/cross-rs/i686-unknown-linux-gnu:0.2.4"\n\n' >> Cross.toml
+          printf '[target.aarch64-unknown-linux-gnu]\nimage = "ghcr.io/cross-rs/aarch64-unknown-linux-gnu:0.2.4"\n\n' >> Cross.toml
+          printf '[target.armv7-unknown-linux-gnueabihf]\nimage = "ghcr.io/cross-rs/armv7-unknown-linux-gnueabihf:0.2.4"\n\n' >> Cross.toml
+
+          # Manually specify minimum libc6 version as cargo-deb cannot determine it correctly when using cross
           sed -i '/\[package.metadata.deb\]/a depends = "libc6 (>= 2.18)"' Cargo.toml
 
-          # Set the correct binutils for ARM targets
+          # Configure binutils for ARM targets
           if [[ ${{ matrix.target }} == aarch64-* ]] || [[ ${{ matrix.target }} == armv7-* ]]
           then
             sudo apt-get update
@@ -169,7 +169,7 @@ jobs:
             printf '[target.armv7-unknown-linux-gnueabihf]\nstrip = { path = "arm-linux-gnueabihf-strip" }\nobjcopy = { path = "arm-linux-gnueabihf-objcopy" }\n' >> .cargo/config
           fi
 
-      - name: Set version
+      - name: Set the version
         run: |
           if [[ $GITHUB_REF == refs/tags/v* ]]
           then
@@ -178,13 +178,10 @@ jobs:
             sed -i "s/DISTRIBUTION_VERSION = '0.0.0'/DISTRIBUTION_VERSION = '$VERSION'/g" userchrome/profile/chrome/pwa/chrome.jsm
           fi
 
-      - name: Build
-        uses: marcopolo/cargo@a527bf4d534717ff4424a84446c5d710f8833139
-        with:
-          use-cross: ${{ matrix.cross }}
-          working-directory: native
-          command: build
-          args: --release --target ${{ matrix.target }}
+      - name: Build the project
+        run: |
+          [[ ${{ matrix.cross }} == true ]] && CARGO="cross" || CARGO="cargo"
+          $CARGO build --release --target ${{ matrix.target }}
 
       - name: Package shell completions
         if: matrix.target == 'x86_64-unknown-linux-gnu'
@@ -210,25 +207,13 @@ jobs:
 
       - name: Upload artifacts
         if: success() || failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: |
             native/target/completions.zip
             native/target/debian/*.deb
             native/target/rpm/*.rpm
             native/target/wix/*.msi
-
-      - name: Remove artifacts from cache
-        if: success() || failure()
-        run: |
-          rm -rf target/*/*/completions/ || true
-          rm -rf target/completions.zip || true
-          rm -rf target/*/debian/ || true
-          rm -rf target/debian/ || true
-          rm -rf target/*/*/rpmbuild/ || true
-          rm -rf target/rpm/ || true
-          rm -rf target/*/wix/ || true
-          rm -rf target/wix/ || true
 
   release-github:
     name: Release on GitHub
@@ -242,10 +227,10 @@ jobs:
 
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Upload artifacts to GitHub Release
-        uses: softprops/action-gh-release@59c3b4891632ff9a897f99a91d7bc557467a3a22
+        uses: softprops/action-gh-release@1e07f4398721186383de40550babbdf2b84acfc5
         with:
           fail_on_unmatched_files: true
           files: |
@@ -268,7 +253,7 @@ jobs:
 
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Install packagecloud.io CLI
         run: sudo gem install package_cloud
@@ -291,7 +276,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install required packages
         run: pacman -Syu pacman-contrib pacman namcap sudo --noconfirm --needed
@@ -319,7 +304,7 @@ jobs:
           (cd native/packages/aur/firefox-pwa && namcap -i PKGBUILD)
 
       - name: Release firefox-pwa package
-        uses: KSXGitHub/github-actions-deploy-aur@164fc9efce4e3d5031705e2e3be445ba16c82fe7
+        uses: KSXGitHub/github-actions-deploy-aur@58b29e711bd5cfb5107f38fa91ffe9a3ae570586
         with:
           pkgname: firefox-pwa
           pkgbuild: ./native/packages/aur/firefox-pwa/PKGBUILD
@@ -331,7 +316,7 @@ jobs:
           ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
 
       - name: Release firefox-pwa-bin package
-        uses: KSXGitHub/github-actions-deploy-aur@164fc9efce4e3d5031705e2e3be445ba16c82fe7
+        uses: KSXGitHub/github-actions-deploy-aur@58b29e711bd5cfb5107f38fa91ffe9a3ae570586
         with:
           pkgname: firefox-pwa-bin
           pkgbuild: ./native/packages/aur/firefox-pwa-bin/PKGBUILD
@@ -377,10 +362,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
 
       - name: Calculate version and installer checksums
         run: |

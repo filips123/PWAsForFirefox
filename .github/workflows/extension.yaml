@@ -22,10 +22,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Configure cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.cache/yarn
@@ -35,9 +35,9 @@ jobs:
           restore-keys: ${{ runner.os }}-yarn-
 
       - name: Install Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
@@ -51,10 +51,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Configure cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.cache/yarn
@@ -64,11 +64,14 @@ jobs:
           restore-keys: ${{ runner.os }}-yarn-
 
       - name: Install Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
 
-      - name: Set version
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Set the version
         run: |
           if [[ $GITHUB_REF == refs/tags/v* ]]
           then
@@ -77,18 +80,15 @@ jobs:
             sed -i "s/\"version\": \"0.0.0\"/\"version\": \"$VERSION\"/g" src/manifest.json
           fi
 
-      - name: Install dependencies
-        run: yarn install
-
       - name: Build the project
         run: yarn build
 
       - name: Upload artifacts
         if: success() || failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: extension/dist/*.zip
 
   # Add auto-publishing to AMO once web-ext officially supports and recommends that
   # This also includes uploading source code because it is needed for built/bundled extensions
-  # See: https://github.com/mozilla/web-ext/issues/804
+  # See: https://github.com/mozilla/web-ext/issues/2451
