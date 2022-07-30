@@ -113,34 +113,30 @@ impl ProjectDirs {
 
         // On Windows, executables and system data are in the same directory
         // We can just obtain it once, store it, and re-use it for both directories
-        // Variable needs to be prefixed with `_` so clippy does not complain on other OSes
-        let _install = {
-            cfg_if! {
-                if #[cfg(target_os = "windows")] {
-                    use winreg::{enums::HKEY_LOCAL_MACHINE, enums::HKEY_CURRENT_USER, RegKey};
+        cfg_if! {
+            if #[cfg(target_os = "windows")] {
+                use winreg::{enums::HKEY_LOCAL_MACHINE, enums::HKEY_CURRENT_USER, RegKey};
 
-                    let path = |root: RegKey| -> Result<PathBuf> {
-                        let subkey = root.open_subkey(r"Software\filips\FirefoxPWA").context("Failed to open registry key")?;
-                        let path: String = subkey.get_value("Path").context("Failed to read registry key")?;
-                        Ok(PathBuf::from(path))
-                    };
+                let path = |root: RegKey| -> Result<PathBuf> {
+                    let subkey = root.open_subkey(r"Software\filips\FirefoxPWA").context("Failed to open registry key")?;
+                    let path: String = subkey.get_value("Path").context("Failed to read registry key")?;
+                    Ok(PathBuf::from(path))
+                };
 
-                    // We try to use per-user install if it exists, otherwise per-machine install
-                    // If both keys are absent, something is wrong with the installation
-                    path(RegKey::predef(HKEY_CURRENT_USER))
-                        .or_else(|_| path(RegKey::predef(HKEY_LOCAL_MACHINE)))
-                        .context("Failed to obtain path from registry")?
-
-                }
+                // We try to use per-user install if it exists, otherwise per-machine install
+                // If both keys are absent, something is wrong with the installation
+                let install = path(RegKey::predef(HKEY_CURRENT_USER))
+                    .or_else(|_| path(RegKey::predef(HKEY_LOCAL_MACHINE)))
+                    .context("Failed to obtain path from registry")?;
             }
-        };
+        }
 
         let mut executables = if let Some(envvar) = option_env!("FFPWA_EXECUTABLES") {
             expand_tilde(envvar, base.home_dir())
         } else {
             cfg_if! {
                 if #[cfg(target_os = "windows")] {
-                    _install.clone()
+                    install.clone()
                 } else if #[cfg(target_os = "linux")] {
                     PathBuf::from("/usr/bin")
                 } else if #[cfg(target_os = "macos")] {
@@ -156,7 +152,7 @@ impl ProjectDirs {
         } else {
             cfg_if! {
                 if #[cfg(target_os = "windows")] {
-                    _install
+                    install
                 } else if #[cfg(target_os = "linux")] {
                     PathBuf::from("/usr/share/firefoxpwa")
                 } else if #[cfg(target_os = "macos")] {

@@ -28,6 +28,9 @@ use winreg::RegKey;
 
 #[inline]
 const fn get_download_url() -> &'static str {
+    #[allow(unused_imports)]
+    use const_format::formatcp;
+
     #[allow(dead_code)]
     const VERSION: &str = "2201";
 
@@ -67,13 +70,14 @@ fn run_as_admin<S: AsRef<OsStr>>(cmd: S) -> std::io::Result<ExitStatus> {
 
     unsafe {
         ShellExecuteExW(&mut sei).ok()?;
+        let process = { sei.hProcess };
 
-        if sei.hProcess.is_invalid() {
+        if process.is_invalid() {
             return Err(std::io::Error::last_os_error());
         };
 
-        WaitForSingleObject(sei.hProcess, INFINITE);
-        GetExitCodeProcess(sei.hProcess, &mut code).ok()?;
+        WaitForSingleObject(process, INFINITE);
+        GetExitCodeProcess(process, &mut code).ok()?;
     };
 
     Ok(ExitStatus::from_raw(code))
