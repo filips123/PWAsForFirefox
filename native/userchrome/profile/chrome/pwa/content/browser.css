@@ -59,6 +59,18 @@
     }
   }
 
+  /* Improve icon bar style on macOS */
+
+  @media (-moz-platform: macos) {
+    .site-info {
+      justify-content: center;
+    }
+
+    .titlebar-spacer[type="post-tabs"] {
+      width: 0 !important;
+    }
+  }
+
   /* Hide titlebar when the icon bar is hidden */
 
   #titlebar[autohide] {
