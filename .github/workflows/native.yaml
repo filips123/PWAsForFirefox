@@ -22,6 +22,7 @@ jobs:
     defaults:
       run:
         working-directory: native
+        shell: bash
 
     strategy:
       fail-fast: false
@@ -58,6 +59,7 @@ jobs:
     defaults:
       run:
         working-directory: native
+        shell: bash
 
     steps:
       - name: Checkout repository
@@ -86,6 +88,7 @@ jobs:
     defaults:
       run:
         working-directory: native
+        shell: bash
 
     strategy:
       fail-fast: false
