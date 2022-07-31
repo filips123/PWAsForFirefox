@@ -178,9 +178,9 @@ By default, all web apps will be installed to a common profile with ID `00000000
 
 ### Other
 
-This project provides shell completion files for Bash, Elvish, Fish, PowerShell, and Zsh. On Windows, all completions are automatically installed into the `completions` directory in your chosen installation directory, but you will need to manually include them in your shell. In the DEB package, completions for Bash, Fish, and Zsh are automatically installed into the correct directories for that shells. For other systems or shells, you can find the pre-built completions in build artifacts or release attachments, or build them along with the project (they will be in `target/{PROFILE}/completions`).
+This project provides shell completion files for Bash, Elvish, Fish, PowerShell, and Zsh. On Windows, all completions are installed into the `completions` directory in your chosen installation directory, but you need to manually load them into your shell. When using DEB or RPM packages or installing the package from Homebrew, completions for Bash, Fish, and Zsh are automatically installed into required directories and loaded by shells. For other operating systems or shells, you can find the pre-built completions in build artifacts or release attachments, or build them along with the project (they will be in `target/{PROFILE}/completions`).
 
-You can also check the built-in program help.
+You can also check the built-in program help (`firefoxpwa --help`).
 
 ## Contributing
 

@@ -52,7 +52,7 @@ For detailed and more technical documentation how to set up, use and develop the
 
 * **Using the same installation profile for PWAs and normal browsing.** This could make the main browser installation/profile unstable if things break. It would also prevent customizing the PWA profile to work better as a PWA profile, and installing custom addons. If you want to sync data between your main and PWA profile, I recommend using Firefox Account or a third-party sync solution.
 
-* **Running PWAs installed as Windows APPX/MSIX packages or from Microsoft Store.** They will always use Chromium-based Edge that is installed on Windows 10. I'm not sure if it is possible to override this. If it is not too hard and doesn't cause any problems, I may try this in the future.
+* **Running PWAs installed as Windows APPX/MSIX packages or from Microsoft Store.** They will always use Chromium-based Edge that is installed on Windows 10/11. I'm not sure if it is possible to override this. If it is not too hard and doesn't cause any problems, I may try this in the future.
 
 * **Support for Chromium-specific APIs (Filesystem, Bluetooth, NFC, USB...).** This would require forking and directly modifying the Firefox source. Also, I'm not sure if giving websites the same privileges as native apps is the best idea...
 
@@ -64,7 +64,7 @@ These are things that I would like to fix eventually, but will currently stay, e
 
   This only applies to windows opened by PWAs (for example, using `target="_blank"` links or `window.open`), but *not* windows opened by a user with app/context menus, keyboard shortcuts or shift-clicking on links.
 
-  On Windows, this means new windows will use the normal Firefox icon and probably merge with the normal Firefox shortcut in the taskbar. On Linux and macOS, this won't be so noticeable due to other issues. It will also cause them to lose functionality of changing window colors and will always have an address bar displayed.
+  On Windows, this means new windows will use the normal Firefox icon and probably merge with the normal Firefox shortcut in the taskbar. On Linux and macOS, this won't be so noticeable due to other issues. It will also cause them to lose the functionality of changing window colors and will always have an address bar displayed.
 
   This could be fixed if there is an easy way to intercept the opening of every new window, and pass it `window.gFFPWASiteConfig` from the original window just after it is created. I implemented this for some windows (mainly those opened by users), but don't know how to do it for all windows.
 
@@ -78,9 +78,9 @@ These are things that I would like to fix eventually, but will currently stay, e
 
   * **Linux:**
 
-    This cannot be fixed easily. The native part of the project currently launches Firefox with the `--class` argument, which should set the `WM_CLASS` property of the window to the PWA ID. However, because all Firefox processes in the same profile are connected together, all windows have WM_CLASS of the first PWA. Fixing this would probably require modifying Firefox C++ code. Check [this comment](https://github.com/filips123/PWAsForFirefox/issues/33#issuecomment-887382593) and related discussions for ideas and possible solutions to fix this.
+    This cannot be fixed easily. The native part of the project currently launches Firefox with the `--class` and `--name` arguments, which should set the `WM_CLASS` property of the window to the web app ID. However, because all Firefox processes in the same profile are connected together, all windows have WM_CLASS of the first web app. Fixing this would probably require modifying Firefox C++ code. Check [this comment](https://github.com/filips123/PWAsForFirefox/issues/33#issuecomment-887382593) and related discussions for ideas and possible solutions to fix this.
 
-    This problem is tracked as issues [#80](https://github.com/filips123/PWAsForFirefox/issues/80) and [bug 1747722](https://bugzilla.mozilla.org/show_bug.cgi?id=1747722) on Bugzilla.
+    This problem is tracked as issue [#80](https://github.com/filips123/PWAsForFirefox/issues/80) and [bug 1747722](https://bugzilla.mozilla.org/show_bug.cgi?id=1747722) on Bugzilla.
 
   * **macOS:**
 
