@@ -12,13 +12,16 @@ on:
 
 defaults:
   run:
-    working-directory: native
     shell: bash
 
 jobs:
   clippy:
     name: Clippy (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+
+    defaults:
+      run:
+        working-directory: native
 
     strategy:
       fail-fast: false
@@ -52,6 +55,10 @@ jobs:
     name: Rustfmt
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: native
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -75,6 +82,10 @@ jobs:
   build:
     name: Build (${{ matrix.target }})
     runs-on: ${{ matrix.os }}
+
+    defaults:
+      run:
+        working-directory: native
 
     strategy:
       fail-fast: false
