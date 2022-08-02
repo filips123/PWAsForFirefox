@@ -77,6 +77,10 @@
     appearance: initial !important;
   }
 
+  #TabsToolbar[collapsed="true"] {
+    visibility: collapse;
+  }
+
   /* Hide tabs and tab-related elements when tabs mode is disabled */
 
   html:not([tabsmode]) #new-tab-button,
