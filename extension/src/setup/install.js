@@ -61,7 +61,7 @@ async function checkNativeConnection () {
 
     // Check if versions are compatible (have the same major component)
     if (versionExtension.split('.', 1)[0] === versionNative.split('.', 1)[0]) {
-      document.getElementById('license-agreement-view').classList.add('d-none')
+      document.getElementById('connector-installation-view').classList.add('d-none')
       await checkRuntimeInstallation(response.data)
     } else {
       document.getElementById('connector-native-error').classList.add('d-none')
