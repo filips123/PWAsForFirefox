@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 use std::convert::TryInto;
-use std::fs::{create_dir_all, remove_dir_all, rename, write, File, Permissions};
+use std::fs::{create_dir_all, File, Permissions, remove_dir_all, rename, write};
 use std::io::{BufWriter, Read, Write};
 use std::os::unix::fs::PermissionsExt;
 use std::path::Path;
@@ -8,18 +8,18 @@ use std::process::{Child, Command, Stdio};
 
 use anyhow::{bail, Context, Result};
 use icns::{IconFamily, IconType, Image, PixelFormat};
-use image::imageops::resize;
-use image::imageops::FilterType::Gaussian;
 use image::{DynamicImage, Rgba, RgbaImage};
+use image::imageops::FilterType::Gaussian;
+use image::imageops::resize;
 use log::{debug, error, warn};
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
 
 use crate::components::site::Site;
+use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 use crate::integrations::categories::MACOS_CATEGORIES;
 use crate::integrations::utils::{download_icon, generate_icon, sanitize_name};
-use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
 const CONVERT_ICON_URL_ERROR: &str = "Failed to convert icon URL";
@@ -361,11 +361,13 @@ fn mask_icon(icon: &mut RgbaImage, maskable: bool) -> Result<()> {
 fn verify_app_is_pwa(app_bundle: &Path, app_id: &str) -> Result<()> {
     let mut pkg_info = File::open(app_bundle.join("Contents/PkgInfo"))?;
     let mut pkg_info_content = String::new();
-
     pkg_info.read_to_string(&mut pkg_info_content)?;
-    debug!("{} should contain {}", pkg_info_content, app_id);
 
-    if pkg_info_content != format!("APPL{}", app_id) {
+    let pkg_info_id = format!("APPL{}", app_id);
+    debug!("Verifying if a bundle is a web app");
+    debug!("'{}' should be '{}'", pkg_info_content, pkg_info_id);
+
+    if pkg_info_content != pkg_info_id {
         let bundle_name = app_bundle
             .file_name()
             .context(APP_BUNDLE_NAME_ERROR)?
@@ -533,7 +535,7 @@ fn remove_app_bundle(args: &IntegrationUninstallArgs) -> Result<()> {
         .join("Applications")
         .join(format!("{}.app", sanitize_name(&args.site.name(), &ulid)));
 
-    verify_app_is_pwa(&bundle, &ulid)?;
+    verify_app_is_pwa(&bundle, &format!("FFPWA-{ulid}"))?;
     let _ = remove_dir_all(bundle);
 
     Ok(())
@@ -559,7 +561,6 @@ pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
 pub fn launch(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Child> {
     let name = site.name();
 
-    let app_id = format!("FFPWA-{}", site.ulid.to_string());
     let app_path = directories::BaseDirs::new()
         .context(BASE_DIRECTORIES_ERROR)?
         .home_dir()
@@ -567,7 +568,7 @@ pub fn launch(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Ch
 
     debug!("Verifying that {} is a PWA app bundle", app_path.to_str().unwrap());
     match app_path.exists() {
-        true => verify_app_is_pwa(&app_path, &app_id)?,
+        true => verify_app_is_pwa(&app_path, &format!("FFPWA-{}", site.ulid))?,
         false => bail!("Application bundle does not exist"),
     }
 
