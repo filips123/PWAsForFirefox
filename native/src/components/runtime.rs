@@ -276,8 +276,15 @@ impl Runtime {
                     .output()
                     .context("Failed to remove code signature from modified runtime")?;
 
-                // We removed the signature and by removing the quarantine attribute
-                // we can skip the signature check
+                // Just removing the signature no longer works on recent versions of macOS (~ 12).
+                // We therefore have to perform ad-hoc signing to create an acceptable signature.
+                Command::new("codesign")
+                    .args(["-s", "-", bundle.to_str().unwrap()])
+                    .output()
+                    .context("Failed to adhoc code sign modified runtime")?;
+
+                // We messed with the signature and by removing the quarantine attribute
+                // we can avoid complaints from macOS.
                 Command::new("xattr")
                     .args(["-rd", "com.apple.quarantine", bundle.to_str().unwrap()])
                     .output()
