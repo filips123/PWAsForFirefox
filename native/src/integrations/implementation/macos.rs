@@ -1,6 +1,6 @@
 use std::cmp::Ordering;
 use std::convert::TryInto;
-use std::fs::{create_dir_all, File, Permissions, remove_dir_all, rename, write};
+use std::fs::{create_dir_all, remove_dir_all, rename, write, File, Permissions};
 use std::io::{BufWriter, Read, Write};
 use std::os::unix::fs::PermissionsExt;
 use std::path::Path;
@@ -8,18 +8,18 @@ use std::process::{Child, Command, Stdio};
 
 use anyhow::{bail, Context, Result};
 use icns::{IconFamily, IconType, Image, PixelFormat};
-use image::{DynamicImage, Rgba, RgbaImage};
-use image::imageops::FilterType::Gaussian;
 use image::imageops::resize;
+use image::imageops::FilterType::Gaussian;
+use image::{DynamicImage, Rgba, RgbaImage};
 use log::{debug, error, warn};
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
 
 use crate::components::site::Site;
-use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 use crate::integrations::categories::MACOS_CATEGORIES;
 use crate::integrations::utils::{download_icon, generate_icon, sanitize_name};
+use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
 const CONVERT_ICON_URL_ERROR: &str = "Failed to convert icon URL";
