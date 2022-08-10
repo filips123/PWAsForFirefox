@@ -41,7 +41,7 @@ async function prepareInstallInstructions () {
       case 'x86-32':
         return 'i686'
       case 'x86-64':
-        return 'x84_64'
+        return 'x86_64'
       case 'arm':
         return 'armv7hl'
       case 'arm64':
