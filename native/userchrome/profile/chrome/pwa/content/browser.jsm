@@ -136,15 +136,25 @@ class PwaBrowser {
   }
 
   createAddressInput () {
-    // Create custom URL input method via shortcut
+    // Create a custom URL input method via shortcut
+    function addressInputHandle () {
+      const url = prompt('Enter site address');
+      if (url) window.openTrustedLinkIn(url, 'current');
+    }
+
+    // Handle opening with F6
     document.addEventListener('keydown', (event) => {
       if (event.key === 'F6') {
         event.preventDefault();
-
-        const url = prompt('Enter site address');
-        if (url) window.openTrustedLinkIn(url, 'current');
+        addressInputHandle();
       }
     }, true);
+
+    // Handle opening with Ctrl+L and Alt+D
+    document.getElementById('Browser:OpenLocation').setAttribute(
+      'oncommand',
+      '(' + addressInputHandle.toString() + ')()'
+    );
   }
 
   createNotificationAnchor () {
