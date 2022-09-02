@@ -1595,6 +1595,12 @@ class PwaBrowser {
     hookFunction(BrowserActionBase.prototype, 'getDefaultArea', null, function () {
       return this.globals.default_area === 'navbar' ? 'tabstrip' : this.globals.default_area;
     })
+
+    // Make Firefox Profiler button go to the tab strip area by default
+    const { ProfilerMenuButton } = ChromeUtils.import('resource://devtools/client/performance-new/popup/menu-button.jsm.js');
+    ProfilerMenuButton.addToNavbar = function (document) {
+      CustomizableUI.addWidgetToArea('profiler-button', CustomizableUI.AREA_TABSTRIP);
+    }
   }
 
   configureSettings () {
