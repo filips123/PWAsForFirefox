@@ -461,6 +461,14 @@ fn create_app_bundle(args: &IntegrationInstallArgs) -> Result<()> {
     info_plist_dict.insert("CFBundleIconFile".into(), "app.icns".into());
     info_plist_dict.insert("NSHighResolutionCapable".into(), true.into());
     info_plist_dict.insert("CFBundleURLTypes".into(), protocols.into());
+    info_plist_dict.insert(
+        "NSCameraUsageDescription".into(),
+        "Only sites you allow within Firefox will be able to use the camera.".into(),
+    );
+    info_plist_dict.insert(
+        "NSMicrophoneUsageDescription".into(),
+        "Only sites you allow within Firefox will be able to use the microphone.".into(),
+    );
     let info_plist_value: plist::Value = info_plist_dict.into();
 
     plist::to_file_xml(info_plist, &info_plist_value).context(WRITE_APPLICATION_FILE_ERROR)?;
