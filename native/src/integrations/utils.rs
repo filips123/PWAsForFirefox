@@ -26,7 +26,7 @@ use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
 #[cfg(any(target_os = "windows", target_os = "macos"))]
 pub fn sanitize_name<'a>(name: &'a str, id: &'a str) -> String {
     let mut sanitized: String = name.chars().take(60).collect();
-    sanitized = sanitized.trim_start_matches(&[' ', '.']).into();
+    sanitized = sanitized.trim_start_matches([' ', '.']).into();
     sanitized = sanitize_filename::sanitize(sanitized);
 
     if sanitized.is_empty() {
@@ -242,7 +242,7 @@ fn process_icon(icon: &IconResource, size: &ImageSize, path: &Path) -> Result<()
             .context("Failed to parse SVG icon")?;
         resvg::render(&rtree, usvg::FitTo::Size(*size.0, *size.1), transform, pixmap.as_mut())
             .context("Failed to render SVG icon")?;
-        image::save_buffer(&path, pixmap.data(), *size.0, *size.1, image::ColorType::Rgba8)
+        image::save_buffer(path, pixmap.data(), *size.0, *size.1, image::ColorType::Rgba8)
             .context("Failed to save SVG icon")?;
 
         return Ok(());
@@ -252,7 +252,7 @@ fn process_icon(icon: &IconResource, size: &ImageSize, path: &Path) -> Result<()
     debug!("Processing as raster icon");
     let mut img = image::load_from_memory(&content).context("Failed to load icon")?;
     img = img.resize(*size.0, *size.1, Gaussian);
-    img.save(&path).context("Failed to save icon")?;
+    img.save(path).context("Failed to save icon")?;
 
     Ok(())
 }

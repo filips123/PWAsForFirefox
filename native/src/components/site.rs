@@ -35,6 +35,7 @@ const APP_USER_AGENT: &str = concat!(
 /// This struct also contains few required configuration for
 /// the web app, such as a document and manifest URL.
 #[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
+#[allow(clippy::derive_partial_eq_without_eq)]
 pub struct SiteConfig {
     /// A custom web app name.
     pub name: Option<String>,

@@ -235,7 +235,7 @@ impl Runtime {
         options.overwrite = true;
 
         info!("Patching the runtime");
-        copy(source, &target, &options).context("Failed to patch the runtime")?;
+        copy(source, target, &options).context("Failed to patch the runtime")?;
 
         cfg_if! {
             if #[cfg(target_os = "macos")] {
