@@ -68,11 +68,11 @@ class PwaBrowser {
     document.getElementById('TabsToolbar-customization-target').append(siteInfo);
 
     // Set initial favicon and title to the site's static info
-    const siteIcons = buildIconList(window.gFFPWASiteConfig.manifest.icons);
+    const siteIcons = buildIconList(window.gFFPWASiteConfig?.manifest.icons || []);
     const siteIcon = siteIcons.find(icon => icon.size >= 32) || siteIcons[siteIcons.length - 1];
     if (siteIcon) tabIconImage.setAttribute('src', siteIcon.icon.src);
 
-    const siteName = window.gFFPWASiteConfig.config.name || window.gFFPWASiteConfig.manifest.name || window.gFFPWASiteConfig.manifest.short_name
+    const siteName = window.gFFPWASiteConfig?.config.name || window.gFFPWASiteConfig?.manifest.name || window.gFFPWASiteConfig?.manifest.short_name
     tabLabel.replaceChildren(siteName);
     document.title = siteName;
 
