@@ -406,7 +406,8 @@ class PwaBrowser {
         !xPref.get('extensions.webextensions.restrictedDomains').split(',').includes(uri.host)
       ) {
         MailIntegration._launchExternalUrl(makeURI(uri.spec));
-        window.close();
+        if (!xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) window.close();
+        else window.gBrowser.removeTab(window.gBrowser.selectedTab);
         return;
       }
 
