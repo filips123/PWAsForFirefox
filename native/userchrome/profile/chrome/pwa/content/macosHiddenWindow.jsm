@@ -1,6 +1,5 @@
 function OpenPwaShortcut(url) {
-  const window = Services.wm.getMostRecentWindow('navigator:browser');
-  window.switchToTabHavingURI(url, true);
+  switchToTabHavingURI(url, true);
 }
 
 class MacOSHiddenWindow {
