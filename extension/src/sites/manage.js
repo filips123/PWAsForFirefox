@@ -370,6 +370,9 @@ async function createProfileList () {
     document.getElementById('profile-name').value = ''
     document.getElementById('profile-description').value = ''
 
+    // Hide profile ULID box
+    document.getElementById('profile-ulid-div').classList.add('d-none')
+
     // Set form to be validated after all inputs are filled with default values and enable submit button
     form.classList.add('was-validated')
     submit.disabled = false
@@ -454,6 +457,9 @@ async function createProfileList () {
       document.getElementById('profile-name').value = profile.name || ''
       document.getElementById('profile-description').value = profile.description || ''
       document.getElementById('profile-ulid').value = profile.ulid
+
+      // Show profile ULID box
+      document.getElementById('profile-ulid-div').classList.remove('d-none')
 
       // Set form to be validated after all inputs are filled with default values and enable submit button
       form.classList.add('was-validated')

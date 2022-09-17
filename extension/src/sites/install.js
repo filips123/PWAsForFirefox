@@ -115,6 +115,10 @@ async function initializeForm () {
   // Add an option to create a new profile to the select input
   profilesElement.add(new Option('Create a new profile', 'create-new-profile'))
 
+  // Add an option to automatically create a new profile to the select input
+  const autoNewProfile = platform.os === 'linux' || platform.os === 'mac'
+  profilesElement.add(new Option('Automatically create a new profile', 'auto-create-new-profile', autoNewProfile, autoNewProfile))
+
   // Handle creating a new profile
   let lastProfileSelection = profilesElement.value
   profilesElement.addEventListener('change', function (event) {
@@ -160,8 +164,8 @@ async function initializeForm () {
 
     // Create a new option in the select input and select it
     const id = response.data
-    profilesElement.add(new Option(name ?? id, id, true, true), profilesElement.length - 1)
-    profilesElement.value = profilesElement.length - 2
+    profilesElement.add(new Option(name ?? id, id, true, true), profilesElement.length - 2)
+    profilesElement.value = profilesElement.length - 3
 
     // Hide the modal
     Modal.getOrCreateInstance(document.getElementById('new-profile-modal'), { backdrop: 'static', keyboard: false }).hide()
@@ -271,7 +275,7 @@ async function initializeForm () {
 
     // Get simple site data
     const startUrl = document.getElementById('web-app-start-url').value || null
-    const profile = document.getElementById('web-app-profile').value || null
+    let profile = document.getElementById('web-app-profile').value || null
     const name = document.getElementById('web-app-name').value || null
     const description = document.getElementById('web-app-description').value || null
 
@@ -296,6 +300,17 @@ async function initializeForm () {
 
       manifestUrl = 'data:application/manifest+json;base64,'
       manifestUrl += fromByteArray(new TextEncoder().encode(JSON.stringify(manifest)))
+    }
+
+    // Create a new profile if requested by the user
+    if (profile === 'auto-create-new-profile') {
+      const profileName = name || manifest.name || manifest.short_name || new URL(manifest.scope).host
+      const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'CreateProfile', params: { name: profileName } })
+
+      if (response.type === 'Error') throw new Error(response.data)
+      if (response.type !== 'ProfileCreated') throw new Error(`Received invalid response type: ${response.type}`)
+
+      profile = response.data
     }
 
     // Tell the native connector to install the site
