@@ -25,6 +25,7 @@ class PwaPreferences {
       { id: ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE, type: 'bool' },
       { id: ChromeLoader.PREF_DYNAMIC_WINDOW_ICON, type: 'bool' },
       { id: ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, type: 'bool' },
+      { id: ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW, type: 'bool' },
       { id: ChromeLoader.PREF_ENABLE_TABS_MODE, type: 'bool' },
       { id: ChromeLoader.PREF_ALLOWED_DOMAINS, type: 'wstring' },
     ]);
@@ -53,6 +54,7 @@ class PwaPreferences {
    <vbox id="uxBox" style="padding-top: 1rem;">
     <checkbox preference="${ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER}" label="Open out-of-scope URLs in a default browser (can break some web apps)" />
     <checkbox preference="${ChromeLoader.PREF_ENABLE_TABS_MODE}" label="Show browser tabs and enable using multiple tabs of the same web app" />
+    <checkbox id="openInExistingWindowCheckbox" preference="${ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW}" label="Open a web app in an existing window of that web app" />
   </vbox>
 
   <vbox id="linksTargetBox" style="padding-top: 1rem;">
@@ -111,6 +113,7 @@ class PwaPreferences {
   handleTabsModePreferenceSwitch (onLoad = false) {
     function setTabsSectionDisabled(disabled) {
       document.querySelectorAll('#mainPrefPane > groupbox:nth-child(8) > *').forEach(elem => elem.disabled = disabled)
+      document.querySelector('#openInExistingWindowCheckbox').disabled = disabled
     }
 
     if (xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) {
@@ -123,6 +126,7 @@ class PwaPreferences {
       setTabsSectionDisabled(true)
       setTimeout(() => setTabsSectionDisabled(true), 100);
       if (!onLoad) xPref.set(ChromeLoader.PREF_LINKS_TARGET, 1);
+      xPref.set(ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW, false);
     }
   }
 }

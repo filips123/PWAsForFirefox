@@ -63,6 +63,16 @@ function launchSite (siteUrl, siteConfig, isStartup) {
     null,
     gSystemPrincipal,
   ];
+  // Open a web app in an existing window of that web app (if enabled)
+  // We have to specify pref directly as we cannot access ChromeLoader yet
+  if (Services.prefs.getBoolPref('firefoxpwa.openInExistingWindow', false)) {
+    for (const win of Services.wm.getEnumerator('navigator:browser')) {
+      if (win.gFFPWASiteConfig?.ulid === siteConfig.ulid) {
+        win.openTrustedLinkIn(siteUrl, 'tab', {});
+        return win;
+      }
+    }
+  }
 
   // Try to use the `navigator:blank` window opened by `BrowserGlue.jsm` during early startup
   let win = Services.wm.getMostRecentWindow('navigator:blank');

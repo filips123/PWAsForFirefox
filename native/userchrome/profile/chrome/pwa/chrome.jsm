@@ -36,6 +36,7 @@ class ChromeLoader {
   static PREF_DYNAMIC_WINDOW_ICON = 'firefoxpwa.dynamicWindowIcon';
   static PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS = 'firefoxpwa.alwaysUseNativeWindowControls';
   static PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER = 'firefoxpwa.openOutOfScopeInDefaultBrowser';
+  static PREF_OPEN_IN_EXISTING_WINDOW = 'firefoxpwa.openInExistingWindow';
   static PREF_ENABLE_TABS_MODE = 'firefoxpwa.enableTabsMode';
   static PREF_ENABLE_HIDING_ICON_BAR = 'firefoxpwa.enableHidingIconBar';
   static PREF_ALLOWED_DOMAINS = 'firefoxpwa.allowedDomains';

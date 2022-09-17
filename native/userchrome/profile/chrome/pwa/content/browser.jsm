@@ -1668,6 +1668,10 @@ class PwaBrowser {
     // Determines whether out of scope URLs should be opened in a default browser
     xPref.set(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, false, true);
 
+    // Determines whether to open a web app in an existing window of that web app
+    // Should only be used when the tabs mode is enabled
+    xPref.set(ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW, false, true);
+
     // Determines whether the tabs mode is enabled
     xPref.set(ChromeLoader.PREF_ENABLE_TABS_MODE, false, true);
 
