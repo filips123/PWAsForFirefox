@@ -1576,6 +1576,7 @@ class PwaBrowser {
     this.configureLayout();
     this.configureWidgets();
     this.configureSettings();
+    this.disableOnboarding();
   }
 
   configureLayout () {
@@ -1624,7 +1625,11 @@ class PwaBrowser {
     xPref.set('browser.tabs.warnOnClose', false, true);
     xPref.set('browser.sessionstore.resume_from_crash', false, true);
     xPref.set('browser.shell.checkDefaultBrowser', false, true);
+    xPref.set('browser.startup.upgradeDialog.enabled', false, true);
+    xPref.set('browser.aboutwelcome.enabled', false, true);
     xPref.set('browser.messaging-system.whatsNewPanel.enabled', false, true);
+    xPref.set('browser.privateWindowSeparation.enabled', false, true);
+    xPref.set('browser.privacySegmentation.createdShortcut', true, true);
     xPref.set('browser.uidensity', 1, true);
     xPref.set('browser.link.open_newwindow', 1, true);
     xPref.set('datareporting.policy.firstRunURL', '', true);
@@ -1685,6 +1690,16 @@ class PwaBrowser {
     // Determines which domains should always be allowed to open in the PWA browser
     // This is a comma-separated list of domains
     xPref.set(ChromeLoader.PREF_ALLOWED_DOMAINS, '', true);
+  }
+
+  disableOnboarding () {
+    const { OnboardingMessageProvider } = ChromeUtils.import('resource://activity-stream/lib/OnboardingMessageProvider.jsm');
+    OnboardingMessageProvider.getMessages = async () => [];
+    OnboardingMessageProvider.getUntranslatedMessages = async () => [];
+    OnboardingMessageProvider.getUntranslatedMessages = async () => null;
+
+    const { BrowserGlue } = ChromeUtils.import('resource:///modules/BrowserGlue.jsm');
+    BrowserGlue.prototype._maybeShowDefaultBrowserPrompt = async () => null;
   }
 
   //////////////////////////////
