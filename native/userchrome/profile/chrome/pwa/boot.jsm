@@ -63,6 +63,7 @@ function launchSite (siteUrl, siteConfig, isStartup) {
     null,
     gSystemPrincipal,
   ];
+
   // Open a web app in an existing window of that web app (if enabled)
   // We have to specify pref directly as we cannot access ChromeLoader yet
   if (Services.prefs.getBoolPref('firefoxpwa.openInExistingWindow', false)) {
@@ -116,6 +117,9 @@ function launchSite (siteUrl, siteConfig, isStartup) {
   // Return window
   return win;
 }
+
+// Properly disable Firefox Session Restore
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.sessionstore.resume_from_crash', false);
 
 // Override command line helper to intercept PWAsForFirefox arguments and start loading the site
 const { nsDefaultCommandLineHandler } = Cu.import('resource:///modules/BrowserContentHandler.jsm');
