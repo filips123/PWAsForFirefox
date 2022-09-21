@@ -10,12 +10,12 @@ XPCOMUtils.defineLazyServiceGetter(this, 'WindowsUIUtils', '@mozilla.org/windows
 
 class PwaBrowser {
   constructor () {
-    this.prepareLayout();
-
     if (!ChromeLoader.INITIALIZED_BROWSER) {
       this.prepareWidgets();
       this.configureAll();
     }
+
+    this.prepareLayout();
   }
 
   //////////////////////////////
@@ -41,6 +41,7 @@ class PwaBrowser {
     setTimeout(() => { this.handleDynamicThemeColor() });
     setTimeout(() => { this.renameOpenImageAction() });
     setTimeout(() => { this.disableNewTabShortcuts() });
+    this.renameHomepageWidget();
   }
 
   supportSmallWindowSizes () {
@@ -549,12 +550,20 @@ class PwaBrowser {
     const tabsModeEnabled = xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE);
     document.documentElement.toggleAttribute('tabsmode', tabsModeEnabled);
 
-    // Set new tab URL to site start URL
-    let userStartUrl = window.gFFPWASiteConfig.config.start_url;
-    let manifestStartUrl = window.gFFPWASiteConfig.manifest.start_url;
-    window.AboutNewTab.newTabURL = userStartUrl ? userStartUrl : manifestStartUrl;
+    // Set the new tab URL to a site start URL
+    Object.defineProperty(window.AboutNewTab, '_newTabURL', {
+      get () {
+        const win = Services.wm.getMostRecentWindow('navigator:browser');
+        const userStartUrl = win.gFFPWASiteConfig.config.start_url;
+        const manifestStartUrl = win.gFFPWASiteConfig.manifest.start_url;
+        return userStartUrl ? userStartUrl : manifestStartUrl;
+      }
+    });
 
-    // Do not treat new tab URL as an initial and a blank page
+    // Make sure Firefox knows the new tab URL has been overridden
+    window.AboutNewTab._newTabURLOverridden = true;
+
+    // Do not treat the new tab URL as an initial and a blank page
     // This is needed to prevent breaking start URL identity widget and URL display
     window.isInitialPage = function (url) {
       if (!(url instanceof Ci.nsIURI)) {
@@ -701,6 +710,14 @@ class PwaBrowser {
       document.getElementById('cmd_newNavigatorTab').remove();
       document.getElementById('cmd_newNavigatorTabNoEvent').remove();
     }
+  }
+
+  renameHomepageWidget () {
+    hookFunction(window, 'onload', null, () => {
+      try {
+        this.modifyWidget('home-button', { tooltiptext: 'App Start Page' });
+      } catch (_) {}
+    });
   }
 
   //////////////////////////////
@@ -1560,12 +1577,6 @@ class PwaBrowser {
       let manifestStartUrl = window.gFFPWASiteConfig.manifest.start_url;
       return userStartUrl ? userStartUrl : manifestStartUrl;
     };
-
-    hookFunction(window, 'onload', null, () => {
-      try {
-        this.modifyWidget('home-button', { tooltiptext: 'App Start Page' });
-      } catch (_) {}
-    });
   }
 
   //////////////////////////////
