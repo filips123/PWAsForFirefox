@@ -1613,7 +1613,7 @@ class PwaBrowser {
     // this.modifyWidget('back-button', { removable: true });
     // this.modifyWidget('forward-button', { removable: true });
 
-    // Make extensions widgets go to tab strip area by default
+    // Make extensions widgets go to the tab strip area by default
     const { BrowserActionBase } = ChromeUtils.import('resource://gre/modules/ExtensionActions.jsm');
     hookFunction(BrowserActionBase.prototype, 'getDefaultArea', null, function () {
       return this.globals.default_area === 'navbar' ? 'tabstrip' : this.globals.default_area;
@@ -1623,6 +1623,42 @@ class PwaBrowser {
     const { ProfilerMenuButton } = ChromeUtils.import('resource://devtools/client/performance-new/popup/menu-button.jsm.js');
     ProfilerMenuButton.addToNavbar = function (document) {
       CustomizableUI.addWidgetToArea('profiler-button', CustomizableUI.AREA_TABSTRIP);
+    }
+
+    // Make "Unpin from Overflow Menu" add widgets to the tab strip area
+    // This function is mostly copied from the Firefox code, licensed under MPL 2.0
+    // Original source: https://github.com/mozilla/gecko-dev/blob/6e8aa696b3484a183126aeb0ea2fdf95ad64461e/browser/components/customizableui/CustomizeMode.jsm#L687-L728
+    gCustomizeMode.addToToolbar = async function (node, reason) {
+      node = this._getCustomizableChildForNode(node);
+      if (node.localName === 'toolbarpaletteitem' && node.firstElementChild) {
+        node = node.firstElementChild;
+      }
+
+      let widgetAnimationPromise = this._promiseWidgetAnimationOut(node);
+      let animationNode = widgetAnimationPromise ? await widgetAnimationPromise : undefined;
+
+      let widgetToAdd = node.id;
+      if (CustomizableUI.isSpecialWidget(widgetToAdd) && node.closest('#customization-palette')) {
+        widgetToAdd = widgetToAdd.match(/^customizableui-special-(spring|spacer|separator)/)[1];
+      }
+
+      // These two lines have been changed so widget gets added to the tabs strip
+      CustomizableUI.addWidgetToArea(widgetToAdd, CustomizableUI.AREA_TABSTRIP);
+      lazy.BrowserUsageTelemetry.recordWidgetChange(widgetToAdd, CustomizableUI.AREA_TABSTRIP);
+
+      if (!this._customizing) {
+        CustomizableUI.dispatchToolboxEvent('customizationchange');
+      }
+
+      // If the user explicitly moves this item, turn off autohide
+      if (node.id === 'downloads-button') {
+        Services.prefs.setBoolPref(kDownloadAutoHidePref, false);
+        if (this._customizing) this._showDownloadsAutoHidePanel();
+      }
+
+      if (animationNode) {
+        animationNode.classList.remove('animate-out');
+      }
     }
   }
 
