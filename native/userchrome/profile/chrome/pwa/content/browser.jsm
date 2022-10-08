@@ -705,10 +705,11 @@ class PwaBrowser {
   }
 
   disableNewTabShortcuts () {
-    // New tab shortcuts are useless when tabs mode is disabled
+    // New tab and close tab shortcuts are useless when tabs mode is disabled
     if (!xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) {
       document.getElementById('cmd_newNavigatorTab').remove();
       document.getElementById('cmd_newNavigatorTabNoEvent').remove();
+      document.getElementById('key_close').remove();
     }
   }
 
