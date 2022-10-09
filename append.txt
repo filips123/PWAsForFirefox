@@ -1,0 +1,6 @@
+# Add some features for other browsers also 
+# So that chrome user can also use this extension
+# it is great that you created this extension 
+# but there is some problem But i am unable to sort out 
+# but i can tell you that you can made some changes in Workflows folder by adding a program 
+# i will send you the programs sortly when i get the solution 
