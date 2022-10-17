@@ -28,11 +28,15 @@ class PwaPreferences {
       { id: ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW, type: 'bool' },
       { id: ChromeLoader.PREF_ENABLE_TABS_MODE, type: 'bool' },
       { id: ChromeLoader.PREF_ALLOWED_DOMAINS, type: 'wstring' },
+      { id: ChromeLoader.PREF_SHORTCUTS_CLOSE_TAB, type: 'bool' },
+      { id: ChromeLoader.PREF_SHORTCUTS_CLOSE_WINDOW, type: 'bool' },
+      { id: ChromeLoader.PREF_SHORTCUTS_QUIT_APPLICATION, type: 'bool' },
+      { id: ChromeLoader.PREF_SHORTCUTS_PRIVATE_BROWSING, type: 'bool' },
     ]);
   }
 
   addPreferenceElements () {
-    const group = MozXULElement.parseXULToFragment(`
+    const firefoxpwaGroup = MozXULElement.parseXULToFragment(`
 <groupbox id="firefoxpwaGroup" data-category="paneGeneral">
   <label>
     <html:h2>Progressive Web Apps</html:h2>
@@ -93,11 +97,28 @@ class PwaPreferences {
     </vbox>
   </vbox>
 </groupbox>
-`);
+`).firstChild;
+
+    const shortcutsGroup = MozXULElement.parseXULToFragment(`
+<groupbox id="shortcutsGroup" data-category="paneGeneral">
+  <label>
+    <html:h2>Keyboard Shortcuts</html:h2>
+    <description>You may need to restart the browser to apply these settings</description>
+  </label>
+  <vbox id="colorsBox" style="padding-top: 1rem;">
+    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_CLOSE_TAB}" label="Close tab (Ctrl+W)" />
+    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_CLOSE_WINDOW}" label="Close window (Ctrl+Shift+W)" />
+    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_QUIT_APPLICATION}" label="Quit application (Ctrl+Shift+Q)" />
+    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_PRIVATE_BROWSING}" label="Private browsing (Ctrl+Shift+P)" />
+  </vbox>
+</groupbox>
+`).firstChild;
 
     const startupGroup = document.getElementById('startupGroup');
-    if (startupGroup.hidden) group.firstChild.hidden = true;
-    startupGroup.nextElementSibling.after(group.firstChild);
+    if (startupGroup.hidden) firefoxpwaGroup.hidden = true;
+    if (startupGroup.hidden) shortcutsGroup.hidden = true;
+    startupGroup.nextElementSibling.after(firefoxpwaGroup);
+    startupGroup.nextElementSibling.nextElementSibling.after(shortcutsGroup);
   }
 
   handleOutOfScopePreferenceSwitch () {

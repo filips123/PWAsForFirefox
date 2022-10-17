@@ -40,6 +40,10 @@ class ChromeLoader {
   static PREF_ENABLE_TABS_MODE = 'firefoxpwa.enableTabsMode';
   static PREF_ENABLE_HIDING_ICON_BAR = 'firefoxpwa.enableHidingIconBar';
   static PREF_ALLOWED_DOMAINS = 'firefoxpwa.allowedDomains';
+  static PREF_SHORTCUTS_CLOSE_TAB = 'firefoxpwa.shortcuts.closeTab';
+  static PREF_SHORTCUTS_CLOSE_WINDOW = 'firefoxpwa.shortcuts.closeWindow';
+  static PREF_SHORTCUTS_QUIT_APPLICATION = 'firefoxpwa.shortcuts.quitApplication';
+  static PREF_SHORTCUTS_PRIVATE_BROWSING = 'firefoxpwa.shortcuts.privateBrowsing';
 
   static INITIALIZED_BROWSER = false;
   static INITIALIZED_PREFERENCES = false;

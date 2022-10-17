@@ -35,6 +35,7 @@ class PwaBrowser {
     this.handleRegisteringProtocols();
     this.handleOutOfScopeNavigation();
     this.handleOpeningNewWindow();
+    this.handleDisablingShortcuts();
     setTimeout(() => { this.handleHiddenTitlebar() });
     setTimeout(() => { this.handleTabsMode() });
     setTimeout(() => { this.handleLinkTargets() });
@@ -456,6 +457,14 @@ class PwaBrowser {
     });
   }
 
+  handleDisablingShortcuts () {
+    const getPref = (pref) => xPref.get(pref, false, true);
+    if (!getPref(ChromeLoader.PREF_SHORTCUTS_CLOSE_TAB)) document.getElementById('key_close').remove();
+    if (!getPref(ChromeLoader.PREF_SHORTCUTS_CLOSE_WINDOW)) document.getElementById('key_closeWindow').remove();
+    if (!getPref(ChromeLoader.PREF_SHORTCUTS_QUIT_APPLICATION)) document.getElementById('key_quitApplication').remove();
+    if (!getPref(ChromeLoader.PREF_SHORTCUTS_PRIVATE_BROWSING)) document.getElementById('key_privatebrowsing').remove();
+  }
+
   handleHiddenTitlebar () {
     // This can be unstable feature and is only meant for tiling window manager users
     // So it is disabled by default and can be enabled using about:config preference
@@ -705,11 +714,10 @@ class PwaBrowser {
   }
 
   disableNewTabShortcuts () {
-    // New tab and close tab shortcuts are useless when tabs mode is disabled
+    // New tab shortcuts are useless when the tabs mode is disabled
     if (!xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) {
       document.getElementById('cmd_newNavigatorTab').remove();
       document.getElementById('cmd_newNavigatorTabNoEvent').remove();
-      document.getElementById('key_close').remove();
     }
   }
 
@@ -1738,6 +1746,12 @@ class PwaBrowser {
     // Determines which domains should always be allowed to open in the PWA browser
     // This is a comma-separated list of domains
     xPref.set(ChromeLoader.PREF_ALLOWED_DOMAINS, '', true);
+
+    // Determines whether specific shortcuts are enabled or not
+    xPref.set(ChromeLoader.PREF_SHORTCUTS_CLOSE_TAB, true, true);
+    xPref.set(ChromeLoader.PREF_SHORTCUTS_CLOSE_WINDOW, true, true);
+    xPref.set(ChromeLoader.PREF_SHORTCUTS_QUIT_APPLICATION, true, true);
+    xPref.set(ChromeLoader.PREF_SHORTCUTS_PRIVATE_BROWSING, true, true);
   }
 
   disableOnboarding () {
