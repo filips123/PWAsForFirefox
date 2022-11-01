@@ -15,6 +15,8 @@ use crate::console::app::{
 };
 use crate::console::{store_value, Run};
 use crate::directories::ProjectDirs;
+use crate::integrations;
+use crate::integrations::IntegrationUninstallArgs;
 use crate::storage::Storage;
 
 impl Run for ProfileListCommand {
@@ -112,7 +114,10 @@ impl Run for ProfileRemoveCommand {
 
         info!("Removing web apps");
         for site in &profile.sites {
-            storage.sites.remove(site);
+            if let Some(site) = storage.sites.remove(site) {
+                integrations::uninstall(&IntegrationUninstallArgs { site: &site, dirs: &dirs })
+                    .context("Failed to uninstall system integration")?;
+            }
         }
 
         if profile.ulid != Ulid::nil() {
