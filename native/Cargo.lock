@@ -2443,7 +2443,7 @@ dependencies = [
 [[package]]
 name = "web_app_manifest"
 version = "0.0.0"
-source = "git+https://github.com/filips123/WebAppManifestRS?branch=main#00cded95d9a3e21f9e2b92216b36e5432840425f"
+source = "git+https://github.com/filips123/WebAppManifestRS?branch=main#b6ca1e4f46205037fbc3797bab0f892e083de125"
 dependencies = [
  "csscolorparser",
  "language-tags",
