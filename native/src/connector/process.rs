@@ -39,6 +39,7 @@ use crate::console::Run;
 use crate::integrations;
 use crate::integrations::IntegrationInstallArgs;
 use crate::storage::Storage;
+use crate::utils::construct_certificates_and_client;
 
 pub trait Process {
     fn process(&self, connection: &Connection) -> Result<ConnectorResponse>;
@@ -128,6 +129,7 @@ impl Process for InstallSite {
             categories: self.categories.to_owned(),
             keywords: self.keywords.to_owned(),
             system_integration: true,
+            client: self.client.to_owned().into(),
         };
         let ulid = command._run()?;
 
@@ -153,7 +155,6 @@ impl Process for UpdateSite {
             start_url: self.start_url.to_owned(),
             name: self.name.to_owned(),
             description: self.description.to_owned(),
-
             categories: self.categories.clone().map(|x| x.unwrap_or_else(|| vec!["".into()])),
             keywords: self.keywords.clone().map(|x| x.unwrap_or_else(|| vec!["".into()])),
             enabled_url_handlers: self.enabled_url_handlers.to_owned(),
@@ -161,6 +162,7 @@ impl Process for UpdateSite {
             update_manifest: self.update_manifest,
             update_icons: self.update_icons,
             system_integration: true,
+            client: self.client.to_owned().into(),
         };
         command.run()?;
 
@@ -176,13 +178,21 @@ impl Process for UpdateAllSites {
             info!("Updating web app {}", site.ulid);
             let old_name = site.name();
 
+            let client = construct_certificates_and_client(
+                &self.client.tls_root_certificates_der,
+                &self.client.tls_root_certificates_pem,
+                self.client.tls_danger_accept_invalid_certs,
+                self.client.tls_danger_accept_invalid_hostnames,
+            )?;
+
             if self.update_manifest {
-                site.update().context("Failed to update web app manifest")?;
+                site.update(&client).context("Failed to update web app manifest")?;
             }
 
             integrations::install(&IntegrationInstallArgs {
                 site,
                 dirs: connection.dirs,
+                client: Some(&client),
                 update_manifest: self.update_manifest,
                 update_icons: self.update_icons,
                 old_name: Some(&old_name),
@@ -259,6 +269,7 @@ impl Process for RegisterProtocolHandler {
             integrations::install(&IntegrationInstallArgs {
                 site,
                 dirs: connection.dirs,
+                client: None,
                 update_manifest: false,
                 update_icons: false,
                 old_name: None,
@@ -284,6 +295,7 @@ impl Process for UnregisterProtocolHandler {
         integrations::install(&IntegrationInstallArgs {
             site,
             dirs: connection.dirs,
+            client: None,
             update_manifest: false,
             update_icons: false,
             old_name: None,

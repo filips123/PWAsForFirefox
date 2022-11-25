@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use anyhow::Result;
 use serde::{Deserialize, Deserializer};
 use ulid::Ulid;
@@ -256,6 +258,10 @@ pub struct InstallSite {
     ///
     /// Defaults to the default/shared profile.
     pub profile: Option<Ulid>,
+
+    /// Contains a HTTP client configuration.
+    #[serde(default)]
+    pub client: HTTPClientConfig,
 }
 
 /// Uninstalls a web app.
@@ -343,6 +349,10 @@ pub struct UpdateSite {
     /// Whether the icons should be updated (default: `true`).
     #[serde(default = "default_as_true")]
     pub update_icons: bool,
+
+    /// Contains a HTTP client configuration.
+    #[serde(default)]
+    pub client: HTTPClientConfig,
 }
 
 /// Updates all web apps.
@@ -364,6 +374,10 @@ pub struct UpdateAllSites {
     /// Whether the icons should be updated (default: `true`).
     #[serde(default = "default_as_true")]
     pub update_icons: bool,
+
+    /// Contains a HTTP client configuration.
+    #[serde(default)]
+    pub client: HTTPClientConfig,
 }
 
 /// Gets all available profiles.
@@ -488,6 +502,36 @@ pub struct UnregisterProtocolHandler {
     /// A handler to be unregistered.
     #[serde(flatten)]
     pub handler: ProtocolHandlerResource,
+}
+
+/// Contains a HTTP client configuration.
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone, Default)]
+pub struct HTTPClientConfig {
+    /// A list of paths to DER certificate files.
+    pub tls_root_certificates_der: Option<Vec<PathBuf>>,
+
+    /// A list of paths to PE certificate files.
+    pub tls_root_certificates_pem: Option<Vec<PathBuf>>,
+
+    /// Whether the client accepts invalid certs (dangerous, default: `false`).
+    #[serde(default)]
+    pub tls_danger_accept_invalid_certs: bool,
+
+    /// Whether the client accepts invalid hostnames (dangerous, default: `false`).
+    #[serde(default)]
+    pub tls_danger_accept_invalid_hostnames: bool,
+}
+
+#[allow(clippy::from_over_into)]
+impl Into<crate::console::app::HTTPClientConfig> for HTTPClientConfig {
+    fn into(self) -> crate::console::app::HTTPClientConfig {
+        crate::console::app::HTTPClientConfig {
+            tls_root_certificates_der: self.tls_root_certificates_der,
+            tls_root_certificates_pem: self.tls_root_certificates_pem,
+            tls_danger_accept_invalid_certs: self.tls_danger_accept_invalid_certs,
+            tls_danger_accept_invalid_hostnames: self.tls_danger_accept_invalid_hostnames,
+        }
+    }
 }
 
 deserialize_unit_struct!(GetSystemVersions);

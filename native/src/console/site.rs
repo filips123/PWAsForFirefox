@@ -22,6 +22,7 @@ use crate::directories::ProjectDirs;
 use crate::integrations;
 use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 use crate::storage::Storage;
+use crate::utils::construct_certificates_and_client;
 
 impl Run for SiteLaunchCommand {
     fn run(&self) -> Result<()> {
@@ -168,7 +169,14 @@ impl SiteInstallCommand {
             custom_protocol_handlers: vec![],
         };
 
-        let site = Site::new(profile.ulid, config)?;
+        let client = construct_certificates_and_client(
+            &self.client.tls_root_certificates_der,
+            &self.client.tls_root_certificates_pem,
+            self.client.tls_danger_accept_invalid_certs,
+            self.client.tls_danger_accept_invalid_hostnames,
+        )?;
+
+        let site = Site::new(profile.ulid, config, &client)?;
         let ulid = site.ulid;
 
         if self.system_integration {
@@ -176,6 +184,7 @@ impl SiteInstallCommand {
             integrations::install(&IntegrationInstallArgs {
                 site: &site,
                 dirs: &dirs,
+                client: Some(&client),
                 update_manifest: true,
                 update_icons: true,
                 old_name: None,
@@ -257,8 +266,15 @@ impl Run for SiteUpdateCommand {
         store_value!(site.config.enabled_url_handlers, self.enabled_url_handlers);
         store_value!(site.config.enabled_protocol_handlers, self.enabled_protocol_handlers);
 
+        let client = construct_certificates_and_client(
+            &self.client.tls_root_certificates_der,
+            &self.client.tls_root_certificates_pem,
+            self.client.tls_danger_accept_invalid_certs,
+            self.client.tls_danger_accept_invalid_hostnames,
+        )?;
+
         if self.update_manifest {
-            site.update().context("Failed to update web app manifest")?;
+            site.update(&client).context("Failed to update web app manifest")?;
         }
 
         if self.system_integration {
@@ -266,6 +282,7 @@ impl Run for SiteUpdateCommand {
             integrations::install(&IntegrationInstallArgs {
                 site,
                 dirs: &dirs,
+                client: Some(&client),
                 update_manifest: self.update_manifest,
                 update_icons: self.update_icons,
                 old_name: Some(&old_name),

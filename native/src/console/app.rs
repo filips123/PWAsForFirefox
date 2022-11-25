@@ -1,5 +1,7 @@
 #![allow(clippy::large_enum_variant)]
 
+use std::path::PathBuf;
+
 use clap::Parser;
 use ulid::Ulid;
 use url::Url;
@@ -97,6 +99,10 @@ pub struct SiteInstallCommand {
     /// Disable system integration
     #[clap(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
     pub system_integration: bool,
+
+    /// Configuration of the HTTP client.
+    #[clap(flatten)]
+    pub client: HTTPClientConfig,
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
@@ -157,6 +163,10 @@ pub struct SiteUpdateCommand {
     /// Disable system integration
     #[clap(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
     pub system_integration: bool,
+
+    /// Configuration of the HTTP client.
+    #[clap(flatten)]
+    pub client: HTTPClientConfig,
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
@@ -226,3 +236,22 @@ pub struct RuntimeInstallCommand {}
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct RuntimeUninstallCommand {}
+
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
+pub struct HTTPClientConfig {
+    /// Import additional root certificates from a DER file
+    #[clap(long)]
+    pub tls_root_certificates_der: Option<Vec<PathBuf>>,
+
+    /// Import additional root certificates from a PEM file
+    #[clap(long)]
+    pub tls_root_certificates_pem: Option<Vec<PathBuf>>,
+
+    /// Dangerous: Allow client to client accept invalid certs
+    #[clap(long)]
+    pub tls_danger_accept_invalid_certs: bool,
+
+    /// Dangerous: Allow client to client accept invalid hostnames
+    #[clap(long)]
+    pub tls_danger_accept_invalid_hostnames: bool,
+}

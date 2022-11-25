@@ -8,13 +8,14 @@ use anyhow::{Context, Result};
 use glob::glob;
 use image::GenericImageView;
 use log::{debug, error, warn};
+use reqwest::blocking::Client;
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize};
 
 use crate::components::site::Site;
 use crate::integrations::categories::XDG_CATEGORIES;
-use crate::integrations::utils::{download_icon, process_icons};
+use crate::integrations::utils::{download_icon, normalize_category_name, process_icons};
 use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
@@ -32,15 +33,6 @@ const WRITE_APPLICATION_FILE_ERROR: &str = "Failed to write application file";
 //////////////////////////////
 // Utils
 //////////////////////////////
-
-/// Normalize category name.
-///
-/// Category name is converted to lower-case and all word separators (`-`, `_`, ` `)
-/// are removed. This allows easier matching with keys from the categories map.
-#[inline]
-fn normalize_category_name(category: &str) -> String {
-    category.to_lowercase().replace(&['-', '_', ' '], "")
-}
 
 /// Update system's application cache.
 #[rustfmt::skip]
@@ -92,8 +84,15 @@ impl SiteIds {
 /// - `name`:  A web app or shortcut name. Used to generate a fallback icon.
 /// - `icons`: A list of available icons for the web app or shortcut.
 /// - `data`:  A path to the XDG data directory.
+/// - `client`: An instance of a blocking HTTP client.
 ///
-fn store_icons(id: &str, name: &str, icons: &[IconResource], data: &Path) -> Result<()> {
+fn store_icons(
+    id: &str,
+    name: &str,
+    icons: &[IconResource],
+    data: &Path,
+    client: &Client,
+) -> Result<()> {
     // The 48x48 icon has to exist as required by the Icon Theme Specification
     // We need to generate it manually if the manifest does not provide it
     let mut required_icon_found = false;
@@ -107,7 +106,8 @@ fn store_icons(id: &str, name: &str, icons: &[IconResource], data: &Path) -> Res
             debug!("Processing icon {}", url);
 
             // Download icon and get its content type
-            let (content, content_type) = download_icon(url).context(DOWNLOAD_ICON_ERROR)?;
+            let (content, content_type) =
+                download_icon(url, client).context(DOWNLOAD_ICON_ERROR)?;
 
             if content_type == "image/svg+xml" {
                 // Scalable (normal SVG) icons can be directly saved into the correct directory
@@ -176,7 +176,7 @@ fn store_icons(id: &str, name: &str, icons: &[IconResource], data: &Path) -> Res
         warn!("No required 48x48 icon is provided");
         warn!("Generating it from other available icons");
         let size = &ImageSize::Fixed(48, 48);
-        return process_icons(icons, name, size, &filename);
+        return process_icons(icons, name, size, &filename, client);
     }
 
     Ok(())
@@ -260,7 +260,7 @@ StartupWMClass={wmclass}
         let icon = format!("{}-{}", ids.classid, i);
 
         if args.update_icons {
-            store_icons(&icon, &shortcut.name, &shortcut.icons, data)
+            store_icons(&icon, &shortcut.name, &shortcut.icons, data, args.client.unwrap())
                 .context("Failed to store shortcut icons")?;
         }
 
@@ -308,8 +308,14 @@ pub fn install(args: &IntegrationInstallArgs) -> Result<()> {
     let data = directories::BaseDirs::new().context(BASE_DIRECTORIES_ERROR)?.data_dir().to_owned();
 
     if args.update_icons {
-        store_icons(&ids.classid, &ids.name, &args.site.manifest.icons, &data)
-            .context("Failed to store web app icons")?;
+        store_icons(
+            &ids.classid,
+            &ids.name,
+            &args.site.manifest.icons,
+            &data,
+            args.client.unwrap(),
+        )
+        .context("Failed to store web app icons")?;
     }
 
     create_desktop_entry(args, &ids, &exe, &data).context("Failed to create application entry")?;

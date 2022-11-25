@@ -12,13 +12,19 @@ use image::imageops::resize;
 use image::imageops::FilterType::Gaussian;
 use image::{DynamicImage, Rgba, RgbaImage};
 use log::{debug, error, warn};
+use reqwest::blocking::Client;
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
 
 use crate::components::site::Site;
 use crate::integrations::categories::MACOS_CATEGORIES;
-use crate::integrations::utils::{download_icon, generate_icon, sanitize_name};
+use crate::integrations::utils::{
+    download_icon,
+    generate_icon,
+    normalize_category_name,
+    sanitize_name,
+};
 use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
@@ -82,15 +88,6 @@ impl MacOSIconSize {
 //////////////////////////////
 // Utils
 //////////////////////////////
-
-/// Normalize category name.
-///
-/// Category name is converted to lower-case and all word separators (`-`, `_`, ` `)
-/// are removed. This allows easier matching with keys from the categories map.
-#[inline]
-fn normalize_category_name(category: &str) -> String {
-    category.to_lowercase().replace(&['-', '_', ' '], "")
-}
 
 /// Filter out all incompatible icons.
 ///
@@ -160,7 +157,7 @@ fn sort_icons_for_size(icons: &mut [&IconResource], size: &ImageSize) {
 /// is downloaded and converted to a correct format. If icon cannot
 /// be parsed, the next available icon is attempted. In case no
 /// icons are available, an icon is generated from the web app name.
-fn store_icons(target: &Path, name: &str, icons: &[IconResource]) -> Result<()> {
+fn store_icons(target: &Path, name: &str, icons: &[IconResource], client: &Client) -> Result<()> {
     let icon_sizes = [
         MacOSIconSize { size: 16, hdpi: false },
         MacOSIconSize { size: 16, hdpi: true },
@@ -193,7 +190,7 @@ fn store_icons(target: &Path, name: &str, icons: &[IconResource]) -> Result<()> 
                 debug!("Processing icon {}", url);
 
                 // Download the image from the URL and load it as RGBA
-                let (bytes, img_type) = download_icon(url).context(DOWNLOAD_ICON_ERROR)?;
+                let (bytes, img_type) = download_icon(url, client).context(DOWNLOAD_ICON_ERROR)?;
                 let mut img = load_icon(&bytes, &img_type, img_size).context(LOAD_ICON_ERROR)?;
 
                 // Mask the image according to the Apple guidelines
@@ -522,7 +519,8 @@ task.waitUntilExit()
 
     // Update icons if needed
     if args.update_icons {
-        store_icons(&resources_dir, &name, &args.site.manifest.icons).context(STORE_ICONS_ERROR)?;
+        store_icons(&resources_dir, &name, &args.site.manifest.icons, args.client.unwrap())
+            .context(STORE_ICONS_ERROR)?;
     }
 
     // Our app bundle is not signed with an Apple developer certificate

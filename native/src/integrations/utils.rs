@@ -10,6 +10,7 @@ use data_url::DataUrl;
 use image::imageops::FilterType::Gaussian;
 use image::{ImageBuffer, Rgb, RgbImage};
 use log::{debug, error, warn};
+use reqwest::blocking::Client;
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
@@ -22,7 +23,8 @@ use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
 ///
 /// Name is capped at 60 characters is sanitized using the [`sanitize_filename`]
 /// crate to prevent it from containing any invalid filenames characters. Dots
-/// at the start are also removed to prevent the file from being hidden.
+/// at the start are also removed to prevent the file from being hidden. In case
+/// the sanitized name is an empty string, the new name is constructed from the ID.
 #[cfg(any(target_os = "windows", target_os = "macos"))]
 pub fn sanitize_name<'a>(name: &'a str, id: &'a str) -> String {
     let mut sanitized: String = name.chars().take(60).collect();
@@ -36,15 +38,25 @@ pub fn sanitize_name<'a>(name: &'a str, id: &'a str) -> String {
     }
 }
 
+/// Normalize category name.
+///
+/// Category name is converted to lower-case and all word separators (`-`, `_`, ` `)
+/// are removed. This allows easier matching with keys from the categories map.
+#[cfg(any(target_os = "linux", target_os = "macos"))]
+#[inline]
+pub fn normalize_category_name(category: &str) -> String {
+    category.to_lowercase().replace(['-', '_', ' '], "")
+}
+
 /// Download the icon from the URL.
 ///
 /// Icon can be downloaded from the network using the `reqwest` crate
 /// or decoded from a data URL. Once downloaded, the function returns
 /// the icon bytes and its content type.
-pub fn download_icon(url: Url) -> Result<(Vec<u8>, String)> {
+pub fn download_icon(url: Url, client: &Client) -> Result<(Vec<u8>, String)> {
     // Download using `reqwest`
     if url.scheme() != "data" {
-        let response = reqwest::blocking::get(url)?;
+        let response = client.get(url).send()?;
         let r#type = match response.headers().get(reqwest::header::CONTENT_TYPE) {
             Some(r#type) => r#type.to_str()?.into(),
             None => "application/octet-stream".into(),
@@ -52,7 +64,7 @@ pub fn download_icon(url: Url) -> Result<(Vec<u8>, String)> {
         let bytes = response.bytes()?.to_vec();
         Ok((bytes, r#type))
 
-        // Download using `data-url`
+    // Download using `data-url`
     } else {
         let url = DataUrl::process(url.as_str())?;
         let r#type = url.mime_type().to_string();
@@ -131,15 +143,17 @@ pub fn generate_icon(letter: char, size: &ImageSize) -> Result<RgbImage> {
 /// - `fallback`:  A web app or shortcut name. Used to generate a fallback icon.
 /// - `size`: A target icon size. Must be a valid fixed (non-zero) size variant.
 /// - `path`:  A path where the icon should be saved.
+/// - `client`: An instance of a blocking HTTP client.
 ///
 pub fn process_icons(
     icons: &[IconResource],
     fallback: &str,
     size: &ImageSize,
     path: &Path,
+    client: &Client,
 ) -> Result<()> {
     for icon in normalize_icons(icons, size) {
-        match process_icon(icon, size, path).context("Failed to process icon") {
+        match process_icon(icon, size, path, client).context("Failed to process icon") {
             Ok(_) => return Ok(()),
             Err(error) => {
                 error!("{:?}", error);
@@ -215,8 +229,9 @@ fn normalize_icons<'a>(icons: &'a [IconResource], size: &'a ImageSize) -> Vec<&'
 /// - `icon`: An icon resource representing the icon. Must provide an absolute icon URL.
 /// - `size`: A target icon size. Must be a valid fixed (non-zero) size variant.
 /// - `path`: A path where the icon should be stored.
+/// - `client`: An instance of a blocking HTTP client.
 ///
-fn process_icon(icon: &IconResource, size: &ImageSize, path: &Path) -> Result<()> {
+fn process_icon(icon: &IconResource, size: &ImageSize, path: &Path, client: &Client) -> Result<()> {
     let size = match size {
         ImageSize::Fixed(a, b) => (a, b),
         _ => bail!("A fixed image size variant must be provided"),
@@ -226,7 +241,7 @@ fn process_icon(icon: &IconResource, size: &ImageSize, path: &Path) -> Result<()
     debug!("Processing icon {}", url);
 
     // Download icon and get its content type
-    let (content, content_type) = download_icon(url).context("Failed to download icon")?;
+    let (content, content_type) = download_icon(url, client).context("Failed to download icon")?;
 
     if content_type == "image/svg+xml" {
         debug!("Processing as SVG icon");

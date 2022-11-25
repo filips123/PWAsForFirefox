@@ -1,3 +1,5 @@
+use reqwest::blocking::Client;
+
 use crate::components::site::Site;
 use crate::directories::ProjectDirs;
 
@@ -14,6 +16,7 @@ pub use implementation::{install, uninstall};
 pub struct IntegrationInstallArgs<'a> {
     pub site: &'a Site,
     pub dirs: &'a ProjectDirs,
+    pub client: Option<&'a Client>,
     pub update_manifest: bool,
     pub update_icons: bool,
     pub old_name: Option<&'a str>,

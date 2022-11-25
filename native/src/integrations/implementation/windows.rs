@@ -3,6 +3,7 @@ use std::fs::{create_dir_all, remove_dir_all, remove_file, rename};
 use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
+use reqwest::blocking::Client;
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::ImageSize;
@@ -101,12 +102,13 @@ impl SiteIds {
 /// - `name`:  A web app or shortcut name. Used to generate a fallback icon.
 /// - `icons`: A list of available icons for the web app or shortcut.
 /// - `path`:  A path where the icon should be saved.
+/// - `client`: An instance of a blocking HTTP client.
 ///
-fn store_icon(name: &str, icons: &[IconResource], path: &Path) -> Result<()> {
+fn store_icon(name: &str, icons: &[IconResource], path: &Path, client: &Client) -> Result<()> {
     // Currently only one embedded image per ICO is supported: https://github.com/image-rs/image/issues/884
     // Until more embedded images are supported, use the max ICO size (256x256)
     let size = &ImageSize::Fixed(256, 256);
-    process_icons(icons, name, size, path)
+    process_icons(icons, name, size, path, client)
 }
 
 fn create_arp_entry(
@@ -150,7 +152,7 @@ fn create_menu_shortcut(
     if let Some(old_name) = &args.old_name {
         let old_name = sanitize_name(old_name, &ids.ulid);
         let old_filename = start_menu_dir.join(old_name).with_extension("lnk");
-        rename(&old_filename, &filename).context("Failed to rename shortcut")?;
+        rename(old_filename, &filename).context("Failed to rename shortcut")?;
     }
 
     // Create shell link instance
@@ -209,7 +211,7 @@ fn create_jump_list_tasks(
         let icon = icons.join(format!("shortcut{}.ico", i));
 
         if args.update_icons {
-            store_icon(&shortcut.name, &shortcut.icons, &icon)
+            store_icon(&shortcut.name, &shortcut.icons, &icon, args.client.unwrap())
                 .context("Failed to store shortcut icon")?;
         }
 
@@ -283,7 +285,7 @@ fn register_protocol_handlers(
 
     // Register application details
     let (application, _) = hkcu
-        .create_subkey(&format!(r"{classes_path}\Application"))
+        .create_subkey(format!(r"{classes_path}\Application"))
         .context("Failed to create application registry key")?;
     let (capabilities, _) = hkcu
         .create_subkey(&capabilities_path)
@@ -294,7 +296,7 @@ fn register_protocol_handlers(
     // Register application open commands
     let ulid = &ids.ulid;
     let (open_command, _) = hkcu
-        .create_subkey(&format!(r"{classes_path}\Shell\open\command"))
+        .create_subkey(format!(r"{classes_path}\Shell\open\command"))
         .context("Failed to create open command registry key")?;
     open_command
         .set_value("", &format!("\"{exe}\" site launch {ulid} --protocol \"%1\""))
@@ -302,7 +304,7 @@ fn register_protocol_handlers(
 
     // Create URL associations key
     let (associations, _) = hkcu
-        .create_subkey(&format!(r"{capabilities_path}\UrlAssociations"))
+        .create_subkey(format!(r"{capabilities_path}\UrlAssociations"))
         .context("Failed to create URL associations registry key")?;
 
     // Remove existing protocol handlers
@@ -338,7 +340,7 @@ pub fn install(args: &IntegrationInstallArgs) -> Result<()> {
         create_dir_all(&icons_directory).context("Failed to create icons directory")?;
 
         // Store new site icon (shortcut icons will be added later)
-        store_icon(&ids.name, &args.site.manifest.icons, &icon_path)
+        store_icon(&ids.name, &args.site.manifest.icons, &icon_path, args.client.unwrap())
             .context("Failed to store web app icon")?;
     }
 

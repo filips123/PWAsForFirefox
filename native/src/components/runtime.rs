@@ -235,6 +235,7 @@ impl Runtime {
         options.overwrite = true;
 
         info!("Patching the runtime");
+        #[allow(clippy::needless_borrow)]
         copy(source, &target, &options).context("Failed to patch the runtime")?;
 
         cfg_if! {

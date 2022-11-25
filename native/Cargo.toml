@@ -33,7 +33,7 @@ fs_extra = "1.2.0"
 gag = "1.0.0"
 image = "0.24.3"
 log = "0.4.17"
-reqwest = { version = "0.11.11", features = ["blocking", "gzip", "brotli", "deflate", "socks"] }
+reqwest = { version = "0.11.11", features = ["blocking", "socks", "gzip", "brotli", "deflate", "native-tls"] }
 resvg = "0.23.0"
 serde = { version = "1.0.140", features = ["derive"] }
 serde_json = "1.0.82"

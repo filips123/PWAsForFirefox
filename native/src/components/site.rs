@@ -21,11 +21,6 @@ const DATA_URL_ERROR: &str = "Failed to process web app manifest data URL";
 const PARSE_ERROR: &str = "Failed to parse web app manifest";
 const INVALID_URL: &str = "Web app without valid absolute URL is not possible";
 
-const APP_USER_AGENT: &str = concat!(
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0 PWAsForFirefox/",
-    env!("CARGO_PKG_VERSION")
-);
-
 /// Contains configuration for the web app.
 ///
 /// Most optional data here are just overwrites for information
@@ -108,12 +103,10 @@ pub struct Site {
 }
 
 impl Site {
-    fn download(url: &Url) -> Result<String> {
+    fn download(url: &Url, client: &Client) -> Result<String> {
         // If the URL is not a data URL, just download it using reqwest
         let json = if url.scheme() != "data" {
-            Client::builder()
-                .user_agent(APP_USER_AGENT)
-                .build()?
+            client
                 .get(url.to_owned())
                 .header(reqwest::header::REFERER, url.to_string())
                 .send()?
@@ -131,9 +124,9 @@ impl Site {
     }
 
     #[inline]
-    pub fn new(profile: Ulid, config: SiteConfig) -> Result<Self> {
+    pub fn new(profile: Ulid, config: SiteConfig, client: &Client) -> Result<Self> {
         info!("Downloading the web app manifest");
-        let json = Self::download(&config.manifest_url).context(DOWNLOAD_ERROR)?;
+        let json = Self::download(&config.manifest_url, client).context(DOWNLOAD_ERROR)?;
 
         // If the manifest URL is a data URL, replace it with the document URL
         let manifest_url = if config.manifest_url.scheme() != "data" {
@@ -150,14 +143,14 @@ impl Site {
     }
 
     #[inline]
-    pub fn update(&mut self) -> Result<()> {
+    pub fn update(&mut self, client: &Client) -> Result<()> {
         // There is nothing to update if the manifest is a data URL because it is always static
         if self.config.manifest_url.scheme() == "data" {
             return Ok(());
         }
 
         info!("Downloading the web app manifest");
-        let json = Self::download(&self.config.manifest_url).context(DOWNLOAD_ERROR)?;
+        let json = Self::download(&self.config.manifest_url, client).context(DOWNLOAD_ERROR)?;
 
         info!("Parsing the web app manifest");
         let mut manifest: SiteManifest = serde_json::from_str(&json).context(PARSE_ERROR)?;
@@ -179,7 +172,7 @@ impl Site {
         arguments: &[String],
         variables: I,
     ) -> Result<Child> {
-        let profile = dirs.userdata.join("profiles").join(&self.profile.to_string());
+        let profile = dirs.userdata.join("profiles").join(self.profile.to_string());
 
         // Pass all required PWA arguments to the runtime
         #[rustfmt::skip]
