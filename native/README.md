@@ -22,6 +22,12 @@ Read the [main README file](../README.md) for more details about the project.
 * Other Linux (source installation only)
 * macOS (bottled Homebrew formula)
 
+### Requirements
+
+* Windows: [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
+* macOS: Xcode Command Line Tools
+* Linux: `glibc` 2.18 or later
+
 ### From Package Repositories
 
 #### Packagecloud.io
@@ -51,13 +57,9 @@ Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this projec
 
 You can download installers/packages and the shell completions from the [latest GitHub release](https://github.com/filips123/PWAsForFirefox/releases/latest).
 
-On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package. On Linux, you need `glibc` 2.18 or later, which also is specified in the package dependencies.
-
 ### From Development Binaries
 
 You can download and install [latest build artifact](https://github.com/filips123/PWAsForFirefox/actions/workflows/native.yaml?query=actor%3Afilips123) from GitHub Actions builds. Note that these are development versions that may be unstable.
-
-On Windows, you will need to install the [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads) package.  On Linux, you need `glibc` 2.18 or later, which also is specified in the package dependencies.
 
 ### From Source
 
