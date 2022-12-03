@@ -244,7 +244,7 @@ jobs:
         uses: actions/download-artifact@v3
 
       - name: Upload artifacts to GitHub Release
-        uses: softprops/action-gh-release@1e07f4398721186383de40550babbdf2b84acfc5
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
         with:
           fail_on_unmatched_files: true
           files: |
@@ -318,7 +318,7 @@ jobs:
           (cd native/packages/aur/firefox-pwa && namcap -i PKGBUILD)
 
       - name: Release firefox-pwa package
-        uses: KSXGitHub/github-actions-deploy-aur@58b29e711bd5cfb5107f38fa91ffe9a3ae570586
+        uses: KSXGitHub/github-actions-deploy-aur@065b6056b25bdd43830d5a3f01899d0ff7169819
         with:
           pkgname: firefox-pwa
           pkgbuild: ./native/packages/aur/firefox-pwa/PKGBUILD
@@ -330,7 +330,7 @@ jobs:
           ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
 
       - name: Release firefox-pwa-bin package
-        uses: KSXGitHub/github-actions-deploy-aur@58b29e711bd5cfb5107f38fa91ffe9a3ae570586
+        uses: KSXGitHub/github-actions-deploy-aur@065b6056b25bdd43830d5a3f01899d0ff7169819
         with:
           pkgname: firefox-pwa-bin
           pkgbuild: ./native/packages/aur/firefox-pwa-bin/PKGBUILD
