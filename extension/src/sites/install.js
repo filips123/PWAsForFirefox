@@ -6,10 +6,17 @@ import Toast from 'bootstrap/js/src/toast'
 import Tags from 'bootstrap5-tags/tags'
 
 import { obtainManifest, obtainProfileList, obtainSiteList, obtainUrls, setPopupSize } from '../utils'
+import { knownCategories } from './categories'
 
 async function initializeForm () {
   const form = document.getElementById('web-app-form')
   const submit = document.getElementById('web-app-submit')
+
+  {
+    // Provide suggestions for know categories
+    const categoriesElement = document.getElementById('web-app-categories')
+    for (const knownCategory of knownCategories) categoriesElement.add(new Option(knownCategory, knownCategory))
+  }
 
   // Create tags input
   for (const element of document.querySelectorAll('.form-select-tags')) {

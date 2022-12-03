@@ -23,6 +23,7 @@ import {
   setConfig,
   setPopupSize
 } from '../utils'
+import { knownCategories } from './categories'
 
 // Display install/update page when clicked on browser action and the native program is not correctly installed
 async function handleNativeStatus () {
@@ -764,6 +765,12 @@ async function handleSettings (hasChanged = false) {
 
 // Switch to install/update page if needed
 handleNativeStatus()
+
+{
+  // Provide suggestions for know categories
+  const categoriesElement = document.getElementById('web-app-categories')
+  for (const knownCategory of knownCategories) categoriesElement.add(new Option(knownCategory, knownCategory))
+}
 
 // Prepare the popup
 for (const element of document.querySelectorAll('.form-select-tags')) { element.tagsInstance = new Tags(element) }
