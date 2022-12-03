@@ -2,12 +2,11 @@
 
 use std::path::PathBuf;
 
-use clap::Parser;
+use clap::{ArgAction, Parser};
 use ulid::Ulid;
 use url::Url;
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
-#[clap(global_setting(clap::AppSettings::DeriveDisplayOrder))]
 #[clap(propagate_version = true)]
 #[clap(version)]
 pub enum App {
@@ -97,7 +96,7 @@ pub struct SiteInstallCommand {
     pub keywords: Option<Vec<String>>,
 
     /// Disable system integration
-    #[clap(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
+    #[clap(long = "no-system-integration", action = ArgAction::SetFalse)]
     pub system_integration: bool,
 
     /// Configuration of the HTTP client.
@@ -115,7 +114,7 @@ pub struct SiteUninstallCommand {
     pub quiet: bool,
 
     /// Disable system integration
-    #[clap(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
+    #[clap(long = "no-system-integration", action = ArgAction::SetFalse)]
     pub system_integration: bool,
 }
 
@@ -153,15 +152,15 @@ pub struct SiteUpdateCommand {
     pub enabled_protocol_handlers: Option<Vec<String>>,
 
     /// Disable manifest updates
-    #[clap(long = "no-manifest-updates", parse(from_flag = std::ops::Not::not))]
+    #[clap(long = "no-manifest-updates", action = ArgAction::SetFalse)]
     pub update_manifest: bool,
 
     /// Disable icon updates
-    #[clap(long = "no-icon-updates", parse(from_flag = std::ops::Not::not))]
+    #[clap(long = "no-icon-updates", action = ArgAction::SetFalse)]
     pub update_icons: bool,
 
     /// Disable system integration
-    #[clap(long = "no-system-integration", parse(from_flag = std::ops::Not::not))]
+    #[clap(long = "no-system-integration", action = ArgAction::SetFalse)]
     pub system_integration: bool,
 
     /// Configuration of the HTTP client.

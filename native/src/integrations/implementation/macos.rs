@@ -13,6 +13,7 @@ use image::imageops::FilterType::Gaussian;
 use image::{DynamicImage, Rgba, RgbaImage};
 use log::{debug, error, warn};
 use reqwest::blocking::Client;
+use resvg::{tiny_skia, usvg};
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};

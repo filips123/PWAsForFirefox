@@ -7,7 +7,7 @@ use reqwest::blocking::Client;
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::ImageSize;
-use windows::core::{Interface, Result as WindowsResult, GUID, PWSTR};
+use windows::core::{Interface, Result as WindowsResult, GUID, HSTRING, PWSTR};
 use windows::Win32::Storage::EnhancedStorage::{PKEY_AppUserModel_ID, PKEY_Title};
 use windows::Win32::System::Com::{
     CoCreateInstance,
@@ -47,7 +47,7 @@ const START_MENU_PROGRAMS_PATH: &str = r"Microsoft\Windows\Start Menu\Programs";
 /// Initialize COM for use by the calling thread for the multi-threaded apartment (MTA).
 #[inline]
 fn initialize_windows() -> WindowsResult<()> {
-    unsafe { CoInitializeEx(std::ptr::null_mut(), COINIT_MULTITHREADED | COINIT_DISABLE_OLE1DDE) }
+    unsafe { CoInitializeEx(None, COINIT_MULTITHREADED | COINIT_DISABLE_OLE1DDE) }
 }
 
 /// Create a COM object with the given CLSID.
@@ -60,7 +60,7 @@ fn create_instance<T: Interface>(clsid: &GUID) -> WindowsResult<T> {
 ///
 /// See: https://github.com/microsoft/windows-rs/issues/973#issue-942298423
 #[inline]
-fn string_to_pwstr(str: &str) -> PWSTR {
+fn str_to_pwstr(str: &str) -> PWSTR {
     let mut encoded = str.encode_utf16().chain([0u16]).collect::<Vec<u16>>();
     PWSTR(encoded.as_mut_ptr())
 }
@@ -83,8 +83,8 @@ impl SiteIds {
         let name = site.name();
         let description = site.description();
         let ulid = site.ulid.to_string();
-        let regid = format!("FFPWA-{}", ulid);
-        let appid = format!("filips.firefoxpwa.{}", ulid);
+        let regid = format!("FFPWA-{ulid}");
+        let appid = format!("filips.firefoxpwa.{ulid}");
         Self { name, description, ulid, regid, appid }
     }
 }
@@ -160,22 +160,22 @@ fn create_menu_shortcut(
 
     unsafe {
         // Set general shortcut properties
-        link.SetPath(exe)?;
-        link.SetArguments(format!("site launch {}", ids.ulid))?;
-        link.SetDescription(ids.description.chars().take(240).collect::<String>())?;
-        link.SetIconLocation(icon, 0)?;
+        link.SetPath(&HSTRING::from(exe))?;
+        link.SetArguments(&HSTRING::from(format!("site launch {}", ids.ulid)))?;
+        link.SetDescription(&HSTRING::from(ids.description.chars().take(240).collect::<String>()))?;
+        link.SetIconLocation(&HSTRING::from(icon), 0)?;
         link.SetShowCmd(7)?;
 
         // Set app user model ID property
         // Docs: https://docs.microsoft.com/en-us/windows/win32/properties/props-system-appusermodel-id
         let store: IPropertyStore = link.cast()?;
-        let variant = InitPropVariantFromStringVector(&[string_to_pwstr(&ids.appid)])?;
+        let variant = InitPropVariantFromStringVector(Some(&[str_to_pwstr(&ids.appid)]))?;
         store.SetValue(&PKEY_AppUserModel_ID, &variant)?;
         store.Commit()?;
 
         // Save shortcut to file
         let persist: IPersistFile = link.cast()?;
-        persist.Save(filename.display().to_string(), true)?;
+        persist.Save(&HSTRING::from(filename.display().to_string()), true)?;
     }
 
     Ok(())
@@ -194,10 +194,10 @@ fn create_jump_list_tasks(
 
     unsafe {
         if shortcuts.is_empty() {
-            list.DeleteList(&*ids.appid)?;
+            list.DeleteList(&HSTRING::from(&ids.appid))?;
             return Ok(());
         } else {
-            list.SetAppID(&*ids.appid)?;
+            list.SetAppID(&HSTRING::from(&ids.appid))?;
             let _: IObjectArray = list.BeginList(&mut (shortcuts.len() as u32))?;
         }
     }
@@ -208,7 +208,7 @@ fn create_jump_list_tasks(
     for (i, shortcut) in shortcuts.iter().enumerate() {
         let url: Url = shortcut.url.clone().try_into().context("Failed to convert shortcut URL")?;
         let description = shortcut.description.clone().unwrap_or_else(|| "".into());
-        let icon = icons.join(format!("shortcut{}.ico", i));
+        let icon = icons.join(format!("shortcut{i}.ico",));
 
         if args.update_icons {
             store_icon(&shortcut.name, &shortcut.icons, &icon, args.client.unwrap())
@@ -221,25 +221,25 @@ fn create_jump_list_tasks(
 
         unsafe {
             // Set general shortcut properties
-            link.SetPath(exe)?;
-            link.SetArguments(format!("site launch {} --url {}", ids.ulid, url))?;
-            link.SetDescription(description.chars().take(240).collect::<String>())?;
-            link.SetIconLocation(icon.display().to_string(), 0)?;
+            link.SetPath(&HSTRING::from(exe))?;
+            link.SetArguments(&HSTRING::from(format!("site launch {} --url {}", ids.ulid, url)))?;
+            link.SetDescription(&HSTRING::from(description.chars().take(240).collect::<String>()))?;
+            link.SetIconLocation(&HSTRING::from(icon.display().to_string()), 0)?;
             link.SetShowCmd(7)?;
 
             // Set app user model ID property
             // Docs: https://docs.microsoft.com/en-us/windows/win32/properties/props-system-appusermodel-id
-            let variant = InitPropVariantFromStringVector(&[string_to_pwstr(&ids.appid)])?;
+            let variant = InitPropVariantFromStringVector(Some(&[str_to_pwstr(&ids.appid)]))?;
             store.SetValue(&PKEY_AppUserModel_ID, &variant)?;
 
             // Set title property
             // Docs: https://docs.microsoft.com/en-us/windows/win32/properties/props-system-title
-            let variant = InitPropVariantFromStringVector(&[string_to_pwstr(&shortcut.name)])?;
+            let variant = InitPropVariantFromStringVector(Some(&[str_to_pwstr(&shortcut.name)]))?;
             store.SetValue(&PKEY_Title, &variant)?;
 
             // Commit store and add it to collection
             store.Commit()?;
-            collection.AddObject(link)?;
+            collection.AddObject(&link)?;
         }
     }
 
@@ -389,7 +389,7 @@ pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
     unsafe {
         initialize_windows()?;
         let list: ICustomDestinationList = create_instance(&DestinationList)?;
-        let _ = list.DeleteList(ids.appid);
+        let _ = list.DeleteList(&HSTRING::from(ids.appid));
     }
 
     // Remove protocol handlers

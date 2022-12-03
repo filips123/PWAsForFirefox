@@ -9,7 +9,8 @@ use cfg_if::cfg_if;
 use const_format::formatcp;
 use log::{info, warn};
 use tempfile::Builder;
-use windows::core::{IntoParam, Param, PCWSTR};
+use windows::core::{HSTRING, PCWSTR};
+use windows::w;
 use windows::Win32::System::Com::{
     CoInitializeEx,
     COINIT_APARTMENTTHREADED,
@@ -51,19 +52,17 @@ const fn get_download_url() -> &'static str {
 
 #[inline]
 fn run_as_admin<S: AsRef<OsStr>>(cmd: S) -> std::io::Result<ExitStatus> {
-    unsafe {
-        CoInitializeEx(std::ptr::null_mut(), COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)?
-    };
+    unsafe { CoInitializeEx(None, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)? };
 
     let mut code = 1;
-    let lp_verb: Param<PCWSTR> = "runas".into_param();
-    let lp_file: Param<PCWSTR> = cmd.as_ref().into_param();
+    let lp_verb = w!("runas");
+    let lp_file = PCWSTR::from(&HSTRING::from(cmd.as_ref()));
 
     let mut sei = SHELLEXECUTEINFOW {
         cbSize: std::mem::size_of::<SHELLEXECUTEINFOW>() as u32,
         fMask: SEE_MASK_NOASYNC | SEE_MASK_NOCLOSEPROCESS,
-        lpVerb: unsafe { lp_verb.abi() },
-        lpFile: unsafe { lp_file.abi() },
+        lpVerb: lp_verb,
+        lpFile: lp_file,
         nShow: 1,
         ..Default::default()
     };

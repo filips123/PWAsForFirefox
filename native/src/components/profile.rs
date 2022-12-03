@@ -67,7 +67,7 @@ impl Profile {
         info!("Patching the profile");
         let _ = remove_dir_all(profile.join("startupCache"));
         let _ = remove_dir_all(profile.join("chrome/pwa"));
-        copy(source, &profile, &options).context("Failed to patch the profile")?;
+        copy(source, profile, &options).context("Failed to patch the profile")?;
 
         info!("Profile patched!");
         Ok(())

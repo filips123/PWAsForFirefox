@@ -103,7 +103,7 @@ impl Run for SiteLaunchCommand {
                         .iter()
                         .find(|handler| handler.protocol == scheme)
                 })
-                .context(format!("Scheme {} not found", scheme))?
+                .context(format!("Scheme {scheme} not found"))?
                 .to_owned()
                 .url
                 .try_into()
