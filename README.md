@@ -88,11 +88,13 @@ These are things that I would like to fix eventually, but will currently stay, e
 
     This problem is tracked as issue [#81](https://github.com/filips123/PWAsForFirefox/issues/81).
 
-* **Extension cannot detect the native program when using sandboxed Firefox (Linux: Snap & Flatpak):**
+* **Extension cannot detect the native program when using sandboxed Firefox (Linux Flatpak):**
 
-  When using Firefox distributed as a Snap or Flatpak package (for example, the default Firefox installation in Ubuntu 21.10), the extension cannot detect the native program that is used. This is because Snap and Flatpak packages are sandboxed and cannot access/run other programs which is needed for Native Messaging API. This cannot be fixed until Native Messaging API gets support to work in sandboxed browsers (Snap and Flatpak).
+  When using Firefox distributed as a Flatpak package, the extension cannot detect the native program that is used. This is because Flatpak packages are sandboxed and cannot access/run other programs which is needed for Native Messaging API. This cannot be fixed until Native Messaging API gets support to work in sandboxed browser packages.
 
-  The workaround for this is to uninstall Snap/Flatpak-based Firefox and install a normal DEB package instead. See [#76](https://github.com/filips123/PWAsForFirefox/issues/76#issuecomment-962628218) for more details.
+  The workaround for this is to uninstall Flatpak-based Firefox and install a normal DEB package instead. See [#76](https://github.com/filips123/PWAsForFirefox/issues/76#issuecomment-962628218) for more details.
+
+  *Update:* Previously, this problem was also present on Snap, but it has been fixed recently. If you still cannot detect the native program, make sure Firefox is up-to-date.
 
 ## Contributors & Sponsors
 
