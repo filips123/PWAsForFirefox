@@ -421,7 +421,7 @@ fn create_app_bundle(args: &IntegrationInstallArgs) -> Result<()> {
     // If the name has been changed, first rename the bundle directory
     if let Some(old_name) = &args.old_name {
         let old_bundle = directory.join(format!("{}.app", sanitize_name(old_name, &ulid)));
-        let _ = rename(&old_bundle, &bundle);
+        let _ = rename(old_bundle, &bundle);
     }
 
     // Create the bundle directory

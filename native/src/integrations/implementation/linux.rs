@@ -149,7 +149,7 @@ fn store_icons(
             let directory = data.join(format!("icons/hicolor/{}x{}/apps", size.0, size.1));
             let filename = directory.join(format!("{}.png", id));
             create_dir_all(directory).context(CREATE_ICON_DIRECTORY_ERROR)?;
-            img.save(&filename).context(SAVE_ICON_ERROR)?;
+            img.save(filename).context(SAVE_ICON_ERROR)?;
 
             if size == (48, 48) {
                 required_icon_found = true;
