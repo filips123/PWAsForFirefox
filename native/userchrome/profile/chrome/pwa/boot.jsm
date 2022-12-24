@@ -1,10 +1,5 @@
 const EXPORTED_SYMBOLS = [];
 
-const {
-  classes: Cc,
-  interfaces: Ci
-} = Components;
-
 const { XPCOMUtils } = ChromeUtils.import('resource://gre/modules/XPCOMUtils.jsm');
 XPCOMUtils.defineLazyGetter(this, 'gSystemPrincipal', () => Services.scriptSecurityManager.getSystemPrincipal());
 XPCOMUtils.defineLazyModuleGetters(this, {

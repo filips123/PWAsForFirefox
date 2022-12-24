@@ -1,5 +1,6 @@
 XPCOMUtils.defineLazyModuleGetters(this, {
   applyDynamicThemeColor: 'resource://pwa/utils/systemIntegration.jsm',
+  applySystemIntegration: 'resource://pwa/utils/systemIntegration.jsm',
   buildIconList: 'resource://pwa/utils/systemIntegration.jsm',
   sendNativeMessage: 'resource://pwa/utils/nativeMessaging.jsm',
   hookFunction: 'resource://pwa/utils/hookFunction.jsm',
@@ -394,24 +395,20 @@ class PwaBrowser {
   }
 
   handleOutOfScopeNavigation () {
+    // For this check to pass, opening out-of-scope URLs in default browser must be enabled
+    // Additionally, the URL must not be one of allow-listed or restricted domains
+    // Otherwise, it is impossible to access certain parts of Firefox
+    const checkOutOfScope = uri => !this.canLoad(uri) &&
+      uri.scheme.startsWith('http') &&
+      xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER) &&
+      !xPref.get(ChromeLoader.PREF_ALLOWED_DOMAINS).split(',').includes(uri.host) &&
+      !xPref.get('extensions.webextensions.restrictedDomains').split(',').includes(uri.host);
+
+    // Handle hiding/showing URL bar when the URL is out of scope
     hookFunction(window.gURLBar, 'setURI', null, (_, [uri]) => {
+      // Check whether the URL is in scope
       const canLoad = this.canLoad(uri);
       let displayBar = !canLoad;
-
-      // Open the default browser and close the current window if out of scope and user enabled that
-      // Only do that for HTTP(S) and non-restricted domains because otherwise it is impossible to access certain parts of Firefox
-      if (
-        !canLoad &&
-        xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER) &&
-        (uri.scheme === 'http' || uri.scheme === 'https') &&
-        !xPref.get(ChromeLoader.PREF_ALLOWED_DOMAINS).split(',').includes(uri.host) &&
-        !xPref.get('extensions.webextensions.restrictedDomains').split(',').includes(uri.host)
-      ) {
-        MailIntegration._launchExternalUrl(makeURI(uri.spec));
-        if (!xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) window.close();
-        else window.gBrowser.removeTab(window.gBrowser.selectedTab);
-        return;
-      }
 
       // Change URL bar behaviour based on our custom preference
       const userPreference = xPref.get(ChromeLoader.PREF_DISPLAY_URL_BAR);
@@ -425,6 +422,48 @@ class PwaBrowser {
       // Store the last in-scope URL so the close widget can return to it
       if (canLoad && uri && uri.spec !== 'about:blank') {
         window.gFFPWALastScopeUri = uri;
+      }
+    });
+
+    if (ChromeLoader.INITIALIZED_BROWSER) return;
+
+    // Handle blocking out-of-scope URLs and redirecting them to the main browser
+    Services.obs.addObserver(subject => {
+      let httpChannel = subject.QueryInterface(Ci.nsIHttpChannel);
+
+      // Skip any other checks if the request is not a top-level document request
+      if (
+        !httpChannel.loadInfo.isTopLevelLoad ||
+        !httpChannel.isMainDocumentChannel ||
+        httpChannel.requestMethod !== 'GET'
+      ) {
+        return;
+      }
+
+      // Open the default browser and cancel the request for out-of-scope URLs
+      if (checkOutOfScope(httpChannel.URI)) {
+        MailIntegration._launchExternalUrl(httpChannel.URI);
+        httpChannel.cancel(418);
+      }
+    }, 'http-on-modify-request', false);
+
+    // Handle passing config from old to new window and closing out-of-scope windows
+    // Also handles applying the system integration for "disconnected" windows
+    const { WebNavigationManager } = Cu.import('resource://gre/modules/WebNavigation.jsm');
+    WebNavigationManager.addListener('onCreatedNavigationTarget', details => {
+      const newWindow = details.browser.ownerGlobal;
+      const sourceWindow = details.sourceTabBrowser.ownerGlobal;
+
+      // Pass config from the old window to a new one
+      if (!newWindow.gFFPWASiteConfig) {
+        newWindow.gFFPWASiteConfig = sourceWindow.gFFPWASiteConfig;
+        applySystemIntegration(newWindow, newWindow.gFFPWASiteConfig);
+      }
+
+      // Open out-of-scope links in default browser and close the newly-opened tab
+      if (checkOutOfScope(makeURI(details.url))) {
+        MailIntegration._launchExternalUrl(makeURI(details.url));
+        newWindow.gBrowser.removeTab(newWindow.gBrowser.tabs.find(tab => tab.linkedBrowser.currentURI.spec === 'about:blank'));
       }
     });
   }
@@ -563,8 +602,8 @@ class PwaBrowser {
     Object.defineProperty(window.AboutNewTab, '_newTabURL', {
       get () {
         const win = Services.wm.getMostRecentWindow('navigator:browser');
-        const userStartUrl = win.gFFPWASiteConfig.config.start_url;
-        const manifestStartUrl = win.gFFPWASiteConfig.manifest.start_url;
+        const userStartUrl = win.gFFPWASiteConfig?.config.start_url;
+        const manifestStartUrl = win.gFFPWASiteConfig?.manifest.start_url;
         return userStartUrl ? userStartUrl : manifestStartUrl;
       }
     });
@@ -1702,8 +1741,8 @@ class PwaBrowser {
     // 3 - Force links into a new tab
     xPref.set(ChromeLoader.PREF_LINKS_TARGET, 1, true);
 
-    // Determines whether URL bar is displayed always, when out of scope or never
-    // 0 - Display URL bar when out of scope (default)
+    // Determines whether URL bar is displayed always, when out-of-scope or never
+    // 0 - Display URL bar when out-of-scope (default)
     // 1 - Never display URL bar (strongly not recommended)
     // 2 - Always display URL bar
     xPref.set(ChromeLoader.PREF_DISPLAY_URL_BAR, 0, true);
@@ -1726,7 +1765,7 @@ class PwaBrowser {
     // Determines whether the window icon is dynamically changed to the site icon
     xPref.set(ChromeLoader.PREF_DYNAMIC_WINDOW_ICON, true, true);
 
-    // Determines whether out of scope URLs should be opened in a default browser
+    // Determines whether out-of-scope URLs should be opened in a default browser
     xPref.set(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, false, true);
 
     // Determines whether to open a web app in an existing window of that web app
