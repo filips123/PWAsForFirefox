@@ -154,6 +154,19 @@ jobs:
           echo "C:\Program Files (x86)\WiX Toolset v3.11\bin" >> $GITHUB_PATH
           cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev cc582226702a793fc9e1c20cdf99399663d6a2df
 
+      - name: Install PortableApps.com (Windows)
+        if: matrix.target == 'x86_64-pc-windows-msvc'
+        run: |
+          mkdir $TEMP/PortableAppsLauncher && cd $TEMP/PortableAppsLauncher
+          curl "https://download2.portableapps.com/portableapps/PortableApps.comLauncher/PortableApps.comLauncher_2.2.3.paf.exe" -o PortableAppsLauncher.paf.exe
+          7z x -y PortableAppsLauncher.paf.exe
+          echo $TEMP/PortableAppsLauncher >> $GITHUB_PATH
+
+          mkdir $TEMP/PortableAppsInstaller && cd $TEMP/PortableAppsInstaller
+          curl "https://download2.portableapps.com/portableapps/PortableApps.comInstaller/PortableApps.comInstaller_3.7.3.paf.exe" -o PortableAppsInstaller.paf.exe
+          7z x -y PortableAppsInstaller.paf.exe
+          echo $TEMP/PortableAppsInstaller >> $GITHUB_PATH
+
       - name: Configure Linux builds
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -219,6 +232,54 @@ jobs:
           heat dir userchrome -o packages/wix/userchrome.wxs -scom -srd -sreg -gg -cg UserChrome -dr UserChromeDir -var wix.UserChromeSource
           cargo wix --verbose --no-build --nocapture --target ${{ matrix.target }}
 
+      - name: Package PAF (Windows)
+        if: matrix.target == 'x86_64-pc-windows-msvc'
+        run: |
+          # Build helper executables
+          echo "::group::Building portable helpers"
+          (cd packages/paf/PWAsForFirefoxHelpers && cargo build --release --target ${{ matrix.target }})
+          echo "::endgroup::"
+
+          # Copy upstream files to the portable app
+          echo "::group::Copying upstream files"
+          mkdir -p packages/paf/PWAsForFirefoxPortable/App/upstream/
+          cp target/${{ matrix.target }}/release/firefoxpwa.exe packages/paf/PWAsForFirefoxPortable/App/upstream/
+          cp target/${{ matrix.target }}/release/firefoxpwa-connector.exe packages/paf/PWAsForFirefoxPortable/App/upstream/
+          cp -r userchrome/ packages/paf/PWAsForFirefoxPortable/App/upstream/
+          echo "::endgroup::"
+
+          # Copy helper files to the portable app
+          echo "::group::Copying helper files"
+          mkdir -p packages/paf/PWAsForFirefoxPortable/App/binaries/
+          cp packages/paf/PWAsForFirefoxHelpers/target/${{ matrix.target }}/release/*.exe packages/paf/PWAsForFirefoxPortable/App/binaries/
+          cp manifests/windows.json packages/paf/PWAsForFirefoxPortable/App/binaries/firefoxpwa.json
+          echo "::endgroup::"
+
+          # Set the version
+          echo "::group::Setting the package versions"
+          if [[ $GITHUB_REF == refs/tags/v* ]]
+          then
+            VERSION=${GITHUB_REF/refs\/tags\/v}
+            sed -i "s/PackageVersion=0.0.0.0/PackageVersion=$VERSION.0/g" packages/paf/PWAsForFirefoxPortable/App/AppInfo/appinfo.ini
+            sed -i "s/DisplayVersion=0.0.0/DisplayVersion=$VERSION/g" packages/paf/PWAsForFirefoxPortable/App/AppInfo/appinfo.ini
+          else
+            VERSION=0.0.0
+          fi
+          echo "::endgroup::"
+
+          # Generate the launcher and installer
+          echo "::group::Generating the launcher and installer"
+          cd packages/paf
+          PortableApps.comLauncherGenerator.exe $(cygpath -d $(realpath PWAsForFirefoxPortable))
+          PortableApps.comInstaller.exe $(cygpath -d $(realpath PWAsForFirefoxPortable))
+          echo "::endgroup::"
+
+          # Rename the installer
+          echo "::group::Renaming the installer"
+          mkdir -p ../../target/paf/
+          mv PWAsForFirefoxPortable_*.paf.exe ../../target/paf/firefoxpwa_${VERSION}_online.paf.exe
+          echo "::endgroup::"
+
       - name: Upload artifacts
         if: success() || failure()
         uses: actions/upload-artifact@v3
@@ -228,6 +289,7 @@ jobs:
             native/target/debian/*.deb
             native/target/rpm/*.rpm
             native/target/wix/*.msi
+            native/target/paf/*.paf.exe
 
   release-github:
     name: Release on GitHub
@@ -252,6 +314,7 @@ jobs:
             artifact/debian/*.deb
             artifact/rpm/*.rpm
             artifact/wix/*.msi
+            artifact/paf/*.paf.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

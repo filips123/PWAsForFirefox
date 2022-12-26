@@ -57,6 +57,13 @@ web_modules/
 # Needs to be manually generated before running cargo wix
 /native/packages/wix/userchrome.wxs
 
+# Generated PortableApps.com EXE files and data
+# Need to be generated using PA.com tools
+/native/packages/paf/**/*.exe
+/native/packages/paf/PWAsForFirefoxPortable/Data/*
+/native/packages/paf/PWAsForFirefoxPortable/App/*
+!/native/packages/paf/PWAsForFirefoxPortable/App/AppInfo
+
 # Generated Bootstrap Icons styles and font
 # Automatically generated when building the extension
 /extension/src/icons/
