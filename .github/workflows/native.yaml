@@ -94,24 +94,25 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # Normal builds for Linux
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-            cross: true
           - os: ubuntu-latest
             target: i686-unknown-linux-gnu
-            cross: true
           - os: ubuntu-latest
             target: aarch64-unknown-linux-gnu
-            cross: true
           - os: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
-            cross: true
+          # Normal builds for Windows
           - os: windows-latest
             target: x86_64-pc-windows-msvc
-            cross: false
           - os: windows-latest
             target: i686-pc-windows-msvc
-            cross: false
+          # Portable builds for Windows
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            flags: --features portable
+            portable: true
 
     steps:
       - name: Checkout repository
@@ -149,13 +150,13 @@ jobs:
           cargo install cargo-rpm --git https://github.com/iqlusioninc/cargo-rpm.git --rev ca2f28d012529914c59a1cc93edfd059bf294e21
 
       - name: Install Cargo WiX (Windows)
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-latest' && matrix.portable != true
         run: |
           echo "C:\Program Files (x86)\WiX Toolset v3.11\bin" >> $GITHUB_PATH
           cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev cc582226702a793fc9e1c20cdf99399663d6a2df
 
       - name: Install PortableApps.com (Windows)
-        if: matrix.target == 'x86_64-pc-windows-msvc'
+        if: matrix.os == 'windows-latest' && matrix.portable == true
         run: |
           mkdir $TEMP/PortableAppsLauncher && cd $TEMP/PortableAppsLauncher
           curl "https://download2.portableapps.com/portableapps/PortableApps.comLauncher/PortableApps.comLauncher_2.2.3.paf.exe" -o PortableAppsLauncher.paf.exe
@@ -207,8 +208,8 @@ jobs:
 
       - name: Build the project
         run: |
-          [[ ${{ matrix.cross }} == true ]] && CARGO="cross" || CARGO="cargo"
-          $CARGO build --release --target ${{ matrix.target }}
+          [[ ${{ matrix.os }} == ubuntu-latest ]] && CARGO="cross" || CARGO="cargo"
+          $CARGO build --release --target ${{ matrix.target }} ${{ matrix.flags }}
 
       - name: Package shell completions
         if: matrix.target == 'x86_64-unknown-linux-gnu'
@@ -227,35 +228,30 @@ jobs:
           cargo rpm build --verbose --no-cargo-build --target ${{ matrix.target }}
 
       - name: Package MSI (Windows)
-        if: matrix.os == 'windows-latest'
+        if: matrix.os == 'windows-latest' && matrix.portable != true
         run: |
           heat dir userchrome -o packages/wix/userchrome.wxs -scom -srd -sreg -gg -cg UserChrome -dr UserChromeDir -var wix.UserChromeSource
           cargo wix --verbose --no-build --nocapture --target ${{ matrix.target }}
 
       - name: Package PAF (Windows)
-        if: matrix.target == 'x86_64-pc-windows-msvc'
+        if: matrix.os == 'windows-latest' && matrix.portable == true
         run: |
           # Build helper executables
-          echo "::group::Building portable helpers"
+          echo "::group::Building helpers"
           (cd packages/paf/PWAsForFirefoxHelpers && cargo build --release --target ${{ matrix.target }})
           echo "::endgroup::"
 
-          # Copy upstream files to the portable app
-          echo "::group::Copying upstream files"
-          mkdir -p packages/paf/PWAsForFirefoxPortable/App/upstream/
-          cp target/${{ matrix.target }}/release/firefoxpwa.exe packages/paf/PWAsForFirefoxPortable/App/upstream/
-          cp target/${{ matrix.target }}/release/firefoxpwa-connector.exe packages/paf/PWAsForFirefoxPortable/App/upstream/
-          cp -r userchrome/ packages/paf/PWAsForFirefoxPortable/App/upstream/
+          # Copy files to the portable app package
+          echo "::group::Copying files to the package"
+          mkdir -p packages/paf/PWAsForFirefoxPortable/App/PWAsForFirefox/
+          cp target/${{ matrix.target }}/release/firefoxpwa.exe packages/paf/PWAsForFirefoxPortable/App/PWAsForFirefox/
+          cp target/${{ matrix.target }}/release/firefoxpwa-connector.exe packages/paf/PWAsForFirefoxPortable/App/PWAsForFirefox/
+          cp packages/paf/PWAsForFirefoxHelpers/target/${{ matrix.target }}/release/firefoxpwa-background.exe packages/paf/PWAsForFirefoxPortable/App/PWAsForFirefox/
+          cp manifests/windows.json packages/paf/PWAsForFirefoxPortable/App/PWAsForFirefox/firefoxpwa.json
+          cp -r userchrome/ packages/paf/PWAsForFirefoxPortable/App/PWAsForFirefox/
           echo "::endgroup::"
 
-          # Copy helper files to the portable app
-          echo "::group::Copying helper files"
-          mkdir -p packages/paf/PWAsForFirefoxPortable/App/binaries/
-          cp packages/paf/PWAsForFirefoxHelpers/target/${{ matrix.target }}/release/*.exe packages/paf/PWAsForFirefoxPortable/App/binaries/
-          cp manifests/windows.json packages/paf/PWAsForFirefoxPortable/App/binaries/firefoxpwa.json
-          echo "::endgroup::"
-
-          # Set the version
+          # Set the package version
           echo "::group::Setting the package versions"
           if [[ $GITHUB_REF == refs/tags/v* ]]
           then

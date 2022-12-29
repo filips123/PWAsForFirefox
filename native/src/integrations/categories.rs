@@ -1,5 +1,3 @@
-use phf::phf_map;
-
 /// Contains a set of most categories registered in Desktop Menu Specification.
 /// Some categories are mapped to multiple categories according to the specification.
 ///
@@ -13,7 +11,7 @@ use phf::phf_map;
 /// - FreeDesktop: https://specifications.freedesktop.org/menu-spec/menu-spec-1.0.html#category-registry
 ///
 #[cfg(target_os = "linux")]
-pub static XDG_CATEGORIES: phf::Map<&'static str, &'static [&'static str]> = phf_map! {
+pub static XDG_CATEGORIES: phf::Map<&'static str, &'static [&'static str]> = phf::phf_map! {
     // Main Categories
     "audiovideo" => &["AudioVideo"],
     "audio" => &["Audio", "AudioVideo"],
@@ -189,7 +187,7 @@ pub static XDG_CATEGORIES: phf::Map<&'static str, &'static [&'static str]> = phf
 /// - Apple: https://developer.apple.com/documentation/bundleresources/information_property_list/lsapplicationcategorytype
 ///
 #[cfg(target_os = "macos")]
-pub static MACOS_CATEGORIES: phf::Map<&'static str, &'static str> = phf_map! {
+pub static MACOS_CATEGORIES: phf::Map<&'static str, &'static str> = phf::phf_map! {
     "business" => "public.app-category.business",
     "developertools" => "public.app-category.developer-tools",
     "development" => "public.app-category.developer-tools",
@@ -244,4 +242,38 @@ pub static MACOS_CATEGORIES: phf::Map<&'static str, &'static str> = phf_map! {
     "utility" => "public.app-category.utilities",
     "video" => "public.app-category.video",
     "weather" => "public.app-category.weather",
+};
+
+/// Contains mappings from W3C categories, including some additional
+/// non-standard categories, to the PortableApps.com categories list.
+///
+/// All categories are in lower-case and without all word separators for easier matching.
+///
+/// Please sort them in the same order as in the PortableApps.com website,
+/// and sort multiple "aliases" for the same category alphabetically.
+///
+/// Sources:
+/// - W3C: https://github.com/w3c/manifest/wiki/Categories#standardized-categories
+/// - PortableApps.com: https://portableapps.com/development/portableapps.com_format#appinfo
+///
+#[cfg(all(target_os = "windows", feature = "portable"))]
+pub static PORTABLEAPPS_CATEGORIES: phf::Map<&'static str, &'static str> = phf::phf_map! {
+    "accessibility" => "Accessibility",
+    "developertools" => "Development",
+    "development" => "Development",
+    "developmenttools" => "Development",
+    "education" => "Education",
+    "game" => "Games",
+    "games" => "Games",
+    "design" => "Graphics & Pictures",
+    "graphics" => "Graphics & Pictures",
+    "internet" => "Internet",
+    "audio" => "Music & Video",
+    "music" => "Music & Video",
+    "video" => "Music & Video",
+    "office" => "Office",
+    "security" => "Security",
+    "personalization" => "Utilities",
+    "utilities" => "Utilities",
+    "utility" => "Utilities",
 };

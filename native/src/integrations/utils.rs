@@ -43,7 +43,11 @@ pub fn sanitize_name<'a>(name: &'a str, id: &'a str) -> String {
 ///
 /// Category name is converted to lower-case and all word separators (`-`, `_`, ` `)
 /// are removed. This allows easier matching with keys from the categories map.
-#[cfg(any(target_os = "linux", target_os = "macos"))]
+#[cfg(any(
+    target_os = "linux",
+    target_os = "macos",
+    all(target_os = "windows", feature = "portable")
+))]
 #[inline]
 pub fn normalize_category_name(category: &str) -> String {
     category.to_lowercase().replace(['-', '_', ' '], "")

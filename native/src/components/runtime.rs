@@ -13,6 +13,10 @@ use tempfile::{NamedTempFile, TempDir};
 use crate::components::site::Site;
 use crate::directories::ProjectDirs;
 
+#[allow(dead_code)]
+const UNSUPPORTED_PLATFORM_ERROR: &str =
+    "Cannot install runtime: Unsupported operating system or architecture!";
+
 fn remove_dir_contents<P: AsRef<Path>>(path: P) -> IoResult<()> {
     if !path.as_ref().exists() {
         return Ok(());
@@ -54,7 +58,7 @@ fn get_download_url() -> &'static str {
         } else if #[cfg(target_os = "macos")] {
             concatcp!(BASE_DOWNLOAD_URL, "osx")
         } else {
-            panic!("Cannot install runtime: Unsupported operating system or architecture!");
+            panic!("{}", UNSUPPORTED_PLATFORM_ERROR);
         }
     }
 }
@@ -71,10 +75,18 @@ pub struct Runtime {
 
 impl Runtime {
     pub fn new(dirs: &ProjectDirs) -> Result<Self> {
-        // Runtime is currently installed to a user-specific location along with other project files
-        // If you want to overwrite locations of all project files, check `directories.rs`
-        // If you want to overwrite only runtime location, replace the below line
-        let directory = dirs.userdata.join("runtime");
+        cfg_if! {
+            if #[cfg(feature = "portable")] {
+                // When compiling in PortableApps.com mode, the runtime is installed to <root>/App/PWAsForFirefox/runtime
+                // This is used to comply with PortableApps.com guidelines about not having binary files in <root>/Data
+                let directory = dirs.sysdata.join("runtime");
+            } else {
+                // Runtime is installed to a user-specific location along with other project files
+                // If you want to overwrite locations of all project files, check `directories.rs`
+                // If you want to overwrite only runtime location, replace the below line
+                let directory = dirs.userdata.join("runtime");
+            }
+        }
 
         let executable = {
             cfg_if! {
@@ -191,7 +203,7 @@ impl Runtime {
 
                 source.pop();
             } else {
-                compile_error!("Unknown operating system");
+                panic!("{}", UNSUPPORTED_PLATFORM_ERROR);
             }
         }
 

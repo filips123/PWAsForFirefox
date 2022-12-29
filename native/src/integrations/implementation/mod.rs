@@ -7,7 +7,7 @@ use {crate::components::site::Site, std::process::Child, url::Url};
 
 use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 
-#[cfg(target_os = "windows")]
+#[cfg(all(target_os = "windows", not(feature = "portable")))]
 mod windows;
 
 #[cfg(target_os = "linux")]
@@ -16,11 +16,16 @@ mod linux;
 #[cfg(target_os = "macos")]
 mod macos;
 
+#[cfg(all(target_os = "windows", feature = "portable"))]
+mod portableapps;
+
 #[inline]
 pub fn install(args: &IntegrationInstallArgs) -> Result<()> {
     cfg_if! {
-        if #[cfg(target_os = "windows")] {
+        if #[cfg(all(target_os = "windows", not(feature = "portable")))] {
             windows::install(args)
+        } else if #[cfg(all(target_os = "windows", feature = "portable"))] {
+            portableapps::install(args)
         } else if #[cfg(target_os = "linux")] {
             linux::install(args)
         } else if #[cfg(target_os = "macos")] {
@@ -34,8 +39,10 @@ pub fn install(args: &IntegrationInstallArgs) -> Result<()> {
 #[inline]
 pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
     cfg_if! {
-        if #[cfg(target_os = "windows")] {
+        if #[cfg(all(target_os = "windows", not(feature = "portable")))] {
             windows::uninstall(args)
+        } else if #[cfg(all(target_os = "windows", feature = "portable"))] {
+            portableapps::uninstall(args)
         } else if #[cfg(target_os = "linux")] {
             linux::uninstall(args)
         } else if #[cfg(target_os = "macos")] {

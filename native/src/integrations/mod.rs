@@ -3,7 +3,6 @@ use reqwest::blocking::Client;
 use crate::components::site::Site;
 use crate::directories::ProjectDirs;
 
-#[cfg(any(target_os = "linux", target_os = "macos"))]
 mod categories;
 mod implementation;
 mod utils;

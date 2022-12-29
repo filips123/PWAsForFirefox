@@ -11,8 +11,7 @@ use firefoxpwa::{connector::Connection, directories::ProjectDirs};
 fn main() -> Result<()> {
     let dirs = ProjectDirs::new()?;
 
-    let debugfile = dirs.userdata.join("DEBUG");
-    let debugmode = debugfile.exists();
+    let debugmode = dirs.userdata.join("DEBUG").exists();
     let loglevel = if debugmode { LevelFilter::Debug } else { LevelFilter::Warn };
 
     let logfile = dirs.userdata.join("firefoxpwa.log");

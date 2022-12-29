@@ -15,7 +15,7 @@ enum Events {
 fn main() {
     let events = EventLoopBuilder::<Events>::with_user_event().build();
     let proxy = events.create_proxy();
-    let icon = include_bytes!("../icon.ico");
+    let icon = include_bytes!("icon.ico");
 
     let sender = move |event: &Events| {
         let _ = proxy.send_event(event.clone());

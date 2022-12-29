@@ -19,6 +19,9 @@ version = "0.0.0"
 codegen-units = 1
 lto = true
 
+[features]
+portable = ["phf"]
+
 [dependencies]
 ab_glyph = "0.2.18"
 anyhow = "1.0.66"
@@ -46,8 +49,9 @@ urlencoding = "2.1.2"
 web_app_manifest = { git = "https://github.com/filips123/WebAppManifestRS", branch = "main" }
 
 [target.'cfg(target_os = "windows")'.dependencies]
-sanitize-filename = "0.4.0"
 winreg = "0.10.1"
+sanitize-filename = "0.4.0"
+phf = { version = "0.11.1", features = ["macros"], optional = true }
 
 [target.'cfg(target_os = "windows")'.dependencies.windows]
 version = "0.43.0"
