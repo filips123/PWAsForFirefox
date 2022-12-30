@@ -24,10 +24,10 @@ portable = ["phf"]
 
 [dependencies]
 ab_glyph = "0.2.18"
-anyhow = "1.0.66"
+anyhow = "1.0.68"
 byteorder = "1.4.3"
 cfg-if = "1.0.0"
-clap = { version = "4.0.29", features = ["derive"] }
+clap = { version = "4.0.32", features = ["derive"] }
 configparser = "3.0.2"
 const_format = "0.2.30"
 data-url = { git = "https://github.com/filips123/rust-url", branch = "impl-std-error" }
@@ -38,8 +38,8 @@ image = "0.24.5"
 log = "0.4.17"
 reqwest = { version = "0.11.13", features = ["blocking", "socks", "gzip", "brotli", "deflate", "native-tls"] }
 resvg = "0.27.0"
-serde = { version = "1.0.148", features = ["derive"] }
-serde_json = "1.0.89"
+serde = { version = "1.0.152", features = ["derive"] }
+serde_json = "1.0.91"
 simplelog = "0.12.0"
 smart-default = "0.6.0"
 tempfile = "3.3.0"
@@ -75,7 +75,7 @@ phf = { version = "0.11.1", features = ["macros"] }
 tar = "0.4.38"
 
 [target.'cfg(target_os = "macos")'.dependencies]
-dmg = "0.1.1"
+dmg = "0.1.2"
 phf = { version = "0.11.1", features = ["macros"] }
 icns = "0.3.1"
 pix = "0.13.2"
@@ -83,8 +83,8 @@ plist = "1.3.1"
 sanitize-filename = "0.4.0"
 
 [build-dependencies]
-clap = { version = "4.0.29", features = ["derive"] }
-clap_complete = "4.0.6"
+clap = { version = "4.0.32", features = ["derive"] }
+clap_complete = "4.0.7"
 ulid = "1.0.0"
 url = "2.3.1"
 
