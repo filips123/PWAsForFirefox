@@ -1728,6 +1728,7 @@ class PwaBrowser {
     xPref.set('browser.uidensity', 1, true);
     xPref.set('browser.link.open_newwindow', 1, true);
     xPref.set('datareporting.policy.firstRunURL', '', true);
+    xPref.set('extensions.unifiedExtensions.enabled', false, true);
 
     // Set distribution details
     xPref.set('distribution.id', ChromeLoader.DISTRIBUTION_ID, true);
