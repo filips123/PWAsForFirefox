@@ -17,6 +17,9 @@ async function prepareInstallInstructions () {
   const msiArch = arch === 'x86-64' ? 'x86_64' : 'x86'
   document.getElementById('connector-download-url-msi').setAttribute('href', `https://github.com/filips123/PWAsForFirefox/releases/download/v${version}/firefoxpwa-${version}-${msiArch}.msi`)
 
+  // Set PAF download url based on extension version
+  document.getElementById('connector-download-url-paf').setAttribute('href', `https://github.com/filips123/PWAsForFirefox/releases/download/v${version}/firefoxpwa_${version}_online.paf.exe`)
+
   // Set DEB download URL based on system arch and extension version
   const debArch = (() => {
     switch (arch) {
