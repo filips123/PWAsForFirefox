@@ -164,6 +164,7 @@ impl SiteInstallCommand {
             },
             manifest_url: self.manifest_url.clone(),
             start_url: self.start_url.clone(),
+            icon_url: self.icon_url.clone(),
             enabled_url_handlers: vec![],
             enabled_protocol_handlers: vec![],
             custom_protocol_handlers: vec![],
@@ -261,6 +262,7 @@ impl Run for SiteUpdateCommand {
         store_value!(site.config.name, self.name);
         store_value!(site.config.description, self.description);
         store_value!(site.config.start_url, self.start_url);
+        store_value!(site.config.icon_url, self.icon_url);
         store_value_vec!(site.config.categories, self.categories);
         store_value_vec!(site.config.keywords, self.keywords);
         store_value!(site.config.enabled_url_handlers, self.enabled_url_handlers);

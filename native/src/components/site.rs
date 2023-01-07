@@ -8,8 +8,8 @@ use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
 use ulid::Ulid;
 use url::Url;
-use web_app_manifest::resources::ProtocolHandlerResource;
-use web_app_manifest::types::Url as ManifestUrl;
+use web_app_manifest::resources::{IconResource, ProtocolHandlerResource};
+use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
 pub use web_app_manifest::WebAppManifest as SiteManifest;
 
 use crate::components::runtime::Runtime;
@@ -40,6 +40,9 @@ pub struct SiteConfig {
 
     /// A custom web app start URL.
     pub start_url: Option<Url>,
+
+    /// A custom web app icon URL.
+    pub icon_url: Option<Url>,
 
     /// Direct URL of the site's main document.
     pub document_url: Url,
@@ -255,6 +258,20 @@ impl Site {
             .cloned()
             .or_else(|| self.manifest.description.as_ref().cloned())
             .unwrap_or_else(|| "".into())
+    }
+
+    /// First tries the user-specified icon, then try manifest icons.
+    pub fn icons(&self) -> Vec<IconResource> {
+        match &self.config.icon_url {
+            Some(icon) => vec![IconResource {
+                src: ManifestUrl::Absolute(icon.clone()),
+                sizes: [ImageSize::default()].iter().cloned().collect(),
+                purpose: [ImagePurpose::default()].iter().cloned().collect(),
+                r#type: None,
+                label: None,
+            }],
+            None => self.manifest.icons.clone(),
+        }
     }
 
     /// Categories can be used for user organization.

@@ -123,6 +123,7 @@ impl Process for InstallSite {
             manifest_url: self.manifest_url.to_owned(),
             document_url: self.document_url.to_owned(),
             start_url: self.start_url.to_owned(),
+            icon_url: self.icon_url.to_owned(),
             profile: self.profile.to_owned(),
             name: self.name.to_owned(),
             description: self.description.to_owned(),
@@ -153,6 +154,7 @@ impl Process for UpdateSite {
         let command = SiteUpdateCommand {
             id: self.id,
             start_url: self.start_url.to_owned(),
+            icon_url: self.icon_url.to_owned(),
             name: self.name.to_owned(),
             description: self.description.to_owned(),
             categories: self.categories.clone().map(|x| x.unwrap_or_else(|| vec!["".into()])),

@@ -244,6 +244,31 @@ async function initializeForm () {
   startUrlInput.addEventListener('input', startUrlValidation)
   startUrlValidation.call(startUrlInput)
 
+  // Validate icon URL input
+  const iconUrlValidation = function () {
+    const invalidLabel = document.getElementById('web-app-icon-url-invalid')
+
+    // Empty URL defaults to manifest icons
+    if (!this.value) {
+      this.setCustomValidity('')
+      return
+    }
+
+    // Icon URL needs to be a valid URL
+    if (this.validity.typeMismatch) {
+      this.setCustomValidity('Icon URL needs to be a valid URL')
+      invalidLabel.innerText = this.validationMessage
+      return
+    }
+
+    // All checks passed
+    this.setCustomValidity('')
+  }
+
+  const iconUrlInput = document.getElementById('web-app-icon-url')
+  iconUrlInput.addEventListener('input', iconUrlValidation)
+  iconUrlValidation.call(iconUrlInput)
+
   // Validate the profile input
   const profileValidation = function () {
     const invalidLabel = document.getElementById('web-app-profile-invalid')
@@ -282,6 +307,7 @@ async function initializeForm () {
 
     // Get simple site data
     const startUrl = document.getElementById('web-app-start-url').value || null
+    const iconUrl = document.getElementById('web-app-icon-url').value || null
     let profile = document.getElementById('web-app-profile').value || null
     const name = document.getElementById('web-app-name').value || null
     const description = document.getElementById('web-app-description').value || null
@@ -327,6 +353,7 @@ async function initializeForm () {
         manifest_url: manifestUrl,
         document_url: documentUrl,
         start_url: startUrl,
+        icon_url: iconUrl,
         profile,
         name,
         description,

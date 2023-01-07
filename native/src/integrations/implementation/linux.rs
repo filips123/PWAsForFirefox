@@ -308,14 +308,8 @@ pub fn install(args: &IntegrationInstallArgs) -> Result<()> {
     let data = directories::BaseDirs::new().context(BASE_DIRECTORIES_ERROR)?.data_dir().to_owned();
 
     if args.update_icons {
-        store_icons(
-            &ids.classid,
-            &ids.name,
-            &args.site.manifest.icons,
-            &data,
-            args.client.unwrap(),
-        )
-        .context("Failed to store web app icons")?;
+        store_icons(&ids.classid, &ids.name, &args.site.icons(), &data, args.client.unwrap())
+            .context("Failed to store web app icons")?;
     }
 
     create_desktop_entry(args, &ids, &exe, &data).context("Failed to create application entry")?;

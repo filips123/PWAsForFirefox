@@ -79,18 +79,16 @@ async function createSiteList () {
   for (const site of sites) {
     const siteElement = templateElement.content.firstElementChild.cloneNode(true)
     const siteName = site.config.name || site.manifest.name || site.manifest.short_name || new URL(site.manifest.scope).host
-
-    const icons = buildIconList(site.manifest.icons)
-    const icon = getIcon(icons, 64)
+    const siteIcon = site.config.icon_url || getIcon(buildIconList(site.manifest.icons), 64)
 
     const letterElement = siteElement.querySelector('#sites-list-template-letter')
-    if (icon) letterElement.classList.add('d-none')
+    if (siteIcon) letterElement.classList.add('d-none')
     letterElement.setAttribute('data-letter', siteName[0])
     letterElement.removeAttribute('id')
 
     const iconElement = siteElement.querySelector('#sites-list-template-icon')
-    if (!icon) iconElement.classList.add('d-none')
-    iconElement.src = icon
+    if (!siteIcon) iconElement.classList.add('d-none')
+    iconElement.src = siteIcon
     iconElement.removeAttribute('id')
     iconElement.onerror = () => {
       letterElement.classList.remove('d-none')
@@ -123,6 +121,7 @@ async function createSiteList () {
       document.getElementById('web-app-name').value = site.config.name || ''
       document.getElementById('web-app-description').value = site.config.description || ''
       document.getElementById('web-app-start-url').value = site.config.start_url
+      document.getElementById('web-app-icon-url').value = site.config.icon_url
       document.getElementById('web-app-ulid').value = site.ulid
 
       // Clear previous categories
@@ -250,6 +249,31 @@ async function createSiteList () {
       startUrlInput.oninput = startUrlValidation
       startUrlValidation.call(startUrlInput)
 
+      // Validate icon URL input
+      const iconUrlValidation = function () {
+        const invalidLabel = document.getElementById('web-app-icon-url-invalid')
+
+        // Empty URL defaults to manifest icons
+        if (!this.value) {
+          this.setCustomValidity('')
+          return
+        }
+
+        // Icon URL needs to be a valid URL
+        if (this.validity.typeMismatch) {
+          this.setCustomValidity('Icon URL needs to be a valid URL')
+          invalidLabel.innerText = this.validationMessage
+          return
+        }
+
+        // All checks passed
+        this.setCustomValidity('')
+      }
+
+      const iconUrlInput = document.getElementById('web-app-icon-url')
+      iconUrlInput.addEventListener('input', iconUrlValidation)
+      iconUrlValidation.call(iconUrlInput)
+
       // Handle form submission and validation
       submit.onclick = async (event) => {
         event.preventDefault()
@@ -264,6 +288,7 @@ async function createSiteList () {
 
         // Get simple site data
         const startUrl = document.getElementById('web-app-start-url').value || null
+        const iconUrl = document.getElementById('web-app-icon-url').value || null
         const name = document.getElementById('web-app-name').value || null
         const description = document.getElementById('web-app-description').value || null
 
@@ -291,6 +316,7 @@ async function createSiteList () {
           params: {
             id: site.ulid,
             start_url: startUrl,
+            icon_url: iconUrl,
             name,
             description,
             categories,

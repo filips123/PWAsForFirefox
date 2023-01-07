@@ -520,7 +520,7 @@ task.waitUntilExit()
 
     // Update icons if needed
     if args.update_icons {
-        store_icons(&resources_dir, &name, &args.site.manifest.icons, args.client.unwrap())
+        store_icons(&resources_dir, &name, &args.site.icons(), args.client.unwrap())
             .context(STORE_ICONS_ERROR)?;
     }
 

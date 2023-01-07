@@ -97,7 +97,7 @@ fn store_icons(args: &IntegrationInstallArgs, path: &Path) -> Result<()> {
         PortableAppIcon { size: 256, format: "ico" },
     ];
 
-    let icons = &args.site.manifest.icons;
+    let icons = &args.site.icons();
     let fallback = &args.site.name();
     let client = args.client.unwrap();
 

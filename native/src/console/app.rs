@@ -79,6 +79,10 @@ pub struct SiteInstallCommand {
     #[clap(long)]
     pub start_url: Option<Url>,
 
+    /// Set a custom web app icon URL
+    #[clap(long)]
+    pub icon_url: Option<Url>,
+
     /// Set a custom web app name
     #[clap(long)]
     pub name: Option<String>,
@@ -126,6 +130,10 @@ pub struct SiteUpdateCommand {
     /// Set a custom web app start URL
     #[clap(long)]
     pub start_url: Option<Option<Url>>,
+
+    /// Set a custom web app icon URL
+    #[clap(long)]
+    pub icon_url: Option<Option<Url>>,
 
     /// Set a custom web app name
     #[clap(long)]

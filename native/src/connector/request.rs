@@ -230,6 +230,12 @@ pub struct InstallSite {
     /// If not set, defaults to the value specified in the manifest.
     pub start_url: Option<Url>,
 
+    /// A custom web app icon URL.
+    ///
+    /// Can be set by the user to overwrite the default icons.
+    /// If not set, defaults to the value specified in the manifest.
+    pub icon_url: Option<Url>,
+
     /// A custom web app name.
     ///
     /// Can be set by the user to overwrite the default name.
@@ -304,6 +310,12 @@ pub struct UpdateSite {
     /// Can be set by the user to overwrite the default start URL.
     #[serde(default, deserialize_with = "double_option")]
     pub start_url: Option<Option<Url>>,
+
+    /// A custom web app icon URL.
+    ///
+    /// Can be set by the user to overwrite the default icons.
+    #[serde(default, deserialize_with = "double_option")]
+    pub icon_url: Option<Option<Url>>,
 
     /// A custom web app name.
     ///

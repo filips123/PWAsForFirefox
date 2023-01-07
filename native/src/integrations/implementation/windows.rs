@@ -340,7 +340,7 @@ pub fn install(args: &IntegrationInstallArgs) -> Result<()> {
         create_dir_all(&icons_directory).context("Failed to create icons directory")?;
 
         // Store new site icon (shortcut icons will be added later)
-        store_icon(&ids.name, &args.site.manifest.icons, &icon_path, args.client.unwrap())
+        store_icon(&ids.name, &args.site.icons(), &icon_path, args.client.unwrap())
             .context("Failed to store web app icon")?;
     }
 
