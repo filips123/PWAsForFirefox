@@ -36,6 +36,7 @@
     "http://*/*",
     "https://*/*",
     "nativeMessaging",
+    "notifications",
     "storage"
   ],
   "optional_permissions": [

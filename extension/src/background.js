@@ -7,7 +7,12 @@ import {
   PREF_SHOW_UPDATE_POPUP
 } from './utils'
 
-// Display install/update page when extension is installed/updated to notify users
+// == INSTALL AND UPDATE HANDLING
+
+const updateNotification = 'update-available-notification'
+
+// Display the installation page when extension is installed
+// Display the update notification when the extension is updated
 browser.runtime.onInstalled.addListener(async ({ reason }) => {
   switch (reason) {
     case 'install':
@@ -18,10 +23,23 @@ browser.runtime.onInstalled.addListener(async ({ reason }) => {
         (await browser.storage.local.get({ [PREF_SHOW_UPDATE_POPUP]: true }))[PREF_SHOW_UPDATE_POPUP] &&
         (await checkNativeStatus()) !== 'ok'
       ) {
-        await browser.tabs.create({ url: browser.runtime.getURL('setup/update.html') })
+        await browser.notifications.create(updateNotification, {
+          title: 'PWAsForFirefox Update',
+          message: 'A PWAsForFirefox update is available. Please click the notification to display the update instructions.',
+          iconUrl: browser.runtime.getURL('images/addon-logo.svg'),
+          type: 'basic'
+        })
       }
   }
 })
+
+// Open the update page when the update notification is clicked
+browser.notifications.onClicked.addListener(async notification => {
+  if (notification !== updateNotification) return
+  await browser.tabs.create({ url: browser.runtime.getURL('setup/update.html') })
+})
+
+// == CONTENT SCRIPT HANDLING
 
 // Detect manifest sent from content script
 browser.runtime.onMessage.addListener(async ({ manifestUrl, documentUrl }, { tab }) => {
@@ -68,6 +86,8 @@ browser.runtime.onMessage.addListener(async ({ manifestUrl, documentUrl }, { tab
   }
 })
 
+// == PERMISSION HANDLING
+
 // Reload the extension after auto launch permissions have been added
 // Or disable the preference if permissions have been revoked
 const permissionsListener = async () => {
@@ -82,6 +102,8 @@ const permissionsListener = async () => {
 
 browser.permissions.onAdded.addListener(permissionsListener)
 browser.permissions.onRemoved.addListener(permissionsListener)
+
+// == AUTO LAUNCH HANDLING
 
 // Handle opening new URLs and redirect enable URLs to web apps
 // This will obtain site list for every request (twice) which will impact performance
