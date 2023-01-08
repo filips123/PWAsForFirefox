@@ -60,16 +60,6 @@ For detailed and more technical documentation how to set up, use and develop the
 
 These are things that I would like to fix eventually, but will currently stay, either because they are too hard to fix, or would require modifying the Firefox source. I will appreciate any help to fix them.
 
-* **New windows become disconnected from the original PWA:**
-
-  This only applies to windows opened by PWAs (for example, using `target="_blank"` links or `window.open`), but *not* windows opened by a user with app/context menus, keyboard shortcuts or shift-clicking on links.
-
-  On Windows, this means new windows will use the normal Firefox icon and probably merge with the normal Firefox shortcut in the taskbar. On Linux and macOS, this won't be so noticeable due to other issues. It will also cause them to lose the functionality of changing window colors and will always have an address bar displayed.
-
-  This could be fixed if there is an easy way to intercept the opening of every new window, and pass it `window.gFFPWASiteConfig` from the original window just after it is created. I implemented this for some windows (mainly those opened by users), but don't know how to do it for all windows.
-
-  This problem is tracked as issue [#79](https://github.com/filips123/PWAsForFirefox/issues/79).
-
 * **All PWAs are merged with the first PWA that was opened (Linux & macOS):**
 
   When some PWA is already running, all newly launched PWAs will merge with it and remain merged until all of them are closed. This will cause the app menu to display all PWAs as part of the first PWA that was launched, with its icon and desktop actions (if any).
