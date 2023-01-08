@@ -203,6 +203,12 @@ pub struct ProfileCreateCommand {
     /// Set a profile description
     #[clap(long)]
     pub description: Option<String>,
+
+    /// Set a profile template
+    /// {n}All contents of the template directory
+    /// will be copied to a newly-created profile
+    #[clap(long)]
+    pub template: Option<PathBuf>,
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]

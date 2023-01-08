@@ -215,6 +215,14 @@
                 </div>
               </div>
 
+              <div class="list-group-item">
+                <div>
+                  <label class="fw-bold mb-0" for="settings-default-profile-template">Default profile template</label>
+                  <input type="text" class="form-control form-control-sm" id="settings-default-profile-template" placeholder="Enter a path to the profile template" />
+                  <!-- This has to be a text input because Firefox does not support file inputs in extension popups -->
+                </div>
+              </div>
+
               <button type="button" class="list-group-item list-group-item-action fw-bold" id="update-all-sites">
                 Update web apps
               </button>
@@ -321,6 +329,11 @@
           <div class="mb-3">
             <label for="profile-description" class="form-label">Description</label>
             <input type="text" class="form-control form-control-sm" id="profile-description" />
+          </div>
+          <div class="mb-3" id="profile-template-div">
+            <label for="profile-template" class="form-label">Template</label>
+            <input type="text" class="form-control form-control-sm" id="profile-template" placeholder="Enter a path to the profile template" />
+            <!-- This has to be a text input because Firefox does not support file inputs in extension popups -->
           </div>
           <div class="mb-3" id="profile-ulid-div">
             <label for="profile-ulid" class="form-label fw-bold">ID</label>

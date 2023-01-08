@@ -422,6 +422,12 @@ pub struct CreateProfile {
 
     /// A profile description.
     pub description: Option<String>,
+
+    /// A profile template.
+    ///
+    /// All contents of the provided template directory
+    /// will be copied to a newly-created profile.
+    pub template: Option<PathBuf>,
 }
 
 /// Removes a profile.

@@ -219,6 +219,7 @@ impl Process for CreateProfile {
         let command = ProfileCreateCommand {
             name: self.name.to_owned(),
             description: self.description.to_owned(),
+            template: self.template.to_owned(),
         };
         let ulid = command._run()?;
 

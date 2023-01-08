@@ -2,6 +2,7 @@ export const PREF_DISPLAY_PAGE_ACTION = 'settings.display-page-action'
 export const PREF_LAUNCH_CURRENT_URL = 'settings.launch-current-url'
 export const PREF_SHOW_UPDATE_POPUP = 'settings.show-update-popup'
 export const PREF_ENABLE_AUTO_LAUNCH = 'settings.enable-auto-launch'
+export const PREF_DEFAULT_PROFILE_TEMPLATE = 'settings.default-profile-template'
 export const PREF_DISABLE_UPDATE_CHECKING = 'settings.disable-update-checking'
 
 export const AUTO_LAUNCH_PERMISSIONS = { permissions: ['webNavigation', 'webRequest', 'webRequestBlocking'] }

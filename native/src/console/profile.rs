@@ -1,8 +1,9 @@
-use std::fs::remove_dir_all;
+use std::fs::{create_dir_all, remove_dir_all};
 use std::io;
 use std::io::Write;
 
 use anyhow::{Context, Result};
+use fs_extra::dir::{copy, CopyOptions};
 use log::{info, warn};
 use ulid::Ulid;
 
@@ -74,6 +75,17 @@ impl ProfileCreateCommand {
 
         storage.profiles.insert(ulid, profile);
         storage.write(&dirs)?;
+
+        if let Some(template) = &self.template {
+            let mut options = CopyOptions::new();
+            options.content_only = true;
+            options.overwrite = true;
+
+            info!("Copying a profile template");
+            let target = dirs.userdata.join("profiles").join(ulid.to_string());
+            create_dir_all(&target).context("Failed to create a profile directory")?;
+            copy(template, target, &options).context("Failed to copy a profile template")?;
+        }
 
         info!("Profile created: {}", ulid);
         Ok(ulid)

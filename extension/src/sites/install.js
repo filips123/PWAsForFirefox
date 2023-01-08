@@ -5,7 +5,14 @@ import Modal from 'bootstrap/js/src/modal'
 import Toast from 'bootstrap/js/src/toast'
 import Tags from 'bootstrap5-tags/tags'
 
-import { obtainManifest, obtainProfileList, obtainSiteList, obtainUrls, setPopupSize } from '../utils'
+import {
+  obtainManifest,
+  obtainProfileList,
+  obtainSiteList,
+  obtainUrls,
+  PREF_DEFAULT_PROFILE_TEMPLATE,
+  setPopupSize
+} from '../utils'
 import { knownCategories } from './categories'
 
 async function initializeForm () {
@@ -128,7 +135,7 @@ async function initializeForm () {
 
   // Handle creating a new profile
   let lastProfileSelection = profilesElement.value
-  profilesElement.addEventListener('change', function (event) {
+  profilesElement.addEventListener('change', async function (event) {
     if (this.value !== 'create-new-profile') {
       lastProfileSelection = this.value
       return
@@ -140,6 +147,10 @@ async function initializeForm () {
     const profileButton = document.getElementById('new-profile-create')
     profileButton.disabled = false
     profileButton.innerText = 'Create'
+
+    // Set profile template to default
+    const profileTemplate = (await browser.storage.local.get([PREF_DEFAULT_PROFILE_TEMPLATE]))[PREF_DEFAULT_PROFILE_TEMPLATE]
+    document.getElementById('new-profile-template').value = profileTemplate || null
 
     // Show modal
     Modal.getOrCreateInstance(document.getElementById('new-profile-modal'), { backdrop: 'static', keyboard: false }).show()
@@ -153,6 +164,7 @@ async function initializeForm () {
   document.getElementById('new-profile-create').addEventListener('click', async function () {
     const name = document.getElementById('new-profile-name').value || null
     const description = document.getElementById('new-profile-description').value || null
+    const template = document.getElementById('new-profile-template').value || null
 
     this.disabled = true
     this.innerText = 'Creating...'
@@ -160,7 +172,7 @@ async function initializeForm () {
     // Create a new profile and get its ID
     const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
       cmd: 'CreateProfile',
-      params: { name, description }
+      params: { name, description, template }
     })
 
     if (response.type === 'Error') throw new Error(response.data)
@@ -338,7 +350,12 @@ async function initializeForm () {
     // Create a new profile if requested by the user
     if (profile === 'auto-create-new-profile') {
       const profileName = name || manifest.name || manifest.short_name || new URL(manifest.scope).host
-      const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'CreateProfile', params: { name: profileName } })
+      const profileTemplate = (await browser.storage.local.get([PREF_DEFAULT_PROFILE_TEMPLATE]))[PREF_DEFAULT_PROFILE_TEMPLATE]
+
+      const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+        cmd: 'CreateProfile',
+        params: { name: profileName || null, template: profileTemplate || null }
+      })
 
       if (response.type === 'Error') throw new Error(response.data)
       if (response.type !== 'ProfileCreated') throw new Error(`Received invalid response type: ${response.type}`)

@@ -17,9 +17,11 @@ import {
   launchSite,
   obtainProfileList,
   obtainSiteList,
+  PREF_DEFAULT_PROFILE_TEMPLATE,
   PREF_DISPLAY_PAGE_ACTION,
   PREF_ENABLE_AUTO_LAUNCH,
-  PREF_LAUNCH_CURRENT_URL, PREF_SHOW_UPDATE_POPUP,
+  PREF_LAUNCH_CURRENT_URL,
+  PREF_SHOW_UPDATE_POPUP,
   setConfig,
   setPopupSize
 } from '../utils'
@@ -397,6 +399,11 @@ async function createProfileList () {
     document.getElementById('profile-name').value = ''
     document.getElementById('profile-description').value = ''
 
+    // Show profile template box
+    const profileTemplate = (await browser.storage.local.get([PREF_DEFAULT_PROFILE_TEMPLATE]))[PREF_DEFAULT_PROFILE_TEMPLATE]
+    document.getElementById('profile-template-div').classList.remove('d-none')
+    document.getElementById('profile-template').value = profileTemplate || null
+
     // Hide profile ULID box
     document.getElementById('profile-ulid-div').classList.add('d-none')
 
@@ -422,7 +429,8 @@ async function createProfileList () {
         cmd: 'CreateProfile',
         params: {
           name: document.getElementById('profile-name').value || null,
-          description: document.getElementById('profile-description').value || null
+          description: document.getElementById('profile-description').value || null,
+          template: document.getElementById('profile-template').value || null
         }
       })
 
@@ -484,6 +492,9 @@ async function createProfileList () {
       document.getElementById('profile-name').value = profile.name || ''
       document.getElementById('profile-description').value = profile.description || ''
       document.getElementById('profile-ulid').value = profile.ulid
+
+      // Hide profile template box
+      document.getElementById('profile-template-div').classList.add('d-none')
 
       // Show profile ULID box
       document.getElementById('profile-ulid-div').classList.remove('d-none')
@@ -603,12 +614,13 @@ async function handleSearch () {
 // Handle extension settings
 async function handleSettings (hasChanged = false) {
   // Get settings from local storage and media query
-  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL, PREF_SHOW_UPDATE_POPUP, PREF_ENABLE_AUTO_LAUNCH])
+  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL, PREF_SHOW_UPDATE_POPUP, PREF_ENABLE_AUTO_LAUNCH, PREF_DEFAULT_PROFILE_TEMPLATE])
   const settingsDisplayPageAction = settings[PREF_DISPLAY_PAGE_ACTION] ? settings[PREF_DISPLAY_PAGE_ACTION] : 'valid'
   const settingsLaunchCurrentUrl = settings[PREF_LAUNCH_CURRENT_URL] !== undefined ? settings[PREF_LAUNCH_CURRENT_URL] : true
   const settingsShowUpdatePopup = settings[PREF_SHOW_UPDATE_POPUP] !== undefined ? settings[PREF_SHOW_UPDATE_POPUP] : true
   const settingsEnableAutoLaunch = settings[PREF_ENABLE_AUTO_LAUNCH] !== undefined ? settings[PREF_ENABLE_AUTO_LAUNCH] : false
   const settingsEnableDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+  const settingsDefaultProfileTemplate = settings[PREF_DEFAULT_PROFILE_TEMPLATE] || null
 
   // Set settings input values
   document.getElementById('settings-display-page-action').querySelector(`#settings-display-page-action-${settingsDisplayPageAction}`).checked = true
@@ -616,6 +628,7 @@ async function handleSettings (hasChanged = false) {
   document.getElementById('settings-show-update-popup').checked = settingsShowUpdatePopup
   document.getElementById('settings-enable-auto-launch').checked = settingsEnableAutoLaunch
   document.getElementById('settings-enable-dark-mode').checked = settingsEnableDarkMode
+  document.getElementById('settings-default-profile-template').value = settingsDefaultProfileTemplate
 
   // Do not re-register listeners
   if (hasChanged) return
@@ -667,6 +680,11 @@ async function handleSettings (hasChanged = false) {
 
   // Listen for dark mode changes
   window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => handleSettings(true))
+
+  // Listen for default profile template input changes
+  document.getElementById('settings-default-profile-template').addEventListener('change', async function () {
+    await browser.storage.local.set({ [PREF_DEFAULT_PROFILE_TEMPLATE]: this.value || null })
+  })
 
   // Handle updating all sites
   document.getElementById('update-all-sites-button').onclick = async function () {

@@ -91,6 +91,11 @@
               <label for="new-profile-description" class="form-label">Description</label>
               <input type="text" class="form-control form-control-sm" id="new-profile-description" />
             </div>
+            <div class="mb-3">
+              <label for="new-profile-template" class="form-label">Template</label>
+              <input type="text" class="form-control form-control-sm" id="new-profile-template" placeholder="Enter a path to the profile template" />
+              <!-- This has to be a text input because Firefox does not support file inputs in extension popups -->
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" id="new-profile-cancel2" data-bs-dismiss="modal">Cancel</button>
