@@ -398,7 +398,7 @@ class PwaBrowser {
     // For this check to pass, opening out-of-scope URLs in default browser must be enabled
     // Additionally, the URL must not be one of allow-listed or restricted domains
     // Otherwise, it is impossible to access certain parts of Firefox
-    const checkOutOfScope = uri => !this.canLoad(uri) &&
+    const checkOutOfScope = (uri, target = null) => !this.canLoad(uri, target) &&
       uri.scheme.startsWith('http') &&
       xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER) &&
       !xPref.get(ChromeLoader.PREF_ALLOWED_DOMAINS).split(',').includes(uri.host) &&
@@ -429,7 +429,13 @@ class PwaBrowser {
 
     // Handle blocking out-of-scope URLs and redirecting them to the main browser
     Services.obs.addObserver(subject => {
-      let httpChannel = subject.QueryInterface(Ci.nsIHttpChannel);
+      const httpChannel = subject.QueryInterface(Ci.nsIHttpChannel);
+
+      // Try to obtain window from the request subject
+      const chromeWindow = (() => {
+        try { return subject.notificationCallbacks.getInterface(Ci.nsILoadContext).topChromeWindow }
+        catch (_) { return null }
+      })();
 
       // Skip any other checks if the request is not a top-level document request
       if (
@@ -441,7 +447,7 @@ class PwaBrowser {
       }
 
       // Open the default browser and cancel the request for out-of-scope URLs
-      if (checkOutOfScope(httpChannel.URI)) {
+      if (checkOutOfScope(httpChannel.URI, chromeWindow)) {
         MailIntegration._launchExternalUrl(httpChannel.URI);
         httpChannel.cancel(418);
       }
@@ -1879,14 +1885,17 @@ class PwaBrowser {
    * Any URIs that return false should be loaded with an out-of-scope URL bar.
    *
    * @param {nsIURI} uri The URI to check.
+   * @param {ChromeWindow&Window} [target] A window to check.
    *
    * @returns {boolean} Whether this PWA can load the URI.
    */
-  canLoad (uri) {
-    if (!uri || uri.spec === 'about:blank') return true;
-    if (!window.gFFPWASiteConfig) return false;
+  canLoad (uri, target = null) {
+    if (!target) target = window;
 
-    const scope = ioService.newURI(window.gFFPWASiteConfig.manifest.scope);
+    if (!uri || uri.spec === 'about:blank') return true;
+    if (!target.gFFPWASiteConfig) return false;
+
+    const scope = ioService.newURI(target.gFFPWASiteConfig.manifest.scope);
 
     if (scope.prePath !== uri.prePath) return false;
     return uri.filePath.startsWith(scope.filePath);
