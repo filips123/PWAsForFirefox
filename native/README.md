@@ -9,7 +9,7 @@ The native part is written in Rust and handles the parts that the extension cann
 
 The native part also contains browser chrome (UI) modifications written in JS and CSS to make the browser work as a standalone PWA: Hiding tab and address bar, re-arranging widgets, handling the web app scope, and applying system integration.
 
-Read the [main README file](../README.md) for more details about the project.
+Read [the main README file](../README.md) for more details about the project.
 
 ## Installation
 
@@ -55,11 +55,11 @@ Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this projec
 
 ### From Release Binaries
 
-You can download installers/packages and the shell completions from the [latest GitHub release](https://github.com/filips123/PWAsForFirefox/releases/latest).
+You can download installers/packages and the shell completions from [the latest GitHub release](https://github.com/filips123/PWAsForFirefox/releases/latest).
 
 ### From Development Binaries
 
-You can download and install [latest build artifact](https://github.com/filips123/PWAsForFirefox/actions/workflows/native.yaml?query=actor%3Afilips123) from GitHub Actions builds. Note that these are development versions that may be unstable.
+You can download and install [the latest build artifact](https://github.com/filips123/PWAsForFirefox/actions/workflows/native.yaml?query=actor%3Afilips123) from GitHub Actions builds. Note that these are development versions that may be unstable.
 
 ### From Source
 

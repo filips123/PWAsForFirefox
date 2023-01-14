@@ -7,9 +7,9 @@ Only the latest version is supported.
 ## Reporting a Vulnerability
 
 If you found a vulnerability or what you believe is a vulnerability, **do not**
-open a public issue or disclose it publicly. Instead, please report them through
-the [GitHub Security Advisories][github-advisories] and fill in the required
-information. See the [GitHub documentation][github-documentation] for more details.
+open a public issue or disclose it publicly. Instead, please report them using
+[GitHub security advisories][github-advisories] and fill in the requested info.
+See [the GitHub documentation][github-documentation] for more details.
 
 We will try to respond and release a fix as soon as possible. The vulnerability
 will be made public when it is ensured that publishing it does not pose a threat

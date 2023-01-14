@@ -7,17 +7,19 @@ The extension part of the PWAsForFirefox project.
 
 The extension part of the project makes it easier to install and manage Progressive Web Apps directly from the main Firefox browser. It supports installing supported PWAs with just a few clicks, managing and launching them, and creating and managing app profiles directly from the UI.
 
-Read the [main README file](../README.md) for more details about the project.
+Read [the main README file](../README.md) for more details about the project.
 
 ## Installation
 
 ### From Addon Store
 
-You should install this extension from the [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/pwas-for-firefox/) website.
+It is recommended to install the extension from [the Firefox Add-ons website](https://addons.mozilla.org/firefox/addon/pwas-for-firefox/).
 
 ### From Development Artifacts
 
-You can download and install [latest build artifact](https://github.com/filips123/PWAsForFirefox/actions/workflows/extension.yaml) of packed extension from GitHub Actions builds. Note that these are development versions that may be unstable and are not signed, so you will need to configure Firefox to accept non-signed extensions or just load it temporarily.
+You can download and install [the latest build artifact](https://github.com/filips123/PWAsForFirefox/actions/workflows/extension.yaml) from GitHub Actions builds.
+
+Note that these are development versions that may be unstable and are not signed, so you will need to configure Firefox to accept non-signed extensions or just load it temporarily. It is generally not recommended to use them, unless you are testing a specific unreleased feature.
 
 ### From Source
 
@@ -56,7 +58,7 @@ When you open a website that is a valid PWA (is loaded over HTTPS and has a link
 
 If the website is not a valid PWA, the installation action will not appear. However, you can also install such websites from the extension's browser action. This way of installing web apps does not require a web app manifest, so it should work with basically any website.
 
-**Warning:** On Linux and macOS, all web apps that are opened at the same time will be merged with the first web app that was opened. You can prevent this by installing each web app into a separate profile. Check the [current limitations](../README.md#current-limitations) section for more details.
+**Warning:** On Linux and macOS, all web apps that are opened at the same time will be merged with the first web app that was opened. You can prevent this by installing each web app into a separate profile. Check [the current limitations](../README.md#current-limitations) section for more details.
 
 **Note:** If the installation fails because of a manifest-related error, you can try disabling the use of manifest for determining app properties and installing it again.
 

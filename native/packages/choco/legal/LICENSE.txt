@@ -2,32 +2,32 @@
 
 LICENSE
 
-The project is licensed under the Mozilla Public License 2.0. By using, redistributing,
-or modifying it, you must agree to the license, and the additional clauses provided
-below. See the LICENSE file <https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE>
-in the project repository for the full license text.
+The project is licensed under the Mozilla Public License 2.0. By using, redistributing, or
+modifying it, you must agree to the license, and the additional clauses provided below.
+See the LICENSE file <https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE> in
+the project repository for the full license text.
 
 The project uses additional third-party assets and code:
 
-- The project logo is based on the "Fox SVG Vector" <https://www.svgrepo.com/svg/40267/fox>
-  icon and the community-introduced PWA logo <https://github.com/webmaxru/progressive-web-apps-logo>,
-  both dedicated to the public domain using the CC0 <https://creativecommons.org/publicdomain/zero/1.0/>.
+- The project logo is based on the "Fox SVG Vector" icon <https://www.svgrepo.com/svg/40267/fox>
+  and the community-introduced PWA logo <https://github.com/webmaxru/progressive-web-apps-logo>,
+  both dedicated to the public domain using CC0 <https://creativecommons.org/publicdomain/zero/1.0/>.
 
 - Browser chrome modifications were inspired by and partially derived from the
-  xiaoxiaoflood/firefox-scripts` <https://github.com/xiaoxiaoflood/firefox-scripts>
+  `xiaoxiaoflood/firefox-scripts` <https://github.com/xiaoxiaoflood/firefox-scripts>
   repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed
   information can be found in the respective files.
 
-- Browser chrome modifications partially use code derived from the black7375/Firefox-UI-Fix
-  <https://github.com/black7375/Firefox-UI-Fix> repository on GitHub, licensed under the Mozilla
-  Public License 2.0. Detailed information can be found in the respective files.
+- Browser chrome modifications partially use code derived from the `black7375/Firefox-UI-Fix`
+  <https://github.com/black7375/Firefox-UI-Fix> repository on GitHub, licensed under the
+  Mozilla Public License 2.0. Detailed information can be found in the respective files.
 
-- Browser chrome modifications partially use code and icons derived from the original Firefox source
-  <https://github.com/mozilla/gecko-dev>, licensed under the Mozilla Public License 2.0. Detailed
-  information can be found in the respective files.
+- Browser chrome modifications partially use code and icons derived from the original
+  Firefox source <https://github.com/mozilla/gecko-dev>, licensed under the Mozilla Public
+  License 2.0. Detailed information can be found in the respective files.
 
-- Native programs contain the Metropolis Semi Bold <https://fontsarena.com/metropolis-by-chris-simpson/>
-  typeface by Chris Simpson, released into the public domain using the Unlicense <https://unlicense.org/>.
+- Native programs contain the Metropolis Semi Bold typeface <https://fontsarena.com/metropolis-by-chris-simpson/>
+  by Chris Simpson, released into the public domain using the Unlicense <https://unlicense.org/>.
 
 - Windows installer contains Bootstrap Icons <https://icons.getbootstrap.com/>, licensed under the
   MIT License <https://opensource.org/licenses/MIT>. Detailed license information can be found in
@@ -35,14 +35,14 @@ The project uses additional third-party assets and code:
 
 Additional open source software will be downloaded and installed at runtime when initiated by the user:
 
-- Installing the runtime on Windows will install the 7-Zip <https://7-zip.org/> if it is
-  not already installed. The 7-Zip project is made by Igor Pavlov and licensed under the
-  GNU LGPL license and others <https://7-zip.org/license.txt>. This project is not
-  affiliated with the 7-Zip project or its developers in any way.
+- Installing the runtime on Windows will install 7-Zip <https://7-zip.org/> if it is not
+  already installed. The 7-Zip project is made by Igor Pavlov and licensed under the GNU
+  LGPL license and others <https://7-zip.org/license.txt>. This project is not affiliated
+  with the 7-Zip project or its developers in any way.
 
 - Installing the runtime on any system will download the unmodified Mozilla Firefox
-  <https://www.mozilla.org/firefox/>, and locally modify it. By using this project you
-  also agree to the Firefox Privacy Notice <https://www.mozilla.org/privacy/firefox/>.
-  Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo
-  are trademarks of the Mozilla Foundation in the U.S. and other countries. This project
-  is not affiliated with the Mozilla Foundation in any way.
+  <https://www.mozilla.org/firefox/>, and locally modify it. By using this project you also
+  agree to the Firefox Privacy Notice <https://www.mozilla.org/privacy/firefox/>. Firefox is
+  licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks
+  of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated
+  with the Mozilla Foundation in any way.
