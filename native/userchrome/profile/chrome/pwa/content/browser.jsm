@@ -404,7 +404,7 @@ class PwaBrowser {
       !xPref.get(ChromeLoader.PREF_ALLOWED_DOMAINS).split(',').includes(uri.host) &&
       !xPref.get('extensions.webextensions.restrictedDomains').split(',').includes(uri.host);
 
-    // Handle hiding/showing URL bar when the URL is out of scope
+    // Handle hiding/showing URL bar when the URL is out-of-scope
     hookFunction(window.gURLBar, 'setURI', null, (_, [uri]) => {
       // Check whether the URL is in scope
       const canLoad = this.canLoad(uri);
@@ -415,7 +415,7 @@ class PwaBrowser {
       if (userPreference === 1) displayBar = false;
       else if (userPreference === 2) displayBar = true;
 
-      // Display URL bar when the website it out of scope
+      // Display URL bar when the website it out-of-scope
       document.getElementById('nav-bar').classList.toggle('shown', displayBar);
       window.gURLBar.updateLayoutBreakout();
 
@@ -1789,7 +1789,7 @@ class PwaBrowser {
     // Only has effect on Linux with CSD enabled
     xPref.set(ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS, false, true);
 
-    // Determines which domains should always be allowed to open in the PWA browser
+    // Determines which domains should always be allowed to open in the app browser
     // This is a comma-separated list of domains
     xPref.set(ChromeLoader.PREF_ALLOWED_DOMAINS, '', true);
 

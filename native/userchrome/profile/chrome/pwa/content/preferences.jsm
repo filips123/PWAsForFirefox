@@ -21,9 +21,9 @@ class PwaPreferences {
       { id: ChromeLoader.PREF_SITES_SET_THEME_COLOR, type: 'bool' },
       { id: ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR, type: 'bool' },
       { id: ChromeLoader.PREF_DYNAMIC_THEME_COLOR, type: 'bool' },
-      { id: ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS, type: 'bool' },
       { id: ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE, type: 'bool' },
       { id: ChromeLoader.PREF_DYNAMIC_WINDOW_ICON, type: 'bool' },
+      { id: ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS, type: 'bool' },
       { id: ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, type: 'bool' },
       { id: ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW, type: 'bool' },
       { id: ChromeLoader.PREF_ENABLE_TABS_MODE, type: 'bool' },
@@ -46,18 +46,18 @@ class PwaPreferences {
   <vbox id="colorsBox" style="padding-top: 1rem;">
     <checkbox preference="${ChromeLoader.PREF_SITES_SET_THEME_COLOR}" label="Allow web apps to override a theme (titlebar) color" />
     <checkbox preference="${ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR}" label="Allow web apps to override a background (window) color" />
-    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_THEME_COLOR}" label="Allow web apps to dynamically change theme color" />
-    <checkbox preference="${ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS}" label="Always use native window controls" class="pref-csd-only" />
+    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_THEME_COLOR}" label="Allow web apps to dynamically change a theme color" />
   </vbox>
 
-  <vbox id="colorsBox" style="padding-top: 1rem;">
-    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE}" label="Change window title based on the web app's title" />
-    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_WINDOW_ICON}" label="Change window icon based on the web app's icon" />
+  <vbox id="titlebarBox" style="padding-top: 1rem;">
+    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE}" label="Change the window title based on the web app's title" />
+    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_WINDOW_ICON}" label="Change the window icon based on the web app's icon" />
+    <checkbox preference="${ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS}" label="Always use native window controls" class="pref-csd-only" />
   </vbox>
 
    <vbox id="uxBox" style="padding-top: 1rem;">
     <checkbox preference="${ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER}" label="Open out-of-scope URLs in a default browser (can break some web apps)" />
-    <checkbox preference="${ChromeLoader.PREF_ENABLE_TABS_MODE}" label="Show browser tabs and enable using multiple tabs of the same web app" />
+    <checkbox preference="${ChromeLoader.PREF_ENABLE_TABS_MODE}" label="Show browser tabs and enable using multi-tabbed web apps" />
     <checkbox id="openInExistingWindowCheckbox" preference="${ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW}" label="Open a web app in an existing window of that web app" />
   </vbox>
 
@@ -81,7 +81,7 @@ class PwaPreferences {
     </label>
     <vbox>
       <radiogroup id="displayUrlBarRadioGroup" preference="${ChromeLoader.PREF_DISPLAY_URL_BAR}">
-        <radio value="0" label="When the URL is out of scope" />
+        <radio value="0" label="When the URL is out-of-scope" />
         <radio value="2" label="Always" />
         <radio value="1" label="Never" />
       </radiogroup>
@@ -90,7 +90,7 @@ class PwaPreferences {
 
   <vbox id="allowedDomainsBox" style="padding-top: 1rem;">
     <label>
-      <description>Domains always allowed to be opened in the PWA browser</description>
+      <description>Domains always allowed to be opened in the app browser</description>
     </label>
     <vbox>
       <html:input type="text" placeholder="Enter a comma-separated list of domains..." preference="${ChromeLoader.PREF_ALLOWED_DOMAINS}" />
@@ -105,7 +105,7 @@ class PwaPreferences {
     <html:h2>Keyboard Shortcuts</html:h2>
     <description>You may need to restart the browser to apply these settings</description>
   </label>
-  <vbox id="colorsBox" style="padding-top: 1rem;">
+  <vbox id="shortcutsBox" style="padding-top: 1rem;">
     <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_CLOSE_TAB}" label="Close tab (Ctrl+W)" />
     <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_CLOSE_WINDOW}" label="Close window (Ctrl+Shift+W)" />
     <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_QUIT_APPLICATION}" label="Quit application (Ctrl+Shift+Q)" />
@@ -123,7 +123,7 @@ class PwaPreferences {
 
   handleOutOfScopePreferenceSwitch () {
     if (xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER)) {
-      // If out of scope URLs in a default browser is enabled, set the links target to a new window
+      // If out-of-scope URLs in a default browser is enabled, set the links target to a new window
       xPref.set(ChromeLoader.PREF_LINKS_TARGET, 2)
     } else {
       // If the tabs mode is enabled, keep the links target unchanged
@@ -152,7 +152,7 @@ class PwaPreferences {
       xPref.set(ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW, false);
 
       if (!onLoad) {
-        // If out of scope URLs in a default browser is enabled, keep the links target unchanged
+        // If out-of-scope URLs in a default browser is enabled, keep the links target unchanged
         if (xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER)) return;
 
         // Otherwise, set the links target to the current tab

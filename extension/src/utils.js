@@ -233,7 +233,7 @@ export function isProtocolSchemePermitted (scheme) {
 }
 
 /**
- * Launches the site in a PWA browser.
+ * Launches the site in the app browser.
  *
  * @param {{ulid: string}} site
  * @param {string} [url]

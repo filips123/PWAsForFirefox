@@ -211,7 +211,7 @@ impl Run for SiteUninstallCommand {
 
         if !self.quiet {
             warn!("This will remove the web app");
-            warn!("Data will NOT be removed, remove them from the PWA browser");
+            warn!("Data will NOT be removed, remove them from the app browser");
 
             print!("Do you want to continue (y/n)? ");
             io::stdout().flush()?;
