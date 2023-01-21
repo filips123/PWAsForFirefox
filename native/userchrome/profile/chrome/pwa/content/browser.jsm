@@ -227,6 +227,9 @@ class PwaBrowser {
 
     document.getElementsByClassName('toolbar-items')[0].after(box);
 
+    // Remove duplicate unified extensions button
+    document.querySelector('#nav-bar > #unified-extensions-button')?.remove();
+
     // Sync overflow-related attributes of navbar with tabsbar
     const tabsbar = document.getElementById('TabsToolbar');
     const navbar = document.getElementById('nav-bar');
@@ -251,6 +254,22 @@ class PwaBrowser {
 
       if (args[2].position === 'bottomcenter topleft' && args[0].clientWidth + 50 < args[1].getBoundingClientRect().left) args[2].position = 'bottomcenter topright';
       else if (args[2].position === 'bottomcenter topright' && args[0].clientWidth + 50 > args[1].getBoundingClientRect().left) args[2].position = 'bottomcenter topleft';
+
+      // If unified extensions panel is opened when widget is in menu, reassign anchor element
+      if (
+        args[1].id === 'unified-extensions-button'
+        && args[1].unifiedExtensionsAreaType !== CustomizableUI.TYPE_TOOLBAR
+      ) {
+        args[1] = document.getElementById('nav-bar-overflow-button');
+      }
+
+      // If specific extension panel is opened when widget is in menu, reassign anchor element
+      if (
+        args[1].getAttribute('consumeanchor') === 'unified-extensions-button'
+        && document.getElementById('unified-extensions-button').unifiedExtensionsAreaType !== CustomizableUI.TYPE_TOOLBAR
+      ) {
+        args[1] = document.getElementById('nav-bar-overflow-button');
+      }
 
       // If tracking protection panel is opened when widget is in menu, reassign anchor element
       if (args[1].id === 'tracking-protection-button' && args[1].trackingProtectionAreaType !== CustomizableUI.TYPE_TOOLBAR) {
@@ -785,6 +804,7 @@ class PwaBrowser {
     this.createSendToDeviceWidget();
     this.createOpenInBrowserWidget();
     this.createMuteWidget();
+    this.createUnifiedExtensionsWidget();
     this.createTrackingProtectionWidget();
     this.createIdentityInformationWidget();
     this.createPermissionsWidget();
@@ -1197,6 +1217,52 @@ class PwaBrowser {
       },
       onCommand (event) {
         event.target.ownerGlobal.gBrowser.selectedTab.toggleMuteAudio();
+      }
+    });
+  }
+
+  createUnifiedExtensionsWidget () {
+    // Create unified extensions widget
+    CustomizableUI.createWidget({
+      id: 'unified-extensions-button',
+      l10nId: 'unified-extensions-button',
+
+      label: 'Extensions',
+      tooltiptext: 'Access installed browser extensions',
+
+      onCreated (node) {
+        const document = node.ownerDocument;
+        const window = document.defaultView;
+
+        // Store and update current widget area
+        node.unifiedExtensionsAreaType = CustomizableUI.getAreaType(this.currentArea);
+
+        let listener = {
+          onWidgetAdded: (widget, area) => {
+            if (widget !== this.id) return;
+            node.unifiedExtensionsAreaType = CustomizableUI.getAreaType(area);
+          },
+          onWidgetMoved: (widget, area) => {
+            if (widget !== this.id) return;
+            node.unifiedExtensionsAreaType = CustomizableUI.getAreaType(area);
+          },
+          onWidgetRemoved: (widget) => {
+            if (widget !== this.id) return;
+            node.unifiedExtensionsAreaType = undefined;
+          },
+          onWidgetInstanceRemoved: (widget, doc) => {
+            if (widget !== this.id || doc !== document) return;
+
+            CustomizableUI.removeListener(listener);
+            node.unifiedExtensionsAreaType = undefined;
+          },
+        };
+        CustomizableUI.addListener(listener);
+      },
+
+      onCommand (event) {
+        gUnifiedExtensions._button = event.target;
+        gUnifiedExtensions.togglePanel(event);
       }
     });
   }
@@ -1648,7 +1714,7 @@ class PwaBrowser {
     // Configure default layout
     let { gAreas } = Cu.import('resource:///modules/CustomizableUI.jsm');
     gAreas.get(CustomizableUI.AREA_NAVBAR).set('defaultPlacements', ['close-page-button', 'back-button', 'forward-button', 'urlbar-container']);
-    gAreas.get(CustomizableUI.AREA_TABSTRIP).set('defaultPlacements', ['site-info', 'tabbrowser-tabs', 'new-tab-button', 'alltabs-button', 'mute-button', 'notifications-button', 'permissions-button', 'downloads-button', 'tracking-protection-button', 'identity-button']);
+    gAreas.get(CustomizableUI.AREA_TABSTRIP).set('defaultPlacements', ['site-info', 'tabbrowser-tabs', 'new-tab-button', 'alltabs-button', 'mute-button', 'notifications-button', 'permissions-button', 'downloads-button', 'tracking-protection-button', 'identity-button', 'unified-extensions-button']);
     gAreas.get(CustomizableUI.AREA_BOOKMARKS).set('defaultCollapsed', 'never');
 
     // Reset layout to default on the first run, otherwise widgets are misplaced
@@ -1678,6 +1744,15 @@ class PwaBrowser {
     ProfilerMenuButton.addToNavbar = function (document) {
       CustomizableUI.addWidgetToArea('profiler-button', CustomizableUI.AREA_TABSTRIP);
     }
+
+    // Make unified extensions widgets go to the tab strip area by default
+    gUnifiedExtensions.pinToToolbar = function (widgetId, shouldPinToToolbar) {
+      let newArea = shouldPinToToolbar ? CustomizableUI.AREA_TABSTRIP : CustomizableUI.AREA_ADDONS;
+      let newPosition = shouldPinToToolbar ? undefined : 0;
+
+      CustomizableUI.addWidgetToArea(widgetId, newArea, newPosition);
+      this.updateAttention();
+    };
 
     // Make "Unpin from Overflow Menu" add widgets to the tab strip area
     // This function is mostly copied from the Firefox code, licensed under MPL 2.0
@@ -1734,7 +1809,6 @@ class PwaBrowser {
     xPref.set('browser.uidensity', 1, true);
     xPref.set('browser.link.open_newwindow', 1, true);
     xPref.set('datareporting.policy.firstRunURL', '', true);
-    xPref.set('extensions.unifiedExtensions.enabled', false, true);
 
     // Set distribution details
     xPref.set('distribution.id', ChromeLoader.DISTRIBUTION_ID, true);
