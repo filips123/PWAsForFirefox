@@ -142,7 +142,7 @@
   toolbar[nonemptyoverflow],
   toolbar[overflowing],
   toolbar[customizing] {
-    --toolbar-display: -moz-box;
+    --toolbar-display: flex;
   }
 
   .overflow-button {
@@ -154,6 +154,8 @@
   .site-info {
     display: flex;
     align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
     margin-left: 6px;
     height: 30px;
   }
@@ -305,7 +307,6 @@
     display: none !important;
   }
 
-  #permissions-button[customizing] > #identity-permission-box,
   #permissions-button[in-menu] > #identity-permission-box {
     padding-left: 0 !important;
   }
