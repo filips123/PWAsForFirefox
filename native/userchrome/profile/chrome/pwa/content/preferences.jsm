@@ -10,7 +10,6 @@ class PwaPreferences {
 
     // Handle switch of preferences on load and when they changes
     setTimeout(() => { this.handleTabsModePreferenceSwitch(true); } );
-    xPref.addListener(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, () => { this.handleOutOfScopePreferenceSwitch() } );
     xPref.addListener(ChromeLoader.PREF_ENABLE_TABS_MODE, () => { this.handleTabsModePreferenceSwitch() } );
   }
 
@@ -134,19 +133,6 @@ class PwaPreferences {
     startupGroup.nextElementSibling.nextElementSibling.after(shortcutsGroup);
   }
 
-  handleOutOfScopePreferenceSwitch () {
-    if (xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER)) {
-      // If out-of-scope URLs in a default browser is enabled, set the links target to a new window
-      xPref.set(ChromeLoader.PREF_LINKS_TARGET, 2)
-    } else {
-      // If the tabs mode is enabled, keep the links target unchanged
-      if (xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) return;
-
-      // Otherwise, set the links target to the current tab
-      xPref.set(ChromeLoader.PREF_LINKS_TARGET, 1)
-    }
-  }
-
   handleTabsModePreferenceSwitch (onLoad = false) {
     function setTabsSectionDisabled(disabled) {
       document.querySelectorAll('#mainPrefPane > groupbox:nth-child(8) > *').forEach(elem => elem.disabled = disabled)
@@ -157,20 +143,14 @@ class PwaPreferences {
       // If the tabs mode is enabled, enable the tabs section and set the links target to a new tab
       setTabsSectionDisabled(false);
       setTimeout(() => setTabsSectionDisabled(false), 100);
-      if (!onLoad) xPref.set(ChromeLoader.PREF_LINKS_TARGET, 3);
+      if (!onLoad && xPref.get(ChromeLoader.PREF_LINKS_TARGET) === 1) xPref.set(ChromeLoader.PREF_LINKS_TARGET, 3);
+
     } else {
-      // If the tabs mode is disabled, disable the tabs section and reset launch type
+      // If the tabs mode is disabled, disable the tabs section and reset preferences
       setTabsSectionDisabled(true)
       setTimeout(() => setTabsSectionDisabled(true), 100);
-      xPref.clear(ChromeLoader.PREF_LAUNCH_TYPE);
-
-      if (!onLoad) {
-        // If out-of-scope URLs in a default browser is enabled, keep the links target unchanged
-        if (xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER)) return;
-
-        // Otherwise, set the links target to the current tab
-        xPref.set(ChromeLoader.PREF_LINKS_TARGET, 1);
-      }
+      if (!onLoad && xPref.get(ChromeLoader.PREF_LINKS_TARGET) === 3) xPref.clear(ChromeLoader.PREF_LINKS_TARGET);
+      if (!onLoad && xPref.get(ChromeLoader.PREF_LAUNCH_TYPE) === 1) xPref.clear(ChromeLoader.PREF_LAUNCH_TYPE);
     }
   }
 }
