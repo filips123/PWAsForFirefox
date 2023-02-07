@@ -61,7 +61,7 @@ impl SiteIds {
         let name = site.name();
         let description = site.description();
         let ulid = site.ulid.to_string();
-        let classid = format!("FFPWA-{}", ulid);
+        let classid = format!("FFPWA-{ulid}");
         Self { name, description, ulid, classid }
     }
 }
@@ -113,7 +113,7 @@ fn store_icons(
                 // Scalable (normal SVG) icons can be directly saved into the correct directory
                 if icon.purpose.contains(&ImagePurpose::Any) {
                     let directory = data.join("icons/hicolor/scalable/apps");
-                    let filename = directory.join(format!("{}.svg", id));
+                    let filename = directory.join(format!("{id}.svg"));
 
                     debug!("Saving as scalable icon");
                     create_dir_all(directory).context(CREATE_ICON_DIRECTORY_ERROR)?;
@@ -124,7 +124,7 @@ fn store_icons(
                 // Symbolic (monochrome SVG) icons can be directly saved into the correct directory
                 if icon.purpose.contains(&ImagePurpose::Monochrome) {
                     let directory = data.join("icons/hicolor/symbolic/apps");
-                    let filename = directory.join(format!("{}-symbolic.svg", id));
+                    let filename = directory.join(format!("{id}-symbolic.svg"));
 
                     debug!("Saving as symbolic icon");
                     create_dir_all(directory).context(CREATE_ICON_DIRECTORY_ERROR)?;
@@ -147,7 +147,7 @@ fn store_icons(
             let size = img.dimensions();
 
             let directory = data.join(format!("icons/hicolor/{}x{}/apps", size.0, size.1));
-            let filename = directory.join(format!("{}.png", id));
+            let filename = directory.join(format!("{id}.png"));
             create_dir_all(directory).context(CREATE_ICON_DIRECTORY_ERROR)?;
             img.save(filename).context(SAVE_ICON_ERROR)?;
 
@@ -170,7 +170,7 @@ fn store_icons(
     if !required_icon_found {
         // Create directory for 48x48 icons in case it does not exist
         let directory = data.join("icons/hicolor/48x48/apps");
-        let filename = directory.join(format!("{}.png", id));
+        let filename = directory.join(format!("{id}.png"));
         create_dir_all(directory).context(CREATE_ICON_DIRECTORY_ERROR)?;
 
         warn!("No required 48x48 icon is provided");
@@ -184,7 +184,7 @@ fn store_icons(
 
 fn remove_icons(classid: &str, data: &Path) -> Result<()> {
     let directory = data.display().to_string();
-    let pattern = format!("{}/icons/hicolor/*/apps/{}*", directory, classid);
+    let pattern = format!("{directory}/icons/hicolor/*/apps/{classid}*");
 
     for path in glob(&pattern)?.filter_map(Result::ok) {
         let _ = remove_file(path);
@@ -291,7 +291,7 @@ Exec={exe} site launch {siteid} --url \"{url}\"
 
 fn remove_desktop_entry(classid: &str, data: &Path) -> Result<()> {
     let directory = data.join("applications");
-    let filename = directory.join(format!("{}.desktop", classid));
+    let filename = directory.join(format!("{classid}.desktop"));
 
     let _ = remove_file(filename);
     Ok(())

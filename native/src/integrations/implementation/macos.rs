@@ -361,7 +361,7 @@ fn verify_app_is_pwa(app_bundle: &Path, app_id: &str) -> Result<()> {
     let mut pkg_info_content = String::new();
     pkg_info.read_to_string(&mut pkg_info_content)?;
 
-    let pkg_info_id = format!("APPL{}", app_id);
+    let pkg_info_id = format!("APPL{app_id}");
     debug!("Verifying if a bundle is a web app");
     debug!("'{}' should be '{}'", pkg_info_content, pkg_info_id);
 
@@ -470,7 +470,7 @@ fn create_app_bundle(args: &IntegrationInstallArgs) -> Result<()> {
     let info_plist_value: plist::Value = info_plist_dict.into();
 
     plist::to_file_xml(info_plist, &info_plist_value).context(WRITE_APPLICATION_FILE_ERROR)?;
-    write(pkg_info, format!("APPL{}", appid)).context(WRITE_APPLICATION_FILE_ERROR)?;
+    write(pkg_info, format!("APPL{appid}")).context(WRITE_APPLICATION_FILE_ERROR)?;
 
     // Create and compile loader executable using Swift compiler
     // Swift compiler (swiftc) is part of Command Line Tools for Xcode which is required by Homebrew
@@ -571,7 +571,7 @@ pub fn launch(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Ch
     let app_path = directories::BaseDirs::new()
         .context(BASE_DIRECTORIES_ERROR)?
         .home_dir()
-        .join(format!("Applications/{}.app", name));
+        .join(format!("Applications/{name}.app"));
 
     debug!("Verifying that {} is a PWA app bundle", app_path.to_str().unwrap());
     match app_path.exists() {
