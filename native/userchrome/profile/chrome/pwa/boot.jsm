@@ -59,13 +59,26 @@ function launchSite (siteUrl, siteConfig, isStartup) {
     gSystemPrincipal,
   ];
 
-  // Open a web app in an existing window of that web app (if enabled)
+  // Handle launching a web app when the same web app is already opened
   // We have to specify pref directly as we cannot access ChromeLoader yet
-  if (Services.prefs.getBoolPref('firefoxpwa.openInExistingWindow', false)) {
+  const launchType = Services.prefs.getIntPref('firefoxpwa.launchType', 0);
+  if (launchType) {
     for (const win of Services.wm.getEnumerator('navigator:browser')) {
       if (win.gFFPWASiteConfig?.ulid === siteConfig.ulid) {
-        win.openTrustedLinkIn(siteUrl, 'tab', {});
-        return win;
+        switch (launchType) {
+          case 1:
+            // Open a new tab in the existing window
+            win.openTrustedLinkIn(siteUrl, 'tab', {});
+            return win;
+          case 2:
+            // Open in an existing tab in the existing window
+            win.openTrustedLinkIn(siteUrl, 'current', {});
+            return win;
+          case 3:
+            // Focus the existing window
+            win.focus();
+            return win;
+        }
       }
     }
   }

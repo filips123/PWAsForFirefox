@@ -27,6 +27,7 @@ class ChromeLoader {
   static DISTRIBUTION_ABOUT = 'With modifications by the PWAsForFirefox project';
 
   static PREF_LINKS_TARGET = 'firefoxpwa.linksTarget';
+  static PREF_LAUNCH_TYPE = 'firefoxpwa.launchType';
   static PREF_DISPLAY_URL_BAR = 'firefoxpwa.displayUrlBar';
   static PREF_AUTOHIDE_MUTE_BUTTON = 'firefoxpwa.autohideMuteButton';
   static PREF_SITES_SET_THEME_COLOR = 'firefoxpwa.sitesSetThemeColor';

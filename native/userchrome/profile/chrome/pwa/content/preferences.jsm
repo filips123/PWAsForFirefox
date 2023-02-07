@@ -17,6 +17,7 @@ class PwaPreferences {
   addPreferenceData () {
     Preferences.addAll([
       { id: ChromeLoader.PREF_LINKS_TARGET, type: 'int' },
+      { id: ChromeLoader.PREF_LAUNCH_TYPE, type: 'int' },
       { id: ChromeLoader.PREF_DISPLAY_URL_BAR, type: 'int' },
       { id: ChromeLoader.PREF_SITES_SET_THEME_COLOR, type: 'bool' },
       { id: ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR, type: 'bool' },
@@ -25,7 +26,6 @@ class PwaPreferences {
       { id: ChromeLoader.PREF_DYNAMIC_WINDOW_ICON, type: 'bool' },
       { id: ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS, type: 'bool' },
       { id: ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, type: 'bool' },
-      { id: ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW, type: 'bool' },
       { id: ChromeLoader.PREF_ENABLE_TABS_MODE, type: 'bool' },
       { id: ChromeLoader.PREF_ALLOWED_DOMAINS, type: 'wstring' },
       { id: ChromeLoader.PREF_SHORTCUTS_CLOSE_TAB, type: 'bool' },
@@ -58,7 +58,6 @@ class PwaPreferences {
    <vbox id="uxBox" style="padding-top: 1rem;">
     <checkbox preference="${ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER}" label="Open out-of-scope URLs in a default browser (can break some web apps)" />
     <checkbox preference="${ChromeLoader.PREF_ENABLE_TABS_MODE}" label="Show browser tabs and enable using multi-tabbed web apps" />
-    <checkbox id="openInExistingWindowCheckbox" preference="${ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW}" label="Open a web app in an existing window of that web app" />
   </vbox>
 
   <vbox id="linksTargetBox" style="padding-top: 1rem;">
@@ -71,6 +70,20 @@ class PwaPreferences {
         <radio value="2" label="Force links into a new window" />
         <radio value="3" label="Force links into a new tab" />
         <radio value="0" label="Do not change link behaviour" />
+      </radiogroup>
+    </vbox>
+  </vbox>
+
+   <vbox id="launchTypeBox" style="padding-top: 1rem;">
+    <label>
+      <description>When launching a web app that is already opened</description>
+    </label>
+    <vbox>
+      <radiogroup id="launchTypeRadioGroup" preference="${ChromeLoader.PREF_LAUNCH_TYPE}">
+        <radio value="0" id="launchTypeNewWindow" label="Open web app in a new window" />
+        <radio value="1" id="launchTypeNewTab" label="Open web app in a new tab" />
+        <radio value="2" id="launchTypeReplace" label="Replace the existing tab" />
+        <radio value="3" id="launchTypeFocus" label="Focus the existing window" />
       </radiogroup>
     </vbox>
   </vbox>
@@ -137,7 +150,7 @@ class PwaPreferences {
   handleTabsModePreferenceSwitch (onLoad = false) {
     function setTabsSectionDisabled(disabled) {
       document.querySelectorAll('#mainPrefPane > groupbox:nth-child(8) > *').forEach(elem => elem.disabled = disabled)
-      document.querySelector('#openInExistingWindowCheckbox').disabled = disabled
+      document.querySelector('#launchTypeNewTab').disabled = disabled
     }
 
     if (xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) {
@@ -146,10 +159,10 @@ class PwaPreferences {
       setTimeout(() => setTabsSectionDisabled(false), 100);
       if (!onLoad) xPref.set(ChromeLoader.PREF_LINKS_TARGET, 3);
     } else {
-      // If the tabs mode is disabled, disable the tabs section and open in existing window
+      // If the tabs mode is disabled, disable the tabs section and reset launch type
       setTabsSectionDisabled(true)
       setTimeout(() => setTabsSectionDisabled(true), 100);
-      xPref.set(ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW, false);
+      xPref.clear(ChromeLoader.PREF_LAUNCH_TYPE);
 
       if (!onLoad) {
         // If out-of-scope URLs in a default browser is enabled, keep the links target unchanged

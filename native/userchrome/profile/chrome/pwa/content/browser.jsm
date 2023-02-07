@@ -1822,6 +1822,13 @@ class PwaBrowser {
     // 3 - Force links into a new tab
     xPref.set(ChromeLoader.PREF_LINKS_TARGET, 1, true);
 
+    // Determines what happens when a web app is launched if the same web app is already opened
+    // 0 - Open web app in a new window (default)
+    // 1 - Open web app in a new tab
+    // 2 - Replace the existing tab
+    // 3 - Focus the existing window
+    xPref.set(ChromeLoader.PREF_LAUNCH_TYPE, 0, true);
+
     // Determines whether URL bar is displayed always, when out-of-scope or never
     // 0 - Display URL bar when out-of-scope (default)
     // 1 - Never display URL bar (strongly not recommended)
@@ -1849,10 +1856,6 @@ class PwaBrowser {
     // Determines whether out-of-scope URLs should be opened in a default browser
     xPref.set(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, false, true);
 
-    // Determines whether to open a web app in an existing window of that web app
-    // Should only be used when the tabs mode is enabled
-    xPref.set(ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW, false, true);
-
     // Determines whether the tabs mode is enabled
     xPref.set(ChromeLoader.PREF_ENABLE_TABS_MODE, false, true);
 
@@ -1872,6 +1875,12 @@ class PwaBrowser {
     xPref.set(ChromeLoader.PREF_SHORTCUTS_CLOSE_WINDOW, true, true);
     xPref.set(ChromeLoader.PREF_SHORTCUTS_QUIT_APPLICATION, true, true);
     xPref.set(ChromeLoader.PREF_SHORTCUTS_PRIVATE_BROWSING, true, true);
+
+    // Migration from the old "open in existing window" preference
+    if (xPref.get(ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW)) {
+      xPref.clear(ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW);
+      xPref.set(ChromeLoader.PREF_LAUNCH_TYPE, 1);
+    }
   }
 
   disableOnboarding () {
