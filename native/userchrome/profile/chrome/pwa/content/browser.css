@@ -214,6 +214,9 @@
 
   #mute-button > .toolbarbutton-icon {
     list-style-image: url("chrome://browser/skin/tabbrowser/tab-audio-playing-small.svg");
+    -moz-context-properties: fill, fill-opacity, stroke;
+    fill: currentColor;
+    stroke: transparent;
   }
 
   #mute-button[muted] > .toolbarbutton-icon {
