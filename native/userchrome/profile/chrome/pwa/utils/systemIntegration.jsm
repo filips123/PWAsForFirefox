@@ -163,8 +163,9 @@ function setWindowColors (window, site) {
  * icons to prevent incorrect behaviour when pinning/unpinning the shortcut.
  *
  * On all systems it sets the window name, the window `icon` attribute to prevent
- * problems on some desktop environments (for example, Xfce), and window colors
- * based on the colors from the manifest.
+ * problems on some desktop environments (for example, Xfce), `windowclass` and
+ * `windowname` attributes to prevent grouping different web apps, and window
+ * colors based on the colors from the manifest.
  *
  * @param {ChromeWindow&Window} window - Window where integration should be applied
  * @param {object} site - Site config for which integration should be used
@@ -172,6 +173,8 @@ function setWindowColors (window, site) {
 function applySystemIntegration (window, site) {
   window.document.title = site.config.name || site.manifest.name || site.manifest.short_name;
   window.document.documentElement.setAttribute('icon', `FFPWA-${site.ulid}`);
+  window.document.documentElement.setAttribute('windowclass', `FFPWA-${site.ulid}`);
+  window.document.documentElement.setAttribute('windowname', `FFPWA-${site.ulid}`);
 
   if (AppConstants.platform === 'win') {
     WinTaskbar.setGroupIdForWindow(window, `filips.firefoxpwa.${site.ulid}`);
