@@ -13,6 +13,45 @@ use tempfile::{NamedTempFile, TempDir};
 use crate::components::site::Site;
 use crate::directories::ProjectDirs;
 
+cfg_if! {
+    if #[cfg(target_os = "linux")] {
+
+        use std::fs::{set_permissions, DirEntry};
+        use std::os::unix::fs::PermissionsExt;
+
+        fn visit_dirs(
+            dir: &Path,
+            source: &Path,
+            target: &Path,
+            cb: &dyn Fn(DirEntry, &Path, &Path),
+        ) -> IoResult<()> {
+            if dir.is_dir() {
+                for entry in read_dir(dir)? {
+                    let entry = entry?;
+                    let path = entry.path();
+                    if path.is_dir() {
+                        visit_dirs(&path, source, target, cb)?;
+                    }
+                    if path.is_file() {
+                        cb(entry, source, target);
+                    }
+                }
+            }
+            Ok(())
+        }
+
+        fn make_writable(entry: DirEntry, source: &Path, target: &Path) {
+            let path = entry.path();
+            let path = path.strip_prefix(source).unwrap();
+            let path = target.join(path);
+
+            if let Err(_e) = set_permissions(path, PermissionsExt::from_mode(0o644)) {
+                info!("Failed to make patch writable")
+            }
+        }
+    }
+}
+
 #[allow(dead_code)]
 const UNSUPPORTED_PLATFORM_ERROR: &str =
     "Cannot install runtime: Unsupported operating system or architecture!";
@@ -248,7 +287,13 @@ impl Runtime {
 
         info!("Patching the runtime");
         #[allow(clippy::needless_borrow)]
-        copy(source, &target, &options).context("Failed to patch the runtime")?;
+        copy(&source, &target, &options).context("Failed to patch the runtime")?;
+
+        cfg_if! {
+            if #[cfg(target_os = "linux")] {
+                visit_dirs(&source, &source, target, &make_writable)?;
+            }
+        }
 
         cfg_if! {
             if #[cfg(target_os = "macos")] {
