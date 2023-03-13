@@ -105,7 +105,12 @@ async function getIcon (icons, size) {
 }
 
 async function setWindowIcons (window, site) {
-  let iconList = buildIconList(site.manifest.icons);
+  let iconList = buildIconList(site.config.icon_url ? [{
+    purpose: 'any',
+    sizes: 'any',
+    src: site.config.icon_url,
+  }] : site.manifest.icons);
+
   let windowIcons = await Promise.all([
     getIcon(iconList, WinUIUtils.systemSmallIconSize),
     getIcon(iconList, WinUIUtils.systemLargeIconSize),
