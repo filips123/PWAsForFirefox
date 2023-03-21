@@ -46,7 +46,7 @@ cfg_if! {
             let path = target.join(path);
 
             if let Err(_e) = set_permissions(path, PermissionsExt::from_mode(0o644)) {
-                info!("Failed to make patch writable")
+                warn!("Failed to make patch writable")
             }
         }
     }
