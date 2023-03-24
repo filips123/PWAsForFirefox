@@ -1261,8 +1261,9 @@ class PwaBrowser {
       },
 
       onCommand (event) {
-        gUnifiedExtensions._button = event.target;
-        gUnifiedExtensions.togglePanel(event);
+        const window = event.target.ownerGlobal;
+        window.gUnifiedExtensions._button = event.target;
+        window.gUnifiedExtensions.togglePanel(event);
       }
     });
   }
