@@ -37,6 +37,7 @@ class PwaBrowser {
     this.handleOutOfScopeNavigation();
     this.handleOpeningNewWindow();
     this.handleDisablingShortcuts();
+    this.handleHiddenExtensionsButton();
     setTimeout(() => { this.handleHiddenTitlebar() });
     setTimeout(() => { this.handleTabsMode() });
     setTimeout(() => { this.handleLinkTargets() });
@@ -527,6 +528,17 @@ class PwaBrowser {
     if (!getPref(ChromeLoader.PREF_SHORTCUTS_CLOSE_WINDOW)) document.getElementById('key_closeWindow').remove();
     if (!getPref(ChromeLoader.PREF_SHORTCUTS_QUIT_APPLICATION)) document.getElementById('key_quitApplication').remove();
     if (!getPref(ChromeLoader.PREF_SHORTCUTS_PRIVATE_BROWSING)) document.getElementById('key_privatebrowsing').remove();
+  }
+
+  handleHiddenExtensionsButton () {
+    if (!document.getElementById('unified-extensions-button')) {
+      window.gUnifiedExtensions._button = document.getElementById('PanelUI-menu-button');
+      window.gUnifiedExtensions._initialized = true;
+
+      window.gUnifiedExtensions.getPopupAnchorID = function (browser, window) {
+        return 'PanelUI-menu-button';
+      };
+    }
   }
 
   handleHiddenTitlebar () {
