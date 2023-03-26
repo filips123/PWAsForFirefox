@@ -41,17 +41,17 @@
   "devDependencies": {
     "@parcel/config-webextension": "~2.4.1",
     "@parcel/transformer-sass": "~2.4.1",
-    "eslint": "^8.30.0",
+    "eslint": "^8.36.0",
     "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.6.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
     "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
     "fantasticon": "^1.2.3",
     "npm-run-all": "^4.1.5",
-    "parcel": "^2.8.2",
-    "rimraf": "^3.0.2",
-    "web-ext": "^7.5.0"
+    "parcel": "^2.8.3",
+    "rimraf": "^4.4.1",
+    "web-ext": "^7.6.0"
   },
   "icons": [
     "box-arrow-up-right",
