@@ -32,7 +32,7 @@ configparser = "3.0.2"
 const_format = "0.2.30"
 data-url = { git = "https://github.com/filips123/rust-url", branch = "impl-std-error" }
 directories = "4.0.1"
-fs_extra = "1.2.0"
+fs_extra = "1.3.0"
 gag = "1.0.0"
 image = "0.24.5"
 log = "0.4.17"
@@ -42,7 +42,7 @@ serde = { version = "1.0.152", features = ["derive"] }
 serde_json = "1.0.91"
 simplelog = "0.12.0"
 smart-default = "0.6.0"
-tempfile = "3.3.0"
+tempfile = "3.4.0"
 ulid = { version = "1.0.0", features = ["serde"] }
 url = "2.3.1"
 urlencoding = "2.1.2"

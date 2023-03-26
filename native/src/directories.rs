@@ -33,9 +33,11 @@ pub struct ProjectDirs {
     /// Global system directory for the main executable files.
     ///
     /// Contains the main `firefoxpwa` executable that handles the command-line features and
-    /// launches web apps. On Windows, also contains the `firefoxpwa-connector` executable
-    /// that handles native messaging connections from the browser extension, and the
-    /// native app manifest.
+    /// launches web apps.
+    ///
+    /// On Windows, also contains the `firefoxpwa-connector` executable that handles native
+    /// messaging connections from the browser extension, and the native app manifest. On Linux
+    /// and macOS, they are located at the appropriate locations for that platform.
     ///
     /// Can be overwritten by a `FFPWA_EXECUTABLES` build- or run-time environment variable.
     ///
@@ -57,8 +59,10 @@ pub struct ProjectDirs {
     /// Global system directory for the project data.
     ///
     /// Stores the UserChrome modifications which are later copied to the user-specific
-    /// profile directories at the web-app-launch-time. On Windows, also contains the
-    /// shell completions files.
+    /// profile directories at the web-app-launch-time.
+    ///
+    /// On Windows, also contains the shell completions files. On Linux and macOS, they are
+    /// located at the appropriate locations for that platform.
     ///
     /// Can be overwritten by a `FFPWA_SYSDATA` build- or run-time environment variable.
     ///
