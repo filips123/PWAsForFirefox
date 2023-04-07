@@ -5,12 +5,11 @@ use std::path::PathBuf;
 use anyhow::{Context, Result};
 use log::warn;
 use reqwest::blocking::Client;
+use reqwest::header::{HeaderMap, HeaderValue};
 use reqwest::Certificate;
 
-const APP_USER_AGENT: &str = concat!(
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0 PWAsForFirefox/",
-    env!("CARGO_PKG_VERSION")
-);
+const APP_USER_AGENT: &str =
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0";
 
 /// Load DER and PEM certificates from files.
 ///
@@ -64,8 +63,13 @@ pub fn construct_client(
     danger_accept_invalid_certs: bool,
     danger_accept_invalid_hostnames: bool,
 ) -> reqwest::Result<Client> {
+    let mut headers = HeaderMap::new();
+    headers.insert("Sec-Fetch-Site", HeaderValue::from_static("none"));
+    headers.insert("Sec-Fetch-Dest", HeaderValue::from_static("manifest"));
+
     let mut builder = Client::builder()
         .user_agent(APP_USER_AGENT)
+        .default_headers(headers)
         .danger_accept_invalid_certs(danger_accept_invalid_certs)
         .danger_accept_invalid_hostnames(danger_accept_invalid_hostnames);
 
