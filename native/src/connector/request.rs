@@ -265,6 +265,14 @@ pub struct InstallSite {
     /// Defaults to the default/shared profile.
     pub profile: Option<Ulid>,
 
+    /// Whether the web app should be launched on the system login.
+    #[serde(default)]
+    pub launch_on_login: bool,
+
+    /// Whether the web app should be launched on the browser launch.
+    #[serde(default)]
+    pub launch_on_browser: bool,
+
     /// Contains a HTTP client configuration.
     #[serde(default)]
     pub client: HTTPClientConfig,
@@ -353,6 +361,14 @@ pub struct UpdateSite {
     /// A list of enabled protocol handlers supported by this web app.
     /// If empty, no handlers are registered to the operating system.
     pub enabled_protocol_handlers: Option<Vec<String>>,
+
+    /// Whether the web app should be launched on the system login.
+    #[serde(default)]
+    pub launch_on_login: Option<bool>,
+
+    /// Whether the web app should be launched on the browser launch.
+    #[serde(default)]
+    pub launch_on_browser: Option<bool>,
 
     /// Whether the manifest should be updated (default: `true`).
     #[serde(default = "default_as_true")]

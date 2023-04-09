@@ -1,8 +1,9 @@
 use std::convert::TryInto;
-use std::fs::{create_dir_all, remove_dir_all, remove_file, rename};
+use std::fs::{copy, create_dir_all, remove_dir_all, remove_file, rename};
 use std::path::{Path, PathBuf};
 
 use anyhow::{Context, Result};
+use log::warn;
 use reqwest::blocking::Client;
 use url::Url;
 use web_app_manifest::resources::IconResource;
@@ -39,6 +40,7 @@ use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 const ADD_REMOVE_PROGRAMS_KEY: &str = r"Software\Microsoft\Windows\CurrentVersion\Uninstall";
 const REGISTERED_APPLICATIONS_KEY: &str = r"Software\RegisteredApplications";
 const START_MENU_PROGRAMS_PATH: &str = r"Microsoft\Windows\Start Menu\Programs";
+const STARTUP_PROGRAMS_PATH: &str = r"Microsoft\Windows\Start Menu\Programs\Startup";
 
 //////////////////////////////
 // Utils
@@ -138,11 +140,9 @@ fn create_menu_shortcut(
     ids: &SiteIds,
     exe: &str,
     icon: &str,
+    data: &Path,
 ) -> Result<()> {
-    let start_menu_dir = directories::BaseDirs::new()
-        .context("Failed to determine base system directories")?
-        .data_dir()
-        .join(START_MENU_PROGRAMS_PATH);
+    let start_menu_dir = data.join(START_MENU_PROGRAMS_PATH);
 
     // Sanitize the name to prevent overflows and invalid filenames
     let name = sanitize_name(&ids.name, &ids.ulid);
@@ -152,7 +152,10 @@ fn create_menu_shortcut(
     if let Some(old_name) = &args.old_name {
         let old_name = sanitize_name(old_name, &ids.ulid);
         let old_filename = start_menu_dir.join(old_name).with_extension("lnk");
-        rename(old_filename, &filename).context("Failed to rename shortcut")?;
+
+        if let Err(error) = rename(old_filename, &filename).context("Failed to rename shortcut") {
+            warn!("{:?}", error);
+        }
     }
 
     // Create shell link instance
@@ -176,6 +179,39 @@ fn create_menu_shortcut(
         // Save shortcut to file
         let persist: IPersistFile = link.cast()?;
         persist.Save(&HSTRING::from(filename.display().to_string()), true)?;
+    }
+
+    Ok(())
+}
+
+fn create_shell_startup_shortcut(
+    args: &IntegrationInstallArgs,
+    ids: &SiteIds,
+    data: &Path,
+) -> Result<()> {
+    let menu_dir = data.join(START_MENU_PROGRAMS_PATH);
+    let startup_dir = data.join(STARTUP_PROGRAMS_PATH);
+
+    let name = sanitize_name(&ids.name, &ids.ulid);
+    let menu_filename = menu_dir.join(&name).with_extension("lnk");
+    let startup_filename = startup_dir.join(&name).with_extension("lnk");
+
+    // If old name is not the same as new one, remove the old shortcut
+    if let Some(old_name) = &args.old_name {
+        let old_name = sanitize_name(old_name, &ids.ulid);
+        let old_filename = startup_dir.join(&old_name).with_extension("lnk");
+
+        if old_name != name {
+            let _ = remove_file(old_filename);
+        }
+    }
+
+    if args.site.config.launch_on_login {
+        // If launch on login is enabled, copy its shortcut to the startup directory
+        copy(menu_filename, startup_filename).context("Failed to copy startup shortcut")?;
+    } else {
+        // Otherwise, try to remove its shortcut from the startup directory
+        let _ = remove_file(startup_filename);
     }
 
     Ok(())
@@ -347,12 +383,19 @@ pub fn install(args: &IntegrationInstallArgs) -> Result<()> {
     let icon_path = icon_path.display().to_string();
     let exe_path = exe_path.display().to_string();
 
+    let data = directories::BaseDirs::new()
+        .context("Failed to determine base system directories")?
+        .data_dir()
+        .to_owned();
+
     initialize_windows()?;
 
     create_arp_entry(args, &ids, &exe_path, &icon_path)
         .context("Failed to create ARP list entry")?;
-    create_menu_shortcut(args, &ids, &exe_path, &icon_path)
-        .context("Failed to create menu shortcut")?;
+    create_menu_shortcut(args, &ids, &exe_path, &icon_path, &data)
+        .context("Failed to create start menu shortcut")?;
+    create_shell_startup_shortcut(args, &ids, &data)
+        .context("Failed to create shell startup shortcut")?;
     create_jump_list_tasks(args, &ids, &exe_path, &icons_directory)
         .context("Failed to create jump list tasks")?;
     register_protocol_handlers(args, &ids, &exe_path, &icon_path)
@@ -376,14 +419,18 @@ pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
     // Remove ARP entry
     let _ = hkcu.delete_subkey_all(PathBuf::from(ADD_REMOVE_PROGRAMS_KEY).join(&ids.regid));
 
-    // Remove start menu shortcut
-    let shortcut = directories::BaseDirs::new()
+    let data = directories::BaseDirs::new()
         .context("Failed to determine base system directories")?
         .data_dir()
-        .join(START_MENU_PROGRAMS_PATH)
-        .join(name)
-        .with_extension("lnk");
-    let _ = remove_file(shortcut);
+        .to_owned();
+
+    // Remove start menu shortcut
+    let start_menu_shortcut = data.join(START_MENU_PROGRAMS_PATH).join(&name).with_extension("lnk");
+    let _ = remove_file(start_menu_shortcut);
+
+    // Remove startup shortcut
+    let startup_shortcut = data.join(STARTUP_PROGRAMS_PATH).join(&name).with_extension("lnk");
+    let _ = remove_file(startup_shortcut);
 
     // Remove jump list tasks
     unsafe {

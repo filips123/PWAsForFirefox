@@ -1,5 +1,5 @@
 use std::convert::TryInto;
-use std::fs::{create_dir_all, remove_file, write, File};
+use std::fs::{create_dir_all, remove_file, write, File, copy};
 use std::io::Write;
 use std::path::Path;
 use std::process::Command;
@@ -29,6 +29,7 @@ const CREATE_ICON_DIRECTORY_ERROR: &str = "Failed to create icon directory";
 const CREATE_ICON_FILE_ERROR: &str = "Failed to create icon file";
 const CREATE_APPLICATION_DIRECTORY_ERROR: &str = "Failed to create application directory";
 const WRITE_APPLICATION_FILE_ERROR: &str = "Failed to write application file";
+const COPY_STARTUP_ENTRY_ERROR: &str = "Failed to copy startup entry";
 
 //////////////////////////////
 // Utils
@@ -289,8 +290,36 @@ Exec={exe} site launch {siteid} --url \"{url}\"
     Ok(())
 }
 
+fn create_startup_entry(
+    args: &IntegrationInstallArgs,
+    ids: &SiteIds,
+    data: &Path,
+    config: &Path,
+) -> Result<()> {
+    let applications_entry = data.join("applications").join(format!("{}.desktop", ids.classid));
+    let autostart_entry = config.join("autostart").join(format!("{}.desktop", ids.classid));
+
+    if args.site.config.launch_on_login {
+        // If launch on login is enabled, copy its shortcut to the autostart directory
+        copy(applications_entry, autostart_entry).context(COPY_STARTUP_ENTRY_ERROR)?;
+    } else {
+        // Otherwise, try to remove its shortcut from the autostart directory
+        let _ = remove_file(autostart_entry);
+    }
+
+    Ok(())
+}
+
 fn remove_desktop_entry(classid: &str, data: &Path) -> Result<()> {
     let directory = data.join("applications");
+    let filename = directory.join(format!("{classid}.desktop"));
+
+    let _ = remove_file(filename);
+    Ok(())
+}
+
+fn remove_startup_entry(classid: &str, config: &Path) -> Result<()> {
+    let directory = config.join("autostart");
     let filename = directory.join(format!("{classid}.desktop"));
 
     let _ = remove_file(filename);
@@ -305,7 +334,10 @@ fn remove_desktop_entry(classid: &str, data: &Path) -> Result<()> {
 pub fn install(args: &IntegrationInstallArgs) -> Result<()> {
     let ids = SiteIds::create_for(args.site);
     let exe = args.dirs.executables.join("firefoxpwa").display().to_string();
-    let data = directories::BaseDirs::new().context(BASE_DIRECTORIES_ERROR)?.data_dir().to_owned();
+
+    let base = directories::BaseDirs::new().context(BASE_DIRECTORIES_ERROR)?;
+    let data = base.data_dir().to_owned();
+    let config = base.config_dir().to_owned();
 
     if args.update_icons {
         store_icons(&ids.classid, &ids.name, &args.site.icons(), &data, args.client.unwrap())
@@ -313,6 +345,7 @@ pub fn install(args: &IntegrationInstallArgs) -> Result<()> {
     }
 
     create_desktop_entry(args, &ids, &exe, &data).context("Failed to create application entry")?;
+    create_startup_entry(args, &ids, &data, &config).context("Failed to create startup entry")?;
     update_application_cache(&data);
 
     Ok(())
@@ -321,10 +354,14 @@ pub fn install(args: &IntegrationInstallArgs) -> Result<()> {
 #[inline]
 pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
     let ids = SiteIds::create_for(args.site);
-    let data = &directories::BaseDirs::new().context(BASE_DIRECTORIES_ERROR)?.data_dir().to_owned();
+
+    let base = directories::BaseDirs::new().context(BASE_DIRECTORIES_ERROR)?;
+    let data = &base.data_dir().to_owned();
+    let config = &base.config_dir().to_owned();
 
     remove_icons(&ids.classid, data).context("Failed to remove web app icons")?;
     remove_desktop_entry(&ids.classid, data).context("Failed to remove application entry")?;
+    remove_startup_entry(&ids.classid, config).context("Failed to remove startup entry")?;
     update_application_cache(data);
 
     Ok(())

@@ -129,6 +129,8 @@ impl Process for InstallSite {
             description: self.description.to_owned(),
             categories: self.categories.to_owned(),
             keywords: self.keywords.to_owned(),
+            launch_on_login: Some(self.launch_on_login),
+            launch_on_browser: Some(self.launch_on_browser),
             system_integration: true,
             client: self.client.to_owned().into(),
         };
@@ -161,6 +163,8 @@ impl Process for UpdateSite {
             keywords: self.keywords.clone().map(|x| x.unwrap_or_else(|| vec!["".into()])),
             enabled_url_handlers: self.enabled_url_handlers.to_owned(),
             enabled_protocol_handlers: self.enabled_protocol_handlers.to_owned(),
+            launch_on_login: self.launch_on_login,
+            launch_on_browser: self.launch_on_browser,
             update_manifest: self.update_manifest,
             update_icons: self.update_icons,
             system_integration: true,

@@ -168,6 +168,8 @@ impl SiteInstallCommand {
             enabled_url_handlers: vec![],
             enabled_protocol_handlers: vec![],
             custom_protocol_handlers: vec![],
+            launch_on_login: self.launch_on_login.unwrap_or(false),
+            launch_on_browser: self.launch_on_browser.unwrap_or(false),
         };
 
         let client = construct_certificates_and_client(
@@ -267,6 +269,8 @@ impl Run for SiteUpdateCommand {
         store_value_vec!(site.config.keywords, self.keywords);
         store_value!(site.config.enabled_url_handlers, self.enabled_url_handlers);
         store_value!(site.config.enabled_protocol_handlers, self.enabled_protocol_handlers);
+        store_value!(site.config.launch_on_login, self.launch_on_login);
+        store_value!(site.config.launch_on_browser, self.launch_on_browser);
 
         let client = construct_certificates_and_client(
             &self.client.tls_root_certificates_der,

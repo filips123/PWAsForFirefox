@@ -181,6 +181,10 @@ async function createSiteList () {
         else handlersBox.classList.add('d-none')
       }
 
+      // Hide launch on login preference on macOS
+      // Users on macOS can enable launching at login from the OS UI
+      if (platform.os === 'mac') document.getElementById('web-app-launch-on-login-box').classList.add('d-none')
+
       // Set auto launch preference from config
       const autoLaunchGlobal = (await browser.storage.local.get(PREF_ENABLE_AUTO_LAUNCH))[PREF_ENABLE_AUTO_LAUNCH]
       if (autoLaunchGlobal) {
@@ -189,6 +193,10 @@ async function createSiteList () {
       } else {
         document.getElementById('web-app-auto-launch-box').classList.add('d-none')
       }
+
+      // Set launch on login and browser preferences from config
+      document.getElementById('web-app-launch-on-login').checked = site.config.launch_on_login
+      document.getElementById('web-app-launch-on-browser').checked = site.config.launch_on_browser
 
       // Set form to be validated after all inputs are filled with default values and enable submit button
       form.classList.add('was-validated')
@@ -325,6 +333,8 @@ async function createSiteList () {
             keywords,
             enabled_url_handlers: enabledUrlHandlers,
             enabled_protocol_handlers: enabledProtocolHandlers,
+            launch_on_login: document.getElementById('web-app-launch-on-login').checked,
+            launch_on_browser: document.getElementById('web-app-launch-on-browser').checked,
             update_manifest: document.getElementById('web-app-update-manifest').checked,
             update_icons: document.getElementById('web-app-update-icons').checked
           }

@@ -82,6 +82,14 @@ pub struct SiteConfig {
     /// [`registerProtocolHandler`]: https://developer.mozilla.org/docs/Web/API/Navigator/registerProtocolHandler
     #[serde(default)]
     pub custom_protocol_handlers: Vec<ProtocolHandlerResource>,
+
+    /// Whether the web app should be launched on the system login.
+    #[serde(default)]
+    pub launch_on_login: bool,
+
+    /// Whether the web app should be launched on the browser launch.
+    #[serde(default)]
+    pub launch_on_browser: bool,
 }
 
 #[non_exhaustive]

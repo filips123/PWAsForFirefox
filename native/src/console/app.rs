@@ -47,11 +47,11 @@ pub struct SiteLaunchCommand {
     pub arguments: Vec<String>,
 
     /// Launch web app on a custom start URL
-    #[clap(long, conflicts_with = "protocol")]
+    #[clap(long, conflicts_with = "protocol", value_hint = clap::ValueHint::Url)]
     pub url: Option<Url>,
 
     /// Launch web app on a protocol handler URL
-    #[clap(long, conflicts_with = "url")]
+    #[clap(long, conflicts_with = "url", value_hint = clap::ValueHint::Url)]
     pub protocol: Option<Option<Url>>,
 
     /// Internal: Directly launch web app without system integration
@@ -63,11 +63,12 @@ pub struct SiteLaunchCommand {
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct SiteInstallCommand {
     /// Direct URL of the site's web app manifest
+    #[clap(value_hint = clap::ValueHint::Url)]
     pub manifest_url: Url,
 
     /// Direct URL of the site's main document
     /// {n}Defaults to the result of parsing a manifest URL with `.`
-    #[clap(long)]
+    #[clap(long, value_hint = clap::ValueHint::Url)]
     pub document_url: Option<Url>,
 
     /// Profile where this web app will be installed
@@ -76,11 +77,11 @@ pub struct SiteInstallCommand {
     pub profile: Option<Ulid>,
 
     /// Set a custom web app start URL
-    #[clap(long)]
+    #[clap(long, value_hint = clap::ValueHint::Url)]
     pub start_url: Option<Url>,
 
     /// Set a custom web app icon URL
-    #[clap(long)]
+    #[clap(long, value_hint = clap::ValueHint::Url)]
     pub icon_url: Option<Url>,
 
     /// Set a custom web app name
@@ -98,6 +99,14 @@ pub struct SiteInstallCommand {
     /// Set custom web app keywords
     #[clap(long)]
     pub keywords: Option<Vec<String>>,
+
+    /// Set the web app to launch on the system login.
+    #[clap(long)]
+    pub launch_on_login: Option<bool>,
+
+    /// Set the web app to launch on the browser launch.
+    #[clap(long)]
+    pub launch_on_browser: Option<bool>,
 
     /// Disable system integration
     #[clap(long = "no-system-integration", action = ArgAction::SetFalse)]
@@ -128,11 +137,11 @@ pub struct SiteUpdateCommand {
     pub id: Ulid,
 
     /// Set a custom web app start URL
-    #[clap(long)]
+    #[clap(long, value_hint = clap::ValueHint::Url)]
     pub start_url: Option<Option<Url>>,
 
     /// Set a custom web app icon URL
-    #[clap(long)]
+    #[clap(long, value_hint = clap::ValueHint::Url)]
     pub icon_url: Option<Option<Url>>,
 
     /// Set a custom web app name
@@ -158,6 +167,14 @@ pub struct SiteUpdateCommand {
     /// Set enabled protocol handlers
     #[clap(long)]
     pub enabled_protocol_handlers: Option<Vec<String>>,
+
+    /// Set the web app to launch on the system login.
+    #[clap(long)]
+    pub launch_on_login: Option<bool>,
+
+    /// Set the web app to launch on the browser launch.
+    #[clap(long)]
+    pub launch_on_browser: Option<bool>,
 
     /// Disable manifest updates
     #[clap(long = "no-manifest-updates", action = ArgAction::SetFalse)]
@@ -207,7 +224,7 @@ pub struct ProfileCreateCommand {
     /// Set a profile template
     /// {n}All contents of the template directory
     /// will be copied to a newly-created profile
-    #[clap(long)]
+    #[clap(long, value_hint = clap::ValueHint::DirPath)]
     pub template: Option<PathBuf>,
 }
 
@@ -253,11 +270,11 @@ pub struct RuntimeUninstallCommand {}
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct HTTPClientConfig {
     /// Import additional root certificates from a DER file
-    #[clap(long)]
+    #[clap(long, value_hint = clap::ValueHint::FilePath)]
     pub tls_root_certificates_der: Option<Vec<PathBuf>>,
 
     /// Import additional root certificates from a PEM file
-    #[clap(long)]
+    #[clap(long, value_hint = clap::ValueHint::FilePath)]
     pub tls_root_certificates_pem: Option<Vec<PathBuf>>,
 
     /// Dangerous: Allow client to client accept invalid certs

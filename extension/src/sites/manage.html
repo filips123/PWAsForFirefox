@@ -296,9 +296,18 @@
             <div class="form-label fw-bold">Protocol Handlers</div>
             <div class="list-group list-group-flush list-group-no-border" id="web-app-protocol-handlers-list"></div>
           </div>
-          <div class="form-check mt-4 mb-3 d-none" id="web-app-auto-launch-box">
-            <input class="form-check-input" type="checkbox" id="web-app-auto-launch" checked>
-            <label class="form-check-label" for="web-app-auto-launch">Auto launch this web app</label>
+          <div class="mt-4"></div>
+          <div class="form-check mb-1 d-none" id="web-app-auto-launch-box" title="Determines if web app will be automatically launched when visiting the matching website">
+            <input class="form-check-input" type="checkbox" id="web-app-auto-launch">
+            <label class="form-check-label" for="web-app-auto-launch">Launch this web app on matching website</label>
+          </div>
+          <div class="form-check mb-1" id="web-app-launch-on-login-box" title="Determines if web app will be automatically launched on the system login">
+            <input class="form-check-input" type="checkbox" id="web-app-launch-on-login">
+            <label class="form-check-label" for="web-app-launch-on-login">Launch this web app on system login</label>
+          </div>
+          <div class="form-check mb-1 mb-3" id="web-app-launch-on-browser-box" title="Determines if web app will be automatically launched on the browser launch">
+            <input class="form-check-input" type="checkbox" id="web-app-launch-on-browser">
+            <label class="form-check-label" for="web-app-launch-on-browser">Launch this web app on browser launch</label>
           </div>
           <div class="form-check mb-1" id="web-app-update-manifest-box" title="Determines if manifest will be updated when you edit this web app">
             <input class="form-check-input" type="checkbox" id="web-app-update-manifest" checked>
@@ -396,7 +405,7 @@
           </div>
           <div class="modal-body">
             <p>Enabling <em>automatic web app launching</em> will automatically launch all URLs that match the scopes of your enabled web apps as a web app.</p>
-            <p>This feature is experimental, may not work with all websites correctly, and may impact performance. It needs to be additionally enabled per web app in the web app settings.</p>
+            <p>This feature is experimental, may not work with all websites correctly, and may impact performance. It needs to be additionally enabled per web app in the web app settings using the <em>Launch this web app on matching website</em> option.</p>
             <p>Additional browser permissions are required for this to work. They will be requested automatically after enabling it if they are not already permitted.</p>
           </div>
           <div class="modal-footer">
