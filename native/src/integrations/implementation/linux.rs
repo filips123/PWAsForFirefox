@@ -1,5 +1,5 @@
 use std::convert::TryInto;
-use std::fs::{create_dir_all, remove_file, write, File, copy};
+use std::fs::{copy, create_dir_all, remove_file, write, File};
 use std::io::Write;
 use std::path::Path;
 use std::process::Command;
