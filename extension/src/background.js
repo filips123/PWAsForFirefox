@@ -1,6 +1,6 @@
 import {
   AUTO_LAUNCH_PERMISSIONS,
-  checkNativeStatus,
+  checkNativeStatus, launchSite,
   obtainSiteList,
   PREF_DISPLAY_PAGE_ACTION,
   PREF_ENABLE_AUTO_LAUNCH,
@@ -103,7 +103,7 @@ const permissionsListener = async () => {
 browser.permissions.onAdded.addListener(permissionsListener)
 browser.permissions.onRemoved.addListener(permissionsListener)
 
-// == AUTO LAUNCH HANDLING
+// == LAUNCH ON WEBSITE HANDLING
 
 // Handle opening new URLs and redirect enable URLs to web apps
 // This will obtain site list for every request (twice) which will impact performance
@@ -159,4 +159,14 @@ browser.webNavigation?.onCreatedNavigationTarget.addListener(async details => {
 
   // Close the newly opened tab/window
   await browser.tabs.remove(details.tabId)
+})
+
+// = LAUNCH ON BROWSER HANDLING
+
+browser.runtime.onStartup.addListener(async () => {
+  for (const site of Object.values(await obtainSiteList())) {
+    if (site.config.launch_on_browser) {
+      await launchSite(site)
+    }
+  }
 })
