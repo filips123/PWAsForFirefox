@@ -60,23 +60,11 @@ For detailed and more technical documentation how to set up, use and develop the
 
 These are things that I would like to fix eventually, but will currently stay, either because they are too hard to fix, or would require modifying the Firefox source. I will appreciate any help to fix them.
 
-* **All PWAs are merged with the first PWA that was opened (Linux & macOS):**
+* **All PWAs are merged with the first PWA that was opened (macOS):**
 
-  When some PWA is already running, all newly launched PWAs will merge with it and remain merged until all of them are closed. This will cause the app menu to display all PWAs as part of the first PWA that was launched, with its icon and desktop actions (if any).
+  When some PWA is already running, all newly launched PWAs will merge with it and remain merged until all of them are closed. This will cause the app menu to display all PWAs as part of the first PWA that was launched, with its icon and desktop actions (if any). See [this comment](https://github.com/filips123/PWAsForFirefox/issues/33#issuecomment-888511078) for more details and possible solutions. This problem is tracked as issue [#81](https://github.com/filips123/PWAsForFirefox/issues/81).
 
-  *Users can prevent this by installing each PWA into a different profile.*
-
-  * **Linux:**
-
-    This cannot be fixed easily. The native part of the project currently launches Firefox with the `--class` and `--name` arguments, which should set the `WM_CLASS` property of the window to the web app ID. However, because all Firefox processes in the same profile are connected together, all windows have WM_CLASS of the first web app. Fixing this would probably require modifying Firefox C++ code. Check [this comment](https://github.com/filips123/PWAsForFirefox/issues/33#issuecomment-887382593) and related discussions for ideas and possible solutions to fix this.
-
-    This problem is tracked as issue [#80](https://github.com/filips123/PWAsForFirefox/issues/80) and [bug 1747722](https://bugzilla.mozilla.org/show_bug.cgi?id=1747722) on Bugzilla.
-
-  * **macOS:**
-
-    Apple only allows a process to be associated with a single application at all times. Perhaps this could be solved by using an IPC link between a host process and the main Firefox runtime process, the same way the Firefox parent process handles its content processes. This is just a wild theory though and has to be investigated further. See [this comment](https://github.com/filips123/PWAsForFirefox/issues/33#issuecomment-888511078) for more.
-
-    This problem is tracked as issue [#81](https://github.com/filips123/PWAsForFirefox/issues/81).
+  This issue can be prevented by installing each web app into a different profile, which is the default behaviour on macOS.
 
 * **Extension cannot detect the native program when using sandboxed Firefox (Linux Flatpak):**
 

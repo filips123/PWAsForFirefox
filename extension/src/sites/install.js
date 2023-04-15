@@ -36,8 +36,8 @@ async function initializeForm () {
     const issueLink = document.getElementById('web-app-profile-warn-issue')
     switch (platform.os) {
       case 'linux':
-        issueLink.href = 'https://github.com/filips123/PWAsForFirefox/issues/80'
-        issueLink.innerText = '#80'
+        issueLink.href = 'https://github.com/filips123/PWAsForFirefox/issues/322'
+        issueLink.innerText = '#322'
         break
       case 'mac':
         issueLink.href = 'https://github.com/filips123/PWAsForFirefox/issues/81'
