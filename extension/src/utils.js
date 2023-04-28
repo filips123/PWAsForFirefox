@@ -158,6 +158,7 @@ export async function checkNativeStatus () {
     return majorExtension === majorNative ? 'update-minor' : 'update-major'
   } catch (error) {
     if (error.message === 'Attempt to postMessage on disconnected port') return 'install'
+    if (error.message === 'No such native application firefoxpwa') return 'install'
     throw error
   }
 }

@@ -73,7 +73,7 @@ async function checkNativeConnection () {
       iframeResizer.resize()
     }
   } catch (error) {
-    if (error.message !== 'Attempt to postMessage on disconnected port') {
+    if (!['Attempt to postMessage on disconnected port', 'No such native application firefoxpwa'].includes(error.message)) {
       document.getElementById('connector-version-error').classList.add('d-none')
       document.getElementById('connector-native-error').classList.remove('d-none')
       document.getElementById('connector-native-error-text').innerText = error.message

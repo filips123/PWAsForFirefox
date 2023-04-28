@@ -72,7 +72,7 @@ async function checkVersions () {
       document.getElementById('release-notes-show').classList.remove('d-none')
     }
   } catch (error) {
-    if (error.message !== 'Attempt to postMessage on disconnected port') {
+    if (!['Attempt to postMessage on disconnected port', 'No such native application firefoxpwa'].includes(error.message)) {
       document.getElementById('native-error').classList.remove('d-none')
       document.getElementById('native-error-text').innerText = error.message
       console.error(error)
