@@ -1,0 +1,100 @@
+site_name: PWAsForFirefox
+site_description: A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox
+site_author: filips123
+
+repo_name: filips123/PWAsForFirefox
+repo_url: https://github.com/filips123/PWAsForFirefox
+
+edit_uri: edit/main/docs/docs/
+
+theme:
+  name: material
+
+  logo: assets/icons/logo.svg
+  favicon: assets/icons/logo.svg
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  features:
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+    - content.action.view
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.footer
+    - toc.follow
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.snippets
+  - pymdownx.highlight
+  - pymdownx.betterem
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+      title: Table of Contents
+
+extra:
+  social:
+    - icon: fontawesome/brands/firefox
+      link: https://addons.mozilla.org/firefox/addon/pwas-for-firefox/
+    - icon: fontawesome/brands/github
+      link: https://github.com/filips123/PWAsForFirefox
+
+nav:
+  - index.md
+  - Installation:
+      - installation/requirements.md
+      - installation/extension.md
+      - installation/native.md
+  - User Guide:
+      - user-guide/extension.md
+      - user-guide/console.md
+      - user-guide/browser.md
+  - Developer Guide:
+      # TODO: How to contribute to project?
+      # TODO: How to access `firefoxpwa-connector` from third-party programs?
+      # TODO: Some suggestions for third-party programs and integrations?
+      - developer-guide/todo.md
+  - Resources:
+      # TODO: Document (un)supported PWA features
+      - resources/how-it-works.md
+      - resources/known-problems.md
+      - resources/web-app-properties.md
+      - resources/installation-directories.md
+      - resources/specific-website-tips.md
+      - resources/troubleshooting.md
+      - resources/faq.md
+
+# TODO: Support (issues, discussions, etc,)
+# TODO: Sponsoring (link to GH Sponsors and others)
+# TODO: Other useful things?
