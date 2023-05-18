@@ -1498,7 +1498,6 @@ class PwaBrowser {
             for (const addedNode of mutation.addedNodes) {
               if (addedNode.tagName === 'image' && addedNode.className === 'toolbarbutton-icon') {
                 addedNode.replaceWith(permissionBox);
-                this.reverseChildren(permissionBox);
                 observer.disconnect();
               }
             }
@@ -1564,7 +1563,6 @@ class PwaBrowser {
             for (const addedNode of mutation.addedNodes) {
               if (addedNode.tagName === 'image' && addedNode.className === 'toolbarbutton-icon') {
                 addedNode.replaceWith(notificationsBox);
-                this.reverseChildren(notificationsBox);
                 observer.disconnect();
               }
             }
