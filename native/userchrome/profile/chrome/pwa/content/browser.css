@@ -24,7 +24,7 @@
       visibility: hidden;
     }
 
-    :root:not([sizemode="fullscreen"]) #titlebar > * {
+    :root:not([sizemode="fullscreen"]) #titlebar > *:not([collapsed="true"])  {
       visibility: visible;
     }
 
