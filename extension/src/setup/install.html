@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Setup Progressive Web Apps for Firefox</title>
+    <title data-i18n-id="setup-PWAsForFirefox-title">Setup Progressive Web Apps for Firefox</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
     <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
     <link rel="stylesheet" href="install.scss" />
+    <script src="../i18n.js"></script>
   </head>
 
   <body class="bg-light">
@@ -13,64 +14,64 @@
       <div class="row justify-content-center">
         <div class="wrapper my-4 px-4 py-0">
           <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-            <h1 class="text-center">Setup Progressive Web Apps for Firefox</h1>
+            <h1 class="text-center" data-i18n-id="setup-PWAsForFirefox-title">Setup Progressive Web Apps for Firefox</h1>
             <div class="row">
               <div class="pb-3">
                 <ul class="text-center" id="progressbar">
-                  <li class="bi-clipboard-check" id="license-agreement"><strong>License Agreement</strong></li>
-                  <li class="bi-download" id="connector-installation"><strong>Connector Installation</strong></li>
-                  <li class="bi-cloud-download" id="runtime-installation"><strong>Runtime Installation</strong></li>
-                  <li class="bi-check" id="ready"><strong>Ready</strong></li>
+                  <li class="bi-clipboard-check" id="license-agreement" ><strong data-i18n-id="license-agreement">License Agreement</strong></li>
+                  <li class="bi-download" id="connector-installation"><strong data-i18n-id="connector-installation">Connector Installation</strong></li>
+                  <li class="bi-cloud-download" id="runtime-installation"><strong data-i18n-id="runtime-installation">Runtime Installation</strong></li>
+                  <li class="bi-check" id="ready"><strong data-i18n-id="ready"></strong></li>
                 </ul>
 
                 <!-- License Agreement -->
                 <div id="license-agreement-view" class="px-3 d-none">
                   <blockquote class="text-justify text-secondary">
-                    <p>The project is licensed under <a href="https://www.mozilla.org/MPL/2.0/">the Mozilla Public License 2.0</a>. By using, redistributing, or modifying it, you must agree to the license, and the additional clauses provided below.</p>
+                    <p data-i18n-innerHTML="license-MPL2.0">The project is licensed under <a href="https://www.mozilla.org/MPL/2.0/">the Mozilla Public License 2.0</a>. By using, redistributing, or modifying it, you must agree to the license, and the additional clauses provided below.</p>
                     <hr />
-                    <p>The project uses additional third-party assets and code:</p>
+                    <p data-i18n-id="third-party-code">The project uses additional third-party assets and code:</p>
                     <ul>
-                      <li>The project logo is based on <a href="https://www.svgrepo.com/svg/40267/fox">the &quot;Fox SVG Vector&quot; icon</a> and <a href="https://github.com/webmaxru/progressive-web-apps-logo">the community-introduced PWA logo</a>, both dedicated to the public domain using <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</li>
-                      <li>Browser chrome modifications were inspired by and partially derived from the <a href="https://github.com/xiaoxiaoflood/firefox-scripts"><code>xiaoxiaoflood/firefox-scripts</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.</li>
-                      <li>Browser chrome modifications partially use code derived from the <a href="https://github.com/black7375/Firefox-UI-Fix"><code>black7375/Firefox-UI-Fix</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.</li>
-                      <li>Browser chrome modifications partially use code and icons derived from <a href="https://github.com/mozilla/gecko-dev">the original Firefox source</a>, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.</li>
-                      <li>Native programs contain <a href="https://fontsarena.com/metropolis-by-chris-simpson/">the Metropolis Semi Bold typeface</a> by Chris Simpson, released into the public domain using <a href="https://unlicense.org/">Unlicense</a>.</li>
-                      <li>Windows installer contains <a href="https://icons.getbootstrap.com/">Bootstrap Icons</a>, licensed under the <a href="https://opensource.org/licenses/MIT">the MIT License</a>. Detailed license information can be found in <a href="https://github.com/filips123/PWAsForFirefox/blob/main/native/packages/wix/main.wxs">the WiX configuration file</a>.</li>
+                      <li data-i18n-innerHTML="logo-based-on-notice">The project logo is based on <a href="https://www.svgrepo.com/svg/40267/fox">the &quot;Fox SVG Vector&quot; icon</a> and <a href="https://github.com/webmaxru/progressive-web-apps-logo">the community-introduced PWA logo</a>, both dedicated to the public domain using <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.</li>
+                      <li data-i18n-innerHTML="firefox-scripts-notice">Browser chrome modifications were inspired by and partially derived from the <a href="https://github.com/xiaoxiaoflood/firefox-scripts"><code>xiaoxiaoflood/firefox-scripts</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.</li>
+                      <li data-i18n-innerHTML="firefox-ui-fix-notice">Browser chrome modifications partially use code derived from the <a href="https://github.com/black7375/Firefox-UI-Fix"><code>black7375/Firefox-UI-Fix</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.</li>
+                      <li data-i18n-innerHTML="firefox-source-code-notice">Browser chrome modifications partially use code and icons derived from <a href="https://github.com/mozilla/gecko-dev">the original Firefox source</a>, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.</li>
+                      <li data-i18n-innerHTML="metropolis-by-chris-simpson-notice">Native programs contain <a href="https://fontsarena.com/metropolis-by-chris-simpson/">the Metropolis Semi Bold typeface</a> by Chris Simpson, released into the public domain using <a href="https://unlicense.org/">Unlicense</a>.</li>
+                      <li data-i18n-innerHTML="bootstrap-icon-notice">Windows installer contains <a href="https://icons.getbootstrap.com/">Bootstrap Icons</a>, licensed under the <a href="https://opensource.org/licenses/MIT">the MIT License</a>. Detailed license information can be found in <a href="https://github.com/filips123/PWAsForFirefox/blob/main/native/packages/wix/main.wxs">the WiX configuration file</a>.</li>
                     </ul>
-                    <p>Additional open source software will be downloaded and installed at runtime when initiated by the user:</p>
+                    <p data-i18n-id="additional-program-install-by-user-notice-header">Additional open source software will be downloaded and installed at runtime when initiated by the user:</p>
                     <ul>
-                      <li>Installing the runtime on Windows will install <a href="https://7-zip.org/">7-Zip</a> if it is not already installed. The 7-Zip project is made by Igor Pavlov and <a href="https://7-zip.org/license.txt">licensed under the GNU LGPL license and others</a>. This project is not affiliated with the 7-Zip project or its developers in any way.</li>
-                      <li>Installing the runtime on any system will download the unmodified <a href="https://www.mozilla.org/firefox/">Mozilla Firefox</a> browser and locally modify it. By using this project, you also agree to <a href="https://www.mozilla.org/privacy/firefox/">the Firefox Privacy Notice</a>. Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla Foundation in any way.</li>
+                      <li data-i18n-innerHTML="7-zip-notice">Installing the runtime on Windows will install <a href="https://7-zip.org/">7-Zip</a> if it is not already installed. The 7-Zip project is made by Igor Pavlov and <a href="https://7-zip.org/license.txt">licensed under the GNU LGPL license and others</a>. This project is not affiliated with the 7-Zip project or its developers in any way.</li>
+                      <li data-i18n-innerHTML="firefox-notice">Installing the runtime on any system will download the unmodified <a href="https://www.mozilla.org/firefox/">Mozilla Firefox</a> browser and locally modify it. By using this project, you also agree to <a href="https://www.mozilla.org/privacy/firefox/">the Firefox Privacy Notice</a>. Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla Foundation in any way.</li>
                     </ul>
                     <hr />
-                    <p>This extension exchanges personal data (current website and manifest URLs, as well as other PWA details) with the native program when the user initiates the PWA installation. This is necessary in order to correctly obtain and parse the Web Application Manifest and install the PWA. Data are stored on the computer as long as that PWA is installed. No personal data leave the computer or are sent to third parties.</p>
+                    <p data-i18n-id="privacy-notice-before-install">This extension exchanges personal data (current website and manifest URLs, as well as other PWA details) with the native program when the user initiates the PWA installation. This is necessary in order to correctly obtain and parse the Web Application Manifest and install the PWA. Data are stored on the computer as long as that PWA is installed. No personal data leave the computer or are sent to third parties.</p>
                   </blockquote>
                   <div class="text-center">
-                    <button type="button" class="btn btn-outline-success" id="license-agreement-accept">I accept the license agreement</button>
+                    <button type="button" class="btn btn-outline-success" id="license-agreement-accept" data-i18n-id="accept-license-agreement">I accept the license agreement</button>
                   </div>
                 </div>
 
                 <!-- Connector Installation -->
                 <div id="connector-installation-view" class="px-3 d-none">
-                  <p>
+                  <p data-i18n-id="install-runtime-page-top">
                     You need to install the additional program so the extension can manage and run separate runtime
                     and profiles for your web apps. The extension will not work  without this program. Please follow
                     the instructions below to install it.
                   </p>
                   <div class="d-none" id="connector-version-error">
-                    <p>
+                    <p data-i18n-innerHTML="error-install-runtime">
                       <strong>Error:</strong> The version of a currently-installed program may be incompatible with the
                       current version of the extension. You need to update the program or the extension to a compatible
                       version to make them work correctly.
                     </p>
                     <ul class="list-unstyled">
-                      <li><strong>Extension version:</strong> <span id="connector-version-error-extension"></span></li>
-                      <li><strong>Native version</strong>: <span id="connector-version-error-native"></span></li>
+                      <li><strong data-i18n-id="extension-version">Extension version</strong>: <span id="connector-version-error-extension"></span></li>
+                      <li><strong data-i18n-id="native-version">Native version</strong>: <span id="connector-version-error-native"></span></li>
                     </ul>
                   </div>
                   <div class="d-none" id="connector-native-error">
                     <p>
-                      <strong>Error:</strong>
+                      <strong data-i18n-id="error-text">Error:</strong>
                       <span id="connector-native-error-text"></span>
                     </p>
                   </div>
@@ -79,66 +80,66 @@
 
                 <!-- Runtime Installation -->
                 <div id="runtime-installation-view" class="px-3 d-none">
-                  <p id="runtime-auto-install">
+                  <p id="runtime-auto-install" data-i18n-id="runtime-auto-install">
                     This extension also needs a separate Mozilla Firefox runtime where all your Progressive Web App sites
                     will run. Pressing the button below will automatically download the unmodified Mozilla Firefox from
                     the Mozilla servers and locally modify it with the required modifications. You can also check the
                     advanced options below to manually install the runtime.
                   </p>
-                  <p id="runtime-manual-install" class="d-none">
+                  <p id="runtime-manual-install" class="d-none" data-i18n-id="runtime-manual-install">
                     This extension also needs a separate Mozilla Firefox runtime where all your Progressive Web App sites
                     will run. However, your platform currently does not support automatic installation of the runtime.
                     Please follow the advanced options below to install it manually.
                   </p>
-                  <p id="runtime-needs-7zip" class="d-none">
+                  <p id="runtime-needs-7zip" class="d-none" data-i18n-innerHTML="runtime-needs-7zip">
                     To install the runtime, you will need <a href="https://7-zip.org/">7-Zip</a> installed. Installing
                     the runtime will automatically trigger the 7-Zip installer if needed. This may require accepting User
                     Account Control prompt. You can also manually install 7-Zip or use your existing 7-zip installation.
                     After the runtime is installed, you can delete 7-Zip manually.
                   </p>
-                  <p>
+                  <p data-i18n-id="after-install-runtime">
                     After the runtime is installed, you should be automatically proceeded to the
                     next step. If nothing changes after around 30 seconds, restart the browser.
                   </p>
                   <p id="runtime-install-error" class="d-none">
-                    <strong>Error:</strong>
+                    <strong data-i18n-id="error-text">Error:</strong>
                     <span id="runtime-install-error-text"></span>
                   </p>
                   <div class="text-center mt-3">
-                    <button type="button" class="btn btn-outline-success" id="runtime-install-start">Install the runtime</button>
+                    <button type="button" class="btn btn-outline-success" id="runtime-install-start" data-i18n-id="install-the-runtime">Install the runtime</button>
                   </div>
 
                   <div class="mt-3">
                     <details>
-                      <summary><strong class="lead">Advanced options</strong></summary>
+                      <summary><strong class="lead" data-i18n-id="Advanced-options">Advanced options</strong></summary>
                       <div style="padding-left: 1rem;" class="pb-1">
-                        <strong>Manually installing Firefox from the archive:</strong>
+                        <strong data-i18n-id="manually-install-runtime">Manually installing Firefox from the archive:</strong>
                         <ol>
-                          <li>Download the Firefox archive from your preferred source (for example, from <a href="https://www.mozilla.org/firefox/all/" target="_blank">the official downloads page</a>).</li>
-                          <li>Extract the downloaded archive and copy files to the correct directory (see below).</li>
+                          <li data-i18n-InnerHTML="manually-install-runtime-procedure">Download the Firefox archive from your preferred source (for example, from <a href="https://www.mozilla.org/firefox/all/" target="_blank">the official downloads page</a>).</li>
+                          <li data-i18n-id="manually-install-runtime-procedure2">Extract the downloaded archive and copy files to the correct directory (see below).</li>
                         </ol>
                       </div>
                       <div style="padding-left: 1rem;" class="pb-1">
-                        <strong>Manually installing Firefox using package manager:</strong>
+                        <strong data-i18n-id="install-Firefox-with-packagemgr">Manually installing Firefox using package manager:</strong>
                         <ol>
-                          <li>Install Firefox using your distro's package manager (e.g., <kbd>sudo apt install firefox</kbd>, <kbd>sudo yum install firefox</kbd>, ...).</li>
-                          <li>Copy the installed Firefox files (commonly stored in <kbd>/usr/lib/firefox/</kbd>) to the correct directory (see below).</li>
+                          <li data-i18n-InnerHTML="install-with-pacgaemgr-procedure">Install Firefox using your distro's package manager (e.g., <kbd>sudo apt install firefox</kbd>, <kbd>sudo yum install firefox</kbd>, ...).</li>
+                          <li data-i18n-innerHTML="install-with-pacgaemgr-procedure2">Copy the installed Firefox files (commonly stored in <kbd>/usr/lib/firefox/</kbd>) to the correct directory (see below).</li>
                         </ol>
                       </div>
                       <div style="padding-left: 1rem;" class="pb-1">
-                        <strong>Installing an alternative Firefox-based browser (for example, LibreWolf):</strong>
+                        <strong data-i18n-id="use-alternative-browser-for-runtime">Installing an alternative Firefox-based browser (for example, LibreWolf):</strong>
                         <ol>
-                          <li>Download the "portable" archive (binary tarball) for your preferred Firefox-based browser.</li>
-                          <li>Extract downloaded archive and copy files to the correct directory (see below).</li>
-                          <li>Inside that directory, symlink the main binary of your browser (for example, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) as <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.</li>
+                          <li data-i18n-id="use-alternative-browser-for-runtime-procedure">Download the "portable" archive (binary tarball) for your preferred Firefox-based browser.</li>
+                          <li data-i18n-id="use-alternative-browser-for-runtime-procedure2">Extract downloaded archive and copy files to the correct directory (see below).</li>
+                          <li data-i18n-InnerHTML="use-alternative-browser-for-runtime-procedure3">Inside that directory, symlink the main binary of your browser (for example, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) as <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.</li>
                         </ol>
                       </div>
                       <div style="padding-left: 1rem;" class="pb-1">
-                        <strong>Default runtime locations:</strong>
+                        <strong data-i18n-id="default-runtime-location">Default runtime locations:</strong>
                         <ul>
-                          <li>Windows: <kbd>%APPDATA%\FirefoxPWA\runtime\</kbd></li>
-                          <li>Linux: <kbd>$XDG_DATA_HOME/firefoxpwa/runtime/</kbd> or <kbd>$HOME/.local/share/firefoxpwa/runtime/</kbd></li>
-                          <li>macOS: <kbd>$HOME/Library/Application Support/firefoxpwa/runtime/</kbd></li>
+                          <li data-i18n-InnerHTML="default-runtime-location-windows">Windows: <kbd>%APPDATA%\FirefoxPWA\runtime\</kbd></li>
+                          <li data-i18n-id="default-runtime-location-linux">Linux: <kbd>$XDG_DATA_HOME/firefoxpwa/runtime/</kbd> or <kbd>$HOME/.local/share/firefoxpwa/runtime/</kbd></li>
+                          <li data-i18n-id="default-runtime-location-macos">macOS: <kbd>$HOME/Library/Application Support/firefoxpwa/runtime/</kbd></li>
                         </ul>
                       </div>
                     </details>
@@ -147,7 +148,7 @@
 
                 <!-- Ready -->
                 <div id="ready-view" class="px-3 d-none">
-                  <p>This extension is now ready to be used. You can close this page.</p>
+                  <p data-i18n-id="ready-to-use">This extension is now ready to be used. You can close this page.</p>
                 </div>
 
               </div>

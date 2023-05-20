@@ -18,5 +18,178 @@
   "actionLaunchSite": {
     "message": "Launch this site",
     "description": "Instruct users that they can launch the current site here"
+  },
+  "setup-PWAsForFirefox-title": {
+    "message": "Setup Progressive Web Apps for Firefox",
+    "description": "The title of the setup page"
+  },
+  "license-agreement": {
+    "message": "License Agreement",
+    "description": "The title of the license agreement"
+  },
+  "connector-installation": {
+    "message": "Connector Installation",
+    "description": "The title of the connector installation"
+  },
+  "runtime-installation": {
+    "message": "Runtime Installation",
+    "description": "The title of the runtime installation"    
+  },
+  "ready": {
+    "message": "Ready",
+    "description": "The title of the ready page"
+  },
+  "license-MPL2.0": {
+    "message": "The project is licensed under <a href='https://www.mozilla.org/MPL/2.0/'> the Mozilla Public License 2.0</a>. By using, redistributing, or modifying it, you must agree to the license, and the additional clauses provided below.",
+    "description": "The Mozilla Public License 2.0 Notice"
+  },
+  "third-party-code": {
+    "message": "The project uses additional third-party assets and code:",
+    "description": "The title of the third party code"
+  },
+  "logo-based-on-notice": {
+    "message": "The project logo is based on <a href='https://www.svgrepo.com/svg/40267/fox'>&quot;Fox SVG Vector&quot; icon</a> and <a href='https://github.com/webmaxru/progressive-web-apps-logo'>the community-introduced PWA logo</a>, both dedicated to the public domain using <a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a>.",
+    "description": "The notice for the logo"
+  },
+  "firefox-scripts-notice": {
+    "message": "Browser chrome modifications were inspired by and partially derived from the <a href='https://github.com/xiaoxiaoflood/firefox-scripts'><code>xiaoxiaoflood/firefox-scripts</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.",
+    "description": "The notice for the Firefox scripts"
+  },
+  "firefox-ui-fix-notice": {
+    "message": "Browser chrome modifications partially use code derived from the <a href='https://github.com/black7375/Firefox-UI-Fix'><code>black7375/Firefox-UI-Fix</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files."
+  },
+  "firefox-source-code-notice":{
+    "message": "Browser chrome modifications partially use code and icons derived from <a href='https://github.com/mozilla/gecko-dev'>the original Firefox source</a>, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files."
+  },
+  "metropolis-by-chris-simpson-notice": {
+    "message": "Native programs contain <a href='https://fontsarena.com/metropolis-by-chris-simpson/'>the Metropolis Semi Bold typeface</a> by Chris Simpson, released into the public domain using <a href='https://unlicense.org/'>Unlicense</a>."
+  },
+  "bootstrap-icon-notice":{
+    "message": "Windows installer contains <a href='https://icons.getbootstrap.com/'>Bootstrap Icons</a>, licensed under the <a href='https://opensource.org/licenses/MIT'>the MIT License</a>. Detailed license information can be found in <a href='https://github.com/filips123/PWAsForFirefox/blob/main/native/packages/wix/main.wxs'>the WiX configuration file</a>.",
+    "description": "The notice for the Bootstrap Icons"
+  },
+  "additional-program-install-by-user-notice-header":{
+    "message": "Additional open source software will be downloaded and installed at runtime when initiated by the user:",
+    "description": "The header for the notice for additional program installation"
+  },
+  "7-zip-notice":{
+    "message": "Installing the runtime on Windows will install <a href='https://7-zip.org/'>7-Zip</a> if it is not already installed. The 7-Zip project is made by Igor Pavlov and <a href='https://7-zip.org/license.txt'>licensed under the GNU LGPL license and others</a>. This project is not affiliated with the 7-Zip project or its developers in any way.",
+    "description": "The notice for 7-Zip"
+  },
+  "firefox-notice": {
+    "message": "Installing the runtime on any system will download the unmodified <a href='https://www.mozilla.org/firefox/'>Mozilla Firefox</a> browser and locally modify it. By using this project, you also agree to <a href='https://www.mozilla.org/privacy/firefox/'>the Firefox Privacy Notice</a>. Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla Foundation in any way.",
+    "description": "The notice for Firefox"
+  },
+  "privacy-notice-before-install": {
+    "message": "This extension exchanges personal data (current website and manifest URLs, as well as other PWA details) with the native program when the user initiates the PWA installation. This is necessary in order to correctly obtain and parse the Web Application Manifest and install the PWA. Data are stored on the computer as long as that PWA is installed. No personal data leave the computer or are sent to third parties.",
+    "description": "The privacy notice before installation"
+  },
+  "accept-license-agreement": {
+    "message": "I accept the license agreement",
+    "description": "The label for the license agreement"
+  },
+  "install-runtime-page-top": {
+    "message": "You need to install the additional program so the extension can manage and run separate runtime and profiles for your web apps. The extension will not work  without this program. Please follow the instructions below to install it.",
+    "description": "The top of the install runtime page"
+  },
+  "error-install-runtime": {
+    "message": "<strong>Error:</strong> The version of a currently-installed program may be incompatible with the current version of the extension. You need to update the program or the extension to a compatible version to make them work correctly.",
+    "description": "The error message for the runtime installation"
+  },
+  "extension-version": {
+    "message": "Extension version",
+    "description": "extension version"
+  },
+  "native-version": {
+    "message": "Native version",
+    "description": "native program version"
+  },
+  "error-text": {
+    "message": "Error: ",
+    "description": "error text"
+  },
+  "runtime-auto-install": {
+    "message": "This extension also needs a separate Mozilla Firefox runtime where all your Progressive Web App sites will run. Pressing the button below will automatically download the unmodified Mozilla Firefox from the Mozilla servers and locally modify it with the required modifications. You can also check the advanced options below to manually install the runtime.",
+    "description": "The text for the runtime auto-installation"
+  },
+  "runtime-manual-install": {
+    "message": "This extension also needs a separate Mozilla Firefox runtime where all your Progressive Web App sites will run. However, your platform currently does not support automatic installation of the runtime. Please follow the advanced options below to install it manually.",
+    "description": "The text for the runtime manual installation"
+  },
+  "runtime-needs-7zip": {
+    "message": "To install the runtime, you will need <a href='https://7-zip.org/'>7-Zip</a> installed. Installing the runtime will automatically trigger the 7-Zip installer if needed. This may require accepting User Account Control prompt. You can also manually install 7-Zip or use your existing 7-zip installation. After the runtime is installed, you can delete 7-Zip manually.",
+    "description": "The text for the runtime needing 7-Zip"
+  },
+  "after-install-runtime": {
+    "message": "After the runtime is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the runtime is installed"
+  },
+  "install-the-runtime": {
+    "message": "Install the runtime",
+    "description": "The button to install the runtime"
+  },
+  "Advanced-options": {
+    "message": "Advanced options",
+    "description": "The advanced options"
+  },
+  "manually-install-runtime": {
+    "message": "Manually installing Firefox from the archive:",
+    "description": "The button to manually install the runtime"
+  },
+  "manually-install-runtime-procedure":{
+    "message": "Download the Firefox archive from your preferred source (for example, from <a href='https://www.mozilla.org/firefox/all/' target='_blank'>the official downloads page</a>).",
+    "description": "manual for install runtime from archive"
+  },
+  "manually-install-runtime-procedure2": {
+    "message": "Extract the downloaded archive and copy files to the correct directory (see below).",
+    "description": "manual for install runtime from archive"
+  },
+  "install-Firefox-with-packagemgr": {
+    "message": "Manually installing Firefox using package manager:",
+    "description": "The button to install the runtime with the package manager"
+  },
+  "install-with-pacgaemgr-procedure": {
+    "message": "Install Firefox using your distro's package manager (e.g., <kbd>sudo apt install firefox</kbd>, <kbd>sudo yum install firefox</kbd>, ...).",
+    "description": "manual for install runtime with package manager"
+  },
+  "install-with-pacgaemgr-procedure2": {
+    "message": "Copy the installed Firefox files (commonly stored in <kbd>/usr/lib/firefox/</kbd>) to the correct directory (see below).",
+    "description": "manual for install runtime with package manager"
+  },
+  "use-alternative-browser-for-runtime": {
+    "message": "Installing an alternative Firefox-based browser (for example, LibreWolf):",
+    "description": "The button to use an alternative browser for the runtime"
+  },
+  "use-alternative-browser-for-runtime-procedure": {
+    "message": "Download the \"portable\" archive (binary tarball) for your preferred Firefox-based browser.",
+    "description": "manual for install runtime with alternative browser"
+  },
+  "use-alternative-browser-for-runtime-procedure2": {
+    "message": "Extract downloaded archive and copy files to the correct directory (see below).",
+    "description": "manual for install runtime with alternative browser"
+  },
+  "use-alternative-browser-for-runtime-procedure3": {
+    "message": "Inside that directory, symlink the main binary of your browser (for example, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) as <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.",
+    "description": "manual for install runtime with alternative browser"
+  },
+  "default-runtime-location": {
+    "message": "Default runtime locations:",
+    "description": "The default runtime location"
+  },
+  "default-runtime-location-windows": {
+    "message": "Windows: <kbd>%APPDATA%\\FirefoxPWA\\runtime</kbd>",
+    "description": "The default runtime location for Windows"
+  },
+  "default-runtime-location-linux": {
+    "message": "Linux: <kbd>$XDG_DATA_HOME/firefoxpwa/runtime/</kbd> or <kbd>$HOME/.local/share/firefoxpwa/runtime/</kbd>",
+    "description": "The default runtime location for Linux"
+  },
+  "default-runtime-location-macos": {
+    "message": "macOS: <kbd>$HOME/Library/Application Support/firefoxpwa/runtime/</kbd>",
+    "description": "The default runtime location for macOS"
+  },
+  "ready-to-use": {
+    "message": "This extension is now ready to be used. You can close this page.",
+    "description": "The text for ready to use"
   }
 }
