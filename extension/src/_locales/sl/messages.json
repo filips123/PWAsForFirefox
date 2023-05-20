@@ -1,0 +1,22 @@
+{
+  "appName": {
+    "message": "Progressive Web Apps for Firefox",
+    "description": "The name of the application"
+  },
+  "appShortName": {
+    "message": "PWAsForFirefox",
+    "description": "The short name of the application"
+  },
+  "appDescription": {
+    "message": "Orodje za namestitev, upravljanje in uporabo progresivnih spletnih aplikacij (PWA) v Mozilla Firefox",
+    "description": "The description of the application"
+  },
+  "actionInstallSite": {
+    "message": "Namesti trenutno stran",
+    "description": "Instruct users that they can install the current site here"
+  },
+  "actionLaunchSite": {
+    "message": "Zaženi trenutno stran",
+    "description": "Instruct users that they can launch the current site here"
+  }
+}
