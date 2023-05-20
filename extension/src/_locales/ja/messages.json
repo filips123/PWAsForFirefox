@@ -191,5 +191,233 @@
   "ready-to-use": {
     "message": "この拡張機能は、使用できるようになりました。このページを閉じることができます。",
     "description": "The text for ready to use"
+  },
+  "windows-install-tab": {
+    "message": "Windows",
+    "description": "The tab for Windows installation"
+  },
+  "linux-deb-install-tab": {
+    "message": "Debian 系 Linux (DEB)",
+    "description": "The tab for Linux Ubuntu installation"
+  },
+  "linux-rpm-install-tab": {
+    "message": "Red-Hat 系 Linux (RPM)",
+    "description": "The tab for Linux Fedora installation"
+  },
+  "linux-aur-install-tab": {
+    "message": "Arch 系 Linux (AUR)",
+    "description": "The tab for Linux Arch installation"
+  },
+  "macos-install-tab": {
+    "message": "macOS",
+    "description": "The tab for macOS installation"
+  },
+  "source-install-tab": {
+    "message": "ソースコードから...",
+    "description": "The tab for source installation"
+  },
+  "other-install-tab": {
+    "message": "その他のプラットフォーム",
+    "description": "The tab for other installation"
+  },
+  "to-install-prgram-manual": {
+    "message": "プログラムを手動でインストールする場合:",
+    "description": "The text for manual installation"
+  },
+  "download-vcruntime-installer": {
+    "message": "<a id='connector-download-url-crt' target='_blank'>再分布可能な Visual C++ ランタイム</a> をダウンロードし、インストールしてください。",
+    "description": "The text for downloading the Visual C++ Redistributable for Visual Studio 2019 installer"
+  },
+  "download-PWAsForFirefox-installer": {
+    "message": "<a id='connector-download-url-msi' target='_blank'>PWAsForFirefox MSI インストーラー</a> をダウンロードし、インストールしてください。",
+    "description": "The text for downloading the PWAs for Firefox installer"
+  },
+  "after-program-install":{
+    "message": "プログラムのインストールが完了すると、自動的に次のステップに進みます。30 秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
+    "description": "The text after the program is installed"
+  },
+  "windows-install-from-packagemgr": {
+    "message": "<em>または...</em> Windows パッケージマネージャーを使用してパッケージをインストールする:",
+    "description": "The text for installing the package with the package manager"
+  },
+  "install-winget": {
+    "message": "<a href='https://github.com/microsoft/winget-cli#installing-the-client' target='_blank'>Windows パッケージマネージャー</a>をインストールされているか確認してください。",
+    "description": "The text for installing the package manager"
+  },
+  "install-vcruntime-from-winget": {
+    "message": "再分布可能な Visual C++ ランタイムを winget を使用してインストールする必要があります。<br> <kbd>winget install -e Microsoft.VCRedist.2015+.<span id='connector-crt-arch'></span></kbd> を Windows ターミナルに入力してください。",
+    "description": "The text for installing the Visual C++ Redistributable for Visual Studio 2019 with the package manager"
+  },
+  "install-PWAsForFirefox-from-winget": {
+    "message": "最後に、winget を使用して PWAsForFirefox をインストールします。<br><kbd>winget install firefoxpwa --version <span class='connector-project-version'></span></kbd> を Windows ターミナル入力してください。",
+    "description": "The text for installing the PWAs for Firefox with the package manager"
+  },
+  "after-program-install-with-winget": {
+    "message": "パッケージのインストールが完了すると、自動的に次のステップに進みます。30秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
+    "description": "The text after the program is installed with the package manager"
+  },
+  "install-with-Chocolatey": {
+    "message": "<em>または...</em> Chocolatey を使用してパッケージをインストールする：",
+    "description": "The text for installing Chocolatey"
+  },
+  "install-chocolatey": {
+    "message": "<a href='https://chocolatey.org/install' target='_blank'>chocolately</a> がインストールされていることを確認してください。",
+    "description": "The text for installing Chocolatey"
+  },
+  "install-PWAsForFirefox-with-chocolatey": {
+    "message": "choco コマンドを使用して PWAsForFirefox をインストールします: <kbd>choco install firefoxpwa --version <span class='connector-project-version&></span></kbd> を Windows ターミナルに入力してください。",
+    "description": "The text for installing the PWAs for Firefox with Chocolatey"
+  },
+  "after-program-install-with-chocolately": {
+    "message": "パッケージのインストールが完了すると、自動的に次のステップに進みます。30秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
+    "description": "The text after the program is installed with Chocolatey"
+  },
+  "install-with-Npackd": {
+    "message": "<em>または...</em> Npackdを使用してパッケージをインストールする:",
+    "description": "The text for installing Npackd"
+  },
+  "install-Npackd": {
+    "message": "<a href='https://www.npackd.org/' target='_blank'>Npackd</a> がインストールされていることを確認してください。",
+    "description": "The text for installing Npackd"
+  },
+  "install-PWAsForFirefox-from-Npackd": {
+    "message": "ncl を使ってパッケージをインストールする: <kbd>ncl add -p firefoxpwa -v <span class='connector-project-version'></span></kbd> を Windows ターミナルに入力してしてください。",
+    "description": "The text for installing the PWAs for Firefox with Npackd"
+  },
+  "after-program-install-with-Npackd": {
+    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with Npackd"
+  },
+  "install-with-PortableApps": {
+    "message": "<em>または...</em>PortableApps.com を使用してパッケージをインストールする場合：",
+    "description": "The text for installing PortableApps.com"
+  },
+  "install-PortableApps": {
+    "message": "<a href='https://portableapps.com/download' target='_blank'>PortableApps.com プラットフォーム</a>がインストールされていることを確認してください。",
+    "description": "The text for installing PortableApps.com"
+  },
+  "install-PWAsForFirefox-from-portableApps": {
+    "message": "<a id='connector-download-url-paf'>PWAsForFirefox PAF パッケージ</a>をダウンロードし、PortableApps.com プラットフォームを使用してインストールします。",
+    "description": "The text for installing the PWAs for Firefox with PortableApps.com"
+  },
+  "wait-for-notification-from-portableApps": {
+    "message": "PortableApps.com Platform を使用して PWAsForFirefox プログラムを実行し、通知が表示されるまで待ちます。",
+    "description": "The text for waiting for the notification from PortableApps.com"
+  },
+  "after-program-install-with-PortableApps": {
+    "message": "プログラムが実行されると、自動的に次のステップに進みます。30秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
+    "description": "The text after the program is installed with PortableApps.com"
+  },
+  "linux-install-from-packageCloud":{
+    "message": "packagecloud.ioのリポジトリからパッケージをインストールする場合：",
+    "description": "The text for installing the package from the packagecloud.io repository"
+  },
+  "install-PWAsForFirefox-from-packageCloud": {
+    "message": "<a href='https://packagecloud.io/filips/FirefoxPWA' target='_blank'>packagecloud.io リポジトリ</a>のウェブサイトの指示に従ってください。",
+    "description": "The text for installing the PWAs for Firefox from the packagecloud.io repository"
+  },
+  "after-program-install-with-packageCloud": {
+    "message": "パッケージのインストールが完了すると、自動的に次のステップに進みます。30秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
+    "description": "The text after the program is installed with the packagecloud.io repository"
+  },
+  "thanks-for-packageCloud": {
+    "message": "このプロジェクトのスポンサーであり、DEBとRPMパッケージのホスティングを無料で提供してくださった packagecloud.io に感謝します！",
+    "description": "The text for thanking packagecloud.io"
+  },
+  "install-with-deb": {
+    "message": "<em>または...</em> パッケージを手動でインストールする:",
+    "description": "The text for installing the DEB package"
+  },
+  "install-PWAsForFirefox-from-deb": {
+    "message": "<a id='connector-download-url-deb'>PWAsForFirefox DEB パッケージ</a>をダウンロードし、パッケージマネージャを使ってインストールする。",
+    "description": "The text for installing the PWAs for Firefox from the DEB package"
+  },
+  "after-program-install-with-deb": {
+    "message": "パッケージのインストールが完了すると、自動的に次のステップに進みます。30秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
+    "description": "The text after the program is installed with the DEB package"
+  },
+  "install-with-rpm": {
+    "message": "<em>または...</em> パッケージを手動でインストールする:",
+    "description": "The text for installing the RPM package"
+  },
+  "install-PWAsForFirefox-from-rpm": {
+    "message":"<a id='connector-download-url-rpm' target='_blank'>PWAsForFirefox RPM パッケージ</a>をダウンロードし、インストールします。",
+    "description": "The text for installing the PWAs for Firefox from the RPM package"
+  },
+  "after-program-install-with-rpm": {
+    "message": "パッケージのインストールが完了すると、自動的に次のステップに進みます。30秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
+    "description": "The text after the program is installed with the RPM package"
+  },
+  "install-with-aur": {
+    "message": "PWAsForFirefox AUR パッケージのいずれかをダウンロードし、インストールします：",
+    "description": "The text for installing the PWAs for Firefox from the AUR package"
+  },
+  "aur-source-package": {
+    "message": "<a href='https://aur.archlinux.org/packages/firefox-pwa/' target='_blank'><kbd>firefox-pwa</kbd></a> (ソース)",
+    "description": "The text for the source AUR package"
+  },
+  "aur-prebuild-package": {
+    "message": "<a href='https://aur.archlinux.org/packages/firefox-pwa-bin/' target='_blank'><kbd>firefox-pwa-bin</kbd></a> (プレビルド済み)",
+    "description": "The text for the prebuild AUR package"
+  },
+  "after-program-install-with-aur": {
+    "message": "パッケージのインストールが完了すると、自動的に次のステップに進みます。30秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
+    "description": "The text after the program is installed with the AUR package"
+  },
+  "install-cargo-make": {
+    "message": "<a href='https://github.com/sagiegurari/cargo-make' target='_blank'><kbd>cargo-make</kbd></a> と (Windows では) <a href='https://wixtoolset.org/releases/' target='_blank'>WiX ツールセット</a> がインストールされていることを確認してください。",
+    "description": "The text for installing cargo-make"
+  },
+  "clone-project-repo": {
+    "message": "<a href='https://github.com/filips123/PWAsForFirefox' target='_blank'>リポジトリ</a>をクローンし、さらに<kbd>cd</kbd> コマンドを使用して <kbd>native</kbd> フォルダに入ります。",
+    "description": "The text for cloning the project repository"
+  },
+  "checkout-tag": {
+    "message": "<kbd class='connector-repository-tag'></kbd> へタグをチェックアウトします。",
+    "description": "The text for checking out the tag"
+  },
+  "modify-version": {
+    "message": "<kbd>Cargo.toml</kbd> の <kbd>version</kbd> と書かれている部分を<kbd class='connector-project-version'></kbd> に変更し、調整します。",
+    "description": "The text for modifying the version"
+  },
+  "modify-distribution-version": {
+    "message": "<kbd>userchrome/profile/chrome/pwa/chrome.jsm</kbd> の <kbd>DISTRIBUTION_VERSION</kbd> を <kbd class='connector-project-version'></kbd> に変更し、調整します。",
+    "description": "The text for modifying the distribution version"
+  },
+  "build-and-install-project": {
+    "message": "プロジェクトをビルドしてインストールします: <kbd>makers install</kbd>",
+    "description": "The text for building and installing the project"
+  },
+  "after-program-install-with-build": {
+    "message": "プログラムのインストールが完了すると、自動的に次のステップに進みます。30秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
+    "description": "The text after the program is installed with the build"
+  },
+  "show-commands-on-readme": {
+    "message": "これを行うためのコマンドのリストは、<a id='connector-source-install' target='_blank'>リポジトリの README ファイル</a>を確認してください。",
+    "description": "The text for showing the commands on the README file"
+  },
+  "package-to-distro-notice": {
+   "message": "あなたのディストリビューション用に PWAsForFirefox をパッケージ化したい、またはすでにパッケージ化している場合、私に知らせてください。パッケージングプラットフォームが何らかの自動投稿/アップロード機能をサポートしている場合、パッケージが常に最新であることを確認するために GitHub Actions と直接統合することがありますので、こちらもお知らせください。",
+   "description": "notice about packaging PWAsForFirefox for your distribution" 
+  },
+  "install-homebrew": {
+    "message": "<a href='https://brew.sh/' target='_blank'>Homebrew</a> がインストールされていることを確認してください。",
+    "description": "The text for installing Homebrew"
+  },
+  "install-PWAsForFirefox-from-brew": {
+    "message": "formula に則ってインストールします: <kbd>brew install firefoxpwa</kbd>",
+    "description": "The text for installing the PWAs for Firefox from brew"
+  },
+  "install-PWAsForFirefox-from-brew2": {
+    "message": "インストール出力の注意事項欄に表示される指示に従って、マニフェストをリンクしてください。",
+    "description": "The text for installing the PWAs for Firefox from brew"
+  },
+  "after-program-install-with-brew": {
+    "message": "formula がインストールされ、マニフェストがリンクされた後、自動的に次のステップに進むはずです。約30秒後に何も変化がない場合、ブラウザを再起動します。.",
+    "description": "The text after the program is installed with brew"
+  },
+  "unsupported-os-notice": {
+    "message": "お使いのオペレーティングシステムは、公式にはサポートされていません。ソースからプロジェクトをビルドしてインストールする方法は、ソースのインストールセクションにある指示で試すことができます。あなたのオペレーティングシステムで動作するように調整する必要があるかもしれませんし、それが動作することを保証するものではありません。",
+    "description": "notice about unsupported operating system"
   }
 }

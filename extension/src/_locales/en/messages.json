@@ -191,5 +191,233 @@
   "ready-to-use": {
     "message": "This extension is now ready to be used. You can close this page.",
     "description": "The text for ready to use"
+  },
+  "windows-install-tab": {
+    "message": "Windows",
+    "description": "The tab for Windows installation"
+  },
+  "linux-deb-install-tab": {
+    "message": "Debian-like Linux (DEB)",
+    "description": "The tab for Linux Ubuntu installation"
+  },
+  "linux-rpm-install-tab": {
+    "message": "Red Hat-like Linux (RPM)",
+    "description": "The tab for Linux Fedora installation"
+  },
+  "linux-aur-install-tab": {
+    "message": "Arch-like Linux (AUR)",
+    "description": "The tab for Linux Arch installation"
+  },
+  "macos-install-tab": {
+    "message": "macOS",
+    "description": "The tab for macOS installation"
+  },
+  "source-install-tab": {
+    "message": "From Source Code",
+    "description": "The tab for source installation"
+  },
+  "other-install-tab": {
+    "message": "Other Platforms",
+    "description": "The tab for other installation"
+  },
+  "to-install-prgram-manual": {
+    "message": "To install the program manually:",
+    "description": "The text for manual installation"
+  },
+  "download-vcruntime-installer": {
+    "message": "Download and install the <a id='connector-download-url-crt' target='_blank'>Visual C++ Redistributable</a>.",
+    "description": "The text for downloading the Visual C++ Redistributable for Visual Studio 2019 installer"
+  },
+  "download-PWAsForFirefox-installer": {
+    "message": "Download and run the <a id='connector-download-url-msi' target='_blank'>PWAsForFirefox MSI installer</a>.",
+    "description": "The text for downloading the PWAs for Firefox installer"
+  },
+  "after-program-install":{
+    "message": "After the programs are installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed"
+  },
+  "windows-install-from-packagemgr": {
+    "message": "<em>Or...</em> To install the package using Windows Package Manager:",
+    "description": "The text for installing the package with the package manager"
+  },
+  "install-winget": {
+    "message": "Make sure <a href='https://github.com/microsoft/winget-cli#installing-the-client' target='_blank'>Windows Package Manager</a> is installed.",
+    "description": "The text for installing the package manager"
+  },
+  "install-vcruntime-from-winget": {
+    "message": "Install Visual C++ Redistributable using winget: <kbd>winget install -e Microsoft.VCRedist.2015+.<span id='connector-crt-arch'></span></kbd>.",
+    "description": "The text for installing the Visual C++ Redistributable for Visual Studio 2019 with the package manager"
+  },
+  "install-PWAsForFirefox-from-winget": {
+    "message": "Install PWAsForFirefox using winget: <kbd>winget install firefoxpwa --version <span class='connector-project-version'></span></kbd>",
+    "description": "The text for installing the PWAs for Firefox with the package manager"
+  },
+  "after-program-install-with-winget": {
+    "message": "After the packages are installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with the package manager"
+  },
+  "install-with-Chocolatey": {
+    "message": "<em>Or...</em> To install the package using Chocolatey:",
+    "description": "The text for installing Chocolatey"
+  },
+  "install-chocolatey": {
+    "message": "Make sure <a href='https://chocolatey.org/install' target='_blank'>Chocolatey</a> is installed.",
+    "description": "The text for installing Chocolatey"
+  },
+  "install-PWAsForFirefox-with-chocolatey": {
+    "message": "Install the package using choco: <kbd>choco install firefoxpwa --version <span class='connector-project-version&></span></kbd>",
+    "description": "The text for installing the PWAs for Firefox with Chocolatey"
+  },
+  "after-program-install-with-chocolately": {
+    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with Chocolatey"
+  },
+  "install-with-Npackd": {
+    "message": "<em>Or...</em> To install the package using Npackd:",
+    "description": "The text for installing Npackd"
+  },
+  "install-Npackd": {
+    "message": "Make sure <a href='https://www.npackd.org/' target='_blank'>Npackd</a> is installed.",
+    "description": "The text for installing Npackd"
+  },
+  "install-PWAsForFirefox-from-Npackd": {
+    "message": "Install the package using ncl: <kbd>ncl add -p firefoxpwa -v <span class='connector-project-version'></span></kbd>",
+    "description": "The text for installing the PWAs for Firefox with Npackd"
+  },
+  "after-program-install-with-Npackd": {
+    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with Npackd"
+  },
+  "install-with-PortableApps": {
+    "message": "<em>Or...</em> To install the package using PortableApps.com:",
+    "description": "The text for installing PortableApps.com"
+  },
+  "install-PortableApps": {
+    "message": "Make sure <a href='https://portableapps.com/download' target='_blank'>PortableApps.com Platform</a> is installed.",
+    "description": "The text for installing PortableApps.com"
+  },
+  "install-PWAsForFirefox-from-portableApps": {
+    "message": "Download the <a id='connector-download-url-paf'>PWAsForFirefox PAF package</a> and install it using PortableApps.com Platform.",
+    "description": "The text for installing the PWAs for Firefox with PortableApps.com"
+  },
+  "wait-for-notification-from-portableApps": {
+    "message": "Run the PWAsForFirefox program using PortableApps.com Platform and wait until a notification appears.",
+    "description": "The text for waiting for the notification from PortableApps.com"
+  },
+  "after-program-install-with-PortableApps": {
+    "message": "When the program is running, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with PortableApps.com"
+  },
+  "linux-install-from-packageCloud":{
+    "message": "To install the package from the packagecloud.io repository:",
+    "description": "The text for installing the package from the packagecloud.io repository"
+  },
+  "install-PWAsForFirefox-from-packageCloud": {
+    "message": "Follow the instructions on the <a href='https://packagecloud.io/filips/FirefoxPWA' target='_blank'>packagecloud.io repository</a> website.",
+    "description": "The text for installing the PWAs for Firefox from the packagecloud.io repository"
+  },
+  "after-program-install-with-packageCloud": {
+    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with the packagecloud.io repository"
+  },
+  "thanks-for-packageCloud": {
+    "message": "Thanks to packagecloud.io for sponsoring this project and providing us a free hosting for our DEB and RPM packages!",
+    "description": "The text for thanking packagecloud.io"
+  },
+  "install-with-deb": {
+    "message": "<em>Or...</em> To install the package manually:",
+    "description": "The text for installing the DEB package"
+  },
+  "install-PWAsForFirefox-from-deb": {
+    "message": "Download the <a id='connector-download-url-deb'>PWAsForFirefox DEB package</a> and install it using your package manager.",
+    "description": "The text for installing the PWAs for Firefox from the DEB package"
+  },
+  "after-program-install-with-deb": {
+    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with the DEB package"
+  },
+  "install-with-rpm": {
+    "message": "<em>Or...</em> To install the package manually:",
+    "description": "The text for installing the RPM package"
+  },
+  "install-PWAsForFirefox-from-rpm": {
+    "message":"Download and install the <a id='connector-download-url-rpm' target='_blank'>PWAsForFirefox RPM package</a>.",
+    "description": "The text for installing the PWAs for Firefox from the RPM package"
+  },
+  "after-program-install-with-rpm": {
+    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with the RPM package"
+  },
+  "install-with-aur": {
+    "message": "Download and install one of PWAsForFirefox AUR packages:",
+    "description": "The text for installing the PWAs for Firefox from the AUR package"
+  },
+  "aur-source-package": {
+    "message": "<a href='https://aur.archlinux.org/packages/firefox-pwa/' target='_blank'><kbd>firefox-pwa</kbd></a> (source)",
+    "description": "The text for the source AUR package"
+  },
+  "aur-prebuild-package": {
+    "message": "<a href='https://aur.archlinux.org/packages/firefox-pwa-bin/' target='_blank'><kbd>firefox-pwa-bin</kbd></a> (pre-built)",
+    "description": "The text for the prebuild AUR package"
+  },
+  "after-program-install-with-aur": {
+    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with the AUR package"
+  },
+  "install-cargo-make": {
+    "message": "Make sure <a href='https://github.com/sagiegurari/cargo-make' target='_blank'><kbd>cargo-make</kbd></a> and (on Windows) <a href='https://wixtoolset.org/releases/' target='_blank'>WiX Toolset</a> are installed.",
+    "description": "The text for installing cargo-make"
+  },
+  "clone-project-repo": {
+    "message": "Clone the <a href='https://github.com/filips123/PWAsForFirefox' target='_blank'>repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.",
+    "description": "The text for cloning the project repository"
+  },
+  "checkout-tag": {
+    "message": "Checkout the <kbd class='connector-repository-tag'></kbd> tag.",
+    "description": "The text for checking out the tag"
+  },
+  "modify-version": {
+    "message": "Modify <kbd>version</kbd> field inside <kbd>Cargo.toml</kbd> to <kbd class='connector-project-version'></kbd>.",
+    "description": "The text for modifying the version"
+  },
+  "modify-distribution-version": {
+    "message": "Modify <kbd>DISTRIBUTION_VERSION</kbd> variable inside <kbd>userchrome/profile/chrome/pwa/chrome.jsm</kbd> to <kbd class='connector-project-version'></kbd>.",
+    "description": "The text for modifying the distribution version"
+  },
+  "build-and-install-project": {
+    "message": "Build and install the project: <kbd>makers install</kbd>",
+    "description": "The text for building and installing the project"
+  },
+  "after-program-install-with-build": {
+    "message": "After the program is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with the build"
+  },
+  "show-commands-on-readme": {
+    "message": "For a list of commands to do this, check <a id='connector-source-install' target='_blank'>the README file in the repository</a>.",
+    "description": "The text for showing the commands on the README file"
+  },
+  "package-to-distro-notice": {
+   "message": "If you want to package PWAsForFirefox for your distribution or have already packaged it, please let me know, so I can help with the packaging and list it in the installation instructions. If the packaging platform supports any auto-submission/uploading feature, please also let me know, as I might integrate it directly with GitHub Actions to make sure the packages are always up-to-date.",
+   "description": "notice about packaging PWAsForFirefox for your distribution" 
+  },
+  "install-homebrew": {
+    "message": "Make sure <a href='https://brew.sh/' target='_blank'>Homebrew</a> is installed.",
+    "description": "The text for installing Homebrew"
+  },
+  "install-PWAsForFirefox-from-brew": {
+    "message": "Install the formula using brew: <kbd>brew install firefoxpwa</kbd>",
+    "description": "The text for installing the PWAs for Firefox from brew"
+  },
+  "install-PWAsForFirefox-from-brew2": {
+    "message": "Follow instructions displayed in the caveats section of installation output to link the manifest.",
+    "description": "The text for installing the PWAs for Firefox from brew"
+  },
+  "after-program-install-with-brew": {
+    "message": "After the formula is installed and the manifest is linked, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with brew"
+  },
+  "unsupported-os-notice": {
+    "message": "Your operating system is not officially supported. You can try building and installing the project from source with instructions from the source installation section. You may need to adjust them to make it work with your operating system, and there is no guarantee that it will work.",
+    "description": "notice about unsupported operating system"
   }
 }
