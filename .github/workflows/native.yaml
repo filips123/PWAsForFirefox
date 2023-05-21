@@ -423,7 +423,7 @@ jobs:
           VERSION=${GITHUB_REF/refs\/tags\/v}
           INSTALLER_64BIT="https://github.com/filips123/PWAsForFirefox/releases/download/v$VERSION/firefoxpwa-$VERSION-x86_64.msi"
           INSTALLER_32BIT="https://github.com/filips123/PWAsForFirefox/releases/download/v$VERSION/firefoxpwa-$VERSION-x86.msi"
-          ./wingetcreate.exe update -s filips.FirefoxPWA -u "$INSTALLER_64BIT|machine" "$INSTALLER_32BIT|machine" "$INSTALLER_64BIT|user" "$INSTALLER_32BIT|user" -v $VERSION -t ${{ secrets.GH_TOKEN }}
+          ./wingetcreate.exe update -s filips.FirefoxPWA -u $INSTALLER_64BIT $INSTALLER_32BIT -v $VERSION -t ${{ secrets.GH_TOKEN }}
 
   release-chocolatey:
     name: Release on Chocolatey
