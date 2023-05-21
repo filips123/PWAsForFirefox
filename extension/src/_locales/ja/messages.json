@@ -582,7 +582,7 @@
     "description": "The text for displaying the address bar"
   },
   "on-vaild-pwa": {
-    "message": "有効なプログレッシブ・ウェブ・アプリケーションについて",
+    "message": "PWA が有効なサイトを表示時のみ",
     "description": "The text for on valid PWA"
   },
   "always": {
