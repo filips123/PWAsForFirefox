@@ -192,6 +192,10 @@
     "message": "この拡張機能は、使用できるようになりました。このページを閉じることができます。",
     "description": "The text for ready to use"
   },
+  "install-PWAsForFirefox-header": {
+    "message": "インストールインストラクション",
+    "description": "The header for the install PWAs for Firefox page"
+  },
   "windows-install-tab": {
     "message": "Windows",
     "description": "The tab for Windows installation"
@@ -419,5 +423,57 @@
   "unsupported-os-notice": {
     "message": "お使いのオペレーティングシステムは、公式にはサポートされていません。ソースからプロジェクトをビルドしてインストールする方法は、ソースのインストールセクションにある指示で試すことができます。あなたのオペレーティングシステムで動作するように調整する必要があるかもしれませんし、それが動作することを保証するものではありません。",
     "description": "notice about unsupported operating system"
+  },
+  "update-PWAsForFirefox-header": {
+    "message": "PWAsForFirefox のアップデート",
+    "description": "The header for updating the PWAs for Firefox"
+  },
+  "native-connector-is-out-of-date": {
+    "message": "現在、ネイティブコネクターのバージョン古くなっています。",
+    "description": "The text for the native connector is out of date"
+  },
+  "recommended-native-update": {
+    "message": "現在の拡張機能のバージョンと互換性がありますが、最新の機能と修正を得るためにアップデートすることを強くお勧めします。",
+    "description": "The text for the recommended update"
+  },
+  "have-to-native-update": {
+    "message": "現在の拡張機能のバージョンとは<strong>互換性がない</strong>ので、更新するまで拡張機能を使用することはできません。",
+    "description": "The text for the have to update"
+  },
+  "follow-native-update-instructions": {
+    "message": "以下の手順に従って更新を適用してください。",
+    "description": "The text for following the update instructions"
+  },
+  "extension-is-out-of-date": {
+    "message": "現在の拡張機能のバージョンは古くなっています。",
+    "description": "The text for the extension is out of date"
+  },
+  "have-to-extension-update": {
+    "message": "現在のコネクタのバージョンとは<strong>互換性がない</strong>ため、アップデートするまでは拡張機能を使用することができません。",
+    "description": "The text for the have to update"
+  },
+  "follow-extension-update-instructions": {
+    "message": "Firefox のアドオンマネージャー（<kbd>about:addons</kbd>）から更新してください。",
+    "description": "The text for following the update instructions"
+  },
+  "PWAsForFirefox-programs-are-updated": {
+    "message": "拡張機能とネイティブコネクターが同じバージョンに更新されます。このページを閉じることができます。",
+    "description": "The text for the PWAs for Firefox programs are updated"
+  },
+  "show-release-notes": {
+    "message": "新機能、バグ修正、その他の改善点については、<a href='https://github.com/filips123/PWAsForFirefox/releases' target='_blank'>リリースノート</a>をお読みください。",
+    "description": "The text for showing the release notes"
+  },
+  "no-compatible-update": {
+    "message": "このアップデートは、<strong>後方互換性のない変更を含む可能性があります</strong>ので、動作させるためにリリースノートで指定されているいくつかのものを再設定する必要もあります。",
+    "description": "The text for no compatible update"
+  },
+  "error-at-update": {
+    "message": "エラー！: ",
+    "description": "The text for the error at update"
+  },
+  "loading": {
+    "message": "ロード中...",
+    "description": "The text for loading"
   }
 }

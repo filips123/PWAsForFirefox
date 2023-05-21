@@ -192,6 +192,10 @@
     "message": "This extension is now ready to be used. You can close this page.",
     "description": "The text for ready to use"
   },
+  "install-PWAsForFirefox-header": {
+    "message": "Installation instructions",
+    "description": "The header for the install PWAs for Firefox page"
+  },
   "windows-install-tab": {
     "message": "Windows",
     "description": "The tab for Windows installation"
@@ -419,5 +423,57 @@
   "unsupported-os-notice": {
     "message": "Your operating system is not officially supported. You can try building and installing the project from source with instructions from the source installation section. You may need to adjust them to make it work with your operating system, and there is no guarantee that it will work.",
     "description": "notice about unsupported operating system"
+  },
+  "update-PWAsForFirefox-header": {
+    "message": "Update Progressive Web Apps for Firefox",
+    "description": "The header for updating the PWAs for Firefox"
+  },
+  "native-connector-is-out-of-date": {
+    "message": "The native connector is currently outdated.",
+    "description": "The text for the native connector is out of date"
+  },
+  "recommended-native-update": {
+    "message": "It is compatible with the current extension version, but it is strongly recommended to update it to get the latest features and fixes.",
+    "description": "The text for the recommended update"
+  },
+  "have-to-native-update": {
+    "message": "It is <strong>not</strong> compatible with the current extension version, so you cannot use the extension until you update it.",
+    "description": "The text for the have to update"
+  },
+  "follow-native-update-instructions": {
+    "message": "Please follow the instructions below.",
+    "description": "The text for following the update instructions"
+  },
+  "extension-is-out-of-date": {
+    "message": "Currently extension is currently outdated.",
+    "description": "The text for the extension is out of date"
+  },
+  "have-to-extension-update": {
+    "message": "It is <strong>not</strong> compatible with the current connector version, so you cannot use the extension until you update it.",
+    "description": "The text for the have to update"
+  },
+  "follow-extension-update-instructions": {
+    "message": "Please update it from the Firefox addon manager (<kbd>about:addons</kbd>).",
+    "description": "The text for following the update instructions"
+  },
+  "PWAsForFirefox-programs-are-updated": {
+    "message": "The extension and the native connector are updated to the same version. You can close this page.",
+    "description": "The text for the PWAs for Firefox programs are updated"
+  },
+  "show-release-notes": {
+    "message": "You can read <a href='https://github.com/filips123/PWAsForFirefox/releases' target='_blank'>the release notes</a> for a list of new features, bug fixes and other improvements.",
+    "description": "The text for showing the release notes"
+  },
+  "no-compatible-update": {
+    "message": "This update <strong>may contain backward-incompatible changes</strong>, so you may also need to re-configure some things as specified in the release notes to make it work.",
+    "description": "The text for no compatible update"
+  },
+  "error-at-update": {
+    "message": "Error: ",
+    "description": "The text for the error at update"
+  },
+  "loading": {
+    "message": "Loading...",
+    "description": "The text for loading"
   }
 }
