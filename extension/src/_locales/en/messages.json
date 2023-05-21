@@ -475,5 +475,294 @@
   "loading": {
     "message": "Loading...",
     "description": "The text for loading"
+  },
+  "install-card-header": {
+    "message": "Install this web app",
+    "description": "The header for installing the project"
+  },
+  "web-app-name": {
+    "message": "Name",
+    "description": "The text for the web app name"
+  },
+  "web-app-description": {
+    "message": "Description",
+    "description": "The text for the web app description"
+  },
+  "web-app-categories": {
+    "message": "Categories",
+    "description": "The text for the web app categories"
+  },
+  "web-app-keywords": {
+    "message": "Keywords",
+    "description": "The text for the web app keywords"
+  },
+  "web-app-start-url": {
+    "message": "Start URL",
+    "description": "The text for the web app start URL"
+  },
+  "web-app-icon-url": {
+    "message": "Icon URL",
+    "description": "The text for the web app icon URL"
+  },
+  "web-app-profile": {
+    "message": "Profile",
+    "description": "The text for the web app profile"
+  },
+  "recommended-separate-profile": {
+    "message": "<strong>Note:</strong> It is strongly recommended to install each web app into a separate profile due to a hard-to-fix bug. See issue <a id='web-app-profile-warn-issue'></a> for more details.",
+    "description": "The text for the recommended separate profile"
+  },
+  "web-app-use-manifest": {
+    "message": "Use the manifest for determining app properties",
+    "description": "The text for the web app use manifest"
+  },
+  "modal-title": {
+    "message": "Create a new profile",
+    "description": "The title for create a new profile"
+  },
+  "modal-name": {
+    "message": "Name",
+    "description": "The text for the modal name"
+  },
+  "new-profile-description": {
+    "message": "Description",
+    "description": "The text for the new profile description"
+  },
+  "new-profile-template": {
+    "message": "Template",
+    "description": "The text for the new profile template"
+  },
+  "new-profile-cancel2": {
+    "message": "Cancel",
+    "description": "The text for the new profile cancel"
+  },
+  "new-profile-create": {
+    "message": "Create",
+    "description": "The text for the new profile create"
+  },
+  "launch-this-app-header": {
+    "message": "Launch this web app",
+    "description": "The header for launching the web app"
+  },
+  "launch-this-app-description": {
+    "message": "You can launch this web app by clicking the button below.",
+    "description": "The text for launching the web app"
+  },
+
+  "manage-web-app-and-profile-title": {
+    "message": "Manage web apps and profiles",
+    "description": "The title for managing the web app and profile"
+  },
+  "sites-pane-apps": {
+    "message": "Apps",
+    "description": "The text for the sites pane apps"
+  },
+  "sites-pane-profiles": {
+    "message": "Profiles",
+    "description": "The text for the sites pane profiles"
+  },
+  "no-sites-installed": {
+    "message": "No sites installed!",
+    "description": "The text for no sites installed"
+  },
+  "install-cureent-site": {
+    "message": "Install current site",
+    "description": "The text for installing the current site"
+  },
+  "no-profiles-available": {
+    "message": "No profiles available!",
+    "description": "The text for no profiles available"
+  },
+  "create-new-profile": {
+    "message": "Create new profile",
+    "description": "The text for creating a new profile"
+  },
+  "dispaly-addressbar": {
+    "message": "Display address ba widget",
+    "description": "The text for displaying the address bar"
+  },
+  "on-vaild-pwa": {
+    "message": "On valid progressive web apps",
+    "description": "The text for on valid PWA"
+  },
+  "always": {
+    "message": "Always",
+    "description": "The text for always"
+  },
+  "never": {
+    "message": "Never",
+    "description": "The text for never"
+  },
+  "launch-pwa-on-active-url": {
+    "message": "Launch web apps on active URLs",
+    "description": "The text for launching PWA on active URL"
+  },
+  "show-popup-extension-update": {
+    "message": "Show a popup on extension updates",
+    "description": "The text for showing a popup when the extension is updated"
+  },
+  "enable-auto-launch": {
+    "message": "Enable automatic web app launching",
+    "description": "The text for enabling auto-launch"
+  },
+  "always-patch-runtime-and-profile": {
+    "message": "Always patch runtime and profile",
+    "description": "The text for always patching the runtime and the profile"
+  },
+  "use-wayland-display-sever": {
+    "message": "Use Wayland Display Server",
+    "description": "The text for using Wayland display server"
+  },
+  "use-X-input-extension": {
+    "message": "Use X Input Extension 2",
+    "description": "The text for using X input extension"
+  },
+  "use-XDG-desktop-portals": {
+    "message": "Use XDG Desktop Portals",
+    "description": "The text for using XDG desktop portals"
+  },
+  "enable-dark-mode": {
+    "message": "Enable dark mode",
+    "description": "The text for enabling dark mode"
+  },
+  "default-profile-template": {
+    "message": "Default profile template",
+    "description": "The text for default profile template"
+  },
+  "update-web-app": {
+    "message": "Update web apps",
+    "description": "The text for updating the web app"
+  },
+  "reinstall-runtime": {
+    "message": "Reinstall runtime",
+    "description": "The text for reinstalling the runtime"
+  },
+  "manage-extension-is-out-of-date": {
+    "message": "The extension is outdated! <a id='extension-outdated-update' target='_blank'>Please update it</a>!",
+    "description": "The text for the manage extension is out of date"
+  },
+  "edit-web-app": {
+    "message": "Edit web app",
+    "description": "The text for editing the web app"
+  },
+  "web-app-id": {
+    "message": "ID",
+    "description": "The text for the web app ID"
+  },
+  "protocol-handlers": {
+    "message": "Protocol handlers",
+    "description": "The text for the protocol handlers"
+  },
+  "launch-PWA-if-match": {
+    "message": "Launch this web app on matching website",
+    "description": "The text for launching PWA if the URL matches"
+  },
+  "launch-PWA-on-system-login": {
+    "message": "Launch this web app on system login",
+    "description": "The text for launching PWA on system login"
+  },
+  "launch-PWA-on-browser-launch": {
+    "message": "Launch this web app on browser launch",
+    "description": "The text for launching PWA on browser launch"
+  },
+  "update-web-app-manifest": {
+    "message": "Update web app manifest",
+    "description": "The text for updating the web app manifest"
+  },
+  "update-web-app-icons": {
+    "message": "Update web app icons",
+    "description": "The text for updating the web app icons"
+  },
+  "edit-profile": {
+    "message": "Edit profile",
+    "description": "The text for editing the profile"
+  },
+  "web-app-template": {
+    "message": "Template",
+    "description": "The text for the web app template"
+  },
+  "remove-web-app": {
+    "message": "Remove web app",
+    "description": "The text for removing the web app"
+  },
+  "modal-body": {
+    "message": "Are you sure you want to remove this web app? App data will <strong>not</strong> be removed, but you can remove them through the app browser or by deleting app's profile.",
+    "description": "The text for the modal body"
+  },
+  "button-cancel": {
+    "message": "Cancel",
+    "description": "The text for the cancel button"
+  },
+  "button-remove": {
+    "message": "Remove",
+    "description": "The text for the remove button"
+  },
+  "remove-profile": {
+    "message": "Remove profile",
+    "description": "The text for removing the profile"
+  },
+  "sure-of-remove-profile1": {
+    "message": "Are you sure you want to remove this profile? This will completely remove the profile and all associated web apps, including their data. You might not be able to fully recover this action.",
+    "description": "The text for sure of removing the profile"
+  },
+  "sure-of-remove-profile2": {
+    "message": "Default profile cannot be completely removed. Web apps and data will be cleared, but the profile will stay.",
+    "description": "The text for sure of removing the profile"
+  },
+  "automatic-web-app": {
+    "message": "Automatic web app launching",
+    "description": "The text for automatic web app"
+  },
+  "about-automatic-launch1": {
+    "message": "Enabling <em>automatic web app launching</em> will automatically launch all URLs that match the scopes of your enabled web apps as a web app.",
+    "description": "The text for about automatic launch"
+  },
+  "about-automatic-launch2": {
+    "message": "This feature is experimental, may not work with all websites correctly, and may impact performance. It needs to be additionally enabled per web app in the web app settings using the <em>Launch this web app on matching website</em> option.",
+    "description": "The text for about automatic launch"
+  },
+  "about-automatic-launch3": {
+    "message": "Additional browser permissions are required for this to work. They will be requested automatically after enabling it if they are not already permitted.",
+    "description": "The text for about automatic launch"
+  },
+  "button-enable": {
+    "message": "Enable",
+    "description": "The text for the enable button"
+  },
+  "update-web-apps": {
+    "message": "Update web apps",
+    "description": "The text for updating the web apps"
+  },
+  "about-update-web-apps1": {
+    "message": "This will download and parse manifests for all your web apps and register them again to the operating systems. Any changes in web app manifests will also be reflected on your system.",
+    "description": "The text for about updating the web apps"
+  },
+  "about-update-web-apps2": {
+    "message": "Alternatively, you can register all web apps to the operating system without performing any manifest updates. This can be used if you transferred your config file from another device.",
+    "description": "The text for about updating the web apps"
+  },
+  "perform-manifest-updates": {
+    "message": "Perform manifest updates",
+    "description": "The text for performing manifest updates"
+  },
+  "button-update": {
+    "message": "Update",
+    "description": "The text for the update button"
+  },
+  "reinstall-firefox-runtime": {
+    "message": "Reinstall Firefox runtime",
+    "description": "The text for reinstalling the Firefox runtime"
+  },
+  "about-reinstall-firefox1": {
+    "message": "Are you sure you want to reinstall the PWAsForFirefox runtime? This will remove your current runtime and download the latest version from Mozilla.",
+    "description": "The text for about reinstalling Firefox"
+  },
+  "about-reinstall-firefox2": {
+    "message": "This will <strong>not</strong> affect your main Firefox browser and will <strong>not</strong> remove any profiles or other data.",
+    "description": "The text for about reinstalling Firefox"
+  },
+  "button-reinstall": {
+    "message": "Reinstall",
+    "description": "The text for the reinstall button"
   }
 }
