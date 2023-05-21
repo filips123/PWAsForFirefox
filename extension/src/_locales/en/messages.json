@@ -578,7 +578,7 @@
     "description": "The text for creating a new profile"
   },
   "dispaly-addressbar": {
-    "message": "Display address ba widget",
+    "message": "Display address bar widget",
     "description": "The text for displaying the address bar"
   },
   "on-vaild-pwa": {

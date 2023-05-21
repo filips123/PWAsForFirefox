@@ -475,5 +475,294 @@
   "loading": {
     "message": "ロード中...",
     "description": "The text for loading"
+  },
+  "install-card-header": {
+    "message": "このウェブアプリをインストールする",
+    "description": "The header for installing the project"
+  },
+  "web-app-name": {
+    "message": "名前",
+    "description": "The text for the web app name"
+  },
+  "web-app-description": {
+    "message": "説明",
+    "description": "The text for the web app description"
+  },
+  "web-app-categories": {
+    "message": "カテゴリー",
+    "description": "The text for the web app categories"
+  },
+  "web-app-keywords": {
+    "message": "キーワード",
+    "description": "The text for the web app keywords"
+  },
+  "web-app-start-url": {
+    "message": "開始時の URL",
+    "description": "The text for the web app start URL"
+  },
+  "web-app-icon-url": {
+    "message": "アイコンの URL",
+    "description": "The text for the web app icon URL"
+  },
+  "web-app-profile": {
+    "message": "プロファイル",
+    "description": "The text for the web app profile"
+  },
+  "recommended-separate-profile": {
+    "message": "<strong>注意:</strong> 修正困難なバグがあるため、各 Web アプリを別々のプロファイルにインストールすることを強く推奨します。問題の詳細はこちら：<a id='web-app-profile-warn-issue'></a> ",
+    "description": "The text for the recommended separate profile"
+  },
+  "web-app-use-manifest": {
+    "message": "アプリのプロパティを決定するためにマニフェストを使用する",
+    "description": "The text for the web app use manifest"
+  },
+  "modal-title": {
+    "message": "新規プロファイルの作成",
+    "description": "The title for create a new profile"
+  },
+  "modal-name": {
+    "message": "名前",
+    "description": "The text for the modal name"
+  },
+  "new-profile-description": {
+    "message": "説明",
+    "description": "The text for the new profile description"
+  },
+  "new-profile-template": {
+    "message": "テンプレート",
+    "description": "The text for the new profile template"
+  },
+  "new-profile-cancel2": {
+    "message": "キャンセル",
+    "description": "The text for the new profile cancel"
+  },
+  "new-profile-create": {
+    "message": "作成",
+    "description": "The text for the new profile create"
+  },
+  "launch-this-app-header": {
+    "message": "このウェブアプリを起動する",
+    "description": "The header for launching the web app"
+  },
+  "launch-this-app-description": {
+    "message": "You can launch this web app by clicking the button below.",
+    "description": "The text for launching the web app"
+  },
+
+  "manage-web-app-and-profile-title": {
+    "message": "ウェブアプリとプロファイルの管理",
+    "description": "The title for managing the web app and profile"
+  },
+  "sites-pane-apps": {
+    "message": "アプリ",
+    "description": "The text for the sites pane apps"
+  },
+  "sites-pane-profiles": {
+    "message": "プロファイル",
+    "description": "The text for the sites pane profiles"
+  },
+  "no-sites-installed": {
+    "message": "サイトは何もインストールされていません！",
+    "description": "The text for no sites installed"
+  },
+  "install-cureent-site": {
+    "message": "現在のサイトをインストールする",
+    "description": "The text for installing the current site"
+  },
+  "no-profiles-available": {
+    "message": "利用可能なプロファイルはありません！",
+    "description": "The text for no profiles available"
+  },
+  "create-new-profile": {
+    "message": "新規プロファイルの作成",
+    "description": "The text for creating a new profile"
+  },
+  "dispaly-addressbar": {
+    "message": "アドレスバーウィジェットを表示する",
+    "description": "The text for displaying the address bar"
+  },
+  "on-vaild-pwa": {
+    "message": "有効なプログレッシブ・ウェブ・アプリケーションについて",
+    "description": "The text for on valid PWA"
+  },
+  "always": {
+    "message": "常に",
+    "description": "The text for always"
+  },
+  "never": {
+    "message": "常に非表示",
+    "description": "The text for never"
+  },
+  "launch-pwa-on-active-url": {
+    "message": "アクティブな URL でウェブアプリを起動する",
+    "description": "The text for launching PWA on active URL"
+  },
+  "show-popup-extension-update": {
+    "message": "拡張機能のアップデート時にポップアップを表示する",
+    "description": "The text for showing a popup when the extension is updated"
+  },
+  "enable-auto-launch": {
+    "message": "ウェブアプリの自動起動を有効にする",
+    "description": "The text for enabling auto-launch"
+  },
+  "always-patch-runtime-and-profile": {
+    "message": "ランタイムとプロファイルにパッチが利用可能であれば常に当てる",
+    "description": "The text for always patching the runtime and the profile"
+  },
+  "use-wayland-display-sever": {
+    "message": "Wayland ディスプレイサーバーを使用する",
+    "description": "The text for using Wayland display server"
+  },
+  "use-X-input-extension": {
+    "message": "X インプット拡張機能 2を使用する。",
+    "description": "The text for using X input extension"
+  },
+  "use-XDG-desktop-portals": {
+    "message": "XDG デスクトップ ポータルの使用",
+    "description": "The text for using XDG desktop portals"
+  },
+  "enable-dark-mode": {
+    "message": "ダークモードを有効にする",
+    "description": "The text for enabling dark mode"
+  },
+  "default-profile-template": {
+    "message": "デフォルトのプロファイルテンプレート",
+    "description": "The text for default profile template"
+  },
+  "update-web-app": {
+    "message": "ウェブアプリのアップデート",
+    "description": "The text for updating the web app"
+  },
+  "reinstall-runtime": {
+    "message": "ランタイムを再インストールする",
+    "description": "The text for reinstalling the runtime"
+  },
+  "manage-extension-is-out-of-date": {
+    "message": "この拡張機能は古くなっています！ <a id='extension-outdated-update' target='_blank'>更新してください！</a>",
+    "description": "The text for the manage extension is out of date"
+  },
+  "edit-web-app": {
+    "message": "ウェブアプリを編集",
+    "description": "The text for editing the web app"
+  },
+  "web-app-id": {
+    "message": "ID",
+    "description": "The text for the web app ID"
+  },
+  "protocol-handlers": {
+    "message": "プロトコルハンドラ",
+    "description": "The text for the protocol handlers"
+  },
+  "launch-PWA-if-match": {
+    "message": "このウェブアプリケーションをマッチするウェブサイトで起動する",
+    "description": "The text for launching PWA if the URL matches"
+  },
+  "launch-PWA-on-system-login": {
+    "message": "システムログイン時にこのウェブアプリを起動する",
+    "description": "The text for launching PWA on system login"
+  },
+  "launch-PWA-on-browser-launch": {
+    "message": "ブラウザ起動時にこの ウェブアプリを起動する",
+    "description": "The text for launching PWA on browser launch"
+  },
+  "update-web-app-manifest": {
+    "message": "ウェブアプリのマニフェストを更新する",
+    "description": "The text for updating the web app manifest"
+  },
+  "update-web-app-icons": {
+    "message": "ウェブアプリのアイコンを更新",
+    "description": "The text for updating the web app icons"
+  },
+  "edit-profile": {
+    "message": "プロファイルを編集する",
+    "description": "The text for editing the profile"
+  },
+  "web-app-template": {
+    "message": "テンプレート",
+    "description": "The text for the web app template"
+  },
+  "remove-web-app": {
+    "message": "ウェブアプリを削除",
+    "description": "The text for removing the web app"
+  },
+  "modal-body": {
+    "message": "本当にこのウェブアプリを削除してよろしいですか？ アプリデータは<strong>削除されません</strong>が、アプリブラウザやアプリのプロファイルを削除することで削除することができます。",
+    "description": "The text for the modal body"
+  },
+  "button-cancel": {
+    "message": "キャンセル",
+    "description": "The text for the cancel button"
+  },
+  "button-remove": {
+    "message": "削除",
+    "description": "The text for the remove button"
+  },
+  "remove-profile": {
+    "message": "プロファイルを削除",
+    "description": "The text for removing the profile"
+  },
+  "sure-of-remove-profile1": {
+    "message": "本当にこのプロファイルを削除しますか？この操作により、プロファイルと関連するすべてのウェブアプリが、そのデータを含めて完全に削除されます。この操作を行うと、完全に復元できない場合があります。",
+    "description": "The text for sure of removing the profile"
+  },
+  "sure-of-remove-profile2": {
+    "message": "デフォルトのプロファイルを完全に削除することはできません。ウェブアプリやデータはクリアされますが、プロファイルは残ります。",
+    "description": "The text for sure of removing the profile"
+  },
+  "automatic-web-app": {
+    "message": "ウェブアプリの自動起動",
+    "description": "The text for automatic web app"
+  },
+  "about-automatic-launch1": {
+    "message": "<em>自動ウェブアプリ起動</em>を有効にすると、有効にしたウェブアプリのスコープに合致するすべての URL ウェブアプリとして自動的に起動します。",
+    "description": "The text for about automatic launch"
+  },
+  "about-automatic-launch2": {
+    "message": "この機能は実験的なものであり、すべてのウェブサイトで正しく機能するとは限りません、また、パフォーマンスに影響を与える恐れもあります。ウェブアプリの設定で、<em>このウェブアプリケーションをマッチするウェブサイトで起動する</em>オプションを使用して、ウェブアプリごとに追加で有効にする必要があります。",
+    "description": "The text for about automatic launch"
+  },
+  "about-automatic-launch3": {
+    "message": "この機能を使用するためには、追加のブラウザでの許可が必要です。まだ許可されていない場合は、有効にした後に自動的に要求されます。",
+    "description": "The text for about automatic launch"
+  },
+  "button-enable": {
+    "message": "有効にする",
+    "description": "The text for the enable button"
+  },
+  "update-web-apps": {
+    "message": "ウェブアプリの更新",
+    "description": "The text for updating the web apps"
+  },
+  "about-update-web-apps1": {
+    "message": "これにより、すべてのウェブアプリのマニフェストがダウンロード・解析され、オペレーティングシステムに再度登録されます。ウェブアプリのマニフェストに変更があった場合は、システムにも反映されます。",
+    "description": "The text for about updating the web apps"
+  },
+  "about-update-web-apps2": {
+    "message": "また、マニフェストの更新を行わずに、すべてのウェブアプリをオペレーティングシステムに登録することもできます。これは、他のデバイスから設定ファイルを転送した場合に使用できます。",
+    "description": "The text for about updating the web apps"
+  },
+  "perform-manifest-updates": {
+    "message": "マニフェストの更新を実行",
+    "description": "The text for performing manifest updates"
+  },
+  "button-update": {
+    "message": "更新",
+    "description": "The text for the update button"
+  },
+  "reinstall-firefox-runtime": {
+    "message": "Firefox ランタイムを再インストールする",
+    "description": "The text for reinstalling the Firefox runtime"
+  },
+  "about-reinstall-firefox1": {
+    "message": "PWAsForFirefox の Firefox ランタイムを再インストールしてもよろしいでしょうか？これは現在のランタイムを削除し、Mozilla から最新版 Firefox をダウンロードするものです。",
+    "description": "The text for about reinstalling Firefox"
+  },
+  "about-reinstall-firefox2": {
+    "message": "これを実行してもあなたのウェブアプリのデータに影響は<strong>ありません！</strong>更に、ランタイム用のプロファイルデータも<strong>削除しません！</strong>",
+    "description": "The text for about reinstalling Firefox"
+  },
+  "button-reinstall": {
+    "message": "再インストール",
+    "description": "The text for the reinstall button"
   }
 }
