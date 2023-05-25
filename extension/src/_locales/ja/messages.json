@@ -40,7 +40,7 @@
     "description": "The title of the ready page"
   },
   "license-MPL2.0": {
-    "message": "このプロジェクトは <a href='https://www.mozilla.org/MPL/2.0/'>Mozilla Public License 2.0</a> の下でライセンスされています。使用、再配布、改変を行う場合は、本使用許諾および以下に定める追加条項への同意が必要です。",
+    "message": "このプロジェクトは <a href='%MPL2.0%'>Mozilla Public License 2.0</a> の下でライセンスされています。使用、再配布、改変を行う場合は、本使用許諾および以下に定める追加条項への同意が必要です。",
     "description": "The Mozilla Public License 2.0 Notice"
   },
   "third-party-code": {
@@ -48,24 +48,24 @@
     "description": "The title of the third party code"
   },
   "logo-based-on-notice": {
-    "message": "このプロジェクトのロゴは <a href='https://www.svgrepo.com/svg/40267/fox'>the &quot;Fox SVG Vector&quot; icon</a> をベースに作成しており、<a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a> のライセンスで作成された <a href='https://github.com/webmaxru/progressive-web-apps-logo'>コミュニティーによる PWA ロゴ</a> を参考にして作成されています。",
+    "message": "このプロジェクトのロゴは <a href='%SVGREPO%'>the &quot;Fox SVG Vector&quot; icon</a> をベースに作成しており、<a href='%CC0%'>CC0</a> のライセンスで作成された <a href='%PWALOGO%'>コミュニティーによる PWA ロゴ</a> を参考にして作成されています。",
     "description": "The notice for the logo"
   },
   "firefox-scripts-notice": {
-    "message": "ブラウザーの Chrome 部分の JavaScript による改造は、<a href='https://github.com/xiaoxiaoflood/firefox-scripts'><code>xiaoxiaoflood/firefox-scripts</code></a> の GitHub リポジトリからインスピレーションを受け、一部は派生したもです。ライセンスは、Mozilla Public License 2.0 であり、詳細な情報は、それぞれのファイルに記載されています。",
+    "message": "ブラウザーの Chrome 部分の JavaScript による改造は、<a href='%FIREFOX-SCRIPTS%'><code>xiaoxiaoflood/firefox-scripts</code></a> の GitHub リポジトリからインスピレーションを受け、一部は派生したもです。ライセンスは、Mozilla Public License 2.0 であり、詳細な情報はそれぞれのファイルに記載されています。",
     "description": "The notice for the Firefox scripts"
   },
   "firefox-ui-fix-notice": {
-    "message": "ブラウザーの Chrome 部分の CSS による改造は、<a href='https://github.com/black7375/Firefox-UI-Fix'><code>black7375/Firefox-UI-Fix</code></a> の GitHub リポジトリからインスピレーションを受け、一部は派生したものです。ライセンスは、Mozilla Public License 2.0 であり、詳細な情報は、それぞれのファイルに記載されています。"
+    "message": "ブラウザーの Chrome 部分の CSS による改造は、<a href='%FIREFOX-UI-FIX%'><code>black7375/Firefox-UI-Fix</code></a> の GitHub リポジトリからインスピレーションを受け、一部は派生したものです。ライセンスは、Mozilla Public License 2.0 であり、詳細な情報は、それぞれのファイルに記載されています。"
   },
   "firefox-source-code-notice":{
-    "message": "ブラウザー の Chrome 部分の改造には Firefox 由来のアイコン等も使用されています。<a href='https://github.com/mozilla/gecko-dev'>Firefox のオリジナルのソースコード</a> を利用しています。ライセンスは、Mozilla Public License 2.0です。詳細な情報は、それぞれのファイルに記載されています。"
+    "message": "ブラウザー の Chrome 部分の改造には Firefox 由来のアイコン等も使用されています。<a href='%FIREFOX-SOURCE-CODE%'>Firefox のオリジナルのソースコード</a> を利用しています。ライセンスは、Mozilla Public License 2.0です。詳細な情報は、それぞれのファイルに記載されています。"
   },
   "metropolis-by-chris-simpson-notice": {
-    "message": "この拡張機能のネイティブ部分のプログラムには Chris Simpson によって作成された<a href='https://fontsarena.com/metropolis-by-chris-simpson/'>メトロポリス・セミボールフォント</a> が含まれています。また、このフォントは <a href='https://unlicense.org/'>Unlicense</a> を用いてパブリックドメインとして公開されています。"
+    "message": "この拡張機能のネイティブ部分のプログラムには Chris Simpson によって作成された<a href='%METROPOLIS%'>メトロポリス・セミボールフォント</a> が含まれています。また、このフォントは <a href='%UNLICENSE%'>Unlicense</a> を用いてパブリックドメインとして公開されています。"
   },
   "bootstrap-icon-notice":{
-    "message": "Windows 版のネイティブプログラムのインストーラーには <a href='https://icons.getbootstrap.com/'>Bootstrap Icons</a> が含まれています。<a href='https://opensource.org/licenses/MIT'>MIT License</a> によってライセンスされており、詳しいライセンス情報は <a href='https://github.com/filips123/PWAsForFirefox/blob/main/native/packages/wix/main.wxs'>WiX の設定ファイル</a> から確認できます。",
+    "message": "Windows 版のネイティブプログラムのインストーラーには <a href='%ICON-BOOTSTRAP%'>Bootstrap Icons</a> が含まれています。<a href='%MIT%'>MIT License</a> によってライセンスされており、詳しいライセンス情報は <a href='%WIX-CONFIG%'>WiX の設定ファイル</a> から確認できます。",
     "description": "The notice for the Bootstrap Icons"
   },
   "additional-program-install-by-user-notice-header":{
@@ -73,11 +73,11 @@
     "description": "The header for the notice for additional program installation"
   },
   "7-zip-notice":{
-    "message": "Windows にランタイムをインストールした場合、<a href='https://7-zip.org/'>7-Zip</a> がインストールされていない場合インストールされます。7-Zip のプロジェクトは Igor Pavlov によって作成され、<a href='https://7-zip.org/license.txt'>GPL・LGPL やその他のライセンス</a>によってライセンスされています。 この拡張機能のプロジェクトは、7-Zip のプロジェクトやその開発者とは一切関係ありません。",
+    "message": "Windows にランタイムをインストールした場合、<a href='%7-zip%'>7-Zip</a> がインストールされていない場合インストールされます。7-Zip のプロジェクトは Igor Pavlov によって作成され、<a href='%7-Zip-LICENSE%'>GPL・LGPL やその他のライセンス</a>によってライセンスされています。 この拡張機能のプロジェクトは、7-Zip のプロジェクトやその開発者とは一切関係ありません。",
     "description": "The notice for 7-Zip"
   },
   "firefox-notice": {
-    "message": "ランタイムをインストールすると、何も調整されていない <a href='https://www.mozilla.org/firefox/'>Mozilla Firefox</a> ブラウザーがインストールされ、ロカールでこの拡張機能のネイティブプログラムによって調整されます。このプロジェクトを使用すると <a href='https://www.mozilla.org/privacy/firefox/'>Firefox のプライバシーに関する通知</a>に同意することになります。Firefox は Mozilla Public License 2.0 でライセンスされており、Firefox の名称とロゴは米 Mozilla Fundation の商標です。このプロジェクトは Mozilla とは一切関係ありません。",
+    "message": "ランタイムをインストールすると、何も調整されていない <a href='%MOZILLA-FIREFOX%'>Mozilla Firefox</a> ブラウザーがインストールされ、ロカールでこの拡張機能のネイティブプログラムによって調整されます。このプロジェクトを使用すると <a href='%FIREFOX-PRIVACY-NOTICE'>Firefox のプライバシーに関する通知</a>に同意することになります。Firefox は Mozilla Public License 2.0 でライセンスされており、Firefox の名称とロゴは米 Mozilla Fundation の商標です。このプロジェクトは Mozilla とは一切関係ありません。",
     "description": "The notice for Firefox"
   },
   "privacy-notice-before-install": {
@@ -117,7 +117,7 @@
     "description": "The text for the runtime manual installation"
   },
   "runtime-needs-7zip": {
-    "message": "ランタイムをインストールするには、<a href='https://7-zip.org/'>7-Zip</a> がインストールされている必要があります。ランタイムをインストールすると、必要に応じて 7-Zip インストーラーが自動的に起動します。この場合、ユーザーアカウント制御のプロンプトを受け入れる必要がある場合があります。また、7-Zip を手動でインストールしたり、既存の 7-zip のインストールを使用することもできます。ランタイムがインストールされた後、7-Zip を手動で削除することができます。",
+    "message": "ランタイムをインストールするには、<a href='%7-zip%'>7-Zip</a> がインストールされている必要があります。ランタイムをインストールすると、必要に応じて 7-Zip インストーラーが自動的に起動します。この場合、ユーザーアカウント制御のプロンプトを受け入れる必要がある場合があります。また、7-Zip を手動でインストールしたり、既存の 7-zip のインストールを使用することもできます。ランタイムがインストールされた後、7-Zip を手動で削除することができます。",
     "description": "The text for the runtime needing 7-Zip"
   },
   "after-install-runtime": {
@@ -137,7 +137,7 @@
     "description": "The button to manually install the runtime"
   },
   "manually-install-runtime-procedure":{
-    "message": "Firefox のアーカイブをお好みのソースからダウンロードする (例：<a href='https://www.mozilla.org/firefox/all/' target='_blank'>Firefox の公式ダウンロードサイト</a>).",
+    "message": "Firefox のアーカイブをお好みのソースからダウンロードする (例：<a href='%FIREFOX-DOWNLOAD%' target='_blank'>Firefox の公式ダウンロードサイト</a>).",
     "description": "manual for install runtime from archive"
   },
   "manually-install-runtime-procedure2": {
@@ -245,7 +245,7 @@
     "description": "The text for installing the package with the package manager"
   },
   "install-winget": {
-    "message": "<a href='https://github.com/microsoft/winget-cli#installing-the-client' target='_blank'>Windows パッケージマネージャー</a>をインストールされているか確認してください。",
+    "message": "<a href='%WINGET%' target='_blank'>Windows パッケージマネージャー</a>をインストールされているか確認してください。",
     "description": "The text for installing the package manager"
   },
   "install-vcruntime-from-winget": {
@@ -265,7 +265,7 @@
     "description": "The text for installing Chocolatey"
   },
   "install-chocolatey": {
-    "message": "<a href='https://chocolatey.org/install' target='_blank'>chocolately</a> がインストールされていることを確認してください。",
+    "message": "<a href='%CHOCOLATEY%' target='_blank'>chocolately</a> がインストールされていることを確認してください。",
     "description": "The text for installing Chocolatey"
   },
   "install-PWAsForFirefox-with-chocolatey": {
@@ -281,7 +281,7 @@
     "description": "The text for installing Npackd"
   },
   "install-Npackd": {
-    "message": "<a href='https://www.npackd.org/' target='_blank'>Npackd</a> がインストールされていることを確認してください。",
+    "message": "<a href='%NPACKD%' target='_blank'>Npackd</a> がインストールされていることを確認してください。",
     "description": "The text for installing Npackd"
   },
   "install-PWAsForFirefox-from-Npackd": {
@@ -289,7 +289,7 @@
     "description": "The text for installing the PWAs for Firefox with Npackd"
   },
   "after-program-install-with-Npackd": {
-    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "message": "パッケージのインストールが完了すると、自動的に次のステップに進みます。30秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
     "description": "The text after the program is installed with Npackd"
   },
   "install-with-PortableApps": {
@@ -297,7 +297,7 @@
     "description": "The text for installing PortableApps.com"
   },
   "install-PortableApps": {
-    "message": "<a href='https://portableapps.com/download' target='_blank'>PortableApps.com プラットフォーム</a>がインストールされていることを確認してください。",
+    "message": "<a href='%PORTABLEAPPS%' target='_blank'>PortableApps.com プラットフォーム</a>がインストールされていることを確認してください。",
     "description": "The text for installing PortableApps.com"
   },
   "install-PWAsForFirefox-from-portableApps": {
@@ -317,7 +317,7 @@
     "description": "The text for installing the package from the packagecloud.io repository"
   },
   "install-PWAsForFirefox-from-packageCloud": {
-    "message": "<a href='https://packagecloud.io/filips/FirefoxPWA' target='_blank'>packagecloud.io リポジトリ</a>のウェブサイトの指示に従ってください。",
+    "message": "<a href='%PACKEAGE-CLOUD-FIREFPXPWA%' target='_blank'>packagecloud.io リポジトリ</a>のウェブサイトの指示に従ってください。",
     "description": "The text for installing the PWAs for Firefox from the packagecloud.io repository"
   },
   "after-program-install-with-packageCloud": {
@@ -357,11 +357,11 @@
     "description": "The text for installing the PWAs for Firefox from the AUR package"
   },
   "aur-source-package": {
-    "message": "<a href='https://aur.archlinux.org/packages/firefox-pwa/' target='_blank'><kbd>firefox-pwa</kbd></a> (ソース)",
+    "message": "<a href='%AUR-FIREFOXPWA%' target='_blank'><kbd>firefox-pwa</kbd></a> (ソース)",
     "description": "The text for the source AUR package"
   },
   "aur-prebuild-package": {
-    "message": "<a href='https://aur.archlinux.org/packages/firefox-pwa-bin/' target='_blank'><kbd>firefox-pwa-bin</kbd></a> (プレビルド済み)",
+    "message": "<a href='%AUR-FirefoxPWA-BIN%' target='_blank'><kbd>firefox-pwa-bin</kbd></a> (プレビルド済み)",
     "description": "The text for the prebuild AUR package"
   },
   "after-program-install-with-aur": {
@@ -369,11 +369,11 @@
     "description": "The text after the program is installed with the AUR package"
   },
   "install-cargo-make": {
-    "message": "<a href='https://github.com/sagiegurari/cargo-make' target='_blank'><kbd>cargo-make</kbd></a> と (Windows では) <a href='https://wixtoolset.org/releases/' target='_blank'>WiX ツールセット</a> がインストールされていることを確認してください。",
+    "message": "<a href='%CARGO-MAKE%' target='_blank'><kbd>cargo-make</kbd></a> と (Windows では) <a href='%WIX-TOOLSET%' target='_blank'>WiX ツールセット</a> がインストールされていることを確認してください。",
     "description": "The text for installing cargo-make"
   },
   "clone-project-repo": {
-    "message": "<a href='https://github.com/filips123/PWAsForFirefox' target='_blank'>リポジトリ</a>をクローンし、さらに<kbd>cd</kbd> コマンドを使用して <kbd>native</kbd> フォルダに入ります。",
+    "message": "<a href='%PWAsForFirefox-REPO%' target='_blank'>リポジトリ</a>をクローンし、さらに<kbd>cd</kbd> コマンドを使用して <kbd>native</kbd> フォルダに入ります。",
     "description": "The text for cloning the project repository"
   },
   "checkout-tag": {
@@ -405,7 +405,7 @@
    "description": "notice about packaging PWAsForFirefox for your distribution" 
   },
   "install-homebrew": {
-    "message": "<a href='https://brew.sh/' target='_blank'>Homebrew</a> がインストールされていることを確認してください。",
+    "message": "<a href='%BREW%' target='_blank'>Homebrew</a> がインストールされていることを確認してください。",
     "description": "The text for installing Homebrew"
   },
   "install-PWAsForFirefox-from-brew": {
@@ -461,7 +461,7 @@
     "description": "The text for the PWAs for Firefox programs are updated"
   },
   "show-release-notes": {
-    "message": "新機能、バグ修正、その他の改善点については、<a href='https://github.com/filips123/PWAsForFirefox/releases' target='_blank'>リリースノート</a>をお読みください。",
+    "message": "新機能、バグ修正、その他の改善点については、<a href='%RELEASE-NOTES%' target='_blank'>リリースノート</a>をお読みください。",
     "description": "The text for showing the release notes"
   },
   "no-compatible-update": {

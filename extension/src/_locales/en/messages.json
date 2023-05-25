@@ -40,7 +40,7 @@
     "description": "The title of the ready page"
   },
   "license-MPL2.0": {
-    "message": "The project is licensed under <a href='https://www.mozilla.org/MPL/2.0/'> the Mozilla Public License 2.0</a>. By using, redistributing, or modifying it, you must agree to the license, and the additional clauses provided below.",
+    "message": "The project is licensed under <a href='%MPL2.0%'> the Mozilla Public License 2.0</a>. By using, redistributing, or modifying it, you must agree to the license, and the additional clauses provided below.",
     "description": "The Mozilla Public License 2.0 Notice"
   },
   "third-party-code": {
@@ -48,24 +48,24 @@
     "description": "The title of the third party code"
   },
   "logo-based-on-notice": {
-    "message": "The project logo is based on <a href='https://www.svgrepo.com/svg/40267/fox'>&quot;Fox SVG Vector&quot; icon</a> and <a href='https://github.com/webmaxru/progressive-web-apps-logo'>the community-introduced PWA logo</a>, both dedicated to the public domain using <a href='https://creativecommons.org/publicdomain/zero/1.0/'>CC0</a>.",
+    "message": "The project logo is based on <a href='%SVGREPO%'>&quot;Fox SVG Vector&quot; icon</a> and <a href='%PWALOGO%'>the community-introduced PWA logo</a>, both dedicated to the public domain using <a href='%CC0%'>CC0</a>.",
     "description": "The notice for the logo"
   },
   "firefox-scripts-notice": {
-    "message": "Browser chrome modifications were inspired by and partially derived from the <a href='https://github.com/xiaoxiaoflood/firefox-scripts'><code>xiaoxiaoflood/firefox-scripts</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.",
+    "message": "Browser chrome modifications were inspired by and partially derived from the <a href='%FIREFOX-SCRIPTS%'><code>xiaoxiaoflood/firefox-scripts</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.",
     "description": "The notice for the Firefox scripts"
   },
   "firefox-ui-fix-notice": {
-    "message": "Browser chrome modifications partially use code derived from the <a href='https://github.com/black7375/Firefox-UI-Fix'><code>black7375/Firefox-UI-Fix</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files."
+    "message": "Browser chrome modifications partially use code derived from the <a href='%FIREFOX-UI-FIX%'><code>black7375/Firefox-UI-Fix</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files."
   },
   "firefox-source-code-notice":{
-    "message": "Browser chrome modifications partially use code and icons derived from <a href='https://github.com/mozilla/gecko-dev'>the original Firefox source</a>, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files."
+    "message": "Browser chrome modifications partially use code and icons derived from <a href='%FIREFOX-SOURCE-CODE%'>the original Firefox source</a>, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files."
   },
   "metropolis-by-chris-simpson-notice": {
-    "message": "Native programs contain <a href='https://fontsarena.com/metropolis-by-chris-simpson/'>the Metropolis Semi Bold typeface</a> by Chris Simpson, released into the public domain using <a href='https://unlicense.org/'>Unlicense</a>."
+    "message": "Native programs contain <a href='%METROPOLIS%'>the Metropolis Semi Bold typeface</a> by Chris Simpson, released into the public domain using <a href='%UNLICENSE%'>Unlicense</a>."
   },
   "bootstrap-icon-notice":{
-    "message": "Windows installer contains <a href='https://icons.getbootstrap.com/'>Bootstrap Icons</a>, licensed under the <a href='https://opensource.org/licenses/MIT'>the MIT License</a>. Detailed license information can be found in <a href='https://github.com/filips123/PWAsForFirefox/blob/main/native/packages/wix/main.wxs'>the WiX configuration file</a>.",
+    "message": "Windows installer contains <a href='%ICON-BOOTSTRAP%'>Bootstrap Icons</a>, licensed under the <a href='%MIT%'>the MIT License</a>. Detailed license information can be found in <a href='%WIX-CONFIG%'>the WiX configuration file</a>.",
     "description": "The notice for the Bootstrap Icons"
   },
   "additional-program-install-by-user-notice-header":{
@@ -73,11 +73,11 @@
     "description": "The header for the notice for additional program installation"
   },
   "7-zip-notice":{
-    "message": "Installing the runtime on Windows will install <a href='https://7-zip.org/'>7-Zip</a> if it is not already installed. The 7-Zip project is made by Igor Pavlov and <a href='https://7-zip.org/license.txt'>licensed under the GNU LGPL license and others</a>. This project is not affiliated with the 7-Zip project or its developers in any way.",
+    "message": "Installing the runtime on Windows will install <a href='%7-zip%'>7-Zip</a> if it is not already installed. The 7-Zip project is made by Igor Pavlov and <a href='%7-Zip-LICENSE%'>licensed under the GNU LGPL license and others</a>. This project is not affiliated with the 7-Zip project or its developers in any way.",
     "description": "The notice for 7-Zip"
   },
   "firefox-notice": {
-    "message": "Installing the runtime on any system will download the unmodified <a href='https://www.mozilla.org/firefox/'>Mozilla Firefox</a> browser and locally modify it. By using this project, you also agree to <a href='https://www.mozilla.org/privacy/firefox/'>the Firefox Privacy Notice</a>. Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla Foundation in any way.",
+    "message": "Installing the runtime on any system will download the unmodified <a href='%MOZILLA-FIREFOX%'>Mozilla Firefox</a> browser and locally modify it. By using this project, you also agree to <a href='%FIREFOX-PRIVACY-NOTICE'>the Firefox Privacy Notice</a>. Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla Foundation in any way.",
     "description": "The notice for Firefox"
   },
   "privacy-notice-before-install": {
@@ -117,7 +117,7 @@
     "description": "The text for the runtime manual installation"
   },
   "runtime-needs-7zip": {
-    "message": "To install the runtime, you will need <a href='https://7-zip.org/'>7-Zip</a> installed. Installing the runtime will automatically trigger the 7-Zip installer if needed. This may require accepting User Account Control prompt. You can also manually install 7-Zip or use your existing 7-zip installation. After the runtime is installed, you can delete 7-Zip manually.",
+    "message": "To install the runtime, you will need <a href='%7-zip%'>7-Zip</a> installed. Installing the runtime will automatically trigger the 7-Zip installer if needed. This may require accepting User Account Control prompt. You can also manually install 7-Zip or use your existing 7-zip installation. After the runtime is installed, you can delete 7-Zip manually.",
     "description": "The text for the runtime needing 7-Zip"
   },
   "after-install-runtime": {
@@ -137,7 +137,7 @@
     "description": "The button to manually install the runtime"
   },
   "manually-install-runtime-procedure":{
-    "message": "Download the Firefox archive from your preferred source (for example, from <a href='https://www.mozilla.org/firefox/all/' target='_blank'>the official downloads page</a>).",
+    "message": "Download the Firefox archive from your preferred source (for example, from <a href='%FIREFOX-DOWNLOAD%' target='_blank'>the official downloads page</a>).",
     "description": "manual for install runtime from archive"
   },
   "manually-install-runtime-procedure2": {
@@ -245,7 +245,7 @@
     "description": "The text for installing the package with the package manager"
   },
   "install-winget": {
-    "message": "Make sure <a href='https://github.com/microsoft/winget-cli#installing-the-client' target='_blank'>Windows Package Manager</a> is installed.",
+    "message": "Make sure <a href='%WINGET%' target='_blank'>Windows Package Manager</a> is installed.",
     "description": "The text for installing the package manager"
   },
   "install-vcruntime-from-winget": {
@@ -265,7 +265,7 @@
     "description": "The text for installing Chocolatey"
   },
   "install-chocolatey": {
-    "message": "Make sure <a href='https://chocolatey.org/install' target='_blank'>Chocolatey</a> is installed.",
+    "message": "Make sure <a href='%CHOCOLATEY%' target='_blank'>Chocolatey</a> is installed.",
     "description": "The text for installing Chocolatey"
   },
   "install-PWAsForFirefox-with-chocolatey": {
@@ -281,7 +281,7 @@
     "description": "The text for installing Npackd"
   },
   "install-Npackd": {
-    "message": "Make sure <a href='https://www.npackd.org/' target='_blank'>Npackd</a> is installed.",
+    "message": "Make sure <a href='%NPACKD%' target='_blank'>Npackd</a> is installed.",
     "description": "The text for installing Npackd"
   },
   "install-PWAsForFirefox-from-Npackd": {
@@ -297,7 +297,7 @@
     "description": "The text for installing PortableApps.com"
   },
   "install-PortableApps": {
-    "message": "Make sure <a href='https://portableapps.com/download' target='_blank'>PortableApps.com Platform</a> is installed.",
+    "message": "Make sure <a href='%PORTABLEAPPS%' target='_blank'>PortableApps.com Platform</a> is installed.",
     "description": "The text for installing PortableApps.com"
   },
   "install-PWAsForFirefox-from-portableApps": {
@@ -317,7 +317,7 @@
     "description": "The text for installing the package from the packagecloud.io repository"
   },
   "install-PWAsForFirefox-from-packageCloud": {
-    "message": "Follow the instructions on the <a href='https://packagecloud.io/filips/FirefoxPWA' target='_blank'>packagecloud.io repository</a> website.",
+    "message": "Follow the instructions on the <a href='%PACKEAGE-CLOUD-FIREFPXPWA%' target='_blank'>packagecloud.io repository</a> website.",
     "description": "The text for installing the PWAs for Firefox from the packagecloud.io repository"
   },
   "after-program-install-with-packageCloud": {
@@ -357,11 +357,11 @@
     "description": "The text for installing the PWAs for Firefox from the AUR package"
   },
   "aur-source-package": {
-    "message": "<a href='https://aur.archlinux.org/packages/firefox-pwa/' target='_blank'><kbd>firefox-pwa</kbd></a> (source)",
+    "message": "<a href='%AUR-FIREFOXPWA%' target='_blank'><kbd>firefox-pwa</kbd></a> (source)",
     "description": "The text for the source AUR package"
   },
   "aur-prebuild-package": {
-    "message": "<a href='https://aur.archlinux.org/packages/firefox-pwa-bin/' target='_blank'><kbd>firefox-pwa-bin</kbd></a> (pre-built)",
+    "message": "<a href='%AUR-FirefoxPWA-BIN%' target='_blank'><kbd>firefox-pwa-bin</kbd></a> (pre-built)",
     "description": "The text for the prebuild AUR package"
   },
   "after-program-install-with-aur": {
@@ -369,11 +369,11 @@
     "description": "The text after the program is installed with the AUR package"
   },
   "install-cargo-make": {
-    "message": "Make sure <a href='https://github.com/sagiegurari/cargo-make' target='_blank'><kbd>cargo-make</kbd></a> and (on Windows) <a href='https://wixtoolset.org/releases/' target='_blank'>WiX Toolset</a> are installed.",
+    "message": "Make sure <a href='%CARGO-MAKE%' target='_blank'><kbd>cargo-make</kbd></a> and (on Windows) <a href='%WIX-TOOLSET%' target='_blank'>WiX Toolset</a> are installed.",
     "description": "The text for installing cargo-make"
   },
   "clone-project-repo": {
-    "message": "Clone the <a href='https://github.com/filips123/PWAsForFirefox' target='_blank'>repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.",
+    "message": "Clone the <a href='%PWAsForFirefox-REPO%' target='_blank'>repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.",
     "description": "The text for cloning the project repository"
   },
   "checkout-tag": {
@@ -405,7 +405,7 @@
    "description": "notice about packaging PWAsForFirefox for your distribution" 
   },
   "install-homebrew": {
-    "message": "Make sure <a href='https://brew.sh/' target='_blank'>Homebrew</a> is installed.",
+    "message": "Make sure <a href='%BREW%' target='_blank'>Homebrew</a> is installed.",
     "description": "The text for installing Homebrew"
   },
   "install-PWAsForFirefox-from-brew": {
@@ -461,7 +461,7 @@
     "description": "The text for the PWAs for Firefox programs are updated"
   },
   "show-release-notes": {
-    "message": "You can read <a href='https://github.com/filips123/PWAsForFirefox/releases' target='_blank'>the release notes</a> for a list of new features, bug fixes and other improvements.",
+    "message": "You can read <a href='%RELEASE-NOTES%' target='_blank'>the release notes</a> for a list of new features, bug fixes and other improvements.",
     "description": "The text for showing the release notes"
   },
   "no-compatible-update": {
