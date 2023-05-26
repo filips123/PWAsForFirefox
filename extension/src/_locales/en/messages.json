@@ -18,5 +18,751 @@
   "actionLaunchSite": {
     "message": "Launch this site",
     "description": "Instruct users that they can launch the current site here"
+  },
+  "setup-PWAsForFirefox-title": {
+    "message": "Setup Progressive Web Apps for Firefox",
+    "description": "The title of the setup page"
+  },
+  "license-agreement": {
+    "message": "License Agreement",
+    "description": "The title of the license agreement"
+  },
+  "connector-installation": {
+    "message": "Connector Installation",
+    "description": "The title of the connector installation"
+  },
+  "runtime-installation": {
+    "message": "Runtime Installation",
+    "description": "The title of the runtime installation"    
+  },
+  "ready": {
+    "message": "Ready",
+    "description": "The title of the ready page"
+  },
+  "license-MPL2.0": {
+    "message": "The project is licensed under <a href='%MPL2.0%'> the Mozilla Public License 2.0</a>. By using, redistributing, or modifying it, you must agree to the license, and the additional clauses provided below.",
+    "description": "The Mozilla Public License 2.0 Notice"
+  },
+  "third-party-code": {
+    "message": "The project uses additional third-party assets and code:",
+    "description": "The title of the third party code"
+  },
+  "logo-based-on-notice": {
+    "message": "The project logo is based on <a href='%SVGREPO%'>&quot;Fox SVG Vector&quot; icon</a> and <a href='%PWALOGO%'>the community-introduced PWA logo</a>, both dedicated to the public domain using <a href='%CC0%'>CC0</a>.",
+    "description": "The notice for the logo"
+  },
+  "firefox-scripts-notice": {
+    "message": "Browser chrome modifications were inspired by and partially derived from the <a href='%FIREFOX-SCRIPTS%'><code>xiaoxiaoflood/firefox-scripts</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.",
+    "description": "The notice for the Firefox scripts"
+  },
+  "firefox-ui-fix-notice": {
+    "message": "Browser chrome modifications partially use code derived from the <a href='%FIREFOX-UI-FIX%'><code>black7375/Firefox-UI-Fix</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files."
+  },
+  "firefox-source-code-notice":{
+    "message": "Browser chrome modifications partially use code and icons derived from <a href='%FIREFOX-SOURCE-CODE%'>the original Firefox source</a>, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files."
+  },
+  "metropolis-by-chris-simpson-notice": {
+    "message": "Native programs contain <a href='%METROPOLIS%'>the Metropolis Semi Bold typeface</a> by Chris Simpson, released into the public domain using <a href='%UNLICENSE%'>Unlicense</a>."
+  },
+  "bootstrap-icon-notice":{
+    "message": "Windows installer contains <a href='%ICON-BOOTSTRAP%'>Bootstrap Icons</a>, licensed under the <a href='%MIT%'>the MIT License</a>. Detailed license information can be found in <a href='%WIX-CONFIG%'>the WiX configuration file</a>.",
+    "description": "The notice for the Bootstrap Icons"
+  },
+  "additional-program-install-by-user-notice-header":{
+    "message": "Additional open source software will be downloaded and installed at runtime when initiated by the user:",
+    "description": "The header for the notice for additional program installation"
+  },
+  "7-zip-notice":{
+    "message": "Installing the runtime on Windows will install <a href='%7-zip%'>7-Zip</a> if it is not already installed. The 7-Zip project is made by Igor Pavlov and <a href='%7-Zip-LICENSE%'>licensed under the GNU LGPL license and others</a>. This project is not affiliated with the 7-Zip project or its developers in any way.",
+    "description": "The notice for 7-Zip"
+  },
+  "firefox-notice": {
+    "message": "Installing the runtime on any system will download the unmodified <a href='%MOZILLA-FIREFOX%'>Mozilla Firefox</a> browser and locally modify it. By using this project, you also agree to <a href='%FIREFOX-PRIVACY-NOTICE'>the Firefox Privacy Notice</a>. Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla Foundation in any way.",
+    "description": "The notice for Firefox"
+  },
+  "privacy-notice-before-install": {
+    "message": "This extension exchanges personal data (current website and manifest URLs, as well as other PWA details) with the native program when the user initiates the PWA installation. This is necessary in order to correctly obtain and parse the Web Application Manifest and install the PWA. Data are stored on the computer as long as that PWA is installed. No personal data leave the computer or are sent to third parties.",
+    "description": "The privacy notice before installation"
+  },
+  "accept-license-agreement": {
+    "message": "I accept the license agreement",
+    "description": "The label for the license agreement"
+  },
+  "install-runtime-page-top": {
+    "message": "You need to install the additional program so the extension can manage and run separate runtime and profiles for your web apps. The extension will not work  without this program. Please follow the instructions below to install it.",
+    "description": "The top of the install runtime page"
+  },
+  "error-install-runtime": {
+    "message": "<strong>Error:</strong> The version of a currently-installed program may be incompatible with the current version of the extension. You need to update the program or the extension to a compatible version to make them work correctly.",
+    "description": "The error message for the runtime installation"
+  },
+  "extension-version": {
+    "message": "Extension version",
+    "description": "extension version"
+  },
+  "native-version": {
+    "message": "Native version",
+    "description": "native program version"
+  },
+  "error-text": {
+    "message": "Error: ",
+    "description": "error text"
+  },
+  "runtime-auto-install": {
+    "message": "This extension also needs a separate Mozilla Firefox runtime where all your Progressive Web App sites will run. Pressing the button below will automatically download the unmodified Mozilla Firefox from the Mozilla servers and locally modify it with the required modifications. You can also check the advanced options below to manually install the runtime.",
+    "description": "The text for the runtime auto-installation"
+  },
+  "runtime-manual-install": {
+    "message": "This extension also needs a separate Mozilla Firefox runtime where all your Progressive Web App sites will run. However, your platform currently does not support automatic installation of the runtime. Please follow the advanced options below to install it manually.",
+    "description": "The text for the runtime manual installation"
+  },
+  "runtime-needs-7zip": {
+    "message": "To install the runtime, you will need <a href='%7-zip%'>7-Zip</a> installed. Installing the runtime will automatically trigger the 7-Zip installer if needed. This may require accepting User Account Control prompt. You can also manually install 7-Zip or use your existing 7-zip installation. After the runtime is installed, you can delete 7-Zip manually.",
+    "description": "The text for the runtime needing 7-Zip"
+  },
+  "after-install-runtime": {
+    "message": "After the runtime is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the runtime is installed"
+  },
+  "install-the-runtime": {
+    "message": "Install the runtime",
+    "description": "The button to install the runtime"
+  },
+  "Advanced-options": {
+    "message": "Advanced options",
+    "description": "The advanced options"
+  },
+  "manually-install-runtime": {
+    "message": "Manually installing Firefox from the archive:",
+    "description": "The button to manually install the runtime"
+  },
+  "manually-install-runtime-procedure":{
+    "message": "Download the Firefox archive from your preferred source (for example, from <a href='%FIREFOX-DOWNLOAD%' target='_blank'>the official downloads page</a>).",
+    "description": "manual for install runtime from archive"
+  },
+  "manually-install-runtime-procedure2": {
+    "message": "Extract the downloaded archive and copy files to the correct directory (see below).",
+    "description": "manual for install runtime from archive"
+  },
+  "install-Firefox-with-packagemgr": {
+    "message": "Manually installing Firefox using package manager:",
+    "description": "The button to install the runtime with the package manager"
+  },
+  "install-with-pacgaemgr-procedure": {
+    "message": "Install Firefox using your distro's package manager (e.g., <kbd>sudo apt install firefox</kbd>, <kbd>sudo yum install firefox</kbd>, ...).",
+    "description": "manual for install runtime with package manager"
+  },
+  "install-with-pacgaemgr-procedure2": {
+    "message": "Copy the installed Firefox files (commonly stored in <kbd>/usr/lib/firefox/</kbd>) to the correct directory (see below).",
+    "description": "manual for install runtime with package manager"
+  },
+  "use-alternative-browser-for-runtime": {
+    "message": "Installing an alternative Firefox-based browser (for example, LibreWolf):",
+    "description": "The button to use an alternative browser for the runtime"
+  },
+  "use-alternative-browser-for-runtime-procedure": {
+    "message": "Download the \"portable\" archive (binary tarball) for your preferred Firefox-based browser.",
+    "description": "manual for install runtime with alternative browser"
+  },
+  "use-alternative-browser-for-runtime-procedure2": {
+    "message": "Extract downloaded archive and copy files to the correct directory (see below).",
+    "description": "manual for install runtime with alternative browser"
+  },
+  "use-alternative-browser-for-runtime-procedure3": {
+    "message": "Inside that directory, symlink the main binary of your browser (for example, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) as <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.",
+    "description": "manual for install runtime with alternative browser"
+  },
+  "default-runtime-location": {
+    "message": "Default runtime locations:",
+    "description": "The default runtime location"
+  },
+  "default-runtime-location-windows": {
+    "message": "Windows: <kbd>%APPDATA%\\FirefoxPWA\\runtime</kbd>",
+    "description": "The default runtime location for Windows"
+  },
+  "default-runtime-location-linux": {
+    "message": "Linux: <kbd>$XDG_DATA_HOME/firefoxpwa/runtime/</kbd> or <kbd>$HOME/.local/share/firefoxpwa/runtime/</kbd>",
+    "description": "The default runtime location for Linux"
+  },
+  "default-runtime-location-macos": {
+    "message": "macOS: <kbd>$HOME/Library/Application Support/firefoxpwa/runtime/</kbd>",
+    "description": "The default runtime location for macOS"
+  },
+  "ready-to-use": {
+    "message": "This extension is now ready to be used. You can close this page.",
+    "description": "The text for ready to use"
+  },
+  "install-PWAsForFirefox-header": {
+    "message": "Installation instructions",
+    "description": "The header for the install PWAs for Firefox page"
+  },
+  "windows-install-tab": {
+    "message": "Windows",
+    "description": "The tab for Windows installation"
+  },
+  "linux-deb-install-tab": {
+    "message": "Debian-like Linux (DEB)",
+    "description": "The tab for Linux Ubuntu installation"
+  },
+  "linux-rpm-install-tab": {
+    "message": "Red Hat-like Linux (RPM)",
+    "description": "The tab for Linux Fedora installation"
+  },
+  "linux-aur-install-tab": {
+    "message": "Arch-like Linux (AUR)",
+    "description": "The tab for Linux Arch installation"
+  },
+  "macos-install-tab": {
+    "message": "macOS",
+    "description": "The tab for macOS installation"
+  },
+  "source-install-tab": {
+    "message": "From Source Code",
+    "description": "The tab for source installation"
+  },
+  "other-install-tab": {
+    "message": "Other Platforms",
+    "description": "The tab for other installation"
+  },
+  "to-install-prgram-manual": {
+    "message": "To install the program manually:",
+    "description": "The text for manual installation"
+  },
+  "download-vcruntime-installer": {
+    "message": "Download and install the <a id='connector-download-url-crt' target='_blank'>Visual C++ Redistributable</a>.",
+    "description": "The text for downloading the Visual C++ Redistributable for Visual Studio 2019 installer"
+  },
+  "download-PWAsForFirefox-installer": {
+    "message": "Download and run the <a id='connector-download-url-msi' target='_blank'>PWAsForFirefox MSI installer</a>.",
+    "description": "The text for downloading the PWAs for Firefox installer"
+  },
+  "after-program-install":{
+    "message": "After the programs are installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed"
+  },
+  "windows-install-from-packagemgr": {
+    "message": "<em>Or...</em> To install the package using Windows Package Manager:",
+    "description": "The text for installing the package with the package manager"
+  },
+  "install-winget": {
+    "message": "Make sure <a href='%WINGET%' target='_blank'>Windows Package Manager</a> is installed.",
+    "description": "The text for installing the package manager"
+  },
+  "install-vcruntime-from-winget": {
+    "message": "Install Visual C++ Redistributable using winget: <kbd>winget install -e Microsoft.VCRedist.2015+.<span id='connector-crt-arch'></span></kbd>.",
+    "description": "The text for installing the Visual C++ Redistributable for Visual Studio 2019 with the package manager"
+  },
+  "install-PWAsForFirefox-from-winget": {
+    "message": "Install PWAsForFirefox using winget: <kbd>winget install firefoxpwa --version <span class='connector-project-version'></span></kbd>",
+    "description": "The text for installing the PWAs for Firefox with the package manager"
+  },
+  "after-program-install-with-winget": {
+    "message": "After the packages are installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with the package manager"
+  },
+  "install-with-Chocolatey": {
+    "message": "<em>Or...</em> To install the package using Chocolatey:",
+    "description": "The text for installing Chocolatey"
+  },
+  "install-chocolatey": {
+    "message": "Make sure <a href='%CHOCOLATEY%' target='_blank'>Chocolatey</a> is installed.",
+    "description": "The text for installing Chocolatey"
+  },
+  "install-PWAsForFirefox-with-chocolatey": {
+    "message": "Install the package using choco: <kbd>choco install firefoxpwa --version <span class='connector-project-version&></span></kbd>",
+    "description": "The text for installing the PWAs for Firefox with Chocolatey"
+  },
+  "after-program-install-with-chocolately": {
+    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with Chocolatey"
+  },
+  "install-with-Npackd": {
+    "message": "<em>Or...</em> To install the package using Npackd:",
+    "description": "The text for installing Npackd"
+  },
+  "install-Npackd": {
+    "message": "Make sure <a href='%NPACKD%' target='_blank'>Npackd</a> is installed.",
+    "description": "The text for installing Npackd"
+  },
+  "install-PWAsForFirefox-from-Npackd": {
+    "message": "Install the package using ncl: <kbd>ncl add -p firefoxpwa -v <span class='connector-project-version'></span></kbd>",
+    "description": "The text for installing the PWAs for Firefox with Npackd"
+  },
+  "after-program-install-with-Npackd": {
+    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with Npackd"
+  },
+  "install-with-PortableApps": {
+    "message": "<em>Or...</em> To install the package using PortableApps.com:",
+    "description": "The text for installing PortableApps.com"
+  },
+  "install-PortableApps": {
+    "message": "Make sure <a href='%PORTABLEAPPS%' target='_blank'>PortableApps.com Platform</a> is installed.",
+    "description": "The text for installing PortableApps.com"
+  },
+  "install-PWAsForFirefox-from-portableApps": {
+    "message": "Download the <a id='connector-download-url-paf'>PWAsForFirefox PAF package</a> and install it using PortableApps.com Platform.",
+    "description": "The text for installing the PWAs for Firefox with PortableApps.com"
+  },
+  "wait-for-notification-from-portableApps": {
+    "message": "Run the PWAsForFirefox program using PortableApps.com Platform and wait until a notification appears.",
+    "description": "The text for waiting for the notification from PortableApps.com"
+  },
+  "after-program-install-with-PortableApps": {
+    "message": "When the program is running, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with PortableApps.com"
+  },
+  "linux-install-from-packageCloud":{
+    "message": "To install the package from the packagecloud.io repository:",
+    "description": "The text for installing the package from the packagecloud.io repository"
+  },
+  "install-PWAsForFirefox-from-packageCloud": {
+    "message": "Follow the instructions on the <a href='%PACKEAGE-CLOUD-FIREFPXPWA%' target='_blank'>packagecloud.io repository</a> website.",
+    "description": "The text for installing the PWAs for Firefox from the packagecloud.io repository"
+  },
+  "after-program-install-with-packageCloud": {
+    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with the packagecloud.io repository"
+  },
+  "thanks-for-packageCloud": {
+    "message": "Thanks to packagecloud.io for sponsoring this project and providing us a free hosting for our DEB and RPM packages!",
+    "description": "The text for thanking packagecloud.io"
+  },
+  "install-with-deb": {
+    "message": "<em>Or...</em> To install the package manually:",
+    "description": "The text for installing the DEB package"
+  },
+  "install-PWAsForFirefox-from-deb": {
+    "message": "Download the <a id='connector-download-url-deb'>PWAsForFirefox DEB package</a> and install it using your package manager.",
+    "description": "The text for installing the PWAs for Firefox from the DEB package"
+  },
+  "after-program-install-with-deb": {
+    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with the DEB package"
+  },
+  "install-with-rpm": {
+    "message": "<em>Or...</em> To install the package manually:",
+    "description": "The text for installing the RPM package"
+  },
+  "install-PWAsForFirefox-from-rpm": {
+    "message":"Download and install the <a id='connector-download-url-rpm' target='_blank'>PWAsForFirefox RPM package</a>.",
+    "description": "The text for installing the PWAs for Firefox from the RPM package"
+  },
+  "after-program-install-with-rpm": {
+    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with the RPM package"
+  },
+  "install-with-aur": {
+    "message": "Download and install one of PWAsForFirefox AUR packages:",
+    "description": "The text for installing the PWAs for Firefox from the AUR package"
+  },
+  "aur-source-package": {
+    "message": "<a href='%AUR-FIREFOXPWA%' target='_blank'><kbd>firefox-pwa</kbd></a> (source)",
+    "description": "The text for the source AUR package"
+  },
+  "aur-prebuild-package": {
+    "message": "<a href='%AUR-FirefoxPWA-BIN%' target='_blank'><kbd>firefox-pwa-bin</kbd></a> (pre-built)",
+    "description": "The text for the prebuild AUR package"
+  },
+  "after-program-install-with-aur": {
+    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with the AUR package"
+  },
+  "install-cargo-make": {
+    "message": "Make sure <a href='%CARGO-MAKE%' target='_blank'><kbd>cargo-make</kbd></a> and (on Windows) <a href='%WIX-TOOLSET%' target='_blank'>WiX Toolset</a> are installed.",
+    "description": "The text for installing cargo-make"
+  },
+  "clone-project-repo": {
+    "message": "Clone the <a href='%PWAsForFirefox-REPO%' target='_blank'>repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.",
+    "description": "The text for cloning the project repository"
+  },
+  "checkout-tag": {
+    "message": "Checkout the <kbd class='connector-repository-tag'></kbd> tag.",
+    "description": "The text for checking out the tag"
+  },
+  "modify-version": {
+    "message": "Modify <kbd>version</kbd> field inside <kbd>Cargo.toml</kbd> to <kbd class='connector-project-version'></kbd>.",
+    "description": "The text for modifying the version"
+  },
+  "modify-distribution-version": {
+    "message": "Modify <kbd>DISTRIBUTION_VERSION</kbd> variable inside <kbd>userchrome/profile/chrome/pwa/chrome.jsm</kbd> to <kbd class='connector-project-version'></kbd>.",
+    "description": "The text for modifying the distribution version"
+  },
+  "build-and-install-project": {
+    "message": "Build and install the project: <kbd>makers install</kbd>",
+    "description": "The text for building and installing the project"
+  },
+  "after-program-install-with-build": {
+    "message": "After the program is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with the build"
+  },
+  "show-commands-on-readme": {
+    "message": "For a list of commands to do this, check <a id='connector-source-install' target='_blank'>the README file in the repository</a>.",
+    "description": "The text for showing the commands on the README file"
+  },
+  "package-to-distro-notice": {
+   "message": "If you want to package PWAsForFirefox for your distribution or have already packaged it, please let me know, so I can help with the packaging and list it in the installation instructions. If the packaging platform supports any auto-submission/uploading feature, please also let me know, as I might integrate it directly with GitHub Actions to make sure the packages are always up-to-date.",
+   "description": "notice about packaging PWAsForFirefox for your distribution" 
+  },
+  "install-homebrew": {
+    "message": "Make sure <a href='%BREW%' target='_blank'>Homebrew</a> is installed.",
+    "description": "The text for installing Homebrew"
+  },
+  "install-PWAsForFirefox-from-brew": {
+    "message": "Install the formula using brew: <kbd>brew install firefoxpwa</kbd>",
+    "description": "The text for installing the PWAs for Firefox from brew"
+  },
+  "install-PWAsForFirefox-from-brew2": {
+    "message": "Follow instructions displayed in the caveats section of installation output to link the manifest.",
+    "description": "The text for installing the PWAs for Firefox from brew"
+  },
+  "after-program-install-with-brew": {
+    "message": "After the formula is installed and the manifest is linked, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The text after the program is installed with brew"
+  },
+  "unsupported-os-notice": {
+    "message": "Your operating system is not officially supported. You can try building and installing the project from source with instructions from the source installation section. You may need to adjust them to make it work with your operating system, and there is no guarantee that it will work.",
+    "description": "notice about unsupported operating system"
+  },
+  "update-PWAsForFirefox-header": {
+    "message": "Update Progressive Web Apps for Firefox",
+    "description": "The header for updating the PWAs for Firefox"
+  },
+  "native-connector-is-out-of-date": {
+    "message": "The native connector is currently outdated.",
+    "description": "The text for the native connector is out of date"
+  },
+  "recommended-native-update": {
+    "message": "It is compatible with the current extension version, but it is strongly recommended to update it to get the latest features and fixes.",
+    "description": "The text for the recommended update"
+  },
+  "have-to-native-update": {
+    "message": "It is <strong>not</strong> compatible with the current extension version, so you cannot use the extension until you update it.",
+    "description": "The text for the have to update"
+  },
+  "follow-native-update-instructions": {
+    "message": "Please follow the instructions below.",
+    "description": "The text for following the update instructions"
+  },
+  "extension-is-out-of-date": {
+    "message": "Currently extension is currently outdated.",
+    "description": "The text for the extension is out of date"
+  },
+  "have-to-extension-update": {
+    "message": "It is <strong>not</strong> compatible with the current connector version, so you cannot use the extension until you update it.",
+    "description": "The text for the have to update"
+  },
+  "follow-extension-update-instructions": {
+    "message": "Please update it from the Firefox addon manager (<kbd>about:addons</kbd>).",
+    "description": "The text for following the update instructions"
+  },
+  "PWAsForFirefox-programs-are-updated": {
+    "message": "The extension and the native connector are updated to the same version. You can close this page.",
+    "description": "The text for the PWAs for Firefox programs are updated"
+  },
+  "show-release-notes": {
+    "message": "You can read <a href='%RELEASE-NOTES%' target='_blank'>the release notes</a> for a list of new features, bug fixes and other improvements.",
+    "description": "The text for showing the release notes"
+  },
+  "no-compatible-update": {
+    "message": "This update <strong>may contain backward-incompatible changes</strong>, so you may also need to re-configure some things as specified in the release notes to make it work.",
+    "description": "The text for no compatible update"
+  },
+  "error-at-update": {
+    "message": "Error: ",
+    "description": "The text for the error at update"
+  },
+  "loading": {
+    "message": "Loading...",
+    "description": "The text for loading"
+  },
+  "install-card-header": {
+    "message": "Install this web app",
+    "description": "The header for installing the project"
+  },
+  "web-app-name": {
+    "message": "Name",
+    "description": "The text for the web app name"
+  },
+  "web-app-description": {
+    "message": "Description",
+    "description": "The text for the web app description"
+  },
+  "web-app-categories": {
+    "message": "Categories",
+    "description": "The text for the web app categories"
+  },
+  "web-app-keywords": {
+    "message": "Keywords",
+    "description": "The text for the web app keywords"
+  },
+  "web-app-start-url": {
+    "message": "Start URL",
+    "description": "The text for the web app start URL"
+  },
+  "web-app-icon-url": {
+    "message": "Icon URL",
+    "description": "The text for the web app icon URL"
+  },
+  "web-app-profile": {
+    "message": "Profile",
+    "description": "The text for the web app profile"
+  },
+  "recommended-separate-profile": {
+    "message": "<strong>Note:</strong> It is strongly recommended to install each web app into a separate profile due to a hard-to-fix bug. See issue <a id='web-app-profile-warn-issue'></a> for more details.",
+    "description": "The text for the recommended separate profile"
+  },
+  "web-app-use-manifest": {
+    "message": "Use the manifest for determining app properties",
+    "description": "The text for the web app use manifest"
+  },
+  "modal-title": {
+    "message": "Create a new profile",
+    "description": "The title for create a new profile"
+  },
+  "modal-name": {
+    "message": "Name",
+    "description": "The text for the modal name"
+  },
+  "new-profile-description": {
+    "message": "Description",
+    "description": "The text for the new profile description"
+  },
+  "new-profile-template": {
+    "message": "Template",
+    "description": "The text for the new profile template"
+  },
+  "new-profile-cancel2": {
+    "message": "Cancel",
+    "description": "The text for the new profile cancel"
+  },
+  "new-profile-create": {
+    "message": "Create",
+    "description": "The text for the new profile create"
+  },
+  "launch-this-app-header": {
+    "message": "Launch this web app",
+    "description": "The header for launching the web app"
+  },
+  "launch-this-app-description": {
+    "message": "You can launch this web app by clicking the button below.",
+    "description": "The text for launching the web app"
+  },
+
+  "manage-web-app-and-profile-title": {
+    "message": "Manage web apps and profiles",
+    "description": "The title for managing the web app and profile"
+  },
+  "sites-pane-apps": {
+    "message": "Apps",
+    "description": "The text for the sites pane apps"
+  },
+  "sites-pane-profiles": {
+    "message": "Profiles",
+    "description": "The text for the sites pane profiles"
+  },
+  "no-sites-installed": {
+    "message": "No sites installed!",
+    "description": "The text for no sites installed"
+  },
+  "install-cureent-site": {
+    "message": "Install current site",
+    "description": "The text for installing the current site"
+  },
+  "no-profiles-available": {
+    "message": "No profiles available!",
+    "description": "The text for no profiles available"
+  },
+  "create-new-profile": {
+    "message": "Create new profile",
+    "description": "The text for creating a new profile"
+  },
+  "dispaly-addressbar": {
+    "message": "Display address bar widget",
+    "description": "The text for displaying the address bar"
+  },
+  "on-vaild-pwa": {
+    "message": "On valid progressive web apps",
+    "description": "The text for on valid PWA"
+  },
+  "always": {
+    "message": "Always",
+    "description": "The text for always"
+  },
+  "never": {
+    "message": "Never",
+    "description": "The text for never"
+  },
+  "launch-pwa-on-active-url": {
+    "message": "Launch web apps on active URLs",
+    "description": "The text for launching PWA on active URL"
+  },
+  "show-popup-extension-update": {
+    "message": "Show a popup on extension updates",
+    "description": "The text for showing a popup when the extension is updated"
+  },
+  "enable-auto-launch": {
+    "message": "Enable automatic web app launching",
+    "description": "The text for enabling auto-launch"
+  },
+  "always-patch-runtime-and-profile": {
+    "message": "Always patch runtime and profile",
+    "description": "The text for always patching the runtime and the profile"
+  },
+  "use-wayland-display-sever": {
+    "message": "Use Wayland Display Server",
+    "description": "The text for using Wayland display server"
+  },
+  "use-X-input-extension": {
+    "message": "Use X Input Extension 2",
+    "description": "The text for using X input extension"
+  },
+  "use-XDG-desktop-portals": {
+    "message": "Use XDG Desktop Portals",
+    "description": "The text for using XDG desktop portals"
+  },
+  "enable-dark-mode": {
+    "message": "Enable dark mode",
+    "description": "The text for enabling dark mode"
+  },
+  "default-profile-template": {
+    "message": "Default profile template",
+    "description": "The text for default profile template"
+  },
+  "update-web-app": {
+    "message": "Update web apps",
+    "description": "The text for updating the web app"
+  },
+  "reinstall-runtime": {
+    "message": "Reinstall runtime",
+    "description": "The text for reinstalling the runtime"
+  },
+  "manage-extension-is-out-of-date": {
+    "message": "The extension is outdated! <a id='extension-outdated-update' target='_blank'>Please update it</a>!",
+    "description": "The text for the manage extension is out of date"
+  },
+  "edit-web-app": {
+    "message": "Edit web app",
+    "description": "The text for editing the web app"
+  },
+  "web-app-id": {
+    "message": "ID",
+    "description": "The text for the web app ID"
+  },
+  "protocol-handlers": {
+    "message": "Protocol handlers",
+    "description": "The text for the protocol handlers"
+  },
+  "launch-PWA-if-match": {
+    "message": "Launch this web app on matching website",
+    "description": "The text for launching PWA if the URL matches"
+  },
+  "launch-PWA-on-system-login": {
+    "message": "Launch this web app on system login",
+    "description": "The text for launching PWA on system login"
+  },
+  "launch-PWA-on-browser-launch": {
+    "message": "Launch this web app on browser launch",
+    "description": "The text for launching PWA on browser launch"
+  },
+  "update-web-app-manifest": {
+    "message": "Update web app manifest",
+    "description": "The text for updating the web app manifest"
+  },
+  "update-web-app-icons": {
+    "message": "Update web app icons",
+    "description": "The text for updating the web app icons"
+  },
+  "edit-profile": {
+    "message": "Edit profile",
+    "description": "The text for editing the profile"
+  },
+  "web-app-template": {
+    "message": "Template",
+    "description": "The text for the web app template"
+  },
+  "remove-web-app": {
+    "message": "Remove web app",
+    "description": "The text for removing the web app"
+  },
+  "modal-body": {
+    "message": "Are you sure you want to remove this web app? App data will <strong>not</strong> be removed, but you can remove them through the app browser or by deleting app's profile.",
+    "description": "The text for the modal body"
+  },
+  "button-cancel": {
+    "message": "Cancel",
+    "description": "The text for the cancel button"
+  },
+  "button-remove": {
+    "message": "Remove",
+    "description": "The text for the remove button"
+  },
+  "remove-profile": {
+    "message": "Remove profile",
+    "description": "The text for removing the profile"
+  },
+  "sure-of-remove-profile1": {
+    "message": "Are you sure you want to remove this profile? This will completely remove the profile and all associated web apps, including their data. You might not be able to fully recover this action.",
+    "description": "The text for sure of removing the profile"
+  },
+  "sure-of-remove-profile2": {
+    "message": "Default profile cannot be completely removed. Web apps and data will be cleared, but the profile will stay.",
+    "description": "The text for sure of removing the profile"
+  },
+  "automatic-web-app": {
+    "message": "Automatic web app launching",
+    "description": "The text for automatic web app"
+  },
+  "about-automatic-launch1": {
+    "message": "Enabling <em>automatic web app launching</em> will automatically launch all URLs that match the scopes of your enabled web apps as a web app.",
+    "description": "The text for about automatic launch"
+  },
+  "about-automatic-launch2": {
+    "message": "This feature is experimental, may not work with all websites correctly, and may impact performance. It needs to be additionally enabled per web app in the web app settings using the <em>Launch this web app on matching website</em> option.",
+    "description": "The text for about automatic launch"
+  },
+  "about-automatic-launch3": {
+    "message": "Additional browser permissions are required for this to work. They will be requested automatically after enabling it if they are not already permitted.",
+    "description": "The text for about automatic launch"
+  },
+  "button-enable": {
+    "message": "Enable",
+    "description": "The text for the enable button"
+  },
+  "update-web-apps": {
+    "message": "Update web apps",
+    "description": "The text for updating the web apps"
+  },
+  "about-update-web-apps1": {
+    "message": "This will download and parse manifests for all your web apps and register them again to the operating systems. Any changes in web app manifests will also be reflected on your system.",
+    "description": "The text for about updating the web apps"
+  },
+  "about-update-web-apps2": {
+    "message": "Alternatively, you can register all web apps to the operating system without performing any manifest updates. This can be used if you transferred your config file from another device.",
+    "description": "The text for about updating the web apps"
+  },
+  "perform-manifest-updates": {
+    "message": "Perform manifest updates",
+    "description": "The text for performing manifest updates"
+  },
+  "button-update": {
+    "message": "Update",
+    "description": "The text for the update button"
+  },
+  "reinstall-firefox-runtime": {
+    "message": "Reinstall Firefox runtime",
+    "description": "The text for reinstalling the Firefox runtime"
+  },
+  "about-reinstall-firefox1": {
+    "message": "Are you sure you want to reinstall the PWAsForFirefox runtime? This will remove your current runtime and download the latest version from Mozilla.",
+    "description": "The text for about reinstalling Firefox"
+  },
+  "about-reinstall-firefox2": {
+    "message": "This will <strong>not</strong> affect your main Firefox browser and will <strong>not</strong> remove any profiles or other data.",
+    "description": "The text for about reinstalling Firefox"
+  },
+  "button-reinstall": {
+    "message": "Reinstall",
+    "description": "The text for the reinstall button"
   }
 }

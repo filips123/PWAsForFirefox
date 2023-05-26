@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Manage web apps and profiles</title>
+    <title data-i18n-id="manage-web-app-and-profile-title">Manage web apps and profiles</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
     <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
     <link rel="stylesheet" href="manage.scss" />
+    <script src="../i18n.js"></script>
   </head>
 
   <body>
@@ -13,8 +14,8 @@
       <div class="card-header sticky-top">
         <nav>
           <div class="nav nav-tabs card-header-tabs" id="card-navigation" role="tablist">
-            <button class="nav-link active" id="sites-tab" data-bs-toggle="tab" data-bs-target="#sites-pane" type="button" role="tab" aria-controls="sites-pane" aria-selected="true">Apps</button>
-            <button class="nav-link" id="profiles-tab" data-bs-toggle="tab" data-bs-target="#profiles-pane" type="button" role="tab" aria-controls="profiles-pane" aria-selected="false">Profiles</button>
+            <button class="nav-link active" id="sites-tab" data-bs-toggle="tab" data-bs-target="#sites-pane" type="button" role="tab" aria-controls="sites-pane" aria-selected="true" data-i18n-id="sites-pane-apps">Apps</button>
+            <button class="nav-link" id="profiles-tab" data-bs-toggle="tab" data-bs-target="#profiles-pane" type="button" role="tab" aria-controls="profiles-pane" aria-selected="false" data-i18n-id="sites-pane-profiles">Profiles</button>
             <button class="nav-link icon-link ms-auto py-0 bi-gear-fill lead" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-pane" type="button" role="tab" title="Settings" aria-label="Settings" aria-controls="settings-pane" aria-selected="false"></button>
           </div>
         </nav>
@@ -41,17 +42,17 @@
               </template>
               <div class="list-group-item justify-content-between align-items-start d-flex" id="sites-list-loading">
                 <div>
-                  <div><em>Loading...</em></div>
+                  <div><em data-i18n-id="loading">Loading...</em></div>
                 </div>
               </div>
               <div class="list-group-item justify-content-between align-items-start d-flex d-none" id="sites-list-empty">
                 <div>
-                  <div><em>No sites installed!</em></div>
+                  <div><em data-i18n-id="no-sites-installed">No sites installed!</em></div>
                 </div>
               </div>
               <button type="button" class="list-group-item list-group-item-action fst-italic" id="site-install-button">
                 <span class="bi bi-plus-lg pe-1"></span>
-                Install current site
+                <div data-i18n-id="install-cureent-site">current site</div>
               </button>
             </div>
           </div>
@@ -72,17 +73,17 @@
               </template>
               <div class="list-group-item justify-content-between align-items-start d-flex" id="profiles-list-loading">
                 <div>
-                  <div><em>Loading...</em></div>
+                  <div><em data-i18n-id="loading">Loading...</em></div>
                 </div>
               </div>
               <div class="list-group-item justify-content-between align-items-start d-flex d-none" id="profiles-list-empty">
                 <div>
-                  <div><em>No profiles available!</em></div>
+                  <div><em data-i18n-id="no-profiles-available">No profiles available!</em></div>
                 </div>
               </div>
               <button type="button" class="list-group-item list-group-item-action fst-italic" id="profile-create-button">
                 <span class="bi bi-plus-lg pe-1"></span>
-                Create a new profile
+                <div data-i18n-id="create-new-profile">a new profile</div>
               </button>
             </div>
           </div>
@@ -92,20 +93,20 @@
               <div class="list-group-item">
                 <div class="row align-items-center">
                   <div>
-                    <label class="fw-bold mb-0" for="settings-display-page-action">Display address bar widget</label>
+                    <label class="fw-bold mb-0" for="settings-display-page-action" data-i18n-id="dispaly-addressbar">Display address bar widget</label>
                   </div>
                   <div id="settings-display-page-action">
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="settings-display-page-action" id="settings-display-page-action-valid" value="valid" checked>
-                      <label class="form-check-label" for="settings-display-page-action-valid">On valid progressive web apps</label>
+                      <label class="form-check-label" for="settings-display-page-action-valid" data-i18n-id="on-vaild-pwa">On valid progressive web apps</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="settings-display-page-action" id="settings-display-page-action-always" value="always">
-                      <label class="form-check-label" for="settings-display-page-action-always">Always</label>
+                      <label class="form-check-label" for="settings-display-page-action-always" data-i18n-id="always">Always</label>
                     </div>
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="settings-display-page-action" id="settings-display-page-action-never" value="never">
-                      <label class="form-check-label" for="settings-display-page-action-never">Never</label>
+                      <label class="form-check-label" for="settings-display-page-action-never" data-i18n-id="never">Never</label>
                     </div>
                   </div>
                 </div>
@@ -114,7 +115,7 @@
               <div class="list-group-item">
                 <div class="row align-items-center">
                   <div class="col">
-                    <label class="fw-bold mb-0" for="settings-launch-current-url">Launch web apps on active URLs</label>
+                    <label class="fw-bold mb-0" for="settings-launch-current-url" data-i18n-id="launch-pwa-on-active-url">Launch web apps on active URLs</label>
                   </div>
                   <div class="col-auto">
                     <div class="form-check form-switch">
@@ -127,7 +128,7 @@
               <div class="list-group-item">
                 <div class="row align-items-center">
                   <div class="col">
-                    <label class="fw-bold mb-0" for="settings-show-update-popup">Show a popup on extension updates</label>
+                    <label class="fw-bold mb-0" for="settings-show-update-popup" data-i18n-id="show-popup-extension-update">Show a popup on extension updates</label>
                   </div>
                   <div class="col-auto">
                     <div class="form-check form-switch">
@@ -140,7 +141,7 @@
               <div class="list-group-item">
                 <div class="row align-items-center">
                   <div class="col">
-                    <label class="fw-bold mb-0" for="settings-enable-auto-launch">Enable automatic web app launching</label>
+                    <label class="fw-bold mb-0" for="settings-enable-auto-launch" data-i18n-id="enable-auto-launch">Enable automatic web app launching</label>
                   </div>
                   <div class="col-auto">
                     <div class="form-check form-switch">
@@ -153,7 +154,7 @@
               <div class="list-group-item" id="settings-always-patch-container" title="Loading...">
                 <div class="row align-items-center">
                   <div class="col">
-                    <label class="fw-bold mb-0" for="settings-always-patch">Always patch runtime and profile</label>
+                    <label class="fw-bold mb-0" for="settings-always-patch" data-i18n-id="always-patch-runtime-and-profile">Always patch runtime and profile</label>
                   </div>
                   <div class="col-auto">
                     <div class="form-check form-switch">
@@ -166,7 +167,7 @@
               <div class="list-group-item d-none" id="settings-enable-wayland-container" title="Loading...">
                 <div class="row align-items-center">
                   <div class="col">
-                    <label class="fw-bold mb-0" for="settings-enable-wayland">Use Wayland Display Server</label>
+                    <label class="fw-bold mb-0" for="settings-enable-wayland" data-i18n-id="use-wayland-display-sever">Use Wayland Display Server</label>
                   </div>
                   <div class="col-auto">
                     <div class="form-check form-switch">
@@ -179,7 +180,7 @@
               <div class="list-group-item d-none" id="settings-use-xinput2-container" title="Loading...">
                 <div class="row align-items-center">
                   <div class="col">
-                    <label class="fw-bold mb-0" for="settings-use-xinput2">Use X Input Extension 2</label>
+                    <label class="fw-bold mb-0" for="settings-use-xinput2" data-i18n-id="use-X-input-extension">Use X Input Extension 2</label>
                   </div>
                   <div class="col-auto">
                     <div class="form-check form-switch">
@@ -192,7 +193,7 @@
               <div class="list-group-item d-none" id="settings-use-portals-container" title="Loading...">
                 <div class="row align-items-center">
                   <div class="col">
-                    <label class="fw-bold mb-0" for="settings-use-portals">Use XDG Desktop Portals</label>
+                    <label class="fw-bold mb-0" for="settings-use-portals" data-i18n-id="use-XDG-desktop-portals">Use XDG Desktop Portals</label>
                   </div>
                   <div class="col-auto">
                     <div class="form-check form-switch">
@@ -205,7 +206,7 @@
               <div class="list-group-item">
                 <div class="row align-items-center" title="Can only be enabled in the system settings">
                   <div class="col">
-                    <label class="fw-bold mb-0" for="settings-enable-dark-mode">Enable dark mode</label>
+                    <label class="fw-bold mb-0" for="settings-enable-dark-mode" data-i18n-id="enable-dark-mode">Enable dark mode</label>
                   </div>
                   <div class="col-auto">
                     <div class="form-check form-switch">
@@ -217,17 +218,17 @@
 
               <div class="list-group-item">
                 <div>
-                  <label class="fw-bold mb-0" for="settings-default-profile-template">Default profile template</label>
+                  <label class="fw-bold mb-0" for="settings-default-profile-template" data-i18n-id="default-profile-template">Default profile template</label>
                   <input type="text" class="form-control form-control-sm" id="settings-default-profile-template" placeholder="Enter a path to the profile template" />
                   <!-- This has to be a text input because Firefox does not support file inputs in extension popups -->
                 </div>
               </div>
 
-              <button type="button" class="list-group-item list-group-item-action fw-bold" id="update-all-sites">
+              <button type="button" class="list-group-item list-group-item-action fw-bold" id="update-all-sites" data-i18n-id="update-web-app">
                 Update web apps
               </button>
 
-              <button type="button" class="list-group-item list-group-item-action fw-bold" id="reinstall-runtime">
+              <button type="button" class="list-group-item list-group-item-action fw-bold" id="reinstall-runtime" data-i18n-id="reinstall-runtime">
                 Reinstall runtime
               </button>
             </div>
@@ -236,7 +237,7 @@
       </div>
 
       <div class="card-footer ps-2 pe-0 m-0 row bg-warning text-dark d-none" id="extension-outdated-box">
-        <p class="col-11 mx-0 my-auto">The extension is outdated! <a id="extension-outdated-update" target="_blank">Please update it</a>!</p>
+        <p class="col-11 mx-0 my-auto" data-i18n-innerHTML="manage-extension-is-out-of-date">The extension is outdated! <a id="extension-outdated-update" target="_blank">Please update it</a>!</p>
         <button type="button" class="col-1 btn-close my-auto tiny" id="extension-outdated-close" aria-label="Close"></button>
       </div>
       <div class="card-footer px-2 mx-0 row" id="search-box">
@@ -246,109 +247,109 @@
 
     <div class="offcanvas offcanvas-start" tabindex="-1" id="site-edit-offcanvas" aria-labelledby="site-edit-label">
       <div class="card-header card-offcanvas-header sticky-top">
-        <span>Edit web app</span>
+        <span data-i18n-id="edit-web-app">Edit web app</span>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="card-body card-offcanvas-body">
         <form class="needs-validation" id="web-app-form">
           <div class="mb-3">
-            <label for="web-app-name" class="form-label fw-bold">Name</label>
+            <label for="web-app-name" class="form-label fw-bold" data-i18n-id="web-app-name">Name</label>
             <input type="text" class="form-control form-control-sm" id="web-app-name" />
             <div class="invalid-feedback" id="web-app-name-invalid"></div>
           </div>
           <div class="mb-3">
-            <label for="web-app-description" class="form-label fw-bold">Description</label>
+            <label for="web-app-description" class="form-label fw-bold" data-i18n-id="web-app-description">Description</label>
             <input type="text" class="form-control form-control-sm" id="web-app-description" />
           </div>
           <div class="mb-3">
-            <label for="web-app-categories" class="form-label fw-bold">Categories</label>
+            <label for="web-app-categories" class="form-label fw-bold" data-i18n-id="web-app-categories">Categories</label>
             <select class="form-select-tags" id="web-app-categories" multiple data-allow-new="true">
               <option selected disabled hidden value="">​</option>
             </select>
           </div>
           <div class="mb-3">
-            <label for="web-app-keywords" class="form-label fw-bold">Keywords</label>
+            <label for="web-app-keywords" class="form-label fw-bold" data-i18n-id="web-app-keywords">Keywords</label>
             <select class="form-select-tags" id="web-app-keywords" multiple data-allow-new="true">
               <option selected disabled hidden value="">​</option>
             </select>
           </div>
           <div class="mb-3">
-            <label for="web-app-start-url" class="form-label fw-bold">Start URL</label>
+            <label for="web-app-start-url" class="form-label fw-bold" data-i18n-id="web-app-start-url">Start URL</label>
             <input type="url" class="form-control form-control-sm" id="web-app-start-url" />
             <div class="invalid-feedback" id="web-app-start-url-invalid"></div>
           </div>
           <div class="mb-3">
-            <label for="web-app-icon-url" class="form-label fw-bold">Icon URL</label>
+            <label for="web-app-icon-url" class="form-label fw-bold" data-i18n-id="web-app-icon-url">Icon URL</label>
             <input type="url" class="form-control form-control-sm" id="web-app-icon-url" />
             <div class="invalid-feedback" id="web-app-icon-url-invalid"></div>
           </div>
           <div class="mb-3">
-            <label for="web-app-ulid" class="form-label fw-bold">ID</label>
+            <label for="web-app-ulid" class="form-label fw-bold" data-i18n-id="web-app-id">ID</label>
             <input type="url" class="form-control form-control-sm" id="web-app-ulid" readonly />
           </div>
           <div class="mb-3">
-            <label for="web-app-profile" class="form-label">Profile</label>
+            <label for="web-app-profile" class="form-label" data-i18n-id="web-app-profile">Profile</label>
             <select class="form-select form-select-sm" id="web-app-profile" disabled></select>
           </div>
         </form>
         <form>
           <div class="mb-3 d-none" id="web-app-protocol-handlers-box">
-            <div class="form-label fw-bold">Protocol Handlers</div>
+            <div class="form-label fw-bold" data-i18n-id="protocol-handlers">Protocol Handlers</div>
             <div class="list-group list-group-flush list-group-no-border" id="web-app-protocol-handlers-list"></div>
           </div>
           <div class="mt-4"></div>
           <div class="form-check mb-1 d-none" id="web-app-auto-launch-box" title="Determines if web app will be automatically launched when visiting the matching website">
             <input class="form-check-input" type="checkbox" id="web-app-auto-launch">
-            <label class="form-check-label" for="web-app-auto-launch">Launch this web app on matching website</label>
+            <label class="form-check-label" for="web-app-auto-launch" data-i18n-id="launch-PWA-if-match">Launch this web app on matching website</label>
           </div>
           <div class="form-check mb-1" id="web-app-launch-on-login-box" title="Determines if web app will be automatically launched on the system login">
             <input class="form-check-input" type="checkbox" id="web-app-launch-on-login">
-            <label class="form-check-label" for="web-app-launch-on-login">Launch this web app on system login</label>
+            <label class="form-check-label" for="web-app-launch-on-login" data-i18n-id="launch-PWA-on-system-login">Launch this web app on system login</label>
           </div>
           <div class="form-check mb-1 mb-3" id="web-app-launch-on-browser-box" title="Determines if web app will be automatically launched on the browser launch">
             <input class="form-check-input" type="checkbox" id="web-app-launch-on-browser">
-            <label class="form-check-label" for="web-app-launch-on-browser">Launch this web app on browser launch</label>
+            <label class="form-check-label" for="web-app-launch-on-browser" data-i18n-id="launch-PWA-on-browser-launch">Launch this web app on browser launch</label>
           </div>
           <div class="form-check mb-1" id="web-app-update-manifest-box" title="Determines if manifest will be updated when you edit this web app">
             <input class="form-check-input" type="checkbox" id="web-app-update-manifest" checked>
-            <label class="form-check-label" for="web-app-update-manifest">Update web app manifest</label>
+            <label class="form-check-label" for="web-app-update-manifest" data-i18n-id="update-web-app-manifest">Update web app manifest</label>
           </div>
           <div class="form-check" id="web-app-update-icons-box" title="Determines if icons will be updated when you edit this web app">
             <input class="form-check-input" type="checkbox" id="web-app-update-icons" checked>
-            <label class="form-check-label" for="web-app-update-icons">Update web app icons</label>
+            <label class="form-check-label" for="web-app-update-icons" data-i18n-id="update-web-app-icons">Update web app icons</label>
           </div>
         </form>
       </div>
       <div class="card-footer position-sticky bottom-0 py-2">
-        <button type="submit" class="btn btn-primary" id="web-app-submit" disabled>Loading...</button>
+        <button type="submit" class="btn btn-primary" id="web-app-submit" disabled data-i18n-id="loading">Loading...</button>
       </div>
     </div>
 
     <div class="offcanvas offcanvas-start" tabindex="-1" id="profile-edit-offcanvas" aria-labelledby="profile-edit-label">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="profile-edit-label">Edit profile</h5>
+        <h5 class="offcanvas-title" id="profile-edit-label" data-i18n-id="edit-profile">Edit profile</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
         <form class="needs-validation" id="profile-form">
           <div class="mb-3">
-            <label for="profile-name" class="form-label">Name</label>
+            <label for="profile-name" class="form-label" data-i18n-id="web-app-name">Name</label>
             <input type="text" class="form-control form-control-sm" id="profile-name" />
           </div>
           <div class="mb-3">
-            <label for="profile-description" class="form-label">Description</label>
+            <label for="profile-description" class="form-label" data-i18n-id="web-app-description">Description</label>
             <input type="text" class="form-control form-control-sm" id="profile-description" />
           </div>
           <div class="mb-3" id="profile-template-div">
-            <label for="profile-template" class="form-label">Template</label>
+            <label for="profile-template" class="form-label" data-i18n-id="web-app-template">Template</label>
             <input type="text" class="form-control form-control-sm" id="profile-template" placeholder="Enter a path to the profile template" />
             <!-- This has to be a text input because Firefox does not support file inputs in extension popups -->
           </div>
           <div class="mb-3" id="profile-ulid-div">
-            <label for="profile-ulid" class="form-label fw-bold">ID</label>
+            <label for="profile-ulid" class="form-label fw-bold" data-i18n-id="web-app-id">ID</label>
             <input type="url" class="form-control form-control-sm" id="profile-ulid" readonly />
           </div>
-          <button type="submit" class="btn btn-primary" id="profile-submit" disabled>Loading...</button>
+          <button type="submit" class="btn btn-primary" id="profile-submit" disabled data-i18n-id="loading">Loading...</button>
         </form>
       </div>
     </div>
@@ -357,16 +358,16 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="site-remove-label">Remove web app</h5>
+            <h5 class="modal-title" id="site-remove-label" data-i18n-id="remove-web-app">Remove web app</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" data-i18n-innerHTML="modal-body">
             Are you sure you want to remove this web app? App data will <strong>not</strong> be
             removed, but you can remove them through the app browser or by deleting app's profile.
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" id="site-remove-button">Remove</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n-id="button-cancel">Cancel</button>
+            <button type="button" class="btn btn-primary" id="site-remove-button" data-i18n-id="button-remove">Remove</button>
           </div>
         </div>
       </div>
@@ -376,21 +377,21 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="profile-remove-label">Remove profile</h5>
+            <h5 class="modal-title" id="profile-remove-label" data-i18n-id="remove-profile">Remove profile</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>
+            <p data-i18n-id="sure-of-remove-profile1">
               Are you sure you want to remove this profile? This will completely remove the profile and all
               associated web apps, including their data. You might not be able to fully recover this action.
             </p>
-            <p class="d-none" id="profile-remove-default">
+            <p class="d-none" id="profile-remove-default" data-i18n-id="sure-of-remove-profile2">
               Default profile cannot be completely removed. Web apps and data will be cleared, but the profile will stay.
             </p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" id="profile-remove-button">Remove</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n-id="button-cancel">Cancel</button>
+            <button type="button" class="btn btn-primary" id="profile-remove-button" data-i18n-id="button-remove">Remove</button>
           </div>
         </div>
       </div>
@@ -400,17 +401,17 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="enable-auto-launch-label">Automatic web app launching</h5>
+            <h5 class="modal-title" id="enable-auto-launch-label" data-i18n-id="automatic-web-app">Automatic web app launching</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>Enabling <em>automatic web app launching</em> will automatically launch all URLs that match the scopes of your enabled web apps as a web app.</p>
-            <p>This feature is experimental, may not work with all websites correctly, and may impact performance. It needs to be additionally enabled per web app in the web app settings using the <em>Launch this web app on matching website</em> option.</p>
-            <p>Additional browser permissions are required for this to work. They will be requested automatically after enabling it if they are not already permitted.</p>
+            <p data-i18n-innerHTML="about-automatic-launch1">Enabling <em>automatic web app launching</em> will automatically launch all URLs that match the scopes of your enabled web apps as a web app.</p>
+            <p data-i18n-innerHTML="about-automatic-launch2">This feature is experimental, may not work with all websites correctly, and may impact performance. It needs to be additionally enabled per web app in the web app settings using the <em>Launch this web app on matching website</em> option.</p>
+            <p data-i18n-innerHTML="about-automatic-launch3">Additional browser permissions are required for this to work. They will be requested automatically after enabling it if they are not already permitted.</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" id="enable-auto-launch-confirm">Enable</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n-id="button-cancel">Cancel</button>
+            <button type="button" class="btn btn-primary" id="enable-auto-launch-confirm" data-i18n-id="button-enable">Enable</button>
           </div>
         </div>
       </div>
@@ -420,20 +421,20 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="update-all-sites-label">Update web apps</h5>
+            <h5 class="modal-title" id="update-all-sites-label" data-i18n-id="update-web-apps">Update web apps</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>This will download and parse manifests for all your web apps and register them again to the operating systems. Any changes in web app manifests will also be reflected on your system.</p>
-            <p>Alternatively, you can register all web apps to the operating system without performing any manifest updates. This can be used if you transferred your config file from another device.</p>
+            <p data-i18n-id="about-update-web-apps1">This will download and parse manifests for all your web apps and register them again to the operating systems. Any changes in web app manifests will also be reflected on your system.</p>
+            <p data-i18n-id="about-update-web-apps2">Alternatively, you can register all web apps to the operating system without performing any manifest updates. This can be used if you transferred your config file from another device.</p>
             <div class="form-check mb-3">
               <input class="form-check-input" type="checkbox" value="" id="update-all-sites-manifests" checked>
-              <label class="form-check-label" for="update-all-sites-manifests">Perform manifest updates</label>
+              <label class="form-check-label" for="update-all-sites-manifests" data-i18n-id="perform-manifest-updates">Perform manifest updates</label>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" id="update-all-sites-button">Update</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n-id="button-cancel">Cancel</button>
+            <button type="button" class="btn btn-primary" id="update-all-sites-button" data-i18n-id="button-update">Update</button>
           </div>
         </div>
       </div>
@@ -443,16 +444,16 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="reinstall-runtime-label">Reinstall Firefox runtime</h5>
+            <h5 class="modal-title" id="reinstall-runtime-label" data-i18n-id="reinstall-firefox-runtime">Reinstall Firefox runtime</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>Are you sure you want to reinstall the PWAsForFirefox runtime? This will remove your current runtime and download the latest version from Mozilla.</p>
-            <p>This will <strong>not</strong> affect your main Firefox browser and will <strong>not</strong> remove any profiles or other data.</p>
+            <p data-i18n-id="about-reinstall-firefox1">Are you sure you want to reinstall the PWAsForFirefox runtime? This will remove your current runtime and download the latest version from Mozilla.</p>
+            <p data-i18n-innerHTML="about-reinstall-firefox2">This will <strong>not</strong> affect your main Firefox browser and will <strong>not</strong> remove any profiles or other data.</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" id="reinstall-runtime-button">Reinstall</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n-id="button-cancel">Cancel</button>
+            <button type="button" class="btn btn-primary" id="reinstall-runtime-button" data-i18n-id="button-reinstall">Reinstall</button>
           </div>
         </div>
       </div>
