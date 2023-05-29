@@ -485,5 +485,5 @@ jobs:
           VERSION=${GITHUB_REF/refs\/tags\/v}
           brew update
           brew tap filips123/firefoxpwa
-          brew bump-formula-pr --no-browse --strict --online --version $VERSION firefoxpwa
           brew bump-formula-pr --no-browse --strict --online --version $VERSION filips123/firefoxpwa/firefoxpwa
+          brew bump-formula-pr --no-browse --strict --online --version $VERSION firefoxpwa
