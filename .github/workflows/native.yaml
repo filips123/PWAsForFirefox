@@ -483,7 +483,4 @@ jobs:
           HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           VERSION=${GITHUB_REF/refs\/tags\/v}
-          brew update
-          brew tap filips123/firefoxpwa
-          brew bump-formula-pr --no-browse --strict --online --version $VERSION filips123/firefoxpwa/firefoxpwa
           brew bump-formula-pr --no-browse --strict --online --version $VERSION firefoxpwa
