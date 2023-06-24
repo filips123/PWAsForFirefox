@@ -64,7 +64,7 @@ class PwaBrowser {
     const tabIconImage = this.createElement(document, 'image', { class: 'tab-icon-image', role: 'presentation', fadein: 'true' });
     siteInfo.append(tabIconImage);
 
-    const tabLabelContainer = this.createElement(document, 'hbox', { flex: 1, class: 'tab-label-container proton', onoverflow: 'this.setAttribute(\'textoverflow\', \'true\');', onunderflow: 'this.removeAttribute(\'textoverflow\');' });
+    const tabLabelContainer = this.createElement(document, 'hbox', { class: 'tab-label-container', onoverflow: 'this.setAttribute(\'textoverflow\', \'true\');', onunderflow: 'this.removeAttribute(\'textoverflow\');' });
     const tabLabel = this.createElement(document, 'label', { class: 'tab-text tab-label', role: 'presentation', fadein: 'true' });
     tabLabelContainer.append(tabLabel);
     siteInfo.append(tabLabelContainer);
