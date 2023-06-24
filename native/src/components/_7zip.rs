@@ -91,6 +91,13 @@ pub struct _7Zip {
 
 impl _7Zip {
     pub fn new() -> Result<Self> {
+        match Self::new_from_registry().context("Failed to search 7-Zip in registry")? {
+            registry if registry.version.is_some() => Ok(registry),
+            _ => Self::new_from_path().context("Failed to search 7-Zip in PATH variable"),
+        }
+    }
+
+    fn new_from_registry() -> Result<Self> {
         let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
         let subkey = hklm.open_subkey(r"Software\Microsoft\Windows\CurrentVersion\Uninstall\7-Zip");
 
@@ -112,6 +119,25 @@ impl _7Zip {
         }
 
         Ok(Self { version, executable })
+    }
+
+    fn new_from_path() -> Result<Self> {
+        let exe = std::env::var_os("PATH").and_then(|paths| {
+            std::env::split_paths(&paths)
+                .filter_map(|directory| {
+                    let executable = directory.join("7z.exe");
+                    match executable.is_file() {
+                        true => Some(executable),
+                        false => None,
+                    }
+                })
+                .next()
+        });
+
+        match exe {
+            Some(exe) => Ok(Self { version: Some("0.0.0".into()), executable: Some(exe) }),
+            None => Ok(Self { version: None, executable: None }),
+        }
     }
 
     pub fn install(self) -> Result<()> {
