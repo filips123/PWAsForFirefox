@@ -71,6 +71,12 @@
     }
   }
 
+  /* Vertically center icon bar elements */
+
+  #TabsToolbar-customization-target {
+    height: 100%;
+  }
+
   /* Hide titlebar when the icon bar is hidden */
 
   #titlebar[autohide] {
