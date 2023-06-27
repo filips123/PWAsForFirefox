@@ -750,6 +750,25 @@ async function handleSettings (hasChanged = false) {
     Modal.getOrCreateInstance(document.getElementById('reinstall-runtime-modal')).show()
   }
 
+  // Handle showing project information
+  document.getElementById('about-project').onclick = async function () {
+    const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'GetSystemVersions' })
+    if (response.type === 'Error') throw new Error(response.data)
+    if (response.type !== 'SystemVersions') throw new Error(`Received invalid response type: ${response.type}`)
+
+    const versionExtension = browser.runtime.getManifest().version
+    const versionNative = response.data.firefoxpwa
+    const versionRuntime = response.data.firefox
+    const versionFirefox = (await browser.runtime.getBrowserInfo()).version
+
+    document.getElementById('about-extension-version').innerText = versionExtension
+    document.getElementById('about-native-version').innerText = versionNative
+    document.getElementById('about-runtime-version').innerText = versionRuntime
+    document.getElementById('about-firefox-version').innerText = versionFirefox
+
+    Modal.getOrCreateInstance(document.getElementById('about-project-modal')).show()
+  }
+
   // Lazily load native settings and handle them
   setTimeout(async () => {
     const platform = await browser.runtime.getPlatformInfo()
