@@ -1,0 +1,22 @@
+{
+  "appName": {
+    "message": "Поступовий вебзастосунок для Firefox",
+    "description": "The name of the application"
+  },
+  "appShortName": {
+    "message": "PWAsForFirefox",
+    "description": "The short name of the application"
+  },
+  "appDescription": {
+    "message": "Інструмент для встановлення, керування та використання поступових вебзастосунків (Progressive Web Apps) у Mozilla Firefox",
+    "description": "The description of the application"
+  },
+  "actionInstallSite": {
+    "message": "Встановити цей сайт",
+    "description": "Instruct users that they can install the current site here"
+  },
+  "actionLaunchSite": {
+    "message": "Запустити цей сайт",
+    "description": "Instruct users that they can launch the current site here"
+  }
+}
