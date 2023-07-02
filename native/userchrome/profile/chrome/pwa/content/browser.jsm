@@ -415,13 +415,23 @@ class PwaBrowser {
   }
 
   handleOutOfScopeNavigation () {
+    function matchWildcard(wildcard, string) {
+      const pattern = wildcard
+        .replaceAll(/[.+?^=!:${}()|\[\]\/\\]/g, '\\$&')
+        .replaceAll('\\\\*', '\\*')
+        .replaceAll(/(?<!\\)\*/g, '.*');
+
+      const regex = new RegExp(`^${pattern}$`);
+      return regex.test(string);
+    }
+
     // For this check to pass, opening out-of-scope URLs in default browser must be enabled
     // Additionally, the URL must not be one of allow-listed or restricted domains
     // Otherwise, it is impossible to access certain parts of Firefox
     const checkOutOfScope = (uri, target = null) => !this.canLoad(uri, target) &&
       uri.scheme.startsWith('http') &&
       xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER) &&
-      !xPref.get(ChromeLoader.PREF_ALLOWED_DOMAINS).split(',').includes(uri.host) &&
+      !xPref.get(ChromeLoader.PREF_ALLOWED_DOMAINS).split(',').some(pattern => matchWildcard(pattern, uri.host)) &&
       !xPref.get('extensions.webextensions.restrictedDomains').split(',').includes(uri.host);
 
     // Handle hiding/showing URL bar when the URL is out-of-scope
