@@ -17,6 +17,7 @@ import {
   launchSite,
   obtainProfileList,
   obtainSiteList,
+  PREF_AUTO_LAUNCH_EXCLUSION,
   PREF_DEFAULT_PROFILE_TEMPLATE,
   PREF_DISPLAY_PAGE_ACTION,
   PREF_ENABLE_AUTO_LAUNCH,
@@ -624,13 +625,14 @@ async function handleSearch () {
 // Handle extension settings
 async function handleSettings (hasChanged = false) {
   // Get settings from local storage and media query
-  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL, PREF_SHOW_UPDATE_POPUP, PREF_ENABLE_AUTO_LAUNCH, PREF_DEFAULT_PROFILE_TEMPLATE])
+  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL, PREF_SHOW_UPDATE_POPUP, PREF_ENABLE_AUTO_LAUNCH, PREF_DEFAULT_PROFILE_TEMPLATE, PREF_AUTO_LAUNCH_EXCLUSION])
   const settingsDisplayPageAction = settings[PREF_DISPLAY_PAGE_ACTION] ? settings[PREF_DISPLAY_PAGE_ACTION] : 'valid'
   const settingsLaunchCurrentUrl = settings[PREF_LAUNCH_CURRENT_URL] !== undefined ? settings[PREF_LAUNCH_CURRENT_URL] : true
   const settingsShowUpdatePopup = settings[PREF_SHOW_UPDATE_POPUP] !== undefined ? settings[PREF_SHOW_UPDATE_POPUP] : true
   const settingsEnableAutoLaunch = settings[PREF_ENABLE_AUTO_LAUNCH] !== undefined ? settings[PREF_ENABLE_AUTO_LAUNCH] : false
   const settingsEnableDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
   const settingsDefaultProfileTemplate = settings[PREF_DEFAULT_PROFILE_TEMPLATE] || null
+  const settingsAutoLaunchExclusion = settings[PREF_AUTO_LAUNCH_EXCLUSION] || null
 
   // Set settings input values
   document.getElementById('settings-display-page-action').querySelector(`#settings-display-page-action-${settingsDisplayPageAction}`).checked = true
@@ -639,6 +641,7 @@ async function handleSettings (hasChanged = false) {
   document.getElementById('settings-enable-auto-launch').checked = settingsEnableAutoLaunch
   document.getElementById('settings-enable-dark-mode').checked = settingsEnableDarkMode
   document.getElementById('settings-default-profile-template').value = settingsDefaultProfileTemplate
+  document.getElementById('settings-auto-launch-exclusion').value = settingsAutoLaunchExclusion
 
   // Do not re-register listeners
   if (hasChanged) return
@@ -694,6 +697,11 @@ async function handleSettings (hasChanged = false) {
   // Listen for default profile template input changes
   document.getElementById('settings-default-profile-template').addEventListener('change', async function () {
     await browser.storage.local.set({ [PREF_DEFAULT_PROFILE_TEMPLATE]: this.value || null })
+  })
+
+  // Listen for auto launch exclusion input changes
+  document.getElementById('settings-auto-launch-exclusion').addEventListener('change', async function () {
+    await browser.storage.local.set({ [PREF_AUTO_LAUNCH_EXCLUSION]: this.value || null })
   })
 
   // Handle updating all sites

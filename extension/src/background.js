@@ -1,7 +1,9 @@
 import {
   AUTO_LAUNCH_PERMISSIONS,
-  checkNativeStatus, launchSite,
+  checkNativeStatus,
+  launchSite,
   obtainSiteList,
+  PREF_AUTO_LAUNCH_EXCLUSION,
   PREF_DISPLAY_PAGE_ACTION,
   PREF_ENABLE_AUTO_LAUNCH,
   PREF_SHOW_UPDATE_POPUP
@@ -127,9 +129,16 @@ browser.webRequest?.onBeforeRequest.addListener(
     // Only handle top-level GET requests
     if (details.type !== 'main_frame' || details.method !== 'GET') return
 
+    // Get auto launch extension settings
+    const settings = await browser.storage.local.get([PREF_ENABLE_AUTO_LAUNCH, PREF_AUTO_LAUNCH_EXCLUSION])
+
     // Only handle when the auto launch feature is enabled
-    const autoLaunch = (await browser.storage.local.get(PREF_ENABLE_AUTO_LAUNCH))[PREF_ENABLE_AUTO_LAUNCH]
-    if (!autoLaunch) return
+    if (!settings[PREF_ENABLE_AUTO_LAUNCH]) return
+
+    // Do not handle excluded URLs
+    const pattern = settings[PREF_AUTO_LAUNCH_EXCLUSION]
+    const re = new RegExp(pattern)
+    if (pattern && re.test(details.url)) return
 
     // Find the matching web app
     const site = await getMatchingUrlHandler(details.url)
@@ -149,9 +158,16 @@ browser.webRequest?.onBeforeRequest.addListener(
 )
 
 browser.webNavigation?.onCreatedNavigationTarget.addListener(async details => {
+  // Get auto launch extension settings
+  const settings = await browser.storage.local.get([PREF_ENABLE_AUTO_LAUNCH, PREF_AUTO_LAUNCH_EXCLUSION])
+
   // Only handle when the auto launch feature is enabled
-  const autoLaunch = (await browser.storage.local.get(PREF_ENABLE_AUTO_LAUNCH))[PREF_ENABLE_AUTO_LAUNCH]
-  if (!autoLaunch) return
+  if (!settings[PREF_ENABLE_AUTO_LAUNCH]) return
+
+  // Do not handle excluded URLs
+  const pattern = settings[PREF_AUTO_LAUNCH_EXCLUSION]
+  const re = new RegExp(pattern)
+  if (pattern && re.test(details.url)) return
 
   // Find the matching web app
   const site = await getMatchingUrlHandler(details.url)
