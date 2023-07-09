@@ -509,7 +509,7 @@ class PwaBrowser {
     window._openDialog = window.openDialog;
     window.openDialog = function (...args) {
       // Set the URL to the site homepage
-      if (typeof args[3] === 'string' && (args[3] === 'about:home' || args[3] === 'about:privatebrowsing')) {
+      if (typeof args[3] === 'string' && (args[3] === 'about:home' || args[3] === 'about:blankhome' || args[3] === 'about:privatebrowsing')) {
         args[3] = window.HomePage.get(window);
       }
 
@@ -671,7 +671,7 @@ class PwaBrowser {
     };
 
     window.isBlankPageURL = function (url) {
-      return url === 'about:blank' || url === 'about:home' || url === 'about:welcome';
+      return url === 'about:blank' || url === 'about:home' || url === 'about:blankhome' || url === 'about:welcome';
     };
   }
 
@@ -1827,6 +1827,12 @@ class PwaBrowser {
     xPref.set('browser.messaging-system.whatsNewPanel.enabled', false, true);
     xPref.set('browser.privateWindowSeparation.enabled', false, true);
     xPref.set('browser.privacySegmentation.createdShortcut', true, true);
+    xPref.set('browser.startup.homepage', 'about:blankhome', true);
+    xPref.set('browser.newtabpage.enabled', false, true);
+    xPref.set('browser.newtabpage.activity-stream.feeds.snippets', false, true);
+    xPref.set('browser.newtabpage.activity-stream.feeds.topsites', false, true);
+    xPref.set('browser.newtabpage.activity-stream.feeds.section.topstories', false, true);
+    xPref.set('browser.newtabpage.activity-stream.feeds.section.highlights', false, true);
     xPref.set('browser.uidensity', 1, true);
     xPref.set('browser.link.open_newwindow', 1, true);
     xPref.set('datareporting.policy.firstRunURL', '', true);
