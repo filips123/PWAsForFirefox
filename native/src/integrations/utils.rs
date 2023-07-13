@@ -8,9 +8,11 @@ use ab_glyph::{Font, FontRef, PxScale};
 use anyhow::{bail, Context, Result};
 use data_url::DataUrl;
 use image::imageops::FilterType::Gaussian;
+use image::ColorType::Rgba8;
 use image::{ImageBuffer, Rgb, RgbImage};
 use log::{debug, error, warn};
 use reqwest::blocking::Client;
+use resvg::usvg::{fontdb, TreeParsing, TreeTextToPath};
 use resvg::{tiny_skia, usvg};
 use url::Url;
 use web_app_manifest::resources::IconResource;
@@ -238,7 +240,7 @@ fn normalize_icons<'a>(icons: &'a [IconResource], size: &'a ImageSize) -> Vec<&'
 ///
 fn process_icon(icon: &IconResource, size: &ImageSize, path: &Path, client: &Client) -> Result<()> {
     let size = match size {
-        ImageSize::Fixed(a, b) => (a, b),
+        ImageSize::Fixed(a, b) => (*a, *b),
         _ => bail!("A fixed image size variant must be provided"),
     };
 
@@ -249,20 +251,28 @@ fn process_icon(icon: &IconResource, size: &ImageSize, path: &Path, client: &Cli
     let (content, content_type) = download_icon(url, client).context("Failed to download icon")?;
 
     if content_type == "image/svg+xml" {
+        // Parse and render SVG icons using `resvg` crate
         debug!("Processing as SVG icon");
 
-        let mut options = usvg::Options::default();
-        options.fontdb.load_system_fonts();
+        let mut pixmap = tiny_skia::Pixmap::new(size.0, size.1).context("Invalid target size")?;
 
-        let mut pixmap = tiny_skia::Pixmap::new(*size.0, *size.1).context("Invalid target size")?;
-        let transform = tiny_skia::Transform::default();
+        let opt = usvg::Options::default();
+        let mut utree =
+            usvg::Tree::from_data(&content, &opt).context("Failed to parse SVG icon")?;
 
-        // Parse and render SVG icons using `usvg` and `resvg` crates
-        let rtree = usvg::Tree::from_data(&content, &options.to_ref())
-            .context("Failed to parse SVG icon")?;
-        resvg::render(&rtree, usvg::FitTo::Size(*size.0, *size.1), transform, pixmap.as_mut())
-            .context("Failed to render SVG icon")?;
-        image::save_buffer(path, pixmap.data(), *size.0, *size.1, image::ColorType::Rgba8)
+        let mut fontdb = fontdb::Database::new();
+        fontdb.load_system_fonts();
+        utree.convert_text(&fontdb);
+
+        let transform = tiny_skia::Transform::from_scale(
+            size.0 as f32 / utree.size.width(),
+            size.1 as f32 / utree.size.height(),
+        );
+
+        let rtree = resvg::Tree::from_usvg(&utree);
+        rtree.render(transform, &mut pixmap.as_mut());
+
+        image::save_buffer(path, pixmap.data(), size.0, size.1, Rgba8)
             .context("Failed to save SVG icon")?;
 
         return Ok(());
@@ -270,9 +280,9 @@ fn process_icon(icon: &IconResource, size: &ImageSize, path: &Path, client: &Cli
 
     // Parse raster icons using the `image` crate, resize them and store them to a file
     debug!("Processing as raster icon");
-    let mut img = image::load_from_memory(&content).context("Failed to load icon")?;
-    img = img.resize(*size.0, *size.1, Gaussian);
-    img.save(path).context("Failed to save icon")?;
+    let mut img = image::load_from_memory(&content).context("Failed to load raster icon")?;
+    img = img.resize(size.0, size.1, Gaussian);
+    img.save(path).context("Failed to save raster icon")?;
 
     Ok(())
 }

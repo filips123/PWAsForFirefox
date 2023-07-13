@@ -8,7 +8,7 @@ use reqwest::blocking::Client;
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::ImageSize;
-use windows::core::{Interface, Result as WindowsResult, GUID, HSTRING, PWSTR};
+use windows::core::{ComInterface, Interface, Result as WindowsResult, GUID, HSTRING, PCWSTR};
 use windows::Win32::Storage::EnhancedStorage::{PKEY_AppUserModel_ID, PKEY_Title};
 use windows::Win32::System::Com::{
     CoCreateInstance,
@@ -30,6 +30,7 @@ use windows::Win32::UI::Shell::{
     IShellLinkW,
     ShellLink,
 };
+use windows::Win32::UI::WindowsAndMessaging::SW_SHOWMINNOACTIVE;
 use winreg::enums::HKEY_CURRENT_USER;
 use winreg::RegKey;
 
@@ -54,17 +55,8 @@ fn initialize_windows() -> WindowsResult<()> {
 
 /// Create a COM object with the given CLSID.
 #[inline]
-fn create_instance<T: Interface>(clsid: &GUID) -> WindowsResult<T> {
+fn create_instance<T: Interface + ComInterface>(clsid: &GUID) -> WindowsResult<T> {
     unsafe { CoCreateInstance(clsid, None, CLSCTX_ALL) }
-}
-
-/// Construct a `windows-rs`'s [`PWSTR`] from a [`&str`].
-///
-/// See: https://github.com/microsoft/windows-rs/issues/973#issue-942298423
-#[inline]
-fn str_to_pwstr(str: &str) -> PWSTR {
-    let mut encoded = str.encode_utf16().chain([0u16]).collect::<Vec<u16>>();
-    PWSTR(encoded.as_mut_ptr())
 }
 
 //////////////////////////////
@@ -167,12 +159,13 @@ fn create_menu_shortcut(
         link.SetArguments(&HSTRING::from(format!("site launch {}", ids.ulid)))?;
         link.SetDescription(&HSTRING::from(ids.description.chars().take(240).collect::<String>()))?;
         link.SetIconLocation(&HSTRING::from(icon), 0)?;
-        link.SetShowCmd(7)?;
+        link.SetShowCmd(SW_SHOWMINNOACTIVE)?;
 
         // Set app user model ID property
         // Docs: https://docs.microsoft.com/en-us/windows/win32/properties/props-system-appusermodel-id
         let store: IPropertyStore = link.cast()?;
-        let variant = InitPropVariantFromStringVector(Some(&[str_to_pwstr(&ids.appid)]))?;
+        let hstring = HSTRING::from(&ids.appid);
+        let variant = InitPropVariantFromStringVector(Some(&[PCWSTR(hstring.as_ptr())]))?;
         store.SetValue(&PKEY_AppUserModel_ID, &variant)?;
         store.Commit()?;
 
@@ -261,16 +254,18 @@ fn create_jump_list_tasks(
             link.SetArguments(&HSTRING::from(format!("site launch {} --url {}", ids.ulid, url)))?;
             link.SetDescription(&HSTRING::from(description.chars().take(240).collect::<String>()))?;
             link.SetIconLocation(&HSTRING::from(icon.display().to_string()), 0)?;
-            link.SetShowCmd(7)?;
+            link.SetShowCmd(SW_SHOWMINNOACTIVE)?;
 
             // Set app user model ID property
             // Docs: https://docs.microsoft.com/en-us/windows/win32/properties/props-system-appusermodel-id
-            let variant = InitPropVariantFromStringVector(Some(&[str_to_pwstr(&ids.appid)]))?;
+            let hstring = HSTRING::from(&ids.appid);
+            let variant = InitPropVariantFromStringVector(Some(&[PCWSTR(hstring.as_ptr())]))?;
             store.SetValue(&PKEY_AppUserModel_ID, &variant)?;
 
             // Set title property
             // Docs: https://docs.microsoft.com/en-us/windows/win32/properties/props-system-title
-            let variant = InitPropVariantFromStringVector(Some(&[str_to_pwstr(&shortcut.name)]))?;
+            let hstring = HSTRING::from(&shortcut.name);
+            let variant = InitPropVariantFromStringVector(Some(&[PCWSTR(hstring.as_ptr())]))?;
             store.SetValue(&PKEY_Title, &variant)?;
 
             // Commit store and add it to collection

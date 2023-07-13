@@ -13,6 +13,7 @@ use image::imageops::FilterType::Gaussian;
 use image::{DynamicImage, Rgba, RgbaImage};
 use log::{debug, error, warn};
 use reqwest::blocking::Client;
+use resvg::usvg::{fontdb, TreeParsing, TreeTextToPath};
 use resvg::{tiny_skia, usvg};
 use url::Url;
 use web_app_manifest::resources::IconResource;
@@ -249,19 +250,26 @@ fn store_icons(target: &Path, name: &str, icons: &[IconResource], client: &Clien
 /// Load icon and parse it as a RGBA image.
 fn load_icon(content: &[u8], content_type: &str, size: u32) -> Result<RgbaImage> {
     if content_type == "image/svg+xml" {
+        // Parse and render SVG icons using `resvg` crate
         debug!("Processing as SVG icon");
 
-        let mut options = usvg::Options::default();
-        options.fontdb.load_system_fonts();
-
         let mut pixmap = tiny_skia::Pixmap::new(size, size).context("Invalid target size")?;
-        let transform = tiny_skia::Transform::default();
 
-        // Parse and render SVG icons using `usvg` and `resvg` crates
-        let rtree = usvg::Tree::from_data(content, &options.to_ref())
-            .context("Failed to parse SVG icon")?;
-        resvg::render(&rtree, usvg::FitTo::Size(size, size), transform, pixmap.as_mut())
-            .context("Failed to render SVG icon")?;
+        let opt = usvg::Options::default();
+        let mut utree = usvg::Tree::from_data(content, &opt).context("Failed to parse SVG icon")?;
+
+        let mut fontdb = fontdb::Database::new();
+        fontdb.load_system_fonts();
+        utree.convert_text(&fontdb);
+
+        let transform = tiny_skia::Transform::from_scale(
+            size as f32 / utree.size.width(),
+            size as f32 / utree.size.height(),
+        );
+
+        let rtree = resvg::Tree::from_usvg(&utree);
+        rtree.render(transform, &mut pixmap.as_mut());
+
         return RgbaImage::from_raw(size, size, pixmap.take()).context("Failed to load SVG icon");
     }
 
