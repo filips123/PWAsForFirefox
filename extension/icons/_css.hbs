@@ -1,13 +1,13 @@
 @font-face {
+font-display: block;
 font-family: "{{ name }}";
 src: {{{ fontSrc }}};
 }
 
-.{{prefix}}::before,
-[class^="{{prefix}}-"]::before,
-[class*=" {{prefix}}-"]::before {
+.{{ prefix }}::before,
+[class^="{{ prefix }}-"]::before,
+[class*=" {{ prefix }}-"]::before {
 display: inline-block;
-font-display: block;
 font-family: {{ name }} !important;
 font-style: normal;
 font-weight: normal !important;
@@ -20,5 +20,5 @@ vertical-align: -.125em;
 }
 
 {{# each codepoints }}
-    .{{ ../prefix }}-{{ @key }}::before { content: "\\{{ codepoint this }}"; }
+.{{ ../prefix }}-{{ @key }}::before { content: "\\{{ codepoint this }}"; }
 {{/ each }}

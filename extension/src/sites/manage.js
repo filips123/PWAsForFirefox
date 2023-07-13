@@ -129,7 +129,7 @@ async function createSiteList () {
 
       // Clear previous categories
       const categoriesElement = document.getElementById('web-app-categories')
-      categoriesElement.nextElementSibling.querySelector('input').value = ''
+      categoriesElement.tagsInstance.resetSearchInput()
       categoriesElement.tagsInstance.reset()
 
       // Set categories from config or manifest
@@ -138,7 +138,7 @@ async function createSiteList () {
 
       // Clear previous keywords
       const keywordsElement = document.getElementById('web-app-keywords')
-      keywordsElement.nextElementSibling.querySelector('input').value = ''
+      keywordsElement.tagsInstance.resetSearchInput()
       keywordsElement.tagsInstance.reset()
 
       // Set keywords from config or manifest

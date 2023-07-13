@@ -1,4 +1,4 @@
-const { generateFonts } = require('fantasticon')
+const { generateFonts } = require('@twbs/fantasticon')
 
 const path = require('path')
 const fs = require('fs')

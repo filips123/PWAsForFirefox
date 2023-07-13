@@ -17,9 +17,9 @@
   ],
   "scripts": {
     "watch": "run-s prepare:* watch:*",
-    "watch:parcel": "parcel watch src/manifest.json src/**/*.html src/images/**/*.svg --no-content-hash",
+    "watch:parcel": "parcel watch src/manifest.json src/{background,content}.js src/**/*.{html,svg} --no-content-hash",
     "build": "run-s prepare:* build:*",
-    "build:parcel": "parcel build src/manifest.json src/**/*.html src/images/**/*.svg --no-content-hash --no-source-maps",
+    "build:parcel": "parcel build src/manifest.json src/{background,content}.js src/**/*.{html,svg} --no-content-hash --no-source-maps",
     "build:webext": "web-ext build -s dist -a dist -n firefoxpwa-{version}.zip",
     "lint": "run-s -c lint:*",
     "lint:eslint": "eslint src icons",
@@ -30,29 +30,29 @@
     "prepare:icons": "node ./icons/generate.js"
   },
   "dependencies": {
-    "@popperjs/core": "^2.11.6",
+    "@popperjs/core": "^2.11.8",
     "base64-js": "^1.5.1",
     "bootstrap": "~5.1.3",
     "bootstrap-dark-5": "^1.1.3",
-    "bootstrap-icons": "^1.10.3",
-    "bootstrap5-tags": "^1.5.1",
-    "iframe-resizer": "^4.3.2",
-    "semver": "^7.3.8"
+    "bootstrap-icons": "^1.10.5",
+    "bootstrap5-tags": "^1.6.4",
+    "iframe-resizer": "^4.3.6",
+    "semver": "^7.5.4"
   },
   "devDependencies": {
-    "@parcel/config-webextension": "~2.4.1",
-    "@parcel/transformer-sass": "~2.4.1",
-    "eslint": "^8.36.0",
-    "eslint-config-standard": "^17.0.0",
+    "@parcel/config-webextension": "^2.9.3",
+    "@parcel/transformer-sass": "^2.9.3",
+    "@twbs/fantasticon": "^2.7.1",
+    "eslint": "^8.45.0",
+    "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-n": "^16.0.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-simple-import-sort": "^10.0.0",
-    "fantasticon": "^1.2.3",
     "npm-run-all": "^4.1.5",
-    "parcel": "^2.8.3",
-    "rimraf": "^4.4.1",
-    "web-ext": "^7.6.0"
+    "parcel": "^2.9.3",
+    "rimraf": "^5.0.1",
+    "web-ext": "^7.6.2"
   },
   "icons": [
     "box-arrow-up-right",
