@@ -116,13 +116,17 @@ assets = [
     ["target/release/completions/firefoxpwa.fish", "/usr/share/fish/vendor_completions.d/firefoxpwa.fish", "644"],
     ["target/release/completions/_firefoxpwa", "/usr/share/zsh/vendor-completions/_firefoxpwa", "644"],
 
+    # UserChrome
+    ["userchrome/**/*", "/usr/share/firefoxpwa/userchrome/", "644"],
+
     # Documentation
     ["../README.md", "/usr/share/doc/firefoxpwa/README.md", "644"],
     ["../native/README.md", "/usr/share/doc/firefoxpwa/README-NATIVE.md", "644"],
     ["../extension/README.md", "/usr/share/doc/firefoxpwa/README-EXTENSION.md", "644"],
 
-    # UserChrome
-    ["userchrome/**/*", "/usr/share/firefoxpwa/userchrome/", "644"],
+    # AppStream Metadata
+    ["packages/appstream/si.filips.FirefoxPWA.metainfo.xml", "/usr/share/metainfo/si.filips.FirefoxPWA.metainfo.xml", "644"],
+    ["packages/appstream/si.filips.FirefoxPWA.svg", "/usr/share/icons/hicolor/scalable/apps/si.filips.FirefoxPWA.svg", "644"],
 ]
 
 [package.metadata.rpm]
@@ -139,8 +143,10 @@ firefoxpwa-connector = { path = "/usr/libexec/firefoxpwa-connector" }
 "../../target/release/completions/firefoxpwa.bash" = { path = "/usr/share/bash-completion/completions/firefoxpwa" }
 "../../target/release/completions/firefoxpwa.fish" = { path = "/usr/share/fish/vendor_completions.d/firefoxpwa.fish" }
 "../../target/release/completions/_firefoxpwa" = { path = "/usr/share/zsh/vendor-completions/_firefoxpwa" }
+"../../userchrome/" = { path = "/usr/share/firefoxpwa/userchrome/" }
 "../../../README.md" = { path = "/usr/share/doc/firefoxpwa/README.md" }
 "../../../native/README.md" = { path = "/usr/share/doc/firefoxpwa/README-NATIVE.md" }
 "../../../extension/README.md" = { path = "/usr/share/doc/firefoxpwa/README-EXTENSION.md" }
 "../deb/copyright" = { path = "/usr/share/doc/firefoxpwa/copyright" }
-"../../userchrome/" = { path = "/usr/share/firefoxpwa/userchrome/" }
+"../appstream/si.filips.FirefoxPWA.metainfo.xml" = { path = "/usr/share/metainfo/si.filips.FirefoxPWA.metainfo.xml" }
+"../appstream/si.filips.FirefoxPWA.svg" = { path = "/usr/share/icons/hicolor/scalable/apps/si.filips.FirefoxPWA.svg" }
