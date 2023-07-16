@@ -62,6 +62,25 @@ License 2.0, without any additional terms or conditions. By using,
 redistributing, or modifying it, you must agree to the license,
 and the additional clauses provided [in the README file](../README.md#License).
 
+## Translations
+
+You can contribute translations on [Crowdin](https://crowdin.com/project/firefoxpwa).
+Please make sure you write your messages correctly and in a consistent style. If
+you have any questions or suggestions, both for new and existing translations and
+messages, please use Crowdin's discussions feature to communicate with others.
+
+If your language is not yet available, please contact me on Crowdin.
+
+*Note:* The localization feature is currently still work-in-progress, and not many
+strings are available for translation. Proper localization is being worked on.
+Please follow the Crowdin project for updates and new available messages.
+
+<details>
+  <summary>Expand localization status</summary>
+
+[![Localization status](https://badges.awesome-crowdin.com/translation-13220281-466834.png)](https://crowdin.com/project/firefoxpwa)
+</details>
+
 ## Code of Conduct
 
 This project adheres to [the Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/).
