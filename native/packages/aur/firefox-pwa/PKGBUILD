@@ -71,6 +71,6 @@ package() {
     install -Dm644 packages/deb/copyright $pkgdir/usr/share/doc/firefoxpwa/copyright
 
     # AppStream Metadata
-    install -Dm644 packages/appstream/si.filips.FirefoxPWA.metainfo.xml /usr/share/metainfo/si.filips.FirefoxPWA.metainfo.xml
-    install -Dm644 packages/appstream/si.filips.FirefoxPWA.svg /usr/share/icons/hicolor/scalable/apps/si.filips.FirefoxPWA.svg
+    install -Dm644 packages/appstream/si.filips.FirefoxPWA.metainfo.xml $pkgdir/usr/share/metainfo/si.filips.FirefoxPWA.metainfo.xml
+    install -Dm644 packages/appstream/si.filips.FirefoxPWA.svg $pkgdir/usr/share/icons/hicolor/scalable/apps/si.filips.FirefoxPWA.svg
 }
