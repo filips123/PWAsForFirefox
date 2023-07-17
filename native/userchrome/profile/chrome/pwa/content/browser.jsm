@@ -1837,6 +1837,35 @@ class PwaBrowser {
     xPref.set('browser.link.open_newwindow', 1, true);
     xPref.set('datareporting.policy.firstRunURL', '', true);
 
+    // Prevent syncing preferences that are commonly set to different values in web apps
+    // In the future, we could try to implement a different syncing "channel" just for web apps
+    xPref.set('services.sync.prefs.sync.browser.tabs.warnOnClose', false, true);
+    xPref.set('services.sync.prefs.sync.browser.link.open_newwindow', false, true);
+
+    // Prevent syncing preferences that are known to cause problems in web apps
+    xPref.set('services.sync.prefs.sync.browser.startup.page', false, true);
+    xPref.set('services.sync.prefs.sync.browser.startup.homepage', false, true);
+    xPref.set('services.sync.prefs.sync.browser.newtabpage.enabled', false, true);
+    xPref.set('services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.snippets', false, true);
+    xPref.set('services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.topsites', false, true);
+    xPref.set('services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.section.topstories', false, true);
+    xPref.set('services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.section.highlights', false, true);
+
+    // Reset preferences that might have been set to values known to cause problems
+    // These values might have been incorrectly changed by users or because of sync
+    // Might be removed in the future, once enough users have had this reset
+    xPref.clear('browser.sessionstore.resume_from_crash');
+    xPref.clear('browser.startup.upgradeDialog.enabled');
+    xPref.clear('browser.aboutwelcome.enabled');
+    xPref.clear('browser.messaging-system.whatsNewPanel.enabled');
+    xPref.clear('browser.startup.page');
+    xPref.clear('browser.startup.homepage');
+    xPref.clear('browser.newtabpage.enabled');
+    xPref.clear('browser.newtabpage.activity-stream.feeds.snippets');
+    xPref.clear('browser.newtabpage.activity-stream.feeds.topsites');
+    xPref.clear('browser.newtabpage.activity-stream.feeds.section.topstories');
+    xPref.clear('browser.newtabpage.activity-stream.feeds.section.highlights');
+
     // Set distribution details
     xPref.set('distribution.id', ChromeLoader.DISTRIBUTION_ID, true);
     xPref.set('distribution.version', ChromeLoader.DISTRIBUTION_VERSION, true);
