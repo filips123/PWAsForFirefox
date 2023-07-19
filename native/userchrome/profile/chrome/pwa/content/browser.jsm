@@ -64,7 +64,7 @@ class PwaBrowser {
     const tabIconImage = this.createElement(document, 'image', { class: 'tab-icon-image', role: 'presentation', fadein: 'true' });
     siteInfo.append(tabIconImage);
 
-    const tabLabelContainer = this.createElement(document, 'hbox', { flex: 1, class: 'tab-label-container proton', onoverflow: 'this.setAttribute(\'textoverflow\', \'true\');', onunderflow: 'this.removeAttribute(\'textoverflow\');' });
+    const tabLabelContainer = this.createElement(document, 'hbox', { class: 'tab-label-container', onoverflow: 'this.setAttribute(\'textoverflow\', \'true\');', onunderflow: 'this.removeAttribute(\'textoverflow\');' });
     const tabLabel = this.createElement(document, 'label', { class: 'tab-text tab-label', role: 'presentation', fadein: 'true' });
     tabLabelContainer.append(tabLabel);
     siteInfo.append(tabLabelContainer);
@@ -415,13 +415,23 @@ class PwaBrowser {
   }
 
   handleOutOfScopeNavigation () {
+    function matchWildcard(wildcard, string) {
+      const pattern = wildcard
+        .replaceAll(/[.+?^=!:${}()|\[\]\/\\]/g, '\\$&')
+        .replaceAll('\\\\*', '\\*')
+        .replaceAll(/(?<!\\)\*/g, '.*');
+
+      const regex = new RegExp(`^${pattern}$`);
+      return regex.test(string);
+    }
+
     // For this check to pass, opening out-of-scope URLs in default browser must be enabled
     // Additionally, the URL must not be one of allow-listed or restricted domains
     // Otherwise, it is impossible to access certain parts of Firefox
     const checkOutOfScope = (uri, target = null) => !this.canLoad(uri, target) &&
       uri.scheme.startsWith('http') &&
       xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER) &&
-      !xPref.get(ChromeLoader.PREF_ALLOWED_DOMAINS).split(',').includes(uri.host) &&
+      !xPref.get(ChromeLoader.PREF_ALLOWED_DOMAINS).split(',').some(pattern => matchWildcard(pattern, uri.host)) &&
       !xPref.get('extensions.webextensions.restrictedDomains').split(',').includes(uri.host);
 
     // Handle hiding/showing URL bar when the URL is out-of-scope
@@ -499,7 +509,7 @@ class PwaBrowser {
     window._openDialog = window.openDialog;
     window.openDialog = function (...args) {
       // Set the URL to the site homepage
-      if (typeof args[3] === 'string' && (args[3] === 'about:home' || args[3] === 'about:privatebrowsing')) {
+      if (typeof args[3] === 'string' && (args[3] === 'about:home' || args[3] === 'about:blankhome' || args[3] === 'about:privatebrowsing')) {
         args[3] = window.HomePage.get(window);
       }
 
@@ -661,7 +671,7 @@ class PwaBrowser {
     };
 
     window.isBlankPageURL = function (url) {
-      return url === 'about:blank' || url === 'about:home' || url === 'about:welcome';
+      return url === 'about:blank' || url === 'about:home' || url === 'about:blankhome' || url === 'about:welcome';
     };
   }
 
@@ -1498,7 +1508,6 @@ class PwaBrowser {
             for (const addedNode of mutation.addedNodes) {
               if (addedNode.tagName === 'image' && addedNode.className === 'toolbarbutton-icon') {
                 addedNode.replaceWith(permissionBox);
-                this.reverseChildren(permissionBox);
                 observer.disconnect();
               }
             }
@@ -1564,7 +1573,6 @@ class PwaBrowser {
             for (const addedNode of mutation.addedNodes) {
               if (addedNode.tagName === 'image' && addedNode.className === 'toolbarbutton-icon') {
                 addedNode.replaceWith(notificationsBox);
-                this.reverseChildren(notificationsBox);
                 observer.disconnect();
               }
             }
@@ -1819,9 +1827,44 @@ class PwaBrowser {
     xPref.set('browser.messaging-system.whatsNewPanel.enabled', false, true);
     xPref.set('browser.privateWindowSeparation.enabled', false, true);
     xPref.set('browser.privacySegmentation.createdShortcut', true, true);
+    xPref.set('browser.startup.homepage', 'about:blankhome', true);
+    xPref.set('browser.newtabpage.enabled', false, true);
+    xPref.set('browser.newtabpage.activity-stream.feeds.snippets', false, true);
+    xPref.set('browser.newtabpage.activity-stream.feeds.topsites', false, true);
+    xPref.set('browser.newtabpage.activity-stream.feeds.section.topstories', false, true);
+    xPref.set('browser.newtabpage.activity-stream.feeds.section.highlights', false, true);
     xPref.set('browser.uidensity', 1, true);
     xPref.set('browser.link.open_newwindow', 1, true);
     xPref.set('datareporting.policy.firstRunURL', '', true);
+
+    // Prevent syncing preferences that are commonly set to different values in web apps
+    // In the future, we could try to implement a different syncing "channel" just for web apps
+    xPref.set('services.sync.prefs.sync.browser.tabs.warnOnClose', false, true);
+    xPref.set('services.sync.prefs.sync.browser.link.open_newwindow', false, true);
+
+    // Prevent syncing preferences that are known to cause problems in web apps
+    xPref.set('services.sync.prefs.sync.browser.startup.page', false, true);
+    xPref.set('services.sync.prefs.sync.browser.startup.homepage', false, true);
+    xPref.set('services.sync.prefs.sync.browser.newtabpage.enabled', false, true);
+    xPref.set('services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.snippets', false, true);
+    xPref.set('services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.topsites', false, true);
+    xPref.set('services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.section.topstories', false, true);
+    xPref.set('services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.section.highlights', false, true);
+
+    // Reset preferences that might have been set to values known to cause problems
+    // These values might have been incorrectly changed by users or because of sync
+    // Might be removed in the future, once enough users have had this reset
+    xPref.clear('browser.sessionstore.resume_from_crash');
+    xPref.clear('browser.startup.upgradeDialog.enabled');
+    xPref.clear('browser.aboutwelcome.enabled');
+    xPref.clear('browser.messaging-system.whatsNewPanel.enabled');
+    xPref.clear('browser.startup.page');
+    xPref.clear('browser.startup.homepage');
+    xPref.clear('browser.newtabpage.enabled');
+    xPref.clear('browser.newtabpage.activity-stream.feeds.snippets');
+    xPref.clear('browser.newtabpage.activity-stream.feeds.topsites');
+    xPref.clear('browser.newtabpage.activity-stream.feeds.section.topstories');
+    xPref.clear('browser.newtabpage.activity-stream.feeds.section.highlights');
 
     // Set distribution details
     xPref.set('distribution.id', ChromeLoader.DISTRIBUTION_ID, true);

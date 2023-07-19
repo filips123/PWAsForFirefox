@@ -60,13 +60,17 @@ package() {
     install -Dm755 target/release/completions/firefoxpwa.fish $pkgdir/usr/share/fish/vendor_completions.d/firefoxpwa.fish
     install -Dm755 target/release/completions/_firefoxpwa $pkgdir/usr/share/zsh/vendor-completions/_firefoxpwa
 
+    # UserChrome
+    mkdir -p $pkgdir/usr/share/firefoxpwa/userchrome/
+    cp -r userchrome/* $pkgdir/usr/share/firefoxpwa/userchrome/
+
     # Documentation
     install -Dm644 ../README.md $pkgdir/usr/share/doc/firefoxpwa/README.md
     install -Dm644 ../native/README.md $pkgdir/usr/share/doc/firefoxpwa/README-NATIVE.md
     install -Dm644 ../extension/README.md $pkgdir/usr/share/doc/firefoxpwa/README-EXTENSION.md
     install -Dm644 packages/deb/copyright $pkgdir/usr/share/doc/firefoxpwa/copyright
 
-    # UserChrome
-    mkdir -p $pkgdir/usr/share/firefoxpwa/userchrome/
-    cp -r userchrome/* $pkgdir/usr/share/firefoxpwa/userchrome/
+    # AppStream Metadata
+    install -Dm644 packages/appstream/si.filips.FirefoxPWA.metainfo.xml $pkgdir/usr/share/metainfo/si.filips.FirefoxPWA.metainfo.xml
+    install -Dm644 packages/appstream/si.filips.FirefoxPWA.svg $pkgdir/usr/share/icons/hicolor/scalable/apps/si.filips.FirefoxPWA.svg
 }

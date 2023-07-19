@@ -24,7 +24,7 @@
       visibility: hidden;
     }
 
-    #titlebar > * {
+    :root:not([sizemode="fullscreen"]) #titlebar > *:not([collapsed="true"])  {
       visibility: visible;
     }
 
@@ -69,6 +69,12 @@
     .titlebar-spacer[type="post-tabs"] {
       width: 0 !important;
     }
+  }
+
+  /* Vertically center icon bar elements */
+
+  #TabsToolbar-customization-target {
+    height: 100%;
   }
 
   /* Hide titlebar when the icon bar is hidden */
@@ -295,14 +301,18 @@
     margin-inline-start: 0 !important;
   }
 
+  #identity-permission-box {
+    width: initial !important;
+  }
+
   #permissions-button[customizing], #permissions-button[customizing] > #identity-permission-box,
   #permissions-button[in-menu], #permissions-button[in-menu] > #identity-permission-box {
-    display: -moz-box !important;
+    display: flex !important;
   }
 
   #permissions-button[customizing] > #identity-permission-box > #permissions-granted-icon,
   #permissions-button[in-menu] > #identity-permission-box > #permissions-granted-icon {
-    display: -moz-box !important;
+    display: flex !important;
   }
 
   #permissions-button[customizing] > #identity-permission-box > *:not(#permissions-granted-icon),
@@ -314,16 +324,24 @@
     padding-left: 0 !important;
   }
 
+  #identity-permission-box > box:nth-child(2) {
+    margin-left: 5px;
+  }
+
+  #blocked-permissions-container {
+    margin-right: -5px;
+  }
+
   /* Notifications toolbar widget */
 
   #notification-popup-box {
     padding: var(--toolbarbutton-inner-padding) !important;
     padding-inline-end: revert !important;
     margin: 0 !important;
+    height: initial !important;
   }
 
   #notification-popup-box > image {
-
     padding: 0 !important;
     margin: 0 !important;
   }
@@ -333,7 +351,7 @@
   }
 
   #notifications-button[customizing] {
-    display: -moz-box !important;
+    display: flex !important;
   }
 
   #notifications-button[customizing] > #notification-popup-box {
@@ -342,7 +360,7 @@
   }
 
   #notifications-button[customizing] > #notification-popup-box > #default-notification-icon {
-    display: -moz-box !important;
+    display: flex !important;
   }
 
   #notification-popup-box[customizing] > #notification-popup-box > *:not(#default-notification-icon) {

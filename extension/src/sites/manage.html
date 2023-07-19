@@ -223,12 +223,23 @@
                 </div>
               </div>
 
+              <div class="list-group-item">
+                <div>
+                  <label class="fw-bold mb-0" for="settings-auto-launch-exclusion">Automatic launching exclusion</label>
+                  <input type="text" class="form-control form-control-sm" id="settings-auto-launch-exclusion" placeholder="Enter a regex of excluded URLs" />
+                </div>
+              </div>
+
               <button type="button" class="list-group-item list-group-item-action fw-bold" id="update-all-sites">
                 Update web apps
               </button>
 
               <button type="button" class="list-group-item list-group-item-action fw-bold" id="reinstall-runtime">
                 Reinstall runtime
+              </button>
+
+              <button type="button" class="list-group-item list-group-item-action fw-bold" id="about-project">
+                About the project
               </button>
             </div>
           </div>
@@ -453,6 +464,37 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" id="reinstall-runtime-button">Reinstall</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="about-project-modal" tabindex="-1" aria-labelledby="about-project-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="about-project-label">About the project</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <span>Project versions:</span>
+            <ul>
+              <li>Extension version: <span id="about-extension-version"></span></li>
+              <li>Native version: <span id="about-native-version"></span></li>
+              <li>Runtime version: <span id="about-runtime-version"></span></li>
+              <li>Firefox version: <span id="about-firefox-version"></span></li>
+            </ul>
+            <span>Project links:</span>
+            <ul>
+              <li><a href="https://github.com/filips123/PWAsForFirefox">Repository</a></li>
+              <li><a href="https://github.com/filips123/PWAsForFirefox/wiki">Documentation</a></li>
+              <li><a href="https://github.com/filips123/PWAsForFirefox/issues">Bug Tracker</a></li>
+              <li><a href="https://addons.mozilla.org/firefox/addon/pwas-for-firefox">Addon Store</a></li>
+              <li><a href="https://github.com/filips123/PWAsForFirefox?sponsor=1">Donations</a></li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

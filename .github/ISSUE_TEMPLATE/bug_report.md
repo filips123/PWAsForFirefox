@@ -20,7 +20,7 @@ labels: bug
 
 <!-- Steps to reproduce this bug -->
 
-1. Go to '...'
+1. Go to '....'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
@@ -40,6 +40,8 @@ labels: bug
 ### Environment
 
 <!-- Details about your system environment and versions -->
+<!-- You can obtain project versions from the extension settings -->
+<!-- Please mention if you are using another Firefox-based browser -->
 
 * Operating system:
 * System architecture:
@@ -47,4 +49,5 @@ labels: bug
 * Installation method: <!-- MSI/DEB/RPM/AUR/source... -->
 * PWAsForFirefox extension version:
 * PWAsForFirefox native version:
+* PWAsForFirefox runtime version:
 * Firefox version:

@@ -17,6 +17,7 @@ import {
   launchSite,
   obtainProfileList,
   obtainSiteList,
+  PREF_AUTO_LAUNCH_EXCLUSION,
   PREF_DEFAULT_PROFILE_TEMPLATE,
   PREF_DISPLAY_PAGE_ACTION,
   PREF_ENABLE_AUTO_LAUNCH,
@@ -128,7 +129,7 @@ async function createSiteList () {
 
       // Clear previous categories
       const categoriesElement = document.getElementById('web-app-categories')
-      categoriesElement.nextElementSibling.querySelector('input').value = ''
+      categoriesElement.tagsInstance.resetSearchInput()
       categoriesElement.tagsInstance.reset()
 
       // Set categories from config or manifest
@@ -137,7 +138,7 @@ async function createSiteList () {
 
       // Clear previous keywords
       const keywordsElement = document.getElementById('web-app-keywords')
-      keywordsElement.nextElementSibling.querySelector('input').value = ''
+      keywordsElement.tagsInstance.resetSearchInput()
       keywordsElement.tagsInstance.reset()
 
       // Set keywords from config or manifest
@@ -624,13 +625,14 @@ async function handleSearch () {
 // Handle extension settings
 async function handleSettings (hasChanged = false) {
   // Get settings from local storage and media query
-  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL, PREF_SHOW_UPDATE_POPUP, PREF_ENABLE_AUTO_LAUNCH, PREF_DEFAULT_PROFILE_TEMPLATE])
+  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL, PREF_SHOW_UPDATE_POPUP, PREF_ENABLE_AUTO_LAUNCH, PREF_DEFAULT_PROFILE_TEMPLATE, PREF_AUTO_LAUNCH_EXCLUSION])
   const settingsDisplayPageAction = settings[PREF_DISPLAY_PAGE_ACTION] ? settings[PREF_DISPLAY_PAGE_ACTION] : 'valid'
   const settingsLaunchCurrentUrl = settings[PREF_LAUNCH_CURRENT_URL] !== undefined ? settings[PREF_LAUNCH_CURRENT_URL] : true
   const settingsShowUpdatePopup = settings[PREF_SHOW_UPDATE_POPUP] !== undefined ? settings[PREF_SHOW_UPDATE_POPUP] : true
   const settingsEnableAutoLaunch = settings[PREF_ENABLE_AUTO_LAUNCH] !== undefined ? settings[PREF_ENABLE_AUTO_LAUNCH] : false
   const settingsEnableDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
   const settingsDefaultProfileTemplate = settings[PREF_DEFAULT_PROFILE_TEMPLATE] || null
+  const settingsAutoLaunchExclusion = settings[PREF_AUTO_LAUNCH_EXCLUSION] || null
 
   // Set settings input values
   document.getElementById('settings-display-page-action').querySelector(`#settings-display-page-action-${settingsDisplayPageAction}`).checked = true
@@ -639,6 +641,7 @@ async function handleSettings (hasChanged = false) {
   document.getElementById('settings-enable-auto-launch').checked = settingsEnableAutoLaunch
   document.getElementById('settings-enable-dark-mode').checked = settingsEnableDarkMode
   document.getElementById('settings-default-profile-template').value = settingsDefaultProfileTemplate
+  document.getElementById('settings-auto-launch-exclusion').value = settingsAutoLaunchExclusion
 
   // Do not re-register listeners
   if (hasChanged) return
@@ -696,6 +699,11 @@ async function handleSettings (hasChanged = false) {
     await browser.storage.local.set({ [PREF_DEFAULT_PROFILE_TEMPLATE]: this.value || null })
   })
 
+  // Listen for auto launch exclusion input changes
+  document.getElementById('settings-auto-launch-exclusion').addEventListener('change', async function () {
+    await browser.storage.local.set({ [PREF_AUTO_LAUNCH_EXCLUSION]: this.value || null })
+  })
+
   // Handle updating all sites
   document.getElementById('update-all-sites-button').onclick = async function () {
     this.disabled = true
@@ -748,6 +756,25 @@ async function handleSettings (hasChanged = false) {
     confirmButton.innerText = 'Reinstall'
 
     Modal.getOrCreateInstance(document.getElementById('reinstall-runtime-modal')).show()
+  }
+
+  // Handle showing project information
+  document.getElementById('about-project').onclick = async function () {
+    const response = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'GetSystemVersions' })
+    if (response.type === 'Error') throw new Error(response.data)
+    if (response.type !== 'SystemVersions') throw new Error(`Received invalid response type: ${response.type}`)
+
+    const versionExtension = browser.runtime.getManifest().version
+    const versionNative = response.data.firefoxpwa
+    const versionRuntime = response.data.firefox
+    const versionFirefox = (await browser.runtime.getBrowserInfo()).version
+
+    document.getElementById('about-extension-version').innerText = versionExtension
+    document.getElementById('about-native-version').innerText = versionNative
+    document.getElementById('about-runtime-version').innerText = versionRuntime
+    document.getElementById('about-firefox-version').innerText = versionFirefox
+
+    Modal.getOrCreateInstance(document.getElementById('about-project-modal')).show()
   }
 
   // Lazily load native settings and handle them

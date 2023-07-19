@@ -135,7 +135,7 @@ class PwaPreferences {
 
   handleTabsModePreferenceSwitch (onLoad = false) {
     function setTabsSectionDisabled(disabled) {
-      document.querySelectorAll('#mainPrefPane > groupbox:nth-child(8) > *').forEach(elem => elem.disabled = disabled)
+      document.querySelectorAll('#mainPrefPane > groupbox:nth-child(11) > *').forEach(elem => elem.disabled = disabled)
       document.querySelector('#launchTypeNewTab').disabled = disabled
     }
 

@@ -6,14 +6,15 @@
   "homepage": "https://github.com/filips123/PWAsForFirefox",
   "repository": "https://github.com/filips123/PWAsForFirefox",
   "bugs": "https://github.com/filips123/PWAsForFirefox/issues",
+  "funding": "https://github.com/filips123/PWAsForFirefox?sponsor=1",
   "author": "filips <projects@filips.si>",
+  "private": true,
   "keywords": [
     "firefox",
     "progressive-web-app",
     "site-specific-browser",
     "pwa"
   ],
-  "private": true,
   "scripts": {
     "watch": "run-s prepare:* watch:*",
     "watch:parcel": "parcel watch src/manifest.json src/**/*.html src/images/**/*.svg --no-content-hash",

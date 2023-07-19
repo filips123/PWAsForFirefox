@@ -15,6 +15,7 @@
         <button class="nav-link" id="linux-deb-install-tab" data-bs-toggle="tab" data-bs-target="#linux-deb-install-pane" type="button" role="tab" aria-controls="linux-deb-install-pane" aria-selected="false">Debian-like Linux (DEB)</button>
         <button class="nav-link" id="linux-rpm-install-tab" data-bs-toggle="tab" data-bs-target="#linux-rpm-install-pane" type="button" role="tab" aria-controls="linux-rpm-install-pane" aria-selected="false">Red Hat-like Linux (RPM)</button>
         <button class="nav-link" id="linux-aur-install-tab" data-bs-toggle="tab" data-bs-target="#linux-aur-install-pane" type="button" role="tab" aria-controls="linux-aur-install-pane" aria-selected="false">Arch-like Linux (AUR)</button>
+        <button class="nav-link" id="linux-gentoo-install-tab" data-bs-toggle="tab" data-bs-target="#linux-gentoo-install-pane" type="button" role="tab" aria-controls="linux-gentoo-install-pane" aria-selected="false">Gentoo-like Linux</button>
         <button class="nav-link" id="macos-install-tab" data-bs-toggle="tab" data-bs-target="#macos-install-pane" type="button" role="tab" aria-controls="macos-install-pane" aria-selected="false">macOS</button>
         <button class="nav-link" id="source-install-tab" data-bs-toggle="tab" data-bs-target="#source-install-pane" type="button" role="tab" aria-controls="source-install-pane" aria-selected="false">From Source Code</button>
         <button class="nav-link" id="other-install-tab" data-bs-toggle="tab" data-bs-target="#other-install-pane" type="button" role="tab" aria-controls="other-install-pane" aria-selected="false">Other Platforms</button>
@@ -52,6 +53,15 @@
             <ol>
               <li>Make sure <a href="https://www.npackd.org/" target="_blank">Npackd</a> is installed.</li>
               <li>Install the package using ncl: <kbd>ncl add -p firefoxpwa -v <span class="connector-project-version"></span></kbd></li>
+              <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+            </ol>
+          </div>
+          <div>
+            <span><em>Or...</em> To install the package using Scoop:</span>
+            <ol>
+              <li>Make sure <a href="https://scoop.sh/" target="_blank">Scoop</a> is installed.</li>
+              <li>Add the scoop extras bucket: <kbd>scoop bucket add extras</kbd></li>
+              <li>Install the package using scoop: <kbd>scoop install extras/firefoxpwa</kbd></li>
               <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
             </ol>
           </div>
@@ -121,6 +131,19 @@
             </li>
             <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
           </ol>
+        </div>
+
+        <div class="tab-pane fade" id="linux-gentoo-install-pane" role="tabpanel" aria-labelledby="linux-gentoo-install-tab">
+          <ol>
+            <li>Enable Gentoo GURU overlay using eselect: <kbd>sudo eselect repository enable guru</kbd></li>
+            <li>Sync Gentoo GURU overlay using emerge: <kbd>sudo emerge --sync guru</kbd></li>
+            <li>Install the package using emerge: <kbd>sudo emerge -avt www-plugins/firefoxpwa</kbd></li>
+            <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+          </ol>
+          <p class="ps-3">
+            <em>Note:</em> This package is currently unofficial and may be outdated. There are no guarantees that it will always work and be up-to-date, so use it
+            at your own risk. Once all the required tools become available, the package might become official and get automatic updates.
+          </p>
         </div>
 
         <div class="tab-pane fade" id="source-install-pane" role="tabpanel" aria-labelledby="source-install-tab">

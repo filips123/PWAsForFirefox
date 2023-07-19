@@ -16,8 +16,7 @@ use windows::Win32::System::Com::{
     COINIT_APARTMENTTHREADED,
     COINIT_DISABLE_OLE1DDE,
 };
-use windows::Win32::System::Threading::{GetExitCodeProcess, WaitForSingleObject};
-use windows::Win32::System::WindowsProgramming::INFINITE;
+use windows::Win32::System::Threading::{GetExitCodeProcess, WaitForSingleObject, INFINITE};
 use windows::Win32::UI::Shell::{
     ShellExecuteExW,
     SEE_MASK_NOASYNC,
@@ -33,7 +32,7 @@ const fn get_download_url() -> &'static str {
     use const_format::formatcp;
 
     #[allow(dead_code)]
-    const VERSION: &str = "2201";
+    const VERSION: &str = "2301";
 
     cfg_if! {
         if #[cfg(target_arch = "x86")] {
@@ -55,14 +54,13 @@ fn run_as_admin<S: AsRef<OsStr>>(cmd: S) -> std::io::Result<ExitStatus> {
     unsafe { CoInitializeEx(None, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)? };
 
     let mut code = 1;
-    let lp_verb = w!("runas");
-    let lp_file = PCWSTR::from(&HSTRING::from(cmd.as_ref()));
+    let file = HSTRING::from(cmd.as_ref());
 
     let mut sei = SHELLEXECUTEINFOW {
         cbSize: std::mem::size_of::<SHELLEXECUTEINFOW>() as u32,
         fMask: SEE_MASK_NOASYNC | SEE_MASK_NOCLOSEPROCESS,
-        lpVerb: lp_verb,
-        lpFile: lp_file,
+        lpVerb: w!("runas"),
+        lpFile: PCWSTR(file.as_ptr()),
         nShow: 1,
         ..Default::default()
     };
@@ -91,6 +89,13 @@ pub struct _7Zip {
 
 impl _7Zip {
     pub fn new() -> Result<Self> {
+        match Self::new_from_registry().context("Failed to search 7-Zip in registry")? {
+            registry if registry.version.is_some() => Ok(registry),
+            _ => Self::new_from_path().context("Failed to search 7-Zip in PATH variable"),
+        }
+    }
+
+    fn new_from_registry() -> Result<Self> {
         let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
         let subkey = hklm.open_subkey(r"Software\Microsoft\Windows\CurrentVersion\Uninstall\7-Zip");
 
@@ -112,6 +117,25 @@ impl _7Zip {
         }
 
         Ok(Self { version, executable })
+    }
+
+    fn new_from_path() -> Result<Self> {
+        let exe = std::env::var_os("PATH").and_then(|paths| {
+            std::env::split_paths(&paths)
+                .filter_map(|directory| {
+                    let executable = directory.join("7z.exe");
+                    match executable.is_file() {
+                        true => Some(executable),
+                        false => None,
+                    }
+                })
+                .next()
+        });
+
+        match exe {
+            Some(exe) => Ok(Self { version: Some("0.0.0".into()), executable: Some(exe) }),
+            None => Ok(Self { version: None, executable: None }),
+        }
     }
 
     pub fn install(self) -> Result<()> {

@@ -176,7 +176,11 @@ function setWindowColors (window, site) {
  * @param {object} site - Site config for which integration should be used
  */
 function applySystemIntegration (window, site) {
-  window.document.title = site.config.name || site.manifest.name || site.manifest.short_name;
+  // Set title only on the main browser chrome window
+  if (window.location.href === AppConstants.BROWSER_CHROME_URL) {
+    window.document.title = site.config.name || site.manifest.name || site.manifest.short_name;
+  }
+
   window.document.documentElement.setAttribute('icon', `FFPWA-${site.ulid}`);
   window.document.documentElement.setAttribute('windowclass', `FFPWA-${site.ulid}`);
   window.document.documentElement.setAttribute('windowname', `FFPWA-${site.ulid}`);

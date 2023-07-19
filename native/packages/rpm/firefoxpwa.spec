@@ -89,11 +89,15 @@ fi
 %{_datadir}/fish/vendor_completions.d/firefoxpwa.fish
 %{_datadir}/zsh/vendor-completions/_firefoxpwa
 
+# UserChrome
+%{_datadir}/firefoxpwa/userchrome/
+
 # Documentation
 %doc %{_docdir}/firefoxpwa/README.md
 %doc %{_docdir}/firefoxpwa/README-NATIVE.md
 %doc %{_docdir}/firefoxpwa/README-EXTENSION.md
 %license %{_docdir}/firefoxpwa/copyright
 
-# UserChrome
-%{_datadir}/firefoxpwa/userchrome/
+# AppStream Metadata
+%{_datadir}/metainfo/si.filips.FirefoxPWA.metainfo.xml
+%{_datadir}/icons/hicolor/scalable/apps/si.filips.FirefoxPWA.svg

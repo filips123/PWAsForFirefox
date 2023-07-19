@@ -23,38 +23,38 @@ lto = true
 portable = ["phf"]
 
 [dependencies]
-ab_glyph = "0.2.18"
-anyhow = "1.0.68"
+ab_glyph = "0.2.21"
+anyhow = "1.0.72"
 byteorder = "1.4.3"
 cfg-if = "1.0.0"
-clap = { version = "4.0.32", features = ["derive"] }
+clap = { version = "^4.3.12", features = ["derive"] }
 configparser = "3.0.2"
-const_format = "0.2.30"
-data-url = { git = "https://github.com/filips123/rust-url", branch = "impl-std-error" }
-directories = "4.0.1"
+const_format = "0.2.31"
+data-url = { git = "https://github.com/servo/rust-url", branch = "master" }
+directories = "5.0.1"
 fs_extra = "1.3.0"
 gag = "1.0.0"
-image = "0.24.5"
-log = "0.4.17"
-reqwest = { version = "0.11.13", features = ["blocking", "socks", "gzip", "brotli", "deflate", "native-tls"] }
-resvg = "0.27.0"
-serde = { version = "1.0.152", features = ["derive"] }
-serde_json = "1.0.91"
-simplelog = "0.12.0"
-smart-default = "0.6.0"
-tempfile = "3.4.0"
+image = "0.24.6"
+log = "0.4.19"
+reqwest = { version = "0.11.18", features = ["blocking", "socks", "gzip", "brotli", "deflate", "native-tls"] }
+resvg = "0.35.0"
+serde = { version = "1.0.171", features = ["derive"] }
+serde_json = "1.0.103"
+simplelog = "0.12.1"
+smart-default = "0.7.1"
+tempfile = "3.6.0"
 ulid = { version = "1.0.0", features = ["serde"] }
-url = "2.3.1"
+url = "2.4.0"
 urlencoding = "2.1.2"
 web_app_manifest = { git = "https://github.com/filips123/WebAppManifestRS", branch = "main" }
 
 [target.'cfg(target_os = "windows")'.dependencies]
-winreg = "0.10.1"
+winreg = "0.50.0"
 sanitize-filename = "0.4.0"
-phf = { version = "0.11.1", features = ["macros"], optional = true }
+phf = { version = "0.11.2", features = ["macros"], optional = true }
 
 [target.'cfg(target_os = "windows")'.dependencies.windows]
-version = "0.43.0"
+version = "0.48.0"
 features = [
     "Win32_Foundation",
     "Win32_Storage_EnhancedStorage",
@@ -62,7 +62,7 @@ features = [
     "Win32_System_Com_StructuredStorage",
     "Win32_System_Registry",
     "Win32_System_Threading",
-    "Win32_System_WindowsProgramming",
+    "Win32_UI_WindowsAndMessaging",
     "Win32_UI_Shell",
     "Win32_UI_Shell_Common",
     "Win32_UI_Shell_PropertiesSystem"
@@ -70,23 +70,23 @@ features = [
 
 [target.'cfg(target_os = "linux")'.dependencies]
 bzip2 = "0.4.4"
-glob = "0.3.0"
-phf = { version = "0.11.1", features = ["macros"] }
-tar = "0.4.38"
+glob = "0.3.1"
+phf = { version = "0.11.2", features = ["macros"] }
+tar = "0.4.39"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 dmg = "0.1.2"
-phf = { version = "0.11.1", features = ["macros"] }
+phf = { version = "0.11.2", features = ["macros"] }
 icns = "0.3.1"
 pix = "0.13.2"
-plist = "1.4.0"
+plist = "1.5.0"
 sanitize-filename = "0.4.0"
 
 [build-dependencies]
-clap = { version = "4.0.32", features = ["derive"] }
-clap_complete = "4.0.7"
+clap = { version = "4.3.12", features = ["derive"] }
+clap_complete = "4.3.2"
 ulid = "1.0.0"
-url = "2.3.1"
+url = "2.4.0"
 
 [package.metadata.wix]
 include = [
@@ -116,13 +116,17 @@ assets = [
     ["target/release/completions/firefoxpwa.fish", "/usr/share/fish/vendor_completions.d/firefoxpwa.fish", "644"],
     ["target/release/completions/_firefoxpwa", "/usr/share/zsh/vendor-completions/_firefoxpwa", "644"],
 
+    # UserChrome
+    ["userchrome/**/*", "/usr/share/firefoxpwa/userchrome/", "644"],
+
     # Documentation
     ["../README.md", "/usr/share/doc/firefoxpwa/README.md", "644"],
     ["../native/README.md", "/usr/share/doc/firefoxpwa/README-NATIVE.md", "644"],
     ["../extension/README.md", "/usr/share/doc/firefoxpwa/README-EXTENSION.md", "644"],
 
-    # UserChrome
-    ["userchrome/**/*", "/usr/share/firefoxpwa/userchrome/", "644"],
+    # AppStream Metadata
+    ["packages/appstream/si.filips.FirefoxPWA.metainfo.xml", "/usr/share/metainfo/si.filips.FirefoxPWA.metainfo.xml", "644"],
+    ["packages/appstream/si.filips.FirefoxPWA.svg", "/usr/share/icons/hicolor/scalable/apps/si.filips.FirefoxPWA.svg", "644"],
 ]
 
 [package.metadata.rpm]
@@ -139,8 +143,10 @@ firefoxpwa-connector = { path = "/usr/libexec/firefoxpwa-connector" }
 "../../target/release/completions/firefoxpwa.bash" = { path = "/usr/share/bash-completion/completions/firefoxpwa" }
 "../../target/release/completions/firefoxpwa.fish" = { path = "/usr/share/fish/vendor_completions.d/firefoxpwa.fish" }
 "../../target/release/completions/_firefoxpwa" = { path = "/usr/share/zsh/vendor-completions/_firefoxpwa" }
+"../../userchrome/" = { path = "/usr/share/firefoxpwa/userchrome/" }
 "../../../README.md" = { path = "/usr/share/doc/firefoxpwa/README.md" }
 "../../../native/README.md" = { path = "/usr/share/doc/firefoxpwa/README-NATIVE.md" }
 "../../../extension/README.md" = { path = "/usr/share/doc/firefoxpwa/README-EXTENSION.md" }
 "../deb/copyright" = { path = "/usr/share/doc/firefoxpwa/copyright" }
-"../../userchrome/" = { path = "/usr/share/firefoxpwa/userchrome/" }
+"../appstream/si.filips.FirefoxPWA.metainfo.xml" = { path = "/usr/share/metainfo/si.filips.FirefoxPWA.metainfo.xml" }
+"../appstream/si.filips.FirefoxPWA.svg" = { path = "/usr/share/icons/hicolor/scalable/apps/si.filips.FirefoxPWA.svg" }
