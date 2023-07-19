@@ -29,8 +29,7 @@ Note that these are development versions that may be unstable and are not signed
 
 3. If building a specific version:
     1. Checkout the correct Git tag.
-    2. Modify `version` field inside `package.json` to the correct version.
-    3. Modify `version` field inside `src/manifest.json` to the correct version.
+    2. Run `yarn set-version` to add the version information to the configuration files.
 
 4. Either:
 
