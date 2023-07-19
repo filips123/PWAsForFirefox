@@ -151,8 +151,7 @@
             <li>Make sure <a href="https://github.com/sagiegurari/cargo-make" target="_blank"><kbd>cargo-make</kbd></a> and (on Windows) <a href="https://wixtoolset.org/releases/" target="_blank">WiX Toolset</a> are installed.</li>
             <li>Clone the <a href="https://github.com/filips123/PWAsForFirefox" target="_blank">repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
             <li>Checkout the <kbd class="connector-repository-tag"></kbd> tag.</li>
-            <li>Modify <kbd>version</kbd> field inside <kbd>Cargo.toml</kbd> to <kbd class="connector-project-version"></kbd>.</li>
-            <li>Modify <kbd>DISTRIBUTION_VERSION</kbd> variable inside <kbd>userchrome/profile/chrome/pwa/chrome.jsm</kbd> to <kbd class="connector-project-version"></kbd>.</li>
+            <li>Prepare the source code for building: <kbd>makers set-version</kbd></li>
             <li>Build and install the project: <kbd>makers install</kbd></li>
             <li>After the project is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
           </ol>
