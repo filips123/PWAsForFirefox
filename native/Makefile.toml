@@ -76,38 +76,4 @@ script = [
 [tasks.set-version]
 description = "Set version to given version or current git tag"
 script_runner="@duckscript"
-script = """
-if ${1}
-    # Use first argument
-    pwa_ver = set ${1}
-else
-    # No argument, find tag from git
-    git_tag = exec git describe --tags --abbrev=0
-    assert_eq ${git_tag.code} 0 "No version provided to task and unable to retrieve git tag"
-    pwa_ver = trim ${git_tag.stdout}
-    release git_tag
-    unset git_tag
-end
-# Remove single leading v if it exists
-if starts_with ${pwa_ver} "v"
-    pwa_ver = substring ${pwa_ver} 1
-end
-cargo_toml_path = set "./Cargo.toml"
-chrome_jsm_path = set "./userchrome/profile/chrome/pwa/chrome.jsm"
-cargo_toml_exists = is_file ${cargo_toml_path}
-chrome_jsm_exists = is_file ${chrome_jsm_path}
-if ${cargo_toml_exists} and ${chrome_jsm_exists}
-    cargo_toml_replace = concat "version = \\"" ${pwa_ver} "\\""
-    chrome_jsm_replace = concat "DISTRIBUTION_VERSION = '" ${pwa_ver} "'"
-    cargo_toml = readfile ${cargo_toml_path}
-    chrome_jsm = readfile ${chrome_jsm_path}
-    echo "Replacing" ${cargo_toml_replace}
-    cargo_toml = replace ${cargo_toml} "version = \\"0.0.0\\"" ${cargo_toml_replace}
-    echo "Replacing" ${chrome_jsm_replace}
-    chrome_jsm = replace ${chrome_jsm} "DISTRIBUTION_VERSION = '0.0.0'" ${chrome_jsm_replace}
-    writefile ${cargo_toml_path} ${cargo_toml}
-    writefile ${chrome_jsm_path} ${chrome_jsm}
-else
-    assert_fail "Unable to locate ./Cargo.toml and ./userchrome/profile/chrome/pwa/chrome.jsm"
-end
-"""
+script = "!include_files ./set-version.ds"
