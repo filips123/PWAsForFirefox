@@ -70,8 +70,15 @@ just for it.
 If the template option is specified, all contents of the provided template directory will
 be copied to a newly-created profile. This is useful if you want to create a new profile
 with the same extensions, settings, etc. as an existing one. If the template option
-is not specified, the new profile will use the default template that can be set in
-the extension settings.
+is not specified, the new profile will use [the default template](#default-profile-template)
+that can be set in the extension settings.
+
+!!! tip
+
+    If you want to use an existing profile as a template, make sure it is not running
+    before copying as a template. Otherwise, it will contain lock files that can cause
+    errors when creating or running a profile from template. You can check [FAQ](../resources/faq.md#why-cant-i-create-a-profile-when-using-template)
+    for more details.
 
 ## Web App Management
 
@@ -90,7 +97,7 @@ automatically if you accept the Firefox prompt.
 
 **TODO: Document auto launch settings:**
 
-* Launch on matching website (already existing, also see below)
+* Launch on matching website (already existing, also see below) + add exclusion regex
 * Launch on the system login
 * Launch on the browser launch
 
@@ -114,17 +121,22 @@ If enabled (default), a notification will be displayed when the extension is upd
 
 ### Enable automatic web app launching
 
-If automatic web app launching is enabled, all URLs that match the scopes of your enabled
-web apps will be automatically launched as a web app.
+If enabled, all URLs that match the scopes of your enabled web apps will be automatically
+launched as a web app.
 
 !!! warning
 
     This feature is experimental, may not work with all websites correctly,
     and may impact performance.
 
-This option needs to be additionally enabled per web app in its settings, using the "Auto
-launch this web app" checkbox. Additional browser permissions are required for it to work.
-They will be requested automatically after enabling it if they are not already permitted.
+This option needs to be additionally enabled per web app in its settings, using the "Launch
+this web app on matching website" checkbox. Specific URLs can also be excluded from being
+automatically launched inside web apps with [the exclusion regex option](#automatic-launching-exclusion).
+
+Additional browser permissions are required for this option to work. They will be requested
+automatically after enabling the option if they are not already permitted.
+
+**TODO: Also document web app setting separately and link it here (see above TODO)**
 
 ### Always patch runtime and profile
 
@@ -148,6 +160,22 @@ This is equivalent to setting the `MOZ_USE_XINPUT2` environment variable to `1`.
 If enabled, the Firefox runtime will be instructed to use XDG Desktop Portals.
 This is equivalent to setting the `GTK_USE_PORTAL` environment variable to `1`.
 
+### Default profile template
+
+If specified, the provided directory will be used as a profile template when creating
+all new profiles, unless a different template directory is explicitly set when creating
+a profile.
+
+All contents of the provided template directory will be copied to a newly-created profile.
+
+### Automatic launching exclusion
+
+If specified, any URLs that match the provided regex will be excluded from the automatic
+web app launching (will not automatically open inside a web app). This might be useful
+when a website has own "redirection" URLs that you do not want to open in a web app.
+This option only has an effect when [automatic web app launching](#enable-automatic-web-app-launching)
+is enabled.
+
 ### Update web apps
 
 This will download and parse manifests for all your web apps and register them again to
@@ -164,3 +192,10 @@ This will remove your current runtime and download the latest version from Mozil
 It will also replace any custom runtime that you manually downloaded.
 
 This will not affect your main Firefox browser and will not remove any profiles or data.
+
+!!! warning
+
+    This option may not work on all platforms that PWAsForFirefox supports, as Firefox
+    does not provide pre-built packages for some platforms, and automatic installation
+    for some platforms is too hard to implement. For those platforms, you need to
+    manually (re)install the runtime.

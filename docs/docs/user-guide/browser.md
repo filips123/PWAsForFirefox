@@ -169,7 +169,9 @@ Determines whether out-of-scope URLs should be opened in a default browser.
 
 Enabling this option will automatically close the web app window and open any out-of-scope
 URLs in a default system browser. This may cause problems on some websites, especially
-ones that use SSO (such as Google, YouTube, Spotify, Outlook.com).
+ones that use SSO (such as Google, YouTube, Spotify, Outlook.com). In such cases, it is
+recommended to use it in combination with [domains always allowed to be opened in the
+app browser](#domains-always-allowed-to-be-opened-in-the-app-browser).
 
 * Preference name: `firefoxpwa.openOutOfScopeInDefaultBrowser`
 * Default value: `false`
@@ -179,10 +181,12 @@ ones that use SSO (such as Google, YouTube, Spotify, Outlook.com).
 Determines which domains should always be opened in the app browser.
 
 This option can be used to always load a specific domain in the app browser, even if the
-URL is out-of-scope. This can be useful for websites that do not work properly with the
-previous option enabled.
+URL is out-of-scope. This can be useful for websites that do not work properly with [the
+previous option](#open-out-of-scope-urls-in-a-default-browser) enabled. It only has an
+effect when that option is also enabled.
 
-The value should be a comma-separated list of *domains* (without protocol and path).
+The value should be a comma-separated list of *domains* (without protocol and path). A
+wildcard `*` can to match zero or more characters. A wildcard can be escaped by using `\*`.
 
 * Preference name: `firefoxpwa.allowedDomains`
 * Default value: `""`

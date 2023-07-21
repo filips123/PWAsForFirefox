@@ -1,4 +1,14 @@
-# Troubleshooting Guide
+# Troubleshooting Tasks
+
+!!! tip
+
+    This page is designed as a guide in gathering logs and performing other troubleshooting
+    tasks. Its provides step-by-step instructions on how to obtain necessary data that may
+    be useful when troubleshooting the problems and reporting issues.
+
+    For specific problem descriptions and their respective solutions, you should check
+    out [the troubleshooting section](./faq.md#troubleshooting) of the Frequently Asked
+    Questions page.
 
 ## Obtaining Extension Logs
 
@@ -32,8 +42,8 @@ the manifest to clients they cannot identify, which may include PWAsForFirefox. 
 most such cases, you can use `curl` to download the manifest with the same user-agent
 as PWAsForFirefox, which should be the same as what the native program receives.
 
-```bash
-curl -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0 PWAsForFirefox/2.5.0" "https://example.com/manifest.json"
+```shell
+curl -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0" -H "Sec-Fetch-Site: none" -H "Sec-Fetch-Dest: manifest" "https://example.com/manifest.json"
 ```
 
 ## Reporting Issues

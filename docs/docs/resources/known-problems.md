@@ -37,6 +37,9 @@ page. I will appreciate any help to fix them.
     The workaround for this is to uninstall Flatpak-based Firefox and install a normal DEB
     package instead. See [#76][link-flatpak-issue] for more details.
 
+    Previously, this problem was also present on Snap, but it has been fixed recently. If
+    you still cannot detect the native program, you can check out [the dedicated FAQ entry](faq.md#why-doesnt-the-extension-find-the-native-connector-on-linux)
+    about common problems on Linux.
 
 * **Web apps do not remember previous window positions and restore sessions:**
 

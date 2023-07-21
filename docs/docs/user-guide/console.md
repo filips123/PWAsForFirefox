@@ -93,6 +93,13 @@ user data**. You might not be able to fully recover this action.
 The default profile cannot be completely removed. Trying to remove it will just clear all
 web apps and user data, but keep a profile ID in the profile list.
 
+!!! tip
+
+    If you want to use an existing profile as a template, make sure it is not running
+    before copying as a template. Otherwise, it will contain lock files that can cause
+    errors when creating or running a profile from template. You can check [FAQ](../resources/faq.md#why-cant-i-create-a-profile-when-using-template)
+    for more details.
+
 ### Editing a Profile
 
 ```shell

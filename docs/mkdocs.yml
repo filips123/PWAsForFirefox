@@ -35,6 +35,8 @@ theme:
     - navigation.tabs
     - navigation.sections
     - navigation.footer
+    - search.suggest
+    - search.share
     - toc.follow
 
 markdown_extensions:
@@ -95,6 +97,6 @@ nav:
       - resources/troubleshooting.md
       - resources/faq.md
 
-# TODO: Support (issues, discussions, etc,)
-# TODO: Sponsoring (link to GH Sponsors and others)
+# TODO: Support (issues, discussions, etc.)
+# TODO: Sponsoring/donations
 # TODO: Other useful things?
