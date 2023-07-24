@@ -21,7 +21,7 @@ often also known as a Site Specific Browser (SSB).
 
 This project creates a custom modified Firefox runtime to allow websites to be installed as
 standalone apps and provides a console tool and browser extension to install, manage and use
-them. For more details about how it achieves that, you can check out [the how it works page](./how-it-works.md).
+them. For more details about how it achieves that, you can check out [the how it works page](../about/how-it-works.md).
 
 ### How does this project compare to Chrome PWAs?
 
@@ -81,7 +81,7 @@ you will need to manually copy the files to the correct locations. You will also
 manually edit the native app manifest with the correct path to the connector.
 
 Descriptions of each directory, their default locations, and a list of environment
-variables to change them are available [on the directories page](installation-directories.md).
+variables to change them are available [on the directories page](../resources/installation-directories.md).
 If you want to specify a location in the home directory, start the environment variable
 with `~/`, and it will be expanded to the user home directory at the run-time.
 
@@ -156,28 +156,28 @@ and then launch any web app.
 ???+ note "Generic"
 
     1. Download the "portable" archive (binary tarball) for your preferred Firefox-based browser.
-    2. Extract downloaded archive and copy files [to the runtime directory](./installation-directories.md#runtime).
+    2. Extract downloaded archive and copy files [to the runtime directory](../resources/installation-directories.md#runtime).
     3. Inside that directory, symlink the main binary of your browser as `firefox.exe`/`firefox`.
 
 ??? note "LibreWolf"
 
     === "Windows"
 
-        1. Create [an empty runtime directory](./installation-directories.md#runtime) (or clear it if it already exists).
+        1. Create [an empty runtime directory](../resources/installation-directories.md#runtime) (or clear it if it already exists).
         2. Download [the latest `.win64-portable.zip` file](https://gitlab.com/librewolf-community/browser/windows/-/releases) from the LibreWolf releases.
         3. Extract file and copy **content** of `librewolf-VERSION\LibreWolf` to the runtime directory.
         4. Open Command Line in that directory and run `mklink firefox.exe librewolf.exe`.
 
     === "Linux"
 
-        1. Create [an empty runtime directory](./installation-directories.md#runtime) (or clear it if it already exists).
+        1. Create [an empty runtime directory](../resources/installation-directories.md#runtime) (or clear it if it already exists).
         2. Download [the latest `.x86_64.tar.bz2` file](https://gitlab.com/librewolf-community/browser/linux/-/releases) from the LibreWolf releases.
         3. Extract file and copy its **content** to the runtime directory.
         4. Open Terminal in that directory and run: `ln librewolf firefox`.
 
     === "macOS"
 
-        1. Create [an empty runtime directory](./installation-directories.md#runtime) (or clear it if it already exists).
+        1. Create [an empty runtime directory](../resources/installation-directories.md#runtime) (or clear it if it already exists).
         2. Download [the latest `.dmg` file](https://gitlab.com/librewolf-community/browser/macos/-/releases) from the LibreWolf releases.
         3. Extract file and copy `LibreWolf/LibreWolf.app` to the the runtime directory.
         4. Rename `LibreWolf.app` directory in the runtime directory to `Firefox.app`.
@@ -187,7 +187,7 @@ and then launch any web app.
 
     === "Windows"
 
-        1. Create [an empty runtime directory](./installation-directories.md#runtime) (or clear it if it already exists).
+        1. Create [an empty runtime directory](../resources/installation-directories.md#runtime) (or clear it if it already exists).
         2. Download [the latest installer](https://www.waterfox.net/download/) from the Waterfox website.
         3. Do **not** run the installer. Instead, use [7-Zip](https://7-zip.org/) to extract its content.
         4. Copy the extracted **content** of `core` to the runtime directory.
@@ -195,14 +195,14 @@ and then launch any web app.
 
     === "Linux"
 
-        1. Create [an empty runtime directory](./installation-directories.md#runtime) (or clear it if it already exists).
+        1. Create [an empty runtime directory](../resources/installation-directories.md#runtime) (or clear it if it already exists).
         2. Download [the latest tarball](https://www.waterfox.net/download/) from the Waterfox website.
         3. Extract file and copy **content** of `waterfox` to the runtime directory.
         4. Open Terminal in that directory and run: `ln waterfox firefox`.
 
     === "macOS"
 
-        1. Create [an empty runtime directory](./installation-directories.md#runtime) (or clear it if it already exists).
+        1. Create [an empty runtime directory](../resources/installation-directories.md#runtime) (or clear it if it already exists).
         2. Download [the latest disk image](https://www.waterfox.net/download/) from the Waterfox website.
         3. Extract file and copy `Waterfox/Waterfox.app` to the the runtime directory.
         4. Rename `Waterfox.app` directory in the runtime directory to `Firefox.app`.
@@ -222,7 +222,7 @@ and screen-inefficient.
 
 A better solution is to manually apply custom CSS styling to customize the titlebar appearance:
 
-1. Locate your web app profiles inside [the profiles directory](installation-directories.md#profiles).
+1. Locate your web app profiles inside [the profiles directory](../resources/installation-directories.md#profiles).
 2. Inside each profile directory, create an empty `chrome` directory.
 3. Inside the `chrome` directory, create an empty `userChrome.css` file.
 4. Copy the CSS provided below into the `userChrome.css` file.
@@ -317,7 +317,7 @@ default. However, you can install such websites from the main extension/browser 
 (the same place where all installed web apps are listed). This way of installing sites
 does not require PWA manifest, so it should work with basically any website.
 
-Otherwise, you can check [the troubleshooting tasks](./troubleshooting.md) and create
+Otherwise, you can check [the troubleshooting tasks](troubleshooting.md) and create
 a new issue if needed.
 
 ### Why can't I create a profile when using template?

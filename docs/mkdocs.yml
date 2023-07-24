@@ -1,76 +1,118 @@
 site_name: PWAsForFirefox
 site_description: A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox
-site_author: filips123
+site_author: filips
+site_url: https://example.com
+# TODO: Set the proper site URL
 
 repo_name: filips123/PWAsForFirefox
 repo_url: https://github.com/filips123/PWAsForFirefox
 
 edit_uri: edit/main/docs/docs/
 
+docs_dir: docs
+site_dir: dist
+
 theme:
   name: material
 
   logo: assets/icons/logo.svg
-  favicon: assets/icons/logo.svg
+  favicon: assets/icons/favicon.svg
 
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
+      primary: deep orange
+      accent: deep orange
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
+      primary: deep orange
+      accent: deep orange
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
 
   features:
-    - content.code.copy
-    - content.code.annotate
     - content.action.edit
     - content.action.view
-    - navigation.instant
-    - navigation.tracking
-    - navigation.tabs
-    - navigation.sections
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
     - navigation.footer
-    - search.suggest
+    - navigation.instant
+    - navigation.path
+    - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tracking
     - search.share
+    - search.suggest
     - toc.follow
 
 markdown_extensions:
+  - abbr
   - admonition
   - attr_list
   - def_list
   - footnotes
   - md_in_html
   - tables
-  - pymdownx.superfences
-  - pymdownx.details
-  - pymdownx.snippets
-  - pymdownx.highlight
-  - pymdownx.betterem
-  - pymdownx.critic
   - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
   - pymdownx.keys
   - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences
   - pymdownx.tilde
+  - toc:
+      permalink: true
+      title: Table of Contents
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
   - pymdownx.tabbed:
       alternate_style: true
-  - toc:
-      permalink: true
-      title: Table of Contents
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"/]+|\.(?!\d)|&[lg]t;'
+  - minify:
+      minify_html: true
+      minify_js: true
+      minify_css: true
+      cache_safe: true
+      css_files:
+        - assets/stylesheets/theme.css
+
+extra_css:
+  - assets/stylesheets/theme.css
 
 extra:
   social:
     - icon: fontawesome/brands/firefox
       link: https://addons.mozilla.org/firefox/addon/pwas-for-firefox/
+      name: Firefox Add-ons
     - icon: fontawesome/brands/github
       link: https://github.com/filips123/PWAsForFirefox
+      name: GitHub
+    - icon: fontawesome/solid/bug
+      link: https://github.com/filips123/PWAsForFirefox/issues
+      name: GitHub Issues
+    - icon: fontawesome/solid/comments
+      link: https://github.com/filips123/PWAsForFirefox/discussions
+      name: GitHub Discussions
 
 nav:
   - index.md
@@ -83,20 +125,21 @@ nav:
       - user-guide/console.md
       - user-guide/browser.md
   - Developer Guide:
-      # TODO: How to contribute to project?
       # TODO: How to access `firefoxpwa-connector` from third-party programs?
       # TODO: Some suggestions for third-party programs and integrations?
       - developer-guide/todo.md
   - Resources:
-      # TODO: Document (un)supported PWA features
-      - resources/how-it-works.md
-      - resources/known-problems.md
-      - resources/web-app-properties.md
       - resources/installation-directories.md
       - resources/specific-website-tips.md
-      - resources/troubleshooting.md
-      - resources/faq.md
-
-# TODO: Support (issues, discussions, etc.)
-# TODO: Sponsoring/donations
-# TODO: Other useful things?
+      - resources/web-app-properties.md
+      - resources/profile-properties.md
+  - Help:
+      - help/support.md
+      - help/troubleshooting.md
+      - help/faq.md
+  - About:
+      - about/how-it-works.md
+      - about/supported-features.md
+      - about/current-limitations.md
+      - about/privacy-policy.md
+      - about/contributing.md

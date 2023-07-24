@@ -1,5 +1,7 @@
 # Web App Properties
 
+**TODO: Document recently-added web app properties/settings**
+
 ## Name
 
 A web app name. Used as an application name in the system menus.

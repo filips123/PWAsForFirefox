@@ -19,7 +19,7 @@
 
 ## Obtaining Native Logs
 
-1. Create an empty `DEBUG` (without file extension) file in [the user data directory](./installation-directories.md#user-data).
+1. Create an empty `DEBUG` (without file extension) file in [the user data directory](../resources/installation-directories.md#user-data).
 2. Repeat the same action that caused problems again.
 3. The log files should be written to the same directory:<br>
    `firefoxpwa.log`, `firefoxpwa-stdout.log` and `firefoxpwa-stderr.log`
@@ -60,5 +60,5 @@ When you are creating a bug report, please include as many details as possible. 
 the required template, as that information will help us resolve it faster.
 
 If you found a vulnerability or what you believe is a vulnerability, **do not** open a
-public issue or disclose it publicly. Please read our security policy for more details
-and steps for reporting it.
+public issue or disclose it publicly. Please read [our security policy](https://github.com/filips123/PWAsForFirefox/blob/main/.github/SECURITY.md)
+for more details and steps for reporting it.

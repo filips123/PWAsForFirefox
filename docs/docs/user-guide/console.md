@@ -51,7 +51,7 @@ firefoxpwa runtime uninstall
     alternative Firefox version or Firefox fork (LibreWolf, IceCat, Waterfox, etc.). However,
     please keep in mind that compatibility with other or unofficial runtimes not guaranteed.
 
-    You can check [FAQ](../resources/faq.md#how-to-use-an-alternative-browser-as-an-app-browser) for instructions.
+    You can check [FAQ](../help/faq.md#how-to-use-an-alternative-browser-as-an-app-browser) for instructions.
 
 ## Profile Management
 
@@ -97,7 +97,7 @@ web apps and user data, but keep a profile ID in the profile list.
 
     If you want to use an existing profile as a template, make sure it is not running
     before copying as a template. Otherwise, it will contain lock files that can cause
-    errors when creating or running a profile from template. You can check [FAQ](../resources/faq.md#why-cant-i-create-a-profile-when-using-template)
+    errors when creating or running a profile from template. You can check [FAQ](../help/faq.md#why-cant-i-create-a-profile-when-using-template)
     for more details.
 
 ### Editing a Profile

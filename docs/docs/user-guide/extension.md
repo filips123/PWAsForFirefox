@@ -77,7 +77,7 @@ that can be set in the extension settings.
 
     If you want to use an existing profile as a template, make sure it is not running
     before copying as a template. Otherwise, it will contain lock files that can cause
-    errors when creating or running a profile from template. You can check [FAQ](../resources/faq.md#why-cant-i-create-a-profile-when-using-template)
+    errors when creating or running a profile from template. You can check [FAQ](../help/faq.md#why-cant-i-create-a-profile-when-using-template)
     for more details.
 
 ## Web App Management

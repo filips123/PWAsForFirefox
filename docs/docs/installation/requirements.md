@@ -20,6 +20,6 @@
 * macOS: Xcode Command Line Tools[^2]
 * Linux: `glibc` 2.18 or later[^3]
 
-[^1]: Check [FAQ](../resources/faq.md#how-to-use-an-alternative-browser-as-a-main-browser) for additional setup.
+[^1]: Check [FAQ](../help/faq.md#how-to-use-an-alternative-browser-as-a-main-browser) for additional setup.
 [^2]: Automatically installed if using Homebrew.
 [^3]: Automatically installed as a package dependency.
