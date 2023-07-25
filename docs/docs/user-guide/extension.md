@@ -61,11 +61,11 @@ or a third-party sync solution.
 
 By default, web apps are installed to a common "default" profile. You can also create
 separate isolated profiles and install web apps there, which allows you to install
-multiple instances of the same web app with different accounts.
+multiple instances of the same web app with different accounts. When installing a new
+web app, you also have an option to automatically create a new profile just for it.
 
-All profiles can be accessed and managed through the "profiles" tab in the extension. When
-installing a new web app, you also have an option to automatically create a new profile
-just for it.
+All profiles can be accessed and managed through the "profiles" tab in the extension. You
+can check [a list of most available profile properties and settings](../resources/profile-properties.md).
 
 If the template option is specified, all contents of the provided template directory will
 be copied to a newly-created profile. This is useful if you want to create a new profile
@@ -87,19 +87,15 @@ It allows you to launch, edit and uninstall web apps.
 
 When editing a web app, you can change its properties, such as name, description and
 icon. Unless disabled, editing a web app also updates its manifest and icon, as well
-as re-apply the system integration. You can check [a list of most available app
-properties](../resources/web-app-properties.md).
+as re-apply the system integration. You can also check [a list of most available web
+app properties and settings](../resources/web-app-properties.md).
 
 Editing a web app allows you to change which of the supported protocol handlers you want
 to be enabled. By default, all protocol handlers specified in the web app manifest are
 disabled. Some websites also dynamically register protocol handlers; those are enabled
 automatically if you accept the Firefox prompt.
 
-**TODO: Document auto launch settings:**
-
-* Launch on matching website (already existing, also see below) + add exclusion regex
-* Launch on the system login
-* Launch on the browser launch
+You can also customize when the web app [will launch automatically](../resources/web-app-properties.md#auto-launch-settings).
 
 ## Extension Settings
 
@@ -129,14 +125,13 @@ launched as a web app.
     This feature is experimental, may not work with all websites correctly,
     and may impact performance.
 
-This option needs to be additionally enabled per web app in its settings, using the "Launch
-this web app on matching website" checkbox. Specific URLs can also be excluded from being
-automatically launched inside web apps with [the exclusion regex option](#automatic-launching-exclusion).
+This option needs to be additionally enabled per web app in its settings, using [the "Launch
+this web app on matching website" checkbox](../resources/web-app-properties.md#launch-this-web-app-on-matching-website).
+Specific URLs can also be excluded from being automatically launched inside web apps with
+[the exclusion regex option](#automatic-launching-exclusion).
 
 Additional browser permissions are required for this option to work. They will be requested
 automatically after enabling the option if they are not already permitted.
-
-**TODO: Also document web app setting separately and link it here (see above TODO)**
 
 ### Always patch runtime and profile
 

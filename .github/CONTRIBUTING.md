@@ -6,11 +6,11 @@ Thank you very much for considering contributing to this project!
 
 ### Bug Reports
 
-Before creating bug reports, please check for any similar issues or
-pull requests. If they are already opened, please participle in that one.
+If you are having problems with the project, please make sure that you have
+read the documentation, especially [the FAQ page](TODO:-Link-to-the-faq-page).
+Before creating bug reports, please also check for any similar issues or pull
+requests. If any of them already exists, please participle in that one.
 
-If no issues or pull requests that describe your problem exist, first try
-[the troubleshooting steps](https://github.com/filips123/PWAsForFirefox/wiki/Troubleshooting).
 If you cannot determine and fix the problem yourself, please open a new issue
 and provide all the required information. If you were able to fix the problem, but
 you think the same problem might happen to other users, please report it and
@@ -18,6 +18,8 @@ include your fix, so other users can find and fix it.
 
 When you are creating a bug report, please include as many details as possible.
 Fill out the required template, as that information will help us resolve it faster.
+[Our troubleshooting tasks](TODO:-Link-to-the-troubleshooting-page) can help you
+geather logs and other useful information.
 
 If you found a vulnerability or what you believe is a vulnerability, **do not**
 open a public issue or disclose it publicly. Please read our [security policy](SECURITY.md)

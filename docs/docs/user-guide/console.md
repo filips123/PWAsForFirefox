@@ -81,6 +81,15 @@ The template argument is also optional. If specified, all contents of the provid
 template directory will be copied to a newly-created profile. This is useful if you want
 to create a new profile with the same extensions, settings, etc. as an existing one.
 
+!!! tip
+
+    If you want to use an existing profile as a template, make sure it is not running
+    before copying as a template. Otherwise, it will contain lock files that can cause
+    errors when creating or running a profile from template. You can check [FAQ](../help/faq.md#why-cant-i-create-a-profile-when-using-template)
+    for more details.
+
+You can check [a list of most available profile properties and settings](../resources/profile-properties.md).
+
 ### Removing a Profile
 
 ```shell
@@ -92,13 +101,6 @@ user data**. You might not be able to fully recover this action.
 
 The default profile cannot be completely removed. Trying to remove it will just clear all
 web apps and user data, but keep a profile ID in the profile list.
-
-!!! tip
-
-    If you want to use an existing profile as a template, make sure it is not running
-    before copying as a template. Otherwise, it will contain lock files that can cause
-    errors when creating or running a profile from template. You can check [FAQ](../help/faq.md#why-cant-i-create-a-profile-when-using-template)
-    for more details.
 
 ### Editing a Profile
 
@@ -134,7 +136,7 @@ will also return the web app ID that you will need to launch it.
 
 The profile is optional and will default to the shared profile. Other arguments are
 available; you can check them in the program help. You can also check [a list of most
-available app properties](../resources/web-app-properties.md).
+available web app properties and settings](../resources/web-app-properties.md).
 
 !!! warning
 

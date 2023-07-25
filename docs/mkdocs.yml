@@ -95,6 +95,7 @@ plugins:
       cache_safe: true
       css_files:
         - assets/stylesheets/theme.css
+  - macros
 
 extra_css:
   - assets/stylesheets/theme.css
@@ -131,8 +132,8 @@ nav:
   - Resources:
       - resources/installation-directories.md
       - resources/specific-website-tips.md
-      - resources/web-app-properties.md
       - resources/profile-properties.md
+      - resources/web-app-properties.md
   - Help:
       - help/support.md
       - help/troubleshooting.md
@@ -143,3 +144,6 @@ nav:
       - about/current-limitations.md
       - about/privacy-policy.md
       - about/contributing.md
+
+# TODO: Check if web can implement Schema.org/JSON-LD for Google search enhancements?
+# TODO: Potentially add some simple analytics/feedback service?

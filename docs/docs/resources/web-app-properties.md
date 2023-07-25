@@ -1,7 +1,5 @@
 # Web App Properties
 
-**TODO: Document recently-added web app properties/settings**
-
 ## Name
 
 A web app name. Used as an application name in the system menus.
@@ -36,12 +34,42 @@ are not supported and are ignored, but they can still be used for user organizat
 
 ## Start URL
 
-A URL that is opened when the web app is launched.
+A URL that is opened when the web app is launched. If not specified, the default start
+URL is used.
 
 ## Icon URL
 
-A URL of the icon that is used as an application icon.
+A URL of the icon that is used as an application icon. If not specified, the default
+icons are used.
 
 ## Protocol Handlers
 
 Determine which supported protocol handlers are enabled for that web app.
+
+By default, all protocol handlers specified in the web app manifest are disabled. Some
+websites also dynamically register protocol handlers; those are enabled automatically if
+you accept the Firefox prompt.
+
+## Auto Launch Settings
+
+### Launch this web app on matching website
+
+If enabled, all URLs that match the scopes of your web app will be automatically
+launched as a web app. Specific URLs can also be excluded from being automatically
+launched inside web apps with [the exclusion regex option](../user-guide/extension.md#automatic-launching-exclusion)
+in the main extension settings.
+
+This option is only available when [automatic web app launching](../user-guide/extension.md#enable-automatic-web-app-launching)
+is enabled in the main extension settings.
+
+### Launch this web app on system login
+
+If enabled, the web app will be automatically launched when you log into the system.
+
+This option is not available on macOS, as launching on login can easily be enabled directly
+from the macOS UI instead.
+
+### Launch this web app on browser launch
+
+If enabled, the web app will be automatically launched when you launch your main browser
+(the browser where the extension is installed).

@@ -48,16 +48,19 @@ curl -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Fire
 
 ## Reporting Issues
 
-Before creating bug reports, please check for any similar issues or pull requests. If
-they are already opened, please participle in that one.
-
+If you are having problems with the project, please make sure that you have read the
+documentation, especially [the FAQ page](faq.md). Before creating bug reports, please
+also check for any similar issues or pull requests. If any of them already exists, please
+participle in that one.
+S
 If you cannot determine and fix the problem yourself, please open a new issue and provide
 all the required information. If you were able to fix the problem, but you think the same
 problem might happen to other users, please report it and include your fix, so other
 users can find and fix it.
 
-When you are creating a bug report, please include as many details as possible. Fill out
-the required template, as that information will help us resolve it faster.
+When you are creating a bug report, please include as many details as possible. Fill out the
+required template, as that information will help us resolve it faster. [Our troubleshooting
+tasks](troubleshooting.md) can help you geather logs and other useful information.
 
 If you found a vulnerability or what you believe is a vulnerability, **do not** open a
 public issue or disclose it publicly. Please read [our security policy](https://github.com/filips123/PWAsForFirefox/blob/main/.github/SECURITY.md)
