@@ -18,6 +18,8 @@ theme:
   logo: assets/icons/logo.svg
   favicon: assets/icons/favicon.svg
 
+  custom_dir: overrides
+
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -93,9 +95,17 @@ plugins:
       minify_js: true
       minify_css: true
       cache_safe: true
+      htmlmin_opts:
+        remove_comments: true
+        reduce_boolean_attributes: true
       css_files:
         - assets/stylesheets/theme.css
   - macros
+
+hooks:
+  - hooks/breadcrumbs.py
+  - hooks/home.py
+  - hooks/faq.py
 
 extra_css:
   - assets/stylesheets/theme.css
@@ -145,5 +155,4 @@ nav:
       - about/privacy-policy.md
       - about/contributing.md
 
-# TODO: Check if web can implement Schema.org/JSON-LD for Google search enhancements?
 # TODO: Potentially add some simple analytics/feedback service?

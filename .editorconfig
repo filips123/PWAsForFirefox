@@ -14,7 +14,7 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 # Web & Data
-[*.{html,css,sass,scss,js,jsx,jsm,ts,tsx,vue,json,yaml,yml}]
+[*.{html,css,sass,scss,js,jsx,jsm,ts,tsx,vue,json,yaml,yml,webmanifest}]
 indent_size = 2
 
 # Configuration

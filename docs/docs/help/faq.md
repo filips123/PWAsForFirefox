@@ -1,5 +1,11 @@
 # Frequently Asked Questions
 
+<style>
+.md-typeset h2 + div > h3 {
+  margin-top: .8em;
+}
+</style>
+
 ## General
 
 ### What are Progressive Web Apps?

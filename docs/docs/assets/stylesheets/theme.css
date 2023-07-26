@@ -3,7 +3,8 @@ html {
 }
 
 .md-header, .md-tabs {
-  background: linear-gradient(90deg, rgb(255, 60, 97) 0%, rgb(254, 124, 56) 100%);
+  background-color: #cc3e46;
+  background-image: linear-gradient(90deg, rgb(255, 60, 97) 0%, rgb(254, 124, 56) 100%);
 }
 
 @media screen {

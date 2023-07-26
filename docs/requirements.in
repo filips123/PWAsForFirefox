@@ -2,3 +2,4 @@ mkdocs
 mkdocs-material
 mkdocs-minify-plugin
 mkdocs-macros-plugin
+beautifulsoup4[lxml]

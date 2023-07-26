@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+  {# Include web app manifest #}
+  <link rel="manifest" href="{{ config.site_url }}/assets/site.webmanifest" />
+
+  {% if page and page.is_homepage %}
+    {# Set custom social title for the homepage #}
+    <meta property="og:title" content="Progressive Web Apps for Firefox" />
+    <meta property="twitter:title" content="Progressive Web Apps for Firefox" />
+  {% endif %}
+
+  {% if page and page.meta and page.meta.schema %}
+    {# Support including JSON-LD schema #}
+    <script type="application/ld+json">{{ page.meta.schema | tojson }}</script>
+  {% endif %}
+{% endblock %}

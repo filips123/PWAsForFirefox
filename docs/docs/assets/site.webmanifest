@@ -1,0 +1,29 @@
+{
+  "name": "Progressive Web Apps for Firefox",
+  "short_name": "PWAsForFirefox",
+  "description": "A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox",
+  "categories": ["reference", "documentation", "network", "utilities"],
+  "keywords": ["pwas for firefox", "firefoxpwa", "webapp"],
+  "theme_color": "#cc3e46",
+  "start_url": "/",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "./icons/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "./icons/favicon-maskable.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./icons/favicon-monochrome.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "monochrome"
+    }
+  ]
+}

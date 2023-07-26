@@ -4,6 +4,8 @@
 #
 #    pip-compile
 #
+beautifulsoup4[lxml]==4.12.2
+    # via -r requirements.in
 certifi==2023.7.22
     # via requests
 charset-normalizer==3.2.0
@@ -30,6 +32,8 @@ jinja2==3.1.2
     #   mkdocs-material
 jsmin==3.0.1
     # via mkdocs-minify-plugin
+lxml==4.9.3
+    # via beautifulsoup4
 markdown==3.3.7
     # via
     #   mkdocs
@@ -77,6 +81,8 @@ requests==2.31.0
     # via mkdocs-material
 six==1.16.0
     # via python-dateutil
+soupsieve==2.4.1
+    # via beautifulsoup4
 termcolor==2.3.0
     # via mkdocs-macros-plugin
 urllib3==2.0.4
