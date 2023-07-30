@@ -70,3 +70,10 @@ script = [
     "echo FATAL: This environment does not support automatic installation using cargo-make",
     "exit 1"
 ]
+
+### OTHERS ###
+
+[tasks.set-version]
+description = "Set version to given version or current git tag"
+script_runner="@duckscript"
+script = "!include_files ./set-version.ds"

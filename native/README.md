@@ -83,8 +83,7 @@ cd PWAsForFirefox/native
 # Set the VERSION environment variable
 # And run the following commands to set version
 git checkout tags/v${VERSION}
-sed -i "s/version = \"0.0.0\"/version = \"$VERSION\"/g" Cargo.toml
-sed -i "s/DISTRIBUTION_VERSION = '0.0.0'/DISTRIBUTION_VERSION = '$VERSION'/g" userchrome/profile/chrome/pwa/chrome.jsm
+makers set-version ${VERSION}
 
 # Build and install the project
 makers install

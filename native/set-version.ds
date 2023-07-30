@@ -1,0 +1,52 @@
+# For Makefile.toml, but could be run on its own
+# Sets version strings in configuration files to first argument or from git
+
+fn <scope> replace_version
+    content = set ${1}
+    version_find = set ${2}
+    pwa_ver = set ${3}
+    quote_find = set ${4}
+    version_find_length = strlen ${version_find}
+    back_index = indexof ${content} ${version_find}
+    back_index = calc ${back_index} + ${version_find_length}
+    back = substring ${content} ${back_index}
+    back_length = strlen ${back}
+    front = substring ${content} -${back_length}
+    quote_find_index = indexof ${back} ${quote_find}
+    back = substring ${back} ${quote_find_index}
+    content = concat ${front} ${pwa_ver} ${back}
+    return ${content}
+end
+
+if ${1}
+    # Use first argument
+    pwa_ver = set ${1}
+else
+    # No argument, find tag from git
+    git_tag = exec git describe --tags --abbrev=0
+    assert_eq ${git_tag.code} 0 "No version provided to task and unable to retrieve git tag"
+    pwa_ver = trim ${git_tag.stdout}
+    release git_tag
+    unset git_tag
+end
+# Remove single leading v if it exists
+if starts_with ${pwa_ver} "v"
+    pwa_ver = substring ${pwa_ver} 1
+end
+
+cargo_toml_path = set "./Cargo.toml"
+chrome_jsm_path = set "./userchrome/profile/chrome/pwa/chrome.jsm"
+cargo_toml_exists = is_file ${cargo_toml_path}
+chrome_jsm_exists = is_file ${chrome_jsm_path}
+if ${cargo_toml_exists} and ${chrome_jsm_exists}
+    echo "Replacing version = \"${pwa_ver}\""
+    cargo_toml = readfile ${cargo_toml_path}
+    cargo_toml = replace_version ${cargo_toml} "# Version will be set by CI from the Git tag when building and releasing\nversion = \"" ${pwa_ver} "\""
+    writefile ${cargo_toml_path} ${cargo_toml}
+    echo "Replacing DISTRIBUTION_VERSION = '${pwa_ver}'"
+    chrome_jsm = readfile ${chrome_jsm_path}
+    chrome_jsm = replace_version ${chrome_jsm} "DISTRIBUTION_VERSION = '" ${pwa_ver} "'"
+    writefile ${chrome_jsm_path} ${chrome_jsm}
+else
+    assert_fail "Unable to locate ./Cargo.toml and ./userchrome/profile/chrome/pwa/chrome.jsm"
+end
