@@ -1,5 +1,5 @@
-# For Makefile.toml, but could be run on its own
-# Sets version strings in configuration files to first argument or from git
+# Called from Makefile.toml, but could be run on its own
+# Sets version strings in configuration files to first argument or git tag
 
 fn <scope> replace_version
     content = set ${1}
@@ -29,24 +29,32 @@ else
     release git_tag
     unset git_tag
 end
+
 # Remove single leading v if it exists
 if starts_with ${pwa_ver} "v"
     pwa_ver = substring ${pwa_ver} 1
 end
 
+# Replace versions in files
 cargo_toml_path = set "./Cargo.toml"
+cargo_lock_path = set "./Cargo.lock"
 chrome_jsm_path = set "./userchrome/profile/chrome/pwa/chrome.jsm"
 cargo_toml_exists = is_file ${cargo_toml_path}
+cargo_lock_exists = is_file ${cargo_lock_path}
 chrome_jsm_exists = is_file ${chrome_jsm_path}
-if ${cargo_toml_exists} and ${chrome_jsm_exists}
-    echo "Replacing version = \"${pwa_ver}\""
+if ${cargo_toml_exists} and ${cargo_lock_exists} and ${chrome_jsm_exists}
+    echo "Setting version in Cargo.toml to \"${pwa_ver}\""
     cargo_toml = readfile ${cargo_toml_path}
     cargo_toml = replace_version ${cargo_toml} "# Version will be set by CI from the Git tag when building and releasing\nversion = \"" ${pwa_ver} "\""
     writefile ${cargo_toml_path} ${cargo_toml}
-    echo "Replacing DISTRIBUTION_VERSION = '${pwa_ver}'"
+    echo "Setting version in Cargo.lock to \"${pwa_ver}\""
+    cargo_lock = readfile ${cargo_lock_path}
+    cargo_lock = replace_version ${cargo_lock} "name = \"firefoxpwa\"\nversion = \"" ${pwa_ver} "\""
+    writefile ${cargo_lock_path} ${cargo_lock}
+    echo "Setting version in chrome.jsm to \"${pwa_ver}\""
     chrome_jsm = readfile ${chrome_jsm_path}
     chrome_jsm = replace_version ${chrome_jsm} "DISTRIBUTION_VERSION = '" ${pwa_ver} "'"
     writefile ${chrome_jsm_path} ${chrome_jsm}
 else
-    assert_fail "Unable to locate ./Cargo.toml and ./userchrome/profile/chrome/pwa/chrome.jsm"
+    assert_fail "Unable to locate ./Cargo.toml, ./Cargo.lock and ./userchrome/profile/chrome/pwa/chrome.jsm"
 end

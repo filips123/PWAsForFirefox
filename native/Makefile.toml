@@ -74,6 +74,6 @@ script = [
 ### OTHERS ###
 
 [tasks.set-version]
-description = "Set version to given version or current git tag"
+description = "Set the version to a given version or the current Git tag"
 script_runner="@duckscript"
-script = "!include_files ./set-version.ds"
+script = "!include_files ./scripts/set-version.ds"
