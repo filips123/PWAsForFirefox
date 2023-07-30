@@ -27,7 +27,8 @@
     "fix": "run-s -c fix:*",
     "fix:eslint": "eslint --fix src icons",
     "prepare:clean": "rimraf dist",
-    "prepare:icons": "node ./icons/generate.js"
+    "prepare:icons": "node ./icons/generate.js",
+    "set-version": "node ./set-version.js"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.6",
