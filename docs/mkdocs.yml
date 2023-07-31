@@ -1,8 +1,7 @@
 site_name: PWAsForFirefox
 site_description: A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox
 site_author: filips
-site_url: https://example.com
-# TODO: Set the proper site URL
+site_url: https://pwasforfirefox.filips.si
 
 repo_name: filips123/PWAsForFirefox
 repo_url: https://github.com/filips123/PWAsForFirefox
@@ -98,6 +97,9 @@ plugins:
       htmlmin_opts:
         remove_comments: true
         reduce_boolean_attributes: true
+      js_files:
+        - assets/javascripts/statistics.js
+        - assets/javascripts/feedback.js
       css_files:
         - assets/stylesheets/theme.css
   - macros
@@ -106,6 +108,10 @@ hooks:
   - hooks/breadcrumbs.py
   - hooks/home.py
   - hooks/faq.py
+
+extra_javascript:
+  - assets/javascripts/statistics.js
+  - assets/javascripts/feedback.js
 
 extra_css:
   - assets/stylesheets/theme.css
@@ -124,6 +130,22 @@ extra:
     - icon: fontawesome/solid/comments
       link: https://github.com/filips123/PWAsForFirefox/discussions
       name: GitHub Discussions
+  analytics:
+    enabled: !ENV [ CI, false ]
+    endpoints:
+      views: https://www.filips.si/tools/pwasforfirefox/views.php
+      feedback: https://www.filips.si/tools/pwasforfirefox/feedback.php
+    feedback:
+      title: Was this page helpful?
+      ratings:
+        - icon: material/emoticon-happy-outline
+          name: This page was helpful
+          data: 1
+          note: Thanks for your feedback!
+        - icon: material/emoticon-sad-outline
+          name: This page could be improved
+          data: 0
+          note: Thanks for your feedback! Help us improve this page by <a href="https://github.com/filips123/PWAsForFirefox/issues/new?labels=enhancement,documentation&template=feature_request.md&title=Documentation feedback+for+*{title}*" target="_blank" rel="noopener">opening an issue</a>.
 
 nav:
   - index.md
@@ -131,6 +153,7 @@ nav:
       - installation/requirements.md
       - installation/extension.md
       - installation/native.md
+      - installation/updates.md
   - User Guide:
       - user-guide/extension.md
       - user-guide/console.md
@@ -144,6 +167,7 @@ nav:
       - resources/specific-website-tips.md
       - resources/profile-properties.md
       - resources/web-app-properties.md
+      # TODO: Document (un)supported manifest properties, specific web app APIs, etc.
   - Help:
       - help/support.md
       - help/troubleshooting.md
@@ -154,5 +178,3 @@ nav:
       - about/current-limitations.md
       - about/privacy-policy.md
       - about/contributing.md
-
-# TODO: Potentially add some simple analytics/feedback service?

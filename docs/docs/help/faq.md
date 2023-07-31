@@ -229,9 +229,9 @@ and screen-inefficient.
 A better solution is to manually apply custom CSS styling to customize the titlebar appearance:
 
 1. Locate your web app profiles inside [the profiles directory](../resources/installation-directories.md#profiles).
-2. Inside each profile directory, create an empty `chrome` directory.
-3. Inside the `chrome` directory, create an empty `userChrome.css` file.
-4. Copy the CSS provided below into the `userChrome.css` file.
+2. Inside each profile directory, create a `chrome` directory (if it does not exist yet).
+3. Inside the `chrome` directory, create a `userChrome.css` file (if it does not exist yet).
+4. Copy the CSS provided below into the `userChrome.css` file (you can also customize it).
 5. Enable `toolkit.legacyUserProfileCustomizations.stylesheets` inside `about:config`.
 6. Relaunch the web app.
 
@@ -247,9 +247,9 @@ A better solution is to manually apply custom CSS styling to customize the title
     needed. This style includes a centered icon and title elements and window controls
     on the left, as it is common on most macOS apps.
 
-??? note "Linux (GNOME)"
+??? note "Linux (GNOME, Cinnamon, MATE)"
 
-    On GNOME, you can use the following CSS to remove the icon and center the title:
+    On GNOME, Cinnamon and MATE, you can use the following CSS to remove the icon and center the title:
 
     ```css
     @-moz-document url('chrome://browser/content/browser.xhtml') {
@@ -270,13 +270,21 @@ A better solution is to manually apply custom CSS styling to customize the title
     }
     ```
 
-??? note "Linux (KDE)"
+??? note "Linux (KDE, Xfce, LXDE, LXQt)"
 
-    **TODO: Create a KDE-style CSS and include it here**
+    On KDE, Xfce, LXDE and LXQt, you can use the following CSS to center the title:
 
-??? note "Linux (XFCE)"
-
-    **TODO: Create a XFCE-style CSS and include it here**
+    ```css
+    @-moz-document url('chrome://browser/content/browser.xhtml') {
+      /* Horizontally center the title element */
+      .site-info > .tab-label-container {
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+        left: 9rem;
+      }
+    }
+    ```
 
 ??? note "Linux (tiling WMs)"
 
@@ -286,6 +294,10 @@ A better solution is to manually apply custom CSS styling to customize the title
     bar](../user-guide/browser.md#allowing-hiding-the-icon-bar) and hiding it in the
     customize page. Once disabled, you can temporarily show it using the ++ctrl+alt++
     keyboard shortcut
+
+<!-- Those CSS snippets that center elements only center them relative to the parent -->
+<!--If the user has a lot of widgets, the element might not be in the center of the window -->
+<!-- I don't know if there is any CSS solution that reliably works without other problems -->
 
 ## Usage
 

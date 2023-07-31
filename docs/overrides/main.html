@@ -12,6 +12,11 @@
 
   {% if page and page.meta and page.meta.schema %}
     {# Support including JSON-LD schema #}
-    <script type="application/ld+json">{{ page.meta.schema | tojson }}</script>
+    <script id="__jsonld" type="application/ld+json">{{ page.meta.schema | tojson }}</script>
+  {% endif %}
+
+  {% if config.extra.analytics.enabled %}
+    {# Store configuration for page view analytics #}
+    <script id="__analytics" type="application/json">{{ config.extra.analytics.endpoints | tojson }}</script>
   {% endif %}
 {% endblock %}
