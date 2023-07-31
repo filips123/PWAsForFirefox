@@ -96,11 +96,11 @@ Alternatively, you can:
 * Use [`cargo-deb`](https://github.com/kornelski/cargo-deb) to build the DEB package.
 * Use [`cargo-rpm`](https://github.com/iqlusioninc/cargo-rpm) to build the RPM package.
 
-If you want to modify the installation or runtime directory, you will also need to modify the source code before building. Check [the FAQ in the repository wiki](https://github.com/filips123/PWAsForFirefox/wiki/Frequently-Asked-Questions) for more details.
+If you want to modify the installation or runtime directory, please check [our FAQ page](https://pwasforfirefox.filips.si//help/faq/#how-to-install-this-project-to-a-different-location) for more details.
 
 ## Usage
 
-TODO: We now have documentation website, link it
+You can read [our documentation website](https://pwasforfirefox.filips.si/user-guide/console/) for usage instructions.
 
 ## Contributing
 

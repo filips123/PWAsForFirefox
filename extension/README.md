@@ -46,7 +46,7 @@ Note that these are development versions that may be unstable and are not signed
 
 ## Usage
 
-TODO: We now have documentation website, link it
+You can read [our documentation website](https://pwasforfirefox.filips.si/user-guide/extension/) for usage instructions.
 
 ## Contributing
 

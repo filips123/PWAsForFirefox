@@ -10,9 +10,9 @@
 
     <packageSourceUrl>https://github.com/filips123/PWAsForFirefox/tree/main/native/packages/choco</packageSourceUrl>
     <projectSourceUrl>https://github.com/filips123/PWAsForFirefox</projectSourceUrl>
-    <projectUrl>https://github.com/filips123/PWAsForFirefox</projectUrl>
+    <projectUrl>https://pwasforfirefox.filips.si/</projectUrl>
     <bugTrackerUrl>https://github.com/filips123/PWAsForFirefox/issues</bugTrackerUrl>
-    <docsUrl>https://github.com/filips123/PWAsForFirefox/wiki</docsUrl>
+    <docsUrl>https://pwasforfirefox.filips.si/</docsUrl>
     <licenseUrl>https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE</licenseUrl>
     <iconUrl>https://rawcdn.githack.com/wiki/filips123/PWAsForFirefox/images/icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

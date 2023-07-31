@@ -7,7 +7,7 @@ Thank you very much for considering contributing to this project!
 ### Bug Reports
 
 If you are having problems with the project, please make sure that you have
-read the documentation, especially [the FAQ page](TODO:-Link-to-the-faq-page).
+read the documentation, especially [the FAQ page](https://pwasforfirefox.filips.si/help/faq/).
 Before creating bug reports, please also check for any similar issues or pull
 requests. If any of them already exists, please participle in that one.
 
@@ -18,8 +18,8 @@ include your fix, so other users can find and fix it.
 
 When you are creating a bug report, please include as many details as possible.
 Fill out the required template, as that information will help us resolve it faster.
-[Our troubleshooting tasks](TODO:-Link-to-the-troubleshooting-page) can help you
-geather logs and other useful information.
+[Our troubleshooting tasks](https://pwasforfirefox.filips.si/help/troubleshooting/)
+can help you geather logs and other useful information.
 
 If you found a vulnerability or what you believe is a vulnerability, **do not**
 open a public issue or disclose it publicly. Please read our [security policy](SECURITY.md)

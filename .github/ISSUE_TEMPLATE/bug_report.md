@@ -6,7 +6,7 @@ labels: bug
 ---
 
 <!-- Before reporting a bug, read the troubleshooting steps: -->
-<!-- https://github.com/filips123/PWAsForFirefox/wiki/Troubleshooting -->
+<!-- https://pwasforfirefox.filips.si/help/troubleshooting/ -->
 
 <!-- Thank you for reporting a bug and helping to improve the project -->
 <!-- Please follow our issue template as much as possible -->

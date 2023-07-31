@@ -21,7 +21,7 @@ This project creates a custom modified Firefox runtime to allow websites to be i
 
 ## Usage
 
-**TLDR**: Install [the browser extension](https://addons.mozilla.org/firefox/addon/pwas-for-firefox/) and follow in-browser installation instructions. Check [the repository wiki](https://github.com/filips123/PWAsForFirefox/wiki) for simple usage instructions.
+**TLDR**: Install [the browser extension](https://addons.mozilla.org/firefox/addon/pwas-for-firefox/) and follow in-browser installation instructions. You can read [the documentation website](https://pwasforfirefox.filips.si/) for usage instructions.
 
 For detailed and more technical documentation how to set up, use and develop the project, see the READMEs of the native and extension part:
 
