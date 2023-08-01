@@ -15,11 +15,12 @@ to [the Firefox Privacy Notice](https://www.mozilla.org/privacy/firefox/).
 
 ## Website Privacy Policy
 
-This website uses the following third-party services:
+This website uses or accesses the following third-party services:
 
 * [Cloudflare Pages](https://www.cloudflare.com/privacypolicy/)
 * [Cloudflare Analytics](https://www.cloudflare.com/privacypolicy/)
 * [Google Fonts](https://developers.google.com/fonts/faq/privacy)
+* [Contrib.rocks](https://contrib.rocks/)
 * [Shields.io](https://shields.io/)
 * [GitHub](https://docs.github.com/en/site-policy/privacy-policies)
 

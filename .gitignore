@@ -34,6 +34,7 @@ pkg/
 target/
 
 # Cache & Temporary Files
+__pycache__/
 cache/
 tmp/
 .eslintcache
@@ -44,8 +45,9 @@ tmp/
 .nyc_output
 .parcel-cache
 .yarn-integrity
-*.tmp
+*.py[cod]
 *.rs.bk
+*.tmp
 
 # Dependencies
 bower_components/

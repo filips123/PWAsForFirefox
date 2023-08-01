@@ -158,10 +158,10 @@ nav:
       - user-guide/extension.md
       - user-guide/console.md
       - user-guide/browser.md
-  - Developer Guide:
+  # - Developer Guide:
       # TODO: How to access `firefoxpwa-connector` from third-party programs?
       # TODO: Some suggestions for third-party programs and integrations?
-      - developer-guide/todo.md
+      # - developer-guide/todo.md
   - Resources:
       - resources/installation-directories.md
       - resources/specific-website-tips.md

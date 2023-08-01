@@ -21,16 +21,16 @@ This project creates a custom modified Firefox runtime to allow websites to be i
 
 ## Usage
 
-**TLDR**: Install [the browser extension](https://addons.mozilla.org/firefox/addon/pwas-for-firefox/) and follow in-browser installation instructions. You can read [the documentation website](https://pwasforfirefox.filips.si/) for usage instructions.
+**TLDR**: Install [the browser extension](https://addons.mozilla.org/firefox/addon/pwas-for-firefox/) and follow in-browser installation instructions. You can read [the documentation website](https://pwasforfirefox.filips.si/) for usage instructions and other useful resources.
 
-For detailed and more technical documentation how to set up, use and develop the project, see the READMEs of the native and extension part:
+For more details and technical documentation about setting up, using, and developing the project, see the READMEs of the native and extension part:
 
 * [Native](native/README.md)
 * [Extension](extension/README.md)
 
 ## Features
 
-### Current Features
+### Available Features
 
 * Command-line tool to install, manage and run Progressive Web Apps in Firefox.
 * Extension to set up native programs, and install, manage and run PWAs and their profiles directly from the main Firefox browser.
@@ -58,37 +58,30 @@ For detailed and more technical documentation how to set up, use and develop the
 
 ### Current Limitations
 
-These are things that I would like to fix eventually, but will currently stay, either because they are too hard to fix, or would require modifying the Firefox source. I will appreciate any help to fix them.
+You can [our documentation website](https://pwasforfirefox.filips.si/about/current-limitations/) for a list of current limitations.
 
-* **All PWAs are merged with the first PWA that was opened (macOS):**
+## Supporters
 
-  When some PWA is already running, all newly launched PWAs will merge with it and remain merged until all of them are closed. This will cause the app menu to display all PWAs as part of the first PWA that was launched, with its icon and desktop actions (if any). See [this comment](https://github.com/filips123/PWAsForFirefox/issues/33#issuecomment-888511078) for more details and possible solutions. This problem is tracked as issue [#81](https://github.com/filips123/PWAsForFirefox/issues/81).
-
-  This issue can be prevented by installing each web app into a different profile, which is the default behaviour on macOS.
-
-* **Extension cannot detect the native program when using sandboxed Firefox (Linux Flatpak):**
-
-  When using Firefox distributed as a Flatpak package, the extension cannot detect the native program that is used. This is because Flatpak packages are sandboxed and cannot access/run other programs which is needed for Native Messaging API. This cannot be fixed until Native Messaging API gets support to work in sandboxed browser packages.
-
-  The workaround for this is to uninstall Flatpak-based Firefox and install a normal DEB package instead. See [#76](https://github.com/filips123/PWAsForFirefox/issues/76#issuecomment-962628218) for more details.
-
-  *Update:* Previously, this problem was also present on Snap, but it has been fixed recently. If you still cannot detect the native program, make sure Firefox is up-to-date.
-
-## Contributors & Sponsors
+### Sponsors
 
 Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this project and providing us a free hosting for our DEB and RPM packages!
 
-  [<img src="https://assets-production.packagecloud.io/assets/packagecloud-logo-med-dark-7c50ed4f26093115365c0c6e4e0e8a232bd5f8ea3aca3bd8994a627382af64c6.png" alt="Private NPM registry and Maven, RPM, DEB, PyPi and RubyGem Repository · packagecloud" width="500">](https://packagecloud.io/)
+  [<img src="https://assets-production.packagecloud.io/assets/packagecloud-logo-light-7fa6e801ee96415eed86693c85c4b0bbb20f9cf2b63fc11736ab597661fb5c0d.png" alt="Private NPM repository and Maven, RPM, DEB, PyPi and RubyGems repository · packagecloud" width="500">](https://packagecloud.io/)
 
 &nbsp;
 
-Thanks to [all contributors]((https://github.com/filips123/PWAsForFirefox/graphs/contributors)) to this project for providing help and developing features!
+Thanks to all donors for providing financial support for the project!</br>
+<sub>Please check [supported donation services](https://github.com/filips123/PWAsForFirefox?sponsor=1) if you want to help the project by donating.</sub>
+
+### Contributors
+
+Thanks to [all contributors](https://github.com/filips123/PWAsForFirefox/graphs/contributors) to this project for providing help and developing features!
 
   [![Contributors](https://contrib.rocks/image?repo=filips123/PWAsForFirefox)](https://github.com/filips123/PWAsForFirefox/graphs/contributors)
 
-&nbsp;
+### Other Mentions
 
-Thanks to all package maintainers making sure the project is up-to-date on all distributions, and donors for providing financial support for the project! Finally, thanks to Mozilla for creating Firefox and making it possible to modify the UI using JavaScript!
+Thanks to [all package maintainers](https://repology.org/project/firefoxpwa/information) making sure the project is up-to-date! Thanks to [all stargazers](https://github.com/filips123/PWAsForFirefox/stargazers) who starred our repository on GitHub. Finally, thanks to Mozilla and its developers for creating Firefox and making it possible to modify its UI using JavaScript!
 
 ## Versioning
 

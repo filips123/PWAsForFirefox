@@ -73,7 +73,8 @@ messages, please use Crowdin's discussions feature to communicate with others.
 
 If your language is not yet available, please contact me on Crowdin.
 
-*Note:* The localization feature is currently still work-in-progress, and not many
+> [!NOTE]
+> The localization feature is currently still work-in-progress, and not many
 strings are available for translation. Proper localization is being worked on.
 Please follow the Crowdin project for updates and new available messages.
 
