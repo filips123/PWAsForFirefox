@@ -9,7 +9,7 @@ Release: @@RELEASE@@%{?dist}
 License: MPLv2.0
 Group: Applications/Internet
 Source: %{name}-%{version}.tar.gz
-URL: https://github.com/filips123/PWAsForFirefox
+URL: https://pwasforfirefox.filips.si/
 Packager: filips <projects@filips.si>
 
 Recommends: (firefox or firefox-esr or firefox-beta or firefox-nightly)

@@ -244,8 +244,8 @@
         <!-- Configure info that are shown on Windows ARP page -->
         <Icon Id="ProductICO" SourceFile="packages\wix\assets\product.ico" />
         <Property Id="ARPPRODUCTICON" Value="ProductICO" />
-        <Property Id="ARPHELPLINK" Value="https://github.com/filips123/PWAsForFirefox" />
-        <Property Id="ARPURLINFOABOUT" Value="https://github.com/filips123/PWAsForFirefox" />
+        <Property Id="ARPHELPLINK" Value="https://pwasforfirefox.filips.si/" />
+        <Property Id="ARPURLINFOABOUT" Value="https://pwasforfirefox.filips.si/" />
         <Property Id="ARPURLUPDATEINFO" Value="https://github.com/filips123/PWAsForFirefox/releases" />
         <SetProperty Id="ARPINSTALLLOCATION" Value="[APPLICATIONFOLDER]" After="CostFinalize" />
 

@@ -2,10 +2,10 @@
 
 LICENSE
 
-The project is licensed under the Mozilla Public License 2.0. By using, redistributing, or
-modifying it, you must agree to the license, and the additional clauses provided below.
-See the LICENSE file <https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE> in
-the project repository for the full license text.
+The project is licensed under the Mozilla Public License 2.0 <https://www.mozilla.org/MPL/2.0/>.
+By using, redistributing, or modifying it, you must agree to the license, and the additional
+clauses provided below. See the LICENSE file <https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE>
+in the project repository for the full MPL 2.0 license text.
 
 The project uses additional third-party assets and code:
 

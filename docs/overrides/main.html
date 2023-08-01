@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+  {# Include web app manifest #}
+  <link rel="manifest" href="{{ config.site_url }}/assets/site.webmanifest" />
+
+  {# Include releases and commits feeds #}
+  <link rel="alternate" href="https://github.com/filips123/PWAsForFirefox/releases.atom" type="application/atom+xml" title="PWAsForFirefox Releases" />
+  <link rel="alternate" href="https://github.com/filips123/PWAsForFirefox/commits.atom" type="application/atom+xml" title="PWAsForFirefox Commits" />
+
+  {% if page and page.is_homepage %}
+    {# Prececonnect to the shields.io website for badges #}
+    <link rel="preconnect" href="https://img.shields.io" />
+
+    {# Set custom social title for the homepage #}
+    <meta property="og:title" content="Progressive Web Apps for Firefox" />
+    <meta property="twitter:title" content="Progressive Web Apps for Firefox" />
+  {% endif %}
+
+  {% if page and page.meta and page.meta.schema %}
+    {# Support including JSON-LD schema #}
+    <script id="__jsonld" type="application/ld+json">{{ page.meta.schema | tojson }}</script>
+  {% endif %}
+
+  {% if config.extra.analytics.enabled %}
+    {# Store configuration for page view analytics #}
+    <script id="__analytics" type="application/json">{{ config.extra.analytics.endpoints | tojson }}</script>
+  {% endif %}
+{% endblock %}

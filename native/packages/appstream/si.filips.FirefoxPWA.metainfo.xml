@@ -5,10 +5,10 @@
     <name>Progressive Web Apps for Firefox</name>
     <summary>A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox (native component)</summary>
 
-    <url type="homepage">https://github.com/filips123/PWAsForFirefox</url>
+    <url type="homepage">https://pwasforfirefox.filips.si/</url>
     <url type="bugtracker">https://github.com/filips123/PWAsForFirefox/issues</url>
-    <url type="faq">https://github.com/filips123/PWAsForFirefox/wiki/Frequently-Asked-Questions</url>
-    <url type="help">https://github.com/filips123/PWAsForFirefox/wiki</url>
+    <url type="faq">https://pwasforfirefox.filips.si/help/faq/</url>
+    <url type="help">https://pwasforfirefox.filips.si/</url>
     <url type="donation">https://github.com/filips123/PWAsForFirefox?sponsor=1</url>
     <url type="translate">https://crowdin.com/project/firefoxpwa</url>
     <url type="vcs-browser">https://github.com/filips123/PWAsForFirefox</url>

@@ -1,0 +1,26 @@
+html {
+  overscroll-behavior-y: none;
+}
+
+.md-header, .md-tabs {
+  background-color: #cc3e46;
+  background-image: linear-gradient(90deg, rgb(255, 60, 97) 0%, rgb(254, 124, 56) 100%);
+}
+
+@media screen {
+  [data-md-color-scheme="slate"] {
+    --md-hue: 240;
+    --md-default-fg-color: hsla(var(--md-hue), 25%, 95%, 1);
+    --md-default-fg-color--light: hsla(var(--md-hue), 25%, 90%, 0.62);
+    --md-default-fg-color--lighter: hsla(var(--md-hue), 25%, 90%, 0.32);
+    --md-default-fg-color--lightest: hsla(var(--md-hue), 25%, 90%, 0.12);
+    --md-default-bg-color: hsla(var(--md-hue), 7%, 13%, 1);
+    --md-default-bg-color--light: hsla(var(--md-hue), 7%, 13%, 0.54);
+    --md-default-bg-color--lighter: hsla(var(--md-hue), 7%, 13%, 0.26);
+    --md-default-bg-color--lightest: hsla(var(--md-hue), 7%, 13%, 0.07);
+    --md-code-fg-color: hsla(var(--md-hue), 7%, 90%, 1);
+    --md-code-bg-color: hsla(var(--md-hue), 7%, 17%, 1);
+    --md-footer-bg-color: hsla(var(--md-hue), 7%, 10%, 0.87);
+    --md-footer-bg-color--dark: hsla(var(--md-hue), 7%, 8%, 1);
+  }
+}

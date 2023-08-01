@@ -53,7 +53,8 @@ Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this projec
 * Arch User Repository: [`firefox-pwa-bin`](https://aur.archlinux.org/packages/firefox-pwa-bin/) (pre-built)
 * Gentoo GURU: [`www-plugins/firefoxpwa`](https://gpo.zugaina.org/Overlays/guru/www-plugins/firefoxpwa)
 
-*Note:* If you want to package PWAsForFirefox for your distribution or package manager, or have already packaged it, please let me know, so I can help with the packaging and list it in the installation instructions. If the packaging platform supports any auto-submission/uploading feature, please also let me know, as I might integrate it directly with GitHub Actions to make sure the packages are always up-to-date.
+> [!NOTE]
+> If you want to package PWAsForFirefox for your distribution or package manager, or have already packaged it, please let me know, so I can help with the packaging and list it in the installation instructions. If the packaging platform supports any auto-submission/uploading feature, please also let me know, as I might integrate it directly with GitHub Actions to make sure the packages are always up-to-date.
 
 ### From Release Binaries
 
@@ -95,95 +96,11 @@ Alternatively, you can:
 * Use [`cargo-deb`](https://github.com/kornelski/cargo-deb) to build the DEB package.
 * Use [`cargo-rpm`](https://github.com/iqlusioninc/cargo-rpm) to build the RPM package.
 
-If you want to modify the installation or runtime directory, you will also need to modify the source code before building. Check [the FAQ in the repository wiki](https://github.com/filips123/PWAsForFirefox/wiki/Frequently-Asked-Questions) for more details.
+If you want to modify the installation or runtime directory, please check [our FAQ page](https://pwasforfirefox.filips.si//help/faq/#how-to-install-this-project-to-a-different-location) for more details.
 
 ## Usage
 
-### Runtime Management
-
-Before you can use this project, you need to download and install Firefox browser runtime:
-
-```shell
-firefoxpwa runtime install
-```
-
-The runtime will be completely separated from your main Firefox installation.
-
-To install runtime on Windows, you will need [7-Zip](https://7-zip.org/) installed. Installing the runtime will automatically trigger the 7-Zip installer if needed. This may require accepting User Account Control prompt. You can also manually install 7-Zip or use your existing 7-zip installation. After the runtime is installed, you can delete 7-Zip manually.
-
-You can also uninstall the runtime, but you won't be able to use this project again until you install it back:
-
-```shell
-firefoxpwa runtime uninstall
-```
-
-### Profile Management
-
-By default, all web apps will be installed to a common profile with ID `00000000000000000000000000`. You can also create separate isolated profiles and install web apps there. This means you can also install multiple instances of the same web app with different accounts.
-
-* To create a new separate profile:
-
-  ```shell
-  firefoxpwa profile create --name PROFILE-NAME --description PROFILE-DESCRIPTION
-  ```
-
-  Both the name and description arguments are optional. This will create a new profile directory and return its ID. You will need that ID to later install the web apps into a profile or remove it.
-
-* To remove an existing profile:
-
-  ```shell
-  firefoxpwa profile remove ID
-  ```
-
-  This will completely remove the profile and all web apps installed in it, including all user data. You might not be able to fully recover this action. Note that a default profile cannot be completely removed, and trying to remove it will just clear all web apps and user data, but keep a profile ID in the profile list.
-
-* To update an existing profile:
-
-   ```shell
-   firefoxpwa profile update ID --name NEW-PROFILE-NAME --description NEW-PROFILE-DESCRIPTION
-   ```
-
-  This will just change your profile name and description, while keeping the ID and all web apps intact.
-
-* To view all available profiles and installed web apps:
-
-  ```shell
-  firefoxpwa profile list
-  ```
-
-  This will print all your profiles and web apps installed in them, including their IDs. You will need profile IDs to install a new web app into a separate profile or remove a profile, and web app IDs to launch or remove them.
-
-### Web App Management
-
-* To install a site as a web app:
-
-  ```shell
-  firefoxpwa site install MANIFEST-URL --profile PROFILE-ID
-  ```
-
-  The profile is optional and will default to a common profile. There are also some other options, you can check them in the program help. This will download the web app manifest, parse it and register the web app to the OS. It will also return the web app ID that you will need to launch it.
-
-* To uninstall a web app:
-
-  ```shell
-  firefoxpwa site uninstall ID
-  ```
-
-  This will uninstall the web app and remove it from the list. However, web app data will stay and will be reused if you later install it again in the same profile. To clear the data, do that through the PWA browser, or also remove a profile.
-
-* To launch a web app:
-
-  ```shell
-  firefoxpwa site launch ID
-  ```
-
-  This will launch the Firefox browser runtime and open the web app.
-
-### Other
-
-This project provides shell completion files for Bash, Elvish, Fish, PowerShell, and Zsh. On Windows, all completions are installed into the `completions` directory in your chosen installation directory, but you need to manually load them into your shell. When using DEB or RPM packages or installing the package from Homebrew, completions for Bash, Fish, and Zsh are automatically installed into required directories and loaded by shells. For other operating systems or shells, you can find the pre-built completions in build artifacts or release attachments, or build them along with the project (they will be in `target/{PROFILE}/completions`).
-
-You can also check the built-in program help (`firefoxpwa --help`).
+You can read [our documentation website](https://pwasforfirefox.filips.si/user-guide/console/) for usage instructions.
 
 ## Contributing
 
