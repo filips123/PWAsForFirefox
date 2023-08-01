@@ -31,7 +31,7 @@ jobs:
             ~/.cache/yarn
             ~/.config/yarn
             ./extension/.parcel-cache
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-lint-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-yarn-
 
       - name: Install Node.js
@@ -60,7 +60,7 @@ jobs:
             ~/.cache/yarn
             ~/.config/yarn
             ./extension/.parcel-cache
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-build-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-yarn-
 
       - name: Install Node.js

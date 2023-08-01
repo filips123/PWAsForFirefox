@@ -128,9 +128,12 @@ jobs:
       - name: Configure cache
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: native
+          workspaces: |
+            native
+            native/packages/paf/PWAsForFirefoxHelpers
           cache-on-failure: true
-          key: ${{ matrix.target }}
+          cache-all-crates: true
+          key: ${{ matrix.target }}-${{ matrix.portable == true }}
 
       - name: Install cross (Linux)
         if: matrix.os == 'ubuntu-latest'
