@@ -1,0 +1,56 @@
+name: Docs CI/CD
+
+on:
+  push:
+    tags: [ v** ]
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: docs
+    shell: bash
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      deployments: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Configure cache
+        run: echo "CACHE_ID=$(date --utc '+%Y-%V')" >> $GITHUB_ENV
+
+      - name: Configure cache
+        uses: actions/cache@v3
+        with:
+          path: ./docs/.cache
+          key: mkdocs-${{ env.CACHE_ID }}
+          restore-keys: mkdocs-
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build the documentation
+        run: mkdocs build
+
+      - name: Publish the documentation
+        uses: cloudflare/pages-action@v1
+        with:
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          projectName: pwasforfirefox
+          workingDirectory: docs
+          directory: dist
