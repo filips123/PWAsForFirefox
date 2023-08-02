@@ -16,11 +16,11 @@ hide:
 
 <div style="text-align:center;" markdown>
 
-[![Release](https://img.shields.io/github/v/release/filips123/PWAsForFirefox?sort=semver&style=flat-square)](https://github.com/filips123/PWAsForFirefox/releases/latest)
-[![Users](https://img.shields.io/amo/users/pwas-for-firefox?style=flat-square)](https://addons.mozilla.org/firefox/addon/pwas-for-firefox/)
-[![Rating](https://img.shields.io/amo/rating/pwas-for-firefox?style=flat-square)](https://addons.mozilla.org/firefox/addon/pwas-for-firefox/reviews/)
-[![License](https://img.shields.io/github/license/filips123/PWAsForFirefox?style=flat-square)](https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE)
-[![Repositories](https://img.shields.io/repology/repositories/firefoxpwa?style=flat-square)](https://repology.org/project/firefoxpwa/versions)
+[![Release](https://img.shields.io/github/v/release/filips123/PWAsForFirefox?sort=semver&style=flat-square&cacheSeconds=3600)](https://github.com/filips123/PWAsForFirefox/releases/latest)
+[![Users](https://img.shields.io/amo/users/pwas-for-firefox?style=flat-square&cacheSeconds=86400)](https://addons.mozilla.org/firefox/addon/pwas-for-firefox/)
+[![Rating](https://img.shields.io/amo/rating/pwas-for-firefox?style=flat-square&cacheSeconds=86400)](https://addons.mozilla.org/firefox/addon/pwas-for-firefox/reviews/)
+[![License](https://img.shields.io/github/license/filips123/PWAsForFirefox?style=flat-square&cacheSeconds=86400)](https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE)
+[![Repositories](https://img.shields.io/repology/repositories/firefoxpwa?style=flat-square&cacheSeconds=86400)](https://repology.org/project/firefoxpwa/versions)
 [![Packagecloud.io DEB](https://img.shields.io/badge/deb-packagecloud.io-844fec.svg?style=flat-square)](https://packagecloud.io/filips/FirefoxPWA)
 [![Packagecloud.io RPM](https://img.shields.io/badge/rpm-packagecloud.io-844fec.svg?style=flat-square)](https://packagecloud.io/filips/FirefoxPWA)
 
@@ -95,7 +95,7 @@ You can see a full list of features [on a dedicated page](about/supported-featur
 Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this project and
 providing us a free hosting for our DEB and RPM packages!
 
-[<img src="https://assets-production.packagecloud.io/assets/packagecloud-logo-light-7fa6e801ee96415eed86693c85c4b0bbb20f9cf2b63fc11736ab597661fb5c0d.png" alt="Private NPM repository and Maven, RPM, DEB, PyPi and RubyGems repository · packagecloud" width="500">](https://packagecloud.io/)
+[![Private NPM repository and Maven, RPM, DEB, PyPi and RubyGems repository · packagecloud](https://assets-production.packagecloud.io/assets/packagecloud-logo-light-7fa6e801ee96415eed86693c85c4b0bbb20f9cf2b63fc11736ab597661fb5c0d.png){ loading=lazy width=500 }](https://packagecloud.io/)
 
 Thanks to all donors for providing financial support for the project!
 {: style="padding-top:0.5rem;padding-bottom:0.5rem;" }
@@ -110,7 +110,7 @@ Thanks to all donors for providing financial support for the project!
 Thanks to [all contributors](https://github.com/filips123/PWAsForFirefox/graphs/contributors)
 to this project for providing help and developing features!
 
-[![Contributors](https://contrib.rocks/image?repo=filips123/PWAsForFirefox)](https://github.com/filips123/PWAsForFirefox/graphs/contributors)
+[![Contributors](https://contrib.rocks/image?repo=filips123/PWAsForFirefox){ loading=lazy }](https://github.com/filips123/PWAsForFirefox/graphs/contributors)
 
 <h3>Other Mentions</h3>
 

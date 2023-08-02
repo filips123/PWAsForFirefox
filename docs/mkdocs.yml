@@ -110,8 +110,10 @@ hooks:
   - hooks/faq.py
 
 extra_javascript:
-  - assets/javascripts/statistics.js
-  - assets/javascripts/feedback.js
+  - path: assets/javascripts/statistics.js
+    defer: true
+  - path: assets/javascripts/feedback.js
+    defer: true
 
 extra_css:
   - assets/stylesheets/theme.css
