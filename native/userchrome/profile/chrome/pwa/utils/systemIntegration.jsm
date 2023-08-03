@@ -1,11 +1,11 @@
 const EXPORTED_SYMBOLS = ['buildIconList', 'applySystemIntegration', 'applyDynamicThemeColor'];
 
 const { XPCOMUtils } = ChromeUtils.import('resource://gre/modules/XPCOMUtils.jsm');
+const Services = globalThis.Services || ChromeUtils.import('resource://gre/modules/Services.jsm').Services;
 XPCOMUtils.defineLazyModuleGetters(this, {
   AppConstants: 'resource://gre/modules/AppConstants.jsm',
   ImageTools: 'resource:///modules/ssb/ImageTools.jsm',
   NetUtil: 'resource://gre/modules/NetUtil.jsm',
-  Services: 'resource://gre/modules/Services.jsm',
   xPref: 'resource://pwa/utils/xPref.jsm',
 });
 XPCOMUtils.defineLazyServiceGetter(this, 'ImgTools', '@mozilla.org/image/tools;1', Ci.imgITools);

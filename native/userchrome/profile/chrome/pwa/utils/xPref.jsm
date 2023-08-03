@@ -3,7 +3,7 @@ const EXPORTED_SYMBOLS = ['xPref'];
 // File is mostly copied from xiaoxiaoflood/firefox-scripts repository on GitHub, licensed under MPL 2.0
 // Original source: https://github.com/xiaoxiaoflood/firefox-scripts/blob/69675c7f09e9009b63b1cc239b94c03c5962a9d7/chrome/utils/xPref.jsm
 
-const { Services } = ChromeUtils.import('resource://gre/modules/Services.jsm');
+const Services = globalThis.Services || ChromeUtils.import('resource://gre/modules/Services.jsm').Services;
 
 const xPref = {
   get: function (prefPath, def = false, valueIfUndefined, setDefault = true) {

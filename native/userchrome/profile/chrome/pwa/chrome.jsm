@@ -1,9 +1,9 @@
 const EXPORTED_SYMBOLS = [];
 
 const { XPCOMUtils } = ChromeUtils.import('resource://gre/modules/XPCOMUtils.jsm');
+const Services = globalThis.Services || ChromeUtils.import('resource://gre/modules/Services.jsm').Services;
 XPCOMUtils.defineLazyModuleGetters(this, {
   AppConstants: 'resource://gre/modules/AppConstants.jsm',
-  Services: 'resource://gre/modules/Services.jsm',
   applySystemIntegration: 'resource://pwa/utils/systemIntegration.jsm',
 });
 
