@@ -4,8 +4,11 @@ XPCOMUtils.defineLazyModuleGetters(this, {
 });
 
 class PwaPreferences {
+  preferenceElementsAdded = false
+
   constructor () {
     this.addPreferenceData();
+    try { this.addPreferenceElements() } catch {}
     hookFunction(gMainPane, 'init', null, () => { this.addPreferenceElements(); });
 
     // Handle switch of preferences on load and when they changes
@@ -35,6 +38,9 @@ class PwaPreferences {
   }
 
   addPreferenceElements () {
+    if (this.preferenceElementsAdded) return;
+    this.preferenceElementsAdded = true;
+
     const firefoxpwaGroup = MozXULElement.parseXULToFragment(`
 <groupbox id="firefoxpwaGroup" data-category="paneGeneral">
   <label>
