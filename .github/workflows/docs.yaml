@@ -54,3 +54,4 @@ jobs:
           projectName: pwasforfirefox
           workingDirectory: docs
           directory: dist
+          branch: main
