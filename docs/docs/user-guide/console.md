@@ -179,5 +179,7 @@ firefoxpwa site launch ID
 
 This will launch the Firefox browser runtime and open the web app.
 
-To launch a web app with a custom start URL, use the `--url` argument. To launch a web app
-with a protocol handler (on supported web apps), use the `--protocol` argument.
+To launch a web app with a custom start URL, use the `--url` argument. When the tabs mode
+is enabled, you may specify this argument multiple times to launch URLs as multiple tabs.
+To launch a web app with a protocol handler (on supported web apps), use the `--protocol`
+argument.

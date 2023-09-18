@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 
 use anyhow::Result;
+use serde_with::{DefaultOnNull, OneOrMany};
 use serde::{Deserialize, Deserializer};
 use ulid::Ulid;
 use url::Url;
@@ -200,7 +201,8 @@ pub struct LaunchSite {
     ///
     /// Used to launch a web app on custom URL.
     /// If not specified, a default URL is used.
-    pub url: Option<Url>,
+    #[serde(default, with = "serde_with::As::<DefaultOnNull<OneOrMany<serde_with::Same>>>")]
+    pub url: Vec<Url>,
 }
 
 /// Installs a new web app.

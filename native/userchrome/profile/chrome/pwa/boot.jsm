@@ -5,19 +5,19 @@ const Services = globalThis.Services || ChromeUtils.import('resource://gre/modul
 XPCOMUtils.defineLazyGetter(this, 'gSystemPrincipal', () => Services.scriptSecurityManager.getSystemPrincipal());
 XPCOMUtils.defineLazyModuleGetters(this, {
   AppConstants: 'resource://gre/modules/AppConstants.jsm',
+  BrowserWindowTracker: 'resource:///modules/BrowserWindowTracker.jsm',
   NetUtil: 'resource://gre/modules/NetUtil.jsm',
   applySystemIntegration: 'resource://pwa/utils/systemIntegration.jsm',
 });
-XPCOMUtils.defineLazyServiceGetter(this, 'PromptService', '@mozilla.org/embedcomp/prompt-service;1', Ci.nsIPromptService);
 
 /**
- * Read the PWAsForFirefox config file and parse it as JSON.
+ * Reads the PWAsForFirefox config file and parses it as JSON.
  *
  * Function determines config filename based on the current profile directory, and reads it
  * using internal Firefox functions. This relies on specific directory structure, so relocating
  * the profile directory or config file will break config reading.
  *
- * @returns {object} Config file as a parsed JSON object.
+ * @returns {object} - The config file content as a parsed JSON object.
  */
 function readConfig () {
   const profileDir = PathUtils.profileDir || Services.dirsvc.get('ProfD', Ci.nsIFile).path;
@@ -34,95 +34,85 @@ function readConfig () {
 }
 
 /**
- * Launch the PWAsForFirefox site with URL and ID.
+ * Launches a web app with the provided URL list and sets its config.
  *
- * The browser window will be passed the site URL, which will be automatically opened by the original
- * handler. It will also set the window `gFFPWASiteConfig` property with the configuration of the
- * specific site it's launching to allow to determining other PWA properties.
+ * The function launches a new browser window (or uses an existing one, depending on the user settings)
+ * with the provided URL list. It also sets the window's `gFFPWASiteConfig` property with the configuration
+ * of the specific web app it's launching to allow determining other web app properties and features.
  *
- * @param {string} siteUrl - Site URL
- * @param {object} siteConfig - Site config
- * @param {boolean} isStartup - Is this initial launch (used to attempt to use the `navigator:blank` window)
+ * @param {object} siteConfig - The web app config.
+ * @param {string[]} urlList - The list of URLs to open.
+ * @param {boolean} isStartup - If this is the initial launch. Used to attempt to use the `navigator:blank` window.
  *
- * @returns {ChromeWindow&Window} The new window
+ * @returns {ChromeWindow&Window} - The new window.
  */
-function launchSite (siteUrl, siteConfig, isStartup) {
-  const args = [
-    siteUrl,
-    null,
-    null,
-    null,
-    undefined,
-    undefined,
-    null,
-    null,
-    gSystemPrincipal,
-  ];
-
+function launchSite (siteConfig, urlList, isStartup) {
   // Handle launching a web app when the same web app is already opened
   // We have to specify pref directly as we cannot access ChromeLoader yet
   const launchType = Services.prefs.getIntPref('firefoxpwa.launchType', 0);
   if (launchType) {
     for (const win of Services.wm.getEnumerator('navigator:browser')) {
       if (win.gFFPWASiteConfig?.ulid === siteConfig.ulid) {
-        switch (launchType) {
-          case 1:
-            // Open a new tab in the existing window
-            win.openTrustedLinkIn(siteUrl, 'tab', {});
-            return win;
-          case 2:
-            // Open in an existing tab in the existing window
-            win.openTrustedLinkIn(siteUrl, 'current', {});
-            return win;
-          case 3:
-            // Focus the existing window
-            win.focus();
-            return win;
+        for (const url of urlList) {
+          switch (launchType) {
+            case 1:
+              // Open a new tab in the existing window
+              win.openTrustedLinkIn(url, 'tab', {});
+              break;
+            case 2:
+              // Open in an existing tab in the existing window
+              win.openTrustedLinkIn(url, 'current', {});
+              break;
+            case 3:
+              // Focus the existing window
+              win.focus();
+              break;
+          }
         }
+        return win;
       }
     }
   }
 
-  // Try to use the `navigator:blank` window opened by `BrowserGlue.jsm` during early startup
-  let win = Services.wm.getMostRecentWindow('navigator:blank');
-  if (isStartup && win) {
-    // Apply system integration
-    applySystemIntegration(win, siteConfig);
-
-    // Remove the window type of blank window so that we don't close it later
-    win.document.documentElement.removeAttribute('windowtype');
-
-    // Load the browser chrome and set site config
-    const openTime = win.openTime;
-    win.location = AppConstants.BROWSER_CHROME_URL;
-    win.arguments = args;
-
-    win.gFFPWASiteConfig = siteConfig;
-
-    ChromeUtils.addProfilerMarker('earlyBlankWindowVisible', openTime);
-    return win;
-  }
-
-  // Convert the window args to the correct format for `openWindow`
-  const array = Cc['@mozilla.org/array;1'].createInstance(Ci.nsIMutableArray);
-  args.forEach(arg => {
-    if (typeof arg === 'string') {
-      const string = Cc['@mozilla.org/supports-string;1'].createInstance(Ci.nsISupportsString);
-      string.data = arg;
-      arg = string;
-    }
-
-    array.appendElement(arg);
+  // Passing an `nsIArray` for the URL disables the `|`-splitting behavior
+  const urlArray = Cc['@mozilla.org/array;1'].createInstance(Ci.nsIMutableArray);
+  urlList.forEach(url => {
+    const string = Cc['@mozilla.org/supports-string;1'].createInstance(Ci.nsISupportsString);
+    string.data = url;
+    urlArray.appendElement(string);
   });
 
-  // Open a new browser window
-  win = Services.ww.openWindow(null, AppConstants.BROWSER_CHROME_URL, '_blank', 'chrome,dialog=no,all', array);
+  // Try to use the `navigator:blank` window opened by `BrowserGlue` during early startup
+  if (isStartup) {
+    const win = Services.wm.getMostRecentWindow('navigator:blank');
+    if (win) {
+      // Apply the system integration and set the site config
+      applySystemIntegration(win, siteConfig);
+      win.gFFPWASiteConfig = siteConfig;
+
+      // Remove the window type of blank window so that we don't close it later
+      win.document.documentElement.removeAttribute('windowtype');
+
+      // Load the browser chrome and register the window
+      const openTime = win.openTime;
+      win.location = AppConstants.BROWSER_CHROME_URL;
+      win.arguments = [urlArray];
+
+      ChromeUtils.addProfilerMarker('earlyBlankWindowVisible', openTime);
+      BrowserWindowTracker.registerOpeningWindow(win, false);
+      return win;
+    }
+  }
+
+  // Open a new browser window through the window tracker
+  const argsArray = Cc['@mozilla.org/array;1'].createInstance(Ci.nsIMutableArray);
+  argsArray.appendElement(urlArray);
+  const win = BrowserWindowTracker.openWindow({ args: argsArray });
+
+  // Apply the system integration and set the site config
+  applySystemIntegration(win, siteConfig);
   win.gFFPWASiteConfig = siteConfig;
 
-  // Apply system integration
-  applySystemIntegration(win, siteConfig);
-
-  // Return window
   return win;
 }
 
@@ -146,45 +136,55 @@ nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
       config = readConfig();
     } catch (error) {
       console.error(error);
-      PromptService.alert(null, null, 'Failed to load the PWAsForFirefox configuration file.');
+      Services.prompt.alert(null, null, 'Failed to load the PWAsForFirefox configuration file.');
       Services.wm.getMostRecentWindow('navigator:blank')?.close();
       return;
     }
 
-    let startUrl;
+    let siteConfig;
     try {
-      // Use user-specified start URL if it exists, otherwise use manifest-specified start URL
-      let userStartUrl = config.sites[siteId].config.start_url;
-      let manifestStartUrl = config.sites[siteId].manifest.start_url;
-      startUrl = userStartUrl ? userStartUrl : manifestStartUrl;
+      siteConfig = config.sites[siteId];
     } catch (_) {
-      PromptService.alert(null, null, `No web app installed with requested ULID: ${siteId}\n`);
+      Services.prompt.alert(null, null, `No web app installed with requested ULID: ${siteId}\n`);
       Services.wm.getMostRecentWindow('navigator:blank')?.close();
       return;
     }
 
-    // Overwrite start URL by a command line parameter if it exists
-    // This is used for launching site shortcuts and can be used to temporary overwrite start URL
-    let commandUrl = cmdLine.handleFlagWithParam('url', false);
-    if (commandUrl) startUrl = commandUrl;
+    // Parse start URLs from the provided arguments
+    // Can be used for launching shortcuts or to temporarily overwrite start URL
+    const urlList = [];
+    let urlArgument;
+    while ((urlArgument = cmdLine.handleFlagWithParam('url', false))) {
+      const fixedUrl = Services.uriFixup.getFixupURIInfo(urlArgument, Services.uriFixup.FIXUP_FLAG_NONE).preferredURI;
+      if (fixedUrl.schemeIs('chrome')) continue;
+      urlList.push(fixedUrl.spec);
+    }
 
-    launchSite(startUrl, config.sites[siteId], isStartup);
+    if (!urlList.length) {
+      // If no URLs are provided in arguments, obtain the default start URL
+      // Use user-specified start URL if it exists, otherwise use manifest-specified start URL
+      const userStartUrl = siteConfig.config.start_url;
+      const manifestStartUrl = siteConfig.manifest.start_url;
+      urlList.push(userStartUrl ? userStartUrl : manifestStartUrl);
+    }
 
-  } else {
-    this._handle(cmdLine);
+    launchSite(siteConfig, urlList, isStartup);
+    return;
   }
+
+  this._handle(cmdLine);
 }
 
-// Partial fix for reopening web app after closing all windows on macOS
-// Still not complete because it does not work when multiple web apps are used in the same profile
+// Partial fix for reopening web app after closing all windows on macOS (#42)
+// Still does not work when multiple web apps are used in the same profile
 // This does not matter currently because of #81, but once it is fixed, this also needs to be reworked
 if (AppConstants.platform === 'macosx') {
   const { nsBrowserContentHandler } = Cu.import('resource:///modules/BrowserContentHandler.jsm');
   nsBrowserContentHandler.prototype._getArgs = nsBrowserContentHandler.prototype.getArgs;
   nsBrowserContentHandler.prototype.getArgs = function () {
     if (globalThis.gFFPWASiteConfig) {
-      let userStartUrl = globalThis.gFFPWASiteConfig.config.start_url;
-      let manifestStartUrl = globalThis.gFFPWASiteConfig.manifest.start_url;
+      const userStartUrl = globalThis.gFFPWASiteConfig.config.start_url;
+      const manifestStartUrl = globalThis.gFFPWASiteConfig.manifest.start_url;
       return userStartUrl ? userStartUrl : manifestStartUrl;
     } else {
       return this._getArgs(...arguments);

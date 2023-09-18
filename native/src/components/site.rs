@@ -179,7 +179,7 @@ impl Site {
         dirs: &ProjectDirs,
         runtime: &Runtime,
         config: &Config,
-        url: &Option<Url>,
+        urls: &[Url],
         arguments: &[String],
         variables: I,
     ) -> Result<Child> {
@@ -194,8 +194,8 @@ impl Site {
             "--pwa".into(), self.ulid.to_string(),
         ];
 
-        // Allow launching web app on a specific URL
-        if let Some(url) = url {
+        // Allow launching web app on specific URLs
+        for url in urls {
             args.extend_from_slice(&["--url".into(), url.to_string()]);
         }
 

@@ -48,7 +48,7 @@ pub struct SiteLaunchCommand {
 
     /// Launch web app on a custom start URL
     #[clap(long, conflicts_with = "protocol", value_hint = clap::ValueHint::Url)]
-    pub url: Option<Url>,
+    pub url: Vec<Url>,
 
     /// Launch web app on a protocol handler URL
     #[clap(long, conflicts_with = "url", value_hint = clap::ValueHint::Url)]

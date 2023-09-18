@@ -115,14 +115,17 @@ impl Run for SiteLaunchCommand {
             None
         };
 
-        let url = if handler.is_some() { &handler } else { &self.url };
+        let url = match handler {
+            Some(url) => vec![url],
+            None => self.url.to_owned(),
+        };
 
         info!("Launching the web app");
         cfg_if! {
             if #[cfg(target_os = "macos")] {
-                site.launch(&dirs, &runtime, &storage.config, url, args, storage.variables)?.wait()?;
+                site.launch(&dirs, &runtime, &storage.config, &url, args, storage.variables)?.wait()?;
             } else {
-                site.launch(&dirs, &runtime, &storage.config, url, args, storage.variables)?;
+                site.launch(&dirs, &runtime, &storage.config, &url, args, storage.variables)?;
             }
         }
 
