@@ -1,0 +1,2 @@
+Sitemap: https://pwasforfirefox.filips.si/sitemap.xml
+Sitemap: https://pwasforfirefox.filips.si/sitemap.xml.gz

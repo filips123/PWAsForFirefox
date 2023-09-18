@@ -1,24 +1,24 @@
 @font-face {
-font-family: "{{ name }}";
-src: {{{ fontSrc }}};
+  font-family: "{{ name }}";
+  src: {{{ fontSrc }}};
 }
 
 .{{prefix}}::before,
 [class^="{{prefix}}-"]::before,
 [class*=" {{prefix}}-"]::before {
-display: inline-block;
-font-display: block;
-font-family: {{ name }} !important;
-font-style: normal;
-font-weight: normal !important;
-font-variant: normal;
-text-transform: none;
-line-height: 1;
-vertical-align: -.125em;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  font-display: block;
+  font-family: {{ name }} !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: -.125em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 {{# each codepoints }}
-    .{{ ../prefix }}-{{ @key }}::before { content: "\\{{ codepoint this }}"; }
+.{{ ../prefix }}-{{ @key }}::before { content: "\\{{ codepoint this }}"; }
 {{/ each }}
