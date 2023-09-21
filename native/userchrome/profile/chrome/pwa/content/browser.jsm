@@ -1839,11 +1839,11 @@ class PwaBrowser {
 
     // Prevent syncing preferences that are commonly set to different values in web apps
     // In the future, we could try to implement a different syncing "channel" just for web apps
+    xPref.set('services.sync.prefs.sync.browser.startup.page', false, true);
     xPref.set('services.sync.prefs.sync.browser.tabs.warnOnClose', false, true);
     xPref.set('services.sync.prefs.sync.browser.link.open_newwindow', false, true);
 
     // Prevent syncing preferences that are known to cause problems in web apps
-    xPref.set('services.sync.prefs.sync.browser.startup.page', false, true);
     xPref.set('services.sync.prefs.sync.browser.startup.homepage', false, true);
     xPref.set('services.sync.prefs.sync.browser.newtabpage.enabled', false, true);
     xPref.set('services.sync.prefs.sync.browser.newtabpage.activity-stream.feeds.snippets', false, true);
@@ -1858,7 +1858,8 @@ class PwaBrowser {
     xPref.clear('browser.startup.upgradeDialog.enabled');
     xPref.clear('browser.aboutwelcome.enabled');
     xPref.clear('browser.messaging-system.whatsNewPanel.enabled');
-    xPref.clear('browser.startup.page');
+    xPref.clear('browser.privateWindowSeparation.enabled');
+    xPref.clear('browser.privacySegmentation.createdShortcut');
     xPref.clear('browser.startup.homepage');
     xPref.clear('browser.newtabpage.enabled');
     xPref.clear('browser.newtabpage.activity-stream.feeds.snippets');

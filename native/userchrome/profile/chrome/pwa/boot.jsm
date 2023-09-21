@@ -126,8 +126,10 @@ function launchSite (siteUrl, siteConfig, isStartup) {
   return win;
 }
 
-// Properly disable Firefox Session Restore
+// Properly disable Firefox Session Restore and Private Window Separation
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.sessionstore.resume_from_crash', false);
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.privateWindowSeparation.enabled', false);
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.privacySegmentation.createdShortcut', true);
 
 // Override command line helper to intercept PWAsForFirefox arguments and start loading the site
 const { nsDefaultCommandLineHandler } = Cu.import('resource:///modules/BrowserContentHandler.jsm');
