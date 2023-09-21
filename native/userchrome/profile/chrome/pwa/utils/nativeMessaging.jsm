@@ -6,12 +6,16 @@ XPCOMUtils.defineLazyModuleGetters(this, {
   NativeApp: 'resource://gre/modules/NativeMessaging.jsm',
 });
 
+const extensionId = 'firefoxpwa@filips.si';
+const nativeAppId = 'firefoxpwa';
+const contextName = `UserChrome/${extensionId}/sendNativeMessage/${nativeAppId}`;
+
 /**
  * A custom extension context that "emulates" our main extension.
  */
 class UserChromeContext extends ExtensionCommon.BaseContext {
   constructor () {
-    super('userChromeEnv', { id: 'firefoxpwa@filips.si', manifestVersion: 2 });
+    super('userChromeEnv', { id: extensionId, manifestVersion: 2 });
     this.sandbox = Cu.Sandbox(globalThis);
   }
 
@@ -38,6 +42,6 @@ class UserChromeContext extends ExtensionCommon.BaseContext {
 function sendNativeMessage(message) {
   const userChromeContext = new UserChromeContext();
   const nativeMessage = NativeApp.encodeMessage(userChromeContext, message);
-  const nativeApp = new NativeApp(userChromeContext, 'firefoxpwa');
-  return nativeApp.sendMessage(new StructuredCloneHolder(nativeMessage))
+  const nativeApp = new NativeApp(userChromeContext, nativeAppId);
+  return nativeApp.sendMessage(new StructuredCloneHolder(contextName, null, nativeMessage));
 }
