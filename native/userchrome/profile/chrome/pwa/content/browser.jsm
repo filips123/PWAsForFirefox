@@ -686,11 +686,24 @@ class PwaBrowser {
     if (userPreference === 3) return;
 
     // Overwrite tab adding and instead open it in the same tab
-    // Except if it was called from customize mode enter
     window.gBrowser._addTab = window.gBrowser.addTab
     window.gBrowser.addTab = function (url, params = {}) {
+      // Allow opening new tab when entering customize mode
       if (gCustomizeMode._wantToBeInCustomizeMode || gCustomizeMode._customizing) {
         return window.gBrowser._addTab(url, params);
+      }
+
+      // Allow creating new tab when opening container confirmation page
+      if (url.startsWith('moz-extension://d9527209-9d4d-45a7-941a-99ce3ac515b6/confirm-page.html')) {
+        return window.gBrowser._addTab(url, params);
+      }
+
+      // Create a new tab and close the previous one when opening tabs with containers
+      if (userPreference === 1 && typeof params['userContextId'] !== 'undefined') {
+        const oldTab = window.gBrowser.selectedTab;
+        const newTab = window.gBrowser._addTab(url, params);
+        window.gBrowser.removeTab(oldTab);
+        return newTab;
       }
 
       window.openLinkIn(url, userPreference === 1 ? 'current' : 'window', params);
