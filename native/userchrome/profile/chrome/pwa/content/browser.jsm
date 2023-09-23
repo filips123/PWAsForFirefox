@@ -651,7 +651,7 @@ class PwaBrowser {
         const win = Services.wm.getMostRecentWindow('navigator:browser');
         const userStartUrl = win.gFFPWASiteConfig?.config.start_url;
         const manifestStartUrl = win.gFFPWASiteConfig?.manifest.start_url;
-        return userStartUrl ? userStartUrl : manifestStartUrl;
+        return userStartUrl || manifestStartUrl || 'about:blank';
       }
     });
 
