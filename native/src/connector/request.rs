@@ -1,8 +1,8 @@
 use std::path::PathBuf;
 
 use anyhow::Result;
-use serde_with::{DefaultOnNull, OneOrMany};
 use serde::{Deserialize, Deserializer};
+use serde_with::{DefaultOnNull, OneOrMany};
 use ulid::Ulid;
 use url::Url;
 use web_app_manifest::resources::ProtocolHandlerResource;

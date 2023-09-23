@@ -65,12 +65,12 @@ then
 fi
 
 %postun
-# Add warning that runtime, profiles and sites are still installed
+# Add warning that runtime, profiles and web apps are still installed
 if [ $1 == 0 ]
 then
-    echo "Runtime, profiles and sites are still installed in user directories"
+    echo "Runtime, profiles and web apps are still installed in user directories"
     echo "You can remove them manually after this package is uninstalled"
-    echo "Doing that will remove all installed PWA sites and their data"
+    echo "Doing that will remove all installed web apps and their data"
 fi
 
 %files

@@ -573,7 +573,7 @@ pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
 }
 
 #[inline]
-pub fn launch(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Child> {
+pub fn launch(site: &Site, urls: &[Url], arguments: &[String]) -> Result<Child> {
     let name = site.name();
 
     let app_path = directories::BaseDirs::new()
@@ -581,7 +581,7 @@ pub fn launch(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Ch
         .home_dir()
         .join(format!("Applications/{name}.app"));
 
-    debug!("Verifying that {} is a PWA app bundle", app_path.to_str().unwrap());
+    debug!("Verifying that {} is a web app bundle", app_path.to_str().unwrap());
     match app_path.exists() {
         true => verify_app_is_pwa(&app_path, &format!("FFPWA-{}", site.ulid))?,
         false => bail!("Application bundle does not exist"),
@@ -589,23 +589,23 @@ pub fn launch(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Ch
 
     let mut args = vec![app_path.display().to_string()];
 
-    // We need to append `--args` when we provide additional arguments to the PWA
-    if url.is_some() || !arguments.is_empty() {
+    // We need to append `--args` when we provide additional arguments to the web app
+    if !urls.is_empty() || !arguments.is_empty() {
         args.extend_from_slice(&["--args".into()]);
     }
 
-    // Support launching PWA with custom URLs
-    if let Some(url) = url {
+    // Support launching web apps with custom URLs
+    for url in urls {
         args.extend_from_slice(&["--url".into(), url.to_string()]);
     }
 
-    // Support launching PWA with custom Firefox arguments
+    // Support launching web app with custom Firefox arguments
     if !arguments.is_empty() {
         args.extend_from_slice(&["--".into()]);
         args.extend_from_slice(arguments);
     }
 
-    debug!("Launching PWA app bundle");
+    debug!("Launching web app bundle");
     let mut command = Command::new("open");
     command.args(&args).spawn().context(LAUNCH_APPLICATION_BUNDLE)
 }

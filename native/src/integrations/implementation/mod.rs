@@ -55,6 +55,6 @@ pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
 
 #[cfg(target_os = "macos")]
 #[inline]
-pub fn launch(site: &Site, url: &Option<Url>, arguments: &[String]) -> Result<Child> {
-    macos::launch(site, url, arguments)
+pub fn launch(site: &Site, urls: &[Url], arguments: &[String]) -> Result<Child> {
+    macos::launch(site, urls, arguments)
 }

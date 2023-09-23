@@ -185,7 +185,7 @@ impl Site {
     ) -> Result<Child> {
         let profile = dirs.userdata.join("profiles").join(self.profile.to_string());
 
-        // Pass all required PWA arguments to the runtime
+        // Pass all required web app arguments to the runtime
         #[rustfmt::skip]
         let mut args = vec![
             "--class".into(), format!("FFPWA-{}", self.ulid.to_string()),
