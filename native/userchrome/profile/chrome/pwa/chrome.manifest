@@ -1,2 +1,2 @@
-content pwa content/
 resource pwa ./
+resource user ../user/

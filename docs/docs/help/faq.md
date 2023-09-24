@@ -216,24 +216,19 @@ runtime](../user-guide/extension.md#patch-profiles-and-runtime) from the extensi
 
 ### How to make the web app titlebar look more native?
 
-The project aims to make installed web apps look native. However, due to a lage number of
+The project aims to make installed web apps look native. However, due to a large number of
 Linux desktop environments and customization options, it's hard to detect them and provide
 the correct built-in compatibility styles with each of them. However, there are two ways
-how you can manual achieve a better visual integration with your theme.
+how you can manually achieve a better visual integration with your theme.
 
 One way of achieving the native titlebar is to disable CSD for installed web apps. This can
 be done in the Firefox customize page by unchecking the titlebar checkbox. However, this
 will cause a separate bar to appear, which might be undesirable, visually unappealing
 and screen-inefficient.
 
-A better solution is to manually apply custom CSS styling to customize the titlebar appearance:
-
-1. Locate your web app profiles inside [the profiles directory](../resources/installation-directories.md#profiles).
-2. Inside each profile directory, create a `chrome` directory (if it does not exist yet).
-3. Inside the `chrome` directory, create a `userChrome.css` file (if it does not exist yet).
-4. Copy the CSS provided below into the `userChrome.css` file (you can also customize it).
-5. Enable `toolkit.legacyUserProfileCustomizations.stylesheets` inside `about:config`.
-6. Relaunch the web app.
+A better solution is to manually apply custom CSS styling to customize the titlebar appearance.
+See [how to apply custom CSS to web apps](#how-to-apply-custom-css-to-web-apps) and include
+CSS for your platform that is provided below (you can also customize it if you want).
 
 ??? note "Windows"
 
@@ -298,6 +293,53 @@ A better solution is to manually apply custom CSS styling to customize the title
 <!-- Those CSS snippets that center elements only center them relative to the parent -->
 <!--If the user has a lot of widgets, the element might not be in the center of the window -->
 <!-- I don't know if there is any CSS solution that reliably works without other problems -->
+
+### How to apply custom CSS to web apps?
+
+The runtime supports loading custom CSS (UserChromeCSS) in the same way as normal Firefox.
+For more details and resources about custom CSS, you can check [the UserChromeCSS website](https://www.userchrome.org/).
+
+To load custom CSS into the web app profile:
+
+1. Locate your web app profile inside [the profiles directory](../resources/installation-directories.md#profiles).
+2. Inside the profile directory, create a `chrome` directory (if it does not exist yet).
+3. Inside the `chrome` directory, create a `userChrome.css` file (if it does not exist yet).
+4. Copy your CSS into the `userChrome.css` file.
+5. Enable `toolkit.legacyUserProfileCustomizations.stylesheets` inside `about:config`.
+6. Relaunch the web app.
+
+If you want to apply CSS to multiple profiles, using [profile templates](../user-guide/extension.md#default-profile-template)
+can make this easier.
+
+!!! warning
+
+    As PWAsForFirefox includes its own modifications, not all Firefox CSS themes may be compatible.
+
+### How to apply custom JS to web apps?
+
+For advanced modifications, it is possible to load custom JS into the runtime using [UserChromeJS
+(Autoconfig Startup Scripting)](https://www.userchrome.org/what-is-userchrome-js.html).
+
+To load custom JS into the web app profile:
+
+1. Locate your web app profile inside [the profiles directory](../resources/installation-directories.md#profiles).
+2. Inside the profile directory, create a `chrome` directory (if it does not exist yet).
+3. Inside the `chrome` directory, create a `user` directory (if it does not exist yet).
+4. Inside the `user` directory, create a `boot.jsm` or `boot.sys.mjs` file (if it does not exist yet).
+5. Copy your JS into the correct file (depending on the module format).
+6. Relaunch the web app.
+
+If you want to apply JS to multiple profiles, using [profile templates](../user-guide/extension.md#default-profile-template)
+can make this easier.
+
+!!! warning
+
+    As PWAsForFirefox includes its own modifications, not all Firefox JS scripts may be compatible.
+
+    Such scripts are very powerful. They can modify Firefox in almost any way, and affect
+    the operating system beyond the browser itself. This includes access to your user data
+    and the ability to run arbitrary programs. Please be very cautious when adding third-party
+    scripts and make sure you trust the code.
 
 ## Usage
 

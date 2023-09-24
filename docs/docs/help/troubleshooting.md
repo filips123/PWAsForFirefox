@@ -26,10 +26,21 @@
 
 ## Obtaining Runtime Logs
 
+If the error happens while using web app:
+
 1. Inside the web app, open the developer tools (++f12++) and their settings (++f1++).
 2. Enable "browser chrome and add-on debugging toolboxes" and "remote debugging".
 3. Press ++ctrl+alt+shift+i++ and accept the prompt.
 4. Errors/logs should be written to the "console" tab.
+
+Alternatively, if the web app does not open properly:
+
+1. Obtain the web app ID (for example, from the extension).
+2. Launch the web app from the command line:
+    ```shell
+    firefoxpwa site launch ID -- --jsconsole
+    ```
+3. Errors/logs should be written to the "browser console" window.
 
 ## Accessing Manifests
 
