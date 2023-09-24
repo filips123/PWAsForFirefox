@@ -155,9 +155,9 @@ Instead of using the default runtime (normal Firefox), you can manually download
 alternative Firefox version or Firefox fork (LibreWolf, IceCat, Waterfox, etc.). However,
 please keep in mind that compatibility with other or unofficial runtimes is not guaranteed.
 
-To apply UserChrome modifications to the new runtime, you may need to temporarily enable
-[always patch runtime and profile](../user-guide/extension.md#always-patch-runtime-and-profile)
-and then launch any web app.
+To apply UserChrome modifications to the new runtime, you may need to [patch profiles and
+runtime](../user-guide/extension.md#patch-profiles-and-runtime) from the extension settings.
+
 
 ???+ note "Generic"
 

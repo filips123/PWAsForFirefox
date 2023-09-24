@@ -1,6 +1,6 @@
 use anyhow::{bail, Context, Result};
 use cfg_if::cfg_if;
-use log::info;
+use log::{info, warn};
 
 use crate::components::runtime::Runtime;
 use crate::connector::request::{
@@ -12,6 +12,7 @@ use crate::connector::request::{
     InstallRuntime,
     InstallSite,
     LaunchSite,
+    PatchAllProfiles,
     RegisterProtocolHandler,
     RemoveProfile,
     SetConfig,
@@ -250,6 +251,30 @@ impl Process for UpdateProfile {
         command.run()?;
 
         Ok(ConnectorResponse::ProfileUpdated)
+    }
+}
+
+impl Process for PatchAllProfiles {
+    fn process(&self, connection: &Connection) -> Result<ConnectorResponse> {
+        let storage = Storage::load(connection.dirs)?;
+
+        if self.patch_runtime {
+            let runtime = Runtime::new(connection.dirs)?;
+
+            match runtime.version {
+                Some(_) => runtime.patch(connection.dirs, None)?,
+                None => warn!("Runtime not installed, skipping runtime patching"),
+            }
+        }
+
+        if self.patch_profiles {
+            for profile in storage.profiles.values() {
+                info!("Patching profile {}", profile.ulid);
+                profile.patch(connection.dirs)?;
+            }
+        }
+
+        Ok(ConnectorResponse::AllProfilesPatched)
     }
 }
 

@@ -733,6 +733,39 @@ async function handleSettings (hasChanged = false) {
     Modal.getOrCreateInstance(document.getElementById('update-all-sites-modal')).show()
   }
 
+  // Handle patching all profiles
+  document.getElementById('patch-all-profiles-button').onclick = async function () {
+    this.disabled = true
+    this.innerText = 'Patching...'
+
+    const patchRuntimeCheckbox = document.getElementById('patch-all-profiles-runtime')
+    const patchRuntimeEnabled = patchRuntimeCheckbox.checked
+    patchRuntimeCheckbox.disabled = true
+
+    const patchProfilesCheckbox = document.getElementById('patch-all-profiles-profiles')
+    const patchProfilesEnabled = patchProfilesCheckbox.checked
+    patchProfilesCheckbox.disabled = true
+
+    const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+      cmd: 'PatchAllProfiles',
+      params: { patch_runtime: patchRuntimeEnabled, patch_profiles: patchProfilesEnabled }
+    })
+
+    if (response.type === 'Error') throw new Error(response.data)
+    if (response.type !== 'AllProfilesPatched') throw new Error(`Received invalid response type: ${response.type}`)
+
+    this.disabled = true
+    this.innerText = 'Patched!'
+  }
+
+  document.getElementById('patch-all-profiles').onclick = function () {
+    const confirmButton = document.getElementById('patch-all-profiles-button')
+    confirmButton.disabled = false
+    confirmButton.innerText = 'Patch'
+
+    Modal.getOrCreateInstance(document.getElementById('patch-all-profiles-modal')).show()
+  }
+
   // Handle runtime reinstallation
   document.getElementById('reinstall-runtime-button').onclick = async function () {
     this.disabled = true

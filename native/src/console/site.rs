@@ -78,7 +78,7 @@ impl Run for SiteLaunchCommand {
         };
 
         if should_patch {
-            runtime.patch(&dirs, site)?;
+            runtime.patch(&dirs, Some(site))?;
             profile.patch(&dirs)?;
         }
 

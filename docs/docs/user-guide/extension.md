@@ -181,6 +181,13 @@ Alternatively, you can register all web apps to the operating system without per
 any manifest updates. This can be used if you transferred your config file from another
 device.
 
+### Patch profiles and runtime
+
+This will patch all profiles and runtime with the current globally installed version.
+
+This is useful after (re)installing a custom runtime, or if you are experiencing
+problems with web app launching.
+
 ### Reinstall runtime
 
 This will remove your current runtime and download the latest version from Mozilla.

@@ -234,6 +234,10 @@
                 Update web apps
               </button>
 
+              <button type="button" class="list-group-item list-group-item-action fw-bold" id="patch-all-profiles">
+                Patch profiles and runtime
+              </button>
+
               <button type="button" class="list-group-item list-group-item-action fw-bold" id="reinstall-runtime">
                 Reinstall runtime
               </button>
@@ -445,6 +449,33 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" id="update-all-sites-button">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="patch-all-profiles-modal" tabindex="-1" aria-labelledby="patch-all-profiles-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="patch-all-profiles-label">Patch profiles and runtime</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>This will patch all profiles and runtime with the current globally installed version.</p>
+            <p>This is useful after (re)installing a custom runtime, or if you are experiencing problems with web app launching.</p>
+            <div class="form-check mb-1">
+              <input class="form-check-input" type="checkbox" value="" id="patch-all-profiles-runtime" checked>
+              <label class="form-check-label" for="patch-all-profiles-runtime">Patch runtime</label>
+            </div>
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" value="" id="patch-all-profiles-profiles" checked>
+              <label class="form-check-label" for="patch-all-profiles-profiles">Patch profiles</label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="patch-all-profiles-button">Patch</button>
           </div>
         </div>
       </div>

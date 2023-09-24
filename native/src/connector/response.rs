@@ -74,6 +74,9 @@ pub enum ConnectorResponse {
     /// Profile has been updated.
     ProfileUpdated,
 
+    /// All profiles and runtime have been patched.
+    AllProfilesPatched,
+
     /// Protocol handler has been registered.
     ProtocolHandlerRegistered,
 

@@ -492,6 +492,27 @@ pub struct UpdateProfile {
     pub description: Option<Option<String>>,
 }
 
+/// Patches all profiles and runtime.
+///
+/// # Parameters
+///
+/// None.
+///
+/// # Returns
+///
+/// [`ConnectorResponse::AllProfilesPatched`] - No data.
+///
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct PatchAllProfiles {
+    /// Whether the runtime should be patched (default: `true`).
+    #[serde(default = "default_as_true")]
+    pub patch_runtime: bool,
+
+    /// Whether the profiles should be patched (default: `true`).
+    #[serde(default = "default_as_true")]
+    pub patch_profiles: bool,
+}
+
 /// Registers a custom protocol handler.
 ///
 /// Only one handler (either manifest or custom) per protocol scheme can exist
@@ -593,6 +614,7 @@ build_request_enum!(
     CreateProfile,
     RemoveProfile,
     UpdateProfile,
+    PatchAllProfiles,
     RegisterProtocolHandler,
     UnregisterProtocolHandler,
 );

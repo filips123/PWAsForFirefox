@@ -269,7 +269,7 @@ impl Runtime {
     }
 
     #[allow(unused_variables)]
-    pub fn patch(&self, dirs: &ProjectDirs, site: &Site) -> Result<()> {
+    pub fn patch(&self, dirs: &ProjectDirs, site: Option<&Site>) -> Result<()> {
         let source = dirs.sysdata.join("userchrome/runtime");
 
         cfg_if! {
@@ -314,8 +314,10 @@ impl Runtime {
                     .as_dictionary_mut()
                     .context("Failed to parse runtime Info.plist")?;
 
-                // We patch the Info.plist with the current app name so the main menu shows the right name
-                info_plist_dict.insert("CFBundleName".into(), plist::Value::String(site.name()));
+                if let Some(site) = site {
+                    // We patch the Info.plist with the current app name so the main menu shows the right name
+                    info_plist_dict.insert("CFBundleName".into(), plist::Value::String(site.name()));
+                }
 
                 // We patch bundle identifier to prevent interfering with normal Firefox
                 info_plist_dict.insert("CFBundleIdentifier".into(), "si.filips.firefoxpwa.runtime".into());

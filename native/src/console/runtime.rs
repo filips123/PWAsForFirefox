@@ -24,8 +24,12 @@ impl Run for RuntimeInstallCommand {
 
         let dirs = ProjectDirs::new()?;
         let runtime = Runtime::new(&dirs)?;
+        runtime.install().context("Failed to install runtime")?;
 
-        runtime.install().context("Failed to install runtime")
+        let runtime = Runtime::new(&dirs)?;
+        runtime.patch(&dirs, None)?;
+
+        Ok(())
     }
 }
 
