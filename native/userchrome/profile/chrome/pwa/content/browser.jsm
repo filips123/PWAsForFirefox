@@ -1,4 +1,5 @@
 XPCOMUtils.defineLazyModuleGetters(this, {
+  BrowserWindowTracker: 'resource:///modules/BrowserWindowTracker.jsm',
   applyDynamicThemeColor: 'resource://pwa/utils/systemIntegration.jsm',
   applySystemIntegration: 'resource://pwa/utils/systemIntegration.jsm',
   buildIconList: 'resource://pwa/utils/systemIntegration.jsm',
@@ -190,10 +191,12 @@ class PwaBrowser {
   }
 
   createOpenDefaultBrowserShortcut () {
+    const startURL = window.HomePage.get(window);
+
     // Create a shortcut (Ctrl+Shift+N) to open a default browser
     document.addEventListener('keydown', (event) => {
       if (event.key === 'N' && event.ctrlKey && event.shiftKey) {
-        MailIntegration._launchExternalUrl(makeURI('about:newtab'));
+        MailIntegration._launchExternalUrl(makeURI(startURL));
         event.preventDefault();
       }
     });
@@ -204,12 +207,15 @@ class PwaBrowser {
       if (menuItemAdded) return;
       menuItemAdded = true;
 
-      document.getElementById('appMenu-new-private-window-button2').after(this.createElement(document, 'toolbarbutton', {
+      const menuItem = this.createElement(document, 'toolbarbutton', {
         class: 'subviewbutton',
         shortcut: 'Ctrl+Shift+N',
         label: 'New default browser',
         onclick: 'MailIntegration._launchExternalUrl(makeURI("about:newtab"))'
-      }));
+      });
+
+      menuItem.onclick = () => MailIntegration._launchExternalUrl(makeURI(startURL));
+      document.getElementById('appMenu-new-private-window-button2').after(menuItem);
     });
   }
 
@@ -520,6 +526,18 @@ class PwaBrowser {
       // Return a new window
       return win;
     };
+
+    // Handle opening new window from keyboard shortcuts
+    if (!('_openWindow' in BrowserWindowTracker)) {
+      BrowserWindowTracker._openWindow = BrowserWindowTracker.openWindow;
+      BrowserWindowTracker.openWindow = function (options) {
+        if (options.openerWindow && options.openerWindow.gFFPWASiteConfig && !options.args) {
+          options.args = Cc['@mozilla.org/supports-string;1'].createInstance(Ci.nsISupportsString);
+          options.args.data = options.openerWindow.HomePage.get(options.openerWindow);
+        }
+        return BrowserWindowTracker._openWindow(options);
+      }
+    }
 
     // Handle opening new window from context menus
     hookFunction(window, 'openContextMenu', null, () => {
