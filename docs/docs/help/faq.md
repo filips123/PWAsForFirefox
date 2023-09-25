@@ -214,6 +214,19 @@ runtime](../user-guide/extension.md#patch-profiles-and-runtime) from the extensi
         4. Rename `Waterfox.app` directory in the runtime directory to `Firefox.app`.
         5. Open Terminal inside `Firefox.app/Contents/MacOS` and run: `ln waterfox firefox`.
 
+### How to use FUSE OverlayFS with the app browser?
+
+On compatible Linux distributions, it is possible to use FUSE OverlayFS to link your global
+Firefox installation with the PWAsForFirefox runtime. This removes the need to manage and
+store two separate Firefox installations, but requires an additional setup.
+
+Detailed instructions are available [in the GitHub gist](https://gist.github.com/filips123/29fb511a01ee8016a927a614f32979d3#file-readme-md).
+
+!!! warning
+
+    Using FUSE OverlayFS is not regularly tested and may not work with all Firefox versions
+    that distributions provide.
+
 ### How to make the web app titlebar look more native?
 
 The project aims to make installed web apps look native. However, due to a large number of
