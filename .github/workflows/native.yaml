@@ -487,4 +487,5 @@ jobs:
         run: |
           VERSION=${GITHUB_REF/refs\/tags\/v}
           brew update
+          (cd "$(brew --repository homebrew/core)" && git pull origin master --ff-only)
           brew bump-formula-pr --no-browse --strict --online --version $VERSION firefoxpwa
