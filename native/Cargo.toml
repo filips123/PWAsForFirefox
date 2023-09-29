@@ -20,7 +20,8 @@ codegen-units = 1
 lto = true
 
 [features]
-portable = ["phf"]
+portable = ["dep:phf"]
+static = ["reqwest/native-tls-vendored", "bzip2/static"]
 
 [dependencies]
 ab_glyph = "0.2.21"
