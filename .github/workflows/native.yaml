@@ -404,6 +404,92 @@ jobs:
           ssh_private_key: ${{ secrets.AUR_PRIVATE_KEY }}
           ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
 
+  release-gentoo:
+    name: Release on Gentoo GURU
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    container: ghcr.io/filips123/gentoo-pycargoebuild
+
+    needs:
+      - release-github
+
+    steps:
+      - name: Checkout project repository
+        uses: actions/checkout@v3
+
+      - name: Checkout GURU repository
+        uses: actions/checkout@v3
+        with:
+          repository: gentoo/guru
+          path: tmp/guru
+
+      - name: Configure cache
+        run: echo "CACHE_ID=$(date --utc '+%Y-%V')" >> $GITHUB_ENV
+
+      - name: Configure cache
+        uses: actions/cache@v3
+        with:
+          path: /var/cache/distfiles
+          key: gentoo-distfiles-${{ env.CACHE_ID }}
+          restore-keys: gentoo-distfiles-
+
+      - name: Import GPG key
+        run: echo "${{ secrets.GENTOO_KEY_PRIVATE }}" | gpg --import --batch
+
+      - name: Prepare Git user
+        working-directory: tmp/guru
+        run: |
+          git config --local user.name "${{ secrets.GENTOO_USERNAME }}"
+          git config --local user.email "${{ secrets.GENTOO_EMAIL }}"
+          git config --local user.signingkey "${{ secrets.GENTOO_KEY_ID }}"
+
+      - name: Prepare Git settings
+        working-directory: tmp/guru
+        run: |
+          git config --local pull.ff only
+          git config --local pull.rebase merges
+          git config --local commit.gpgsign 1
+          git config --local push.gpgsign 1
+
+      - name: Set the version
+        run: |
+          VERSION=${GITHUB_REF/refs\/tags\/v}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Generate updated package
+        working-directory: tmp/guru/www-plugins/firefoxpwa
+        run: |
+          echo "::group::Updating the package ebuild"
+          cp "$GITHUB_WORKSPACE/native/packages/gentoo/firefoxpwa.ebuild" "firefoxpwa-$VERSION.ebuild"
+          pycargoebuild -i "firefoxpwa-$VERSION.ebuild" "$GITHUB_WORKSPACE/native"
+          echo "::endgroup::"
+
+          echo "::group::Updating the package manifest"
+          ebuild "firefoxpwa-$VERSION.ebuild" manifest
+          echo "::endgroup::"
+
+      - name: Commit updated package
+        working-directory: tmp/guru/www-plugins/firefoxpwa
+        run: |
+          git add -A
+          pkgdev commit --signoff
+
+      - name: Scan updated package
+        working-directory: tmp/guru/www-plugins/firefoxpwa
+        run: |
+          git remote set-head origin master
+          pkgcheck scan --net --commits
+
+      - name: Push updated package
+        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          push-to-fork: filips123/gentoo-guru
+          path: tmp/guru
+          branch: "add-firefoxpwa-${{ env.VERSION }}"
+          title: "www-plugins/firefoxpwa: add ${{ env.VERSION }}"
+          body: ""
+
   release-winget:
     name: Release on Windows Package Manager
     if: startsWith(github.ref, 'refs/tags/v')

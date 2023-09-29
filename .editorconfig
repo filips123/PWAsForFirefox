@@ -25,6 +25,11 @@ indent_size = 4
 [{*.{install,nsh,nuspec,spec,wxs},PKGBUILD}]
 indent_size = 4
 
+# Packaging
+[*.ebuild]
+indent_style = tab
+indent_size = 4
+
 # Data
 [*.{toml,xml}]
 indent_size = 4
