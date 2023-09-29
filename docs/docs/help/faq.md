@@ -93,8 +93,13 @@ with `~/`, and it will be expanded to the user home directory at the run-time.
 
 ### How to install the browser runtime to a different location?
 
-If you want to change the locations of all directories, see the above question.
-Otherwise, you will need to manually edit [the source code](https://github.com/filips123/PWAsForFirefox/blob/16655743750394536ced78c8ca8f0f2f853c90d1/native/src/components/runtime.rs#L117-L128).
+If you want to install the runtime to a global directory, you can manually install the
+runtime to a `runtime` directory [in the system data directory](../resources/installation-directories.md#system-data)
+and remove any existing runtime in the user data directory. You also need to make sure
+that the directory is writeable by all users to make the patching work.
+
+Changing the runtime directory to other locations (unrelated to user or system data
+directories) requires editing the source code.
 
 ### How to use an alternative browser as a main browser?
 

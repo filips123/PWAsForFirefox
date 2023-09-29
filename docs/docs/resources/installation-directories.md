@@ -62,6 +62,9 @@ are later copied to the user-specific profile directories at the web-app-launch-
 On Windows, also contains the shell completions files. On Linux and macOS, they are
 located at the appropriate locations for that platform.
 
+When using PortableApps.com or when manually chosen by the user, this directory can also
+contain the runtime.
+
 Can be overwritten by a `FFPWA_SYSDATA` build- or run-time environment variable.
 
 !!! warning
@@ -133,6 +136,12 @@ Can be overwritten by a `FFPWA_USERDATA` build- or run-time environment variable
     The runtime is *not* installed in the user data directory when using PortableApps.com
     package to comply with PortableApps.com packaging guidelines about not having binary
     files in the data directory.
+
+!!! note
+
+    If the runtime is not already installed to the user data directory, the program will
+    also attempt to use the runtime from the system data directory. In this case, you need
+    to make sure the directory is writeable by all users to make the patching work.
 
 ### Profiles
 

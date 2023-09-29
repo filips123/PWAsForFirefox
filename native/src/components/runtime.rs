@@ -118,15 +118,24 @@ impl Runtime {
             if #[cfg(feature = "portable")] {
                 // When compiling in PortableApps.com mode, the runtime is installed to <root>/App/PWAsForFirefox/runtime
                 // This is used to comply with PortableApps.com guidelines about not having binary files in <root>/Data
-                let directory = dirs.sysdata.join("runtime");
+                Self::new_in_directory(dirs.sysdata.join("runtime"))
             } else {
-                // Runtime is installed to a user-specific location along with other project files
-                // If you want to overwrite locations of all project files, check `directories.rs`
-                // If you want to overwrite only runtime location, replace the below line
-                let directory = dirs.userdata.join("runtime");
+                // Try to get a runtime from the user data directory by default
+                // If that does not exist, try to get a runtime the system data directory
+                // If neither exist, return the user data directory as a runtime directory
+
+                let runtime_in_userdata = Self::new_in_directory(dirs.userdata.join("runtime"))?;
+                if runtime_in_userdata.version.is_some() { return Ok(runtime_in_userdata); }
+
+                let runtime_in_sysdata = Self::new_in_directory(dirs.sysdata.join("runtime"))?;
+                if runtime_in_sysdata.version.is_some() { return Ok(runtime_in_sysdata); }
+
+                Ok(runtime_in_userdata)
             }
         }
+    }
 
+    fn new_in_directory(directory: PathBuf) -> Result<Self> {
         let executable = {
             cfg_if! {
                 if #[cfg(target_os = "windows")] {
