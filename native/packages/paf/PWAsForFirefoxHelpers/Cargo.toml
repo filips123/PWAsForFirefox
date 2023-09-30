@@ -9,6 +9,6 @@ codegen-units = 1
 lto = true
 
 [dependencies]
-tauri-winrt-notification = { git = "https://github.com/tauri-apps/winrt-notification", rev = "1ebf2f4", default-features = false }
+tauri-winrt-notification = { version = "0.1.2", default-features = false }
 trayicon = { git = "https://github.com/fkrull/trayicon-rs", rev = "4e9f223", default-features = false }
-winit = { git = "https://github.com/rust-windowing/winit", rev = "5e77d70", default-features = false }
+winit = { version = "0.28.7", default-features = false }
