@@ -9,8 +9,7 @@ use cfg_if::cfg_if;
 use const_format::formatcp;
 use log::{info, warn};
 use tempfile::Builder;
-use windows::core::{HSTRING, PCWSTR};
-use windows::w;
+use windows::core::{w, HSTRING, PCWSTR};
 use windows::Win32::System::Com::{
     CoInitializeEx,
     COINIT_APARTMENTTHREADED,
@@ -66,7 +65,7 @@ fn run_as_admin<S: AsRef<OsStr>>(cmd: S) -> std::io::Result<ExitStatus> {
     };
 
     unsafe {
-        ShellExecuteExW(&mut sei).ok()?;
+        ShellExecuteExW(&mut sei)?;
         let process = { sei.hProcess };
 
         if process.is_invalid() {
@@ -74,7 +73,7 @@ fn run_as_admin<S: AsRef<OsStr>>(cmd: S) -> std::io::Result<ExitStatus> {
         };
 
         WaitForSingleObject(process, INFINITE);
-        GetExitCodeProcess(process, &mut code).ok()?;
+        GetExitCodeProcess(process, &mut code)?;
     };
 
     Ok(ExitStatus::from_raw(code))

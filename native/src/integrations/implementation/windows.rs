@@ -10,6 +10,7 @@ use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::ImageSize;
 use windows::core::{ComInterface, Interface, Result as WindowsResult, GUID, HSTRING, PCWSTR};
 use windows::Win32::Storage::EnhancedStorage::{PKEY_AppUserModel_ID, PKEY_Title};
+use windows::Win32::System::Com::StructuredStorage::InitPropVariantFromStringVector;
 use windows::Win32::System::Com::{
     CoCreateInstance,
     CoInitializeEx,
@@ -19,10 +20,7 @@ use windows::Win32::System::Com::{
     COINIT_MULTITHREADED,
 };
 use windows::Win32::UI::Shell::Common::{IObjectArray, IObjectCollection};
-use windows::Win32::UI::Shell::PropertiesSystem::{
-    IPropertyStore,
-    InitPropVariantFromStringVector,
-};
+use windows::Win32::UI::Shell::PropertiesSystem::IPropertyStore;
 use windows::Win32::UI::Shell::{
     DestinationList,
     EnumerableObjectCollection,
