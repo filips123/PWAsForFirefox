@@ -455,7 +455,6 @@ jobs:
           git config --local pull.ff only
           git config --local pull.rebase merges
           git config --local commit.gpgsign 1
-          git config --local push.gpgsign 1
 
       - name: Set the version
         run: |
