@@ -52,6 +52,7 @@ jobs:
           workspaces: native
           cache-on-failure: true
           cache-all-crates: true
+          key: ${{ matrix.portable == true }}
 
       - name: Run Clippy
         run: cargo clippy --all-targets ${{ matrix.flags }} -- -D warnings
@@ -82,7 +83,6 @@ jobs:
           workspaces: native
           cache-on-failure: true
           cache-all-crates: true
-          key: ${{ matrix.target }}-${{ matrix.portable == true }}
 
       - name: Run Rustfmt
         run: cargo fmt --all -- --check
