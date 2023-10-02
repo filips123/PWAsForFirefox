@@ -153,12 +153,17 @@ pub struct SetConfig(pub Config);
 ///
 /// [`ConnectorResponse::RuntimeInstalled`] - No data.
 ///
+
+#[cfg(target_os = "linux")]
 #[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
 pub struct InstallRuntime {
-    #[cfg(target_os = "linux")]
     /// Experimental: use a linked runtime instead of downloading from mozilla.
     pub link: bool,
 }
+
+#[cfg(not(target_os = "linux"))]
+#[derive(Debug, Eq, PartialEq, Clone)]
+pub struct InstallRuntime;
 
 /// Uninstalls the Firefox runtime.
 ///
