@@ -153,8 +153,12 @@ pub struct SetConfig(pub Config);
 ///
 /// [`ConnectorResponse::RuntimeInstalled`] - No data.
 ///
-#[derive(Debug, Eq, PartialEq, Clone)]
-pub struct InstallRuntime;
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
+pub struct InstallRuntime {
+    #[cfg(target_os = "linux")]
+    /// Experimental: use a linked runtime instead of downloading from mozilla.
+    pub link: bool,
+}
 
 /// Uninstalls the Firefox runtime.
 ///
@@ -603,6 +607,7 @@ impl Into<crate::console::app::HTTPClientConfig> for HTTPClientConfig {
 
 deserialize_unit_struct!(GetSystemVersions);
 deserialize_unit_struct!(GetConfig);
+#[cfg(not(target_os = "linux"))]
 deserialize_unit_struct!(InstallRuntime);
 deserialize_unit_struct!(UninstallRuntime);
 deserialize_unit_struct!(GetSiteList);

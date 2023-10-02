@@ -195,6 +195,21 @@ impl Runtime {
         const COPY_ERROR: &str = "Failed to copy the runtime";
         const CLEANUP_ERROR: &str = "Failed to clean up the runtime";
 
+        #[cfg(target_os = "linux")]
+        {
+            use crate::storage::Storage;
+
+            let dirs = ProjectDirs::new()?;
+            let mut storage = Storage::load(&dirs)?;
+
+            if storage.config.use_linked_runtime {
+                self.uninstall()?;
+            }
+
+            storage.config.use_linked_runtime = false;
+            storage.write(&dirs)?;
+        }
+
         warn!("This will download the unmodified Mozilla Firefox and locally modify it");
         warn!("Firefox is licensed under the Mozilla Public License 2.0");
         warn!("Firefox is a trademark of the Mozilla Foundation in the U.S. and other countries");
@@ -267,13 +282,81 @@ impl Runtime {
         remove_dir_all(extracted).context(CLEANUP_ERROR)?;
 
         info!("Runtime installed!");
+
+        Ok(())
+    }
+
+    #[cfg(target_os = "linux")]
+    pub fn link(&self) -> Result<()> {
+        use std::fs::{copy, create_dir_all};
+        use std::os::unix::fs::symlink;
+
+        use crate::storage::Storage;
+
+        let dirs = ProjectDirs::new()?;
+        let mut storage = Storage::load(&dirs)?;
+
+        if !storage.config.use_linked_runtime {
+            self.uninstall()?;
+        }
+
+        storage.config.use_linked_runtime = true;
+        storage.write(&dirs)?;
+
+        info!("Linking the runtime");
+
+        if Path::new("/usr/lib/firefox/").exists() {
+            for entry in read_dir("/usr/lib/firefox/")?.flatten() {
+                let entry = entry.path();
+                match entry.file_name().expect("Couldn't retrieve a file name").to_str() {
+                    Some("browser") => {
+                        create_dir_all(self.directory.join("browser"))?;
+                        symlink(entry.join("chrome"), self.directory.join("browser/chrome"))?;
+                        symlink(
+                            entry.join("crashreporter-override.ini"),
+                            self.directory.join("browser/crashreporter-override.ini"),
+                        )?;
+                        symlink(entry.join("features"), self.directory.join("browser/features"))?;
+                        symlink(entry.join("omni.ja"), self.directory.join("browser/omni.ja"))?;
+                    }
+                    Some("defaults") => {
+                        create_dir_all(self.directory.join("defaults/pref"))?;
+                        symlink(
+                            entry.join("defaults/pref/channel-prefs.js"),
+                            self.directory.join("defaults/pref/channel-prefs.js"),
+                        )?;
+                    }
+                    Some("firefox-bin") => {
+                        //symlink(self.directory.join("firefox"), self.directory.join("firefox-bin")).ok();
+                    }
+                    Some("firefox") => {
+                        copy(
+                            entry.parent().expect("failed to copy firefox").join("firefox"),
+                            self.directory.join("firefox"),
+                        )?;
+                        // symlink(
+                        //     self.directory.join("firefox"),
+                        //     self.directory.join("firefox-bin"),
+                        // )?;
+                    }
+                    Some(&_) => {
+                        let link = self.directory.join(entry.file_name().unwrap());
+                        symlink(entry, link)?;
+                    }
+                    None => todo!(),
+                }
+            }
+        }
+
+        info!("Runtime linked!");
+
         Ok(())
     }
 
     #[cfg(not(feature = "immutable-runtime"))]
-    pub fn uninstall(self) -> Result<()> {
+    pub fn uninstall(&self) -> Result<()> {
         info!("Uninstalling the runtime");
-        remove_dir_contents(self.directory).context("Failed to remove runtime directory")?;
+        remove_dir_contents(&self.directory).context("Failed to remove runtime directory")?;
 
         info!("Runtime uninstalled!");
         Ok(())
