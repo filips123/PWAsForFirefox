@@ -27,17 +27,19 @@ Note that these are development versions that may be unstable and are not signed
 
 2. Clone the repository and cd into the `extension` (this) directory.
 
-3. If building a specific version:
+3. Run `yarn install` to install the dependencies.
+
+4. If building a specific version:
     1. Checkout the correct Git tag.
     2. Run `yarn set-version` to add the version information to the configuration files.
 
-4. Either:
+5. Either:
 
    a. Run `yarn build` to build the extension in release mode and package it.
 
    b. Run `yarn watch` to build the extension in development mode and automatically rebuild it on any changes.
 
-5. Either:
+6. Either:
 
    a. Install the packaged extension from `dist/firefoxpwa-{version}.zip` in `about:debugging`.
 
