@@ -27,7 +27,7 @@ Note that these are development versions that may be unstable and are not signed
 
 2. Clone the repository and cd into the `extension` (this) directory.
 
-3. Run `yarn install` to install the dependencies
+3. Run `yarn install` to install the dependencies.
 
 4. If building a specific version:
     1. Checkout the correct Git tag.
