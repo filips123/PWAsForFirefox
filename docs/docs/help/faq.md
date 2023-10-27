@@ -420,12 +420,10 @@ multi-tabbed web apps](../user-guide/browser.md#show-browser-tabs-and-enable-usi
 is enabled or [display the address bar](../user-guide/browser.md#changing-the-address-bar)
 is set to always in the app browser settings. Disabling those options might fix your issue.
 
-
 If the relevant settings are disabled but the app browser still appears like a normal
-Firefox, this has been caused by missing patches. You can temporarily enable [always
-patch runtime and profile](../user-guide/extension.md#always-patch-runtime-and-profile)
-in the extension settings and launch any web app to force apply patches. You may need
-to do this for each profile.
+Firefox, this has been caused by missing patches. You can run [patch profiles and
+runtime](../user-guide/extension.md#patch-profiles-and-runtime) from the extension
+settings to re-apply them.
 
 ### Why doesn't the extension find the native connector on Linux?
 
@@ -470,3 +468,30 @@ Firefox downloaded directly from Mozilla's website.
     use native messaging (KeePassXC, Plasma Integration, etc.) work with your setup.
     If they also do not work, it's probably a problem with your Firefox version/setup.
     If they do work, it might be a problem with PWAsForFirefox.
+
+### Why doesn't allowing microphone or camera work on macOS?
+
+Due to [an unknown problem](https://github.com/filips123/PWAsForFirefox/issues/404),
+trying to allow microphone or camera permissions may crash the web app on macOS.
+
+As a workaround, it is possible to manually grant the required permissions to the
+app browser using the steps below. This needs to be done once for every profile
+where the microphone or camera access is required.
+
+1. Create a web app into a new profile via the normal process.
+
+2. Use ++cmd+i++ to manually open the permissions window and select the "Permissions" tab.
+
+3. Set "Microphone" and "Camera" to "Always Allow".
+
+4. Perform any action that requires camera or microphone access. For example, start a meeting, join a call, etc. This should crash.
+
+5. Launch the web app again.
+
+6. Go to the app browser settings. A permissions dialogs from macOS should appear ("Do you want to allow NAME to access the Microphone?", "Do you want to allow NAME to access the Camera?".
+
+7. Answer yes to both dialogs.
+
+8. Inside the settings, select microphone and camera to use. If you have multiple speakers, you need to select "MacBook Pro Speakers" and it will use whatever the "System Speaker" is from your main toolbar.
+
+9. The Microphone and camera should now work.
