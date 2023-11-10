@@ -1,5 +1,15 @@
 const isAppleMaskIcon = link => link.getAttribute('rel').toLowerCase().includes('mask-icon')
 
+function getIconType (link) {
+  const type = link.getAttribute('type')
+  if (type) return type.includes('/') ? type : `image/${type}`
+  else return isAppleMaskIcon(link) ? 'image/svg+xml' : null
+}
+
+function getIconPurpose (link) {
+  return isAppleMaskIcon(link) ? 'monochrome' : 'any'
+}
+
 // Obtain the initial web app manifest URL
 const manifestElement = document.querySelector('link[rel=manifest]')
 const manifestUrl = manifestElement ? new URL(manifestElement.getAttribute('href'), document.baseURI) : null
@@ -24,8 +34,8 @@ browser.runtime.onMessage.addListener((message, _, sendResponse) => {
       .filter(link => link.getAttribute('rel')?.toLowerCase().includes('icon'))
       .map(link => ({
         src: new URL(link.getAttribute('href'), document.baseURI).href,
-        type: link.getAttribute('type') || (isAppleMaskIcon(link) ? 'image/svg+xml' : null),
-        purpose: isAppleMaskIcon(link) ? 'monochrome' : 'any',
+        type: getIconType(link),
+        purpose: getIconPurpose(link),
         sizes: link.getAttribute('sizes') || ''
       }))
   }
