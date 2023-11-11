@@ -111,9 +111,8 @@ assets = [
     ["target/release/firefoxpwa", "/usr/bin/firefoxpwa", "755"],
     ["target/release/firefoxpwa-connector", "/usr/libexec/firefoxpwa-connector", "755"],
 
-    # Manifests
+    # Manifest
     ["manifests/linux.json", "/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json", "644"],
-    ["manifests/linux.json", "/usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json", "644"],
 
     # Completions
     ["target/release/completions/firefoxpwa.bash", "/usr/share/bash-completion/completions/firefoxpwa", "644"],

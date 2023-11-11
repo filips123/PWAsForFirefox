@@ -1,6 +1,12 @@
 #!/bin/sh
 set -e
 
+# Duplicate the manifest file over lib and lib64 directories
+# Needed because otherwise the manifest may not be detected on some platforms
+# Needed here because packaging it normally breaks when lib64 is a symlink to lib
+mkdir -p /usr/lib64/mozilla/native-messaging-hosts || true
+cp -f /usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json /usr/lib64/mozilla/native-messaging-hosts/firefoxpwa.json || true
+
 # Make shell completions executable
 # We cannot do this in Cargo.toml because of cargo-deb bug
 # See: https://github.com/mmstick/cargo-deb/issues/67
