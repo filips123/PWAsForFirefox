@@ -147,6 +147,7 @@ async function createSiteList () {
 
       // Set site's profile from config
       const profilesElement = document.getElementById('web-app-profile')
+      profilesElement.replaceChildren()
       profilesElement.add(new Option(profiles[site.profile].name || site.profile, site.profile))
 
       // Create protocol handlers list and set enabled handlers
