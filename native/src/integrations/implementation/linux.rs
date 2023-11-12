@@ -1,6 +1,6 @@
 use std::convert::TryInto;
-use std::fs::{copy, create_dir_all, remove_file, write, File};
 use std::fmt::Write as FmtWrite;
+use std::fs::{copy, create_dir_all, remove_file, write, File};
 use std::io::Write as IoWrite;
 use std::path::Path;
 use std::process::Command;
