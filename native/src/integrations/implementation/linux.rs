@@ -1,6 +1,7 @@
 use std::convert::TryInto;
 use std::fs::{copy, create_dir_all, remove_file, write, File};
-use std::io::Write;
+use std::fmt::Write as FmtWrite;
+use std::io::Write as IoWrite;
 use std::path::Path;
 use std::process::Command;
 
@@ -240,16 +241,17 @@ StartupWMClass={wmclass}
         description = &ids.description,
         keywords = &args.site.keywords().join(";"),
         categories = &categories.join(";"),
-        actions = (0..args.site.manifest.shortcuts.len())
-            .map(|i| i.to_string() + ";")
-            .collect::<String>(),
-        protocols = args
-            .site
-            .config
-            .enabled_protocol_handlers
-            .iter()
-            .map(|protocol| format!("x-scheme-handler/{protocol};"))
-            .collect::<String>(),
+        actions = (0..args.site.manifest.shortcuts.len()).fold(String::new(), |mut output, i| {
+            let _ = write!(output, "{i};");
+            output
+        }),
+        protocols = args.site.config.enabled_protocol_handlers.iter().fold(
+            String::new(),
+            |mut output, protocol| {
+                let _ = write!(output, "x-scheme-handler/{protocol};");
+                output
+            }
+        ),
         icon = &ids.classid,
         wmclass = &ids.classid,
         exe = &exe,

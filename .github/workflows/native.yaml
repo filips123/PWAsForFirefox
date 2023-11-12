@@ -177,7 +177,7 @@ jobs:
           echo $TEMP/PortableAppsLauncher >> $GITHUB_PATH
 
           mkdir $TEMP/PortableAppsInstaller && cd $TEMP/PortableAppsInstaller
-          curl "https://download2.portableapps.com/portableapps/PortableApps.comInstaller/PortableApps.comInstaller_3.7.6.paf.exe" -o PortableAppsInstaller.paf.exe
+          curl "https://download2.portableapps.com/portableapps/PortableApps.comInstaller/PortableApps.comInstaller_3.8.1.paf.exe" -o PortableAppsInstaller.paf.exe
           7z x -y PortableAppsInstaller.paf.exe
           echo $TEMP/PortableAppsInstaller >> $GITHUB_PATH
 
