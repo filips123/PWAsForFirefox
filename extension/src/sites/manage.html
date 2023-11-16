@@ -376,8 +376,16 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            Are you sure you want to remove this web app? App data will <strong>not</strong> be
-            removed, but you can remove them through the app browser or by deleting app's profile.
+            Are you sure you want to remove this web app?
+            <div id="site-remove-not-last">
+              Other apps are present in this profile, so app data will <strong>not</strong> be
+              removed, but you can remove it by deleting the profile.
+            </div>
+            <div id="site-remove-last">
+              This is the last app in this profile, so you can choose to delete it, and the associated app data
+              <br>
+              <input id="site-remove-last-checkbox" type="checkbox" checked> Delete profile & app data</input>
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
