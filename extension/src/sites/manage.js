@@ -489,12 +489,12 @@ async function createProfileList () {
 
     const countElement = profileElement.querySelector('#profiles-list-template-count')
     if (profile.sites.length === 1) {
-      countElement.innerText = `(1 site)`
+      countElement.innerText = '(1 site)'
     } else {
       countElement.innerText = `(${profile.sites.length} sites)`
     }
     if (profile.sites.length === 0) {
-      countElement.classList.add("text-dark")
+      countElement.classList.add('text-dark')
     }
     countElement.removeAttribute('id')
 
