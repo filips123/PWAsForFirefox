@@ -44,7 +44,7 @@ browser.notifications.onClicked.addListener(async notification => {
 // == CONTENT SCRIPT HANDLING
 
 // Detect manifest sent from content script
-browser.runtime.onMessage.addListener(async ({ manifestUrl, documentUrl }, { tab }) => {
+browser.runtime.onMessage.addListener(async ({ manifestUrl, documentUrl, isSecureContext }, { tab }) => {
   manifestUrl = manifestUrl ? new URL(manifestUrl) : undefined
   documentUrl = documentUrl ? new URL(documentUrl) : undefined
 
@@ -56,8 +56,8 @@ browser.runtime.onMessage.addListener(async ({ manifestUrl, documentUrl }, { tab
       return
   }
 
-  // If both manifest and the page are loaded over HTTPS, site is a valid web app
-  let isValidPwa = manifestUrl && manifestUrl.protocol === 'https:' && documentUrl.protocol === 'https:'
+  // If both manifest and the page are loaded over HTTPS, and we are in a secure context, site is a valid web app
+  let isValidPwa = manifestUrl && manifestUrl.protocol === 'https:' && documentUrl.protocol === 'https:' && isSecureContext
 
   // Force show or hide the page action depending on user preference
   const settingsDisplayPageAction = (await browser.storage.local.get(PREF_DISPLAY_PAGE_ACTION))[PREF_DISPLAY_PAGE_ACTION]
