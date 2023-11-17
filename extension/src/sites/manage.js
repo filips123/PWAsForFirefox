@@ -494,7 +494,7 @@ async function createProfileList () {
       countElement.innerText = `(${profile.sites.length} sites)`
     }
     if (profile.sites.length === 0) {
-      countElement.classList.add('text-dark')
+      countElement.classList.add('text-opacity-50')
     }
     countElement.removeAttribute('id')
 
