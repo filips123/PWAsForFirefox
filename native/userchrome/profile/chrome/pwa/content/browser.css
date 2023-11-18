@@ -12,9 +12,16 @@
 
   /* Fix tab colors */
 
-  .tab-background[multiselected="true"], .tab-background[selected="true"] {
+  #firefox-view-button[open] > .toolbarbutton-icon,
+  .tab-background:is([selected], [multiselected]) {
     background-color: rgba(0, 0, 0, 0.1) !important;
     background-image: none !important;
+  }
+
+  /* Fix widget colors */
+
+  #firefox-view-button[open] > .toolbarbutton-icon {
+    color: revert !important;
   }
 
   /* Fix window corners with CSD */
@@ -355,6 +362,7 @@
   }
 
   #notifications-button[customizing] > #notification-popup-box {
+    display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
   }

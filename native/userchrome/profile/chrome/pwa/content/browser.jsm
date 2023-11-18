@@ -444,7 +444,7 @@ class PwaBrowser {
     hookFunction(window.gURLBar, 'setURI', null, (_, [uri]) => {
       // Check whether the URL is in scope
       const canLoad = this.canLoad(uri);
-      let displayBar = !canLoad;
+      let displayBar = !canLoad && !uri.spec.startsWith('about:firefoxview');
 
       // Change URL bar behaviour based on our custom preference
       const userPreference = xPref.get(ChromeLoader.PREF_DISPLAY_URL_BAR);
@@ -711,13 +711,20 @@ class PwaBrowser {
         return window.gBrowser._addTab(url, params);
       }
 
-      // Allow creating new tab when opening container confirmation page
-      if (url.startsWith('moz-extension://d9527209-9d4d-45a7-941a-99ce3ac515b6/confirm-page.html')) {
+      // Allow creating new tab when opening container confirmation page or Firefox View
+      if (
+        !url ||
+        url.startsWith('moz-extension://d9527209-9d4d-45a7-941a-99ce3ac515b6/confirm-page.html') ||
+        url.startsWith('about:firefoxview')
+      ) {
         return window.gBrowser._addTab(url, params);
       }
 
-      // Create a new tab and close the previous one when opening tabs with containers
-      if (userPreference === 1 && typeof params['userContextId'] !== 'undefined') {
+      // Create a new tab and close the previous one when opening tabs with containers or leaving Firefox View
+      if (userPreference === 1 && (
+        typeof params['userContextId'] !== 'undefined' ||
+        window.gBrowser.selectedTab === window.FirefoxViewHandler.tab
+      )) {
         const oldTab = window.gBrowser.selectedTab;
         const newTab = window.gBrowser._addTab(url, params);
         window.gBrowser.removeTab(oldTab);
@@ -1362,16 +1369,16 @@ class PwaBrowser {
         CustomizableUI.addListener(listener);
 
         // Update widget icon and tooltip when needed
-        hookFunction(window.gProtectionsHandler, 'showDisabledTooltipForTPIcon', null, function () {
-          node.setAttribute('tooltiptext', this.strings.disabledTooltipText.replace(/\.$/, ''));
+        hookFunction(window.gProtectionsHandler, 'showDisabledTooltipForTPIcon', null, async function () {
+          node.setAttribute('tooltiptext', (await document.l10n.formatValue('tracking-protection-icon-disabled')).replace(/\.$/, ''));
         });
 
-        hookFunction(window.gProtectionsHandler, 'showActiveTooltipForTPIcon', null, function () {
-          node.setAttribute('tooltiptext', this.strings.activeTooltipText.replace(/\.$/, ''));
+        hookFunction(window.gProtectionsHandler, 'showActiveTooltipForTPIcon', null, async function () {
+          node.setAttribute('tooltiptext', (await document.l10n.formatValue('tracking-protection-icon-active')).replace(/\.$/, ''));
         });
 
-        hookFunction(window.gProtectionsHandler, 'showNoTrackerTooltipForTPIcon', null, function () {
-          node.setAttribute('tooltiptext', this.strings.noTrackerTooltipText.replace(/\.$/, ''));
+        hookFunction(window.gProtectionsHandler, 'showNoTrackerTooltipForTPIcon', null, async function () {
+          node.setAttribute('tooltiptext', (await document.l10n.formatValue('tracking-protection-icon-no-trackers-detected')).replace(/\.$/, ''));
         });
 
         // Force show widget on customize mode page and reset its state
