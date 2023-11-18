@@ -374,7 +374,10 @@ async function createSiteList () {
         this.innerText = 'Removing...'
 
         const deleteProfileCheckbox = document.getElementById('site-remove-last-checkbox')
-        if (lastSiteInProfile && deleteProfileCheckbox.checked) {
+        const deleteProfileEnabled = deleteProfileCheckbox.checked
+        deleteProfileCheckbox.disabled = true
+
+        if (lastSiteInProfile && deleteProfileEnabled) {
           const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
             cmd: 'RemoveProfile',
             params: { id: site.profile }
