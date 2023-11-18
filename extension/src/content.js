@@ -14,8 +14,8 @@ function getIconPurpose (link) {
 const manifestElement = document.querySelector('link[rel=manifest]')
 const manifestUrl = manifestElement ? new URL(manifestElement.getAttribute('href'), document.baseURI) : null
 
-// Send the initial manifest and document URLs on the page load
-browser.runtime.sendMessage({ manifestUrl: manifestUrl?.href, documentUrl: document.location.href })
+// Send the secure context state, initial manifest and document URLs on the page load
+browser.runtime.sendMessage({ manifestUrl: manifestUrl?.href, documentUrl: document.location.href, isSecureContext })
 
 // Send the current manifest and document URLs on request
 browser.runtime.onMessage.addListener((message, _, sendResponse) => {
