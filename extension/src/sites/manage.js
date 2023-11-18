@@ -367,17 +367,33 @@ async function createSiteList () {
 
     const removeElement = siteElement.querySelector('#sites-list-template-remove')
     removeElement.addEventListener('click', () => {
+      const lastSiteInProfile = profiles[site.profile].sites.length <= 1
+
       document.getElementById('site-remove-button').onclick = async function () {
         this.disabled = true
         this.innerText = 'Removing...'
 
-        const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
-          cmd: 'UninstallSite',
-          params: { id: site.ulid }
-        })
+        const deleteProfileCheckbox = document.getElementById('site-remove-last-checkbox')
+        const deleteProfileEnabled = deleteProfileCheckbox.checked
+        deleteProfileCheckbox.disabled = true
 
-        if (response.type === 'Error') throw new Error(response.data)
-        if (response.type !== 'SiteUninstalled') throw new Error(`Received invalid response type: ${response.type}`)
+        if (lastSiteInProfile && deleteProfileEnabled) {
+          const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+            cmd: 'RemoveProfile',
+            params: { id: site.profile }
+          })
+
+          if (response.type === 'Error') throw new Error(response.data)
+          if (response.type !== 'ProfileRemoved') throw new Error(`Received invalid response type: ${response.type}`)
+        } else {
+          const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
+            cmd: 'UninstallSite',
+            params: { id: site.ulid }
+          })
+
+          if (response.type === 'Error') throw new Error(response.data)
+          if (response.type !== 'SiteUninstalled') throw new Error(`Received invalid response type: ${response.type}`)
+        }
 
         this.disabled = true
         this.innerText = 'Removed!'
@@ -386,6 +402,14 @@ async function createSiteList () {
         setTimeout(async () => {
           window.close()
         }, 5000)
+      }
+
+      if (lastSiteInProfile) {
+        document.getElementById('site-remove-last').hidden = false
+        document.getElementById('site-remove-not-last').hidden = true
+      } else {
+        document.getElementById('site-remove-last').hidden = true
+        document.getElementById('site-remove-not-last').hidden = false
       }
 
       Modal.getOrCreateInstance(document.getElementById('site-remove-modal')).show()
