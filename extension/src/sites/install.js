@@ -30,12 +30,13 @@ async function initializeForm () {
     element.tagsInstance = new Tags(element)
   }
 
-  // Display profile warning on Linux and macOS
+  // Display profile warning on Linux, macOS and BSD
   const platform = await browser.runtime.getPlatformInfo()
-  if (platform.os === 'linux' || platform.os === 'mac') {
+  if (platform.os === 'linux' || platform.os === 'mac' || platform.os === 'openbsd') {
     const issueLink = document.getElementById('web-app-profile-warn-issue')
     switch (platform.os) {
       case 'linux':
+      case 'openbsd':
         issueLink.href = 'https://github.com/filips123/PWAsForFirefox/issues/322'
         issueLink.innerText = '#322'
         break
@@ -130,7 +131,7 @@ async function initializeForm () {
   profilesElement.add(new Option('Create a new profile', 'create-new-profile'))
 
   // Add an option to automatically create a new profile to the select input
-  const autoNewProfile = platform.os === 'linux' || platform.os === 'mac'
+  const autoNewProfile = platform.os === 'linux' || platform.os === 'mac' || platform.os === 'openbsd'
   profilesElement.add(new Option('Automatically create a new profile', 'auto-create-new-profile', autoNewProfile, autoNewProfile))
 
   // Handle creating a new profile

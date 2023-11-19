@@ -151,9 +151,9 @@ async function createSiteList () {
       profilesElement.add(new Option(profiles[site.profile].name || site.profile, site.profile))
 
       // Create protocol handlers list and set enabled handlers
-      // Currently only supported on Windows and Linux (macOS does not work)
+      // Currently not supported on macOS
       const platform = await browser.runtime.getPlatformInfo()
-      if (platform.os === 'win' || platform.os === 'linux') {
+      if (platform.os !== 'mac') {
         const possibleHandlers = new Set([...site.config.custom_protocol_handlers, ...site.manifest.protocol_handlers].map(handler => handler.protocol).sort())
         const enabledHandlers = site.config.enabled_protocol_handlers
 
@@ -850,8 +850,8 @@ async function handleSettings (hasChanged = false) {
   setTimeout(async () => {
     const platform = await browser.runtime.getPlatformInfo()
 
-    // Show Linux-only settings on Linux
-    if (platform.os === 'linux') {
+    // Show Linux-only settings on Linux and BSD
+    if (platform.os === 'linux' || platform.os === 'openbsd') {
       document.getElementById('settings-enable-wayland-container').classList.remove('d-none')
       document.getElementById('settings-use-xinput2-container').classList.remove('d-none')
       document.getElementById('settings-use-portals-container').classList.remove('d-none')

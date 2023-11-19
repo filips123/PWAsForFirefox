@@ -7,7 +7,7 @@ mod categories;
 mod implementation;
 mod utils;
 
-#[cfg(target_os = "macos")]
+#[cfg(platform_macos)]
 pub use implementation::launch;
 pub use implementation::{install, uninstall};
 

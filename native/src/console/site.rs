@@ -33,7 +33,7 @@ impl Run for SiteLaunchCommand {
         let args = if !&self.arguments.is_empty() { &self.arguments } else { &storage.arguments };
 
         cfg_if! {
-            if #[cfg(target_os = "macos")] {
+            if #[cfg(platform_macos)] {
                 use crate::integrations;
 
                 if !self.direct_launch {
@@ -52,7 +52,7 @@ impl Run for SiteLaunchCommand {
 
         // Patching on macOS is always needed to correctly show the web app name
         // Otherwise, patch runtime and profile only if needed
-        let should_patch = if cfg!(target_os = "macos") || storage.config.always_patch {
+        let should_patch = if cfg!(platform_macos) || storage.config.always_patch {
             // Force patching if this is enabled
             true
         } else {
@@ -122,7 +122,7 @@ impl Run for SiteLaunchCommand {
 
         info!("Launching the web app");
         cfg_if! {
-            if #[cfg(target_os = "macos")] {
+            if #[cfg(platform_macos)] {
                 site.launch(&dirs, &runtime, &storage.config, &url, args, storage.variables)?.wait()?;
             } else {
                 site.launch(&dirs, &runtime, &storage.config, &url, args, storage.variables)?;

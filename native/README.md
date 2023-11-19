@@ -21,6 +21,7 @@ Read [the main README file](../README.md) for more details about the project.
 * Arch-like Linux (source and binary AUR packages)
 * Other Linux (source installation only)
 * macOS (bottled Homebrew formula)
+* BSD (source installation only)
 
 ### Requirements
 

@@ -9,7 +9,7 @@ use crate::directories::ProjectDirs;
 impl Run for RuntimeInstallCommand {
     fn run(&self) -> Result<()> {
         cfg_if! {
-            if #[cfg(target_os = "windows")] {
+            if #[cfg(platform_windows)] {
                 use log::warn;
                 use crate::components::_7zip::_7Zip;
 

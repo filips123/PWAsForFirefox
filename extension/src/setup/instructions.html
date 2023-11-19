@@ -17,6 +17,7 @@
         <button class="nav-link" id="linux-aur-install-tab" data-bs-toggle="tab" data-bs-target="#linux-aur-install-pane" type="button" role="tab" aria-controls="linux-aur-install-pane" aria-selected="false">Arch-like Linux (AUR)</button>
         <button class="nav-link" id="linux-gentoo-install-tab" data-bs-toggle="tab" data-bs-target="#linux-gentoo-install-pane" type="button" role="tab" aria-controls="linux-gentoo-install-pane" aria-selected="false">Gentoo-like Linux</button>
         <button class="nav-link" id="macos-install-tab" data-bs-toggle="tab" data-bs-target="#macos-install-pane" type="button" role="tab" aria-controls="macos-install-pane" aria-selected="false">macOS</button>
+        <button class="nav-link" id="bsd-install-tab" data-bs-toggle="tab" data-bs-target="#bsd-install-pane" type="button" role="tab" aria-controls="bsd-install-pane" aria-selected="false">BSD</button>
         <button class="nav-link" id="source-install-tab" data-bs-toggle="tab" data-bs-target="#source-install-pane" type="button" role="tab" aria-controls="source-install-pane" aria-selected="false">From Source Code</button>
         <button class="nav-link" id="other-install-tab" data-bs-toggle="tab" data-bs-target="#other-install-pane" type="button" role="tab" aria-controls="other-install-pane" aria-selected="false">Other Platforms</button>
       </div>
@@ -165,6 +166,14 @@
             <li>Follow instructions displayed in the caveats section of installation output to link the manifest.</li>
             <li>After the formula is installed and the manifest is linked, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
           </ol>
+        </div>
+
+        <div class="tab-pane fade" id="bsd-install-pane" role="tabpanel" aria-labelledby="bsd-install-tab">
+          <p>
+            To install the project on BSD, please follow the instructions from the source installation section.
+            However, before running <kbd>makers</kbd>, make sure to replace <kbd>/usr/</kbd> with <kbd>/usr/local/</kbd> inside <kbd>Makefile.toml</kbd>'s <kbd>[tasks.install.linux]</kbd> section.
+          </p>
+          <p><strong>Warning:</strong> Support for BSD relies on XDG Desktop Entry Specification (made for Linux) and is not regularly tested.</p>
         </div>
 
         <div class="tab-pane fade" id="other-install-pane" role="tabpanel" aria-labelledby="other-install-tab">

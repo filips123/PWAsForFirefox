@@ -8,6 +8,7 @@
 * Arch-like Linux (source and binary AUR packages)
 * Other Linux (source installation only)
 * macOS (bottled Homebrew formula)
+* BSD (source installation only)[^4]
 
 ## Extension Requirements
 
@@ -23,3 +24,4 @@
 [^1]: Check [FAQ](../help/faq.md#how-to-use-an-alternative-browser-as-a-main-browser) for additional setup.
 [^2]: Automatically installed if using Homebrew.
 [^3]: Automatically installed as a package dependency.
+[^4]: Support for BSD relies on XDG Desktop Entry Specification and is not regularly tested.

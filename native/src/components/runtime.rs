@@ -14,7 +14,7 @@ use crate::components::site::Site;
 use crate::directories::ProjectDirs;
 
 cfg_if! {
-    if #[cfg(target_os = "linux")] {
+    if #[cfg(any(platform_linux, platform_bsd))] {
 
         use std::fs::{set_permissions, DirEntry};
         use std::os::unix::fs::PermissionsExt;
@@ -84,17 +84,17 @@ fn get_download_url() -> &'static str {
     const BASE_DOWNLOAD_URL: &str = "https://download.mozilla.org/?product=firefox-latest-ssl&os=";
 
     cfg_if! {
-        if #[cfg(all(target_os = "windows", target_arch = "x86"))] {
+        if #[cfg(all(platform_windows, target_arch = "x86"))] {
             concatcp!(BASE_DOWNLOAD_URL, "win")
-        } else if #[cfg(all(target_os = "windows", target_arch = "x86_64"))] {
+        } else if #[cfg(all(platform_windows, target_arch = "x86_64"))] {
             concatcp!(BASE_DOWNLOAD_URL, "win64")
-        } else if #[cfg(all(target_os = "windows", target_arch = "aarch64"))] {
+        } else if #[cfg(all(platform_windows, target_arch = "aarch64"))] {
             concatcp!(BASE_DOWNLOAD_URL, "win64-aarch64")
-        } else if #[cfg(all(target_os = "linux", target_arch = "x86"))] {
+        } else if #[cfg(all(platform_linux, target_arch = "x86"))] {
             concatcp!(BASE_DOWNLOAD_URL, "linux")
-        } else if #[cfg(all(target_os = "linux", target_arch = "x86_64"))] {
+        } else if #[cfg(all(platform_linux, target_arch = "x86_64"))] {
             concatcp!(BASE_DOWNLOAD_URL, "linux64")
-        } else if #[cfg(target_os = "macos")] {
+        } else if #[cfg(platform_macos)] {
             concatcp!(BASE_DOWNLOAD_URL, "osx")
         } else {
             panic!("{}", UNSUPPORTED_PLATFORM_ERROR);
@@ -138,11 +138,11 @@ impl Runtime {
     fn new_in_directory(directory: PathBuf) -> Result<Self> {
         let executable = {
             cfg_if! {
-                if #[cfg(target_os = "windows")] {
+                if #[cfg(platform_windows)] {
                     directory.join("firefox.exe")
-                } else if #[cfg(target_os = "linux")] {
+                } else if #[cfg(any(platform_linux, platform_bsd))] {
                     directory.join("firefox")
-                } else if #[cfg(target_os = "macos")] {
+                } else if #[cfg(platform_macos)] {
                     directory.join("Firefox.app/Contents/MacOS/firefox")
                 } else {
                     compile_error!("Unknown operating system");
@@ -152,9 +152,9 @@ impl Runtime {
 
         let config = {
             cfg_if! {
-                if #[cfg(any(target_os = "windows", target_os = "linux"))] {
+                if #[cfg(any(platform_windows, platform_linux, platform_bsd))] {
                     directory.join("application.ini")
-                } else if #[cfg(target_os = "macos")] {
+                } else if #[cfg(platform_macos)] {
                     directory.join("Firefox.app/Contents/Resources/application.ini")
                 } else {
                     compile_error!("Unknown operating system");
@@ -220,7 +220,7 @@ impl Runtime {
 
         info!("Extracting the runtime archive");
         cfg_if! {
-            if #[cfg(target_os = "windows")] {
+            if #[cfg(platform_windows)] {
                 use anyhow::bail;
                 use crate::components::_7zip::_7Zip;
 
@@ -228,7 +228,7 @@ impl Runtime {
                 let success = _7zip.run(vec!["x", &archive, &format!("-o{}", &extracted)]).context(EXTRACT_ERROR)?.success();
                 if !success { bail!(EXTRACT_ERROR) }
                 source.push("core");
-            } else if #[cfg(target_os = "linux")] {
+            } else if #[cfg(platform_linux)] {
                 use std::fs::File;
                 use bzip2::read::BzDecoder;
                 use tar::Archive;
@@ -236,7 +236,7 @@ impl Runtime {
                 let mut compressed = Archive::new(BzDecoder::new(File::open(&archive)?));
                 compressed.unpack(&extracted).context(EXTRACT_ERROR)?;
                 source.push("firefox");
-            } else if #[cfg(target_os = "macos")] {
+            } else if #[cfg(platform_macos)] {
                 use dmg::Attach;
 
                 let info = Attach::new(&archive).with().context(EXTRACT_ERROR)?;
@@ -282,7 +282,7 @@ impl Runtime {
         let source = dirs.sysdata.join("userchrome/runtime");
 
         cfg_if! {
-            if #[cfg(target_os = "macos")] {
+            if #[cfg(platform_macos)] {
                 let mut target = self.directory.clone();
                 target.push("Firefox.app/Contents/Resources");
             } else {
@@ -295,17 +295,17 @@ impl Runtime {
         options.overwrite = true;
 
         info!("Patching the runtime");
-        #[allow(clippy::needless_borrow)]
+        #[allow(clippy::needless_borrow, clippy::needless_borrows_for_generic_args)]
         copy(&source, &target, &options).context("Failed to patch the runtime")?;
 
         cfg_if! {
-            if #[cfg(target_os = "linux")] {
+            if #[cfg(any(platform_linux, platform_bsd))] {
                 visit_dirs(&source, &source, target, &make_writable)?;
             }
         }
 
         cfg_if! {
-            if #[cfg(target_os = "macos")] {
+            if #[cfg(platform_macos)] {
                 use plist;
 
                 // We remove the translation file so macOS shows the web app name

@@ -48,7 +48,7 @@ pub struct ProjectDirs {
     /// ## Default value
     /// - Windows: `C:\Program Files\FirefoxPWA\` or `C:\Program Files (x86)\FirefoxPWA\`
     /// - Linux: `/usr/bin/`
-    /// - macOS: `/usr/local/bin/`
+    /// - macOS & BSD: `/usr/local/bin/`
     /// - Homebrew: `#{prefix}/bin/`
     ///
     /// ## Required permissions
@@ -72,7 +72,7 @@ pub struct ProjectDirs {
     /// ## Default value
     /// - Windows: `C:\Program Files\FirefoxPWA\` or `C:\Program Files (x86)\FirefoxPWA\`
     /// - Linux: `/usr/share/firefoxpwa/`
-    /// - macOS: `/usr/local/share/firefoxpwa/`
+    /// - macOS & BSD: `/usr/local/share/firefoxpwa/`
     /// - Homebrew: `#{prefix}/share/`
     ///
     /// ## Required permissions
@@ -89,7 +89,7 @@ pub struct ProjectDirs {
     ///
     /// ## Default value
     /// - Windows: `%APPDATA%\FirefoxPWA\`
-    /// - Linux: `$XDG_DATA_HOME/firefoxpwa/` or `$HOME/.local/share/firefoxpwa/`
+    /// - Linux & BSD: `$XDG_DATA_HOME/firefoxpwa/` or `$HOME/.local/share/firefoxpwa/`
     /// - macOS: `$HOME/Library/Application Support/firefoxpwa/`
     ///
     /// ## Required permissions
@@ -118,7 +118,7 @@ impl ProjectDirs {
         cfg_if! {
             // On Windows, executables and system data are in the same directory
             // We can just obtain it once, store it, and re-use it for both directories
-            if #[cfg(all(target_os = "windows", not(feature = "portable")))] {
+            if #[cfg(all(platform_windows, not(feature = "portable")))] {
                 use winreg::{enums::HKEY_LOCAL_MACHINE, enums::HKEY_CURRENT_USER, RegKey};
 
                 let path = |root: RegKey| -> Result<PathBuf> {
@@ -138,7 +138,7 @@ impl ProjectDirs {
         cfg_if! {
             // In PortableApps.com mode, all locations are based on the path of current EXE
             // We can just obtain it once, store it, and re-use it for all directories
-            if #[cfg(all(target_os = "windows", feature = "portable"))] {
+            if #[cfg(all(platform_windows, feature = "portable"))] {
                 const CURRENT_DIRECTORY_ERROR: &str = "Failed to get the current directory";
                 const PARENT_DIRECTORY_ERROR: &str = "Failed to get the parent directory";
                 let current = std::env::current_exe().context(CURRENT_DIRECTORY_ERROR)?;
@@ -151,11 +151,11 @@ impl ProjectDirs {
             expand_tilde(envvar, base.home_dir())
         } else {
             cfg_if! {
-                if #[cfg(target_os = "windows")] {
+                if #[cfg(platform_windows)] {
                     install.clone()
-                } else if #[cfg(target_os = "linux")] {
+                } else if #[cfg(platform_linux)] {
                     PathBuf::from("/usr/bin")
-                } else if #[cfg(target_os = "macos")] {
+                } else if #[cfg(any(platform_macos, platform_bsd))] {
                     PathBuf::from("/usr/local/bin")
                 } else {
                     compile_error!("Unknown operating system")
@@ -167,11 +167,11 @@ impl ProjectDirs {
             expand_tilde(envvar, base.home_dir())
         } else {
             cfg_if! {
-                if #[cfg(target_os = "windows")] {
+                if #[cfg(platform_windows)] {
                     install
-                } else if #[cfg(target_os = "linux")] {
+                } else if #[cfg(platform_linux)] {
                     PathBuf::from("/usr/share/firefoxpwa")
-                } else if #[cfg(target_os = "macos")] {
+                } else if #[cfg(any(platform_macos, platform_bsd))] {
                     PathBuf::from("/usr/local/share/firefoxpwa")
                 } else {
                     compile_error!("Unknown operating system")
@@ -183,11 +183,11 @@ impl ProjectDirs {
             expand_tilde(envvar, base.home_dir())
         } else {
             cfg_if! {
-                if #[cfg(all(target_os = "windows", not(feature = "portable")))] {
+                if #[cfg(all(platform_windows, not(feature = "portable")))] {
                     base.data_dir().join("FirefoxPWA")
-                } else if #[cfg(all(target_os = "windows", feature = "portable"))] {
+                } else if #[cfg(all(platform_windows, feature = "portable"))] {
                     data
-                } else if #[cfg(any(target_os = "linux", target_os = "macos"))] {
+                } else if #[cfg(any(platform_linux, platform_macos, platform_bsd))] {
                     base.data_dir().join("firefoxpwa")
                 } else {
                     compile_error!("Unknown operating system")

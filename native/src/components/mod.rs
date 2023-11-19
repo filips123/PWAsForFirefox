@@ -1,4 +1,4 @@
-#[cfg(target_os = "windows")]
+#[cfg(platform_windows)]
 pub mod _7zip;
 
 pub mod profile;

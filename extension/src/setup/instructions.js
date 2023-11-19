@@ -77,6 +77,8 @@ async function prepareInstallInstructions () {
     defaultTab = debArch ? 'linux-deb' : 'source'
   } else if (os === 'mac') {
     defaultTab = 'macos'
+  } else if (os === 'openbsd') {
+    defaultTab = 'bsd'
   } else {
     defaultTab = 'other'
   }

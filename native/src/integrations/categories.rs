@@ -10,7 +10,7 @@
 /// - W3C: https://github.com/w3c/manifest/wiki/Categories#standardized-categories
 /// - FreeDesktop: https://specifications.freedesktop.org/menu-spec/menu-spec-1.0.html#category-registry
 ///
-#[cfg(target_os = "linux")]
+#[cfg(any(platform_linux, platform_bsd))]
 pub static XDG_CATEGORIES: phf::Map<&'static str, &'static [&'static str]> = phf::phf_map! {
     // Main Categories
     "audiovideo" => &["AudioVideo"],
@@ -186,7 +186,7 @@ pub static XDG_CATEGORIES: phf::Map<&'static str, &'static [&'static str]> = phf
 /// - W3C: https://github.com/w3c/manifest/wiki/Categories#standardized-categories
 /// - Apple: https://developer.apple.com/documentation/bundleresources/information_property_list/lsapplicationcategorytype
 ///
-#[cfg(target_os = "macos")]
+#[cfg(platform_macos)]
 pub static MACOS_CATEGORIES: phf::Map<&'static str, &'static str> = phf::phf_map! {
     "business" => "public.app-category.business",
     "developertools" => "public.app-category.developer-tools",
@@ -256,7 +256,7 @@ pub static MACOS_CATEGORIES: phf::Map<&'static str, &'static str> = phf::phf_map
 /// - W3C: https://github.com/w3c/manifest/wiki/Categories#standardized-categories
 /// - PortableApps.com: https://portableapps.com/development/portableapps.com_format#appinfo
 ///
-#[cfg(all(target_os = "windows", feature = "portable"))]
+#[cfg(all(platform_windows, feature = "portable"))]
 pub static PORTABLEAPPS_CATEGORIES: phf::Map<&'static str, &'static str> = phf::phf_map! {
     "accessibility" => "Accessibility",
     "developertools" => "Development",

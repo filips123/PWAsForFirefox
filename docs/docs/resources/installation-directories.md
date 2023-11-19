@@ -22,7 +22,7 @@ Can be overwritten by a `FFPWA_EXECUTABLES` build- or run-time environment varia
 * Windows: `C:\Program Files\FirefoxPWA\` (can be set during installation)
 * PortableApps.com: `#{root}\App\PWAsForFirefox\`
 * Linux: `/usr/bin/`
-* macOS: `/usr/local/bin/`
+* macOS & BSD: `/usr/local/bin/`
 * Homebrew: `#{prefix}/bin/`
 
 **Required Permissions:**
@@ -36,7 +36,7 @@ Can be overwritten by a `FFPWA_EXECUTABLES` build- or run-time environment varia
 * Windows: `C:\Program Files\FirefoxPWA\firefoxpwa.exe`
 * PortableApps.com: `#{root}\App\PWAsForFirefox\firefoxpwa.exe`
 * Linux: `/usr/bin/firefoxpwa`
-* macOS: `/usr/local/bin/firefoxpwa`
+* macOS & BSD: `/usr/local/bin/firefoxpwa`
 * Homebrew: `#{prefix}/bin/firefoxpwa`
 
 ### Connector Executable
@@ -46,7 +46,7 @@ Can be overwritten by a `FFPWA_EXECUTABLES` build- or run-time environment varia
 * Windows: `C:\Program Files\FirefoxPWA\firefoxpwa-connector.exe`
 * PortableApps.com: `#{root}\App\PWAsForFirefox\firefoxpwa-connector.exe`
 * Linux: `/usr/libexec/firefoxpwa-connector`
-* macOS: `/usr/local/libexec/firefoxpwa-connector`
+* macOS & BSD: `/usr/local/libexec/firefoxpwa-connector`
 * Homebrew: `#{prefix}/libexec/firefoxpwa-connector`
 
 !!! note
@@ -77,7 +77,7 @@ Can be overwritten by a `FFPWA_SYSDATA` build- or run-time environment variable.
 * Windows: `C:\Program Files\FirefoxPWA\` (can be set during installation)
 * PortableApps.com: `#{root}\App\PWAsForFirefox\`
 * Linux: `/usr/share/firefoxpwa/`
-* macOS: `/usr/local/share/firefoxpwa/`
+* macOS & BSD: `/usr/local/share/firefoxpwa/`
 * Homebrew: `#{prefix}/share/`
 
 **Required Permissions:**
@@ -91,7 +91,7 @@ Can be overwritten by a `FFPWA_SYSDATA` build- or run-time environment variable.
 * Windows: `C:\Program Files\FirefoxPWA\userchrome\`
 * PortableApps.com: `#{root}\App\PWAsForFirefox\userchrome\`
 * Linux: `/usr/share/firefoxpwa/userchrome/`
-* macOS: `/usr/local/share/firefoxpwa/userchrome/`
+* macOS & BSD: `/usr/local/share/firefoxpwa/userchrome/`
 * Homebrew: `#{prefix}/share/userchrome/`
 
 ### Completions
@@ -100,7 +100,7 @@ Can be overwritten by a `FFPWA_SYSDATA` build- or run-time environment variable.
 
 * Windows: `C:\Program Files\FirefoxPWA\completions\`
 * PortableApps.com: *Not installed by default*
-* Linux & macOS: *Appropriate locations for shells*
+* Linux & macOS & BSD: *Appropriate locations for shells*
 
 ## User Data
 
@@ -114,7 +114,7 @@ Can be overwritten by a `FFPWA_USERDATA` build- or run-time environment variable
 
 * Windows: `%APPDATA%\FirefoxPWA\`
 * PortableApps.com: `#{root}\Data\`
-* Linux: `${XDG_DATA_HOME:="$HOME/.local/share"}/firefoxpwa/`
+* Linux & BSD: `${XDG_DATA_HOME:="$HOME/.local/share"}/firefoxpwa/`
 * macOS: `$HOME/Library/Application Support/firefoxpwa/`
 
 **Required Permissions:**
@@ -128,7 +128,7 @@ Can be overwritten by a `FFPWA_USERDATA` build- or run-time environment variable
 
 * Windows: `%APPDATA%\FirefoxPWA\runtime\`
 * PortableApps.com: `#{root}\App\PWAsForFirefox\runtime\`
-* Linux: `${XDG_DATA_HOME:="$HOME/.local/share"}/firefoxpwa/runtime/`
+* Linux & BSD: `${XDG_DATA_HOME:="$HOME/.local/share"}/firefoxpwa/runtime/`
 * macOS: `$HOME/Library/Application Support/firefoxpwa/runtime/`
 
 !!! note
@@ -149,5 +149,5 @@ Can be overwritten by a `FFPWA_USERDATA` build- or run-time environment variable
 
 * Windows: `%APPDATA%\FirefoxPWA\profiles\`
 * PortableApps.com: `#{root}\Data\profiles\`
-* Linux: `${XDG_DATA_HOME:="$HOME/.local/share"}/firefoxpwa/profiles/`
+* Linux & BSD: `${XDG_DATA_HOME:="$HOME/.local/share"}/firefoxpwa/profiles/`
 * macOS: `$HOME/Library/Application Support/firefoxpwa/profiles/`

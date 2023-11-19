@@ -28,7 +28,7 @@ use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
 /// crate to prevent it from containing any invalid filenames characters. Dots
 /// at the start are also removed to prevent the file from being hidden. In case
 /// the sanitized name is an empty string, the new name is constructed from the ID.
-#[cfg(any(target_os = "windows", target_os = "macos"))]
+#[cfg(any(platform_windows, platform_macos))]
 pub fn sanitize_name<'a>(name: &'a str, id: &'a str) -> String {
     let mut sanitized: String = name.chars().take(60).collect();
     sanitized = sanitized.trim_start_matches([' ', '.']).into();
@@ -46,9 +46,10 @@ pub fn sanitize_name<'a>(name: &'a str, id: &'a str) -> String {
 /// Category name is converted to lower-case and all word separators (`-`, `_`, ` `)
 /// are removed. This allows easier matching with keys from the categories map.
 #[cfg(any(
-    target_os = "linux",
-    target_os = "macos",
-    all(target_os = "windows", feature = "portable")
+    platform_linux,
+    platform_macos,
+    platform_bsd,
+    all(platform_windows, feature = "portable")
 ))]
 #[inline]
 pub fn normalize_category_name(category: &str) -> String {

@@ -1,3 +1,4 @@
+use cfg_aliases::cfg_aliases;
 use clap::CommandFactory;
 use clap_complete::{generate_to, Shell};
 
@@ -17,4 +18,11 @@ fn main() {
     generate_to(Shell::Fish, &mut app, env!("CARGO_PKG_NAME"), &completions).unwrap();
     generate_to(Shell::PowerShell, &mut app, env!("CARGO_PKG_NAME"), &completions).unwrap();
     generate_to(Shell::Zsh, &mut app, env!("CARGO_PKG_NAME"), &completions).unwrap();
+
+    cfg_aliases! {
+        platform_windows: { target_os = "windows" },
+        platform_linux: { target_os = "linux" },
+        platform_macos: { target_os = "macos" },
+        platform_bsd: { any(target_os = "dragonfly", target_os = "freebsd", target_os = "openbsd", target_os = "netbsd") },
+    }
 }

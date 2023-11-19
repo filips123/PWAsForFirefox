@@ -53,7 +53,7 @@ impl Process for GetSystemVersions {
             firefox: Runtime::new(connection.dirs)?.version,
             _7zip: {
                 cfg_if! {
-                    if #[cfg(target_os = "windows")] {
+                    if #[cfg(platform_windows)] {
                         use crate::components::_7zip::_7Zip;
                         _7Zip::new()?.version
                     } else {
@@ -109,7 +109,7 @@ impl Process for GetSiteList {
 impl Process for LaunchSite {
     fn process(&self, _connection: &Connection) -> Result<ConnectorResponse> {
         cfg_if! {
-            if #[cfg(target_os = "macos")] { let command = SiteLaunchCommand { id: self.id, url: self.url.to_owned(), protocol: None, arguments: vec![], direct_launch: false }; }
+            if #[cfg(platform_macos)] { let command = SiteLaunchCommand { id: self.id, url: self.url.to_owned(), protocol: None, arguments: vec![], direct_launch: false }; }
             else { let command = SiteLaunchCommand { id: self.id, url: self.url.to_owned(), protocol: None, arguments: vec![] }; }
         };
         command.run()?;
