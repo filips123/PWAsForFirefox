@@ -95,7 +95,7 @@ Alternatively, you can:
 
 * Use [`cargo-wix`](https://github.com/volks73/cargo-wix) to build the MSI installer.
 * Use [`cargo-deb`](https://github.com/kornelski/cargo-deb) to build the DEB package.
-* Use [`cargo-rpm`](https://github.com/iqlusioninc/cargo-rpm) to build the RPM package.
+* Use [`cargo-rpm`](https://github.com/filips123/cargo-rpm) to build the RPM package.
 
 If you want to modify the installation or runtime directory, please check [our FAQ page](https://pwasforfirefox.filips.si//help/faq/#how-to-install-this-project-to-a-different-location) for more details.
 
