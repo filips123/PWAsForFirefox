@@ -24,27 +24,27 @@ portable = ["dep:phf"]
 static = ["reqwest/native-tls-vendored", "bzip2/static"]
 
 [dependencies]
-ab_glyph = "0.2.22"
+ab_glyph = "0.2.23"
 anyhow = "1.0.75"
-byteorder = "1.4.3"
+byteorder = "1.5.0"
 cfg-if = "1.0.0"
-clap = { version = "^4.4.6", features = ["derive"] }
-configparser = "3.0.2"
-const_format = "0.2.31"
+clap = { version = "^4.4.8", features = ["derive"] }
+configparser = "3.0.3"
+const_format = "0.2.32"
 data-url = { git = "https://github.com/servo/rust-url", branch = "master" }
 directories = "5.0.1"
 fs_extra = "1.3.0"
 gag = "1.0.0"
 image = "0.24.7"
 log = "0.4.20"
-reqwest = { version = "0.11.20", features = ["blocking", "socks", "gzip", "brotli", "deflate", "native-tls"] }
-resvg = "0.35.0"
-serde = { version = "1.0.188", features = ["derive"] }
-serde_json = "1.0.107"
-serde_with = "3.3.0"
+reqwest = { version = "0.11.22", features = ["blocking", "socks", "gzip", "brotli", "deflate", "native-tls"] }
+resvg = "0.36.0"
+serde = { version = "1.0.192", features = ["derive"] }
+serde_json = "1.0.108"
+serde_with = "3.4.0"
 simplelog = "0.12.1"
 smart-default = "0.7.1"
-tempfile = "3.8.0"
+tempfile = "3.8.1"
 ulid = { version = "1.1.0", features = ["serde"] }
 url = "2.4.1"
 urlencoding = "2.1.3"
@@ -84,13 +84,13 @@ dmg = "0.1.2"
 phf = { version = "0.11.2", features = ["macros"] }
 icns = "0.3.1"
 pix = "0.13.3"
-plist = "1.5.0"
+plist = "1.6.0"
 sanitize-filename = "0.5.0"
 
 [build-dependencies]
 cfg_aliases = "0.1.1"
-clap = { version = "4.4.6", features = ["derive"] }
-clap_complete = "4.4.3"
+clap = { version = "4.4.8", features = ["derive"] }
+clap_complete = "4.4.4"
 ulid = "1.1.0"
 url = "2.4.1"
 
