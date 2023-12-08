@@ -501,14 +501,9 @@ dependencies = [
 
 [[package]]
 name = "data-url"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "41b319d1b62ffbd002e057f36bebd1f42b9f97927c9577461d855f3513c4289f"
-
-[[package]]
-name = "data-url"
-version = "0.3.0"
-source = "git+https://github.com/servo/rust-url?branch=master#464b1f7d8fe9de117af184c1acb52b4f821a0cdc"
+checksum = "5c297a1c74b71ae29df00c3e22dd9534821d60eb9af5a0192823fa2acea70c2a"
 
 [[package]]
 name = "deflate"
@@ -660,7 +655,7 @@ dependencies = [
  "clap_complete",
  "configparser",
  "const_format",
- "data-url 0.3.0 (git+https://github.com/servo/rust-url?branch=master)",
+ "data-url",
  "directories",
  "dmg",
  "fs_extra",
@@ -1357,9 +1352,9 @@ checksum = "dd8b5dd2ae5ed71462c540258bedcb51965123ad7e7ccf4b9a8cafaa4a63576d"
 
 [[package]]
 name = "openssl"
-version = "0.10.59"
+version = "0.10.61"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7a257ad03cd8fb16ad4172fedf8094451e1af1c4b70097636ef2eac9a5f0cc33"
+checksum = "6b8419dc8cc6d866deb801274bba2e6f8f6108c1bb7fcc10ee5ab864931dbb45"
 dependencies = [
  "bitflags 2.4.1",
  "cfg-if",
@@ -1398,9 +1393,9 @@ dependencies = [
 
 [[package]]
 name = "openssl-sys"
-version = "0.9.95"
+version = "0.9.97"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "40a4130519a360279579c2053038317e40eff64d13fd3f004f9e1b72b8a6aaf9"
+checksum = "c3eaad34cdd97d81de97964fc7f29e2d104f483840d906ef56daa1912338460b"
 dependencies = [
  "cc",
  "libc",
@@ -2506,7 +2501,7 @@ version = "0.36.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "45c88a5ffaa338f0e978ecf3d4e00d8f9f493e29bed0752e1a808a1db16afc40"
 dependencies = [
- "data-url 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "data-url",
  "flate2",
  "imagesize",
  "kurbo",

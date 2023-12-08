@@ -31,7 +31,7 @@ cfg-if = "1.0.0"
 clap = { version = "^4.4.8", features = ["derive"] }
 configparser = "3.0.3"
 const_format = "0.2.32"
-data-url = { git = "https://github.com/servo/rust-url", branch = "master" }
+data-url = "0.3.1"
 directories = "5.0.1"
 fs_extra = "1.3.0"
 gag = "1.0.0"
