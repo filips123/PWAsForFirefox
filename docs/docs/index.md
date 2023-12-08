@@ -95,7 +95,7 @@ You can see a full list of features [on a dedicated page](about/supported-featur
 Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this project and
 providing us a free hosting for our DEB and RPM packages!
 
-[![Private NPM repository and Maven, RPM, DEB, PyPi and RubyGems repository · packagecloud](https://assets-production.packagecloud.io/assets/packagecloud-logo-light-7fa6e801ee96415eed86693c85c4b0bbb20f9cf2b63fc11736ab597661fb5c0d.png){ loading=lazy width=500 }](https://packagecloud.io/)
+[![Private NPM repository and Maven, RPM, DEB, PyPi and RubyGems repository · packagecloud](https://assets-production.packagecloud.io/assets/packagecloud-logo-light-3c521566d5567fe0ce8435ef1f9485b0c3ad28a958af6f520d82ad3b232d2ff3.png){ loading=lazy width=500 }](https://packagecloud.io/)
 
 Thanks to all donors for providing financial support for the project!
 {: style="padding-top:0.5rem;padding-bottom:0.5rem;" }

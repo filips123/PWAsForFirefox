@@ -66,7 +66,7 @@ You can [our documentation website](https://pwasforfirefox.filips.si/about/curre
 
 Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this project and providing us a free hosting for our DEB and RPM packages!
 
-  [<img src="https://assets-production.packagecloud.io/assets/packagecloud-logo-light-7fa6e801ee96415eed86693c85c4b0bbb20f9cf2b63fc11736ab597661fb5c0d.png" alt="Private NPM repository and Maven, RPM, DEB, PyPi and RubyGems repository · packagecloud" width="500">](https://packagecloud.io/)
+  [<img src="https://assets-production.packagecloud.io/assets/packagecloud-logo-light-3c521566d5567fe0ce8435ef1f9485b0c3ad28a958af6f520d82ad3b232d2ff3.png" alt="Private NPM repository and Maven, RPM, DEB, PyPi and RubyGems repository · packagecloud" width="500">](https://packagecloud.io/)
 
 &nbsp;
 

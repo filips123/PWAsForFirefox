@@ -37,6 +37,7 @@ target/
 __pycache__/
 cache/
 tmp/
+.cache
 .eslintcache
 .grunt
 .lock-wscript
