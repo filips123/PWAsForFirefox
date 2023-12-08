@@ -550,6 +550,10 @@ fn remove_app_bundle(args: &IntegrationUninstallArgs) -> Result<()> {
         .join("Applications")
         .join(format!("{}.app", sanitize_name(&args.site.name(), &ulid)));
 
+    if !bundle.exists() {
+        return Ok(());
+    }
+
     verify_app_is_pwa(&bundle, &format!("FFPWA-{ulid}"))?;
     let _ = remove_dir_all(bundle);
 

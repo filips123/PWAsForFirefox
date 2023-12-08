@@ -184,15 +184,15 @@ fn store_icons(
     Ok(())
 }
 
-fn remove_icons(classid: &str, data: &Path) -> Result<()> {
+fn remove_icons(classid: &str, data: &Path) {
     let directory = data.display().to_string();
     let pattern = format!("{directory}/icons/hicolor/*/apps/{classid}*");
 
-    for path in glob(&pattern)?.filter_map(Result::ok) {
-        let _ = remove_file(path);
+    if let Ok(paths) = glob(&pattern) {
+        for path in paths.filter_map(Result::ok) {
+            let _ = remove_file(path);
+        }
     }
-
-    Ok(())
 }
 
 fn create_desktop_entry(
@@ -312,20 +312,16 @@ fn create_startup_entry(
     Ok(())
 }
 
-fn remove_desktop_entry(classid: &str, data: &Path) -> Result<()> {
+fn remove_desktop_entry(classid: &str, data: &Path) {
     let directory = data.join("applications");
     let filename = directory.join(format!("{classid}.desktop"));
-
     let _ = remove_file(filename);
-    Ok(())
 }
 
-fn remove_startup_entry(classid: &str, config: &Path) -> Result<()> {
+fn remove_startup_entry(classid: &str, config: &Path) {
     let directory = config.join("autostart");
     let filename = directory.join(format!("{classid}.desktop"));
-
     let _ = remove_file(filename);
-    Ok(())
 }
 
 //////////////////////////////
@@ -361,9 +357,9 @@ pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
     let data = &base.data_dir().to_owned();
     let config = &base.config_dir().to_owned();
 
-    remove_icons(&ids.classid, data).context("Failed to remove web app icons")?;
-    remove_desktop_entry(&ids.classid, data).context("Failed to remove application entry")?;
-    remove_startup_entry(&ids.classid, config).context("Failed to remove startup entry")?;
+    remove_icons(&ids.classid, data);
+    remove_desktop_entry(&ids.classid, data);
+    remove_startup_entry(&ids.classid, config);
     update_application_cache(data);
 
     Ok(())
