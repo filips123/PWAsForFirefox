@@ -7,9 +7,9 @@ CRATES=""
 
 declare -A GIT_CRATES=()
 
-inherit cargo flag-o-matic toolchain-funcs
+inherit cargo desktop flag-o-matic shell-completion toolchain-funcs xdg
 
-DESCRIPTION="A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox (native component)"
+DESCRIPTION="A tool to install, manage and use PWAs in Mozilla Firefox (native component)"
 HOMEPAGE="https://pwasforfirefox.filips.si/"
 
 SRC_URI="
@@ -24,20 +24,23 @@ LICENSE="MPL-2.0"
 LICENSE+=""
 
 SLOT="0"
-KEYWORDS="~amd64 ~x86 ~arm64 ~arm"
+KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE="lto custom-cflags"
 
+# Add app-arch/bzip2 when it finally get pkg-config file
+DEPEND="dev-libs/openssl:="
+RDEPEND="${DEPEND}"
 # As Rust produces LLVM IR when using LTO, lld is needed to link. Furthermore,
 # as some crates contain C code, clang should be used to compile them to produce
 # compatible IR.
 BDEPEND="
+	virtual/pkgconfig
 	lto? (
 		!custom-cflags? (
 			sys-devel/clang
 			sys-devel/lld
 		)
 	)
-	${RUST_DEPEND}
 "
 
 QA_FLAGS_IGNORED="
@@ -73,44 +76,28 @@ src_configure() {
 		filter-lto
 	fi
 
+	export PKG_CONFIG_ALLOW_CROSS=1
+	export OPENSSL_NO_VENDOR=1
 	cargo_src_configure
 }
 
 src_install() {
-	debug-print-function ${FUNCNAME}
-
-	[[ ${_CARGO_GEN_CONFIG_HAS_RUN} ]] || \
-		die "FATAL: please call cargo_gen_config before using ${FUNCNAME}"
-
-	set -- cargo install --path ./ \
-		--root ./ \
-		${GIT_CRATES[@]:+--frozen} \
-		$(usex debug --debug "") \
-		${ECARGO_ARGS[@]} "$@"
-	einfo "${@}"
-	"${@}" || die "cargo install failed"
-
-	TARGET_DIR=$(usex debug "debug" "release")
-
 	# Executables
-	into /usr
-	dobin bin/firefoxpwa
+	dobin target/*/firefoxpwa
 	exeinto /usr/libexec
-	doexe bin/firefoxpwa-connector
+	doexe target/*/firefoxpwa-connector
 
 	# Manifest
-	insinto /usr/lib64/mozilla/native-messaging-hosts
-	newins manifests/linux.json firefoxpwa.json
-	dosym ../../../lib64/mozilla/native-messaging-hosts/firefoxpwa.json \
-		/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json
+	local target_dirs=( /usr/lib{,64}/mozilla/native-messaging-hosts )
+	for target_dir in "${target_dirs[@]}"; do
+		insinto "${target_dir}"
+		newins manifests/linux.json firefoxpwa.json
+	done
 
 	# Completions
-	exeinto /usr/share/bash-completion/completions
-	newexe target/${TARGET_DIR}/completions/firefoxpwa.bash firefoxpwa
-	exeinto /usr/share/fish/vendor_completions.d
-	doexe target/${TARGET_DIR}/completions/firefoxpwa.fish
-	exeinto /usr/share/zsh/vendor-completions
-	doexe target/${TARGET_DIR}/completions/_firefoxpwa
+	newbashcomp target/*/completions/firefoxpwa.bash firefoxpwa
+	dofishcomp target/*/completions/firefoxpwa.fish
+	dozshcomp target/*/completions/_firefoxpwa
 
 	# UserChrome
 	insinto /usr/share/firefoxpwa
@@ -120,23 +107,29 @@ src_install() {
 	dodoc ../README.md
 	newdoc ../native/README.md README-NATIVE.md
 	newdoc ../extension/README.md README-EXTENSION.md
-	dodoc packages/deb/copyright
 
 	# AppStream Metadata
 	insinto /usr/share/metainfo
 	doins packages/appstream/si.filips.FirefoxPWA.metainfo.xml
-	insinto /usr/share/icons/hicolor/scalable
-	doins packages/appstream/si.filips.FirefoxPWA.svg
+
+	# Icon
+	doicon -s scalable packages/appstream/si.filips.FirefoxPWA.svg
 }
 
 pkg_postinst() {
 	echo "You have successfully installed the native part of the PWAsForFirefox project"
 	echo "You should also install the Firefox extension if you haven't already"
 	echo "Download: https://addons.mozilla.org/firefox/addon/pwas-for-firefox/"
+
+	xdg_pkg_postinst
 }
 
 pkg_postrm() {
-	echo "Runtime, profiles and web apps are still installed in user directories"
-	echo "You can remove them manually after this package is uninstalled"
-	echo "Doing that will remove all installed web apps and their data"
+	if [[ ! ${REPLACING_VERSIONS} ]]; then
+		echo "Runtime, profiles and web apps are still installed in user directories"
+		echo "You can remove them manually after this package is uninstalled"
+		echo "Doing that will remove all installed web apps and their data"
+	fi
+
+	xdg_pkg_postrm
 }
