@@ -185,7 +185,8 @@ async function initializeForm () {
     // Create a new option in the select input and select it
     const id = response.data
     profilesElement.add(new Option(name ?? id, id, true, true), profilesElement.length - 2)
-    profilesElement.value = profilesElement.length - 3
+    profilesElement.value = id
+    lastProfileSelection = id
 
     // Hide the modal
     Modal.getOrCreateInstance(document.getElementById('new-profile-modal'), { backdrop: 'static', keyboard: false }).hide()
