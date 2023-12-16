@@ -145,7 +145,8 @@
 
         <div class="tab-pane fade" id="source-install-pane" role="tabpanel" aria-labelledby="source-install-tab">
           <ol>
-            <li>Make sure <a href="https://github.com/sagiegurari/cargo-make" target="_blank"><kbd>cargo-make</kbd></a> and (on Windows) <a href="https://wixtoolset.org/releases/" target="_blank">WiX Toolset</a> are installed.</li>
+            <li>Make sure <a href="https://github.com/sagiegurari/cargo-make" target="_blank"><kbd>cargo-make</kbd></a> is installed and up to date.</li>
+            <li id="connector-source-install-wix">Make sure <a href="https://wixtoolset.org/docs/wix3/" target="_blank">WiX Toolset v3</a> is installed (Windows-only).</li>
             <li>Clone the <a href="https://github.com/filips123/PWAsForFirefox" target="_blank">repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
             <li>Checkout the <kbd class="connector-repository-tag"></kbd> tag.</li>
             <li>Prepare the source code for building: <kbd>makers set-version</kbd></li>
@@ -169,10 +170,7 @@
         </div>
 
         <div class="tab-pane fade" id="bsd-install-pane" role="tabpanel" aria-labelledby="bsd-install-tab">
-          <p>
-            To install the project on BSD, please follow the instructions from the source installation section.
-            However, before running <kbd>makers</kbd>, make sure to replace <kbd>/usr/</kbd> with <kbd>/usr/local/</kbd> inside <kbd>Makefile.toml</kbd>'s <kbd>[tasks.install.linux]</kbd> section.
-          </p>
+          <p>To install the project on BSD, please follow the instructions from the source installation section.</p>
           <p><strong>Warning:</strong> Support for BSD relies on XDG Desktop Entry Specification (made for Linux) and is not regularly tested.</p>
         </div>
 

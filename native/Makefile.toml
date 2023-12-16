@@ -12,10 +12,21 @@ args = ["build", "--release"]
 
 ### INSTALLERS ###
 
-[tasks.install.windows]
+[tasks.install]
+description = "Install the project"
+run_task = [
+    { name = "install-windows", condition = { os = ["windows"] } },
+    { name = "install-linux", condition = { os = ["linux"] } },
+    { name = "install-macos", condition = { os = ["macos"] } },
+    { name = "install-bsd", condition = { os = ["dragonfly", "freebsd", "openbsd", "netbsd"] } },
+    { name = "install-unknown" }
+]
+
+[tasks.install-windows]
 dependencies = ["build"]
+private = true
 install_script = [
-    "heat >nul 2>nul || echo FATAL: Make sure the WiX Toolset is installed and available in the PATH environment variable && exit 1",
+    "heat >nul 2>nul || echo FATAL: Make sure the WiX Toolset v3 is installed and available in the PATH environment variable && exit 1",
     "cargo-wix help >nul 2>nul || cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev 032be8310f9aa9684e9524db54632792a9d85e28",
 ]
 script = [
@@ -23,8 +34,9 @@ script = [
     "cargo wix --verbose --no-build --nocapture --install"
 ]
 
-[tasks.install.linux]
+[tasks.install-linux]
 dependencies = ["build"]
+private = true
 script = """
 # Use sudo if it exists
 SUDO=$(which sudo) || $(echo "")
@@ -40,8 +52,9 @@ $SUDO mkdir -p /usr/share/firefoxpwa/userchrome/
 $SUDO cp -R userchrome/* /usr/share/firefoxpwa/userchrome/
 """
 
-[tasks.install.mac]
+[tasks.install-macos]
 dependencies = ["build"]
+private = true
 script = """
 # Use sudo if it exists
 SUDO=$(which sudo) || $(echo "")
@@ -64,8 +77,26 @@ $SUDO mkdir -p /usr/local/share/firefoxpwa/userchrome/
 $SUDO cp -R userchrome/* /usr/local/share/firefoxpwa/userchrome/
 """
 
-[tasks.install]
-description = "Install the project"
+[tasks.install-bsd]
+dependencies = ["build"]
+private = true
+script = """
+# Use sudo if it exists
+SUDO=$(which sudo) || $(echo "")
+
+# Copy all files to the correct locations
+$SUDO install -D target/release/firefoxpwa /usr/local/bin/firefoxpwa
+$SUDO install -D target/release/firefoxpwa-connector /usr/local/libexec/firefoxpwa-connector
+$SUDO install -D manifests/bsd.json /usr/local/lib/mozilla/native-messaging-hosts/firefoxpwa.json
+$SUDO install -D manifests/bsd.json /usr/local/lib64/mozilla/native-messaging-hosts/firefoxpwa.json
+
+# Copy the userchrome directory to the correct location
+$SUDO mkdir -p /usr/local/share/firefoxpwa/userchrome/
+$SUDO cp -R userchrome/* /usr/local/share/firefoxpwa/userchrome/
+"""
+
+[tasks.install-unknown]
+private = true
 script = [
     "echo FATAL: This environment does not support automatic installation using cargo-make",
     "exit 1"
@@ -75,5 +106,5 @@ script = [
 
 [tasks.set-version]
 description = "Set the version to a given version or the current Git tag"
-script_runner="@duckscript"
+script_runner = "@duckscript"
 script = "!include_files ./scripts/set-version.ds"
