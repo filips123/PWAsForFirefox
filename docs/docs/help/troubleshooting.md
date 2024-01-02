@@ -32,6 +32,7 @@ If the error happens while using web app:
 2. Enable "browser chrome and add-on debugging toolboxes" and "remote debugging".
 3. Press ++ctrl+alt+shift+i++ and accept the prompt.
 4. Errors/logs should be written to the "console" tab.
+5. You may need to switch the browser toolbox mode to multiprocess.
 
 Alternatively, if the web app does not open properly:
 

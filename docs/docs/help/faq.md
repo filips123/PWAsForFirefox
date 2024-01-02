@@ -372,6 +372,30 @@ pressing ++f6++, ++ctrl+l++ or ++alt+d++) and entering `addons.mozilla.org`.
 You can access `about:config` (or any other URL) by opening the URL input (by
 pressing ++f6++, ++ctrl+l++ or ++alt+d++) and entering `about:config`.
 
+### How to add a web app shortcut to the desktop?
+
+It is possible to create a shortcut to the web app and add it to your desktop or other directory.
+
+??? "Windows"
+
+    1. Open the start menu directory: `%AppData%\Microsoft\Windows\Start Menu\Programs`
+    2. Copy the shortcut for your web app to your desktop or other directory.
+
+??? "Linux"
+
+    1. Open the desktop entries directory: `~/.local/share/applications`
+    2. Copy the shortcut for your web app to your desktop or other directory.
+
+??? "macOS"
+
+    1. Open the applications directory: `~/Applications`
+    2. Hold ++option+cmd++ and drag the web app to your desktop or other directory.
+
+
+!!! warning
+
+    These steps may not work on all desktop environments.
+
 ## Troubleshooting
 
 ### Why can't I install a specific website I want?
