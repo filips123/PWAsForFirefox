@@ -25,9 +25,11 @@ browser.runtime.onInstalled.addListener(async ({ reason }) => {
         (await browser.storage.local.get({ [PREF_SHOW_UPDATE_POPUP]: true }))[PREF_SHOW_UPDATE_POPUP] &&
         (await checkNativeStatus()) !== 'ok'
       ) {
+        // We use browser localization here as otherwise the messages would get duplicated
+        // See: https://github.com/parcel-bundler/parcel/issues/9446
         await browser.notifications.create(updateNotification, {
-          title: 'PWAsForFirefox Update',
-          message: 'A PWAsForFirefox update is available. Please click the notification to display the update instructions.',
+          title: browser.i18n.getMessage('updateNotificationTitle'),
+          message: browser.i18n.getMessage('updateNotificationMessage'),
           iconUrl: browser.runtime.getURL('images/addon-logo.svg'),
           type: 'basic'
         })
@@ -70,6 +72,7 @@ browser.runtime.onMessage.addListener(async ({ manifestUrl, documentUrl, isSecur
     const siteInstalled = manifestUrl && existingSites.includes(manifestUrl.toString())
 
     // Set popup to the launch/install page depending on if it is installed
+    // We use browser localization here as these messages are part of the browser UI
     if (siteInstalled) {
       await browser.pageAction.setIcon({ tabId: tab.id, path: 'images/page-action-launch.svg' })
       browser.pageAction.setTitle({ tabId: tab.id, title: browser.i18n.getMessage('actionLaunchSite') })

@@ -74,15 +74,32 @@ messages, please use Crowdin's discussions feature to communicate with others.
 If your language is not yet available, please contact me on Crowdin.
 
 > [!NOTE]
-> The localization feature is currently still work-in-progress, and not many
-strings are available for translation. Proper localization is being worked on.
-Please follow the Crowdin project for updates and new available messages.
+> The localization feature is currently still work-in-progress. The extension
+> already supports the localization, but the UserChrome localization is still
+> being worked on. Please follow the Crowdin project for updates and new
+> available messages.
 
 <details>
   <summary>Expand localization status</summary>
 
 [![Localization status](https://badges.awesome-crowdin.com/translation-13220281-466834.png)](https://crowdin.com/project/firefoxpwa)
 </details>
+
+### Extension Translations
+
+The extension uses a custom message format, mostly compatible with the standard
+WebExtensions message format, with a few differences:
+
+* Message keys are case-sensitive, unlike in WebExtensions.
+* Message placeholders remain case-insensitive, like in WebExtensions.
+* Positional placeholders are unsupported, use named placeholders instead.
+* Referencing other messages is possible, include a placeholder to another key in the placeholder content.
+* Limited pluralization is possible, supporting a very basic subset of the ICU message pluralization format.
+
+### UserChrome Translations
+
+It is currently not possible to translate the UserChrome messages, but support
+for this is planned and is being worked on.
 
 ## Code of Conduct
 

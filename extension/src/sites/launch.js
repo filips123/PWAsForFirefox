@@ -1,12 +1,8 @@
-import '../errors'
+import '../utils/errors'
+import '../utils/i18nHtml'
 
-import {
-  launchSite,
-  obtainSiteList,
-  obtainUrls,
-  PREF_LAUNCH_CURRENT_URL,
-  setPopupSize
-} from '../utils'
+import { launchSite, obtainSiteList, obtainUrls, PREF_LAUNCH_CURRENT_URL, setPopupSize } from '../utils'
+import { getMessage } from '../utils/i18n'
 
 async function createInstanceList () {
   // Obtain a current manifest URL
@@ -40,7 +36,10 @@ async function createInstanceList () {
   {
     const newInstanceElement = document.createElement('button')
     newInstanceElement.classList.add(...['list-group-item', 'list-group-item-action'])
-    newInstanceElement.innerHTML = '<em>Install a new instance</em>'
+
+    const newInstanceEm = document.createElement('em')
+    newInstanceEm.innerText = await getMessage('launchPageInstallNewInstance')
+    newInstanceElement.append(newInstanceEm)
 
     newInstanceElement.addEventListener('click', async () => {
       document.location = '/sites/install.html'

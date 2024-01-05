@@ -1,6 +1,9 @@
+import '../utils/i18nHtml'
+
 import { iframeResize } from 'iframe-resizer'
 
 import { isAutoRuntimeInstallSupported } from '../utils'
+import { getMessage } from '../utils/i18n'
 
 const iframeResizer = iframeResize({}, '#connector-instructions')[0].iFrameResizer
 
@@ -122,7 +125,7 @@ async function checkRuntimeInstallation (versions) {
 }
 
 document.getElementById('runtime-install-start').onclick = async function () {
-  this.innerText = 'Installing the runtime...'
+  this.innerText = await getMessage('buttonRuntimeInstallProcessing')
   this.disabled = true
 
   try {
@@ -133,7 +136,7 @@ document.getElementById('runtime-install-start').onclick = async function () {
     if (response.type === 'Error') throw new Error(response.data)
     if (response.type !== 'RuntimeInstalled') throw new Error(`Received invalid response type: ${response.type}`)
 
-    this.innerText = 'Runtime installed!'
+    this.innerText = await getMessage('buttonRuntimeInstallFinished')
   } catch (error) {
     console.error(error)
 

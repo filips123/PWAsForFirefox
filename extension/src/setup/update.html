@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Update Progressive Web Apps for Firefox</title>
+    <title data-i18n="updatePageTitle"></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
     <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
@@ -13,40 +13,38 @@
       <div class="row justify-content-center">
         <div class="wrapper my-4 px-4 py-0">
           <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-            <h1 class="text-center pb-2">Update Progressive Web Apps for Firefox</h1>
+            <h1 class="text-center pb-2" data-i18n="updatePageTitle"></h1>
             <div class="row">
               <div class="pb-3">
                 <p id="native-not-updated" class="px-3 d-none">
-                  The native connector is currently outdated.
-                  <span id="native-versions-compatible" class="d-none">It is compatible with the current extension version, but it is strongly recommended to update it to get the latest features and fixes.</span>
-                  <span id="native-versions-incompatible" class="d-none">It is <strong>not</strong> compatible with the current extension version, so you cannot use the extension until you update it.</span>
-                  Please follow the instructions below.
+                  <span data-i18n="updatePageNativeOutdated"></span>
+                  <span id="native-versions-compatible" data-i18n="updatePageNativeCompatible" class="d-none"></span>
+                  <span id="native-versions-incompatible" data-i18n="updatePageNativeIncompatible" class="d-none"></span>
+                  <span data-i18n="updatePageNativeInstructions"></span>
                 </p>
 
                 <p id="extension-not-updated" class="px-3 d-none">
-                  This extension is currently outdated.
-                  <span id="extension-versions-compatible" class="d-none">It is compatible with the current connector version, but it is strongly recommended to update it to get the latest features and fixes.</span>
-                  <span id="extension-versions-incompatible" class="d-none">It is <strong>not</strong> compatible with the current connector version, so you cannot use the extension until you update it.</span>
-                  Please update it from the Firefox addon manager (<kbd>about:addons</kbd>).
+                  <span data-i18n="updatePageExtensionOutdated"></span>
+                  <span id="extension-versions-compatible" data-i18n="updatePageExtensionCompatible" class="d-none"></span>
+                  <span id="extension-versions-incompatible" data-i18n="updatePageExtensionIncompatible" class="d-none"></span>
+                  <span data-i18n="updatePageExtensionInstructions"></span>
                 </p>
 
-                <p id="both-updated" class="px-3 d-none">
-                  The extension and the native connector are updated to the same version. You can close this page.
-                </p>
+                <p id="both-updated" data-i18n="updatePageUpdated" class="px-3 d-none"></p>
 
                 <p id="release-notes-show" class="px-3 d-none">
-                  You can read <a href="https://github.com/filips123/PWAsForFirefox/releases" target="_blank">the release notes</a> for a list of new features, bug fixes and other improvements.
-                  <span id="release-notes-incompatible" class="d-none">This update <strong>may contain backward-incompatible changes</strong>, so you may also need to re-configure some things as specified in the release notes to make it work.</span>
+                  <span data-i18n="updatePageReleaseNotes"></span>
+                  <span id="release-notes-incompatible" data-i18n="updatePageReleaseNotesIncompatible" class="d-none"></span>
                 </p>
 
                 <p id="native-error" class="px-3 d-none">
-                  <strong>Error:</strong>
+                  <strong><span data-i18n="commonError"></span>:</strong>
                   <span id="native-error-text"></span>
                 </p>
 
                 <ul class="px-3 list-unstyled">
-                  <li><strong>Extension version:</strong> <span id="version-extension"><em>Loading...</em></span></li>
-                  <li><strong>Native version</strong>: <span id="version-native"><em>Loading...</em></span></li>
+                  <li><strong data-i18n="commonExtensionVersion"></strong> <span id="version-extension"><em data-i18n="commonLoading"></em></span></li>
+                  <li><strong data-i18n="commonNativeVersion"></strong> <span id="version-native"><em data-i18n="commonLoading"></em></span></li>
                 </ul>
 
                 <iframe class="px-3 d-none" id="connector-instructions" src="instructions.html"></iframe>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Installation instructions</title>
+    <title data-i18n="instructionsPageTitle"></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
     <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
@@ -11,112 +11,111 @@
   <body>
     <div class="d-flex align-items-start">
       <div class="nav flex-column nav-pills me-3" role="tablist" aria-orientation="vertical">
-        <button class="nav-link" id="windows-install-tab" data-bs-toggle="tab" data-bs-target="#windows-install-pane" type="button" role="tab" aria-controls="windows-install-pane" aria-selected="false">Windows</button>
-        <button class="nav-link" id="linux-deb-install-tab" data-bs-toggle="tab" data-bs-target="#linux-deb-install-pane" type="button" role="tab" aria-controls="linux-deb-install-pane" aria-selected="false">Debian-like Linux (DEB)</button>
-        <button class="nav-link" id="linux-rpm-install-tab" data-bs-toggle="tab" data-bs-target="#linux-rpm-install-pane" type="button" role="tab" aria-controls="linux-rpm-install-pane" aria-selected="false">Red Hat-like Linux (RPM)</button>
-        <button class="nav-link" id="linux-aur-install-tab" data-bs-toggle="tab" data-bs-target="#linux-aur-install-pane" type="button" role="tab" aria-controls="linux-aur-install-pane" aria-selected="false">Arch-like Linux (AUR)</button>
-        <button class="nav-link" id="linux-gentoo-install-tab" data-bs-toggle="tab" data-bs-target="#linux-gentoo-install-pane" type="button" role="tab" aria-controls="linux-gentoo-install-pane" aria-selected="false">Gentoo-like Linux</button>
-        <button class="nav-link" id="macos-install-tab" data-bs-toggle="tab" data-bs-target="#macos-install-pane" type="button" role="tab" aria-controls="macos-install-pane" aria-selected="false">macOS</button>
-        <button class="nav-link" id="bsd-install-tab" data-bs-toggle="tab" data-bs-target="#bsd-install-pane" type="button" role="tab" aria-controls="bsd-install-pane" aria-selected="false">BSD</button>
-        <button class="nav-link" id="source-install-tab" data-bs-toggle="tab" data-bs-target="#source-install-pane" type="button" role="tab" aria-controls="source-install-pane" aria-selected="false">From Source Code</button>
-        <button class="nav-link" id="other-install-tab" data-bs-toggle="tab" data-bs-target="#other-install-pane" type="button" role="tab" aria-controls="other-install-pane" aria-selected="false">Other Platforms</button>
+        <button class="nav-link" id="windows-install-tab" data-bs-toggle="tab" data-bs-target="#windows-install-pane" type="button" role="tab" aria-controls="windows-install-pane" aria-selected="false" data-i18n="instructionsPageTabWindows"></button>
+        <button class="nav-link" id="linux-deb-install-tab" data-bs-toggle="tab" data-bs-target="#linux-deb-install-pane" type="button" role="tab" aria-controls="linux-deb-install-pane" aria-selected="false" data-i18n="instructionsPageTabDebian"></button>
+        <button class="nav-link" id="linux-rpm-install-tab" data-bs-toggle="tab" data-bs-target="#linux-rpm-install-pane" type="button" role="tab" aria-controls="linux-rpm-install-pane" aria-selected="false" data-i18n="instructionsPageTabRedHat"></button>
+        <button class="nav-link" id="linux-aur-install-tab" data-bs-toggle="tab" data-bs-target="#linux-aur-install-pane" type="button" role="tab" aria-controls="linux-aur-install-pane" aria-selected="false" data-i18n="instructionsPageTabArch"></button>
+        <button class="nav-link" id="linux-gentoo-install-tab" data-bs-toggle="tab" data-bs-target="#linux-gentoo-install-pane" type="button" role="tab" aria-controls="linux-gentoo-install-pane" aria-selected="false" data-i18n="instructionsPageTabGentoo"></button>
+        <button class="nav-link" id="macos-install-tab" data-bs-toggle="tab" data-bs-target="#macos-install-pane" type="button" role="tab" aria-controls="macos-install-pane" aria-selected="false" data-i18n="instructionsPageTabMacOS"></button>
+        <button class="nav-link" id="bsd-install-tab" data-bs-toggle="tab" data-bs-target="#bsd-install-pane" type="button" role="tab" aria-controls="bsd-install-pane" aria-selected="false" data-i18n="instructionsPageTabBSD"></button>
+        <button class="nav-link" id="source-install-tab" data-bs-toggle="tab" data-bs-target="#source-install-pane" type="button" role="tab" aria-controls="source-install-pane" aria-selected="false" data-i18n="instructionsPageTabSourceCode"></button>
+        <button class="nav-link" id="other-install-tab" data-bs-toggle="tab" data-bs-target="#other-install-pane" type="button" role="tab" aria-controls="other-install-pane" aria-selected="false" data-i18n="instructionsPageTabOtherPlatforms"></button>
       </div>
 
       <div class="tab-content">
         <div class="tab-pane fade" id="windows-install-pane" role="tabpanel" aria-labelledby="windows-install-tab">
           <div>
-            <span>To install the program manually:</span>
+            <span data-i18n="instructionsPageInstallManualMSITitle"></span>
             <ol>
-              <li>Download and install the <a id="connector-download-url-crt" target="_blank">Visual C++ Redistributable</a>.</li>
-              <li>Download and run the <a id="connector-download-url-msi" target="_blank">PWAsForFirefox MSI installer</a>.</li>
-              <li>After the programs are installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+              <li data-i18n="instructionsPageInstallManualMSIStep1"></li>
+              <li data-i18n="instructionsPageInstallManualMSIStep2"></li>
+              <li data-i18n="instructionsPageAfterProgramsInstalled"></li>
             </ol>
           </div>
           <div>
-            <span><em>Or...</em> To install the package using Windows Package Manager:</span>
+            <span><em data-i18n="instructionsPageOr"></em> <span data-i18n="instructionsPageInstallWingetTitle"></span></span>
             <ol>
-              <li>Make sure <a href="https://github.com/microsoft/winget-cli#installing-the-client" target="_blank">Windows Package Manager</a> is installed.</li>
-              <li>Install Visual C++ Redistributable using winget: <kbd>winget install -e Microsoft.VCRedist.2015+.<span id="connector-crt-arch"></span></kbd>.</li>
-              <li>Install PWAsForFirefox using winget: <kbd>winget install firefoxpwa --version <span class="connector-project-version"></span></kbd></li>
-              <li>After the packages are installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+              <li data-i18n="instructionsPageInstallWingetStep1"></li>
+              <li><span data-i18n="instructionsPageInstallWingetStep2"></span> <kbd>winget install firefoxpwa --version <span class="connector-project-version"></span></kbd></li>
+              <li data-i18n="instructionsPageAfterPackageInstalled"></li>
             </ol>
           </div>
           <div>
-            <span><em>Or...</em> To install the package using Chocolatey:</span>
+            <span><em data-i18n="instructionsPageOr"></em> <span data-i18n="instructionsPageInstallChocolateyTitle"></span></span>
             <ol>
-              <li>Make sure <a href="https://chocolatey.org/install" target="_blank">Chocolatey</a> is installed.</li>
-              <li>Install the package using choco: <kbd>choco install firefoxpwa --version <span class="connector-project-version"></span></kbd></li>
-              <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+              <li data-i18n="instructionsPageInstallChocolateyStep1"></li>
+              <li><span data-i18n="instructionsPageInstallChocolateyStep2"></span> <kbd>choco install firefoxpwa --version <span class="connector-project-version"></span></kbd></li>
+              <li data-i18n="instructionsPageAfterPackageInstalled"></li>
             </ol>
           </div>
           <div>
-            <span><em>Or...</em> To install the package using Npackd:</span>
+            <span><em data-i18n="instructionsPageOr"></em> <span data-i18n="instructionsPageInstallNpackdTitle"></span></span>
             <ol>
-              <li>Make sure <a href="https://www.npackd.org/" target="_blank">Npackd</a> is installed.</li>
-              <li>Install the package using ncl: <kbd>ncl add -p firefoxpwa -v <span class="connector-project-version"></span></kbd></li>
-              <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+              <li data-i18n="instructionsPageInstallNpackdStep1"></li>
+              <li><span data-i18n="instructionsPageInstallNpackdStep2"></span> <kbd>ncl add -p firefoxpwa -v <span class="connector-project-version"></span></kbd></li>
+              <li data-i18n="instructionsPageAfterPackageInstalled"></li>
             </ol>
           </div>
           <div>
-            <span><em>Or...</em> To install the package using Scoop:</span>
+            <span><em data-i18n="instructionsPageOr"></em> <span data-i18n="instructionsPageInstallScoopTitle"></span></span>
             <ol>
-              <li>Make sure <a href="https://scoop.sh/" target="_blank">Scoop</a> is installed.</li>
-              <li>Add the scoop extras bucket: <kbd>scoop bucket add extras</kbd></li>
-              <li>Install the package using scoop: <kbd>scoop install extras/firefoxpwa</kbd></li>
-              <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+              <li data-i18n="instructionsPageInstallScoopStep1"></li>
+              <li><span data-i18n="instructionsPageInstallScoopStep2"></span> <kbd>scoop bucket add extras</kbd></li>
+              <li><span data-i18n="instructionsPageInstallScoopStep3"></span> <kbd>scoop install extras/firefoxpwa</kbd></li>
+              <li data-i18n="instructionsPageAfterPackageInstalled"></li>
             </ol>
           </div>
           <div>
-            <span><em>Or...</em> To install the package using PortableApps.com:</span>
+            <span><em data-i18n="instructionsPageOr"></em> <span data-i18n="instructionsPageInstallPAFTitle"></span></span>
             <ol>
-              <li>Make sure <a href="https://portableapps.com/download" target="_blank">PortableApps.com Platform</a> is installed.</li>
-              <li>Download the <a id="connector-download-url-paf">PWAsForFirefox PAF package</a> and install it using PortableApps.com Platform.</li>
-              <li>Run the PWAsForFirefox program using PortableApps.com Platform and wait until a notification appears.</li>
-              <li>When the program is running, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+              <li data-i18n="instructionsPageInstallPAFStep1"></li>
+              <li data-i18n="instructionsPageInstallPAFStep2"></li>
+              <li data-i18n="instructionsPageInstallPAFStep3"></li>
+              <li data-i18n="instructionsPageInstallPAFStep4"></li>
             </ol>
           </div>
         </div>
 
         <div class="tab-pane fade" id="linux-deb-install-pane" role="tabpanel" aria-labelledby="linux-deb-install-tab">
           <div>
-            <span>To install the package from the packagecloud.io repository:</span>
+            <span data-i18n="instructionsPageInstallPackagecloudTitle"></span>
             <ol>
-              <li>Follow the instructions on the <a href="https://packagecloud.io/filips/FirefoxPWA" target="_blank">packagecloud.io repository</a> website.</li>
-              <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+              <li data-i18n="instructionsPageInstallPackagecloudStep1"></li>
+              <li data-i18n="instructionsPageAfterPackageInstalled"></li>
             </ol>
             <p class="ps-3">
-              <span>Thanks to packagecloud.io for sponsoring this project and providing us a free hosting for our DEB and RPM packages!</span>
+              <span data-i18n="instructionsPagePackagecloudThanks"></span>
               <br />
-              <a href="https://packagecloud.io/" target="_blank"><img width="200" alt="Private NPM registry and Maven, RPM, DEB, PyPi and RubyGem Repository · packagecloud" src="https://packagecloud.io/images/packagecloud-badge.png" /></a>
+              <a href="https://packagecloud.io/" target="_blank"><img width="200" src="https://packagecloud.io/images/packagecloud-badge.png" data-i18n data-i18n-alt="instructionsPagePackagecloudAlt" /></a>
             </p>
           </div>
           <div>
-            <span><em>Or...</em> To install the package manually:</span>
+            <span><em data-i18n="instructionsPageOr"></em> <span data-i18n="instructionsPageInstallManualDEBTitle"></span></span>
             <ol>
-              <li>Download and install the <a id="connector-download-url-deb" target="_blank">PWAsForFirefox DEB package</a>.</li>
-              <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+              <li data-i18n="instructionsPageInstallManualDEBStep1"></li>
+              <li data-i18n="instructionsPageAfterPackageInstalled"></li>
             </ol>
           </div>
         </div>
 
         <div class="tab-pane fade" id="linux-rpm-install-pane" role="tabpanel" aria-labelledby="linux-rpm-install-tab">
           <div>
-            <span>To install the package from the packagecloud.io repository:</span>
+            <span data-i18n="instructionsPageInstallPackagecloudTitle"></span>
             <ol>
-              <li>Follow the instructions on the <a href="https://packagecloud.io/filips/FirefoxPWA" target="_blank">packagecloud.io repository</a> website.</li>
-              <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+              <li data-i18n="instructionsPageInstallPackagecloudStep1"></li>
+              <li data-i18n="instructionsPageAfterPackageInstalled"></li>
             </ol>
             <p class="ps-3">
-              <span>Thanks to packagecloud.io for sponsoring this project and providing us a free hosting for our DEB and RPM packages!</span>
+              <span data-i18n="instructionsPagePackagecloudThanks"></span>
               <br />
-              <a href="https://packagecloud.io/" target="_blank"><img width="200" alt="Private NPM registry and Maven, RPM, DEB, PyPi and RubyGem Repository · packagecloud" src="https://packagecloud.io/images/packagecloud-badge.png" /></a>
+              <a href="https://packagecloud.io/" target="_blank"><img width="200" src="https://packagecloud.io/images/packagecloud-badge.png" data-i18n data-i18n-alt="instructionsPagePackagecloudAlt" /></a>
             </p>
           </div>
           <div>
-            <span><em>Or...</em> To install the package manually:</span>
+            <span><em data-i18n="instructionsPageOr"></em> <span data-i18n="instructionsPageInstallManualRPMTitle"></span></span>
             <ol>
-              <li>Download and install the <a id="connector-download-url-rpm" target="_blank">PWAsForFirefox RPM package</a>.</li>
-              <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+              <li data-i18n="instructionsPageInstallManualRPMStep1"></li>
+              <li data-i18n="instructionsPageAfterPackageInstalled"></li>
             </ol>
           </div>
         </div>
@@ -124,62 +123,55 @@
         <div class="tab-pane fade" id="linux-aur-install-pane" role="tabpanel" aria-labelledby="linux-rpm-install-tab">
           <ol>
             <li>
-              Download and install one of PWAsForFirefox AUR packages:
+              <span data-i18n="instructionsPageLinuxAurInstallStep1"></span>
               <ul>
-                <li><a href="https://aur.archlinux.org/packages/firefox-pwa/" target="_blank"><kbd>firefox-pwa</kbd></a> (source)</li>
-                <li><a href="https://aur.archlinux.org/packages/firefox-pwa-bin/" target="_blank"><kbd>firefox-pwa-bin</kbd></a> (pre-built)</li>
+                <li><a href="https://aur.archlinux.org/packages/firefox-pwa/" target="_blank"><kbd>firefox-pwa</kbd></a> (<span data-i18n="instructionsPageLinuxAurInstallSource"></span>)</li>
+                <li><a href="https://aur.archlinux.org/packages/firefox-pwa-bin/" target="_blank"><kbd>firefox-pwa-bin</kbd></a> (<span data-i18n="instructionsPageLinuxAurInstallPreBuilt"></span>)</li>
               </ul>
             </li>
-            <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+            <li data-i18n="instructionsPageAfterPackageInstalled"></li>
           </ol>
         </div>
 
         <div class="tab-pane fade" id="linux-gentoo-install-pane" role="tabpanel" aria-labelledby="linux-gentoo-install-tab">
           <ol>
-            <li>Enable Gentoo GURU overlay using eselect: <kbd>sudo eselect repository enable guru</kbd></li>
-            <li>Sync Gentoo GURU overlay using emerge: <kbd>sudo emerge --sync guru</kbd></li>
-            <li>Install the package using emerge: <kbd>sudo emerge -avt www-plugins/firefoxpwa</kbd></li>
-            <li>After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+            <li><span data-i18n="instructionsPageLinuxGentooInstallStep1"></span> <kbd>sudo eselect repository enable guru</kbd></li>
+            <li><span data-i18n="instructionsPageLinuxGentooInstallStep2"></span> <kbd>sudo emerge --sync guru</kbd></li>
+            <li><span data-i18n="instructionsPageLinuxGentooInstallStep3"></span> <kbd>sudo emerge -avt www-plugins/firefoxpwa</kbd></li>
+            <li data-i18n="instructionsPageAfterPackageInstalled"></li>
           </ol>
         </div>
 
         <div class="tab-pane fade" id="source-install-pane" role="tabpanel" aria-labelledby="source-install-tab">
           <ol>
-            <li>Make sure <a href="https://github.com/sagiegurari/cargo-make" target="_blank"><kbd>cargo-make</kbd></a> is installed and up to date.</li>
-            <li id="connector-source-install-wix">Make sure <a href="https://wixtoolset.org/docs/wix3/" target="_blank">WiX Toolset v3</a> is installed (Windows-only).</li>
-            <li>Clone the <a href="https://github.com/filips123/PWAsForFirefox" target="_blank">repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.</li>
-            <li>Checkout the <kbd class="connector-repository-tag"></kbd> tag.</li>
-            <li>Prepare the source code for building: <kbd>makers set-version</kbd></li>
-            <li>Build and install the project: <kbd>makers install</kbd></li>
-            <li>After the project is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+            <li data-i18n="instructionsPageSourceInstallStep1"></li>
+            <li data-i18n="instructionsPageSourceInstallStep2" id="connector-source-install-wix"></li>
+            <li data-i18n="instructionsPageSourceInstallStep3"></li>
+            <li data-i18n="instructionsPageSourceInstallStep4"></li>
+            <li><span data-i18n="instructionsPageSourceInstallStep5"></span> <kbd>makers set-version</kbd></li>
+            <li><span data-i18n="instructionsPageSourceInstallStep6"></span> <kbd>makers install</kbd></li>
+            <li data-i18n="instructionsPageAfterProjectInstalled"></li>
           </ol>
-          <p>For a list of commands to do this, check <a id="connector-source-install" target="_blank">the README file in the repository</a>.</p>
-          <p>
-            If you want to package PWAsForFirefox for your distribution or have already packaged it, please let me know, so I can help with the packaging and list it in the installation instructions.
-            If the packaging platform supports any auto-submission/uploading feature, please also let me know, as I might integrate it directly with GitHub Actions to make sure the packages are always up-to-date.
-          </p>
+          <p data-i18n="instructionsPageSourceInstallNotice1"></p>
+          <p data-i18n="instructionsPageSourceInstallNotice2"></p>
         </div>
 
         <div class="tab-pane fade" id="macos-install-pane" role="tabpanel" aria-labelledby="macos-install-tab">
           <ol>
-            <li>Make sure <a href="https://brew.sh/" target="_blank">Homebrew</a> is installed.</li>
-            <li>Install the formula using brew: <kbd>brew install firefoxpwa</kbd></li>
-            <li>Follow instructions displayed in the caveats section of installation output to link the manifest.</li>
-            <li>After the formula is installed and the manifest is linked, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.</li>
+            <li data-i18n="instructionsPageMacOSInstallStep1"></li>
+            <li><span data-i18n="instructionsPageMacOSInstallStep2"></span> <kbd>brew install firefoxpwa</kbd></li>
+            <li data-i18n="instructionsPageMacOSInstallStep3"></li>
+            <li data-i18n="instructionsPageMacOSInstallStep4"></li>
           </ol>
         </div>
 
         <div class="tab-pane fade" id="bsd-install-pane" role="tabpanel" aria-labelledby="bsd-install-tab">
-          <p>To install the project on BSD, please follow the instructions from the source installation section.</p>
-          <p><strong>Warning:</strong> Support for BSD relies on XDG Desktop Entry Specification (made for Linux) and is not regularly tested.</p>
+          <p data-i18n="instructionsPageBSDInstallNotice"></p>
+          <p><strong><span data-i18n="commonWarning"></span>:</strong> <span data-i18n="instructionsPageBSDInstallWarning"></span></p>
         </div>
 
         <div class="tab-pane fade" id="other-install-pane" role="tabpanel" aria-labelledby="other-install-tab">
-          <p>
-            Your operating system is not officially supported.
-            You can try building and installing the project from source with instructions from the source installation section.
-            You may need to adjust them to make it work with your operating system, and there is no guarantee that it will work.
-          </p>
+          <p data-i18n="instructionsPageOtherInstallNotice"></p>
         </div>
       </div>
     </div>

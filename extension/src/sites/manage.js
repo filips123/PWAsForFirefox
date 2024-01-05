@@ -1,4 +1,5 @@
-import '../errors'
+import '../utils/errors'
+import '../utils/i18nHtml'
 
 import Modal from 'bootstrap/js/src/modal'
 import Offcanvas from 'bootstrap/js/src/offcanvas'
@@ -21,11 +22,12 @@ import {
   PREF_DEFAULT_PROFILE_TEMPLATE,
   PREF_DISPLAY_PAGE_ACTION,
   PREF_ENABLE_AUTO_LAUNCH,
-  PREF_LAUNCH_CURRENT_URL,
+  PREF_LAUNCH_CURRENT_URL, PREF_LOCALE,
   PREF_SHOW_UPDATE_POPUP,
   setConfig,
   setPopupSize
 } from '../utils'
+import { getAllLocales, getCurrentLocale, getMessage } from '../utils/i18n'
 import { knownCategories } from './categories'
 
 // Display install/update page when clicked on browser action and the native program is not correctly installed
@@ -92,6 +94,7 @@ async function createSiteList () {
     const iconElement = siteElement.querySelector('#sites-list-template-icon')
     if (!siteIcon) iconElement.classList.add('d-none')
     iconElement.src = siteIcon
+    iconElement.setAttribute('alt', await getMessage('managePageAppListIcon'))
     iconElement.removeAttribute('id')
     iconElement.onerror = () => {
       letterElement.classList.remove('d-none')
@@ -107,10 +110,14 @@ async function createSiteList () {
     descriptionElement.removeAttribute('id')
 
     const launchElement = siteElement.querySelector('#sites-list-template-launch')
+    const launchElementTooltip = await getMessage('managePageAppListLaunch')
     launchElement.addEventListener('click', () => { launchSite(site) })
+    launchElement.setAttribute('title', launchElementTooltip)
+    launchElement.setAttribute('aria-label', launchElementTooltip)
     launchElement.removeAttribute('id')
 
     const editElement = siteElement.querySelector('#sites-list-template-edit')
+    const editElementTooltip = await getMessage('managePageAppListEdit')
     editElement.addEventListener('click', async (event) => {
       const form = document.getElementById('web-app-form')
       const submit = document.getElementById('web-app-submit')
@@ -203,10 +210,10 @@ async function createSiteList () {
       // Set form to be validated after all inputs are filled with default values and enable submit button
       form.classList.add('was-validated')
       submit.disabled = false
-      submit.innerText = 'Edit'
+      submit.innerText = await getMessage('buttonEditDefault')
 
       // Validate the name input
-      const nameValidation = function () {
+      const nameValidation = async function () {
         const invalidLabel = document.getElementById('web-app-name-invalid')
 
         const currentName = this.value || this.getAttribute('placeholder')
@@ -215,7 +222,7 @@ async function createSiteList () {
 
         // If the name is already used for existing sites, this will cause problems
         if (existingNames.includes(currentName)) {
-          this.setCustomValidity('Name cannot be reused from existing web apps')
+          this.setCustomValidity(await getMessage('webAppValidationNameReuse'))
           invalidLabel.innerText = this.validationMessage
           return
         }
@@ -228,7 +235,7 @@ async function createSiteList () {
       nameValidation.call(nameInput)
 
       // Validate start URL input
-      const startUrlValidation = function () {
+      const startUrlValidation = async function () {
         const invalidLabel = document.getElementById('web-app-start-url-invalid')
 
         // Empty URL defaults to manifest start URL
@@ -239,7 +246,7 @@ async function createSiteList () {
 
         // Start URL needs to be a valid URL
         if (this.validity.typeMismatch) {
-          this.setCustomValidity('Start URL needs to be a valid URL')
+          this.setCustomValidity(await getMessage('webAppValidationStartURLInvalid'))
           invalidLabel.innerText = this.validationMessage
           return
         }
@@ -248,7 +255,7 @@ async function createSiteList () {
         const startUrl = new URL(this.value)
         const scope = new URL(site.manifest.scope)
         if (startUrl.origin !== scope.origin || !startUrl.pathname.startsWith(scope.pathname)) {
-          this.setCustomValidity(`Start URL needs to be within the scope: ${scope}`)
+          this.setCustomValidity(`${await getMessage('webAppValidationStartURLScope')} ${scope}`)
           invalidLabel.innerText = this.validationMessage
           return
         }
@@ -262,7 +269,7 @@ async function createSiteList () {
       startUrlValidation.call(startUrlInput)
 
       // Validate icon URL input
-      const iconUrlValidation = function () {
+      const iconUrlValidation = async function () {
         const invalidLabel = document.getElementById('web-app-icon-url-invalid')
 
         // Empty URL defaults to manifest icons
@@ -273,7 +280,7 @@ async function createSiteList () {
 
         // Icon URL needs to be a valid URL
         if (this.validity.typeMismatch) {
-          this.setCustomValidity('Icon URL needs to be a valid URL')
+          this.setCustomValidity(await getMessage('webAppValidationIconURLInvalid'))
           invalidLabel.innerText = this.validationMessage
           return
         }
@@ -296,7 +303,7 @@ async function createSiteList () {
 
         // Change button to progress
         submit.disabled = true
-        submit.innerText = 'Editing...'
+        submit.innerText = await getMessage('buttonEditProcessing')
 
         // Get simple site data
         const startUrl = document.getElementById('web-app-start-url').value || null
@@ -351,7 +358,7 @@ async function createSiteList () {
 
         // Change button to success
         submit.disabled = true
-        submit.innerText = 'Edited!'
+        submit.innerText = await getMessage('buttonEditFinished')
 
         // Close the popup after some time
         setTimeout(async () => {
@@ -363,15 +370,18 @@ async function createSiteList () {
       Offcanvas.getOrCreateInstance(document.getElementById('site-edit-offcanvas')).show()
       event.preventDefault()
     })
+    editElement.setAttribute('title', editElementTooltip)
+    editElement.setAttribute('aria-label', editElementTooltip)
     editElement.removeAttribute('id')
 
     const removeElement = siteElement.querySelector('#sites-list-template-remove')
+    const removeElementTooltip = await getMessage('managePageAppListRemove')
     removeElement.addEventListener('click', () => {
       const lastSiteInProfile = profiles[site.profile].sites.length <= 1
 
       document.getElementById('site-remove-button').onclick = async function () {
         this.disabled = true
-        this.innerText = 'Removing...'
+        this.innerText = await getMessage('buttonRemoveProcessing')
 
         const deleteProfileCheckbox = document.getElementById('site-remove-last-checkbox')
         const deleteProfileEnabled = deleteProfileCheckbox.checked
@@ -396,7 +406,7 @@ async function createSiteList () {
         }
 
         this.disabled = true
-        this.innerText = 'Removed!'
+        this.innerText = await getMessage('buttonRemoveProcessing')
 
         // Close the popup after some time
         setTimeout(async () => {
@@ -414,6 +424,8 @@ async function createSiteList () {
 
       Modal.getOrCreateInstance(document.getElementById('site-remove-modal')).show()
     })
+    removeElement.setAttribute('title', removeElementTooltip)
+    removeElement.setAttribute('aria-label', removeElementTooltip)
     removeElement.removeAttribute('id')
 
     listElement.insertBefore(siteElement, templateElement)
@@ -429,7 +441,7 @@ async function createProfileList () {
     const submit = document.getElementById('profile-submit')
 
     // Set label to create
-    document.getElementById('profile-edit-label').innerText = 'Create profile'
+    document.getElementById('profile-edit-label').innerText = await getMessage('managePageProfileListCreate')
 
     // Clear inputs
     document.getElementById('profile-name').value = ''
@@ -446,7 +458,7 @@ async function createProfileList () {
     // Set form to be validated after all inputs are filled with default values and enable submit button
     form.classList.add('was-validated')
     submit.disabled = false
-    submit.innerText = 'Create'
+    submit.innerText = await getMessage('buttonCreateDefault')
 
     // Handle form submission and validation
     submit.onclick = async (event) => {
@@ -458,7 +470,7 @@ async function createProfileList () {
 
       // Change button to progress
       submit.disabled = true
-      submit.innerText = 'Creating...'
+      submit.innerText = await getMessage('buttonCreateProcessing')
 
       // Tell the native connector to update the profile
       const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
@@ -479,7 +491,7 @@ async function createProfileList () {
 
       // Change button to success
       submit.disabled = true
-      submit.innerText = 'Created!'
+      submit.innerText = await getMessage('buttonCreateFinished')
 
       // Close the popup after some time
       setTimeout(async () => {
@@ -509,15 +521,11 @@ async function createProfileList () {
     const profileElement = templateElement.content.firstElementChild.cloneNode(true)
 
     const nameElement = profileElement.querySelector('#profiles-list-template-name')
-    nameElement.innerText = profile.name || 'Unnamed'
+    nameElement.innerText = profile.name || await getMessage('managePageProfileListUnnamed')
     nameElement.removeAttribute('id')
 
     const countElement = profileElement.querySelector('#profiles-list-template-count')
-    if (profile.sites.length === 1) {
-      countElement.innerText = '(1 site)'
-    } else {
-      countElement.innerText = `(${profile.sites.length} sites)`
-    }
+    countElement.innerText = `(${await getMessage('managePageProfileListCount', undefined, profile.sites.length)})`
     if (profile.sites.length === 0) {
       countElement.classList.add('text-opacity-50')
     }
@@ -528,12 +536,13 @@ async function createProfileList () {
     descriptionElement.removeAttribute('id')
 
     const editElement = profileElement.querySelector('#profiles-list-template-edit')
+    const editElementTooltip = await getMessage('managePageProfileListEdit')
     editElement.addEventListener('click', async (event) => {
       const form = document.getElementById('profile-form')
       const submit = document.getElementById('profile-submit')
 
       // Set label to edit
-      document.getElementById('profile-edit-label').innerText = 'Edit profile'
+      document.getElementById('profile-edit-label').innerText = await getMessage('managePageProfileListEdit')
 
       // Set values from config
       document.getElementById('profile-name').value = profile.name || ''
@@ -549,7 +558,7 @@ async function createProfileList () {
       // Set form to be validated after all inputs are filled with default values and enable submit button
       form.classList.add('was-validated')
       submit.disabled = false
-      submit.innerText = 'Edit'
+      submit.innerText = await getMessage('buttonEditDefault')
 
       // Handle form submission and validation
       submit.onclick = async (event) => {
@@ -561,7 +570,7 @@ async function createProfileList () {
 
         // Change button to progress
         submit.disabled = true
-        submit.innerText = 'Editing...'
+        submit.innerText = await getMessage('buttonEditProcessing')
 
         // Tell the native connector to update the profile
         const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
@@ -582,7 +591,7 @@ async function createProfileList () {
 
         // Change button to success
         submit.disabled = true
-        submit.innerText = 'Edited!'
+        submit.innerText = await getMessage('buttonEditFinished')
 
         // Close the popup after some time
         setTimeout(async () => {
@@ -594,13 +603,16 @@ async function createProfileList () {
       Offcanvas.getOrCreateInstance(document.getElementById('profile-edit-offcanvas')).show()
       event.preventDefault()
     })
+    editElement.setAttribute('title', editElementTooltip)
+    editElement.setAttribute('aria-label', editElementTooltip)
     editElement.removeAttribute('id')
 
     const removeElement = profileElement.querySelector('#profiles-list-template-remove')
+    const removeElementTooltip = await getMessage('managePageProfileListRemove')
     removeElement.addEventListener('click', () => {
       document.getElementById('profile-remove-button').onclick = async function () {
         this.disabled = true
-        this.innerText = 'Removing...'
+        this.innerText = await getMessage('buttonRemoveProcessing')
 
         const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
           cmd: 'RemoveProfile',
@@ -611,7 +623,7 @@ async function createProfileList () {
         if (response.type !== 'ProfileRemoved') throw new Error(`Received invalid response type: ${response.type}`)
 
         this.disabled = true
-        this.innerText = 'Removed!'
+        this.innerText = await getMessage('buttonRemoveFinished')
 
         // Close the popup after some time
         setTimeout(async () => {
@@ -625,6 +637,8 @@ async function createProfileList () {
 
       Modal.getOrCreateInstance(document.getElementById('profile-remove-modal')).show()
     })
+    removeElement.setAttribute('title', removeElementTooltip)
+    removeElement.setAttribute('aria-label', removeElementTooltip)
     removeElement.removeAttribute('id')
 
     listElement.insertBefore(profileElement, templateElement)
@@ -740,10 +754,22 @@ async function handleSettings (hasChanged = false) {
     await browser.storage.local.set({ [PREF_AUTO_LAUNCH_EXCLUSION]: this.value || null })
   })
 
+  // Handle language selection
+  const languageElement = document.getElementById('settings-language')
+  const languageNames = new Intl.DisplayNames(['en'], { type: 'language', languageDisplay: 'standard' })
+  const allLocales = getAllLocales().map(code => [languageNames.of(code), code]).sort((a, b) => a[0].localeCompare(b[0], 'en'))
+  const currentLocale = await getCurrentLocale()
+  for (const [name, code] of allLocales) {
+    languageElement.append(new Option(name, code, code === currentLocale, code === currentLocale))
+  }
+  languageElement.addEventListener('change', async function () {
+    await browser.storage.local.set({ [PREF_LOCALE]: this.value })
+  })
+
   // Handle updating all sites
   document.getElementById('update-all-sites-button').onclick = async function () {
     this.disabled = true
-    this.innerText = 'Updating...'
+    this.innerText = await getMessage('buttonUpdateProcessing')
 
     const manifestUpdatesCheckbox = document.getElementById('update-all-sites-manifests')
     const manifestUpdatesEnabled = manifestUpdatesCheckbox.checked
@@ -758,13 +784,13 @@ async function handleSettings (hasChanged = false) {
     if (response.type !== 'AllSitesUpdated') throw new Error(`Received invalid response type: ${response.type}`)
 
     this.disabled = true
-    this.innerText = 'Updated!'
+    this.innerText = await getMessage('buttonUpdateFinished')
   }
 
-  document.getElementById('update-all-sites').onclick = function () {
+  document.getElementById('update-all-sites').onclick = async function () {
     const confirmButton = document.getElementById('update-all-sites-button')
     confirmButton.disabled = false
-    confirmButton.innerText = 'Update'
+    confirmButton.innerText = await getMessage('buttonUpdateDefault')
 
     Modal.getOrCreateInstance(document.getElementById('update-all-sites-modal')).show()
   }
@@ -772,7 +798,7 @@ async function handleSettings (hasChanged = false) {
   // Handle patching all profiles
   document.getElementById('patch-all-profiles-button').onclick = async function () {
     this.disabled = true
-    this.innerText = 'Patching...'
+    this.innerText = await getMessage('buttonPatchProcessing')
 
     const patchRuntimeCheckbox = document.getElementById('patch-all-profiles-runtime')
     const patchRuntimeEnabled = patchRuntimeCheckbox.checked
@@ -791,13 +817,13 @@ async function handleSettings (hasChanged = false) {
     if (response.type !== 'AllProfilesPatched') throw new Error(`Received invalid response type: ${response.type}`)
 
     this.disabled = true
-    this.innerText = 'Patched!'
+    this.innerText = await getMessage('buttonPatchFinished')
   }
 
-  document.getElementById('patch-all-profiles').onclick = function () {
+  document.getElementById('patch-all-profiles').onclick = async function () {
     const confirmButton = document.getElementById('patch-all-profiles-button')
     confirmButton.disabled = false
-    confirmButton.innerText = 'Patch'
+    confirmButton.innerText = await getMessage('buttonPatchDefault')
 
     Modal.getOrCreateInstance(document.getElementById('patch-all-profiles-modal')).show()
   }
@@ -805,7 +831,7 @@ async function handleSettings (hasChanged = false) {
   // Handle runtime reinstallation
   document.getElementById('reinstall-runtime-button').onclick = async function () {
     this.disabled = true
-    this.innerText = 'Reinstalling...'
+    this.innerText = await getMessage('buttonReinstallProcessing')
 
     const responseUninstall = await browser.runtime.sendNativeMessage('firefoxpwa', { cmd: 'UninstallRuntime' })
     if (responseUninstall.type === 'Error') throw new Error(responseUninstall.data)
@@ -816,13 +842,13 @@ async function handleSettings (hasChanged = false) {
     if (responseInstall.type !== 'RuntimeInstalled') throw new Error(`Received invalid response type: ${responseInstall.type}`)
 
     this.disabled = true
-    this.innerText = 'Reinstalled!'
+    this.innerText = await getMessage('buttonReinstallFinished')
   }
 
-  document.getElementById('reinstall-runtime').onclick = function () {
+  document.getElementById('reinstall-runtime').onclick = async function () {
     const confirmButton = document.getElementById('reinstall-runtime-button')
     confirmButton.disabled = false
-    confirmButton.innerText = 'Reinstall'
+    confirmButton.innerText = await getMessage('buttonReinstallDefault')
 
     Modal.getOrCreateInstance(document.getElementById('reinstall-runtime-modal')).show()
   }

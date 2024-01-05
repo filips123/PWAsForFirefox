@@ -1,6 +1,9 @@
 import 'iframe-resizer/js/iframeResizer.contentWindow'
+import '../utils/i18nHtml'
 
 import Tab from 'bootstrap/js/src/tab'
+
+import { EVENT_LOCALIZATION_READY } from '../utils'
 
 async function prepareInstallInstructions () {
   const version = browser.runtime.getManifest().version
@@ -8,9 +11,6 @@ async function prepareInstallInstructions () {
 
   // Set CRT download URL based on system arch
   document.getElementById('connector-download-url-crt').setAttribute('href', `https://aka.ms/vs/16/release/vc_redist.${arch === 'x86-32' ? 'x86' : 'x64'}.exe`)
-
-  // Set CRT winget package based on system arch
-  document.getElementById('connector-crt-arch').innerText = arch === 'x86-32' ? 'x86' : 'x64'
 
   // Set MSI download URL based on system arch and extension version
   // Currently just relying on x86 emulation for Windows ARM
@@ -86,4 +86,4 @@ async function prepareInstallInstructions () {
   new Tab(document.getElementById(`${defaultTab}-install-tab`)).show()
 }
 
-prepareInstallInstructions()
+document.addEventListener(EVENT_LOCALIZATION_READY, prepareInstallInstructions)

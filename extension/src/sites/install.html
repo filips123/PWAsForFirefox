@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Install this web app</title>
+    <title data-i18n="installPageTitle"></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
     <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
@@ -10,67 +10,66 @@
 
   <body>
     <div class="card">
-      <div class="card-header sticky-top">
-        Install this web app
-      </div>
+      <div class="card-header sticky-top" data-i18n="installPageTitle"></div>
       <div class="card-body">
           <form class="needs-validation" id="web-app-form">
             <div class="mb-3">
-              <label for="web-app-name" class="form-label">Name</label>
+              <label for="web-app-name" class="form-label" data-i18n="webAppName"></label>
               <input type="text" class="form-control form-control-sm" id="web-app-name" />
               <div class="invalid-feedback" id="web-app-name-invalid"></div>
             </div>
             <div class="mb-3">
-              <label for="web-app-description" class="form-label">Description</label>
+              <label for="web-app-description" class="form-label" data-i18n="webAppDescription"></label>
               <input type="text" class="form-control form-control-sm" id="web-app-description" />
             </div>
             <div class="mb-3">
-              <label for="web-app-categories" class="form-label">Categories</label>
+              <label for="web-app-categories" class="form-label" data-i18n="webAppCategories"></label>
               <select class="form-select-tags" id="web-app-categories" multiple data-allow-new="true">
                 <option selected disabled hidden value="">​</option>
               </select>
             </div>
             <div class="mb-3">
-              <label for="web-app-keywords" class="form-label">Keywords</label>
+              <label for="web-app-keywords" class="form-label" data-i18n="webAppKeywords"></label>
               <select class="form-select-tags" id="web-app-keywords" multiple data-allow-new="true">
                 <option selected disabled hidden value="">​</option>
               </select>
             </div>
             <div class="mb-3">
-              <label for="web-app-start-url" class="form-label">Start URL</label>
+              <label for="web-app-start-url" class="form-label" data-i18n="webAppStartURL"></label>
               <input type="url" class="form-control form-control-sm" id="web-app-start-url" />
               <div class="invalid-feedback" id="web-app-start-url-invalid"></div>
             </div>
             <div class="mb-3">
-              <label for="web-app-icon-url" class="form-label">Icon URL</label>
+              <label for="web-app-icon-url" class="form-label" data-i18n="webAppIconURL"></label>
               <input type="url" class="form-control form-control-sm" id="web-app-icon-url" />
               <div class="invalid-feedback" id="web-app-icon-url-invalid"></div>
             </div>
             <div class="mb-3">
-              <label for="web-app-profile" class="form-label">Profile</label>
+              <label for="web-app-profile" class="form-label" data-i18n="webAppProfile"></label>
               <select class="form-select form-select-sm" id="web-app-profile" required></select>
               <div class="invalid-feedback" id="web-app-profile-invalid"></div>
             </div>
             <div class="mb-3 d-none" id="web-app-profile-warn-box" style="text-align: justify;">
-              <strong>Note:</strong> It is strongly recommended to install each web app into a separate profile due to a hard-to-fix bug. See issue <a id="web-app-profile-warn-issue"></a> for more details.
+              <strong><span data-i18n="commonNote"></span>:</strong>
+              <span data-i18n="installPageSeparateProfiles"></span>
             </div>
           </form>
           <form>
             <div class="form-check" id="web-app-use-manifest-box">
               <input class="form-check-input" type="checkbox" value="" id="web-app-use-manifest" checked>
-              <label class="form-check-label" for="web-app-use-manifest" title="Disable only if you cannot install this web app with the manifest enabled">Use the manifest for determining app properties</label>
+              <label class="form-check-label" for="web-app-use-manifest" data-i18n="installPageUseManifestLabel" data-i18n-title="installPageUseManifestTooltip"></label>
             </div>
           </form>
       </div>
       <div class="card-footer position-sticky bottom-0 py-2">
-        <button type="submit" class="btn btn-primary" id="web-app-submit" disabled>Loading...</button>
+        <button type="submit" class="btn btn-primary" id="web-app-submit" disabled data-i18n="commonLoading"></button>
       </div>
     </div>
 
     <div class="toast fade hide" id="error-toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="15000">
       <div class="toast-header">
-        <strong class="me-auto">Error</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        <strong class="me-auto" data-i18n="commonError"></strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" data-i18n data-i18n-aria-label="commonClose"></button>
       </div>
       <div class="toast-body" id="error-text"></div>
     </div>
@@ -79,27 +78,27 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="new-profile-label">Create a new profile</h5>
-            <button type="button" class="btn-close" id="new-profile-cancel1" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title" id="new-profile-label" data-i18n="installPageCreateProfile"></h5>
+            <button type="button" class="btn-close" id="new-profile-cancel1" data-bs-dismiss="modal" data-i18n data-i18n-aria-label="commonClose"></button>
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label for="new-profile-name" class="form-label">Name</label>
+              <label for="new-profile-name" class="form-label" data-i18n="profileName"></label>
               <input type="text" class="form-control form-control-sm" id="new-profile-name" />
             </div>
             <div class="mb-3">
-              <label for="new-profile-description" class="form-label">Description</label>
+              <label for="new-profile-description" class="form-label" data-i18n="profileDescription"></label>
               <input type="text" class="form-control form-control-sm" id="new-profile-description" />
             </div>
             <div class="mb-3">
-              <label for="new-profile-template" class="form-label">Template</label>
-              <input type="text" class="form-control form-control-sm" id="new-profile-template" placeholder="Enter a path to the profile template" />
+              <label for="new-profile-template" class="form-label" data-i18n="profileTemplate"></label>
+              <input type="text" class="form-control form-control-sm" id="new-profile-template" data-i18n data-i18n-placeholder="profileTemplatePlaceholder" />
               <!-- This has to be a text input because Firefox does not support file inputs in extension popups -->
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="new-profile-cancel2" data-bs-dismiss="modal">Cancel</button>
-            <button type="button" class="btn btn-primary" id="new-profile-create">Create</button>
+            <button type="button" class="btn btn-secondary" id="new-profile-cancel2" data-bs-dismiss="modal" data-i18n="commonCancel"></button>
+            <button type="button" class="btn btn-primary" id="new-profile-create" data-i18n="buttonCreateDefault"></button>
           </div>
         </div>
       </div>

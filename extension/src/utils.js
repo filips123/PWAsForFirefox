@@ -4,9 +4,12 @@ export const PREF_SHOW_UPDATE_POPUP = 'settings.show-update-popup'
 export const PREF_ENABLE_AUTO_LAUNCH = 'settings.enable-auto-launch'
 export const PREF_DEFAULT_PROFILE_TEMPLATE = 'settings.default-profile-template'
 export const PREF_AUTO_LAUNCH_EXCLUSION = 'settings.auto-launch-exclusion'
+export const PREF_LOCALE = 'settings.locale'
 export const PREF_DISABLE_UPDATE_CHECKING = 'settings.disable-update-checking'
 
 export const AUTO_LAUNCH_PERMISSIONS = { permissions: ['webNavigation', 'webRequest', 'webRequestBlocking'] }
+
+export const EVENT_LOCALIZATION_READY = 'localizationReady'
 
 /**
  * Obtains the manifest and the document URLs by asking the content script of current tab.

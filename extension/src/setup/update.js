@@ -1,3 +1,5 @@
+import '../utils/i18nHtml'
+
 import { iframeResize } from 'iframe-resizer'
 import semverCompare from 'semver/functions/compare'
 

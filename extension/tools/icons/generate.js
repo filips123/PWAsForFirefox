@@ -4,10 +4,10 @@ const path = require('path')
 const fs = require('fs')
 const os = require('os')
 
-const packageJson = require('../package.json')
-const targetDir = path.join(__dirname, '../src/icons/')
+const packageJson = require('../../package.json')
+const targetDir = path.join(__dirname, '../../src/icons/')
 
-const bootstrapSvgs = path.join(__dirname, '../node_modules/bootstrap-icons/icons/')
+const bootstrapSvgs = path.join(__dirname, '../../node_modules/bootstrap-icons/icons/')
 const selectedIcons = fs.mkdtempSync(path.join(os.tmpdir(), 'ffpwa-bootstrap-icons'))
 const bootstrapCodepoints = require('bootstrap-icons/font/bootstrap-icons.json')
 const selectedCodepoints = {}

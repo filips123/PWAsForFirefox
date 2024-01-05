@@ -1,9 +1,11 @@
-import '../errors'
+import '../utils/errors'
+import '../utils/i18nHtml'
 
 import { fromByteArray } from 'base64-js'
 import Modal from 'bootstrap/js/src/modal'
 import Toast from 'bootstrap/js/src/toast'
 import Tags from 'bootstrap5-tags/tags'
+import * as DOMPurify from 'dompurify'
 
 import {
   obtainManifest,
@@ -13,6 +15,7 @@ import {
   PREF_DEFAULT_PROFILE_TEMPLATE,
   setPopupSize
 } from '../utils'
+import { getMessage } from '../utils/i18n'
 import { knownCategories } from './categories'
 
 async function initializeForm () {
@@ -57,12 +60,17 @@ async function initializeForm () {
 
     // Generate a nice error message
     const errorMessage = document.getElementById('error-text')
-    errorMessage.innerHTML = '<p>Failed to access the content script.</p>'
+    errorMessage.replaceChildren()
+
+    const errorMessageCommon = document.createElement('p')
+    errorMessageCommon.innerText = await getMessage('installPageContentScriptError')
+    errorMessage.append(errorMessageCommon)
 
     // Sometimes live-reloading can break content script because of CSP
     if (process.env.NODE_ENV === 'development') {
-      errorMessage.innerHTML += '<p>You are using a development build, so this is probably caused by a live-reloading feature.' +
-        ' The error may be fixed by disabling it or building in release mode.</p>'
+      const errorMessageDevelopment = document.createElement('p')
+      errorMessageDevelopment.innerText = await getMessage('installPageContentScriptErrorDevelopment')
+      errorMessage.append(errorMessageDevelopment)
     }
 
     // Get the current URL for checking for restricted domains
@@ -70,9 +78,13 @@ async function initializeForm () {
 
     // Some Mozilla domains are restricted for security reasons
     if (tab.url && ['firefox.com', 'mozilla.com', 'mozilla.net', 'mozilla.org'].some(domain => tab.url.includes(domain))) {
-      errorMessage.innerHTML += '<p>Some <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts">Mozilla websites</a> are restricted for extensions.' +
-        ' This is a Firefox security feature and cannot be disabled.' +
-        ' Restricted websites cannot be installed as apps.</p>'
+      const errorMessageRestricted = document.createElement('p')
+      errorMessageRestricted.replaceChildren(DOMPurify.sanitize(await getMessage('installPageContentScriptErrorRestricted'), {
+        RETURN_DOM_FRAGMENT: true,
+        ALLOWED_TAGS: ['a'],
+        ADD_ATTR: ['target']
+      }))
+      errorMessage.append(errorMessageRestricted)
     }
 
     // Display the error toast
@@ -128,11 +140,11 @@ async function initializeForm () {
   for (const profile of Object.values(profiles)) profilesElement.add(new Option(profile.name || profile.ulid, profile.ulid))
 
   // Add an option to create a new profile to the select input
-  profilesElement.add(new Option('Create a new profile', 'create-new-profile'))
+  profilesElement.add(new Option(await getMessage('installPageCreateProfile'), 'create-new-profile'))
 
   // Add an option to automatically create a new profile to the select input
   const autoNewProfile = platform.os === 'linux' || platform.os === 'mac' || platform.os === 'openbsd'
-  profilesElement.add(new Option('Automatically create a new profile', 'auto-create-new-profile', autoNewProfile, autoNewProfile))
+  profilesElement.add(new Option(await getMessage('installPageAutoCreateProfile'), 'auto-create-new-profile', autoNewProfile, autoNewProfile))
 
   // Handle creating a new profile
   let lastProfileSelection = profilesElement.value
@@ -147,7 +159,7 @@ async function initializeForm () {
     document.getElementById('new-profile-description').value = ''
     const profileButton = document.getElementById('new-profile-create')
     profileButton.disabled = false
-    profileButton.innerText = 'Create'
+    profileButton.innerText = await getMessage('buttonCreateDefault')
 
     // Set profile template to default
     const profileTemplate = (await browser.storage.local.get([PREF_DEFAULT_PROFILE_TEMPLATE]))[PREF_DEFAULT_PROFILE_TEMPLATE]
@@ -168,7 +180,7 @@ async function initializeForm () {
     const template = document.getElementById('new-profile-template').value || null
 
     this.disabled = true
-    this.innerText = 'Creating...'
+    this.innerText = await getMessage('buttonCreateProcessing')
 
     // Create a new profile and get its ID
     const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
@@ -195,10 +207,10 @@ async function initializeForm () {
   // Set form to be validated after all inputs are filled with default values and enable submit button
   form.classList.add('was-validated')
   submit.disabled = false
-  submit.innerText = 'Install web app'
+  submit.innerText = await getMessage('buttonWebAppInstallDefault')
 
   // Validate the name input
-  const nameValidation = function () {
+  const nameValidation = async function () {
     const invalidLabel = document.getElementById('web-app-name-invalid')
 
     const currentName = this.value || this.getAttribute('placeholder')
@@ -206,7 +218,7 @@ async function initializeForm () {
 
     // If the name is already used for existing sites, this will cause problems
     if (existingNames.includes(currentName)) {
-      this.setCustomValidity('Name cannot reused from existing web apps')
+      this.setCustomValidity(await getMessage('webAppValidationNameReuse'))
       invalidLabel.innerText = this.validationMessage
       return
     }
@@ -219,7 +231,7 @@ async function initializeForm () {
   nameValidation.call(nameInput)
 
   // Validate start URL input
-  const startUrlValidation = function () {
+  const startUrlValidation = async function () {
     const invalidLabel = document.getElementById('web-app-start-url-invalid')
 
     // Empty URL defaults to manifest start URL
@@ -230,7 +242,7 @@ async function initializeForm () {
 
     // Start URL needs to be a valid URL
     if (this.validity.typeMismatch) {
-      this.setCustomValidity('Start URL needs to be a valid URL')
+      this.setCustomValidity(await getMessage('webAppValidationStartURLInvalid'))
       invalidLabel.innerText = this.validationMessage
       return
     }
@@ -245,7 +257,7 @@ async function initializeForm () {
     const startUrl = new URL(this.value)
     const scope = new URL(manifest.scope)
     if (startUrl.origin !== scope.origin || !startUrl.pathname.startsWith(scope.pathname)) {
-      this.setCustomValidity(`Start URL needs to be within the scope: ${scope}`)
+      this.setCustomValidity(`${await getMessage('webAppValidationStartURLScope')} ${scope}`)
       invalidLabel.innerText = this.validationMessage
       return
     }
@@ -259,7 +271,7 @@ async function initializeForm () {
   startUrlValidation.call(startUrlInput)
 
   // Validate icon URL input
-  const iconUrlValidation = function () {
+  const iconUrlValidation = async function () {
     const invalidLabel = document.getElementById('web-app-icon-url-invalid')
 
     // Empty URL defaults to manifest icons
@@ -270,7 +282,7 @@ async function initializeForm () {
 
     // Icon URL needs to be a valid URL
     if (this.validity.typeMismatch) {
-      this.setCustomValidity('Icon URL needs to be a valid URL')
+      this.setCustomValidity(await getMessage('webAppValidationIconURLInvalid'))
       invalidLabel.innerText = this.validationMessage
       return
     }
@@ -284,7 +296,7 @@ async function initializeForm () {
   iconUrlValidation.call(iconUrlInput)
 
   // Validate the profile input
-  const profileValidation = function () {
+  const profileValidation = async function () {
     const invalidLabel = document.getElementById('web-app-profile-invalid')
 
     const existingInstances = Object.values(sites).filter(site => site.config.manifest_url === manifestUrl)
@@ -292,7 +304,7 @@ async function initializeForm () {
 
     // If the profile is already used for another instance of the same site, they won't actually be separate instances
     if (existingProfiles.includes(this.value)) {
-      this.setCustomValidity('Only one instance per profile can be installed')
+      this.setCustomValidity(await getMessage('webAppValidationProfileLimit'))
       invalidLabel.innerText = this.validationMessage
       return
     }
@@ -314,7 +326,7 @@ async function initializeForm () {
 
     // Change button to progress
     submit.disabled = true
-    submit.innerText = 'Installing web app...'
+    submit.innerText = await getMessage('buttonWebAppInstallProcessing')
 
     // Force disable manifest if the checkbox is not checked
     if (!document.getElementById('web-app-use-manifest').checked) manifestExists = false
@@ -390,9 +402,10 @@ async function initializeForm () {
 
     // Change button to success
     submit.disabled = true
-    submit.innerText = 'Web app installed!'
+    submit.innerText = await getMessage('buttonWebAppInstallFinished')
 
     // Update page action
+    // We use browser localization here as these messages are part of the browser UI
     const tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0]
     await browser.pageAction.setIcon({ tabId: tab.id, path: '/images/page-action-launch.svg' })
     browser.pageAction.setTitle({ tabId: tab.id, title: browser.i18n.getMessage('actionLaunchSite') })

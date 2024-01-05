@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Launch this web app</title>
+    <title data-i18n="launchPageTitle"></title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
     <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
@@ -10,20 +10,18 @@
 
   <body>
     <div class="card">
-      <div class="card-header sticky-top">
-        Launch this web app
-      </div>
+      <div class="card-header sticky-top" data-i18n="launchPageTitle"></div>
       <div class="card-body">
         <div class="list-group list-group-flush list-group-border-last" id="instances-list">
-          <div class="list-group-item list-group-item-action"><em>Loading...</em></div>
+          <div class="list-group-item list-group-item-action"><em data-i18n="commonLoading"></em></div>
         </div>
       </div>
     </div>
 
     <div class="toast fade hide" id="error-toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="15000">
       <div class="toast-header">
-        <strong class="me-auto">Error</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        <strong class="me-auto" data-i18n="commonError"></strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" data-i18n data-i18n-aria-label="commonClose"></button>
       </div>
       <div class="toast-body" id="error-text"></div>
     </div>

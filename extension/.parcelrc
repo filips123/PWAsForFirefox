@@ -1,3 +1,9 @@
 {
-  "extends": "@parcel/config-webextension"
+  "extends": "@parcel/config-webextension",
+  "resolvers": ["@parcel/resolver-glob", "..."],
+  "transformers": {
+    "filename:*": ["./tools/transformers/filename", "..."],
+    "locale:*": ["./tools/transformers/locale", "@parcel/transformer-json", "@parcel/transformer-js"],
+    "raw:messages.json": ["./tools/transformers/locale"]
+  }
 }
