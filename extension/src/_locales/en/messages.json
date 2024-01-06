@@ -1,6 +1,4 @@
 {
-  // Extension Properties
-
   "appName": {
     "message": "Progressive Web Apps for Firefox",
     "description": "The name of the application, should not be translated"
@@ -13,9 +11,6 @@
     "message": "A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox",
     "description": "The description of the application"
   },
-
-  // Extension Actions
-
   "actionInstallSite": {
     "message": "Install this site",
     "description": "Instruct users that they can install the current site here"
@@ -24,9 +19,6 @@
     "message": "Launch this site",
     "description": "Instruct users that they can launch the current site here"
   },
-
-  // Update Notification
-
   "updateNotificationTitle": {
     "message": "PWAsForFirefox Update",
     "description": "The title of the update notification, displayed when an update is available"
@@ -35,9 +27,6 @@
     "message": "A PWAsForFirefox update is available. Please click the notification to display the update instructions.",
     "description": "The message of the update notification, displayed when an update is available"
   },
-
-  // Common Messages
-
   "commonError": {
     "message": "Error",
     "description": "Displayed before error messages or as a popup title"
@@ -86,9 +75,6 @@
     "message": "Firefox version:",
     "description": "Displayed before the main browser version"
   },
-
-  // Web App Properties
-
   "webAppName": {
     "message": "Name",
     "description": "The name property of a web app"
@@ -125,9 +111,6 @@
     "message": "Protocol Handlers",
     "description": "The protocol handlers property of a web app"
   },
-
-  // Profile Properties
-
   "profileName": {
     "message": "Name",
     "description": "The name property of a profile"
@@ -148,9 +131,6 @@
     "message": "ID",
     "description": "The ID property of a profile"
   },
-
-  // Web App Validation
-
   "webAppValidationNameReuse": {
     "message": "Name cannot be reused from existing web apps",
     "description": "A validation error when the web app name is reused"
@@ -171,9 +151,6 @@
     "message": "Only one instance per profile can be installed",
     "description": "A validation error when multiple web app instances are tried to be installed in the same profile"
   },
-
-  // Setup Page
-
   "setupPageTitle": {
     "message": "Setup Progressive Web Apps for Firefox",
     "description": "The title of the setup page"
@@ -330,9 +307,6 @@
     "message": "This extension is now ready to be used. You can close this page.",
     "description": "The ready notice on the setup page"
   },
-
-  // Update Page
-
   "updatePageTitle": {
     "message": "Update Progressive Web Apps for Firefox",
     "description": "The title of the update page"
@@ -381,9 +355,6 @@
     "message": "This update <strong>may contain backward-incompatible changes</strong>, so you may also need to re-configure some things as specified in the release notes to make it work.",
     "description": "Displayed on the update page when an update contains potential backward-incompatible changes"
   },
-
-  // Installation Instructions Page
-
   "instructionsPageTitle": {
     "message": "Installation Instructions",
     "description": "The title of the installation instructions page"
@@ -640,9 +611,6 @@
     "message": "Your operating system is not officially supported. You can try building and installing the project from source with instructions from the source installation section. You may need to adjust them to make it work with your operating system, and there is no guarantee that it will work.",
     "description": "The notice for the other installation option"
   },
-
-  // Install Page
-
   "installPageTitle": {
     "message": "Install this web app",
     "description": "The title of the install web app page"
@@ -679,9 +647,6 @@
     "message": "Some <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts\" target=\"_blank\">Mozilla websites</a> are restricted for extensions. This is a Firefox security feature and cannot be disabled. Restricted websites cannot be installed as web apps.",
     "description": "A message that extends the content script error with more details when used on restricted domains"
   },
-
-  // Launch Page
-
   "launchPageTitle": {
     "message": "Launch this web app",
     "description": "The title of the launch web app page"
@@ -690,9 +655,6 @@
     "message": "Install a new instance",
     "description": "Displayed on the launch web app page to install a new instance"
   },
-
-  // Manage Page
-
   "managePageTitle": {
     "message": "Manage web apps and profiles",
     "description": "The title of the manage page"
@@ -709,7 +671,6 @@
     "message": "Settings",
     "description": "The settings tab on the manage page"
   },
-
   "managePageAppListIcon": {
     "message": "Icon",
     "description": "The icon alternative text on the web app list"
@@ -734,7 +695,6 @@
     "message": "Install current site",
     "description": "A button that is displayed on the web app list to install the current site"
   },
-
   "managePageProfileListCreate": {
     "message": "Create profile",
     "description": "The create tooltip on the profile list and the title of the edit profile dialog"
@@ -763,7 +723,6 @@
     "message": "{count, plural, one {# app} other {# apps}}",
     "description": "The web app count in the profile, supports limited pluralization options"
   },
-
   "managePageSettingsDisplayPageAction": {
     "message": "Display address bar widget",
     "description": "The setting for displaying page action (address bar widget)"
@@ -848,7 +807,6 @@
     "message": "About the project",
     "description": "The button in settings to display project info"
   },
-
   "managePageFooterOutdated1": {
     "message": "The extension is outdated!",
     "description": "The first part of the extension outdated warning"
@@ -861,7 +819,6 @@
     "message": "Search by name",
     "description": "The search placeholder for web apps and profiles"
   },
-
   "managePageAppEditLaunchOnWebsiteLabel": {
     "message": "Launch this web app on matching website",
     "description": "The label for the launch on website checkbox on the edit web app dialog"
@@ -902,7 +859,6 @@
     "message": "Determines if icons will be updated when you edit this web app",
     "description": "The tooltip for the icons update checkbox on the edit web app dialog"
   },
-
   "managePageAppRemoveQuestion": {
     "message": "Are you sure you want to remove this web app?",
     "description": "The confirmation question on the remove web app dialog"
@@ -923,7 +879,6 @@
     "message": "Determines if the current app profile and data will be deleted while uninstalling the app",
     "description": "The label for the profile delete checkbox on the remove web app dialog"
   },
-
   "managePageProfileRemoveQuestion": {
     "message": "Are you sure you want to remove this profile? This will completely remove the profile and all associated web apps, including their data. You might not be able to fully recover this action.",
     "description": "The confirmation question on the remove profile dialog"
@@ -932,7 +887,6 @@
     "message": "Default profile cannot be completely removed. Web apps and data will be cleared, but the profile will stay.",
     "description": "The additional clarification on the remove profile dialog if this is the default profile"
   },
-
   "managePageAutoLaunchTitle": {
     "message": "Automatic web app launching",
     "description": "The title of the automatic launching dialog"
@@ -959,7 +913,6 @@
     "message": "Enable",
     "description": "The enable button for the automatic launching"
   },
-
   "managePageUpdateWebAppsAbout1": {
     "message": "This will download and parse manifests for all your web apps and register them again to the operating systems. Any changes in web app manifests will also be reflected on your system.",
     "description": "The first part of about updating web apps message"
@@ -972,7 +925,6 @@
     "message": "Perform manifest updates",
     "description": "The checkbox label for performing manifest updates when updating web apps"
   },
-
   "managePagePatchProfilesAbout1": {
     "message": "This will patch all profiles and runtime with the current globally installed version.",
     "description": "The first part of about patching profiles and runtime message"
@@ -989,7 +941,6 @@
     "message": "Patch profiles",
     "description": "The checkbox label for patching profiles when patching profiles and runtime"
   },
-
   "managePageReinstallRuntimeAbout1": {
     "message": "Are you sure you want to reinstall the PWAsForFirefox runtime? This will remove your current runtime and download the latest version from Mozilla.",
     "description": "The first part of about reinstalling runtime message"
@@ -998,9 +949,6 @@
     "message": "This will <strong>not</strong> affect your main Firefox browser and will <strong>not</strong> remove any profiles or other data.",
     "description": "The second part of about reinstalling runtime message"
   },
-
-  // Buttons
-
   "buttonRuntimeInstallDefault": {
     "message": "Install the runtime",
     "description": "The runtime installation button on the setup page, allowing the user to install the runtime"
