@@ -1,0 +1,741 @@
+{
+  "appName": {
+    "message": "Progressive Web Apps for Firefox",
+    "description": "The name of the application, should not be translated"
+  },
+  "appShortName": {
+    "message": "PWAsForFirefox",
+    "description": "The short name of the application, should not be translated"
+  },
+  "appDescription": {
+    "message": "Mozilla Firefox に Progressive Web Apps（PWA）をインストール、管理、利用するためのツールです。",
+    "description": "The description of the application"
+  },
+  "actionInstallSite": {
+    "message": "このサイトをインストールする",
+    "description": "Instruct users that they can install the current site here"
+  },
+  "actionLaunchSite": {
+    "message": "このサイトを起動する",
+    "description": "Instruct users that they can launch the current site here"
+  },
+  "commonError": {
+    "message": "エラー！",
+    "description": "Displayed before error messages or as a popup title"
+  },
+  "commonNote": {
+    "message": "注意",
+    "description": "Displayed before note messages or as a popup title"
+  },
+  "commonCancel": {
+    "message": "キャンセル",
+    "description": "Displayed as a label for a cancel button"
+  },
+  "commonLoading": {
+    "message": "ロード中...",
+    "description": "Displayed when things are still loading"
+  },
+  "commonOr": {
+    "message": "または、",
+    "description": "The \"or\" conjunction, used between untranslatable words"
+  },
+  "commonExtensionVersion": {
+    "message": "拡張機能のバージョン:",
+    "description": "Displayed before the extension version"
+  },
+  "commonNativeVersion": {
+    "message": "ネイティブプログラムのバージョン:",
+    "description": "Displayed before the native connector version"
+  },
+  "webAppName": {
+    "message": "名前",
+    "description": "The name property of a web app"
+  },
+  "webAppDescription": {
+    "message": "説明",
+    "description": "The description property of a web app"
+  },
+  "webAppCategories": {
+    "message": "カテゴリー",
+    "description": "The categories property of a web app"
+  },
+  "webAppKeywords": {
+    "message": "キーワード",
+    "description": "The keywords property of a web app"
+  },
+  "webAppStartURL": {
+    "message": "開始時の URL",
+    "description": "The start URL property of a web app"
+  },
+  "webAppIconURL": {
+    "message": "アイコンの URL",
+    "description": "The icon URL property of a web app"
+  },
+  "webAppID": {
+    "message": "ID",
+    "description": "The ID property of a web app"
+  },
+  "webAppProfile": {
+    "message": "プロファイル",
+    "description": "The profile property of a web app"
+  },
+  "webAppProtocolHandlers": {
+    "message": "プロトコルハンドラ",
+    "description": "The protocol handlers property of a web app"
+  },
+  "profileName": {
+    "message": "名前",
+    "description": "The name property of a profile"
+  },
+  "profileDescription": {
+    "message": "説明",
+    "description": "The description property of a profile"
+  },
+  "profileTemplate": {
+    "message": "テンプレート",
+    "description": "The template property of a profile"
+  },
+  "profileID": {
+    "message": "ID",
+    "description": "The ID property of a profile"
+  },
+  "setupPageTitle": {
+    "message": "Progressive Web Apps for Firefox のセットアップ",
+    "description": "The title of the setup page"
+  },
+  "setupPageTabLicenseAgreement": {
+    "message": "ライセンス通知",
+    "description": "The licence agreement tab on the setup page"
+  },
+  "setupPageTabConnectorInstallation": {
+    "message": "コネクションのインストール",
+    "description": "The connector installation tab on the setup page"
+  },
+  "setupPageTabRuntimeInstallation": {
+    "message": "ランタイムのインストール",
+    "description": "The runtime installation tab on the setup page"
+  },
+  "setupPageTabReady": {
+    "message": "準備完了",
+    "description": "The ready tab on the setup page"
+  },
+  "setupPageLicenseBase": {
+    "message": "このプロジェクトは <a href=\"https://www.mozilla.org/MPL/2.0/\" target=\"_blank\">Mozilla Public License 2.0</a> の下でライセンスされています。使用、再配布、改変を行う場合は、本使用許諾および以下に定める追加条項への同意が必要です。",
+    "description": "The base license notice on the setup page"
+  },
+  "setupPageLicenseThirdPartyIncluded": {
+    "message": "このプロジェクトでは、さらにサードパーティーのリソースやコードを使用しています：",
+    "description": "The included third-party assets and code notice on the setup page"
+  },
+  "setupPageLicenseLogo": {
+    "message": "このプロジェクトのロゴは <a href=\"https://www.svgrepo.com/svg/40267/fox\" target=\"_blank\">\"Fox SVG Vector\" icon</a> をベースに作成しており、<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\">CC0</a> のライセンスで作成された <a href=\"https://github.com/webmaxru/progressive-web-apps-logo\" target=\"_blank\">コミュニティーによる PWA ロゴ</a> を参考にして作成されています。</a>",
+    "description": "The logo notice on the setup page"
+  },
+  "setupPageLicenseFirefoxScripts": {
+    "message": "ブラウザーの Chrome 部分の JavaScript による改造は、<a href=\"https://github.com/xiaoxiaoflood/firefox-scripts\" target=\"_blank\"><code>xiaoxiaoflood/firefox-scripts</code></a> の GitHub リポジトリからインスピレーションを受け、一部は派生したものです。ライセンスは、Mozilla Public License 2.0 であり、詳細な情報は、それぞれのファイルに記載されています。",
+    "description": "The notice for `xiaoxiaoflood/firefox-scripts` on the setup page"
+  },
+  "setupPageLicenseFirefoxUiFix": {
+    "message": "ブラウザーの Chrome 部分の CSS による改造は、<a href=\"https://github.com/black7375/Firefox-UI-Fix\" target=\"_blank\"><code>black7375/Firefox-UI-Fix</code></a> の GitHub リポジトリからインスピレーションを受け、一部は派生したものです。ライセンスは、Mozilla Public License 2.0 であり、詳細な情報は、それぞれのファイルに記載されています。",
+    "description": "The notice for `black7375/Firefox-UI-Fix` on the setup page"
+  },
+  "setupPageLicenseFirefoxSource": {
+    "message": "ブラウザー の Chrome 部分の改造には Firefox 由来のアイコン等も使用されています。<a href=\"https://github.com/mozilla/gecko-dev\" target=\"_blank\">Firefox のオリジナルのソースコード</a> を利用しています。ライセンスは、Mozilla Public License 2.0です。詳細な情報は、それぞれのファイルに記載されています。",
+    "description": "The notice for the Firefox source on the setup page"
+  },
+  "setupPageLicenseMetropolisFont": {
+    "message": "この拡張機能のネイティブ部分のプログラムには Chris Simpson によって作成された<a href=\"https://fontsarena.com/metropolis-by-chris-simpson/\" target=\"_blank\">>メトロポリス・セミボールフォント</a> が含まれています。また、このフォントは <a href=\"https://unlicense.org/\" target=\"_blank\">Unlicense</a> を用いてパブリックドメインとして公開されています。",
+    "description": "The notice for Metropolis Typeface on the setup page"
+  },
+  "setupPageLicenseBootstrapIcons": {
+    "message": "Windows 版のネイティブプログラムのインストーラーには <a href=\"https://icons.getbootstrap.com/\" target=\"_blank\">Bootstrap Icons</a> が含まれています。<a href=\"https://opensource.org/licenses/MIT\" target=\"_blank\">MIT License</a> によってライセンスされており、詳しいライセンス情報は <a href='%WIX-CONFIG%'>WiX の設定ファイル</a> から確認できます。",
+    "description": "The notice for Bootstrap Icons on the setup page"
+  },
+  "setupPageLicenseThirdPartyDownloaded": {
+    "message": "追加のオープンソースソフトウェアは、ユーザーによってインストールが実行された場合、ランタイムによってダウンロードされ、インストールされます：",
+    "description": "The downloaded third-party assets and code notice on the setup page"
+  },
+  "setupPageLicense7ZipDownloaded": {
+    "message": "Windows にランタイムをインストールした場合、<a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a> がインストールされていない場合インストールされます。7-Zip のプロジェクトは Igor Pavlov によって作成され、<a href=\"https://7-zip.org/license.txt\" target=\"_blank\">GPL・LGPL やその他のライセンス</a>によってライセンスされています。 この拡張機能のプロジェクトは、7-Zip のプロジェクトやその開発者とは一切関係ありません。",
+    "description": "The notice for downloaded 7-Zip on the setup page"
+  },
+  "setupPageLicenseFirefoxDownloaded": {
+    "message": "ランタイムをインストールすると、何も調整されていない <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> ブラウザーがインストールされ、ロカールでこの拡張機能のネイティブプログラムによって調整されます。このプロジェクトを使用すると <a href=\"https://www.mozilla.org/privacy/firefox/\">the Firefox Privacy Notice</a> Firefox のプライバシーに関する通知</a>に同意することになります。Firefox は Mozilla Public License 2.0 でライセンスされており、Firefox の名称とロゴは米 Mozilla Fundation の商標です。このプロジェクトは Mozilla とは一切関係ありません。",
+    "description": "The notice for downloaded Firefox on the setup page"
+  },
+  "setupPageLicensePrivacyPolicy": {
+    "message": "この拡張機能は、ユーザーが PWA のインストールを開始したときに、個人データ（現在のウェブサイトとマニフェストのURL、およびその他のPWA詳細）をネイティブプログラムと交換します。これは、Web アプリケーションマニフェストを正しく取得・解析し、PWA をインストールするために必要です。データは、その PWA がインストールされている限り、コンピューターに保存されます。個人データがコンピューターから離れたり、第三者に送信されたりすることはありません。",
+    "description": "The privacy policy notice on the setup page"
+  },
+  "setupPageLicenseAccept": {
+    "message": "ライセンス通知に同意する",
+    "description": "The license accept button on the setup page"
+  },
+  "setupPageConnectorInstallationMain": {
+    "message": "拡張機能が Web アプリケーションのランタイムとプロファイルを別々に管理し、実行できるように、追加のプログラムをインストールする必要があります。このプログラムがないと、拡張機能は動作しません。以下の手順でインストールしてください。",
+    "description": "The main connector installation notice on the setup page"
+  },
+  "setupPageConnectorInstallationIncompatible": {
+    "message": "現在インストールされているプログラムのバージョンが、現在の拡張機能のバージョンと互換性がない場合があります。正しく動作させるには、プログラムまたは拡張機能を互換性のあるバージョンに更新する必要があります。",
+    "description": "The incompatible connector installation notice on the setup page"
+  },
+  "setupPageRuntimeInstallationAuto": {
+    "message": "また、この拡張機能には、Progressive Web App サイトが動作する Mozilla Firefox のランタイムが別途必要です。以下のボタンを押すと、修正されていない Mozilla Firefox が Mozilla のサーバーから自動的にダウンロードされ、必要な修正をローカルで行います。また、以下の詳細オプションをチェックして、ランタイムを手動でインストールすることもできます。",
+    "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is supported"
+  },
+  "setupPageRuntimeInstallationManual": {
+    "message": "この拡張機能には、すべての Progressive Web App サイトを実行するための Mozilla Firefox ランタイムが別途必要です。しかし、お使いのプラットフォームは、現在、ランタイムの自動インストールをサポートしていません。以下の詳細オプションに従って、手動でインストールしてください。",
+    "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is not supported"
+  },
+  "setupPageRuntimeInstallation7Zip": {
+    "message": "ランタイムをインストールするには、<a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a> がインストールされている必要があります。ランタイムをインストールすると、必要に応じて 7-Zip インストーラーが自動的に起動します。この場合、ユーザーアカウント制御のプロンプトを受け入れる必要がある場合があります。また、7-Zip を手動でインストールしたり、既存の 7-zip のインストールを使用することもできます。ランタイムがインストールされた後、7-Zip を手動で削除することができます。",
+    "description": "The runtime installation notice on the setup page, displayed when 7-Zip needs to be installed"
+  },
+  "setupPageRuntimeInstallationAfter": {
+    "message": "ランタイムのインストールが完了すると、自動的に次のステップに進みます。30 秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
+    "description": "The runtime installation notice on the setup page, displayed always"
+  },
+  "setupPageAdvancedOptionsTitle": {
+    "message": "高度なオプション",
+    "description": "The advanced runtime installation options toggle on the setup page"
+  },
+  "setupPageAdvancedOptionsFromArchiveTitle": {
+    "message": "アーカイブから Firefox を手動でインストールする:",
+    "description": "Instructions for manually installing Firefox from the archive, title"
+  },
+  "setupPageAdvancedOptionsFromArchiveStep1": {
+    "message": "Firefox のアーカイブをお好みのソースからダウンロードする (例：<a href=\"https://www.mozilla.org/firefox/all/\" target=\"_blank\">Firefox の公式ダウンロードサイト</a>)",
+    "description": "Instructions for manually installing Firefox from the archive, step 1"
+  },
+  "setupPageAdvancedOptionsFromArchiveStep2": {
+    "message": "ダウンロードしたアーカイブを展開し、ファイルを正しいディレクトリにコピーする（下記参照）。",
+    "description": "Instructions for manually installing Firefox from the archive, step 2"
+  },
+  "setupPageAdvancedOptionsPackageManagerTitle": {
+    "message": "パッケージマネージャを使用して手動でFirefoxをインストールする:",
+    "description": "Instructions for manually installing Firefox using package manager, title"
+  },
+  "setupPageAdvancedOptionsPackageManagerStep1": {
+    "message": "お使いのディストロのパッケージマネージャを使用して Firefox をインストールする (例：<kbd>sudo apt install firefox</kbd>, <kbd>sudo yum install firefox</kbd>, ...)",
+    "description": "Instructions for manually installing Firefox using package manager, step 1"
+  },
+  "setupPageAdvancedOptionsPackageManagerStep2": {
+    "message": "インストールした Firefox のファイル (commonly stored in <kbd>/usr/lib/firefox/</kbd>) を正しいディレクトリにコピーする (下部を参照)。",
+    "description": "Instructions for manually installing Firefox using package manager, step 2"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserTitle": {
+    "message": "Firefox ベースの代替ブラウザ（例: LibreWolf）をランタイムに使用する:",
+    "description": "Instructions for using alternative browser for runtime, title"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserStep1": {
+    "message": "お使いの Firefox ベースのブラウザに対応したポータブル版アーカイブ（tarball バイナリ）をダウンロードしてください。",
+    "description": "Instructions for using alternative browser for runtime, step 1"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserStep2": {
+    "message": "ダウンロードしたアーカイブを展開し、ファイルを正しいディレクトリにコピーする（下記を参照）。",
+    "description": "Instructions for using alternative browser for runtime, step 2"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserStep3": {
+    "message": "そのディレクトリの中に存在する、ブラウザのメインバイナリを探し、 (例：, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) 見つけたファイルを <kbd>firefox.exe</kbd>/<kbd>firefox</kbd> に名前を直します。",
+    "description": "Instructions for using alternative browser for runtime, step 3"
+  },
+  "setupPageDefaultRuntimeLocationTitle": {
+    "message": "デフォルトのランタイムの場所:",
+    "description": "The title for the default runtime locations section"
+  },
+  "setupPageReady": {
+    "message": "この拡張機能は、使用できるようになりました。このページを閉じることができます。",
+    "description": "The ready notice on the setup page"
+  },
+  "updatePageTitle": {
+    "message": "PWAsForFirefox のアップデート",
+    "description": "The title of the update page"
+  },
+  "updatePageNativeOutdated": {
+    "message": "現在、ネイティブコネクターのバージョン古くなっています。",
+    "description": "Displayed on the update page when the native connector is outdated"
+  },
+  "updatePageNativeCompatible": {
+    "message": "現在の拡張機能のバージョンと互換性がありますが、最新の機能と修正を得るためにアップデートすることを強くお勧めします。",
+    "description": "Displayed on the update page when the native connector is compatible"
+  },
+  "updatePageNativeIncompatible": {
+    "message": "現在の拡張機能のバージョンとは<strong>互換性がない</strong>ので、更新するまで拡張機能を使用することはできません。",
+    "description": "Displayed on the update page when the native connector is incompatible"
+  },
+  "updatePageNativeInstructions": {
+    "message": "以下の手順に従って更新を適用してください。",
+    "description": "Displayed on the update page nstruct users to follow the instructions to update the native connector"
+  },
+  "updatePageExtensionOutdated": {
+    "message": "現在の拡張機能のバージョンは古くなっています。",
+    "description": "Displayed on the update page when the extension is outdated"
+  },
+  "updatePageExtensionIncompatible": {
+    "message": "現在のコネクタのバージョンとは<strong>互換性がない</strong>ため、アップデートするまでは拡張機能を使用することができません。",
+    "description": "Displayed on the update page when the extension is incompatible"
+  },
+  "updatePageExtensionInstructions": {
+    "message": "Firefox のアドオンマネージャー（<kbd>about:addons</kbd>）から更新してください。",
+    "description": "Displayed on the update page nstruct users to follow the instructions to update the extension"
+  },
+  "updatePageUpdated": {
+    "message": "拡張機能とネイティブコネクターが同じバージョンに更新されます。このページを閉じることができます。",
+    "description": "Displayed on the update page when both the extension and the native connector are updated to the same version"
+  },
+  "updatePageReleaseNotes": {
+    "message": "新機能、バグ修正、その他の改善点については、<a href=\"https://github.com/filips123/PWAsForFirefox/releases\" target=\"_blank\">リリースノート</a>をお読みください。",
+    "description": "Displayed on the update page to link the release notes"
+  },
+  "updatePageReleaseNotesIncompatible": {
+    "message": "このアップデートは、<strong>後方互換性のない変更を含む可能性があります</strong>ので、動作させるためにリリースノートで指定されているいくつかのものを再設定する必要もあります。",
+    "description": "Displayed on the update page when an update contains potential backward-incompatible changes"
+  },
+  "instructionsPageTitle": {
+    "message": "インストールインストラクション",
+    "description": "The title of the installation instructions page"
+  },
+  "instructionsPageTabWindows": {
+    "message": "Windows",
+    "description": "The Microsoft Windows tab on the instructions page"
+  },
+  "instructionsPageTabDebian": {
+    "message": "Debian 系 Linux (DEB)",
+    "description": "The Debian (DEB) tab on the instructions page"
+  },
+  "instructionsPageTabRedHat": {
+    "message": "Red Hat 系 Linux (RPM)",
+    "description": "The Red Hat (RPM) tab on the instructions page"
+  },
+  "instructionsPageTabArch": {
+    "message": "Arch 系 Linux (AUR)",
+    "description": "The Arch (AUR) tab on the instructions page"
+  },
+  "instructionsPageTabGentoo": {
+    "message": "Gentoo 系 Linux",
+    "description": "The Gentoo tab on the instructions page"
+  },
+  "instructionsPageTabMacOS": {
+    "message": "macOS",
+    "description": "The macOS tab on the instructions page"
+  },
+  "instructionsPageTabBSD": {
+    "message": "BSD",
+    "description": "The BSD tab on the instructions page"
+  },
+  "instructionsPageTabSourceCode": {
+    "message": "ソースコードから...",
+    "description": "The source code tab on the instructions page"
+  },
+  "instructionsPageTabOtherPlatforms": {
+    "message": "その他のプラットフォーム",
+    "description": "The other platforms tab on the instructions page"
+  },
+  "instructionsPageOr": {
+    "message": "または...",
+    "description": "The \"or\" conjunction, displayed in the installation options list"
+  },
+  "instructionsPageAfterProgramsInstalled": {
+    "message": "プログラムのインストールが完了すると、自動的に次のステップに進みます。30 秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
+    "description": "The final installation step in installation options that use the \"program\" terminology"
+  },
+  "instructionsPageAfterPackageInstalled": {
+    "message": "パッケージのインストールが完了すると、自動的に次のステップに進みます。30秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
+    "description": "The final installation step in installation options that use the \"package\" terminology"
+  },
+  "instructionsPageInstallManualMSITitle": {
+    "message": "プログラムを手動でインストールする場合:",
+    "description": "The title of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualMSIStep1": {
+    "message": "<a id=\"connector-download-url-crt\" target=\"_blank\">再分布可能な Visual C++ ランタイム</a> をダウンロードし、インストールしてください。",
+    "description": "The step 1 of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualMSIStep2": {
+    "message": "<a id=\"connector-download-url-msi\" target=\"_blank\">PWAsForFirefox MSI インストーラー</a> をダウンロードし、インストールしてください。",
+    "description": "The step 2 of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualDEBTitle": {
+    "message": "パッケージを手動でインストールする:",
+    "description": "The title of the manual DEB installation option"
+  },
+  "instructionsPageInstallManualDEBStep1": {
+    "message": "<a id=\"connector-download-url-deb\" target=\"_blank\">PWAsForFirefox DEB パッケージ</a>をダウンロードし、パッケージマネージャを使ってインストールする。",
+    "description": "The step 1 of the manual DEB installation option"
+  },
+  "instructionsPageInstallManualRPMTitle": {
+    "message": "パッケージを手動でインストールする:",
+    "description": "The title of the manual RPM installation option"
+  },
+  "instructionsPageInstallManualRPMStep1": {
+    "message": "<a id=\"connector-download-url-rpm\" target=\"_blank\">PWAsForFirefox RPM パッケージ</a>をダウンロードし、インストールします。",
+    "description": "The step 1 of the manual RPM installation option"
+  },
+  "instructionsPageInstallWingetTitle": {
+    "message": " Windows パッケージマネージャーを使用してパッケージをインストールする:",
+    "description": "The title of the Windows Package Manager (winget) installation option"
+  },
+  "instructionsPageInstallWingetStep1": {
+    "message": "<a href=\"https://github.com/microsoft/winget-cli#installing-the-client\" target=\"_blank\">Windows パッケージマネージャー</a>をインストールされているか確認してください。",
+    "description": "The step 1 of the Windows Package Manager (winget) installation option"
+  },
+  "instructionsPageInstallWingetStep2": {
+    "message": "最後に、winget を使用して PWAsForFirefox をインストールします。:",
+    "description": "The step 2 of the Windows Package Manager (winget) installation option"
+  },
+  "instructionsPageInstallChocolateyTitle": {
+    "message": "Chocolatey を使用してパッケージをインストールする：",
+    "description": "The title of the Chocolatey installation option"
+  },
+  "instructionsPageInstallChocolateyStep1": {
+    "message": "<a href=\"https://chocolatey.org/install\" target=\"_blank\">Chocolately</a> がインストールされていることを確認してください。",
+    "description": "The step 1 of the Chocolatey installation option"
+  },
+  "instructionsPageInstallChocolateyStep2": {
+    "message": "choco コマンドを使用して PWAsForFirefox をインストールします:",
+    "description": "The step 2 of the Chocolatey installation option"
+  },
+  "instructionsPageInstallNpackdTitle": {
+    "message": "Npackdを使用してパッケージをインストールする:",
+    "description": "The title of the Npackd installation option"
+  },
+  "instructionsPageInstallNpackdStep1": {
+    "message": "<a href=\"https://www.npackd.org/\" target=\"_blank\">Npackd</a> がインストールされていることを確認してください。",
+    "description": "The step 1 of the Npackd installation option"
+  },
+  "instructionsPageInstallNpackdStep2": {
+    "message": "ncl を使ってパッケージをインストールする:",
+    "description": "The step 2 of the Npackd installation option"
+  },
+  "instructionsPageInstallPAFTitle": {
+    "message": "PortableApps.com を使用してパッケージをインストールする場合：",
+    "description": "The title of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPAFStep1": {
+    "message": "<a href=\"https://portableapps.com/download\" target=\"_blank\">PortableApps.com プラットフォーム</a>がインストールされていることを確認してください。",
+    "description": "The step 1 of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPAFStep2": {
+    "message": "<a id=\"connector-download-url-paf\" target=\"_blank\">PWAsForFirefox PAF パッケージ</a>をダウンロードし、PortableApps.com プラットフォームを使用してインストールします。",
+    "description": "The step 2 of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPAFStep3": {
+    "message": "PortableApps.com Platform を使用して PWAsForFirefox プログラムを実行し、通知が表示されるまで待ちます。",
+    "description": "The step 3 of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPAFStep4": {
+    "message": "プログラムが実行されると、自動的に次のステップに進みます。30秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
+    "description": "The step 4 of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPackagecloudTitle": {
+    "message": "packagecloud.ioのリポジトリからパッケージをインストールする場合：",
+    "description": "The title of the packagecloud.io installation option"
+  },
+  "instructionsPageInstallPackagecloudStep1": {
+    "message": "<a href=\"https://packagecloud.io/filips/FirefoxPWA\" target=\"_blank\">packagecloud.io リポジトリ</a>のウェブサイトの指示に従ってください。",
+    "description": "The step 1 of the packagecloud.io installation option"
+  },
+  "instructionsPagePackagecloudThanks": {
+    "message": "このプロジェクトのスポンサーであり、DEBとRPMパッケージのホスティングを無料で提供してくださった packagecloud.io に感謝します！",
+    "description": "A message that thanks packagecloud.io for sponsoring the project"
+  },
+  "instructionsPageLinuxAurInstallStep1": {
+    "message": "PWAsForFirefox AUR パッケージのいずれかをダウンロードし、インストールします：",
+    "description": "The step 1 of the Linux AUR installation option"
+  },
+  "instructionsPageLinuxAurInstallSource": {
+    "message": "ソース",
+    "description": "The source AUR package"
+  },
+  "instructionsPageLinuxAurInstallPreBuilt": {
+    "message": "プレビルド済み",
+    "description": "The pre-built AUR package"
+  },
+  "instructionsPageMacOSInstallStep1": {
+    "message": "<a href=\"https://brew.sh/\" target=\"_blank\">Homebrew</a> がインストールされていることを確認してください。",
+    "description": "The step 1 of the macOS installation option"
+  },
+  "instructionsPageMacOSInstallStep2": {
+    "message": "formula に則ってインストールします:",
+    "description": "The step 2 of the macOS installation option"
+  },
+  "instructionsPageMacOSInstallStep3": {
+    "message": "インストール出力の注意事項欄に表示される指示に従って、マニフェストをリンクしてください。",
+    "description": "The step 3 of the macOS installation option"
+  },
+  "instructionsPageMacOSInstallStep4": {
+    "message": "formula がインストールされ、マニフェストがリンクされた後、自動的に次のステップに進むはずです。約30秒後に何も変化がない場合、ブラウザを再起動します。.",
+    "description": "The step 4 of the macOS installation option"
+  },
+  "instructionsPageSourceInstallStep1": {
+    "message": "<a href=\"https://github.com/sagiegurari/cargo-make\" target=\"_blank\"><kbd>cargo-make</kbd></a> がインストールされていることを確認してください。",
+    "description": "The step 1 of the source installation option"
+  },
+  "instructionsPageSourceInstallStep2": {
+    "message": "<a href=\"https://wixtoolset.org/docs/wix3/\" target=\"_blank\">WiX Toolset v3</a> がインストールされていることを確認してください(Windows では)。",
+    "description": "The step 2 of the source installation option, displayed on Windows only"
+  },
+  "instructionsPageSourceInstallStep3": {
+    "message": "<a href=\"https://github.com/filips123/PWAsForFirefox\" target=\"_blank\">>リポジトリ</a>をクローンし、さらに<kbd>cd</kbd> コマンドを使用して <kbd>native</kbd> フォルダに入ります。",
+    "description": "The step 3 of the source installation option"
+  },
+  "instructionsPageSourceInstallStep4": {
+    "message": "<kbd class=\"connector-repository-tag\"></kbd> へタグをチェックアウトします。",
+    "description": "The step 4 of the source installation option, tag is dynamically set to the correct version"
+  },
+  "instructionsPageSourceInstallStep6": {
+    "message": "プロジェクトをビルドしてインストールします:",
+    "description": "The step 6 of the source installation option"
+  },
+  "instructionsPageSourceInstallNotice1": {
+    "message": "これを行うためのコマンドのリストは、<a id=\"connector-source-install\" target=\"_blank\">リポジトリの README ファイル</a>を確認してください。",
+    "description": "The notice for a list of commands for the source installation option"
+  },
+  "instructionsPageSourceInstallNotice2": {
+    "message": "あなたのディストリビューション用に PWAsForFirefox をパッケージ化したい、またはすでにパッケージ化している場合、私に知らせてください。パッケージングプラットフォームが何らかの自動投稿/アップロード機能をサポートしている場合、パッケージが常に最新であることを確認するために GitHub Actions と直接統合することがありますので、こちらもお知らせください。",
+    "description": "The notice for packaging the project for the source installation option"
+  },
+  "instructionsPageOtherInstallNotice": {
+    "message": "お使いのオペレーティングシステムは、公式にはサポートされていません。ソースからプロジェクトをビルドしてインストールする方法は、ソースのインストールセクションにある指示で試すことができます。あなたのオペレーティングシステムで動作するように調整する必要があるかもしれませんし、それが動作することを保証するものではありません。",
+    "description": "The notice for the other installation option"
+  },
+  "installPageTitle": {
+    "message": "このウェブアプリをインストールする",
+    "description": "The title of the install web app page"
+  },
+  "installPageCreateProfile": {
+    "message": "新規プロファイルの作成e",
+    "description": "The profile creation option on the install web app page"
+  },
+  "installPageSeparateProfiles": {
+    "message": " 修正困難なバグがあるため、各 Web アプリを別々のプロファイルにインストールすることを強く推奨します。問題の詳細はこちら：<a id=\"web-app-profile-warn-issue\"></a>",
+    "description": "The message that tells users each web app should be in a separate profile on affected platforms"
+  },
+  "installPageUseManifestLabel": {
+    "message": "アプリのプロパティを決定するためにマニフェストを使用する",
+    "description": "The label for the use manifest checkbox on the web app installation page"
+  },
+  "launchPageTitle": {
+    "message": "このウェブアプリを起動する",
+    "description": "The title of the launch web app page"
+  },
+  "managePageTitle": {
+    "message": "ウェブアプリとプロファイルの管理",
+    "description": "The title of the manage page"
+  },
+  "managePageTabApps": {
+    "message": "アプリ",
+    "description": "The apps tab on the manage page"
+  },
+  "managePageTabProfiles": {
+    "message": "プロファイル",
+    "description": "The profiles tab on the manage page"
+  },
+  "managePageAppListEdit": {
+    "message": "ウェブアプリを編集",
+    "description": "The edit tooltip on the web app list and the title of the edit web app dialog"
+  },
+  "managePageAppListRemove": {
+    "message": "ウェブアプリを削除",
+    "description": "The remove tooltip on the web app list and the title of the remove web app dialog"
+  },
+  "managePageAppListEmpty": {
+    "message": "サイトは何もインストールされていません！",
+    "description": "A message that is displayed on the web app list when no web apps are installed"
+  },
+  "managePageAppListAdd": {
+    "message": "現在のサイトをインストールする",
+    "description": "A button that is displayed on the web app list to install the current site"
+  },
+  "managePageProfileListCreate": {
+    "message": "プロファイルの作成",
+    "description": "The create tooltip on the profile list and the title of the edit profile dialog"
+  },
+  "managePageProfileListEdit": {
+    "message": "プロファイルを編集する",
+    "description": "The edit tooltip on the profile list and the title of the edit profile dialog"
+  },
+  "managePageProfileListRemove": {
+    "message": "プロファイルを削除",
+    "description": "The remove tooltip on the profile list and title of the remove profile dialog"
+  },
+  "managePageProfileListEmpty": {
+    "message": "利用可能なプロファイルはありません！!",
+    "description": "A message that is displayed on the profile list when no profile are available"
+  },
+  "managePageProfileListAdd": {
+    "message": "新規プロファイルの作成",
+    "description": "A button that is displayed on the profile list to create a new profile"
+  },
+  "managePageSettingsDisplayPageAction": {
+    "message": "アドレスバーウィジェットを表示する",
+    "description": "The setting for displaying page action (address bar widget)"
+  },
+  "managePageSettingsDisplayPageActionValid": {
+    "message": "PWA が有効なサイトを表示時のみ",
+    "description": "The option to display page action on valid web apps"
+  },
+  "managePageSettingsDisplayPageActionAlways": {
+    "message": "常に",
+    "description": "The option to always display page action"
+  },
+  "managePageSettingsDisplayPageActionNever": {
+    "message": "常に非表示",
+    "description": "The option to never display page action"
+  },
+  "managePageSettingsLaunchCurrentURL": {
+    "message": "アクティブな URL でウェブアプリを起動する",
+    "description": "The setting for launching web apps on active URLs"
+  },
+  "managePageSettingsShowUpdatePopup": {
+    "message": "拡張機能のアップデート時にポップアップを表示する",
+    "description": "The setting for showing update popups"
+  },
+  "managePageSettingsEnableAutoLaunch": {
+    "message": "ウェブアプリの自動起動を有効にする",
+    "description": "The setting for enabling automatic launching"
+  },
+  "managePageSettingsAlwaysPatch": {
+    "message": "ランタイムとプロファイルにパッチが利用可能であれば常に当てる",
+    "description": "The setting for configuring patching"
+  },
+  "managePageSettingsEnableWayland": {
+    "message": "Wayland ディスプレイサーバーを使用する",
+    "description": "The setting for enabling Wayland (Linux-only)"
+  },
+  "managePageSettingsEnableXInput2": {
+    "message": "X インプット拡張機能 2を使用する。",
+    "description": "The setting for enabling XInput2 (Linux-only)"
+  },
+  "managePageSettingsEnablePortals": {
+    "message": "XDG デスクトップ ポータルの使用",
+    "description": "The setting for enabling XDG Desktop Portals (Linux-only)"
+  },
+  "managePageSettingsDarkMode": {
+    "message": "ダークモードを有効にする",
+    "description": "The setting for enabling dark mode"
+  },
+  "managePageSettingsDefaultProfileTemplate": {
+    "message": "デフォルトのプロファイルテンプレート",
+    "description": "The setting for default profile template"
+  },
+  "managePageSettingsUpdateWebApps": {
+    "message": "ウェブアプリの更新",
+    "description": "The button in settings to update web apps"
+  },
+  "managePageSettingsReinstallRuntime": {
+    "message": "ランタイムを再インストールする",
+    "description": "The button in settings to reinstall runtime"
+  },
+  "managePageFooterOutdated1": {
+    "message": "この拡張機能は古くなっています！",
+    "description": "The first part of the extension outdated warning"
+  },
+  "managePageFooterOutdated2": {
+    "message": "更新してください！",
+    "description": "The second part of the extension outdated warning"
+  },
+  "managePageAppEditLaunchOnWebsiteLabel": {
+    "message": "このウェブアプリケーションをマッチするウェブサイトで起動する",
+    "description": "The label for the launch on website checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnLoginLabel": {
+    "message": "システムログイン時にこのウェブアプリを起動する",
+    "description": "The label for the launch on login checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnBrowserLabel": {
+    "message": "ブラウザ起動時にこの ウェブアプリを起動する",
+    "description": "The label for the launch on browser checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateManifestLabel": {
+    "message": "ウェブアプリのマニフェストを更新する",
+    "description": "The label for the manifest update checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateIconsLabel": {
+    "message": "ウェブアプリのアイコンを更新",
+    "description": "The label for the icons update checkbox on the edit web app dialog"
+  },
+  "managePageAppRemoveQuestion": {
+    "message": "本当にこのウェブアプリを削除してよろしいですか？",
+    "description": "The confirmation question on the remove web app dialog"
+  },
+  "managePageProfileRemoveQuestion": {
+    "message": "本当にこのプロファイルを削除しますか？この操作により、プロファイルと関連するすべてのウェブアプリが、そのデータを含めて完全に削除されます。この操作を行うと、完全に復元できない場合があります。",
+    "description": "The confirmation question on the remove profile dialog"
+  },
+  "managePageProfileRemoveDefault": {
+    "message": "デフォルトのプロファイルを完全に削除することはできません。ウェブアプリやデータはクリアされますが、プロファイルは残ります。",
+    "description": "The additional clarification on the remove profile dialog if this is the default profile"
+  },
+
+  "managePageAutoLaunchTitle": {
+    "message": "ウェブアプリの自動起動",
+    "description": "The title of the automatic launching dialog"
+  },
+  "managePageAutoLaunchAboutMain": {
+    "message": "<em>自動ウェブアプリ起動</em>を有効にすると、有効にしたウェブアプリのスコープに合致するすべての URL ウェブアプリとして自動的に起動します。",
+    "description": "The main clarification about the automatic launching"
+  },
+  "managePageAutoLaunchAboutExperimental": {
+    "message": "この機能は実験的なものであり、すべてのウェブサイトで正しく機能するとは限りません、また、パフォーマンスに影響を与える恐れもあります。ウェブアプリの設定で、<em>$OPTION$</em>オプションを使用して、ウェブアプリごとに追加で有効にする必要があります。",
+    "description": "The experimental clarification about the automatic launching",
+    "placeholders": {
+      "option": {
+        "content": "$managePageAppEditLaunchOnWebsiteLabel$",
+        "example": "Launch this web app on matching website"
+      }
+    }
+  },
+  "managePageAutoLaunchAboutPermissions": {
+    "message": "この機能を使用するためには、追加のブラウザでの許可が必要です。まだ許可されていない場合は、有効にした後に自動的に要求されます。",
+    "description": "The permissions clarification about the automatic launching"
+  },
+  "managePageAutoLaunchEnable": {
+    "message": "有効にする",
+    "description": "The enable button for the automatic launching"
+  },
+  "managePageUpdateWebAppsAbout1": {
+    "message": "これにより、すべてのウェブアプリのマニフェストがダウンロード・解析され、オペレーティングシステムに再度登録されます。ウェブアプリのマニフェストに変更があった場合は、システムにも反映されます。",
+    "description": "The first part of about updating web apps message"
+  },
+  "managePageUpdateWebAppsAbout2": {
+    "message": "また、マニフェストの更新を行わずに、すべてのウェブアプリをオペレーティングシステムに登録することもできます。これは、他のデバイスから設定ファイルを転送した場合に使用できます。",
+    "description": "The second part of about updating web apps message"
+  },
+  "managePageUpdateWebAppsManifest": {
+    "message": "マニフェストの更新を実行",
+    "description": "The checkbox label for performing manifest updates when updating web apps"
+  },
+  "managePageReinstallRuntimeAbout1": {
+    "message": "PWAsForFirefox の Firefox ランタイムを再インストールしてもよろしいでしょうか？これは現在のランタイムを削除し、Mozilla から最新版 Firefox をダウンロードするものです。",
+    "description": "The first part of about reinstalling runtime message"
+  },
+  "managePageReinstallRuntimeAbout2": {
+    "message": "これを実行してもあなたのウェブアプリのデータに影響は<strong>ありません！</strong>更に、ランタイム用のプロファイルデータも<strong>削除しません！</strong>",
+    "description": "The second part of about reinstalling runtime message"
+  },
+  "buttonRuntimeInstallDefault": {
+    "message": "ランタイムをインストール",
+    "description": "The runtime installation button on the setup page, allowing the user to install the runtime"
+  },
+  "buttonCreateDefault": {
+    "message": "作成",
+    "description": "The create button, allowing the user to create something (profile)"
+  },
+  "buttonEditDefault": {
+    "message": "を編集",
+    "description": "The edit button, allowing the user to edit something (web app or profile)"
+  },
+  "buttonRemoveDefault": {
+    "message": "削除",
+    "description": "The remove button, allowing the user to remove something (web app or profile)"
+  },
+  "buttonUpdateDefault": {
+    "message": "更新",
+    "description": "The update button, allowing the user to update something (all web apps)"
+  },
+  "buttonReinstallDefault": {
+    "message": "再インストール",
+    "description": "The reinstall button, allowing the user to reinstall something (runtime)"
+  }
+}
