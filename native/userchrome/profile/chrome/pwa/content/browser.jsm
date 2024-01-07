@@ -25,6 +25,7 @@ class PwaBrowser {
   //////////////////////////////
 
   prepareLayout () {
+    this.loadLocalizationSources();
     this.supportSmallWindowSizes();
     this.createInfoElements();
     this.createAddressInput();
@@ -47,6 +48,11 @@ class PwaBrowser {
     setTimeout(() => { this.renameOpenImageAction() });
     setTimeout(() => { this.disableNewTabShortcuts() });
     this.renameHomepageWidget();
+  }
+
+  loadLocalizationSources () {
+    const resourceIds = ['pwa/appmenu.ftl', 'pwa/contextmenu.ftl', 'pwa/browser.ftl', 'pwa/widgets.ftl', 'pwa/customizemode.ftl'];
+    document.l10n.addResourceIds(resourceIds);
   }
 
   supportSmallWindowSizes () {
@@ -143,8 +149,8 @@ class PwaBrowser {
 
   createAddressInput () {
     // Create a custom URL input method via shortcut
-    function addressInputHandle () {
-      const url = prompt('Enter site address');
+    async function addressInputHandle () {
+      const url = prompt(await document.l10n.formatValue('popup-address-input'));
       if (url) window.openTrustedLinkIn(url, 'current');
     }
 
@@ -175,7 +181,7 @@ class PwaBrowser {
     document.getElementById('context-openlink').accessKey = 'N';
 
     // Create context menu item that opens link in a default browser
-    const menuItem = this.createElement(document, 'menuitem', { id: 'contextmenu-openlinkdefault', label: 'Open Link in Default Browser', accesskey: 'D', oncommand: 'gContextMenu.openLinkInDefaultBrowser()' });
+    const menuItem = this.createElement(document, 'menuitem', { id: 'contextmenu-openlinkdefault', 'data-l10n-id': 'context-menu-open-link-default-browser', oncommand: 'gContextMenu.openLinkInDefaultBrowser()' });
     document.getElementById('context-sep-open').before(menuItem)
 
     hookFunction(window, 'openContextMenu', null, () => {
@@ -211,7 +217,7 @@ class PwaBrowser {
       const menuItem = this.createElement(document, 'toolbarbutton', {
         class: 'subviewbutton',
         shortcut: 'Ctrl+Shift+N',
-        label: 'New default browser'
+        'data-l10n-id': 'app-menu-new-default-browser'
       });
 
       menuItem.onclick = () => MailIntegration._launchExternalUrl(makeURI(startURL));
@@ -583,10 +589,15 @@ class PwaBrowser {
     // So it is disabled by default and can be enabled using about:config preference
     if (!xPref.get(ChromeLoader.PREF_ENABLE_HIDING_ICON_BAR)) return;
 
-    // Setting the toolbar name will automatically add it to toolbars menu in customize page
     const titleBar = document.getElementById('titlebar');
     const iconBar = document.getElementById('TabsToolbar');
-    iconBar.setAttribute('toolbarname', 'Icon Bar');
+
+    // Needed so Fluent allows translating the toolbarname attribute
+    iconBar.setAttribute('data-l10n-attrs', 'toolbarname');
+
+    // Setting the toolbar name will automatically add it to toolbars menu in customize page
+    if (xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) document.l10n.setAttributes(iconBar, 'toolbar-tabs-ffpwa');
+    else document.l10n.setAttributes(iconBar, 'toolbar-icon-ffpwa');
 
     // Hide tabs/icon bar on launch if it should be hidden by default
     // Also prevent un-collapsing of tabs/icon bar by some Firefox function
@@ -834,16 +845,20 @@ class PwaBrowser {
   }
 
   renameOpenImageAction () {
-    // Rename open/view image context menu action based on links target preference
+    // Rename open/view image/video context menu action based on links target preference
     // Links target overwrites need to be disabled when tab mode is enabled
     const userPreference = xPref.get(ChromeLoader.PREF_LINKS_TARGET);
     if (!userPreference || xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) return;
 
-    let actionLabel;
-    if (userPreference === 1) actionLabel = 'Open Image';
-    else if (userPreference === 2) actionLabel = 'Open Image in New Window';
+    const viewImage = document.getElementById('context-viewimage');
+    if (userPreference === 1) document.l10n.setAttributes(viewImage, 'context-menu-image-view-current-tab');
+    else if (userPreference === 3) document.l10n.setAttributes(viewImage, 'context-menu-image-view-new-tab');
+    else if (userPreference === 2) document.l10n.setAttributes(viewImage, 'context-menu-image-view-new-window');
 
-    document.getElementById('context-viewimage').setAttribute('label', actionLabel);
+    const viewVideo = document.getElementById('context-viewvideo');
+    if (userPreference === 1) document.l10n.setAttributes(viewVideo, 'context-menu-video-view-current-tab');
+    else if (userPreference === 3) document.l10n.setAttributes(viewVideo, 'context-menu-video-view-new-tab');
+    else if (userPreference === 2) document.l10n.setAttributes(viewVideo, 'context-menu-video-view-new-window');
   }
 
   disableNewTabShortcuts () {
@@ -857,7 +872,7 @@ class PwaBrowser {
   renameHomepageWidget () {
     hookFunction(window, 'onload', null, () => {
       try {
-        this.modifyWidget('home-button', { tooltiptext: 'App Start Page' });
+        document.l10n.setAttributes(document.getElementById('home-button'), 'toolbar-button-home-ffpwa');
       } catch (_) {}
     });
   }
@@ -889,10 +904,9 @@ class PwaBrowser {
     // Create reader view widget
     CustomizableUI.createWidget({
       id: 'reader-view-button',
+      l10nId: 'toolbar-button-reader-view',
+      shortcutId: 'key_toggleReaderMode',
       type: 'button',
-
-      label: 'Reader View',
-      tooltiptext: 'Toggle a reader view',
 
       onCreated (node) {
         if (
@@ -961,10 +975,8 @@ class PwaBrowser {
     // Create copy link widget
     CustomizableUI.createWidget({
       id: 'copy-link-button',
+      l10nId: 'toolbar-button-copy-link',
       type: 'button',
-
-      label: 'Copy Link',
-      tooltiptext: 'Copy a link to this page',
 
       onCommand (event) {
         const currentUrl = gURLBar.makeURIReadable(event.target.ownerGlobal.gBrowser.selectedBrowser.currentURI).displaySpec;
@@ -980,10 +992,8 @@ class PwaBrowser {
       CustomizableUI.createWidget({
         id: 'share-link-button',
         viewId: 'share-link-view',
+        l10nId: 'toolbar-button-share-link',
         type: 'view',
-
-        label: 'Share Link',
-        tooltiptext: 'Share a link to this page',
 
         onBeforeCreated: (document) => {
           const viewCache = document.getElementById('appMenu-viewCache');
@@ -1053,10 +1063,8 @@ class PwaBrowser {
     if (AppConstants.isPlatformAndVersionAtLeast('win', '6.4')) {
       CustomizableUI.createWidget({
         id: 'share-link-button',
+        l10nId: 'toolbar-button-share-link',
         type: 'button',
-
-        label: 'Share Link',
-        tooltiptext: 'Share a link to this page',
 
         onCommand (event) {
           const browser = event.target.ownerGlobal.gBrowser.selectedBrowser;
@@ -1075,10 +1083,8 @@ class PwaBrowser {
       CustomizableUI.createWidget({
         id: 'send-to-device-button',
         viewId: 'send-to-device-view',
+        l10nId: 'toolbar-button-send-to-device',
         type: 'view',
-
-        label: 'Send to Device',
-        tooltiptext: 'Send this page to another device',
 
         onBeforeCreated: (document) => {
           const viewCache = document.getElementById('appMenu-viewCache');
@@ -1123,10 +1129,8 @@ class PwaBrowser {
     // Create open in browser widget
     CustomizableUI.createWidget({
       id: 'open-in-browser-button',
+      l10nId: 'toolbar-button-open-in-browser',
       type: 'button',
-
-      label: 'Open in Browser',
-      tooltiptext: 'Open this page in browser',
 
       onCommand (event) {
         // "Abusing" mail integration to open current URL in external browser
@@ -1139,10 +1143,9 @@ class PwaBrowser {
     // Create mute page widget
     CustomizableUI.createWidget({
       id: 'mute-button',
+      l10nId: 'toolbar-button-mute',
+      shortcutId: 'key_toggleMute',
       type: 'button',
-
-      label: 'Toogle Sound',
-      tooltiptext: 'Toggle page sound',
 
       onCreated (node) {
         const document = node.ownerDocument;
@@ -1183,7 +1186,7 @@ class PwaBrowser {
 
           const muteAutohideCheckbox = window.gFFPWABrowser.createElement(document, 'checkbox', {
             id: 'mute-button-autohide-checkbox',
-            label: 'Hide button when not playing',
+            'data-l10n-id': 'customize-mode-mute-button-autohide',
             checked: true,
           });
 
@@ -1296,9 +1299,6 @@ class PwaBrowser {
       id: 'unified-extensions-button',
       l10nId: 'unified-extensions-button',
 
-      label: 'Extensions',
-      tooltiptext: 'Access installed browser extensions',
-
       onCreated (node) {
         const document = node.ownerDocument;
         const window = document.defaultView;
@@ -1341,10 +1341,8 @@ class PwaBrowser {
     // Create tracking protection widget
     CustomizableUI.createWidget({
       id: 'tracking-protection-button',
+      l10nId: 'toolbar-button-tracking-protection',
       type: 'button',
-
-      label: 'Tracking Protection',
-      tooltiptext: 'View information about tracking protection on this site',
 
       onCreated (node) {
         const document = node.ownerDocument;
@@ -1379,23 +1377,38 @@ class PwaBrowser {
 
         // Update widget icon and tooltip when needed
         hookFunction(window.gProtectionsHandler, 'showDisabledTooltipForTPIcon', null, async function () {
-          node.setAttribute('tooltiptext', (await document.l10n.formatValue('tracking-protection-icon-disabled')).replace(/\.$/, ''));
+          node.setAttribute('label', (await document.l10n.formatMessages(['toolbar-button-tracking-protection']))?.[0]?.attributes?.find(attr => attr.name === 'label')?.value);
+          const message = (await document.l10n.formatValue('tracking-protection-icon-disabled'))?.replace(/\.$/, '');
+          node.setAttribute('aria-label', message);
+          node.setAttribute('tooltiptext', message);
         });
 
         hookFunction(window.gProtectionsHandler, 'showActiveTooltipForTPIcon', null, async function () {
-          node.setAttribute('tooltiptext', (await document.l10n.formatValue('tracking-protection-icon-active')).replace(/\.$/, ''));
+          console.log('aaa')
+          node.setAttribute('label', (await document.l10n.formatMessages(['toolbar-button-tracking-protection']))?.[0]?.attributes?.find(attr => attr.name === 'label')?.value);
+          const message = (await document.l10n.formatValue('tracking-protection-icon-active'))?.replace(/\.$/, '');
+          node.setAttribute('aria-label', message);
+          node.setAttribute('tooltiptext', message);
         });
 
         hookFunction(window.gProtectionsHandler, 'showNoTrackerTooltipForTPIcon', null, async function () {
-          node.setAttribute('tooltiptext', (await document.l10n.formatValue('tracking-protection-icon-no-trackers-detected')).replace(/\.$/, ''));
+          node.setAttribute('label', (await document.l10n.formatMessages(['toolbar-button-tracking-protection']))?.[0]?.attributes?.find(attr => attr.name === 'label')?.value);
+          const message = (await document.l10n.formatValue('tracking-protection-icon-no-trackers-detected'))?.replace(/\.$/, '');
+          node.setAttribute('aria-label', message);
+          node.setAttribute('tooltiptext', message);
         });
 
         // Force show widget on customize mode page and reset its state
         hookFunction(window.gCustomizeMode, 'enter', null, () => {
           window.gProtectionsHandler._trackingProtectionIconContainer.hidden = false;
-
+          document.l10n.setAttributes(node, 'toolbar-button-tracking-protection');
           node.getElementsByClassName('toolbarbutton-icon')[0].removeAttribute('hasException');
           node.getElementsByClassName('toolbarbutton-icon')[0].removeAttribute('active');
+        });
+
+        // Localize widget attributes when exiting customize mode
+        hookFunction(window.gCustomizeMode, 'exit', null, () => {
+          document.l10n.setAttributes(node, 'toolbar-button-tracking-protection');
         });
 
         // Force show widget if not in toolbar
@@ -1436,10 +1449,8 @@ class PwaBrowser {
     // Create identity information widget
     CustomizableUI.createWidget({
       id: 'identity-button',
+      l10nId: 'toolbar-button-identity',
       type: 'button',
-
-      label: 'Site Information',
-      tooltiptext: 'View information about this site',
 
       onCreated (node) {
         const document = node.ownerDocument;
@@ -1502,10 +1513,8 @@ class PwaBrowser {
     // Create permissions widget
     CustomizableUI.createWidget({
       id: 'permissions-button',
+      l10nId: 'toolbar-button-permissions',
       type: 'button',
-
-      label: 'Site Permissions',
-      tooltiptext: 'View permissions granted to this site',
 
       onCreated: (node) => {
         const document = node.ownerDocument;
@@ -1595,10 +1604,8 @@ class PwaBrowser {
     // Create notifications widget
     CustomizableUI.createWidget({
       id: 'notifications-button',
+      l10nId: 'toolbar-button-notifications',
       type: 'button',
-
-      label: 'Site Notifications',
-      tooltiptext: 'Popup notifications for this site',
 
       removable: false,
       overflows: false,
@@ -1692,10 +1699,8 @@ class PwaBrowser {
     // Create close page widget
     CustomizableUI.createWidget({
       id: 'close-page-button',
+      l10nId: 'toolbar-button-close',
       type: 'button',
-
-      label: 'Close',
-      tooltiptext: 'Close the current page',
 
       removable: false,
       overflows: false,
@@ -1730,10 +1735,9 @@ class PwaBrowser {
 
     CustomizableUI.createWidget({
       id: 'back-button-ffpwa',
+      l10nId: 'toolbar-button-back-ffpwa',
+      shortcutId: 'goBackKb',
       type: 'button',
-
-      label: 'Back',
-      tooltiptext: 'Go back one page',
 
       onCommand (event) {
         const window = event.target.ownerGlobal;
@@ -1743,10 +1747,9 @@ class PwaBrowser {
 
     CustomizableUI.createWidget({
       id: 'forward-button-ffpwa',
+      l10nId: 'toolbar-button-forward-ffpwa',
+      shortcutId: 'goForwardKb',
       type: 'button',
-
-      label: 'Forward',
-      tooltiptext: 'Go back one page',
 
       onCommand (event) {
         const window = event.target.ownerGlobal;

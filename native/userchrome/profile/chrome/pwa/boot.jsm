@@ -7,6 +7,7 @@ XPCOMUtils.defineLazyModuleGetters(this, {
   AppConstants: 'resource://gre/modules/AppConstants.jsm',
   BrowserWindowTracker: 'resource:///modules/BrowserWindowTracker.jsm',
   NetUtil: 'resource://gre/modules/NetUtil.jsm',
+  LangPackMatcher: "resource://gre/modules/LangPackMatcher.jsm",
   applySystemIntegration: 'resource://pwa/utils/systemIntegration.jsm',
 });
 
@@ -191,6 +192,14 @@ if (AppConstants.platform === 'macosx') {
     }
   }
 }
+
+// Register the available localization sources
+Services.obs.addObserver(async () => {
+  const l10nLocales =  await LangPackMatcher.getAvailableLocales();
+  if (!l10nLocales.includes('en-US')) l10nLocales.push('en-US');
+  const l10nSource = new L10nFileSource('pwa', 'app', l10nLocales, 'resource://pwa/localization/{locale}/');
+  L10nRegistry.getInstance().registerSources([l10nSource]);
+}, 'final-ui-startup');
 
 // Import browser chrome modifications
 ChromeUtils.import('resource://pwa/chrome.jsm');

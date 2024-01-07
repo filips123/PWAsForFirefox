@@ -287,6 +287,12 @@ customize page, *uncheck the icon bar entry* in the menu and *check it again*.
 * Preference name: `firefoxpwa.enableHidingIconBar`
 * Default value: `false`
 
+!!! note
+
+    When [the tabs mode is enabled](#show-browser-tabs-and-enable-using-multi-tabbed-web-apps),
+    the "icon bar" is renamed to the "tabs bar" in the customize page menu. The preference name
+    and other functionalities still remain the same.
+
 <!-- Section: Keyboard Shortcuts -->
 
 ### Disabling keyboard shortcuts

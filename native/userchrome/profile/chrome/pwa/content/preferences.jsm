@@ -1,4 +1,5 @@
 XPCOMUtils.defineLazyModuleGetters(this, {
+  ShortcutUtils: 'resource://gre/modules/ShortcutUtils.jsm',
   hookFunction: 'resource://pwa/utils/hookFunction.jsm',
   xPref: 'resource://pwa/utils/xPref.jsm',
 });
@@ -7,7 +8,13 @@ class PwaPreferences {
   preferenceElementsAdded = false
 
   constructor () {
+    // Register preference data
     this.addPreferenceData();
+
+    // Register preference localization
+    document.l10n.addResourceIds(['pwa/preferences.ftl']);
+
+    // Register preference elements
     try { this.addPreferenceElements() } catch {}
     hookFunction(gMainPane, 'init', null, () => { this.addPreferenceElements(); });
 
@@ -44,74 +51,74 @@ class PwaPreferences {
     const firefoxpwaGroup = MozXULElement.parseXULToFragment(`
 <groupbox id="firefoxpwaGroup" data-category="paneGeneral">
   <label>
-    <html:h2>Progressive Web Apps</html:h2>
-    <description>You may need to restart the browser to apply these settings</description>
+    <html:h2 data-l10n-id="firefoxpwa-group-header"></html:h2>
+    <description data-l10n-id="firefoxpwa-group-note"></description>
   </label>
 
   <vbox id="colorsBox" style="padding-top: 1rem;">
-    <checkbox preference="${ChromeLoader.PREF_SITES_SET_THEME_COLOR}" label="Allow web apps to override a theme (titlebar) color" />
-    <checkbox preference="${ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR}" label="Allow web apps to override a background (window) color" />
-    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_THEME_COLOR}" label="Allow web apps to dynamically change a theme color" />
+    <checkbox preference="${ChromeLoader.PREF_SITES_SET_THEME_COLOR}" data-l10n-id="sites-set-theme-color" />
+    <checkbox preference="${ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR}" data-l10n-id="sites-set-background-color" />
+    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_THEME_COLOR}" data-l10n-id="dynamic-theme-color" />
   </vbox>
 
   <vbox id="titlebarBox" style="padding-top: 1rem;">
-    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE}" label="Change the window title based on the web app's title" />
-    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_WINDOW_ICON}" label="Change the window icon based on the web app's icon" />
-    <checkbox preference="${ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS}" label="Always use native window controls" class="pref-csd-only" />
+    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE}" data-l10n-id="dynamic-window-title" />
+    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_WINDOW_ICON}" data-l10n-id="dynamic-window-icon" />
+    <checkbox preference="${ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS}" data-l10n-id="native-window-controls" class="pref-csd-only" />
   </vbox>
 
    <vbox id="uxBox" style="padding-top: 1rem;">
-    <checkbox preference="${ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER}" label="Open out-of-scope URLs in a default browser (can break some web apps)" />
-    <checkbox preference="${ChromeLoader.PREF_ENABLE_TABS_MODE}" label="Show browser tabs and enable using multi-tabbed web apps" />
+    <checkbox preference="${ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER}" data-l10n-id="open-out-of-scope-in-default-browser" />
+    <checkbox preference="${ChromeLoader.PREF_ENABLE_TABS_MODE}" data-l10n-id="enable-tabs-mode" />
   </vbox>
 
   <vbox id="linksTargetBox" style="padding-top: 1rem;">
     <label>
-      <description>When opening a link that should normally open in a new window or tab</description>
+      <description data-l10n-id="links-target-description"></description>
     </label>
     <vbox>
       <radiogroup id="linksTargetRadioGroup" preference="${ChromeLoader.PREF_LINKS_TARGET}">
-        <radio value="1" label="Force links into the current tab" />
-        <radio value="2" label="Force links into a new window" />
-        <radio value="3" label="Force links into a new tab" />
-        <radio value="0" label="Do not change link behaviour" />
+        <radio value="1" data-l10n-id="links-target-choice-current-tab" />
+        <radio value="2" data-l10n-id="links-target-choice-new-window" />
+        <radio value="3" data-l10n-id="links-target-choice-new-tab" />
+        <radio value="0" data-l10n-id="links-target-choice-keep" />
       </radiogroup>
     </vbox>
   </vbox>
 
    <vbox id="launchTypeBox" style="padding-top: 1rem;">
     <label>
-      <description>When launching a web app that is already opened</description>
+      <description data-l10n-id="launch-type-description"></description>
     </label>
     <vbox>
       <radiogroup id="launchTypeRadioGroup" preference="${ChromeLoader.PREF_LAUNCH_TYPE}">
-        <radio value="0" id="launchTypeNewWindow" label="Open web app in a new window" />
-        <radio value="1" id="launchTypeNewTab" label="Open web app in a new tab" />
-        <radio value="2" id="launchTypeReplace" label="Replace the existing tab" />
-        <radio value="3" id="launchTypeFocus" label="Focus the existing window" />
+        <radio value="0" id="launchTypeNewWindow" data-l10n-id="launch-type-choice-new-window" />
+        <radio value="1" id="launchTypeNewTab" data-l10n-id="launch-type-choice-new-tab" />
+        <radio value="2" id="launchTypeReplace" data-l10n-id="launch-type-choice-replace" />
+        <radio value="3" id="launchTypeFocus" data-l10n-id="launch-type-choice-focus" />
       </radiogroup>
     </vbox>
   </vbox>
 
   <vbox id="displayUrlBarBox" style="padding-top: 1rem;">
     <label>
-      <description>Display the address bar</description>
+      <description data-l10n-id="display-address-bar-description"></description>
     </label>
     <vbox>
       <radiogroup id="displayUrlBarRadioGroup" preference="${ChromeLoader.PREF_DISPLAY_URL_BAR}">
-        <radio value="0" label="When the URL is out-of-scope" />
-        <radio value="2" label="Always" />
-        <radio value="1" label="Never" />
+        <radio value="0" data-l10n-id="display-address-bar-choice-out-of-scope" />
+        <radio value="2" data-l10n-id="display-address-bar-choice-always" />
+        <radio value="1" data-l10n-id="display-address-bar-choice-never" />
       </radiogroup>
     </vbox>
   </vbox>
 
   <vbox id="allowedDomainsBox" style="padding-top: 1rem;">
     <label>
-      <description>Domains always allowed to be opened in the app browser</description>
+      <description data-l10n-id="allowed-domains-description"></description>
     </label>
     <vbox>
-      <html:input type="text" placeholder="Enter a comma-separated list of domains..." preference="${ChromeLoader.PREF_ALLOWED_DOMAINS}" />
+      <html:input type="text" preference="${ChromeLoader.PREF_ALLOWED_DOMAINS}" data-l10n-id="allowed-domains-input" />
     </vbox>
   </vbox>
 </groupbox>
@@ -120,17 +127,33 @@ class PwaPreferences {
     const shortcutsGroup = MozXULElement.parseXULToFragment(`
 <groupbox id="shortcutsGroup" data-category="paneGeneral">
   <label>
-    <html:h2>Keyboard Shortcuts</html:h2>
-    <description>You may need to restart the browser to apply these settings</description>
+    <html:h2 data-l10n-id="shortcuts-group-header"></html:h2>
+    <description data-l10n-id="shortcuts-group-note"></description>
   </label>
   <vbox id="shortcutsBox" style="padding-top: 1rem;">
-    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_CLOSE_TAB}" label="Close tab (Ctrl+W)" />
-    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_CLOSE_WINDOW}" label="Close window (Ctrl+Shift+W)" />
-    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_QUIT_APPLICATION}" label="Quit application (Ctrl+Shift+Q)" />
-    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_PRIVATE_BROWSING}" label="Private browsing (Ctrl+Shift+P)" />
+    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_CLOSE_TAB}" id="shortcutsCloseTab" />
+    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_CLOSE_WINDOW}" id="shortcutsCloseWindow" />
+    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_QUIT_APPLICATION}" id="shortcutsQuitApplication" />
+    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_PRIVATE_BROWSING}" id="shortcutsPrivateBrowsing" />
   </vbox>
 </groupbox>
 `).firstChild;
+
+    function setShortcutMessage (selector, messageId, shortcutId) {
+      const target = shortcutsGroup.querySelector(selector);
+      target.setAttribute('data-l10n-id', messageId);
+
+      const shortcutElement = window.browsingContext.topChromeWindow.document.getElementById(shortcutId);
+      if (!shortcutElement) return;
+
+      const shortcutText = ShortcutUtils.prettifyShortcut(shortcutElement);
+      target.setAttribute('data-l10n-args', JSON.stringify({ shortcut: shortcutText }));
+    }
+
+    setShortcutMessage('#shortcutsCloseTab', 'shortcuts-close-tab', 'key_close');
+    setShortcutMessage('#shortcutsCloseWindow', 'shortcuts-close-window', 'key_closeWindow');
+    setShortcutMessage('#shortcutsQuitApplication', 'shortcuts-quit-application', 'key_quitApplication');
+    setShortcutMessage('#shortcutsPrivateBrowsing', 'shortcuts-private-browsing', 'key_privatebrowsing');
 
     const startupGroup = document.getElementById('startupGroup');
     if (startupGroup.hidden) firefoxpwaGroup.hidden = true;
@@ -140,7 +163,7 @@ class PwaPreferences {
   }
 
   handleTabsModePreferenceSwitch (onLoad = false) {
-    function setTabsSectionDisabled(disabled) {
+    function setTabsSectionDisabled (disabled) {
       document.querySelectorAll('#mainPrefPane > groupbox:nth-child(11) > *').forEach(elem => elem.disabled = disabled)
       document.querySelector('#launchTypeNewTab').disabled = disabled
     }
