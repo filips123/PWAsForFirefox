@@ -160,7 +160,7 @@ jobs:
       - name: Install Cargo RPM (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
-          cargo install cargo-rpm --git https://github.com/filips123/cargo-rpm.git --rev 0da3137777f6fa563a0149d1d3fc42687eb1b768
+          cargo install cargo-rpm --git https://github.com/filips123/cargo-rpm.git --rev cf5e33de8e8dbb80103f81afc8a2bcd471ef6d31
 
       - name: Install Cargo WiX (Windows)
         if: matrix.os == 'windows-latest' && matrix.portable != true
