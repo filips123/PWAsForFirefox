@@ -39,6 +39,7 @@ class PwaBrowser {
     this.handleOpeningNewWindow();
     this.handleDisablingShortcuts();
     this.handleHiddenExtensionsButton();
+    setTimeout(() => { this.handleHiddenExtensionsButton() });
     setTimeout(() => { this.handleHiddenTitlebar() });
     setTimeout(() => { this.handleTabsMode() });
     setTimeout(() => { this.handleLinkTargets() });

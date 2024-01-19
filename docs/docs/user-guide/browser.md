@@ -265,6 +265,12 @@ Determines whether the address bar is displayed only when out-of-scope, always, 
     with a tiling window manager, and can cause problems otherwise. When the icon bar
     is hidden, you will not be able to access Firefox icons and menus.
 
+!!! warning
+
+    When the icon bar is hidden, popups for installing extensions, granting site
+    permissions and others will not work. Before doing actions that open popups,
+    you need to temporarily enable the icon bar.
+
 Determines whether hiding the icon bar is allowed and displays an option in the customize page.
 
 This does *not* hide the icon bar on its own. It only adds an entry to the "toolbars" menu
