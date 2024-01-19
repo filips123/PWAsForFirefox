@@ -115,7 +115,8 @@ to this project for providing help and developing features!
 <h3>Other Mentions</h3>
 
 Thanks to [all package maintainers](https://repology.org/project/firefoxpwa/information)
-making sure the project is up-to-date! Thanks to [all stargazers](https://github.com/filips123/PWAsForFirefox/stargazers)
+making sure the project is up-to-date! Thanks to [all translators](https://crowdin.com/project/firefoxpwa)
+making the project available in multiple languages! Thanks to [all stargazers](https://github.com/filips123/PWAsForFirefox/stargazers)
 who starred our repository on GitHub. Finally, thanks to Mozilla and its developers for
 creating Firefox and making it possible to modify its UI using JavaScript!
 

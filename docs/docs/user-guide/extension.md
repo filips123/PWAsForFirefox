@@ -171,6 +171,16 @@ when a website has own "redirection" URLs that you do not want to open in a web 
 This option only has an effect when [automatic web app launching](#enable-automatic-web-app-launching)
 is enabled.
 
+### Language
+
+The extension is translated into multiple languages. You can select which one you want to use.
+
+!!! warning
+
+    Translations are maintained by the community and may be incomplete or incorrect.
+
+    You can help to improve them on [Crowdin](https://crowdin.com/project/firefoxpwa).
+
 ### Update web apps
 
 This will download and parse manifests for all your web apps and register them again to

@@ -96,6 +96,39 @@ WebExtensions message format, with a few differences:
 * Referencing other messages is possible, include a placeholder to another key in the placeholder content.
 * Limited pluralization is possible, supporting a very basic subset of the ICU message pluralization format.
 
+The pluralization support is based on a very basic subset of the ICU message
+pluralization syntax, with the following limitations:
+
+* Supports only the pluralization type (`plural`).
+* Supports only one variable key.
+* Does not support nested messages.
+* Only supports `#` placeholder inside messages.
+
+As Crowdin is compatible with this format, you mostly don't need to worry about
+these changes if you are translating through Crowdin. More details about special
+features can be found [in a Crowdin discussion](https://crowdin.com/project/firefoxpwa/discussions/2).
+
+<details>
+  <summary>Notes for developers</summary>
+
+The localization messages are stored in a WebExtensions-compatible format.
+When creating a new message, please make sure that it follows the same
+message ID style as other messages and contains an appropriate description.
+
+When creating an HTML element that needs to be translated, add a `data-i18n`
+attribute with its content set to the message ID. If you need to translate
+specific attributes, you can set `data-i18n-ATTRIBUTE-NAME` to the message
+ID. Even if the element only uses attribute translations, it still needs
+a `data-i18n` attribute, but it can be empty.
+
+For accessing translated messages through JS, the `getMessage` function
+from the `i18n` file can be used.
+
+For accessing messages from the background script, use the standard
+`browser.i18n.getMessage` function instead. In this case, make sure
+to add the uses message IDs to the `messages` list in `package.json`.
+</details>
+
 ### UserChrome Translations
 
 It is currently not possible to translate the UserChrome messages, but support
