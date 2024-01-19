@@ -70,6 +70,15 @@
     "plus-lg",
     "trash"
   ],
+  "messages": [
+    "appName",
+    "appShortName",
+    "appDescription",
+    "actionInstallSite",
+    "actionLaunchSite",
+    "updateNotificationTitle",
+    "updateNotificationMessage"
+  ],
   "alias": {
     "process": false
   }

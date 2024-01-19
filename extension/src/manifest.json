@@ -28,8 +28,7 @@
   ],
   "browser_action": {
     "default_icon": "images/browser-action.svg",
-    "default_popup": "sites/manage.html",
-    "default_title": "__MSG_appShortName__"
+    "default_popup": "sites/manage.html"
   },
   "page_action": {},
   "permissions": [

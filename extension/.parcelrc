@@ -4,6 +4,6 @@
   "transformers": {
     "filename:*": ["./tools/transformers/filename", "..."],
     "locale:*": ["./tools/transformers/locale", "@parcel/transformer-json", "@parcel/transformer-js"],
-    "raw:messages.json": ["./tools/transformers/locale"]
+    "raw:messages.json": ["./tools/transformers/locale", "./tools/transformers/treeshake"]
   }
 }
