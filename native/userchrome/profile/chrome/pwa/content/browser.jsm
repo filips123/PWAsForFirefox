@@ -211,8 +211,7 @@ class PwaBrowser {
       const menuItem = this.createElement(document, 'toolbarbutton', {
         class: 'subviewbutton',
         shortcut: 'Ctrl+Shift+N',
-        label: 'New default browser',
-        onclick: 'MailIntegration._launchExternalUrl(makeURI("about:newtab"))'
+        label: 'New default browser'
       });
 
       menuItem.onclick = () => MailIntegration._launchExternalUrl(makeURI(startURL));
@@ -463,6 +462,15 @@ class PwaBrowser {
     });
 
     if (ChromeLoader.INITIALIZED_BROWSER) return;
+
+    // Allow opening HTTP links without confirmation popup
+    // This applies to all ways of opening HTTP links in default browser
+    const { nsContentDispatchChooser } = ChromeUtils.import('resource://gre/modules/ContentDispatchChooser.jsm');
+    nsContentDispatchChooser.prototype._hasProtocolHandlerPermissionOriginal = nsContentDispatchChooser.prototype._hasProtocolHandlerPermission;
+    nsContentDispatchChooser.prototype._hasProtocolHandlerPermission = function(scheme, principal, triggeredExternally) {
+      if (scheme === 'http' || scheme === 'https') return true;
+      return this._hasProtocolHandlerPermissionOriginal(scheme, principal, triggeredExternally);
+    };
 
     // Handle blocking out-of-scope URLs and redirecting them to the main browser
     Services.obs.addObserver(subject => {
