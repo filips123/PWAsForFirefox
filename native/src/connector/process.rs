@@ -108,9 +108,13 @@ impl Process for GetSiteList {
 
 impl Process for LaunchSite {
     fn process(&self, _connection: &Connection) -> Result<ConnectorResponse> {
-        cfg_if! {
-            if #[cfg(platform_macos)] { let command = SiteLaunchCommand { id: self.id, url: self.url.to_owned(), protocol: None, arguments: vec![], direct_launch: false }; }
-            else { let command = SiteLaunchCommand { id: self.id, url: self.url.to_owned(), protocol: None, arguments: vec![] }; }
+        let command = SiteLaunchCommand {
+            id: self.id,
+            url: self.url.to_owned(),
+            protocol: None,
+            arguments: vec![],
+            #[cfg(platform_macos)]
+            direct_launch: false,
         };
         command.run()?;
 
@@ -132,6 +136,7 @@ impl Process for InstallSite {
             keywords: self.keywords.to_owned(),
             launch_on_login: Some(self.launch_on_login),
             launch_on_browser: Some(self.launch_on_browser),
+            launch_now: self.launch_now,
             system_integration: true,
             client: self.client.to_owned().into(),
         };

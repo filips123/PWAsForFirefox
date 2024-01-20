@@ -100,19 +100,23 @@ pub struct SiteInstallCommand {
     #[clap(long)]
     pub keywords: Option<Vec<String>>,
 
-    /// Set the web app to launch on the system login.
+    /// Set the web app to launch on the system login
     #[clap(long)]
     pub launch_on_login: Option<bool>,
 
-    /// Set the web app to launch on the browser launch.
+    /// Set the web app to launch on the browser launch
     #[clap(long)]
     pub launch_on_browser: Option<bool>,
+
+    /// Launch this web app when the installation finishes
+    #[clap(long)]
+    pub launch_now: bool,
 
     /// Disable system integration
     #[clap(long = "no-system-integration", action = ArgAction::SetFalse)]
     pub system_integration: bool,
 
-    /// Configuration of the HTTP client.
+    /// Configuration of the HTTP client
     #[clap(flatten)]
     pub client: HTTPClientConfig,
 }
@@ -188,7 +192,7 @@ pub struct SiteUpdateCommand {
     #[clap(long = "no-system-integration", action = ArgAction::SetFalse)]
     pub system_integration: bool,
 
-    /// Configuration of the HTTP client.
+    /// Configuration of the HTTP client
     #[clap(flatten)]
     pub client: HTTPClientConfig,
 }
@@ -283,11 +287,11 @@ pub struct HTTPClientConfig {
     #[clap(long, value_hint = clap::ValueHint::FilePath)]
     pub tls_root_certificates_pem: Option<Vec<PathBuf>>,
 
-    /// Dangerous: Allow client to client accept invalid certs
+    /// Dangerous: Allow client to accept invalid certs
     #[clap(long)]
     pub tls_danger_accept_invalid_certs: bool,
 
-    /// Dangerous: Allow client to client accept invalid hostnames
+    /// Dangerous: Allow client to accept invalid hostnames
     #[clap(long)]
     pub tls_danger_accept_invalid_hostnames: bool,
 }

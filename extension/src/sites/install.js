@@ -331,6 +331,9 @@ async function initializeForm () {
     // Force disable manifest if the checkbox is not checked
     if (!document.getElementById('web-app-use-manifest').checked) manifestExists = false
 
+    // Handle whether the web app should be launched after the installation
+    const launchNow = document.getElementById('web-app-launch-now').checked || false
+
     // Get simple site data
     const startUrl = document.getElementById('web-app-start-url').value || null
     const iconUrl = document.getElementById('web-app-icon-url').value || null
@@ -389,7 +392,8 @@ async function initializeForm () {
         name,
         description,
         categories,
-        keywords
+        keywords,
+        launch_now: launchNow
       }
     })
 

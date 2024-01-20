@@ -667,6 +667,14 @@
     "message": "Disable only if you cannot install this web app with the manifest enabled",
     "description": "The tooltip for the use manifest checkbox on the web app installation page"
   },
+  "installPageLaunchNowLabel": {
+    "message": "Launch web app when the installation finishes",
+    "description": "The label for the launch now checkbox on the web app installation page"
+  },
+  "installPageLaunchNowTooltip": {
+    "message": "Enable if you want this web app to be launched automatically after the installation",
+    "description": "The tooltip for the launch now checkbox on the web app installation page"
+  },
   "installPageContentScriptError": {
     "message": "Failed to access the content script.",
     "description": "A message that says the extension was not able to access the content script"

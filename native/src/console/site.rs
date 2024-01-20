@@ -204,6 +204,19 @@ impl SiteInstallCommand {
         storage.write(&dirs)?;
 
         info!("Web app installed: {}", ulid);
+
+        if self.launch_now {
+            let command = SiteLaunchCommand {
+                id: ulid,
+                url: vec![],
+                protocol: None,
+                arguments: vec![],
+                #[cfg(platform_macos)]
+                direct_launch: false,
+            };
+            command.run()?;
+        }
+
         Ok(ulid)
     }
 }

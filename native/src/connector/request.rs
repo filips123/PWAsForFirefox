@@ -275,6 +275,10 @@ pub struct InstallSite {
     #[serde(default)]
     pub launch_on_browser: bool,
 
+    /// Whether the web app should be launch when the installation finishes.
+    #[serde(default)]
+    pub launch_now: bool,
+
     /// Contains a HTTP client configuration.
     #[serde(default)]
     pub client: HTTPClientConfig,
