@@ -119,17 +119,9 @@
     "message": "準備完了",
     "description": "The ready tab on the setup page"
   },
-  "setupPageLicenseBase": {
-    "message": "このプロジェクトは <a href=\"https://www.mozilla.org/MPL/2.0/\" target=\"_blank\">Mozilla Public License 2.0</a> の下でライセンスされています。使用、再配布、改変を行う場合は、本使用許諾および以下に定める追加条項への同意が必要です。",
-    "description": "The base license notice on the setup page"
-  },
   "setupPageLicenseThirdPartyIncluded": {
     "message": "このプロジェクトでは、さらにサードパーティーのリソースやコードを使用しています：",
     "description": "The included third-party assets and code notice on the setup page"
-  },
-  "setupPageLicenseLogo": {
-    "message": "このプロジェクトのロゴは <a href=\"https://www.svgrepo.com/svg/40267/fox\" target=\"_blank\">\"Fox SVG Vector\" icon</a> をベースに作成しており、<a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\">CC0</a> のライセンスで作成された <a href=\"https://github.com/webmaxru/progressive-web-apps-logo\" target=\"_blank\">コミュニティーによる PWA ロゴ</a> を参考にして作成されています。</a>",
-    "description": "The logo notice on the setup page"
   },
   "setupPageLicenseFirefoxScripts": {
     "message": "ブラウザーの Chrome 部分の JavaScript による改造は、<a href=\"https://github.com/xiaoxiaoflood/firefox-scripts\" target=\"_blank\"><code>xiaoxiaoflood/firefox-scripts</code></a> の GitHub リポジトリからインスピレーションを受け、一部は派生したものです。ライセンスは、Mozilla Public License 2.0 であり、詳細な情報は、それぞれのファイルに記載されています。",
@@ -158,10 +150,6 @@
   "setupPageLicense7ZipDownloaded": {
     "message": "Windows にランタイムをインストールした場合、<a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a> がインストールされていない場合インストールされます。7-Zip のプロジェクトは Igor Pavlov によって作成され、<a href=\"https://7-zip.org/license.txt\" target=\"_blank\">GPL・LGPL やその他のライセンス</a>によってライセンスされています。 この拡張機能のプロジェクトは、7-Zip のプロジェクトやその開発者とは一切関係ありません。",
     "description": "The notice for downloaded 7-Zip on the setup page"
-  },
-  "setupPageLicenseFirefoxDownloaded": {
-    "message": "ランタイムをインストールすると、何も調整されていない <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> ブラウザーがインストールされ、ロカールでこの拡張機能のネイティブプログラムによって調整されます。このプロジェクトを使用すると <a href=\"https://www.mozilla.org/privacy/firefox/\">the Firefox Privacy Notice</a> Firefox のプライバシーに関する通知</a>に同意することになります。Firefox は Mozilla Public License 2.0 でライセンスされており、Firefox の名称とロゴは米 Mozilla Fundation の商標です。このプロジェクトは Mozilla とは一切関係ありません。",
-    "description": "The notice for downloaded Firefox on the setup page"
   },
   "setupPageLicensePrivacyPolicy": {
     "message": "この拡張機能は、ユーザーが PWA のインストールを開始したときに、個人データ（現在のウェブサイトとマニフェストのURL、およびその他のPWA詳細）をネイティブプログラムと交換します。これは、Web アプリケーションマニフェストを正しく取得・解析し、PWA をインストールするために必要です。データは、その PWA がインストールされている限り、コンピューターに保存されます。個人データがコンピューターから離れたり、第三者に送信されたりすることはありません。",
@@ -667,7 +655,6 @@
     "message": "デフォルトのプロファイルを完全に削除することはできません。ウェブアプリやデータはクリアされますが、プロファイルは残ります。",
     "description": "The additional clarification on the remove profile dialog if this is the default profile"
   },
-
   "managePageAutoLaunchTitle": {
     "message": "ウェブアプリの自動起動",
     "description": "The title of the automatic launching dialog"

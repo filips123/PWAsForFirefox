@@ -1,0 +1,326 @@
+{
+  "appName": {
+    "message": "Progressive Web Apps for Firefox",
+    "description": "The name of the application, should not be translated"
+  },
+  "appShortName": {
+    "message": "PWAsForFirefox",
+    "description": "The short name of the application, should not be translated"
+  },
+  "appDescription": {
+    "message": "Orodje za namestitev, upravljanje in uporabo progresivnih spletnih aplikacij (PWA) v Mozilla Firefox",
+    "description": "The description of the application"
+  },
+  "actionInstallSite": {
+    "message": "Namesti trenutno stran",
+    "description": "Instruct users that they can install the current site here"
+  },
+  "actionLaunchSite": {
+    "message": "Zaženi trenutno stran",
+    "description": "Instruct users that they can launch the current site here"
+  },
+  "updateNotificationTitle": {
+    "message": "Posodobitev PWAsForFirefox",
+    "description": "The title of the update notification, displayed when an update is available"
+  },
+  "updateNotificationMessage": {
+    "message": "Na voljo je posodobitev PWAsForFirefox. Kliknite obvestilo, da prikažete navodila za posodobitev.",
+    "description": "The message of the update notification, displayed when an update is available"
+  },
+  "commonError": {
+    "message": "Napaka",
+    "description": "Displayed before error messages or as a popup title"
+  },
+  "commonWarning": {
+    "message": "Opozorilo",
+    "description": "Displayed before warning messages or as a popup title"
+  },
+  "commonNote": {
+    "message": "Opomba",
+    "description": "Displayed before note messages or as a popup title"
+  },
+  "commonClose": {
+    "message": "Zapri",
+    "description": "Displayed as a label for a close button"
+  },
+  "commonCancel": {
+    "message": "Prekliči",
+    "description": "Displayed as a label for a cancel button"
+  },
+  "commonLoading": {
+    "message": "Nalaganje ...",
+    "description": "Displayed when things are still loading"
+  },
+  "webAppName": {
+    "message": "Ime",
+    "description": "The name property of a web app"
+  },
+  "webAppDescription": {
+    "message": "Opis",
+    "description": "The description property of a web app"
+  },
+  "webAppCategories": {
+    "message": "Kategorije",
+    "description": "The categories property of a web app"
+  },
+  "webAppKeywords": {
+    "message": "Ključne besede",
+    "description": "The keywords property of a web app"
+  },
+  "webAppStartURL": {
+    "message": "Začetni URL",
+    "description": "The start URL property of a web app"
+  },
+  "webAppIconURL": {
+    "message": "URL ikone",
+    "description": "The icon URL property of a web app"
+  },
+  "webAppID": {
+    "message": "ID",
+    "description": "The ID property of a web app"
+  },
+  "webAppProfile": {
+    "message": "Profil",
+    "description": "The profile property of a web app"
+  },
+  "webAppProtocolHandlers": {
+    "message": "Omogočeni protokoli",
+    "description": "The protocol handlers property of a web app"
+  },
+  "profileName": {
+    "message": "Ime",
+    "description": "The name property of a profile"
+  },
+  "profileDescription": {
+    "message": "Opis",
+    "description": "The description property of a profile"
+  },
+  "profileTemplate": {
+    "message": "Predloga",
+    "description": "The template property of a profile"
+  },
+  "profileTemplatePlaceholder": {
+    "message": "Vnesite pot do predloge profila",
+    "description": "The placeholder for the template input"
+  },
+  "profileID": {
+    "message": "ID",
+    "description": "The ID property of a profile"
+  },
+  "webAppValidationNameReuse": {
+    "message": "Imena aplikacije ne morete ponovno uporabiti",
+    "description": "A validation error when the web app name is reused"
+  },
+  "webAppValidationStartURLInvalid": {
+    "message": "Začetni URL mora biti veljaven URL",
+    "description": "A validation error when the web app start URL is invalid"
+  },
+  "webAppValidationStartURLScope": {
+    "message": "Začetni URL mora biti v območju:",
+    "description": "A validation error when the web app start URL is out-of-scope, with the scope displayed after the colon"
+  },
+  "webAppValidationIconURLInvalid": {
+    "message": "URL ikone mora biti veljaven URL",
+    "description": "A validation error when the web app icon URL is invalid"
+  },
+  "webAppValidationProfileLimit": {
+    "message": "Namestite lahko samo eno instanco na profil",
+    "description": "A validation error when multiple web app instances are tried to be installed in the same profile"
+  },
+  "installPageTitle": {
+    "message": "Namesti trenutno aplikacijo",
+    "description": "The title of the install web app page"
+  },
+  "installPageCreateProfile": {
+    "message": "Ustvari nov profil",
+    "description": "The profile creation option on the install web app page"
+  },
+  "installPageAutoCreateProfile": {
+    "message": "Samodejno ustvari nov profil",
+    "description": "The automatic profile creation option on the install web app page"
+  },
+  "installPageSeparateProfiles": {
+    "message": "Zaradi napake, ki jo je težko odpraviti, je priporočljivo, da vsako spletno aplikacijo namestite v ločen profil. Za več podrobnosti glejte <a id=\"web-app-profile-warn-issue\"></a>.",
+    "description": "The message that tells users each web app should be in a separate profile on affected platforms"
+  },
+  "installPageUseManifestLabel": {
+    "message": "Uporabi manifest za določanje lastnosti aplikacije",
+    "description": "The label for the use manifest checkbox on the web app installation page"
+  },
+  "installPageUseManifestTooltip": {
+    "message": "Onemogočite samo, če te spletne aplikacije ne morete namestiti z omogočenim manifestom",
+    "description": "The tooltip for the use manifest checkbox on the web app installation page"
+  },
+  "installPageContentScriptError": {
+    "message": "Do podatkov o strani ni mogoče dostopati.",
+    "description": "A message that says the extension was not able to access the content script"
+  },
+  "installPageContentScriptErrorDevelopment": {
+    "message": "Uporabljate razvojno različico, zato je to verjetno posledica funkcije \"live-reloading\". Napako lahko odpravite tako, da jo onemogočite ali uporabljate produkcijsko različico.",
+    "description": "A message that extends the content script error with more details when a development build is used"
+  },
+  "installPageContentScriptErrorRestricted": {
+    "message": "Nekatere <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts\" target=\"_blank\">Mozilline spletne strani</a> so omejene za razširitve. To je varnostna funkcija Firefoxa in je ni mogoče onemogočiti. Teh spletnih strani ni mogoče namestiti kot spletne aplikacije.",
+    "description": "A message that extends the content script error with more details when used on restricted domains"
+  },
+  "launchPageTitle": {
+    "message": "Zaženi trenutno aplikacijo",
+    "description": "The title of the launch web app page"
+  },
+  "launchPageInstallNewInstance": {
+    "message": "Namesti novo instanco",
+    "description": "Displayed on the launch web app page to install a new instance"
+  },
+  "managePageTitle": {
+    "message": "Upravljaj aplikacije in profile",
+    "description": "The title of the manage page"
+  },
+  "managePageTabApps": {
+    "message": "Aplikacije",
+    "description": "The apps tab on the manage page"
+  },
+  "managePageTabProfiles": {
+    "message": "Profili",
+    "description": "The profiles tab on the manage page"
+  },
+  "managePageTabSettings": {
+    "message": "Nastavitve",
+    "description": "The settings tab on the manage page"
+  },
+  "managePageAppListIcon": {
+    "message": "Ikona",
+    "description": "The icon alternative text on the web app list"
+  },
+  "managePageAppListLaunch": {
+    "message": "Zaženi aplikacijo",
+    "description": "The launch tooltip on the web app list"
+  },
+  "managePageAppListEdit": {
+    "message": "Uredi aplikacijo",
+    "description": "The edit tooltip on the web app list and the title of the edit web app dialog"
+  },
+  "managePageAppListRemove": {
+    "message": "Odstrani aplikacijo",
+    "description": "The remove tooltip on the web app list and the title of the remove web app dialog"
+  },
+  "managePageAppListEmpty": {
+    "message": "Ni nameščenih aplikacij!",
+    "description": "A message that is displayed on the web app list when no web apps are installed"
+  },
+  "managePageAppListAdd": {
+    "message": "Namesti trenutno stran",
+    "description": "A button that is displayed on the web app list to install the current site"
+  },
+  "managePageProfileListCreate": {
+    "message": "Ustvari profil",
+    "description": "The create tooltip on the profile list and the title of the edit profile dialog"
+  },
+  "managePageProfileListEdit": {
+    "message": "Uredi profil",
+    "description": "The edit tooltip on the profile list and the title of the edit profile dialog"
+  },
+  "managePageProfileListRemove": {
+    "message": "Odstrani profil",
+    "description": "The remove tooltip on the profile list and title of the remove profile dialog"
+  },
+  "managePageProfileListEmpty": {
+    "message": "Nobenega profila ni na voljo!",
+    "description": "A message that is displayed on the profile list when no profile are available"
+  },
+  "managePageProfileListAdd": {
+    "message": "Ustvari nov profil",
+    "description": "A button that is displayed on the profile list to create a new profile"
+  },
+  "managePageProfileListUnnamed": {
+    "message": "Neimenovan",
+    "description": "The unnamed profile on the profile list"
+  },
+  "managePageProfileListCount": {
+    "message": "{count, plural, one {# aplikacija} two {# aplikaciji} few {# aplikacije} other {# aplikacij}}",
+    "description": "The web app count in the profile, supports limited pluralization options"
+  },
+  "managePageSettingsDisplayPageAction": {
+    "message": "Prikaži gumb v naslovni vrstici",
+    "description": "The setting for displaying page action (address bar widget)"
+  },
+  "managePageSettingsDisplayPageActionValid": {
+    "message": "Na veljavnih spletnih aplikacijah",
+    "description": "The option to display page action on valid web apps"
+  },
+  "managePageSettingsDisplayPageActionAlways": {
+    "message": "Vedno",
+    "description": "The option to always display page action"
+  },
+  "managePageSettingsDisplayPageActionNever": {
+    "message": "Nikoli",
+    "description": "The option to never display page action"
+  },
+  "managePageSettingsLaunchCurrentURL": {
+    "message": "Zaženi aplikacije na aktivnih URL-jih",
+    "description": "The setting for launching web apps on active URLs"
+  },
+  "managePageSettingsShowUpdatePopup": {
+    "message": "Pokaži obvestilo ob posodobitvah razširitve",
+    "description": "The setting for showing update popups"
+  },
+  "managePageSettingsEnableAutoLaunch": {
+    "message": "Omogoči samodejno zaganjanje aplikacij",
+    "description": "The setting for enabling automatic launching"
+  },
+  "managePageSettingsEnableWayland": {
+    "message": "Uporabi Wayland Display Server",
+    "description": "The setting for enabling Wayland (Linux-only)"
+  },
+  "managePageSettingsEnableXInput2": {
+    "message": "Uporabi X Input Extension 2",
+    "description": "The setting for enabling XInput2 (Linux-only)"
+  },
+  "managePageSettingsEnablePortals": {
+    "message": "Uporabi XDG Desktop Portals",
+    "description": "The setting for enabling XDG Desktop Portals (Linux-only)"
+  },
+  "managePageSettingsDarkMode": {
+    "message": "Omogoči temni način",
+    "description": "The setting for enabling dark mode"
+  },
+  "managePageSettingsDarkModeTooltip": {
+    "message": "Omogočite ga lahko v sistemskih nastavitvah",
+    "description": "The tooltip for the dark mode setting"
+  },
+  "managePageSettingsDefaultProfileTemplate": {
+    "message": "Privzeta predloga profila",
+    "description": "The setting for default profile template"
+  },
+  "managePageSettingsAutoLaunchExclusion": {
+    "message": "Izključitev samodejnega zaganjanja",
+    "description": "The setting for auto launch exclusion"
+  },
+  "managePageSettingsAutoLaunchExclusionPlaceholder": {
+    "message": "Vnesite regex izključenih URL-jev",
+    "description": "The placeholder for auto launch exclusion"
+  },
+  "managePageSettingsLanguage": {
+    "message": "Jezik",
+    "description": "The setting for language"
+  },
+  "managePageSettingsUpdateWebApps": {
+    "message": "Posodobi aplikacije",
+    "description": "The button in settings to update web apps"
+  },
+  "managePageSettingsAboutProject": {
+    "message": "O projektu",
+    "description": "The button in settings to display project info"
+  },
+  "buttonWebAppInstallDefault": {
+    "message": "Namesti aplikacijo",
+    "description": "The web app button on the install web app page, allowing the user to install the web app"
+  },
+  "buttonWebAppInstallProcessing": {
+    "message": "Nameščanje aplikacije ...",
+    "description": "The web app installation button on the install web app page, while the web app is installing"
+  },
+  "buttonWebAppInstallFinished": {
+    "message": "Aplikacija nameščena!",
+    "description": "The web app installation button on the install web app page, after the web app has been installed"
+  }
+}
