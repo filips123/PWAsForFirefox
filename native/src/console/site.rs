@@ -78,6 +78,7 @@ impl Run for SiteLaunchCommand {
         };
 
         if should_patch {
+            #[cfg(not(feature = "immutable-runtime"))]
             runtime.patch(&dirs, Some(site))?;
             profile.patch(&dirs)?;
         }

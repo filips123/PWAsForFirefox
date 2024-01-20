@@ -22,6 +22,7 @@ lto = true
 [features]
 portable = ["dep:phf"]
 static = ["reqwest/native-tls-vendored", "bzip2/static"]
+immutable-runtime = []
 
 [dependencies]
 ab_glyph = "0.2.23"

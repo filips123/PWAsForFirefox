@@ -187,6 +187,7 @@ impl Runtime {
         Ok(Self { version, directory, executable, config })
     }
 
+    #[cfg(not(feature = "immutable-runtime"))]
     pub fn install(self) -> Result<()> {
         const TEMP_FILE_ERROR: &str = "Failed to create a temporary file";
         const DOWNLOAD_ERROR: &str = "Failed to download the runtime";
@@ -269,6 +270,7 @@ impl Runtime {
         Ok(())
     }
 
+    #[cfg(not(feature = "immutable-runtime"))]
     pub fn uninstall(self) -> Result<()> {
         info!("Uninstalling the runtime");
         remove_dir_contents(self.directory).context("Failed to remove runtime directory")?;
