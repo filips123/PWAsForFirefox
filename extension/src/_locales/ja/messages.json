@@ -71,6 +71,10 @@
     "message": "アイコンの URL",
     "description": "The icon URL property of a web app"
   },
+  "webAppID": {
+    "message": "ID",
+    "description": "The ID property of a web app"
+  },
   "webAppProfile": {
     "message": "プロファイル",
     "description": "The profile property of a web app"
@@ -90,6 +94,10 @@
   "profileTemplate": {
     "message": "テンプレート",
     "description": "The template property of a profile"
+  },
+  "profileID": {
+    "message": "ID",
+    "description": "The ID property of a profile"
   },
   "setupPageTitle": {
     "message": "Progressive Web Apps for Firefox のセットアップ",
