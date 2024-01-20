@@ -106,6 +106,12 @@ Opens the link in a default system browser. Displayed only when clicking on link
 
 !!! tip
 
+    These settings can be accessed in the same place as standard Firefox settings in the app
+    browser: In the web app window, click on the hamburger menu near the top right corner
+    and open settings. Alternatively, they can also be accessed from `about:config`.
+
+!!! tip
+
     You may need to restart the app browser for some configuration options to take effect.
 
 <!-- Section: Colors -->
