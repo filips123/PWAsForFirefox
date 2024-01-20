@@ -259,6 +259,9 @@ pub enum RuntimeCommand {
 
     /// Uninstall the runtime
     Uninstall(RuntimeUninstallCommand),
+
+    /// Patch the runtime
+    Patch(RuntimePatchCommand),
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
@@ -266,6 +269,9 @@ pub struct RuntimeInstallCommand {}
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct RuntimeUninstallCommand {}
+
+#[derive(Parser, Debug, Eq, PartialEq, Clone)]
+pub struct RuntimePatchCommand {}
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct HTTPClientConfig {

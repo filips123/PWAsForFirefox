@@ -193,7 +193,8 @@ device.
 
 ### Patch profiles and runtime
 
-This will patch all profiles and runtime with the current globally installed version.
+This will patch all profiles and runtime with the current globally installed version
+of patches.
 
 This is useful after (re)installing a custom runtime, or if you are experiencing
 problems with web app launching.

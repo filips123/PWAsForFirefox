@@ -39,12 +39,6 @@ interfere with it or other Firefox installations.
     manually install 7-Zip or use your existing 7-zip installation. After the runtime
     is installed, you can delete 7-Zip manually.
 
-You can uninstall the runtime, but you won't be able to launch web apps until you install it back:
-
-```shell
-firefoxpwa runtime uninstall
-```
-
 !!! tip
 
     Instead of using the default runtime (normal Firefox), you can manually download an
@@ -52,6 +46,22 @@ firefoxpwa runtime uninstall
     please keep in mind that compatibility with other or unofficial runtimes not guaranteed.
 
     You can check [FAQ](../help/faq.md#how-to-use-an-alternative-browser-as-an-app-browser) for instructions.
+
+You can uninstall the runtime, but you won't be able to launch web apps until you install it back:
+
+```shell
+firefoxpwa runtime uninstall
+```
+
+You can also patch the runtime with the current globally installed version of patches.
+
+```shell
+firefoxpwa runtime patch
+```
+
+This is useful after (re)installing a custom runtime, or if you are experiencing
+problems with web app launching. You might also need to patch profiles, which you
+can do [from the extension](extension.md#patch-profiles-and-runtime).
 
 ## Profile Management
 

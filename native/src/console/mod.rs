@@ -94,6 +94,7 @@ impl Run for RuntimeCommand {
         match self {
             RuntimeCommand::Install(cmd) => cmd.run(),
             RuntimeCommand::Uninstall(cmd) => cmd.run(),
+            RuntimeCommand::Patch(cmd) => cmd.run(),
         }
     }
 }

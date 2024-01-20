@@ -2,7 +2,7 @@ use anyhow::{Context, Result};
 use cfg_if::cfg_if;
 
 use crate::components::runtime::Runtime;
-use crate::console::app::{RuntimeInstallCommand, RuntimeUninstallCommand};
+use crate::console::app::{RuntimeInstallCommand, RuntimePatchCommand, RuntimeUninstallCommand};
 use crate::console::Run;
 use crate::directories::ProjectDirs;
 
@@ -39,5 +39,13 @@ impl Run for RuntimeUninstallCommand {
         let runtime = Runtime::new(&dirs)?;
 
         runtime.uninstall().context("Failed to uninstall runtime")
+    }
+}
+
+impl Run for RuntimePatchCommand {
+    fn run(&self) -> Result<()> {
+        let dirs = ProjectDirs::new()?;
+        let runtime = Runtime::new(&dirs)?;
+        runtime.patch(&dirs, None)
     }
 }
