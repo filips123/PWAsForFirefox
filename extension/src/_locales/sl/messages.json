@@ -27,6 +27,30 @@
     "message": "Na voljo je posodobitev PWAsForFirefox. Kliknite obvestilo, da prikažete navodila za posodobitev.",
     "description": "The message of the update notification, displayed when an update is available"
   },
+  "commonError": {
+    "message": "Napaka",
+    "description": "Displayed before error messages or as a popup title"
+  },
+  "commonWarning": {
+    "message": "Opozorilo",
+    "description": "Displayed before warning messages or as a popup title"
+  },
+  "commonNote": {
+    "message": "Opomba",
+    "description": "Displayed before note messages or as a popup title"
+  },
+  "commonClose": {
+    "message": "Zapri",
+    "description": "Displayed as a label for a close button"
+  },
+  "commonCancel": {
+    "message": "Prekliči",
+    "description": "Displayed as a label for a cancel button"
+  },
+  "commonLoading": {
+    "message": "Nalaganje ...",
+    "description": "Displayed when things are still loading"
+  },
   "webAppName": {
     "message": "Ime",
     "description": "The name property of a web app"
@@ -278,6 +302,14 @@
   "managePageSettingsLanguage": {
     "message": "Jezik",
     "description": "The setting for language"
+  },
+  "managePageSettingsUpdateWebApps": {
+    "message": "Posodobi aplikacije",
+    "description": "The button in settings to update web apps"
+  },
+  "managePageSettingsAboutProject": {
+    "message": "O projektu",
+    "description": "The button in settings to display project info"
   },
   "buttonWebAppInstallDefault": {
     "message": "Namesti aplikacijo",
