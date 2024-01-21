@@ -4,9 +4,9 @@
 #
 #    pip-compile
 #
-babel==2.13.1
+babel==2.14.0
     # via mkdocs-material
-beautifulsoup4[lxml]==4.12.2
+beautifulsoup4[lxml]==4.12.3
     # via -r requirements.in
 certifi==2023.11.17
     # via requests
@@ -27,21 +27,21 @@ htmlmin2==0.1.13
     # via mkdocs-minify-plugin
 idna==3.6
     # via requests
-jinja2==3.1.2
+jinja2==3.1.3
     # via
     #   mkdocs
     #   mkdocs-macros-plugin
     #   mkdocs-material
 jsmin==3.0.1
     # via mkdocs-minify-plugin
-lxml==4.9.3
+lxml==5.1.0
     # via beautifulsoup4
-markdown==3.5.1
+markdown==3.5.2
     # via
     #   mkdocs
     #   mkdocs-material
     #   pymdown-extensions
-markupsafe==2.1.3
+markupsafe==2.1.4
     # via
     #   jinja2
     #   mkdocs
@@ -55,23 +55,23 @@ mkdocs==1.5.3
     #   mkdocs-minify-plugin
 mkdocs-macros-plugin==1.0.5
     # via -r requirements.in
-mkdocs-material==9.5.1
+mkdocs-material==9.5.4
     # via -r requirements.in
 mkdocs-material-extensions==1.3.1
     # via mkdocs-material
-mkdocs-minify-plugin==0.7.1
+mkdocs-minify-plugin==0.7.2
     # via -r requirements.in
 packaging==23.2
     # via mkdocs
 paginate==0.5.6
     # via mkdocs-material
-pathspec==0.11.2
+pathspec==0.12.1
     # via mkdocs
 platformdirs==4.1.0
     # via mkdocs
 pygments==2.17.2
     # via mkdocs-material
-pymdown-extensions==10.5
+pymdown-extensions==10.7
     # via mkdocs-material
 python-dateutil==2.8.2
     # via
@@ -85,7 +85,7 @@ pyyaml==6.0.1
     #   pyyaml-env-tag
 pyyaml-env-tag==0.1
     # via mkdocs
-regex==2023.10.3
+regex==2023.12.25
     # via mkdocs-material
 requests==2.31.0
     # via mkdocs-material
