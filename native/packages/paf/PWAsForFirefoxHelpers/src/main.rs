@@ -13,7 +13,7 @@ enum Events {
 }
 
 fn main() {
-    let events = EventLoopBuilder::<Events>::with_user_event().build();
+    let events = EventLoopBuilder::<Events>::with_user_event().build().unwrap();
     let proxy = events.create_proxy();
     let icon = include_bytes!("icon.ico");
 
@@ -36,15 +36,17 @@ fn main() {
         .build()
         .unwrap();
 
-    events.run(move |event, _, flow| {
-        *flow = ControlFlow::Wait;
-        let _ = tray;
+    events
+        .run(move |event, target| {
+            target.set_control_flow(ControlFlow::Wait);
+            let _ = tray;
 
-        if let Event::UserEvent(event) = event {
-            match event {
-                Events::Exit => *flow = ControlFlow::Exit,
-                Events::Use => tray.set_menu_item_checkable(Events::Use, true).unwrap(),
+            if let Event::UserEvent(event) = event {
+                match event {
+                    Events::Exit => target.exit(),
+                    Events::Use => tray.set_menu_item_checkable(Events::Use, true).unwrap(),
+                }
             }
-        }
-    });
+        })
+        .unwrap();
 }
