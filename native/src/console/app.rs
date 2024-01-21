@@ -254,6 +254,12 @@ pub struct ProfileUpdateCommand {
     /// Set a profile description
     #[clap(long)]
     pub description: Option<Option<String>>,
+
+    /// Set a profile template
+    /// {n}All contents of the template directory
+    /// will be copied to the currently-updated profile
+    #[clap(long, value_hint = clap::ValueHint::DirPath)]
+    pub template: Option<PathBuf>,
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]

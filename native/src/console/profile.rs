@@ -1,6 +1,7 @@
 use std::fs::{create_dir_all, remove_dir_all};
 use std::io;
 use std::io::Write;
+use std::path::PathBuf;
 
 use anyhow::{Context, Result};
 use fs_extra::dir::{copy, CopyOptions};
@@ -19,6 +20,25 @@ use crate::directories::ProjectDirs;
 use crate::integrations;
 use crate::integrations::IntegrationUninstallArgs;
 use crate::storage::Storage;
+
+fn apply_profile_template(
+    template: &Option<PathBuf>,
+    profile: &Ulid,
+    dirs: &ProjectDirs,
+) -> Result<()> {
+    if let Some(template) = template {
+        let mut options = CopyOptions::new();
+        options.content_only = true;
+        options.overwrite = true;
+
+        info!("Copying a profile template");
+        let target = dirs.userdata.join("profiles").join(profile.to_string());
+        create_dir_all(&target).context("Failed to create a profile directory")?;
+        copy(template, target, &options).context("Failed to copy a profile template")?;
+    }
+
+    Ok(())
+}
 
 impl Run for ProfileListCommand {
     fn run(&self) -> Result<()> {
@@ -76,16 +96,7 @@ impl ProfileCreateCommand {
         storage.profiles.insert(ulid, profile);
         storage.write(&dirs)?;
 
-        if let Some(template) = &self.template {
-            let mut options = CopyOptions::new();
-            options.content_only = true;
-            options.overwrite = true;
-
-            info!("Copying a profile template");
-            let target = dirs.userdata.join("profiles").join(ulid.to_string());
-            create_dir_all(&target).context("Failed to create a profile directory")?;
-            copy(template, target, &options).context("Failed to copy a profile template")?;
-        }
+        apply_profile_template(&self.template, &ulid, &dirs)?;
 
         info!("Profile created: {}", ulid);
         Ok(ulid)
@@ -157,6 +168,8 @@ impl Run for ProfileUpdateCommand {
         store_value!(profile.name, self.name);
         store_value!(profile.description, self.description);
         storage.write(&dirs)?;
+
+        apply_profile_template(&self.template, &self.id, &dirs)?;
 
         info!("Profile updated!");
         Ok(())

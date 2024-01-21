@@ -252,6 +252,7 @@ impl Process for UpdateProfile {
             id: self.id,
             name: self.name.to_owned(),
             description: self.description.to_owned(),
+            template: self.template.to_owned(),
         };
         command.run()?;
 

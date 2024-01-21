@@ -363,6 +363,15 @@
             <label for="profile-ulid" class="form-label fw-bold" data-i18n="profileID"></label>
             <input type="url" class="form-control form-control-sm" id="profile-ulid" readonly />
           </div>
+          <div class="mb-3" id="profile-template-editing-div">
+            <label for="profile-template" class="form-label no-validation mb-1">
+                <input class="form-check-input" type="checkbox" value="" id="profile-template-editing-apply" />
+                <label class="form-check-label" for="profile-template-editing-apply" data-i18n="managePageProfileEditApplyProfileLabel"></label>
+            </label>
+            <label for="profile-template-editing" class="form-label visually-hidden" data-i18n="profileTemplate"></label>
+            <input type="text" class="form-control form-control-sm" id="profile-template-editing" data-i18n data-i18n-placeholder="profileTemplatePlaceholder" />
+            <!-- This has to be a text input because Firefox does not support file inputs in extension popups -->
+          </div>
           <button type="submit" class="btn btn-primary" id="profile-submit" disabled data-i18n="commonLoading"></button>
         </form>
       </div>

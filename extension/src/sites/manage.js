@@ -455,6 +455,11 @@ async function createProfileList () {
     // Hide profile ULID box
     document.getElementById('profile-ulid-div').classList.add('d-none')
 
+    // Hide profile template editing box
+    document.getElementById('profile-template-editing-div').classList.add('d-none')
+    document.getElementById('profile-template-editing').required = false
+    document.getElementById('profile-template-editing').disabled = true
+
     // Set form to be validated after all inputs are filled with default values and enable submit button
     form.classList.add('was-validated')
     submit.disabled = false
@@ -548,12 +553,35 @@ async function createProfileList () {
       document.getElementById('profile-name').value = profile.name || ''
       document.getElementById('profile-description').value = profile.description || ''
       document.getElementById('profile-ulid').value = profile.ulid
+      document.getElementById('profile-template-editing-apply').checked = false
 
       // Hide profile template box
       document.getElementById('profile-template-div').classList.add('d-none')
 
       // Show profile ULID box
       document.getElementById('profile-ulid-div').classList.remove('d-none')
+
+      // Show profile template editing box
+      const profileTemplate = (await browser.storage.local.get([PREF_DEFAULT_PROFILE_TEMPLATE]))[PREF_DEFAULT_PROFILE_TEMPLATE]
+      document.getElementById('profile-template-editing-div').classList.remove('d-none')
+      document.getElementById('profile-template-editing').value = profileTemplate || null
+
+      // Make the template input disabled when applying template is unselected
+      // Make the template input required when applying template is selected
+      const applyTemplateHandle = function () {
+        const templateInput = document.getElementById('profile-template-editing')
+        if (this.checked) {
+          templateInput.required = true
+          templateInput.disabled = false
+        } else {
+          templateInput.required = false
+          templateInput.disabled = true
+        }
+      }
+
+      const templateApply = document.getElementById('profile-template-editing-apply')
+      templateApply.onchange = applyTemplateHandle
+      applyTemplateHandle.call(templateApply)
 
       // Set form to be validated after all inputs are filled with default values and enable submit button
       form.classList.add('was-validated')
@@ -572,13 +600,17 @@ async function createProfileList () {
         submit.disabled = true
         submit.innerText = await getMessage('buttonEditProcessing')
 
+        // Get the template if it is enabled
+        const template = templateApply.checked ? document.getElementById('profile-template-editing').value || null : null
+
         // Tell the native connector to update the profile
         const response = await browser.runtime.sendNativeMessage('firefoxpwa', {
           cmd: 'UpdateProfile',
           params: {
             id: profile.ulid,
             name: document.getElementById('profile-name').value || null,
-            description: document.getElementById('profile-description').value || null
+            description: document.getElementById('profile-description').value || null,
+            template
           }
         })
 

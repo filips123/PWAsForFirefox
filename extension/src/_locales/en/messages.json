@@ -932,6 +932,11 @@
     "description": "The label for the profile delete checkbox on the remove web app dialog"
   },
 
+  "managePageProfileEditApplyProfileLabel": {
+    "message": "Apply the profile template",
+    "description": "The label for the apply template checkbox on the edit profile dialog"
+  },
+
   "managePageProfileRemoveQuestion": {
     "message": "Are you sure you want to remove this profile? This will completely remove the profile and all associated web apps, including their data. You might not be able to fully recover this action.",
     "description": "The confirmation question on the remove profile dialog"

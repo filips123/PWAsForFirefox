@@ -494,6 +494,12 @@ pub struct UpdateProfile {
     /// A profile description.
     #[serde(default, deserialize_with = "double_option")]
     pub description: Option<Option<String>>,
+
+    /// A profile template.
+    ///
+    /// All contents of the provided template directory
+    /// will be copied to the currently-updated profile.
+    pub template: Option<PathBuf>,
 }
 
 /// Patches all profiles and runtime.

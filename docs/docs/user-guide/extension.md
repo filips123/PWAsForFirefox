@@ -73,6 +73,8 @@ with the same extensions, settings, etc. as an existing one. If the template opt
 is not specified, the new profile will use [the default template](#default-profile-template)
 that can be set in the extension settings.
 
+A template can also be optionally applied later when editing the profile.
+
 !!! tip
 
     If you want to use an existing profile as a template, make sure it is not running
