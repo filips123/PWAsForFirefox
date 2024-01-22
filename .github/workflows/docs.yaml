@@ -27,16 +27,16 @@ jobs:
         run: echo "CACHE_ID=$(date --utc '+%Y-%V')" >> $GITHUB_ENV
 
       - name: Configure cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ./docs/.cache
           key: mkdocs-${{ env.CACHE_ID }}
           restore-keys: mkdocs-
 
       - name: Install Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
           cache: pip
 
       - name: Install dependencies
