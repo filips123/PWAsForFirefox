@@ -58,6 +58,9 @@
     "rimraf": "^5.0.5",
     "web-ext": "^7.10.0"
   },
+  "resolutions": {
+    "jackspeak": "2.1.1"
+  },
   "icons": [
     "box-arrow-up-right",
     "check",
