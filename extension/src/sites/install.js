@@ -8,6 +8,7 @@ import Tags from 'bootstrap5-tags/tags'
 import * as DOMPurify from 'dompurify'
 
 import {
+  EVENT_LOCALIZATION_READY,
   obtainManifest,
   obtainProfileList,
   obtainSiteList,
@@ -17,6 +18,24 @@ import {
 } from '../utils'
 import { getMessage } from '../utils/i18n'
 import { knownCategories } from './categories'
+
+function displayProfileWarning (platform) {
+  if (platform.os === 'linux' || platform.os === 'mac' || platform.os === 'openbsd') {
+    const issueLink = document.getElementById('web-app-profile-warn-issue')
+    switch (platform.os) {
+      case 'linux':
+      case 'openbsd':
+        issueLink.href = 'https://github.com/filips123/PWAsForFirefox/issues/322'
+        issueLink.innerText = '#322'
+        break
+      case 'mac':
+        issueLink.href = 'https://github.com/filips123/PWAsForFirefox/issues/81'
+        issueLink.innerText = '#81'
+    }
+
+    document.getElementById('web-app-profile-warn-box').classList.remove('d-none')
+  }
+}
 
 async function initializeForm () {
   const form = document.getElementById('web-app-form')
@@ -33,23 +52,10 @@ async function initializeForm () {
     element.tagsInstance = new Tags(element)
   }
 
-  // Display profile warning on Linux, macOS and BSD
   const platform = await browser.runtime.getPlatformInfo()
-  if (platform.os === 'linux' || platform.os === 'mac' || platform.os === 'openbsd') {
-    const issueLink = document.getElementById('web-app-profile-warn-issue')
-    switch (platform.os) {
-      case 'linux':
-      case 'openbsd':
-        issueLink.href = 'https://github.com/filips123/PWAsForFirefox/issues/322'
-        issueLink.innerText = '#322'
-        break
-      case 'mac':
-        issueLink.href = 'https://github.com/filips123/PWAsForFirefox/issues/81'
-        issueLink.innerText = '#81'
-    }
 
-    document.getElementById('web-app-profile-warn-box').classList.remove('d-none')
-  }
+  // Display profile warning on Linux, macOS and BSD
+  document.addEventListener(EVENT_LOCALIZATION_READY, displayProfileWarning.bind(null, platform))
 
   // Obtain manifest and document URLs for the current site
   let manifestUrl, documentUrl, pageInfo
