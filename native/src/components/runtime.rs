@@ -286,7 +286,7 @@ impl Runtime {
         Ok(())
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(all(any(target_os = "linux", target_os = "bsd"), not(feature = "immutable-runtime")))]
     pub fn link(&self) -> Result<()> {
         use std::fs::{copy, create_dir_all};
         use std::os::unix::fs::symlink;
@@ -309,16 +309,7 @@ impl Runtime {
             for entry in read_dir("/usr/lib/firefox/")?.flatten() {
                 let entry = entry.path();
                 match entry.file_name().expect("Couldn't retrieve a file name").to_str() {
-                    Some("browser") => {
-                        create_dir_all(self.directory.join("browser"))?;
-                        symlink(entry.join("chrome"), self.directory.join("browser/chrome"))?;
-                        symlink(
-                            entry.join("crashreporter-override.ini"),
-                            self.directory.join("browser/crashreporter-override.ini"),
-                        )?;
-                        symlink(entry.join("features"), self.directory.join("browser/features"))?;
-                        symlink(entry.join("omni.ja"), self.directory.join("browser/omni.ja"))?;
-                    }
+                    // Use a different branch for the "defaults" folder due to the patches to apply afterwhile
                     Some("defaults") => {
                         create_dir_all(self.directory.join("defaults/pref"))?;
                         symlink(
@@ -327,17 +318,10 @@ impl Runtime {
                         )?;
                     }
                     Some("firefox-bin") => {
-                        //symlink(self.directory.join("firefox"), self.directory.join("firefox-bin")).ok();
+                        copy(entry, self.directory.join("firefox-bin"))?;
                     }
                     Some("firefox") => {
-                        copy(
-                            entry.parent().expect("failed to copy firefox").join("firefox"),
-                            self.directory.join("firefox"),
-                        )?;
-                        // symlink(
-                        //     self.directory.join("firefox"),
-                        //     self.directory.join("firefox-bin"),
-                        // )?;
+                        copy(entry, self.directory.join("firefox"))?;
                     }
                     Some(&_) => {
                         let link = self.directory.join(entry.file_name().unwrap());
