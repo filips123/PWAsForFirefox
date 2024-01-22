@@ -296,9 +296,7 @@ impl Runtime {
         let dirs = ProjectDirs::new()?;
         let mut storage = Storage::load(&dirs)?;
 
-        if !storage.config.use_linked_runtime {
-            self.uninstall()?;
-        }
+        self.uninstall()?;
 
         storage.config.use_linked_runtime = true;
         storage.write(&dirs)?;
