@@ -2,7 +2,7 @@ name: Docs CI/CD
 
 on:
   push:
-    tags: [ v** ]
+    tags: [ v* ]
   workflow_dispatch:
 
 defaults:
