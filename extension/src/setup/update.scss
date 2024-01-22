@@ -3,13 +3,3 @@
 //////////////////////////////
 
 @import "setup.scss";
-
-//////////////////////////////
-// Dark Theme Modifications
-//////////////////////////////
-
-@media (prefers-color-scheme: dark) {
-  .bg-light {
-    background-color: #2f2f2f !important
-  }
-}

@@ -1,0 +1,71 @@
+@import "bootstrap/scss/_functions";
+
+$color-mode-type: media-query;
+
+$gray-100-alt:  #e1e1e1;
+$gray-200-alt:  #cfcfcf;
+$gray-300-alt:  #b1b1b1;
+$gray-400-alt:  #9e9e9e;
+$gray-500-alt:  #7e7e7e;
+$gray-600-alt:  #626262;
+$gray-700-alt:  #515151;
+$gray-800-alt:  #3b3b3b;
+$gray-900-alt:  #1d1d1d;
+$black-alt:     #050505;
+
+$light-bg-subtle-dark:      $gray-800-alt;
+$dark-bg-subtle-dark:       mix($gray-800-alt, $black-alt);
+$light-border-subtle-dark:  $gray-700-alt;
+$dark-border-subtle-dark:   $gray-800-alt;
+$body-bg-dark:              $gray-900-alt;
+$body-secondary-bg-dark:    $gray-800-alt;
+$body-tertiary-bg-dark:     mix($gray-800-alt, $gray-900-alt, 50%);
+$border-color-dark:         $gray-700-alt;
+
+@import "bootstrap/scss/_variables";
+@import "bootstrap/scss/_variables-dark";
+
+$form-validation-states: map-remove($form-validation-states, "valid");
+
+$kbd-color:  $white;
+$kbd-bg:     $gray-800;
+
+@import "bootstrap/scss/_maps";
+@import "bootstrap/scss/_mixins";
+@import "bootstrap/scss/_utilities";
+@import "bootstrap/scss/_root";
+@import "bootstrap/scss/_reboot";
+
+@import "bootstrap/scss/_type";
+//@import "bootstrap/scss/_images";
+@import "bootstrap/scss/_containers";
+@import "bootstrap/scss/_grid";
+//@import "bootstrap/scss/_tables";
+@import "bootstrap/scss/_forms";
+@import "bootstrap/scss/_buttons";
+@import "bootstrap/scss/_transitions";
+@import "bootstrap/scss/_dropdown";
+@import "bootstrap/scss/_button-group";
+@import "bootstrap/scss/_nav";
+//@import "bootstrap/scss/_navbar";
+@import "bootstrap/scss/_card";
+//@import "bootstrap/scss/_accordion";
+//@import "bootstrap/scss/_breadcrumb";
+//@import "bootstrap/scss/_pagination";
+@import "bootstrap/scss/_badge";
+//@import "bootstrap/scss/_alert";
+//@import "bootstrap/scss/_progress";
+@import "bootstrap/scss/_list-group";
+@import "bootstrap/scss/_close";
+@import "bootstrap/scss/_toasts";
+@import "bootstrap/scss/_modal";
+//@import "bootstrap/scss/_tooltip";
+//@import "bootstrap/scss/_popover";
+//@import "bootstrap/scss/_carousel";
+//@import "bootstrap/scss/_spinners";
+@import "bootstrap/scss/_offcanvas";
+//@import "bootstrap/scss/_placeholders";
+
+@import "bootstrap/scss/_helpers";
+
+@import "bootstrap/scss/utilities/_api";

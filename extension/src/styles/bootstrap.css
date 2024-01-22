@@ -1,0 +1,2 @@
+/* We need to go through an additional CSS file so Parcel does not duplicate Bootstrap styles */
+@import "bootstrap.scss";

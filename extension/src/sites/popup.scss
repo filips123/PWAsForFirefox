@@ -2,7 +2,7 @@
 // Bootstrap
 //////////////////////////////
 
-@import "/node_modules/bootstrap-dark-5/dist/css/bootstrap-dark.css";
+@import "../styles/bootstrap.css";
 
 //////////////////////////////
 // Improve Card & Popup Width
@@ -49,32 +49,6 @@ html, body {
   font-size: 0.875rem;
 }
 
-.was-validated .form-control:valid, .form-control.is-valid,
-.was-validated .form-select:valid, .form-select.is-valid {
-  background-image: none !important;
-  border-color: #ced4da;
-}
-
-.was-validated .form-control:valid:focus, .form-control.is-valid:focus,
-.was-validated .form-select:valid:focus, .form-select.is-valid:focus {
-  box-shadow: 0 0 0 .25rem #0d6efd40;
-  border-color: #86b7fe;
-}
-
-@media (prefers-color-scheme: dark) {
-  .was-validated .form-control:valid, .form-control.is-valid,
-  .was-validated .form-select:valid, .form-select.is-valid {
-    background-image: none !important;
-    border-color: #515151;
-  }
-
-  .was-validated .form-control:valid:focus, .form-control.is-valid:focus,
-  .was-validated .form-select:valid:focus, .form-select.is-valid:focus {
-    box-shadow: 0 0 0 .25rem #375a7f40;
-    border-color: #9badbf;
-  }
-}
-
 //////////////////////////////
 // Error Toast
 //////////////////////////////
@@ -97,11 +71,15 @@ html, body {
 
 @media (prefers-color-scheme: dark) {
   .card-header, .card-footer {
-    background-color: #202020;
+    background-color: #1a1a1a;
   }
 
   .card-offcanvas-body {
-    background-color: #222;
+    background-color: #1d1d1d;
+  }
+
+  .modal-backdrop {
+    --bs-backdrop-opacity: 0.75;
   }
 }
 
@@ -109,13 +87,6 @@ html, body {
 // Fix Dark Theme
 //////////////////////////////
 
-.bg-warning > .btn-close {
-  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
-}
-
-@media (prefers-color-scheme: dark) {
-  input {
-    background-color: transparent;
-    color: #b1b1b1;
-  }
+.bg-warning .btn-close {
+  filter: unset;
 }
