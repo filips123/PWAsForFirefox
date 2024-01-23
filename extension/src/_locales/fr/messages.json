@@ -66,5 +66,181 @@
   "commonNativeVersion": {
     "message": "Version native :",
     "description": "Displayed before the native connector version"
+  },
+  "commonRuntimeVersion": {
+    "message": "Version de l’environnement d’exécution :",
+    "description": "Displayed before the app browser version"
+  },
+  "commonFirefoxVersion": {
+    "message": "Version de Firefox :",
+    "description": "Displayed before the main browser version"
+  },
+  "webAppName": {
+    "message": "Nom",
+    "description": "The name property of a web app"
+  },
+  "webAppDescription": {
+    "message": "Description",
+    "description": "The description property of a web app"
+  },
+  "webAppCategories": {
+    "message": "Catégories",
+    "description": "The categories property of a web app"
+  },
+  "webAppKeywords": {
+    "message": "Mots-clefs",
+    "description": "The keywords property of a web app"
+  },
+  "webAppStartURL": {
+    "message": "URL de départ",
+    "description": "The start URL property of a web app"
+  },
+  "webAppIconURL": {
+    "message": "URL de l’icône",
+    "description": "The icon URL property of a web app"
+  },
+  "webAppID": {
+    "message": "ID",
+    "description": "The ID property of a web app"
+  },
+  "webAppProfile": {
+    "message": "Profil",
+    "description": "The profile property of a web app"
+  },
+  "webAppProtocolHandlers": {
+    "message": "Gestionnaires de protocoles",
+    "description": "The protocol handlers property of a web app"
+  },
+  "profileName": {
+    "message": "Nom",
+    "description": "The name property of a profile"
+  },
+  "profileDescription": {
+    "message": "Description",
+    "description": "The description property of a profile"
+  },
+  "profileTemplate": {
+    "message": "Modèle",
+    "description": "The template property of a profile"
+  },
+  "profileTemplatePlaceholder": {
+    "message": "Chemin vers le modèle de profil",
+    "description": "The placeholder for the template input"
+  },
+  "profileID": {
+    "message": "ID",
+    "description": "The ID property of a profile"
+  },
+  "webAppValidationNameReuse": {
+    "message": "Le nom ne peut pas être utilisé par plusieurs web apps",
+    "description": "A validation error when the web app name is reused"
+  },
+  "webAppValidationStartURLInvalid": {
+    "message": "L’URL de départ doit être une URL valide",
+    "description": "A validation error when the web app start URL is invalid"
+  },
+  "webAppValidationStartURLScope": {
+    "message": "L’URL de départ doit être dans le domaine :",
+    "description": "A validation error when the web app start URL is out-of-scope, with the scope displayed after the colon"
+  },
+  "webAppValidationIconURLInvalid": {
+    "message": "L’URL de l’icône doit être une URL valide",
+    "description": "A validation error when the web app icon URL is invalid"
+  },
+  "webAppValidationProfileLimit": {
+    "message": "Une seule instance par profil peut être installée",
+    "description": "A validation error when multiple web app instances are tried to be installed in the same profile"
+  },
+  "setupPageTitle": {
+    "message": "Configuration de Progressive Web Apps for Firefox",
+    "description": "The title of the setup page"
+  },
+  "setupPageTabLicenseAgreement": {
+    "message": "Accord de licence",
+    "description": "The licence agreement tab on the setup page"
+  },
+  "setupPageTabConnectorInstallation": {
+    "message": "Installation du connecteur",
+    "description": "The connector installation tab on the setup page"
+  },
+  "setupPageTabRuntimeInstallation": {
+    "message": "Installation de l’environnement d’exécution",
+    "description": "The runtime installation tab on the setup page"
+  },
+  "setupPageTabReady": {
+    "message": "Prêt",
+    "description": "The ready tab on the setup page"
+  },
+  "setupPageLicenseBase": {
+    "message": "Le projet est distribué sous <a href=\"https://www.mozilla.org/MPL/2.0/\" target=\"_blank\">la licence Mozilla Public License 2.0</a>. En l’utilisant, en redistribuant ou en modifiant ce projet, vous devez accepter la licence et les clauses supplémentaires fournies ci-dessous. Voir <a href=\"https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE\" target=\"_blank\">le fichier LICENSE</a> dans le dépôt de code du projet pour le texte intégral de la licence MPL 2.0.",
+    "description": "The base license notice on the setup page"
+  },
+  "setupPageLicenseThirdPartyIncluded": {
+    "message": "Ce projet utilise des ressources et du code externes :",
+    "description": "The included third-party assets and code notice on the setup page"
+  },
+  "setupPageLicenseLogo": {
+    "message": "Le logo du projet est basé sur <a href=\"https://www.svgrepo.com/svg/40267/fox\" target=\"_blank\">l’icône « Fox SVG Vector »</a> et <a href=\"https://github.com/webmaxru/progressive-web-apps-logo\" target=\"_blank\">le logo PWA de la communauté</a>, tous deux dévoués au domaine public en utilisant <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\">CC0</a>.",
+    "description": "The logo notice on the setup page"
+  },
+  "setupPageLicenseFirefoxScripts": {
+    "message": "Les modifications du « chrome » du navigateur ont été inspirées par et partiellement dérivées du dépôt <a href=\"https://github.com/xiaoxiaoflood/firefox-scripts\" target=\"_blank\"><code>xiaoxiaoflood/firefox-scripts</code></a> sur GitHub, sous licence Mozilla Public License 2.0. Vous trouverez des informations détaillées dans les fichiers respectifs.",
+    "description": "The notice for `xiaoxiaoflood/firefox-scripts` on the setup page"
+  },
+  "setupPageLicenseFirefoxUiFix": {
+    "message": "Les modifications du « chrome » du navigateur utilisent partiellement le code dérivé du dépôt <a href=\"https://github.com/black7375/Firefox-UI-Fix\" target=\"_blank\"><code>black7375/Firefox-UI-Fix</code></a> sur GitHub, sous licence Mozilla Public License 2.0. Vous trouverez des informations détaillées dans les fichiers respectifs.",
+    "description": "The notice for `black7375/Firefox-UI-Fix` on the setup page"
+  },
+  "setupPageLicenseFirefoxSource": {
+    "message": "Les modifications du « chrome » du navigateur utilisent partiellement du code et des icônes dérivées du <a href=\"https://github.com/mozilla/gecko-dev\" target=\"_blank\">code source original de Firefox</a>, sous licence Mozilla Public License 2.0. Vous trouverez des informations détaillées dans les fichiers respectifs.",
+    "description": "The notice for the Firefox source on the setup page"
+  },
+  "setupPageLicenseMetropolisFont": {
+    "message": "Les programmes compilés incluent <a href=\"https://fontsarena.com/metropolis-by-chris-simpson/\" target=\"_blank\">la police Metropolis Semi Bold</a> de Chris Simpson, publiée dans le domaine public en utilisant <a href=\"https://unlicense.org/\" target=\"_blank\">Unlicense</a>.",
+    "description": "The notice for Metropolis Typeface on the setup page"
+  },
+  "instructionsPageAfterProgramsInstalled": {
+    "message": "Après l’installation des programmes, la prochaine étape devrait s’afficher automatiquement. Si rien ne se passe après environ 30 secondes, redémarrez le navigateur.",
+    "description": "The final installation step in installation options that use the \"program\" terminology"
+  },
+  "instructionsPageAfterPackageInstalled": {
+    "message": "Après l’installation du paquet, la prochaine étape devrait s’afficher automatiquement. Si rien ne se passe après environ 30 secondes, redémarrez le navigateur.",
+    "description": "The final installation step in installation options that use the \"package\" terminology"
+  },
+  "instructionsPageAfterProjectInstalled": {
+    "message": "Après l’installation du projet, la prochaine étape devrait s’afficher automatiquement. Si rien ne se passe après environ 30 secondes, redémarrez le navigateur.",
+    "description": "The final installation step in installation options that use the \"project\" terminology"
+  },
+  "instructionsPageInstallManualMSITitle": {
+    "message": "Pour installer le programme manuellement :",
+    "description": "The title of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualMSIStep1": {
+    "message": "Téléchargez et installez <a id=\"connector-download-url-crt\" target=\"_blank\">Visual C++ Redistributable</a>.",
+    "description": "The step 1 of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualMSIStep2": {
+    "message": "Téléchargez et exécutez <a id=\"connector-download-url-msi\" target=\"_blank\">l’installeur MSI PWAsForFirefox</a>.",
+    "description": "The step 2 of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualDEBTitle": {
+    "message": "Pour installer le paquet manuellement :",
+    "description": "The title of the manual DEB installation option"
+  },
+  "instructionsPageInstallManualDEBStep1": {
+    "message": "Téléchargez et installez <a id=\"connector-download-url-deb\" target=\"_blank\">le paquet DEB PWAsForFirefox</a>.",
+    "description": "The step 1 of the manual DEB installation option"
+  },
+  "instructionsPageInstallManualRPMTitle": {
+    "message": "Pour installer le paquet manuellement :",
+    "description": "The title of the manual RPM installation option"
+  },
+  "instructionsPageInstallManualRPMStep1": {
+    "message": "Téléchargez et installez <a id=\"connector-download-url-rpm\" target=\"_blank\">le paquet RPM PWAsForFirefox</a>.",
+    "description": "The step 1 of the manual RPM installation option"
+  },
+  "instructionsPageInstallWingetTitle": {
+    "message": "Pour installer le paquet en utilisant le gestionnaire de paquets Windows :",
+    "description": "The title of the Windows Package Manager (winget) installation option"
   }
 }
