@@ -1,1 +1,70 @@
-{}
+{
+  "appName": {
+    "message": "Progressive Web Apps for Firefox",
+    "description": "The name of the application, should not be translated"
+  },
+  "appShortName": {
+    "message": "PWAsForFirefox",
+    "description": "The short name of the application, should not be translated"
+  },
+  "appDescription": {
+    "message": "Un outil pour installer, gérer et utiliser des Progressive Web Apps (PWAs) dans Mozilla Firefox",
+    "description": "The description of the application"
+  },
+  "actionInstallSite": {
+    "message": "Installer ce site",
+    "description": "Instruct users that they can install the current site here"
+  },
+  "actionLaunchSite": {
+    "message": "Lancer ce site",
+    "description": "Instruct users that they can launch the current site here"
+  },
+  "updateNotificationTitle": {
+    "message": "Mise à jour de PWAsForFirefox",
+    "description": "The title of the update notification, displayed when an update is available"
+  },
+  "updateNotificationMessage": {
+    "message": "Une mise à jour PWAsForFirefox est disponible. Veuillez cliquer sur la notification pour afficher les instructions de mise à jour.",
+    "description": "The message of the update notification, displayed when an update is available"
+  },
+  "commonError": {
+    "message": "Erreur",
+    "description": "Displayed before error messages or as a popup title"
+  },
+  "commonWarning": {
+    "message": "Avertissement",
+    "description": "Displayed before warning messages or as a popup title"
+  },
+  "commonNote": {
+    "message": "Note",
+    "description": "Displayed before note messages or as a popup title"
+  },
+  "commonClose": {
+    "message": "Fermer",
+    "description": "Displayed as a label for a close button"
+  },
+  "commonCancel": {
+    "message": "Annuler",
+    "description": "Displayed as a label for a cancel button"
+  },
+  "commonLoading": {
+    "message": "Chargement…",
+    "description": "Displayed when things are still loading"
+  },
+  "commonAnd": {
+    "message": "et",
+    "description": "The \"and\" conjunction, used between untranslatable words"
+  },
+  "commonOr": {
+    "message": "ou",
+    "description": "The \"or\" conjunction, used between untranslatable words"
+  },
+  "commonExtensionVersion": {
+    "message": "Version de l’extension :",
+    "description": "Displayed before the extension version"
+  },
+  "commonNativeVersion": {
+    "message": "Version native :",
+    "description": "Displayed before the native connector version"
+  }
+}
