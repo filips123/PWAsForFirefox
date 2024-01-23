@@ -1,9 +1,10 @@
-use std::fs::{read_dir, remove_dir_all, remove_file};
-use std::io::Result as IoResult;
+use std::fs::{read_dir, remove_dir_all, remove_file, File};
+use std::io::{Read, Result as IoResult};
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command};
 
 use anyhow::{anyhow, Context, Result};
+use blake3::Hasher;
 use cfg_if::cfg_if;
 use configparser::ini::Ini;
 use fs_extra::dir::{copy, CopyOptions};
@@ -12,6 +13,17 @@ use tempfile::{NamedTempFile, TempDir};
 
 use crate::components::site::Site;
 use crate::directories::ProjectDirs;
+
+// TODO: Remove this constant and implement variable firefox path into user documentation
+pub const FFOX: &str = "/usr/lib/firefox/";
+
+pub fn b3hasher() -> String {
+    let mut file = File::open(Path::new(FFOX).join("firefox")).unwrap();
+    let mut buf = Vec::new();
+    let _ = file.read_to_end(&mut buf);
+
+    Hasher::new().update(&buf).finalize().to_string()
+}
 
 cfg_if! {
     if #[cfg(any(platform_linux, platform_bsd))] {
@@ -288,10 +300,9 @@ impl Runtime {
 
     #[cfg(all(any(target_os = "linux", target_os = "bsd"), not(feature = "immutable-runtime")))]
     pub fn link(&self) -> Result<()> {
+        use crate::storage::Storage;
         use std::fs::{copy, create_dir_all};
         use std::os::unix::fs::symlink;
-
-        use crate::storage::Storage;
 
         let dirs = ProjectDirs::new()?;
         let mut storage = Storage::load(&dirs)?;
@@ -299,12 +310,11 @@ impl Runtime {
         self.uninstall()?;
 
         storage.config.use_linked_runtime = true;
-        storage.write(&dirs)?;
 
         info!("Linking the runtime");
 
-        if Path::new("/usr/lib/firefox/").exists() {
-            for entry in read_dir("/usr/lib/firefox/")?.flatten() {
+        if Path::new(FFOX).exists() {
+            for entry in read_dir(FFOX)?.flatten() {
                 let entry = entry.path();
                 match entry.file_name().expect("Couldn't retrieve a file name").to_str() {
                     // Use a different branch for the "defaults" folder due to the patches to apply afterwhile
@@ -320,6 +330,10 @@ impl Runtime {
                     }
                     Some("firefox") => {
                         copy(entry, self.directory.join("firefox"))?;
+
+                        storage.config.hash = b3hasher();
+
+                        trace!("Hash: {}", b3hasher());
                     }
                     Some(&_) => {
                         let link = self.directory.join(entry.file_name().unwrap());
@@ -329,6 +343,8 @@ impl Runtime {
                 }
             }
         }
+
+        storage.write(&dirs)?;
 
         info!("Runtime linked!");
 

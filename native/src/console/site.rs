@@ -12,17 +12,14 @@ use url::Url;
 use crate::components::runtime::Runtime;
 use crate::components::site::{Site, SiteConfig};
 use crate::console::app::{
-    SiteInstallCommand,
-    SiteLaunchCommand,
-    SiteUninstallCommand,
-    SiteUpdateCommand,
+    SiteInstallCommand, SiteLaunchCommand, SiteUninstallCommand, SiteUpdateCommand,
 };
 use crate::console::{store_value, store_value_vec, Run};
 use crate::directories::ProjectDirs;
-use crate::integrations;
 use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 use crate::storage::Storage;
 use crate::utils::construct_certificates_and_client;
+use crate::{components, integrations};
 
 impl Run for SiteLaunchCommand {
     fn run(&self) -> Result<()> {
@@ -48,6 +45,11 @@ impl Run for SiteLaunchCommand {
 
         if runtime.version.is_none() {
             bail!("Runtime not installed");
+        }
+
+        if storage.config.hash != components::runtime::b3hasher() && !storage.config.hash.is_empty()
+        {
+            runtime.link()?;
         }
 
         // Patching on macOS is always needed to correctly show the web app name
