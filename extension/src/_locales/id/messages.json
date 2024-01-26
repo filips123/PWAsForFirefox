@@ -1,1 +1,26 @@
-{}
+{
+  "appName": {
+    "message": "Progressive Web Apps for Firefox",
+    "description": "The name of the application, should not be translated"
+  },
+  "appShortName": {
+    "message": "PWAsForFirefox",
+    "description": "The short name of the application, should not be translated"
+  },
+  "appDescription": {
+    "message": "Sebuah alat untuk menginstal, mengelola dan menggunakan Aplikasi Web Progresif (PWAs) di Mozilla Firefox",
+    "description": "The description of the application"
+  },
+  "actionInstallSite": {
+    "message": "Instal situs ini",
+    "description": "Instruct users that they can install the current site here"
+  },
+  "actionLaunchSite": {
+    "message": "Buka situs ini",
+    "description": "Instruct users that they can launch the current site here"
+  },
+  "updateNotificationTitle": {
+    "message": "Update PWAsForFirefox",
+    "description": "The title of the update notification, displayed when an update is available"
+  }
+}
