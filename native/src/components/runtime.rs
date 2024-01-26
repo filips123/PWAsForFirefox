@@ -223,12 +223,15 @@ impl Runtime {
         cfg_if! {
             if #[cfg(platform_windows)] {
                 use anyhow::bail;
-                use crate::components::_7zip::_7Zip;
 
-                let _7zip = _7Zip::new()?;
-                let success = _7zip.run(vec!["x", &archive, &format!("-o{}", &extracted)]).context(EXTRACT_ERROR)?.success();
-                if !success { bail!(EXTRACT_ERROR) }
-                source.push("core");
+                match sevenz_rust::decompress_file(&archive,&extracted) {
+                    Ok(_) => {
+                        source.push("core");
+                    }
+                    Err(_) => {
+                        bail!(EXTRACT_ERROR);
+                    }
+                }
             } else if #[cfg(platform_linux)] {
                 use std::fs::File;
                 use bzip2::read::BzDecoder;

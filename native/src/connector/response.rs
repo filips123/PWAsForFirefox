@@ -23,13 +23,6 @@ pub enum ConnectorResponse {
         ///
         /// Only set if the runtime is installed.
         firefox: Option<String>,
-
-        /// Version of the 7-Zip program.
-        ///
-        /// Only set on Windows, and if 7-Zip is installed.
-        /// May also be `0.0.0` if 7-Zip was located through
-        /// the `PATH` environment variable.
-        _7zip: Option<String>,
     },
 
     /// Config of the native program.

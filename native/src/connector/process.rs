@@ -4,36 +4,16 @@ use log::{info, warn};
 
 use crate::components::runtime::Runtime;
 use crate::connector::request::{
-    CreateProfile,
-    GetConfig,
-    GetProfileList,
-    GetSiteList,
-    GetSystemVersions,
-    InstallRuntime,
-    InstallSite,
-    LaunchSite,
-    PatchAllProfiles,
-    RegisterProtocolHandler,
-    RemoveProfile,
-    SetConfig,
-    UninstallRuntime,
-    UninstallSite,
-    UnregisterProtocolHandler,
-    UpdateAllSites,
-    UpdateProfile,
+    CreateProfile, GetConfig, GetProfileList, GetSiteList, GetSystemVersions, InstallRuntime,
+    InstallSite, LaunchSite, PatchAllProfiles, RegisterProtocolHandler, RemoveProfile, SetConfig,
+    UninstallRuntime, UninstallSite, UnregisterProtocolHandler, UpdateAllSites, UpdateProfile,
     UpdateSite,
 };
 use crate::connector::response::ConnectorResponse;
 use crate::connector::Connection;
 use crate::console::app::{
-    ProfileCreateCommand,
-    ProfileRemoveCommand,
-    ProfileUpdateCommand,
-    RuntimeInstallCommand,
-    RuntimeUninstallCommand,
-    SiteInstallCommand,
-    SiteLaunchCommand,
-    SiteUninstallCommand,
+    ProfileCreateCommand, ProfileRemoveCommand, ProfileUpdateCommand, RuntimeInstallCommand,
+    RuntimeUninstallCommand, SiteInstallCommand, SiteLaunchCommand, SiteUninstallCommand,
     SiteUpdateCommand,
 };
 use crate::console::Run;
@@ -51,16 +31,6 @@ impl Process for GetSystemVersions {
         Ok(ConnectorResponse::SystemVersions {
             firefoxpwa: Some(env!("CARGO_PKG_VERSION").into()),
             firefox: Runtime::new(connection.dirs)?.version,
-            _7zip: {
-                cfg_if! {
-                    if #[cfg(platform_windows)] {
-                        use crate::components::_7zip::_7Zip;
-                        _7Zip::new()?.version
-                    } else {
-                        None
-                    }
-                }
-            },
         })
     }
 }

@@ -52,6 +52,7 @@ urlencoding = "2.1.3"
 web_app_manifest = { git = "https://github.com/filips123/WebAppManifestRS", branch = "main" }
 
 [target.'cfg(target_os = "windows")'.dependencies]
+sevenz-rust = {version= "0.5.4", features = []}
 winreg = "0.50.0"
 sanitize-filename = "0.5.0"
 phf = { version = "0.11.2", features = ["macros"], optional = true }
