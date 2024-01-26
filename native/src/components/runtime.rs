@@ -1,10 +1,9 @@
-use std::fs::{read_dir, remove_dir_all, remove_file, File};
-use std::io::{Read, Result as IoResult};
+use std::fs::{read_dir, remove_dir_all, remove_file};
+use std::io::Result as IoResult;
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command};
 
 use anyhow::{anyhow, Context, Result};
-use blake3::Hasher;
 use cfg_if::cfg_if;
 use configparser::ini::Ini;
 use fs_extra::dir::{copy, CopyOptions};
@@ -16,14 +15,6 @@ use crate::directories::ProjectDirs;
 
 // TODO: Remove this constant and implement variable firefox path into user documentation
 pub const FFOX: &str = "/usr/lib/firefox/";
-
-pub fn b3hasher() -> String {
-    let mut file = File::open(Path::new(FFOX).join("firefox")).unwrap();
-    let mut buf = Vec::new();
-    let _ = file.read_to_end(&mut buf);
-
-    Hasher::new().update(&buf).finalize().to_string()
-}
 
 cfg_if! {
     if #[cfg(any(platform_linux, platform_bsd))] {
@@ -330,10 +321,6 @@ impl Runtime {
                     }
                     Some("firefox") => {
                         copy(entry, self.directory.join("firefox"))?;
-
-                        storage.config.hash = b3hasher();
-
-                        trace!("Hash: {}", b3hasher());
                     }
                     Some(&_) => {
                         let link = self.directory.join(entry.file_name().unwrap());

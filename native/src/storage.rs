@@ -53,7 +53,6 @@ pub struct Config {
     /// Experimental: Using the system runtime to save some disk space.
     /// This might not work on your system.
     pub use_linked_runtime: bool,
-    pub hash: String,
 }
 
 #[non_exhaustive]

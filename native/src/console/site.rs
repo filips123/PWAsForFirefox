@@ -1,9 +1,11 @@
 use std::convert::TryInto;
-use std::fs::metadata;
-use std::io;
+use std::fs::{metadata, File};
 use std::io::Write;
+use std::io::{self, Read};
+use std::path::Path;
 
 use anyhow::{bail, Context, Result};
+use blake3::{hash, Hash};
 use cfg_if::cfg_if;
 use log::{info, warn};
 use ulid::Ulid;
@@ -47,7 +49,17 @@ impl Run for SiteLaunchCommand {
             bail!("Runtime not installed");
         }
 
-        if storage.config.hash != components::runtime::b3hasher() && !storage.config.hash.is_empty()
+        fn hasher(path: &str) -> Hash {
+            let mut file = File::open(Path::new(&path).join("firefox")).unwrap();
+            let mut buf = Vec::new();
+            let _ = file.read_to_end(&mut buf);
+
+            hash(&buf)
+        }
+
+        if storage.config.use_linked_runtime
+            && hasher(components::runtime::FFOX)
+                != hasher("/home/daniele/.local/share/firefoxpwa/runtime/")
         {
             runtime.link()?;
         }
