@@ -219,6 +219,14 @@
     "message": "J’accepte l’accord de licence",
     "description": "The license accept button on the setup page"
   },
+  "setupPageConnectorInstallationMain": {
+    "message": "Vous devez installer le programme complémentaire pour que l'extension puisse gérer et lancer l’environnement d’exécution dédié et les profils de vos applications web. L’extension ne fonctionnera pas sans ce programme. Veuillez suivre les instructions ci-dessous pour l'installer.",
+    "description": "The main connector installation notice on the setup page"
+  },
+  "setupPageConnectorInstallationIncompatible": {
+    "message": "La version d’un programme actuellement installé peut être incompatible avec la version actuelle de l’extension. Vous devez mettre à jour le programme ou l’extension vers une version compatible pour qu’ils fonctionnent correctement.",
+    "description": "The incompatible connector installation notice on the setup page"
+  },
   "instructionsPageAfterProgramsInstalled": {
     "message": "Après l’installation des programmes, la prochaine étape devrait s’afficher automatiquement. Si rien ne se passe après environ 30 secondes, redémarrez le navigateur.",
     "description": "The final installation step in installation options that use the \"program\" terminology"
