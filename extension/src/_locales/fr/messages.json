@@ -227,6 +227,14 @@
     "message": "La version d’un programme actuellement installé peut être incompatible avec la version actuelle de l’extension. Vous devez mettre à jour le programme ou l’extension vers une version compatible pour qu’ils fonctionnent correctement.",
     "description": "The incompatible connector installation notice on the setup page"
   },
+  "setupPageRuntimeInstallationAuto": {
+    "message": "Cette extension a également besoin d'une runtime de Mozilla Firefox séparée où toutes vos Progressive Web App s'exécuteront. En appuyant sur le bouton ci-dessous, vous téléchargerez automatiquement une runtime de Mozilla Firefox non modifiée depuis les serveurs Mozilla et le modifierez localement avec les modifications requises. Vous pouvez également vérifier les options avancées ci-dessous pour installer manuellement la runtime modifiée.",
+    "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is supported"
+  },
+  "setupPageRuntimeInstallationManual": {
+    "message": "Cette extension a également besoin d'une runtime de Mozilla Firefox séparée où toutes vos Progressive Web App s'exécuteront. Cependant, votre plateforme ne supporte pas l'installation automatique de la runtime. Veuillez suivre les options avancées ci-dessous pour l'installer manuellement.",
+    "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is not supported"
+  },
   "instructionsPageAfterProgramsInstalled": {
     "message": "Après l’installation des programmes, la prochaine étape devrait s’afficher automatiquement. Si rien ne se passe après environ 30 secondes, redémarrez le navigateur.",
     "description": "The final installation step in installation options that use the \"program\" terminology"
