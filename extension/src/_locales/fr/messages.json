@@ -279,6 +279,166 @@
     "message": "Pour installer le paquet en utilisant le gestionnaire de paquets Windows :",
     "description": "The title of the Windows Package Manager (winget) installation option"
   },
+  "installPageTitle": {
+    "message": "Installer l'application web",
+    "description": "The title of the install web app page"
+  },
+  "installPageCreateProfile": {
+    "message": "Créer un nouveau profil",
+    "description": "The profile creation option on the install web app page"
+  },
+  "installPageAutoCreateProfile": {
+    "message": "Créer automatiquement un nouveau profil",
+    "description": "The automatic profile creation option on the install web app page"
+  },
+  "installPageSeparateProfiles": {
+    "message": "Il est fortement recommandé d'installer chaque application web dans un profil séparé en raison d'un bug difficile à résoudre. Voir l'issue <a id=\"web-app-profile-warn-issue\"></a> pour plus de détails.",
+    "description": "The message that tells users each web app should be in a separate profile on affected platforms"
+  },
+  "installPageUseManifestLabel": {
+    "message": "Utiliser le manifeste pour déterminer les propriétés de l'application",
+    "description": "The label for the use manifest checkbox on the web app installation page"
+  },
+  "installPageUseManifestTooltip": {
+    "message": "Désactiver uniquement si vous ne pouvez pas installer cette application web avec le manifeste activé",
+    "description": "The tooltip for the use manifest checkbox on the web app installation page"
+  },
+  "installPageLaunchNowLabel": {
+    "message": "Lancer l'application web lorsque l'installation est terminée",
+    "description": "The label for the launch now checkbox on the web app installation page"
+  },
+  "installPageLaunchNowTooltip": {
+    "message": "Activer si vous voulez que cette application web soit lancée automatiquement après l'installation",
+    "description": "The tooltip for the launch now checkbox on the web app installation page"
+  },
+  "launchPageTitle": {
+    "message": "Lancer l'application web",
+    "description": "The title of the launch web app page"
+  },
+  "launchPageInstallNewInstance": {
+    "message": "Installer une nouvelle instance",
+    "description": "Displayed on the launch web app page to install a new instance"
+  },
+  "managePageTitle": {
+    "message": "Gérer les applications web et les profils",
+    "description": "The title of the manage page"
+  },
+  "managePageTabApps": {
+    "message": "Applications",
+    "description": "The apps tab on the manage page"
+  },
+  "managePageTabProfiles": {
+    "message": "Profils",
+    "description": "The profiles tab on the manage page"
+  },
+  "managePageTabSettings": {
+    "message": "Paramètres",
+    "description": "The settings tab on the manage page"
+  },
+  "managePageAppListIcon": {
+    "message": "Icône",
+    "description": "The icon alternative text on the web app list"
+  },
+  "managePageAppListLaunch": {
+    "message": "Lancer l'application web",
+    "description": "The launch tooltip on the web app list"
+  },
+  "managePageAppListEdit": {
+    "message": "Modifier l'application web",
+    "description": "The edit tooltip on the web app list and the title of the edit web app dialog"
+  },
+  "managePageAppListRemove": {
+    "message": "Supprimer l'application web",
+    "description": "The remove tooltip on the web app list and the title of the remove web app dialog"
+  },
+  "managePageAppListEmpty": {
+    "message": "Aucune application web installée !",
+    "description": "A message that is displayed on the web app list when no web apps are installed"
+  },
+  "managePageAppListAdd": {
+    "message": "Installer le site actuel",
+    "description": "A button that is displayed on the web app list to install the current site"
+  },
+  "managePageProfileListCreate": {
+    "message": "Créer un profil",
+    "description": "The create tooltip on the profile list and the title of the edit profile dialog"
+  },
+  "managePageProfileListEdit": {
+    "message": "Modifier le profil",
+    "description": "The edit tooltip on the profile list and the title of the edit profile dialog"
+  },
+  "managePageProfileListRemove": {
+    "message": "Supprimer le profil",
+    "description": "The remove tooltip on the profile list and title of the remove profile dialog"
+  },
+  "managePageProfileListEmpty": {
+    "message": "Aucun profil disponible !",
+    "description": "A message that is displayed on the profile list when no profile are available"
+  },
+  "managePageProfileListAdd": {
+    "message": "Créer un nouveau profil",
+    "description": "A button that is displayed on the profile list to create a new profile"
+  },
+  "managePageProfileListUnnamed": {
+    "message": "Sans nom",
+    "description": "The unnamed profile on the profile list"
+  },
+  "managePageSettingsDisplayPageActionAlways": {
+    "message": "Toujours",
+    "description": "The option to always display page action"
+  },
+  "managePageSettingsDisplayPageActionNever": {
+    "message": "Jamais",
+    "description": "The option to never display page action"
+  },
+  "managePageSettingsDarkMode": {
+    "message": "Activer le mode sombre",
+    "description": "The setting for enabling dark mode"
+  },
+  "managePageSettingsAutoLaunchExclusionPlaceholder": {
+    "message": "Entrez une expression régulière des URL exclues",
+    "description": "The placeholder for auto launch exclusion"
+  },
+  "managePageSettingsLanguage": {
+    "message": "Langue",
+    "description": "The setting for language"
+  },
+  "managePageSettingsUpdateWebApps": {
+    "message": "Mettre à jour les applications web",
+    "description": "The button in settings to update web apps"
+  },
+  "managePageSettingsReinstallRuntime": {
+    "message": "Réinstaller l'environnement d'exécution",
+    "description": "The button in settings to reinstall runtime"
+  },
+  "managePageSettingsAboutProject": {
+    "message": "À propos du projet",
+    "description": "The button in settings to display project info"
+  },
+  "managePageFooterOutdated1": {
+    "message": "L'extension est obsolète !",
+    "description": "The first part of the extension outdated warning"
+  },
+  "managePageFooterOutdated2": {
+    "message": "Veuillez la mettre à jour !",
+    "description": "The second part of the extension outdated warning"
+  },
+  "managePageFooterSearchPlaceholder": {
+    "message": "Recherche par nom",
+    "description": "The search placeholder for web apps and profiles"
+  },
+  "managePageAppEditLaunchOnBrowserLabel": {
+    "message": "Lancer cette application web au lancement du navigateur",
+    "description": "The label for the launch on browser checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateManifestLabel": {
+    "message": "Mettre à jour le manifeste de l'application web",
+    "description": "The label for the manifest update checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateIconsLabel": {
+    "message": "Mettre à jour les icônes de l'application web",
+    "description": "The label for the icons update checkbox on the edit web app dialog"
+  },
   "managePageAutoLaunchTitle": {
     "message": "Lancement automatique des applications web",
     "description": "The title of the automatic launching dialog"
