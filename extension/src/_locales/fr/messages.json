@@ -279,6 +279,52 @@
     "message": "Pour installer le paquet en utilisant le gestionnaire de paquets Windows :",
     "description": "The title of the Windows Package Manager (winget) installation option"
   },
+  "managePageAutoLaunchTitle": {
+    "message": "Lancement automatique des applications web",
+    "description": "The title of the automatic launching dialog"
+  },
+  "managePageAutoLaunchAboutMain": {
+    "message": "Activer le <em>lancement automatique des applications</em> lancera automatiquement toute les URLs appartenant aux domaines de vos applications web installées dans l'application web correspondante.",
+    "description": "The main clarification about the automatic launching"
+  },
+  "managePageAutoLaunchAboutExperimental": {
+    "message": "Cette fonctionnalité est expérimentale, peut ne pas fonctionner correctement avec tous les sites web et peut affecter les performances. Elle doit être activée pour chaque application web dans les paramètres de l'application web en utilisant l'option <em>$OPTION$</em>.",
+    "description": "The experimental clarification about the automatic launching",
+    "placeholders": {
+      "option": {
+        "content": "$managePageAppEditLaunchOnWebsiteLabel$",
+        "example": "Launch this web app on matching website"
+      }
+    }
+  },
+  "managePageAutoLaunchAboutPermissions": {
+    "message": "Des permissions supplémentaires sont requises pour que cela fonctionne. Elles seront demandées automatiquement après l'activation si elles ne sont pas déjà autorisées.",
+    "description": "The permissions clarification about the automatic launching"
+  },
+  "managePageAutoLaunchEnable": {
+    "message": "Activer",
+    "description": "The enable button for the automatic launching"
+  },
+  "managePageReinstallRuntimeAbout1": {
+    "message": "Êtes-vous sûr de vouloir réinstaller l'environnement d'exécution PWAsForFirefox ? Cela supprimera votre environnement actuel et téléchargera la dernière version de Mozilla.",
+    "description": "The first part of about reinstalling runtime message"
+  },
+  "managePageReinstallRuntimeAbout2": {
+    "message": "Cela n'affectera <strong>pas</strong> votre navigateur Firefox principal et ne supprimera <strong>aucun</strong> profil ou données.",
+    "description": "The second part of about reinstalling runtime message"
+  },
+  "buttonRuntimeInstallDefault": {
+    "message": "Installer l'environnement d'exécution",
+    "description": "The runtime installation button on the setup page, allowing the user to install the runtime"
+  },
+  "buttonRuntimeInstallProcessing": {
+    "message": "Installation de l'environnement d'exécution...",
+    "description": "The runtime installation button on the setup page, while the runtime is installing"
+  },
+  "buttonRuntimeInstallFinished": {
+    "message": "Environnement d'exécution installé !",
+    "description": "The runtime installation button on the setup page, after the runtime has been installed"
+  },
   "buttonWebAppInstallDefault": {
     "message": "Installer l'application web",
     "description": "The web app button on the install web app page, allowing the user to install the web app"
