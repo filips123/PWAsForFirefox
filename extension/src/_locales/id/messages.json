@@ -199,6 +199,10 @@
     "message": "Program asli dalam proyek ini memuat <a href=\"https://fontsarena.com/metropolis-by-chris-simpson/\" target=\"_blank\">jenis huruf Metropolis Semi Bold</a> oleh Chris Simpson, yang dirilis pada domain publik menggunakan <a href=\"https://unlicense.org/\" target=\"_blank\">Unlicense</a>.",
     "description": "The notice for Metropolis Typeface on the setup page"
   },
+  "setupPageLicenseBootstrapIcons": {
+    "message": "File instalasi Windows memuat <a href=\"https://icons.getbootstrap.com/\" target=\"_blank\">Ikon Bootstrap</a>, yang terlisensi di bawah <a href=\"https://opensource.org/licenses/MIT\" target=\"_blank\">Lisensi MIT</a>. Informasi detail lisensi dapat diakses melalui <a href=\"https://github.com/filips123/PWAsForFirefox/blob/main/native/packages/wix/main.wxs\" target=\"_blank\">file konfigurasi WiX</a>.",
+    "description": "The notice for Bootstrap Icons on the setup page"
+  },
   "instructionsPageTabWindows": {
     "message": "Windows",
     "description": "The Microsoft Windows tab on the instructions page"
