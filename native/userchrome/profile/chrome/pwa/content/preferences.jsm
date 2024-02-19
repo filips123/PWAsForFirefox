@@ -12,7 +12,7 @@ class PwaPreferences {
     this.addPreferenceData();
 
     // Register preference localization
-    document.l10n.addResourceIds(['pwa/preferences.ftl']);
+    document.l10n.addResourceIds([{ path: 'pwa/preferences.ftl', optional: true }]);
 
     // Register preference elements
     try { this.addPreferenceElements() } catch {}

@@ -7,7 +7,7 @@ XPCOMUtils.defineLazyModuleGetters(this, {
   AppConstants: 'resource://gre/modules/AppConstants.jsm',
   BrowserWindowTracker: 'resource:///modules/BrowserWindowTracker.jsm',
   NetUtil: 'resource://gre/modules/NetUtil.jsm',
-  LangPackMatcher: "resource://gre/modules/LangPackMatcher.jsm",
+  LangPackMatcher: 'resource://gre/modules/LangPackMatcher.jsm',
   applySystemIntegration: 'resource://pwa/utils/systemIntegration.jsm',
 });
 
@@ -193,13 +193,28 @@ if (AppConstants.platform === 'macosx') {
   }
 }
 
-// Register the available localization sources
+// Register a localization source for the packaged locales
 Services.obs.addObserver(async () => {
-  const l10nLocales =  await LangPackMatcher.getAvailableLocales();
-  if (!l10nLocales.includes('en-US')) l10nLocales.push('en-US');
-  const l10nSource = new L10nFileSource('pwa', 'app', l10nLocales, 'resource://pwa/localization/{locale}/');
-  L10nRegistry.getInstance().registerSources([l10nSource]);
+  const languages =  Services.locale.packagedLocales;
+  if (!languages.includes('en-US')) languages.push('en-US');
+  if (!languages.includes(Services.locale.defaultLocale)) languages.push(Services.locale.defaultLocale);
+  const source = new L10nFileSource('9-pwa', 'app', languages, 'resource://pwa/localization/{locale}/');
+  L10nRegistry.getInstance().registerSources([source]);
 }, 'final-ui-startup');
+
+// Listen to langpack startup events and register new sources when needed
+Services.obs.addObserver(async subject => {
+  const { langpackId, languages } = subject.wrappedJSObject.langpack.startupData;
+  const sourceId = `pwa-${langpackId}`;
+
+  // We exclude the default locale because it is included in the app metasource
+  if (languages.includes(Services.locale.defaultLocale)) return;
+
+  if (!L10nRegistry.getInstance().getSourceNames().includes(sourceId)) {
+    const source = new L10nFileSource(sourceId, langpackId, languages, 'resource://pwa/localization/{locale}/');
+    L10nRegistry.getInstance().registerSources([source]);
+  }
+}, 'webextension-langpack-startup');
 
 // Import browser chrome modifications
 ChromeUtils.import('resource://pwa/chrome.jsm');

@@ -52,7 +52,7 @@ class PwaBrowser {
 
   loadLocalizationSources () {
     const resourceIds = ['pwa/appmenu.ftl', 'pwa/contextmenu.ftl', 'pwa/browser.ftl', 'pwa/widgets.ftl', 'pwa/customizemode.ftl'];
-    document.l10n.addResourceIds(resourceIds);
+    document.l10n.addResourceIds(resourceIds.map(resource => ({ path: resource, optional: true })));
   }
 
   supportSmallWindowSizes () {
