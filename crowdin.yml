@@ -11,3 +11,8 @@ files:
     translation: /extension/src/_locales/%two_letters_code%/messages.json
     skip_untranslated_strings: true
     type: chrome
+
+  - source: /native/userchrome/profile/chrome/pwa/localization/en-US/**/*.ftl
+    translation: /native/userchrome/profile/chrome/pwa/localization/%locale%/**/%original_file_name%
+    skip_untranslated_strings: true
+    type: ftl
