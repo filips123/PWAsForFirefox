@@ -16,5 +16,4 @@ files:
 
   - source: /native/userchrome/profile/chrome/pwa/localization/en-US/**/*.ftl
     translation: /native/userchrome/profile/chrome/pwa/localization/%two_letters_code%/**/%original_file_name%
-    skip_untranslated_strings: true
     type: ftl

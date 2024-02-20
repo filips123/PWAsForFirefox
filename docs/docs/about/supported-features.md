@@ -23,7 +23,6 @@
 
 ## Planned Features
 
-* Localization of most UI elements.
 * Support for more system-related web app manifest features (once they are standardized).
 
 ## Not Planned Features

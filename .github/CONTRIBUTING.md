@@ -73,12 +73,6 @@ messages, please use Crowdin's discussions feature to communicate with others.
 
 If your language is not yet available, please contact me on Crowdin.
 
-> [!NOTE]
-> The localization feature is currently still work-in-progress. The extension
-> already supports the localization, but the UserChrome localization is still
-> being worked on. Please follow the Crowdin project for updates and new
-> available messages.
-
 <details>
   <summary>Expand localization status</summary>
 
@@ -131,8 +125,18 @@ to add the uses message IDs to the `messages` list in `package.json`.
 
 ### UserChrome Translations
 
-It is currently not possible to translate the UserChrome messages, but support
-for this is planned and is being worked on.
+The app browser (UserChrome) uses the [Fluent](https://projectfluent.org/)
+localization system, which is built directly into Firefox. You can check
+the [Fluent Syntax Guide](https://projectfluent.org/fluent/guide/) for
+more information.
+
+When translating messages, please make sure they are translated in the same
+style and capitalization as existing Firefox messages in your language. Some
+files where this is relevant include links to the official Firefox localization
+system, where you can check how similar messages are translated there.
+
+You can read more details, suggestions and important things about translating
+the app browser [in a Crowdin discussion](https://crowdin.com/project/firefoxpwa/discussions/4).
 
 ## Code of Conduct
 
