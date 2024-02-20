@@ -14,7 +14,7 @@ automatically open in the app browser. You don't have to do anything special.
 By default, when you navigate to the website that is outside the scope of the current web
 app, the browser will display a disabled address bar with the current URL. This is used
 for security reasons to ensure that you know you are not in the original web app anymore.
-This behaviour can be changed in the settings (see below for configuration options).
+This behavior can be changed in the settings (see below for configuration options).
 
 ### Using Firefox Features
 
@@ -220,7 +220,7 @@ to use multiple tabs of the same web app in the same window.
 
 > When opening a link that should normally open in a new window or tab:
 >
-> * 0 - Do not change link behaviour (not recommended)
+> * 0 - Do not change link behavior (not recommended)
 > * 1 - Force links into the current tab (default)
 > * 2 - Force links into a new window
 > * 3 - Force links into a new tab

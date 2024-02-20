@@ -26,7 +26,7 @@ process handles its content processes. This is just a wild theory though and has
 investigated further.
 
 This issue can be prevented by installing each web app into a different profile,
-which is the default behaviour on macOS.
+which is the default behavior on macOS.
 
 Check [this comment][link-merged-comment] and related discussions for ideas
 and possible solutions for fixing this. This problem is tracked as issue [#81]

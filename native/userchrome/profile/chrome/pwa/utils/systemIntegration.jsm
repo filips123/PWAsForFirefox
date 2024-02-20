@@ -165,7 +165,7 @@ function setWindowColors (window, site) {
  * On Windows, this function sets the AppUserModelID (GroupID) property of the
  * window, allowing grouping multiple windows of the same site in the Windows
  * taskbar and preventing grouping different sites. It also sets taskbar windows
- * icons to prevent incorrect behaviour when pinning/unpinning the shortcut.
+ * icons to prevent incorrect behavior when pinning/unpinning the shortcut.
  *
  * On all systems it sets the window name, the window `icon` attribute to prevent
  * problems on some desktop environments (for example, Xfce), `windowclass` and

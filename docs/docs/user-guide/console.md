@@ -124,7 +124,7 @@ Both arguments are optional. Omitted arguments will not change profile's propert
 Setting arguments to an empty value will clear their properties.
 
 It is also possible to apply the profile template to an existing profile, with similar
-behaviour as when [creating a profile](#creating-a-profile).
+behavior as when [creating a profile](#creating-a-profile).
 
 ### Listing Profiles
 

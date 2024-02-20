@@ -47,7 +47,7 @@ links-target-choice-new-window =
     .label = Force links into a new window
 
 links-target-choice-keep =
-    .label = Do not change link behaviour
+    .label = Do not change link behavior
 
 ## Launch Type Preference
 

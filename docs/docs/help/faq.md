@@ -46,7 +46,7 @@ Unique features that PWAsForFirefox supports include:
 * **More customization options:** This project supports additional configuration abilities
   that Chromium-based browsers do not. Customization options that the project supports include
  allowing the customization of the browser toolbar with widgets, different browser settings
-  for different web apps, installing additional addons, etc. In addition, the behaviour can
+  for different web apps, installing additional addons, etc. In addition, the behavior can
   also be highly customized with the available settings.
 
 * **Better integration with the desktop:** Web apps installed with this project can provide

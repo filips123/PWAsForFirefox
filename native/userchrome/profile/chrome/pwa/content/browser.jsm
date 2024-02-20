@@ -452,7 +452,7 @@ class PwaBrowser {
       const canLoad = this.canLoad(uri);
       let displayBar = !canLoad && !uri.spec.startsWith('about:firefoxview');
 
-      // Change URL bar behaviour based on our custom preference
+      // Change URL bar behavior based on our custom preference
       const userPreference = xPref.get(ChromeLoader.PREF_DISPLAY_URL_BAR);
       if (userPreference === 1) displayBar = false;
       else if (userPreference === 2) displayBar = true;
@@ -1923,7 +1923,7 @@ class PwaBrowser {
     xPref.set('distribution.about', ChromeLoader.DISTRIBUTION_ABOUT, true);
 
     // Determines whether `_blank` links target is forced into the current tab or a new window
-    // 0 - Do not change link behaviour (strongly not recommended)
+    // 0 - Do not change link behavior (not recommended)
     // 1 - Force links into the current tab (default)
     // 2 - Force links into a new window
     // 3 - Force links into a new tab
