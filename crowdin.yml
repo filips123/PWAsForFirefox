@@ -6,6 +6,8 @@ preserve_hierarchy: true
 pull_request_title: Translation updates from Crowdin
 pull_request_labels: [ crowdin ]
 
+commit_message: "[skip ci]"
+
 files:
   - source: /extension/src/_locales/en/messages.json
     translation: /extension/src/_locales/%two_letters_code%/messages.json
@@ -13,6 +15,6 @@ files:
     type: chrome
 
   - source: /native/userchrome/profile/chrome/pwa/localization/en-US/**/*.ftl
-    translation: /native/userchrome/profile/chrome/pwa/localization/%locale%/**/%original_file_name%
+    translation: /native/userchrome/profile/chrome/pwa/localization/%two_letters_code%/**/%original_file_name%
     skip_untranslated_strings: true
     type: ftl
