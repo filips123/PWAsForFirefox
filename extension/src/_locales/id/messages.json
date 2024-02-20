@@ -1,0 +1,286 @@
+{
+  "appName": {
+    "message": "Progressive Web Apps for Firefox",
+    "description": "The name of the application, should not be translated"
+  },
+  "appShortName": {
+    "message": "PWAsForFirefox",
+    "description": "The short name of the application, should not be translated"
+  },
+  "appDescription": {
+    "message": "Sebuah alat untuk menginstal, mengelola dan menggunakan Aplikasi Web Progresif (PWAs) di Mozilla Firefox",
+    "description": "The description of the application"
+  },
+  "actionInstallSite": {
+    "message": "Instal situs ini",
+    "description": "Instruct users that they can install the current site here"
+  },
+  "actionLaunchSite": {
+    "message": "Buka situs ini",
+    "description": "Instruct users that they can launch the current site here"
+  },
+  "updateNotificationTitle": {
+    "message": "Update PWAsForFirefox",
+    "description": "The title of the update notification, displayed when an update is available"
+  },
+  "updateNotificationMessage": {
+    "message": "Telah tersedia update baru untuk PWAsForFirefox. Klik notifikasi untuk menampilkan petunjuk pembaruan ekstensi.",
+    "description": "The message of the update notification, displayed when an update is available"
+  },
+  "commonError": {
+    "message": "Gagal",
+    "description": "Displayed before error messages or as a popup title"
+  },
+  "commonWarning": {
+    "message": "Peringatan",
+    "description": "Displayed before warning messages or as a popup title"
+  },
+  "commonNote": {
+    "message": "Catatan",
+    "description": "Displayed before note messages or as a popup title"
+  },
+  "commonClose": {
+    "message": "Tutup",
+    "description": "Displayed as a label for a close button"
+  },
+  "commonCancel": {
+    "message": "Batalkan",
+    "description": "Displayed as a label for a cancel button"
+  },
+  "commonLoading": {
+    "message": "Sedang memuat...",
+    "description": "Displayed when things are still loading"
+  },
+  "commonAnd": {
+    "message": "dan",
+    "description": "The \"and\" conjunction, used between untranslatable words"
+  },
+  "commonOr": {
+    "message": "atau",
+    "description": "The \"or\" conjunction, used between untranslatable words"
+  },
+  "commonExtensionVersion": {
+    "message": "Versi ekstensi terbaru:",
+    "description": "Displayed before the extension version"
+  },
+  "commonNativeVersion": {
+    "message": "Versi ekstensi saat ini:",
+    "description": "Displayed before the native connector version"
+  },
+  "commonRuntimeVersion": {
+    "message": "Versi peramban runtime:",
+    "description": "Displayed before the app browser version"
+  },
+  "commonFirefoxVersion": {
+    "message": "Versi Firefox utama:",
+    "description": "Displayed before the main browser version"
+  },
+  "webAppName": {
+    "message": "Nama",
+    "description": "The name property of a web app"
+  },
+  "webAppDescription": {
+    "message": "Deskripsi",
+    "description": "The description property of a web app"
+  },
+  "webAppCategories": {
+    "message": "Kategori",
+    "description": "The categories property of a web app"
+  },
+  "webAppKeywords": {
+    "message": "Kata kunci",
+    "description": "The keywords property of a web app"
+  },
+  "webAppStartURL": {
+    "message": "URL awalan",
+    "description": "The start URL property of a web app"
+  },
+  "webAppIconURL": {
+    "message": "URL ikon web app",
+    "description": "The icon URL property of a web app"
+  },
+  "webAppID": {
+    "message": "ID",
+    "description": "The ID property of a web app"
+  },
+  "webAppProfile": {
+    "message": "Profil",
+    "description": "The profile property of a web app"
+  },
+  "webAppProtocolHandlers": {
+    "message": "Kendali protokol web",
+    "description": "The protocol handlers property of a web app"
+  },
+  "profileName": {
+    "message": "Nama",
+    "description": "The name property of a profile"
+  },
+  "profileDescription": {
+    "message": "Deskripsi",
+    "description": "The description property of a profile"
+  },
+  "profileTemplate": {
+    "message": "Templat",
+    "description": "The template property of a profile"
+  },
+  "profileTemplatePlaceholder": {
+    "message": "Masukkan file path menuju templat profil",
+    "description": "The placeholder for the template input"
+  },
+  "profileID": {
+    "message": "ID",
+    "description": "The ID property of a profile"
+  },
+  "webAppValidationNameReuse": {
+    "message": "Nama dari web app sebelumnya tidak dapat digunakan ulang",
+    "description": "A validation error when the web app name is reused"
+  },
+  "webAppValidationStartURLInvalid": {
+    "message": "Link URL awalan harus bersifat valid",
+    "description": "A validation error when the web app start URL is invalid"
+  },
+  "webAppValidationStartURLScope": {
+    "message": "Link URL awalan harus berada dalam cakupan berikut:",
+    "description": "A validation error when the web app start URL is out-of-scope, with the scope displayed after the colon"
+  },
+  "webAppValidationIconURLInvalid": {
+    "message": "Link URL ikon harus bersifat valid",
+    "description": "A validation error when the web app icon URL is invalid"
+  },
+  "webAppValidationProfileLimit": {
+    "message": "Sebuah web app hanya dapat diinstal satu kali dalam profil yang sama",
+    "description": "A validation error when multiple web app instances are tried to be installed in the same profile"
+  },
+  "setupPageTitle": {
+    "message": "Mempersiapkan Progressive Web Apps for Firefox",
+    "description": "The title of the setup page"
+  },
+  "setupPageTabLicenseAgreement": {
+    "message": "Perjanjian Lisensi",
+    "description": "The licence agreement tab on the setup page"
+  },
+  "setupPageTabConnectorInstallation": {
+    "message": "Instalasi Aplikasi Penghubung",
+    "description": "The connector installation tab on the setup page"
+  },
+  "setupPageTabRuntimeInstallation": {
+    "message": "Instalasi Peramban Runtime",
+    "description": "The runtime installation tab on the setup page"
+  },
+  "setupPageTabReady": {
+    "message": "Siap",
+    "description": "The ready tab on the setup page"
+  },
+  "setupPageLicenseBase": {
+    "message": "Proyek ini dilisensikan di bawah <a href=\"https://www.mozilla.org/MPL/2.0/\" target=\"_blank\">Lisensi Publik Mozilla/MPL 2.0</a>. Dengan menggunakan, mendistribusikan ulang, atau memodifikasi ekstensi ini, Anda harus menyetujui lisensi dan klausa tambahan di bawah. Lihat <a href=\"https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE\" target=\"_blank\">file LICENSE</a> dalam folder repositori proyek untuk membaca isi lisensi MPL 2.0 secara lengkap.",
+    "description": "The base license notice on the setup page"
+  },
+  "setupPageLicenseThirdPartyIncluded": {
+    "message": "Proyek ini menggunakan aset dan kode tambahan dari pihak ketiga, antara lain:",
+    "description": "The included third-party assets and code notice on the setup page"
+  },
+  "setupPageLicenseLogo": {
+    "message": "Logo proyek ini didasarkan pada <a href=\"https://www.svgrepo.com/svg/40267/fox\" target=\"_blank\">ikon \"Fox SVG Vector\"</a> dan <a href=\"https://github.com/webmaxru/progressive-web-apps-logo\" target=\"_blank\">logo PWA yang diperkenalkan oleh komunitas</a>, keduanya didedikasikan pada domain publik menggunakan <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\">CC0</a>.",
+    "description": "The logo notice on the setup page"
+  },
+  "setupPageLicenseFirefoxScripts": {
+    "message": "Modifikasi tampilan peramban terinspirasi dan diturunkan sebagian dari repositori <a href=\"https://github.com/xiaoxiaoflood/firefox-scripts\" target=\"_blank\"><code>xiaoxiaoflood/firefox-scripts</code></a> di GitHub, terlisensikan di bawah Lisensi Publik Mozilla/MPL 2.0. Informasi lebih detail dapat ditemukan pada masing-masing file tersebut.",
+    "description": "The notice for `xiaoxiaoflood/firefox-scripts` on the setup page"
+  },
+  "setupPageLicenseFirefoxUiFix": {
+    "message": "Sebagian kode pada modifikasi tampilan peramban diturunkan sebagian dari repositori <a href=\"https://github.com/black7375/Firefox-UI-Fix\" target=\"_blank\"><code>black7375/Firefox-UI-Fix</code></a> di GitHub, terlisensikan di bawah Lisensi Publik Mozilla/MPL 2.0. Informasi lebih detail dapat ditemukan pada masing-masing file tersebut.",
+    "description": "The notice for `black7375/Firefox-UI-Fix` on the setup page"
+  },
+  "setupPageLicenseFirefoxSource": {
+    "message": "Sebagian kode dan ikon dalam modifikasi tampilan peramban diturunkan dari <a href=\"https://github.com/mozilla/gecko-dev\" target=\"_blank\">sumber asli Firefox</a>, terlisensikan di bawah Lisensi Publik Mozilla/MPL 2.0. Informasi lebih detail dapat ditemukan pada masing-masing file tersebut.",
+    "description": "The notice for the Firefox source on the setup page"
+  },
+  "setupPageLicenseMetropolisFont": {
+    "message": "Program asli dalam proyek ini memuat <a href=\"https://fontsarena.com/metropolis-by-chris-simpson/\" target=\"_blank\">jenis huruf Metropolis Semi Bold</a> oleh Chris Simpson, yang dirilis pada domain publik menggunakan <a href=\"https://unlicense.org/\" target=\"_blank\">Unlicense</a>.",
+    "description": "The notice for Metropolis Typeface on the setup page"
+  },
+  "setupPageLicenseBootstrapIcons": {
+    "message": "File instalasi Windows memuat <a href=\"https://icons.getbootstrap.com/\" target=\"_blank\">Ikon Bootstrap</a>, yang terlisensi di bawah <a href=\"https://opensource.org/licenses/MIT\" target=\"_blank\">Lisensi MIT</a>. Informasi detail lisensi dapat diakses melalui <a href=\"https://github.com/filips123/PWAsForFirefox/blob/main/native/packages/wix/main.wxs\" target=\"_blank\">file konfigurasi WiX</a>.",
+    "description": "The notice for Bootstrap Icons on the setup page"
+  },
+  "instructionsPageTabWindows": {
+    "message": "Windows",
+    "description": "The Microsoft Windows tab on the instructions page"
+  },
+  "instructionsPageTabDebian": {
+    "message": "Linux berbasis Debian (DEB)",
+    "description": "The Debian (DEB) tab on the instructions page"
+  },
+  "instructionsPageTabRedHat": {
+    "message": "Linux berbasis Red Hat (RPM)",
+    "description": "The Red Hat (RPM) tab on the instructions page"
+  },
+  "instructionsPageTabArch": {
+    "message": "Linux berbasis Arch (AUR)",
+    "description": "The Arch (AUR) tab on the instructions page"
+  },
+  "instructionsPageTabGentoo": {
+    "message": "Linux berbasis Gentoo",
+    "description": "The Gentoo tab on the instructions page"
+  },
+  "instructionsPageTabMacOS": {
+    "message": "macOS",
+    "description": "The macOS tab on the instructions page"
+  },
+  "instructionsPageTabBSD": {
+    "message": "BSD",
+    "description": "The BSD tab on the instructions page"
+  },
+  "instructionsPageTabSourceCode": {
+    "message": "Instal dari Kode Sumber",
+    "description": "The source code tab on the instructions page"
+  },
+  "instructionsPageTabOtherPlatforms": {
+    "message": "Instal pada Platform Lain",
+    "description": "The other platforms tab on the instructions page"
+  },
+  "instructionsPageOr": {
+    "message": "Atau...",
+    "description": "The \"or\" conjunction, displayed in the installation options list"
+  },
+  "instructionsPageInstallManualMSITitle": {
+    "message": "Untuk menginstal program secara manual:",
+    "description": "The title of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualDEBTitle": {
+    "message": "Untuk menginstal paketnya secara manual:",
+    "description": "The title of the manual DEB installation option"
+  },
+  "instructionsPageInstallManualRPMTitle": {
+    "message": "Untuk menginstal paketnya secara manual:",
+    "description": "The title of the manual RPM installation option"
+  },
+  "instructionsPageInstallWingetTitle": {
+    "message": "Untuk menginstal paketnya menggunakan Windows Package Manager:",
+    "description": "The title of the Windows Package Manager (winget) installation option"
+  },
+  "instructionsPageInstallWingetStep2": {
+    "message": "Instal paketnya menggunakan winget:",
+    "description": "The step 2 of the Windows Package Manager (winget) installation option"
+  },
+  "instructionsPageInstallChocolateyStep2": {
+    "message": "Instal paketnya menggunakan choco:",
+    "description": "The step 2 of the Chocolatey installation option"
+  },
+  "instructionsPageInstallNpackdTitle": {
+    "message": "Untuk menginstal paketnya menggunakan Npackd:",
+    "description": "The title of the Npackd installation option"
+  },
+  "instructionsPageInstallNpackdStep2": {
+    "message": "Instal paketnya menggunakan ncl:",
+    "description": "The step 2 of the Npackd installation option"
+  },
+  "instructionsPageLinuxAurInstallSource": {
+    "message": "sumber",
+    "description": "The source AUR package"
+  },
+  "instructionsPageLinuxAurInstallPreBuilt": {
+    "message": "pra-muat",
+    "description": "The pre-built AUR package"
+  }
+}
