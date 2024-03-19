@@ -169,7 +169,7 @@ jobs:
       - name: Install Cargo WiX (Windows)
         if: matrix.os == 'windows-latest' && matrix.portable != true
         run: |
-          echo "C:\Program Files (x86)\WiX Toolset v3.11\bin" >> $GITHUB_PATH
+          echo "${WIX}bin" >> $GITHUB_PATH
           cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev 032be8310f9aa9684e9524db54632792a9d85e28
 
       - name: Install PortableApps.com (Windows)
