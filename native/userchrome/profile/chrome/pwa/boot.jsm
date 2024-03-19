@@ -2,7 +2,7 @@ const EXPORTED_SYMBOLS = [];
 
 const { XPCOMUtils } = ChromeUtils.import('resource://gre/modules/XPCOMUtils.jsm');
 const Services = globalThis.Services || ChromeUtils.import('resource://gre/modules/Services.jsm').Services;
-XPCOMUtils.defineLazyGetter(this, 'gSystemPrincipal', () => Services.scriptSecurityManager.getSystemPrincipal());
+ChromeUtils.defineLazyGetter(this, 'gSystemPrincipal', () => Services.scriptSecurityManager.getSystemPrincipal());
 XPCOMUtils.defineLazyModuleGetters(this, {
   AppConstants: 'resource://gre/modules/AppConstants.jsm',
   BrowserWindowTracker: 'resource:///modules/BrowserWindowTracker.jsm',

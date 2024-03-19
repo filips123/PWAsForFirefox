@@ -1384,7 +1384,6 @@ class PwaBrowser {
         });
 
         hookFunction(window.gProtectionsHandler, 'showActiveTooltipForTPIcon', null, async function () {
-          console.log('aaa')
           node.setAttribute('label', (await document.l10n.formatMessages(['toolbar-button-tracking-protection']))?.[0]?.attributes?.find(attr => attr.name === 'label')?.value);
           const message = (await document.l10n.formatValue('tracking-protection-icon-active'))?.replace(/\.$/, '');
           node.setAttribute('aria-label', message);
@@ -1909,7 +1908,6 @@ class PwaBrowser {
     xPref.clear('browser.aboutwelcome.enabled');
     xPref.clear('browser.messaging-system.whatsNewPanel.enabled');
     xPref.clear('browser.privateWindowSeparation.enabled');
-    xPref.clear('browser.privacySegmentation.createdShortcut');
     xPref.clear('browser.startup.homepage');
     xPref.clear('browser.newtabpage.enabled');
     xPref.clear('browser.newtabpage.activity-stream.feeds.snippets');
@@ -1991,7 +1989,7 @@ class PwaBrowser {
   }
 
   disableOnboarding () {
-    const { OnboardingMessageProvider } = ChromeUtils.import('resource://activity-stream/lib/OnboardingMessageProvider.jsm');
+    const { OnboardingMessageProvider } = ChromeUtils.import('resource:///modules/asrouter/OnboardingMessageProvider.jsm');
     OnboardingMessageProvider.getMessages = async () => [];
     OnboardingMessageProvider.getUntranslatedMessages = async () => [];
     OnboardingMessageProvider.getUntranslatedMessages = async () => null;
