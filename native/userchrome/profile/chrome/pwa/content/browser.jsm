@@ -1989,13 +1989,19 @@ class PwaBrowser {
   }
 
   disableOnboarding () {
-    const { OnboardingMessageProvider } = ChromeUtils.import('resource:///modules/asrouter/OnboardingMessageProvider.jsm');
+    // Disable default browser prompt
+    const { BrowserGlue } = ChromeUtils.import('resource:///modules/BrowserGlue.jsm');
+    BrowserGlue.prototype._maybeShowDefaultBrowserPrompt = async () => null;
+
+    // Handle both post-124 and pre-124 paths
+    let OnboardingMessageProvider = undefined;
+    try { OnboardingMessageProvider = ChromeUtils.import('resource:///modules/asrouter/OnboardingMessageProvider.jsm').OnboardingMessageProvider }
+    catch { OnboardingMessageProvider = ChromeUtils.import('resource://activity-stream/lib/OnboardingMessageProvider.jsm').OnboardingMessageProvider }
+
+    // Disable onboarding messages
     OnboardingMessageProvider.getMessages = async () => [];
     OnboardingMessageProvider.getUntranslatedMessages = async () => [];
     OnboardingMessageProvider.getUntranslatedMessages = async () => null;
-
-    const { BrowserGlue } = ChromeUtils.import('resource:///modules/BrowserGlue.jsm');
-    BrowserGlue.prototype._maybeShowDefaultBrowserPrompt = async () => null;
   }
 
   //////////////////////////////
