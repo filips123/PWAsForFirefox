@@ -77,9 +77,9 @@ function buildIconList (icons, purpose = 'any') {
   let iconList = [];
 
   for (let icon of icons) {
-    if (!icon.purpose.split().includes(purpose)) continue;
+    if (!icon.purpose.split(' ').includes(purpose)) continue;
 
-    for (let sizeSpec of icon.sizes.split()) {
+    for (let sizeSpec of icon.sizes.split(' ')) {
       const size = sizeSpec === 'any' ? Number.MAX_SAFE_INTEGER : parseInt(sizeSpec);
       iconList.push({ icon, size });
     }
@@ -90,6 +90,10 @@ function buildIconList (icons, purpose = 'any') {
 }
 
 async function getIcon (icons, size) {
+  // Filter out SVG icons as they are not supported by `setWindowIcon`
+  // Support for SVG icons will be added in the future
+  icons = icons.filter(icon => icon.icon.type !== 'image/svg+xml' && !icon.icon.src.endsWith('.svg'))
+
   if (icons.length === 0) return null;
 
   let icon = icons.find(icon => icon.size >= size);
