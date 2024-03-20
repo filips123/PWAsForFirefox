@@ -563,25 +563,25 @@ jobs:
       - name: Release Chocolatey package
         run: choco push native/packages/choco/*.nupkg --source https://push.chocolatey.org/ --key ${{secrets.CHOCO_TOKEN}}
 
-  release-homebrew:
-    name: Release on Homebrew
-    if: startsWith(github.ref, 'refs/tags/v')
-    runs-on: macos-latest
-
-    needs:
-      - release-github
-
-    steps:
-      - name: Prepare Git user
-        run: |
-          git config --global user.name "${{ secrets.GH_USERNAME }}"
-          git config --global user.email "${{ secrets.GH_EMAIL }}"
-
-      - name: Update and release Homebrew formula
-        env:
-          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-          VERSION=${GITHUB_REF/refs\/tags\/v}
-          brew update
-          (cd "$(brew --repository homebrew/core)" && git pull origin master --ff-only)
-          brew bump-formula-pr --no-browse --strict --online --version $VERSION firefoxpwa
+#  release-homebrew:
+#    name: Release on Homebrew
+#    if: startsWith(github.ref, 'refs/tags/v')
+#    runs-on: macos-latest
+#
+#    needs:
+#      - release-github
+#
+#    steps:
+#      - name: Prepare Git user
+#        run: |
+#          git config --global user.name "${{ secrets.GH_USERNAME }}"
+#          git config --global user.email "${{ secrets.GH_EMAIL }}"
+#
+#      - name: Update and release Homebrew formula
+#        env:
+#          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
+#        run: |
+#          VERSION=${GITHUB_REF/refs\/tags\/v}
+#          brew update
+#          (cd "$(brew --repository homebrew/core)" && git pull origin master --ff-only)
+#          brew bump-formula-pr --no-browse --strict --online --version $VERSION firefoxpwa
