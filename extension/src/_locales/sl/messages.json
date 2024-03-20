@@ -151,6 +151,14 @@
     "message": "Onemogočite samo, če te spletne aplikacije ne morete namestiti z omogočenim manifestom",
     "description": "The tooltip for the use manifest checkbox on the web app installation page"
   },
+  "installPageLaunchNowLabel": {
+    "message": "Zaženi aplikacijo, ko je nameščena",
+    "description": "The label for the launch now checkbox on the web app installation page"
+  },
+  "installPageLaunchNowTooltip": {
+    "message": "Omogočite, če želite, da se aplikacija samodejno zažene, ko je nameščena",
+    "description": "The tooltip for the launch now checkbox on the web app installation page"
+  },
   "installPageContentScriptError": {
     "message": "Do podatkov o strani ni mogoče dostopati.",
     "description": "A message that says the extension was not able to access the content script"
@@ -311,6 +319,22 @@
     "message": "O projektu",
     "description": "The button in settings to display project info"
   },
+  "managePageFooterSearchPlaceholder": {
+    "message": "Išči po imenu",
+    "description": "The search placeholder for web apps and profiles"
+  },
+  "managePageAppEditLaunchOnWebsiteLabel": {
+    "message": "Zaženi aplikacijo na ujemajočih straneh",
+    "description": "The label for the launch on website checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnLoginLabel": {
+    "message": "Zaženi aplikacijo ob prijavi v sistem",
+    "description": "The label for the launch on login checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnBrowserLabel": {
+    "message": "Zaženi aplikacijo ob zagonu brskalnika",
+    "description": "The label for the launch on browser checkbox on the edit web app dialog"
+  },
   "buttonWebAppInstallDefault": {
     "message": "Namesti aplikacijo",
     "description": "The web app button on the install web app page, allowing the user to install the web app"
@@ -322,5 +346,65 @@
   "buttonWebAppInstallFinished": {
     "message": "Aplikacija nameščena!",
     "description": "The web app installation button on the install web app page, after the web app has been installed"
+  },
+  "buttonCreateDefault": {
+    "message": "Ustvari",
+    "description": "The create button, allowing the user to create something (profile)"
+  },
+  "buttonCreateProcessing": {
+    "message": "Ustvarjanje ...",
+    "description": "The create button, while something (profile) is being created"
+  },
+  "buttonCreateFinished": {
+    "message": "Ustvarjeno!",
+    "description": "The create button, after something (profile) has been created"
+  },
+  "buttonEditDefault": {
+    "message": "Uredi",
+    "description": "The edit button, allowing the user to edit something (web app or profile)"
+  },
+  "buttonEditProcessing": {
+    "message": "Urejanje ...",
+    "description": "The edit button, while something (web app or profile) is being edited"
+  },
+  "buttonEditFinished": {
+    "message": "Urejeno!",
+    "description": "The edit button, after something (web app or profile) has been edited"
+  },
+  "buttonRemoveDefault": {
+    "message": "Odstrani",
+    "description": "The remove button, allowing the user to remove something (web app or profile)"
+  },
+  "buttonRemoveProcessing": {
+    "message": "Odstranjevanje ...",
+    "description": "The remove button, while something (web app or profile) is being removed"
+  },
+  "buttonRemoveFinished": {
+    "message": "Odstranjeno!",
+    "description": "The remove button, after something (web app or profile) has been removed"
+  },
+  "buttonUpdateDefault": {
+    "message": "Posodobi",
+    "description": "The update button, allowing the user to update something (all web apps)"
+  },
+  "buttonUpdateProcessing": {
+    "message": "Posodabljanje ...",
+    "description": "The update button, while something (all web apps) is being updated"
+  },
+  "buttonUpdateFinished": {
+    "message": "Posodobljeno!",
+    "description": "The update button, after something (all web apps) has been updated"
+  },
+  "buttonReinstallDefault": {
+    "message": "Ponovno namesti",
+    "description": "The reinstall button, allowing the user to reinstall something (runtime)"
+  },
+  "buttonReinstallProcessing": {
+    "message": "Ponovno nameščanje ...",
+    "description": "The reinstall button, while something (runtime) is being reinstalled"
+  },
+  "buttonReinstallFinished": {
+    "message": "Ponovno nameščeno!",
+    "description": "The reinstall button, after something (runtime) has been reinstalled"
   }
 }
