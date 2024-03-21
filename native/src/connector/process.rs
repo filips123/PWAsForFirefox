@@ -83,7 +83,10 @@ impl Process for SetConfig {
 
 impl Process for InstallRuntime {
     fn process(&self, _connection: &Connection) -> Result<ConnectorResponse> {
-        let command = RuntimeInstallCommand {};
+        let command = RuntimeInstallCommand {
+            #[cfg(target_os = "linux")]
+            link: self.link,
+        };
         command.run()?;
 
         Ok(ConnectorResponse::RuntimeInstalled)
