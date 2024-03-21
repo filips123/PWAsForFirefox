@@ -289,7 +289,7 @@ impl Runtime {
         Ok(())
     }
 
-    #[cfg(all(any(target_os = "linux", target_os = "bsd"), not(feature = "immutable-runtime")))]
+    #[cfg(any(target_os = "linux", target_os = "bsd"))]
     pub fn link(&self) -> Result<()> {
         use crate::storage::Storage;
         use std::fs::{copy, create_dir_all};

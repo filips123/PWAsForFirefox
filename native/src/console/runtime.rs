@@ -26,7 +26,7 @@ impl Run for RuntimeInstallCommand {
         let dirs = ProjectDirs::new()?;
         let runtime = Runtime::new(&dirs)?;
 
-        if cfg!(any(linux, bsd)) && self.link {
+        if cfg!(any(target_os = "linux", target_os = "bsd")) && self.link {
             runtime.link().context("Failed to link runtime")?
         } else {
             runtime.install().context("Failed to install runtime")?;
