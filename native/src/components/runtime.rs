@@ -198,7 +198,7 @@ impl Runtime {
         const COPY_ERROR: &str = "Failed to copy the runtime";
         const CLEANUP_ERROR: &str = "Failed to clean up the runtime";
 
-        #[cfg(target_os = "linux")]
+        #[cfg(feature = "linked-runtime")]
         {
             use crate::storage::Storage;
 
@@ -289,7 +289,7 @@ impl Runtime {
         Ok(())
     }
 
-    #[cfg(any(target_os = "linux", target_os = "bsd"))]
+    #[cfg(feature = "linked-runtime")]
     pub fn link(&self) -> Result<()> {
         use crate::storage::Storage;
         use std::fs::{copy, create_dir_all};

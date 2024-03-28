@@ -277,7 +277,7 @@ pub enum RuntimeCommand {
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct RuntimeInstallCommand {
     /// Experimental: use a linked runtime instead of downloading from mozilla.
-    #[cfg(any(target_os = "linux", target_os = "bsd"))]
+    #[cfg(feature = "linked-runtime")]
     #[clap(long)]
     pub link: bool,
 }

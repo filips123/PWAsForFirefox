@@ -1,11 +1,9 @@
 use std::convert::TryInto;
-use std::fs::{metadata, File};
+use std::fs::metadata;
+use std::io;
 use std::io::Write;
-use std::io::{self, Read};
-use std::path::Path;
 
 use anyhow::{bail, Context, Result};
-use blake3::{hash, Hash};
 use cfg_if::cfg_if;
 use log::{info, warn};
 use ulid::Ulid;
@@ -18,10 +16,10 @@ use crate::console::app::{
 };
 use crate::console::{store_value, store_value_vec, Run};
 use crate::directories::ProjectDirs;
+use crate::integrations;
 use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 use crate::storage::Storage;
 use crate::utils::construct_certificates_and_client;
-use crate::{components, integrations};
 
 impl Run for SiteLaunchCommand {
     fn run(&self) -> Result<()> {
@@ -31,14 +29,13 @@ impl Run for SiteLaunchCommand {
         let site = storage.sites.get(&self.id).context("Web app does not exist")?;
         let args = if !&self.arguments.is_empty() { &self.arguments } else { &storage.arguments };
 
-        cfg_if! {
-            if #[cfg(platform_macos)] {
-                use crate::integrations;
+        #[cfg(platform_macos)]
+        {
+            use crate::integrations;
 
-                if !self.direct_launch {
-                    integrations::launch(site, &self.url, args)?;
-                    return Ok(())
-                }
+            if !self.direct_launch {
+                integrations::launch(site, &self.url, args)?;
+                Ok(())
             }
         }
 
@@ -49,19 +46,27 @@ impl Run for SiteLaunchCommand {
             bail!("Runtime not installed");
         }
 
-        fn hasher(path: &str) -> Hash {
-            let mut file = File::open(Path::new(&path).join("firefox")).unwrap();
-            let mut buf = Vec::new();
-            let _ = file.read_to_end(&mut buf);
-
-            hash(&buf)
-        }
-
-        if storage.config.use_linked_runtime
-            && hasher(components::runtime::FFOX)
-                != hasher("/home/daniele/.local/share/firefoxpwa/runtime/")
+        #[cfg(feature = "linked-runtime")]
         {
-            runtime.link()?;
+            use blake3::{hash, Hash};
+            use std::fs::File;
+            use std::io::Read;
+            use std::path::Path;
+
+            fn hasher(path: &str) -> Hash {
+                let mut file = File::open(Path::new(&path).join("firefox")).unwrap();
+                let mut buf = Vec::new();
+                let _ = file.read_to_end(&mut buf);
+
+                hash(&buf)
+            }
+
+            if storage.config.use_linked_runtime
+                && hasher(crate::components::runtime::FFOX)
+                    != hasher("/home/daniele/.local/share/firefoxpwa/runtime/")
+            {
+                runtime.link()?;
+            }
         }
 
         // Patching on macOS is always needed to correctly show the web app name
