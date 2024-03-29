@@ -2,6 +2,14 @@
 ## Example: https://pontoon.mozilla.org/sl/firefox/browser/browser/toolbarContextMenu.ftl/?string=231726
 ## Example: https://pontoon.mozilla.org/sl/firefox/browser/browser/browser.ftl/?string=217992
 
+# The label for the tabs/icon bar, when the tabs mode is enabled
+toolbar-tabs-ffpwa =
+    .toolbarname = Vrstica z zavihki
+    .aria-label = Zavihki
+# The label for the tabs/icon bar, when the tabs mode is disabled
+toolbar-icon-ffpwa =
+    .toolbarname = Vrstica z ikonami
+    .aria-label = Ikone
 
 ## Popup inputs should be translated in imperative mood, without any end punctuation
 
