@@ -1,22 +1,22 @@
-{
-  "appName": {
-    "message": "Progressive Web Apps for Firefox",
-    "description": "The name of the application, should not be translated"
-  },
-  "appShortName": {
-    "message": "PWAsForFirefox",
-    "description": "The short name of the application, should not be translated"
-  },
-  "appDescription": {
-    "message": "Інструмент для встановлення, керування та використання прогресивних вебзастосунків (Progressive Web Apps) у Mozilla Firefox",
-    "description": "The description of the application"
-  },
-  "actionInstallSite": {
-    "message": "Встановити цей сайт",
-    "description": "Instruct users that they can install the current site here"
-  },
-  "actionLaunchSite": {
-    "message": "Запустити цей сайт",
-    "description": "Instruct users that they can launch the current site here"
-  }
-}
+{\n
+  "appName": {\n
+    "message": "Progressive Web Apps for Firefox",\n
+    "description": "The name of the application, should not be translated"\n
+  },\n
+  "appShortName": {\n
+    "message": "PWAsForFirefox",\n
+    "description": "The short name of the application, should not be translated"\n
+  },\n
+  "appDescription": {\n
+    "message": "Інструмент для встановлення, керування та використання прогресивних вебзастосунків (Progressive Web Apps) у Mozilla Firefox",\n
+    "description": "The description of the application"\n
+  },\n
+  "actionInstallSite": {\n
+    "message": "Встановити цей сайт",\n
+    "description": "Instruct users that they can install the current site here"\n
+  },\n
+  "actionLaunchSite": {\n
+    "message": "Запустити цей сайт",\n
+    "description": "Instruct users that they can launch the current site here"\n
+  }\n
+}\n
