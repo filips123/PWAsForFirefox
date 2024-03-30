@@ -19,6 +19,8 @@ Read [the main README file](../README.md) for more details about the project.
 * Debian-like Linux (pre-built DEB package)
 * Red Hat-like Linux (pre-built RPM package)
 * Arch-like Linux (source and binary AUR packages)
+* Gentoo-like Linux (GURU ebuild)
+* NixOS Linux (nixpkgs package)
 * Other Linux (source installation only)
 * macOS (bottled Homebrew formula)
 * BSD (source installation only)
@@ -53,6 +55,7 @@ Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this projec
 * Arch User Repository: [`firefox-pwa`](https://aur.archlinux.org/packages/firefox-pwa/) (source)
 * Arch User Repository: [`firefox-pwa-bin`](https://aur.archlinux.org/packages/firefox-pwa-bin/) (pre-built)
 * Gentoo GURU: [`www-plugins/firefoxpwa`](https://gpo.zugaina.org/Overlays/guru/www-plugins/firefoxpwa)
+* Nixpkgs Unstable: [`firefoxpwa`](https://search.nixos.org/packages?channel=unstable&show=firefoxpwa)
 
 > [!NOTE]
 > If you want to package PWAsForFirefox for your distribution or package manager, or have already packaged it, please let me know, so I can help with the packaging and list it in the installation instructions. If the packaging platform supports any auto-submission/uploading feature, please also let me know, as I might integrate it directly with GitHub Actions to make sure the packages are always up-to-date.

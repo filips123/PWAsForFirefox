@@ -16,6 +16,7 @@
         <button class="nav-link" id="linux-rpm-install-tab" data-bs-toggle="tab" data-bs-target="#linux-rpm-install-pane" type="button" role="tab" aria-controls="linux-rpm-install-pane" aria-selected="false" data-i18n="instructionsPageTabRedHat"></button>
         <button class="nav-link" id="linux-aur-install-tab" data-bs-toggle="tab" data-bs-target="#linux-aur-install-pane" type="button" role="tab" aria-controls="linux-aur-install-pane" aria-selected="false" data-i18n="instructionsPageTabArch"></button>
         <button class="nav-link" id="linux-gentoo-install-tab" data-bs-toggle="tab" data-bs-target="#linux-gentoo-install-pane" type="button" role="tab" aria-controls="linux-gentoo-install-pane" aria-selected="false" data-i18n="instructionsPageTabGentoo"></button>
+        <button class="nav-link" id="linux-nixos-install-tab" data-bs-toggle="tab" data-bs-target="#linux-nixos-install-pane" type="button" role="tab" aria-controls="linux-nixos-install-pane" aria-selected="false" data-i18n="instructionsPageTabNixOS"></button>
         <button class="nav-link" id="macos-install-tab" data-bs-toggle="tab" data-bs-target="#macos-install-pane" type="button" role="tab" aria-controls="macos-install-pane" aria-selected="false" data-i18n="instructionsPageTabMacOS"></button>
         <button class="nav-link" id="bsd-install-tab" data-bs-toggle="tab" data-bs-target="#bsd-install-pane" type="button" role="tab" aria-controls="bsd-install-pane" aria-selected="false" data-i18n="instructionsPageTabBSD"></button>
         <button class="nav-link" id="source-install-tab" data-bs-toggle="tab" data-bs-target="#source-install-pane" type="button" role="tab" aria-controls="source-install-pane" aria-selected="false" data-i18n="instructionsPageTabSourceCode"></button>
@@ -140,6 +141,19 @@
             <li><span data-i18n="instructionsPageLinuxGentooInstallStep3"></span> <kbd>sudo emerge -avt www-plugins/firefoxpwa</kbd></li>
             <li data-i18n="instructionsPageAfterPackageInstalled"></li>
           </ol>
+        </div>
+
+        <div class="tab-pane fade" id="linux-nixos-install-pane" role="tabpanel" aria-labelledby="linux-nixos-install-tab">
+          <ol>
+            <li>
+              <span data-i18n="instructionsPageLinuxNixOSInstallStep1"></span>
+              <code class="snippet">programs.firefox.nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];<br />environment.systemPackages = [ pkgs.firefoxpwa ];</code>
+              <span data-i18n="instructionsPageLinuxNixOSInstallStep1After"></span>
+            </li>
+            <li><span data-i18n="instructionsPageLinuxNixOSInstallStep2"></span> <kbd>sudo nixos-rebuild switch</kbd></li>
+            <li data-i18n="instructionsPageLinuxNixOSInstallStep3"></li>
+          </ol>
+          <p><strong><span data-i18n="commonNote"></span>:</strong> <span data-i18n="instructionsPageLinuxNixOSInstallNotice"></span></p>
         </div>
 
         <div class="tab-pane fade" id="source-install-pane" role="tabpanel" aria-labelledby="source-install-tab">

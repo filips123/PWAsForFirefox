@@ -408,6 +408,10 @@
     "message": "Gentoo-like Linux",
     "description": "The Gentoo tab on the instructions page"
   },
+  "instructionsPageTabNixOS": {
+    "message": "NixOS Linux",
+    "description": "The NixOS tab on the instructions page"
+  },
   "instructionsPageTabMacOS": {
     "message": "macOS",
     "description": "The macOS tab on the instructions page"
@@ -579,6 +583,26 @@
   "instructionsPageLinuxGentooInstallStep3": {
     "message": "Install the package using emerge:",
     "description": "The step 3 of the Gentoo installation option"
+  },
+  "instructionsPageLinuxNixOSInstallStep1": {
+    "message": "Add the following Nix code to your NixOS Configuration, usually located in <kbd>/etc/nixos/configuration.nix</kbd>:",
+    "description": "The step 1 of the NixOS installation option"
+  },
+  "instructionsPageLinuxNixOSInstallStep1After": {
+    "message": "... to make sure the package is both in the Firefox's <kbd>nativeMessagingHosts</kbd> and in the <kbd>PATH</kbd>.",
+    "description": "The step 1 of the NixOS installation option"
+  },
+  "instructionsPageLinuxNixOSInstallStep2": {
+    "message": "Rebuild your system:",
+    "description": "The step 2 of the NixOS installation option"
+  },
+  "instructionsPageLinuxNixOSInstallStep3": {
+    "message": "After you have rebuilt the system, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The step 3 of the NixOS installation option"
+  },
+  "instructionsPageLinuxNixOSInstallNotice": {
+    "message": "The package currently needs to be installed from nixos/nixpkgs unstable channel.",
+    "description": "The unstable channel notice for the NixOS installation option"
   },
   "instructionsPageMacOSInstallStep1": {
     "message": "Make sure <a href=\"https://brew.sh/\" target=\"_blank\">Homebrew</a> is installed.",
