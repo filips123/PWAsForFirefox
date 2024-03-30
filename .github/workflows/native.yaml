@@ -49,6 +49,7 @@ jobs:
           toolchain: stable
           components: clippy
           cache: false
+          rustflags: ""
 
       - name: Configure cache
         uses: Swatinem/rust-cache@v2
@@ -80,6 +81,7 @@ jobs:
           toolchain: nightly
           components: rustfmt
           cache: false
+          rustflags: ""
 
       - name: Configure cache
         uses: Swatinem/rust-cache@v2
@@ -138,6 +140,7 @@ jobs:
           toolchain: stable
           target: ${{ matrix.target }}
           cache: false
+          rustflags: ""
 
       - name: Configure cache
         uses: Swatinem/rust-cache@v2
@@ -154,7 +157,7 @@ jobs:
         run: |
           # Use cross 0.2.4 for now because newer versions require too new glibc versions
           # In the future, we should update cross and configure zig to link to older glibc
-          cargo install cross --git https://github.com/cross-rs/cross --rev 4645d937bdae6952d9df38eff3ecb91fd719c3bd
+          cargo install cross --git https://github.com/cross-rs/cross.git --rev 4645d937bdae6952d9df38eff3ecb91fd719c3bd
 
       - name: Install Cargo DEB (Linux)
         if: matrix.os == 'ubuntu-latest'
