@@ -110,9 +110,9 @@ fn get_download_url() -> &'static str {
 pub struct Runtime {
     pub version: Option<String>,
 
-    directory: PathBuf,
-    executable: PathBuf,
-    config: PathBuf,
+    pub directory: PathBuf,
+    pub executable: PathBuf,
+    pub config: PathBuf,
 }
 
 impl Runtime {
@@ -291,9 +291,10 @@ impl Runtime {
 
     #[cfg(feature = "linked-runtime")]
     pub fn link(&self) -> Result<()> {
-        use crate::storage::Storage;
         use std::fs::{copy, create_dir_all};
         use std::os::unix::fs::symlink;
+
+        use crate::storage::Storage;
 
         let dirs = ProjectDirs::new()?;
         let mut storage = Storage::load(&dirs)?;

@@ -157,7 +157,7 @@ pub struct SetConfig(pub Config);
 #[cfg(feature = "linked-runtime")]
 #[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
 pub struct InstallRuntime {
-    /// Experimental: use a linked runtime instead of downloading from mozilla.
+    /// Experimental: Use a linked runtime instead of downloading from Mozilla.
     pub link: bool,
 }
 

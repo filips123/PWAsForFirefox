@@ -12,7 +12,10 @@ use url::Url;
 use crate::components::runtime::Runtime;
 use crate::components::site::{Site, SiteConfig};
 use crate::console::app::{
-    SiteInstallCommand, SiteLaunchCommand, SiteUninstallCommand, SiteUpdateCommand,
+    SiteInstallCommand,
+    SiteLaunchCommand,
+    SiteUninstallCommand,
+    SiteUpdateCommand,
 };
 use crate::console::{store_value, store_value_vec, Run};
 use crate::directories::ProjectDirs;
@@ -31,11 +34,9 @@ impl Run for SiteLaunchCommand {
 
         #[cfg(platform_macos)]
         {
-            use crate::integrations;
-
             if !self.direct_launch {
                 integrations::launch(site, &self.url, args)?;
-                Ok(())
+                return Ok(());
             }
         }
 
@@ -48,13 +49,14 @@ impl Run for SiteLaunchCommand {
 
         #[cfg(feature = "linked-runtime")]
         {
-            use blake3::{hash, Hash};
             use std::fs::File;
             use std::io::Read;
             use std::path::Path;
 
-            fn hasher(path: &str) -> Hash {
-                let mut file = File::open(Path::new(&path).join("firefox")).unwrap();
+            use blake3::{hash, Hash};
+
+            fn hasher<P: AsRef<Path>>(path: P) -> Hash {
+                let mut file = File::open(path.as_ref().join("firefox")).unwrap();
                 let mut buf = Vec::new();
                 let _ = file.read_to_end(&mut buf);
 
@@ -62,8 +64,7 @@ impl Run for SiteLaunchCommand {
             }
 
             if storage.config.use_linked_runtime
-                && hasher(crate::components::runtime::FFOX)
-                    != hasher("/home/daniele/.local/share/firefoxpwa/runtime/")
+                && hasher(crate::components::runtime::FFOX) != hasher(&runtime.directory)
             {
                 runtime.link()?;
             }
