@@ -396,6 +396,14 @@ It is possible to create a shortcut to the web app and add it to your desktop or
 
     These steps may not work on all desktop environments.
 
+### How to back up installed web apps or transfer them?
+
+To back up installed web apps or transfer them to another computer, you can copy the
+`config.json` file and the `profiles` directory inside [the user data directory](../resources/installation-directories.md#user-data).
+
+After restoring the data, you need to run [the "Update web apps" option](../user-guide/extension.md#update-web-apps)
+from the extension settings to register your web apps to the operating system.
+
 ## Troubleshooting
 
 ### Why can't I install a specific website I want?
@@ -492,6 +500,33 @@ Firefox downloaded directly from Mozilla's website.
     use native messaging (KeePassXC, Plasma Integration, etc.) work with your setup.
     If they also do not work, it's probably a problem with your Firefox version/setup.
     If they do work, it might be a problem with PWAsForFirefox.
+
+### Why does the extension detect a wrong connector version on Windows?
+
+Because of [a known problem](https://github.com/filips123/PWAsForFirefox/issues/268),
+the installer might not detect an existing PWAsForFirefox installation and instead
+install a new version along the existing one.
+
+This problem most often happens if you have initially installed PWAsForFirefox to a
+per-user location, but kept the default installation options when installing updates,
+which installed a newer version separately to a global directory.
+
+This might cause the extension to detect and use a wrong/old native connector, which
+might not contain all the latest features and fixes.
+
+To fix this problem:
+
+1. Uninstall any existing PWAsForFirefox versions from the Windows Settings.
+
+2. Remove directories `C:\Program Files\FirefoxPWA` and `%LOCALAPPDATA%\Programs\FirefoxPWA`, if they exist. If you have previously chosen a different installation directory, make sure to also remove it.
+
+3. Remove registry keys `HKLM\Software\filips\FirefoxPWA` and `HKCU\Software\filips\FirefoxPWA`, if they exist.
+
+4. Remove registry keys `HKLM\Software\Mozilla\NativeMessagingHosts\firefoxpwa` and `HKCU\Software\Mozilla\NativeMessagingHosts\firefoxpwa`, if they exist.
+
+5. Reinstall PWAsForFirefox. To make it less likely that this problem occurs again, it is recommended to install PWAsForFirefox for all users and keep the default installation directory (`C:\Program Files\FirefoxPWA`). If you instead choose a different installation option, make sure to remember it and always select the same option and directory when installing updates.
+
+6. Run [the "Patch profiles and runtime" option](../user-guide/extension.md#patch-profiles-and-runtime) from the extension settings.
 
 ### Why doesn't allowing microphone or camera work on macOS?
 
