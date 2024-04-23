@@ -1075,15 +1075,15 @@
     "description": "The create button, after something (profile) has been created"
   },
   "buttonEditDefault": {
-    "message": "Edit",
+    "message": "Apply",
     "description": "The edit button, allowing the user to edit something (web app or profile)"
   },
   "buttonEditProcessing": {
-    "message": "Editing…",
+    "message": "Saving…",
     "description": "The edit button, while something (web app or profile) is being edited"
   },
   "buttonEditFinished": {
-    "message": "Edited!",
+    "message": "Saved!",
     "description": "The edit button, after something (web app or profile) has been edited"
   },
   "buttonRemoveDefault": {
