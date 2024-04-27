@@ -47,6 +47,10 @@
     "message": "Annuler",
     "description": "Displayed as a label for a cancel button"
   },
+  "commonLoading": {
+    "message": "Chargement…",
+    "description": "Displayed when things are still loading"
+  },
   "commonAnd": {
     "message": "et",
     "description": "The \"and\" conjunction, used between untranslatable words"
@@ -473,6 +477,10 @@
     "message": "Installer l'environnement d'exécution",
     "description": "The runtime installation button on the setup page, allowing the user to install the runtime"
   },
+  "buttonRuntimeInstallProcessing": {
+    "message": "Installation de l'environnement d'exécution…",
+    "description": "The runtime installation button on the setup page, while the runtime is installing"
+  },
   "buttonRuntimeInstallFinished": {
     "message": "Environnement d'exécution installé !",
     "description": "The runtime installation button on the setup page, after the runtime has been installed"
@@ -480,6 +488,10 @@
   "buttonWebAppInstallDefault": {
     "message": "Installer l'application web",
     "description": "The web app button on the install web app page, allowing the user to install the web app"
+  },
+  "buttonWebAppInstallProcessing": {
+    "message": "Installation de l'application web…",
+    "description": "The web app installation button on the install web app page, while the web app is installing"
   },
   "buttonWebAppInstallFinished": {
     "message": "Application web installée !",
@@ -489,13 +501,33 @@
     "message": "Créer",
     "description": "The create button, allowing the user to create something (profile)"
   },
+  "buttonCreateProcessing": {
+    "message": "Création en cours…",
+    "description": "The create button, while something (profile) is being created"
+  },
   "buttonCreateFinished": {
     "message": "Créé !",
     "description": "The create button, after something (profile) has been created"
   },
+  "buttonEditDefault": {
+    "message": "Modifier",
+    "description": "The edit button, allowing the user to edit something (web app or profile)"
+  },
+  "buttonEditProcessing": {
+    "message": "Modification en cours…",
+    "description": "The edit button, while something (web app or profile) is being edited"
+  },
+  "buttonEditFinished": {
+    "message": "Modifié !",
+    "description": "The edit button, after something (web app or profile) has been edited"
+  },
   "buttonRemoveDefault": {
     "message": "Supprimer",
     "description": "The remove button, allowing the user to remove something (web app or profile)"
+  },
+  "buttonRemoveProcessing": {
+    "message": "Suppression en cours…",
+    "description": "The remove button, while something (web app or profile) is being removed"
   },
   "buttonRemoveFinished": {
     "message": "Supprimé !",
@@ -505,6 +537,10 @@
     "message": "Mettre à jour",
     "description": "The update button, allowing the user to update something (all web apps)"
   },
+  "buttonUpdateProcessing": {
+    "message": "Mise à jour en cours…",
+    "description": "The update button, while something (all web apps) is being updated"
+  },
   "buttonUpdateFinished": {
     "message": "Mis à jour !",
     "description": "The update button, after something (all web apps) has been updated"
@@ -512,6 +548,10 @@
   "buttonReinstallDefault": {
     "message": "Réinstaller",
     "description": "The reinstall button, allowing the user to reinstall something (runtime)"
+  },
+  "buttonReinstallProcessing": {
+    "message": "Réinstallation en cours…",
+    "description": "The reinstall button, while something (runtime) is being reinstalled"
   },
   "buttonReinstallFinished": {
     "message": "Réinstallé !",
