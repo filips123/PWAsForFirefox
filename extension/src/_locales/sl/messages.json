@@ -47,6 +47,10 @@
     "message": "Prekliči",
     "description": "Displayed as a label for a cancel button"
   },
+  "commonLoading": {
+    "message": "Nalaganje …",
+    "description": "Displayed when things are still loading"
+  },
   "webAppName": {
     "message": "Ime",
     "description": "The name property of a web app"
@@ -335,6 +339,10 @@
     "message": "Namesti aplikacijo",
     "description": "The web app button on the install web app page, allowing the user to install the web app"
   },
+  "buttonWebAppInstallProcessing": {
+    "message": "Nameščanje aplikacije …",
+    "description": "The web app installation button on the install web app page, while the web app is installing"
+  },
   "buttonWebAppInstallFinished": {
     "message": "Aplikacija nameščena!",
     "description": "The web app installation button on the install web app page, after the web app has been installed"
@@ -343,13 +351,33 @@
     "message": "Ustvari",
     "description": "The create button, allowing the user to create something (profile)"
   },
+  "buttonCreateProcessing": {
+    "message": "Ustvarjanje …",
+    "description": "The create button, while something (profile) is being created"
+  },
   "buttonCreateFinished": {
     "message": "Ustvarjeno!",
     "description": "The create button, after something (profile) has been created"
   },
+  "buttonEditDefault": {
+    "message": "Uredi",
+    "description": "The edit button, allowing the user to edit something (web app or profile)"
+  },
+  "buttonEditProcessing": {
+    "message": "Urejanje …",
+    "description": "The edit button, while something (web app or profile) is being edited"
+  },
+  "buttonEditFinished": {
+    "message": "Urejeno!",
+    "description": "The edit button, after something (web app or profile) has been edited"
+  },
   "buttonRemoveDefault": {
     "message": "Odstrani",
     "description": "The remove button, allowing the user to remove something (web app or profile)"
+  },
+  "buttonRemoveProcessing": {
+    "message": "Odstranjevanje …",
+    "description": "The remove button, while something (web app or profile) is being removed"
   },
   "buttonRemoveFinished": {
     "message": "Odstranjeno!",
@@ -359,6 +387,10 @@
     "message": "Posodobi",
     "description": "The update button, allowing the user to update something (all web apps)"
   },
+  "buttonUpdateProcessing": {
+    "message": "Posodabljanje …",
+    "description": "The update button, while something (all web apps) is being updated"
+  },
   "buttonUpdateFinished": {
     "message": "Posodobljeno!",
     "description": "The update button, after something (all web apps) has been updated"
@@ -366,6 +398,10 @@
   "buttonReinstallDefault": {
     "message": "Ponovno namesti",
     "description": "The reinstall button, allowing the user to reinstall something (runtime)"
+  },
+  "buttonReinstallProcessing": {
+    "message": "Ponovno nameščanje …",
+    "description": "The reinstall button, while something (runtime) is being reinstalled"
   },
   "buttonReinstallFinished": {
     "message": "Ponovno nameščeno!",
