@@ -147,7 +147,15 @@
           <ol>
             <li>
               <span data-i18n="instructionsPageLinuxNixOSInstallStep1"></span>
-              <code class="snippet">programs.firefox.nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];<br />environment.systemPackages = [ pkgs.firefoxpwa ];</code>
+              <pre class="snippet"><code>environment.systemPackages = [
+  pkgs.firefoxpwa
+];
+
+programs.firefox = {
+  enable = true;
+  package = pkgs.firefox;
+  nativeMessagingHosts.packages = [ pkgs.firefoxpwa ];
+};</code></pre>
               <span data-i18n="instructionsPageLinuxNixOSInstallStep1After"></span>
             </li>
             <li><span data-i18n="instructionsPageLinuxNixOSInstallStep2"></span> <kbd>sudo nixos-rebuild switch</kbd></li>

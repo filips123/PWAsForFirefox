@@ -589,7 +589,7 @@
     "description": "The step 1 of the NixOS installation option"
   },
   "instructionsPageLinuxNixOSInstallStep1After": {
-    "message": "... to make sure the package is both in the Firefox's <kbd>nativeMessagingHosts</kbd> and in the <kbd>PATH</kbd>.",
+    "message": "... to make sure the package is both in the in the <kbd>PATH</kbd> and in the Firefox's <kbd>nativeMessagingHosts</kbd>.",
     "description": "The step 1 of the NixOS installation option"
   },
   "instructionsPageLinuxNixOSInstallStep2": {
