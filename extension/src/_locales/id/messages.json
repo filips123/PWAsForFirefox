@@ -47,10 +47,6 @@
     "message": "Batalkan",
     "description": "Displayed as a label for a cancel button"
   },
-  "commonLoading": {
-    "message": "Sedang memuat...",
-    "description": "Displayed when things are still loading"
-  },
   "commonAnd": {
     "message": "dan",
     "description": "The \"and\" conjunction, used between untranslatable words"
@@ -238,10 +234,6 @@
   "instructionsPageTabOtherPlatforms": {
     "message": "Instal pada Platform Lain",
     "description": "The other platforms tab on the instructions page"
-  },
-  "instructionsPageOr": {
-    "message": "Atau...",
-    "description": "The \"or\" conjunction, displayed in the installation options list"
   },
   "instructionsPageInstallManualMSITitle": {
     "message": "Untuk menginstal program secara manual:",
