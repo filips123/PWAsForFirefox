@@ -1,0 +1,560 @@
+{
+  "appName": {
+    "message": "Progressive Web Apps for Firefox",
+    "description": "The name of the application, should not be translated"
+  },
+  "appShortName": {
+    "message": "PWAsForFirefox",
+    "description": "The short name of the application, should not be translated"
+  },
+  "appDescription": {
+    "message": "Un outil pour installer, gérer et utiliser des Progressive Web Apps (PWAs) dans Mozilla Firefox",
+    "description": "The description of the application"
+  },
+  "actionInstallSite": {
+    "message": "Installer ce site",
+    "description": "Instruct users that they can install the current site here"
+  },
+  "actionLaunchSite": {
+    "message": "Lancer ce site",
+    "description": "Instruct users that they can launch the current site here"
+  },
+  "updateNotificationTitle": {
+    "message": "Mise à jour de PWAsForFirefox",
+    "description": "The title of the update notification, displayed when an update is available"
+  },
+  "updateNotificationMessage": {
+    "message": "Une mise à jour PWAsForFirefox est disponible. Veuillez cliquer sur la notification pour afficher les instructions de mise à jour.",
+    "description": "The message of the update notification, displayed when an update is available"
+  },
+  "commonError": {
+    "message": "Erreur",
+    "description": "Displayed before error messages or as a popup title"
+  },
+  "commonWarning": {
+    "message": "Avertissement",
+    "description": "Displayed before warning messages or as a popup title"
+  },
+  "commonNote": {
+    "message": "Note",
+    "description": "Displayed before note messages or as a popup title"
+  },
+  "commonClose": {
+    "message": "Fermer",
+    "description": "Displayed as a label for a close button"
+  },
+  "commonCancel": {
+    "message": "Annuler",
+    "description": "Displayed as a label for a cancel button"
+  },
+  "commonLoading": {
+    "message": "Chargement…",
+    "description": "Displayed when things are still loading"
+  },
+  "commonAnd": {
+    "message": "et",
+    "description": "The \"and\" conjunction, used between untranslatable words"
+  },
+  "commonOr": {
+    "message": "ou",
+    "description": "The \"or\" conjunction, used between untranslatable words"
+  },
+  "commonExtensionVersion": {
+    "message": "Version de l’extension :",
+    "description": "Displayed before the extension version"
+  },
+  "commonNativeVersion": {
+    "message": "Version native :",
+    "description": "Displayed before the native connector version"
+  },
+  "commonRuntimeVersion": {
+    "message": "Version de l’environnement d’exécution :",
+    "description": "Displayed before the app browser version"
+  },
+  "commonFirefoxVersion": {
+    "message": "Version de Firefox :",
+    "description": "Displayed before the main browser version"
+  },
+  "webAppName": {
+    "message": "Nom",
+    "description": "The name property of a web app"
+  },
+  "webAppDescription": {
+    "message": "Description",
+    "description": "The description property of a web app"
+  },
+  "webAppCategories": {
+    "message": "Catégories",
+    "description": "The categories property of a web app"
+  },
+  "webAppKeywords": {
+    "message": "Mots-clefs",
+    "description": "The keywords property of a web app"
+  },
+  "webAppStartURL": {
+    "message": "URL de départ",
+    "description": "The start URL property of a web app"
+  },
+  "webAppIconURL": {
+    "message": "URL de l’icône",
+    "description": "The icon URL property of a web app"
+  },
+  "webAppID": {
+    "message": "ID",
+    "description": "The ID property of a web app"
+  },
+  "webAppProfile": {
+    "message": "Profil",
+    "description": "The profile property of a web app"
+  },
+  "webAppProtocolHandlers": {
+    "message": "Gestionnaires de protocoles",
+    "description": "The protocol handlers property of a web app"
+  },
+  "profileName": {
+    "message": "Nom",
+    "description": "The name property of a profile"
+  },
+  "profileDescription": {
+    "message": "Description",
+    "description": "The description property of a profile"
+  },
+  "profileTemplate": {
+    "message": "Modèle",
+    "description": "The template property of a profile"
+  },
+  "profileTemplatePlaceholder": {
+    "message": "Chemin vers le modèle de profil",
+    "description": "The placeholder for the template input"
+  },
+  "profileID": {
+    "message": "ID",
+    "description": "The ID property of a profile"
+  },
+  "webAppValidationNameReuse": {
+    "message": "Le nom ne peut pas être utilisé par plusieurs web apps",
+    "description": "A validation error when the web app name is reused"
+  },
+  "webAppValidationStartURLInvalid": {
+    "message": "L’URL de départ doit être une URL valide",
+    "description": "A validation error when the web app start URL is invalid"
+  },
+  "webAppValidationStartURLScope": {
+    "message": "L’URL de départ doit être dans le domaine :",
+    "description": "A validation error when the web app start URL is out-of-scope, with the scope displayed after the colon"
+  },
+  "webAppValidationIconURLInvalid": {
+    "message": "L’URL de l’icône doit être une URL valide",
+    "description": "A validation error when the web app icon URL is invalid"
+  },
+  "webAppValidationProfileLimit": {
+    "message": "Une seule instance par profil peut être installée",
+    "description": "A validation error when multiple web app instances are tried to be installed in the same profile"
+  },
+  "setupPageTitle": {
+    "message": "Configuration de Progressive Web Apps for Firefox",
+    "description": "The title of the setup page"
+  },
+  "setupPageTabLicenseAgreement": {
+    "message": "Accord de licence",
+    "description": "The licence agreement tab on the setup page"
+  },
+  "setupPageTabConnectorInstallation": {
+    "message": "Installation du connecteur",
+    "description": "The connector installation tab on the setup page"
+  },
+  "setupPageTabRuntimeInstallation": {
+    "message": "Installation de l’environnement d’exécution",
+    "description": "The runtime installation tab on the setup page"
+  },
+  "setupPageTabReady": {
+    "message": "Prêt",
+    "description": "The ready tab on the setup page"
+  },
+  "setupPageLicenseBase": {
+    "message": "Le projet est distribué sous <a href=\"https://www.mozilla.org/MPL/2.0/\" target=\"_blank\">la licence Mozilla Public License 2.0</a>. En l’utilisant, en redistribuant ou en modifiant ce projet, vous devez accepter la licence et les clauses supplémentaires fournies ci-dessous. Voir <a href=\"https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE\" target=\"_blank\">le fichier LICENSE</a> dans le dépôt de code du projet pour le texte intégral de la licence MPL 2.0.",
+    "description": "The base license notice on the setup page"
+  },
+  "setupPageLicenseThirdPartyIncluded": {
+    "message": "Ce projet utilise des ressources et du code externes :",
+    "description": "The included third-party assets and code notice on the setup page"
+  },
+  "setupPageLicenseLogo": {
+    "message": "Le logo du projet est basé sur <a href=\"https://www.svgrepo.com/svg/40267/fox\" target=\"_blank\">l’icône « Fox SVG Vector »</a> et <a href=\"https://github.com/webmaxru/progressive-web-apps-logo\" target=\"_blank\">le logo PWA de la communauté</a>, tous deux dévoués au domaine public en utilisant <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\">CC0</a>.",
+    "description": "The logo notice on the setup page"
+  },
+  "setupPageLicenseFirefoxScripts": {
+    "message": "Les modifications du « chrome » du navigateur ont été inspirées par et partiellement dérivées du dépôt <a href=\"https://github.com/xiaoxiaoflood/firefox-scripts\" target=\"_blank\"><code>xiaoxiaoflood/firefox-scripts</code></a> sur GitHub, sous licence Mozilla Public License 2.0. Vous trouverez des informations détaillées dans les fichiers respectifs.",
+    "description": "The notice for `xiaoxiaoflood/firefox-scripts` on the setup page"
+  },
+  "setupPageLicenseFirefoxUiFix": {
+    "message": "Les modifications du « chrome » du navigateur utilisent partiellement le code dérivé du dépôt <a href=\"https://github.com/black7375/Firefox-UI-Fix\" target=\"_blank\"><code>black7375/Firefox-UI-Fix</code></a> sur GitHub, sous licence Mozilla Public License 2.0. Vous trouverez des informations détaillées dans les fichiers respectifs.",
+    "description": "The notice for `black7375/Firefox-UI-Fix` on the setup page"
+  },
+  "setupPageLicenseFirefoxSource": {
+    "message": "Les modifications du « chrome » du navigateur utilisent partiellement du code et des icônes dérivées du <a href=\"https://github.com/mozilla/gecko-dev\" target=\"_blank\">code source original de Firefox</a>, sous licence Mozilla Public License 2.0. Vous trouverez des informations détaillées dans les fichiers respectifs.",
+    "description": "The notice for the Firefox source on the setup page"
+  },
+  "setupPageLicenseMetropolisFont": {
+    "message": "Les programmes compilés incluent <a href=\"https://fontsarena.com/metropolis-by-chris-simpson/\" target=\"_blank\">la police Metropolis Semi Bold</a> de Chris Simpson, publiée dans le domaine public en utilisant <a href=\"https://unlicense.org/\" target=\"_blank\">Unlicense</a>.",
+    "description": "The notice for Metropolis Typeface on the setup page"
+  },
+  "setupPageLicenseThirdPartyDownloaded": {
+    "message": "Des logiciels open source supplémentaires seront téléchargés et installés au moment de l'exécution, à la demande de l’utilisateur :",
+    "description": "The downloaded third-party assets and code notice on the setup page"
+  },
+  "setupPageLicense7ZipDownloaded": {
+    "message": "L’installation de l’environnement d’exécution sous Windows installera <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a> s’il n'est pas déjà installé. Le projet 7-Zip est réalisé par Igor Pavlov et <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">sous la licence GNU LGPL et autres</a>. Ce projet n'est pas affilié au projet 7-Zip ou ses développeurs de quelque manière que ce soit.",
+    "description": "The notice for downloaded 7-Zip on the setup page"
+  },
+  "setupPageLicenseFirefoxDownloaded": {
+    "message": "L’installation de l’environnement d’exécution sur n’importe quel système téléchargera le navigateur <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> non modifié et le modifiera localement. En utilisant ce projet, vous acceptez également <a href=\"https://www.mozilla.org/privacy/firefox/\">la politique de confidentialité de Firefox</a>. Firefox utilise la licence Mozilla Public License 2.0. Firefox et le logo Firefox sont des marques déposées de la Fondation Mozilla aux États-Unis d’Amérique et dans d'autres pays. Ce projet n'est en aucun cas affilié à la Fondation Mozilla.",
+    "description": "The notice for downloaded Firefox on the setup page"
+  },
+  "setupPageLicensePrivacyPolicy": {
+    "message": "Cette extension échange des données personnelles (site web actuel et URLs des manifestes, ainsi que d’autres détails PWA) avec le programme natif lorsque l’utilisateur lance l'installation de la PWA. Ceci est nécessaire pour obtenir et analyser correctement le manifeste de l'application Web et installer la PWA. Les données sont stockées sur l’ordinateur tant que PWA est installée. Aucune donnée personnelle n’est stockée en dehors de l’ordinateur ou envoyée à des tierces parties.",
+    "description": "The privacy policy notice on the setup page"
+  },
+  "setupPageLicenseAccept": {
+    "message": "J’accepte l’accord de licence",
+    "description": "The license accept button on the setup page"
+  },
+  "setupPageConnectorInstallationMain": {
+    "message": "Vous devez installer le programme complémentaire pour que l'extension puisse gérer et lancer l’environnement d’exécution dédié et les profils de vos applications web. L’extension ne fonctionnera pas sans ce programme. Veuillez suivre les instructions ci-dessous pour l'installer.",
+    "description": "The main connector installation notice on the setup page"
+  },
+  "setupPageConnectorInstallationIncompatible": {
+    "message": "La version d’un programme actuellement installé peut être incompatible avec la version actuelle de l’extension. Vous devez mettre à jour le programme ou l’extension vers une version compatible pour qu’ils fonctionnent correctement.",
+    "description": "The incompatible connector installation notice on the setup page"
+  },
+  "setupPageRuntimeInstallationAuto": {
+    "message": "Cette extension a également besoin d'une runtime de Mozilla Firefox séparée où toutes vos Progressive Web App s'exécuteront. En appuyant sur le bouton ci-dessous, vous téléchargerez automatiquement une runtime de Mozilla Firefox non modifiée depuis les serveurs Mozilla et le modifierez localement avec les modifications requises. Vous pouvez également vérifier les options avancées ci-dessous pour installer manuellement la runtime modifiée.",
+    "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is supported"
+  },
+  "setupPageRuntimeInstallationManual": {
+    "message": "Cette extension a également besoin d'une runtime de Mozilla Firefox séparée où toutes vos Progressive Web App s'exécuteront. Cependant, votre plateforme ne supporte pas l'installation automatique de la runtime. Veuillez suivre les options avancées ci-dessous pour l'installer manuellement.",
+    "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is not supported"
+  },
+  "instructionsPageAfterProgramsInstalled": {
+    "message": "Après l’installation des programmes, la prochaine étape devrait s’afficher automatiquement. Si rien ne se passe après environ 30 secondes, redémarrez le navigateur.",
+    "description": "The final installation step in installation options that use the \"program\" terminology"
+  },
+  "instructionsPageAfterPackageInstalled": {
+    "message": "Après l’installation du paquet, la prochaine étape devrait s’afficher automatiquement. Si rien ne se passe après environ 30 secondes, redémarrez le navigateur.",
+    "description": "The final installation step in installation options that use the \"package\" terminology"
+  },
+  "instructionsPageAfterProjectInstalled": {
+    "message": "Après l’installation du projet, la prochaine étape devrait s’afficher automatiquement. Si rien ne se passe après environ 30 secondes, redémarrez le navigateur.",
+    "description": "The final installation step in installation options that use the \"project\" terminology"
+  },
+  "instructionsPageInstallManualMSITitle": {
+    "message": "Pour installer le programme manuellement :",
+    "description": "The title of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualMSIStep1": {
+    "message": "Téléchargez et installez <a id=\"connector-download-url-crt\" target=\"_blank\">Visual C++ Redistributable</a>.",
+    "description": "The step 1 of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualMSIStep2": {
+    "message": "Téléchargez et exécutez <a id=\"connector-download-url-msi\" target=\"_blank\">l’installeur MSI PWAsForFirefox</a>.",
+    "description": "The step 2 of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualDEBTitle": {
+    "message": "Pour installer le paquet manuellement :",
+    "description": "The title of the manual DEB installation option"
+  },
+  "instructionsPageInstallManualDEBStep1": {
+    "message": "Téléchargez et installez <a id=\"connector-download-url-deb\" target=\"_blank\">le paquet DEB PWAsForFirefox</a>.",
+    "description": "The step 1 of the manual DEB installation option"
+  },
+  "instructionsPageInstallManualRPMTitle": {
+    "message": "Pour installer le paquet manuellement :",
+    "description": "The title of the manual RPM installation option"
+  },
+  "instructionsPageInstallManualRPMStep1": {
+    "message": "Téléchargez et installez <a id=\"connector-download-url-rpm\" target=\"_blank\">le paquet RPM PWAsForFirefox</a>.",
+    "description": "The step 1 of the manual RPM installation option"
+  },
+  "instructionsPageInstallWingetTitle": {
+    "message": "Pour installer le paquet en utilisant le gestionnaire de paquets Windows :",
+    "description": "The title of the Windows Package Manager (winget) installation option"
+  },
+  "installPageTitle": {
+    "message": "Installer l'application web",
+    "description": "The title of the install web app page"
+  },
+  "installPageCreateProfile": {
+    "message": "Créer un nouveau profil",
+    "description": "The profile creation option on the install web app page"
+  },
+  "installPageAutoCreateProfile": {
+    "message": "Créer automatiquement un nouveau profil",
+    "description": "The automatic profile creation option on the install web app page"
+  },
+  "installPageSeparateProfiles": {
+    "message": "Il est fortement recommandé d'installer chaque application web dans un profil séparé en raison d'un bug difficile à résoudre. Voir l'issue <a id=\"web-app-profile-warn-issue\"></a> pour plus de détails.",
+    "description": "The message that tells users each web app should be in a separate profile on affected platforms"
+  },
+  "installPageUseManifestLabel": {
+    "message": "Utiliser le manifeste pour déterminer les propriétés de l'application",
+    "description": "The label for the use manifest checkbox on the web app installation page"
+  },
+  "installPageUseManifestTooltip": {
+    "message": "Désactiver uniquement si vous ne pouvez pas installer cette application web avec le manifeste activé",
+    "description": "The tooltip for the use manifest checkbox on the web app installation page"
+  },
+  "installPageLaunchNowLabel": {
+    "message": "Lancer l'application web lorsque l'installation est terminée",
+    "description": "The label for the launch now checkbox on the web app installation page"
+  },
+  "installPageLaunchNowTooltip": {
+    "message": "Activer si vous voulez que cette application web soit lancée automatiquement après l'installation",
+    "description": "The tooltip for the launch now checkbox on the web app installation page"
+  },
+  "launchPageTitle": {
+    "message": "Lancer l'application web",
+    "description": "The title of the launch web app page"
+  },
+  "launchPageInstallNewInstance": {
+    "message": "Installer une nouvelle instance",
+    "description": "Displayed on the launch web app page to install a new instance"
+  },
+  "managePageTitle": {
+    "message": "Gérer les applications web et les profils",
+    "description": "The title of the manage page"
+  },
+  "managePageTabApps": {
+    "message": "Applications",
+    "description": "The apps tab on the manage page"
+  },
+  "managePageTabProfiles": {
+    "message": "Profils",
+    "description": "The profiles tab on the manage page"
+  },
+  "managePageTabSettings": {
+    "message": "Paramètres",
+    "description": "The settings tab on the manage page"
+  },
+  "managePageAppListIcon": {
+    "message": "Icône",
+    "description": "The icon alternative text on the web app list"
+  },
+  "managePageAppListLaunch": {
+    "message": "Lancer l'application web",
+    "description": "The launch tooltip on the web app list"
+  },
+  "managePageAppListEdit": {
+    "message": "Modifier l'application web",
+    "description": "The edit tooltip on the web app list and the title of the edit web app dialog"
+  },
+  "managePageAppListRemove": {
+    "message": "Supprimer l'application web",
+    "description": "The remove tooltip on the web app list and the title of the remove web app dialog"
+  },
+  "managePageAppListEmpty": {
+    "message": "Aucune application web installée !",
+    "description": "A message that is displayed on the web app list when no web apps are installed"
+  },
+  "managePageAppListAdd": {
+    "message": "Installer le site actuel",
+    "description": "A button that is displayed on the web app list to install the current site"
+  },
+  "managePageProfileListCreate": {
+    "message": "Créer un profil",
+    "description": "The create tooltip on the profile list and the title of the edit profile dialog"
+  },
+  "managePageProfileListEdit": {
+    "message": "Modifier le profil",
+    "description": "The edit tooltip on the profile list and the title of the edit profile dialog"
+  },
+  "managePageProfileListRemove": {
+    "message": "Supprimer le profil",
+    "description": "The remove tooltip on the profile list and title of the remove profile dialog"
+  },
+  "managePageProfileListEmpty": {
+    "message": "Aucun profil disponible !",
+    "description": "A message that is displayed on the profile list when no profile are available"
+  },
+  "managePageProfileListAdd": {
+    "message": "Créer un nouveau profil",
+    "description": "A button that is displayed on the profile list to create a new profile"
+  },
+  "managePageProfileListUnnamed": {
+    "message": "Sans nom",
+    "description": "The unnamed profile on the profile list"
+  },
+  "managePageSettingsDisplayPageActionAlways": {
+    "message": "Toujours",
+    "description": "The option to always display page action"
+  },
+  "managePageSettingsDisplayPageActionNever": {
+    "message": "Jamais",
+    "description": "The option to never display page action"
+  },
+  "managePageSettingsDarkMode": {
+    "message": "Activer le mode sombre",
+    "description": "The setting for enabling dark mode"
+  },
+  "managePageSettingsAutoLaunchExclusionPlaceholder": {
+    "message": "Entrez une expression régulière des URL exclues",
+    "description": "The placeholder for auto launch exclusion"
+  },
+  "managePageSettingsLanguage": {
+    "message": "Langue",
+    "description": "The setting for language"
+  },
+  "managePageSettingsUpdateWebApps": {
+    "message": "Mettre à jour les applications web",
+    "description": "The button in settings to update web apps"
+  },
+  "managePageSettingsReinstallRuntime": {
+    "message": "Réinstaller l'environnement d'exécution",
+    "description": "The button in settings to reinstall runtime"
+  },
+  "managePageSettingsAboutProject": {
+    "message": "À propos du projet",
+    "description": "The button in settings to display project info"
+  },
+  "managePageFooterOutdated1": {
+    "message": "L'extension est obsolète !",
+    "description": "The first part of the extension outdated warning"
+  },
+  "managePageFooterOutdated2": {
+    "message": "Veuillez la mettre à jour !",
+    "description": "The second part of the extension outdated warning"
+  },
+  "managePageFooterSearchPlaceholder": {
+    "message": "Recherche par nom",
+    "description": "The search placeholder for web apps and profiles"
+  },
+  "managePageAppEditLaunchOnBrowserLabel": {
+    "message": "Lancer cette application web au lancement du navigateur",
+    "description": "The label for the launch on browser checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateManifestLabel": {
+    "message": "Mettre à jour le manifeste de l'application web",
+    "description": "The label for the manifest update checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateIconsLabel": {
+    "message": "Mettre à jour les icônes de l'application web",
+    "description": "The label for the icons update checkbox on the edit web app dialog"
+  },
+  "managePageAutoLaunchTitle": {
+    "message": "Lancement automatique des applications web",
+    "description": "The title of the automatic launching dialog"
+  },
+  "managePageAutoLaunchAboutMain": {
+    "message": "Activer le <em>lancement automatique des applications</em> lancera automatiquement toute les URLs appartenant aux domaines de vos applications web installées dans l'application web correspondante.",
+    "description": "The main clarification about the automatic launching"
+  },
+  "managePageAutoLaunchAboutExperimental": {
+    "message": "Cette fonctionnalité est expérimentale, peut ne pas fonctionner correctement avec tous les sites web et peut affecter les performances. Elle doit être activée pour chaque application web dans les paramètres de l'application web en utilisant l'option <em>$OPTION$</em>.",
+    "description": "The experimental clarification about the automatic launching",
+    "placeholders": {
+      "option": {
+        "content": "$managePageAppEditLaunchOnWebsiteLabel$",
+        "example": "Launch this web app on matching website"
+      }
+    }
+  },
+  "managePageAutoLaunchAboutPermissions": {
+    "message": "Des permissions supplémentaires sont requises pour que cela fonctionne. Elles seront demandées automatiquement après l'activation si elles ne sont pas déjà autorisées.",
+    "description": "The permissions clarification about the automatic launching"
+  },
+  "managePageAutoLaunchEnable": {
+    "message": "Activer",
+    "description": "The enable button for the automatic launching"
+  },
+  "managePageReinstallRuntimeAbout1": {
+    "message": "Êtes-vous sûr de vouloir réinstaller l'environnement d'exécution PWAsForFirefox ? Cela supprimera votre environnement actuel et téléchargera la dernière version de Mozilla.",
+    "description": "The first part of about reinstalling runtime message"
+  },
+  "managePageReinstallRuntimeAbout2": {
+    "message": "Cela n'affectera <strong>pas</strong> votre navigateur Firefox principal et ne supprimera <strong>aucun</strong> profil ou données.",
+    "description": "The second part of about reinstalling runtime message"
+  },
+  "buttonRuntimeInstallDefault": {
+    "message": "Installer l'environnement d'exécution",
+    "description": "The runtime installation button on the setup page, allowing the user to install the runtime"
+  },
+  "buttonRuntimeInstallProcessing": {
+    "message": "Installation de l'environnement d'exécution…",
+    "description": "The runtime installation button on the setup page, while the runtime is installing"
+  },
+  "buttonRuntimeInstallFinished": {
+    "message": "Environnement d'exécution installé !",
+    "description": "The runtime installation button on the setup page, after the runtime has been installed"
+  },
+  "buttonWebAppInstallDefault": {
+    "message": "Installer l'application web",
+    "description": "The web app button on the install web app page, allowing the user to install the web app"
+  },
+  "buttonWebAppInstallProcessing": {
+    "message": "Installation de l'application web…",
+    "description": "The web app installation button on the install web app page, while the web app is installing"
+  },
+  "buttonWebAppInstallFinished": {
+    "message": "Application web installée !",
+    "description": "The web app installation button on the install web app page, after the web app has been installed"
+  },
+  "buttonCreateDefault": {
+    "message": "Créer",
+    "description": "The create button, allowing the user to create something (profile)"
+  },
+  "buttonCreateProcessing": {
+    "message": "Création en cours…",
+    "description": "The create button, while something (profile) is being created"
+  },
+  "buttonCreateFinished": {
+    "message": "Créé !",
+    "description": "The create button, after something (profile) has been created"
+  },
+  "buttonEditDefault": {
+    "message": "Modifier",
+    "description": "The edit button, allowing the user to edit something (web app or profile)"
+  },
+  "buttonEditProcessing": {
+    "message": "Modification en cours…",
+    "description": "The edit button, while something (web app or profile) is being edited"
+  },
+  "buttonEditFinished": {
+    "message": "Modifié !",
+    "description": "The edit button, after something (web app or profile) has been edited"
+  },
+  "buttonRemoveDefault": {
+    "message": "Supprimer",
+    "description": "The remove button, allowing the user to remove something (web app or profile)"
+  },
+  "buttonRemoveProcessing": {
+    "message": "Suppression en cours…",
+    "description": "The remove button, while something (web app or profile) is being removed"
+  },
+  "buttonRemoveFinished": {
+    "message": "Supprimé !",
+    "description": "The remove button, after something (web app or profile) has been removed"
+  },
+  "buttonUpdateDefault": {
+    "message": "Mettre à jour",
+    "description": "The update button, allowing the user to update something (all web apps)"
+  },
+  "buttonUpdateProcessing": {
+    "message": "Mise à jour en cours…",
+    "description": "The update button, while something (all web apps) is being updated"
+  },
+  "buttonUpdateFinished": {
+    "message": "Mis à jour !",
+    "description": "The update button, after something (all web apps) has been updated"
+  },
+  "buttonReinstallDefault": {
+    "message": "Réinstaller",
+    "description": "The reinstall button, allowing the user to reinstall something (runtime)"
+  },
+  "buttonReinstallProcessing": {
+    "message": "Réinstallation en cours…",
+    "description": "The reinstall button, while something (runtime) is being reinstalled"
+  },
+  "buttonReinstallFinished": {
+    "message": "Réinstallé !",
+    "description": "The reinstall button, after something (runtime) has been reinstalled"
+  }
+}

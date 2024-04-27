@@ -709,10 +709,6 @@
     "message": "作成",
     "description": "The create button, allowing the user to create something (profile)"
   },
-  "buttonEditDefault": {
-    "message": "を編集",
-    "description": "The edit button, allowing the user to edit something (web app or profile)"
-  },
   "buttonRemoveDefault": {
     "message": "削除",
     "description": "The remove button, allowing the user to remove something (web app or profile)"
