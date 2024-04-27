@@ -31,6 +31,10 @@
     "message": "キャンセル",
     "description": "Displayed as a label for a cancel button"
   },
+  "commonLoading": {
+    "message": "ロード中...",
+    "description": "Displayed when things are still loading"
+  },
   "commonOr": {
     "message": "または、",
     "description": "The \"or\" conjunction, used between untranslatable words"
@@ -199,6 +203,10 @@
     "message": "パッケージマネージャを使用して手動でFirefoxをインストールする:",
     "description": "Instructions for manually installing Firefox using package manager, title"
   },
+  "setupPageAdvancedOptionsPackageManagerStep1": {
+    "message": "お使いのディストロのパッケージマネージャを使用して Firefox をインストールする (例：<kbd>sudo apt install firefox</kbd>, <kbd>sudo yum install firefox</kbd>, ...)",
+    "description": "Instructions for manually installing Firefox using package manager, step 1"
+  },
   "setupPageAdvancedOptionsPackageManagerStep2": {
     "message": "インストールした Firefox のファイル (commonly stored in <kbd>/usr/lib/firefox/</kbd>) を正しいディレクトリにコピーする (下部を参照)。",
     "description": "Instructions for manually installing Firefox using package manager, step 2"
@@ -310,6 +318,10 @@
   "instructionsPageTabOtherPlatforms": {
     "message": "その他のプラットフォーム",
     "description": "The other platforms tab on the instructions page"
+  },
+  "instructionsPageOr": {
+    "message": "または...",
+    "description": "The \"or\" conjunction, displayed in the installation options list"
   },
   "instructionsPageAfterProgramsInstalled": {
     "message": "プログラムのインストールが完了すると、自動的に次のステップに進みます。30 秒程度経過しても何も変化がない場合は、ブラウザを再起動してください。",
