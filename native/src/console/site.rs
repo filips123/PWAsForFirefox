@@ -32,14 +32,11 @@ impl Run for SiteLaunchCommand {
         let site = storage.sites.get(&self.id).context("Web app does not exist")?;
         let args = if !&self.arguments.is_empty() { &self.arguments } else { &storage.arguments };
 
-        cfg_if! {
-            if #[cfg(platform_macos)] {
-                use crate::integrations;
-
-                if !self.direct_launch {
-                    integrations::launch(site, &self.url, args)?;
-                    return Ok(())
-                }
+        #[cfg(platform_macos)]
+        {
+            if !self.direct_launch {
+                integrations::launch(site, &self.url, args)?;
+                return Ok(());
             }
         }
 
@@ -48,6 +45,29 @@ impl Run for SiteLaunchCommand {
 
         if runtime.version.is_none() {
             bail!("Runtime not installed");
+        }
+
+        #[cfg(feature = "linked-runtime")]
+        {
+            use std::fs::File;
+            use std::io::Read;
+            use std::path::Path;
+
+            use blake3::{hash, Hash};
+
+            fn hasher<P: AsRef<Path>>(path: P) -> Hash {
+                let mut file = File::open(path.as_ref().join("firefox")).unwrap();
+                let mut buf = Vec::new();
+                let _ = file.read_to_end(&mut buf);
+
+                hash(&buf)
+            }
+
+            if storage.config.use_linked_runtime
+                && hasher(crate::components::runtime::FFOX) != hasher(&runtime.directory)
+            {
+                runtime.link()?;
+            }
         }
 
         // Patching on macOS is always needed to correctly show the web app name

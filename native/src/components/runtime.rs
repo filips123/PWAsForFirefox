@@ -13,6 +13,9 @@ use tempfile::{NamedTempFile, TempDir};
 use crate::components::site::Site;
 use crate::directories::ProjectDirs;
 
+// TODO: Remove this constant and implement variable firefox path into user documentation
+pub const FFOX: &str = "/usr/lib/firefox/";
+
 cfg_if! {
     if #[cfg(any(platform_linux, platform_bsd))] {
 
@@ -107,9 +110,9 @@ fn get_download_url() -> &'static str {
 pub struct Runtime {
     pub version: Option<String>,
 
-    directory: PathBuf,
-    executable: PathBuf,
-    config: PathBuf,
+    pub directory: PathBuf,
+    pub executable: PathBuf,
+    pub config: PathBuf,
 }
 
 impl Runtime {
@@ -195,6 +198,21 @@ impl Runtime {
         const COPY_ERROR: &str = "Failed to copy the runtime";
         const CLEANUP_ERROR: &str = "Failed to clean up the runtime";
 
+        #[cfg(feature = "linked-runtime")]
+        {
+            use crate::storage::Storage;
+
+            let dirs = ProjectDirs::new()?;
+            let mut storage = Storage::load(&dirs)?;
+
+            if storage.config.use_linked_runtime {
+                self.uninstall()?;
+            }
+
+            storage.config.use_linked_runtime = false;
+            storage.write(&dirs)?;
+        }
+
         warn!("This will download the unmodified Mozilla Firefox and locally modify it");
         warn!("Firefox is licensed under the Mozilla Public License 2.0");
         warn!("Firefox is a trademark of the Mozilla Foundation in the U.S. and other countries");
@@ -267,13 +285,64 @@ impl Runtime {
         remove_dir_all(extracted).context(CLEANUP_ERROR)?;
 
         info!("Runtime installed!");
+
+        Ok(())
+    }
+
+    #[cfg(feature = "linked-runtime")]
+    pub fn link(&self) -> Result<()> {
+        use std::fs::{copy, create_dir_all};
+        use std::os::unix::fs::symlink;
+
+        use crate::storage::Storage;
+
+        let dirs = ProjectDirs::new()?;
+        let mut storage = Storage::load(&dirs)?;
+
+        self.uninstall()?;
+
+        storage.config.use_linked_runtime = true;
+
+        info!("Linking the runtime");
+
+        if Path::new(FFOX).exists() {
+            for entry in read_dir(FFOX)?.flatten() {
+                let entry = entry.path();
+                match entry.file_name().expect("Couldn't retrieve a file name").to_str() {
+                    // Use a different branch for the "defaults" folder due to the patches to apply afterwhile
+                    Some("defaults") => {
+                        create_dir_all(self.directory.join("defaults/pref"))?;
+                        symlink(
+                            entry.join("defaults/pref/channel-prefs.js"),
+                            self.directory.join("defaults/pref/channel-prefs.js"),
+                        )?;
+                    }
+                    Some("firefox-bin") => {
+                        copy(entry, self.directory.join("firefox-bin"))?;
+                    }
+                    Some("firefox") => {
+                        copy(entry, self.directory.join("firefox"))?;
+                    }
+                    Some(&_) => {
+                        let link = self.directory.join(entry.file_name().unwrap());
+                        symlink(entry, link)?;
+                    }
+                    None => todo!(),
+                }
+            }
+        }
+
+        storage.write(&dirs)?;
+
+        info!("Runtime linked!");
+
         Ok(())
     }
 
     #[cfg(not(feature = "immutable-runtime"))]
-    pub fn uninstall(self) -> Result<()> {
+    pub fn uninstall(&self) -> Result<()> {
         info!("Uninstalling the runtime");
-        remove_dir_contents(self.directory).context("Failed to remove runtime directory")?;
+        remove_dir_contents(&self.directory).context("Failed to remove runtime directory")?;
 
         info!("Runtime uninstalled!");
         Ok(())
