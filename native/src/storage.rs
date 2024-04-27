@@ -48,6 +48,11 @@ pub struct Config {
     /// Only affects Linux, on supported desktop environments.
     /// May be overwritten with a system environment variable.
     pub runtime_use_portals: bool,
+
+    #[cfg(feature = "linked-runtime")]
+    /// Experimental: Using the system runtime to save some disk space.
+    /// This might not work on your system.
+    pub use_linked_runtime: bool,
 }
 
 #[non_exhaustive]
