@@ -18,7 +18,6 @@ pub const FFOX: &str = "/usr/lib/firefox/";
 
 cfg_if! {
     if #[cfg(any(platform_linux, platform_bsd))] {
-
         use std::fs::{set_permissions, DirEntry};
         use std::os::unix::fs::PermissionsExt;
 
@@ -51,6 +50,49 @@ cfg_if! {
             if let Err(_e) = set_permissions(path, PermissionsExt::from_mode(0o644)) {
                 warn!("Failed to make patch writable")
             }
+        }
+    }
+
+    else if #[cfg(platform_windows)] {
+        use std::ffi::c_void;
+        use std::mem;
+
+        use windows::Win32::Foundation::{BOOL, HANDLE};
+        use windows::Win32::System::JobObjects::{
+            IsProcessInJob,
+            JobObjectExtendedLimitInformation,
+            QueryInformationJobObject,
+            JOBOBJECT_EXTENDED_LIMIT_INFORMATION,
+            JOB_OBJECT_LIMIT_BREAKAWAY_OK,
+        };
+        use windows::Win32::System::Threading::GetCurrentProcess;
+
+        /// Check if the current process is in a job that allows breaking away.
+        ///
+        /// If the process is not in a job, breaking away is allowed by default.
+        /// If the process is in a job, we need to query job info and check if
+        /// the limit breakaway ok flag is set.
+        fn allows_breakaway_from_job() -> Result<bool> {
+            let mut process_in_job: BOOL = BOOL(0);
+            unsafe { IsProcessInJob(GetCurrentProcess(), HANDLE(0), &mut process_in_job)? }
+
+            if process_in_job.0 == 0 {
+                return Ok(true);
+            }
+
+            let mut info = JOBOBJECT_EXTENDED_LIMIT_INFORMATION::default();
+
+            unsafe {
+                QueryInformationJobObject(
+                    HANDLE(0),
+                    JobObjectExtendedLimitInformation,
+                    &mut info as *mut _ as *mut c_void,
+                    mem::size_of_val(&info) as u32,
+                    None,
+                )?
+            }
+
+            Ok(info.BasicLimitInformation.LimitFlags.0 & JOB_OBJECT_LIMIT_BREAKAWAY_OK.0 != 0)
         }
     }
 }
@@ -445,11 +487,14 @@ impl Runtime {
         let mut command = Command::new(&self.executable);
 
         cfg_if! {
-            if #[cfg(windows)] {
+            if #[cfg(platform_windows)] {
                 use std::os::windows::process::CommandExt;
                 use windows::Win32::System::Threading::{CREATE_BREAKAWAY_FROM_JOB, DETACHED_PROCESS};
 
-                command.creation_flags((CREATE_BREAKAWAY_FROM_JOB | DETACHED_PROCESS).0);
+                let mut flags = DETACHED_PROCESS;
+                if allows_breakaway_from_job().unwrap_or(true) { flags |= CREATE_BREAKAWAY_FROM_JOB }
+
+                command.creation_flags(flags.0);
             }
         }
 
