@@ -15,6 +15,7 @@ pub use web_app_manifest::WebAppManifest as SiteManifest;
 use crate::components::runtime::Runtime;
 use crate::directories::ProjectDirs;
 use crate::storage::Config;
+use crate::utils::sanitize_string;
 
 const DOWNLOAD_ERROR: &str = "Failed to download web app manifest";
 const DATA_URL_ERROR: &str = "Failed to process web app manifest data URL";
@@ -245,30 +246,36 @@ impl Site {
         }
     }
 
-    /// First tries the user-specified name, then try manifest name
+    /// First tries the user-specified name, then tries manifest name
     /// and then short name. If no name is specified, uses the domain.
     pub fn name(&self) -> String {
-        self.config
-            .name
-            .as_ref()
-            .cloned()
-            .or_else(|| self.manifest.name.as_ref().cloned())
-            .or_else(|| self.manifest.short_name.as_ref().cloned())
-            .unwrap_or_else(|| self.domain())
+        sanitize_string(
+            &self
+                .config
+                .name
+                .as_ref()
+                .cloned()
+                .or_else(|| self.manifest.name.as_ref().cloned())
+                .or_else(|| self.manifest.short_name.as_ref().cloned())
+                .unwrap_or_else(|| self.domain()),
+        )
     }
 
-    /// First tries the user-specified description, then try manifest description.
+    /// First tries the user-specified description, then tries manifest description.
     /// If no description is specified, returns an empty string.
     pub fn description(&self) -> String {
-        self.config
-            .description
-            .as_ref()
-            .cloned()
-            .or_else(|| self.manifest.description.as_ref().cloned())
-            .unwrap_or_else(|| "".into())
+        sanitize_string(
+            &self
+                .config
+                .description
+                .as_ref()
+                .cloned()
+                .or_else(|| self.manifest.description.as_ref().cloned())
+                .unwrap_or_else(|| "".into()),
+        )
     }
 
-    /// First tries the user-specified icon, then try manifest icons.
+    /// First tries the user-specified icon, then tries manifest icons.
     pub fn icons(&self) -> Vec<IconResource> {
         match &self.config.icon_url {
             Some(icon) => vec![IconResource {
@@ -288,11 +295,14 @@ impl Site {
     /// to XDG menu categories on Linux and Apple App Store categories on macOS.
     ///
     /// First tries the user-specified categories, then try manifest categories.
-    pub fn categories(&self) -> &[String] {
+    pub fn categories(&self) -> Vec<String> {
         match &self.config.categories {
             Some(categories) => categories,
             None => &self.manifest.categories,
         }
+        .iter()
+        .map(|item| sanitize_string(item))
+        .collect()
     }
 
     /// Keywords can also be used for user organization and contain
@@ -301,10 +311,13 @@ impl Site {
     /// Keywords are used as additional search queries on Linux.
     ///
     /// First tries the user-specified keywords, then try manifest keywords.
-    pub fn keywords(&self) -> &[String] {
+    pub fn keywords(&self) -> Vec<String> {
         match &self.config.keywords {
             Some(keywords) => keywords,
             None => &self.manifest.keywords,
         }
+        .iter()
+        .map(|item| sanitize_string(item))
+        .collect()
     }
 }

@@ -1,7 +1,6 @@
 #![allow(dead_code)]
 
 use std::cmp::Ordering;
-use std::convert::TryInto;
 use std::path::Path;
 
 use ab_glyph::{Font, FontRef, PxScale};

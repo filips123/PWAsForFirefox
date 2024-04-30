@@ -1,7 +1,7 @@
 import '../utils/errors'
 import '../utils/i18nHtml'
 
-import { launchSite, obtainSiteList, obtainUrls, PREF_LAUNCH_CURRENT_URL, setPopupSize } from '../utils'
+import { launchSite, obtainSiteList, obtainUrls, PREF_LAUNCH_CURRENT_URL, sanitizeString, setPopupSize } from '../utils'
 import { getMessage } from '../utils/i18n'
 
 async function createInstanceList () {
@@ -22,11 +22,12 @@ async function createInstanceList () {
 
   // Create a list element for every instance with handler that launches it
   for (const site of sites) {
+    const name = sanitizeString(site.config.name || site.manifest.name || site.manifest.short_name)
     const url = settingsLaunchCurrentUrl ? documentUrl : undefined
 
     const siteElement = document.createElement('button')
     siteElement.classList.add(...['list-group-item', 'list-group-item-action'])
-    siteElement.innerText = site.config.name || site.manifest.name || site.manifest.short_name || new URL(site.manifest.scope).host
+    siteElement.innerText = name || new URL(site.manifest.scope).host
     siteElement.addEventListener('click', () => { launchSite(site, url) })
 
     listElement.append(siteElement)

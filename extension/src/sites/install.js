@@ -14,6 +14,7 @@ import {
   obtainSiteList,
   obtainUrls,
   PREF_DEFAULT_PROFILE_TEMPLATE,
+  sanitizeString,
   setPopupSize
 } from '../utils'
 import { getMessage } from '../utils/i18n'
@@ -136,10 +137,12 @@ async function initializeForm () {
   document.getElementById('web-app-start-url').setAttribute('placeholder', manifest?.start_url || documentUrl)
 
   const categoriesElement = document.getElementById('web-app-categories')
-  for (const category of manifest?.categories || []) categoriesElement.tagsInstance.addItem(category, category)
+  const categoriesList = manifest?.categories?.map(item => sanitizeString(item)).filter(item => item) || []
+  for (const category of categoriesList) categoriesElement.tagsInstance.addItem(category, category)
 
   const keywordsElement = document.getElementById('web-app-keywords')
-  for (const keyword of manifest?.keywords || []) keywordsElement.tagsInstance.addItem(keyword, keyword)
+  const keywordsList = manifest?.keywords?.map(item => sanitizeString(item)).filter(item => item) || []
+  for (const keyword of keywordsList) keywordsElement.tagsInstance.addItem(keyword, keyword)
 
   // Add available profiles to the select input
   const profilesElement = document.getElementById('web-app-profile')
@@ -350,11 +353,11 @@ async function initializeForm () {
     // Get categories and keywords based on user form input and site manifest
     // If the user list is identical to the manifest, ignore it, otherwise, set it as a user overwrite
     const userCategories = [...document.getElementById('web-app-categories').selectedOptions].map(option => option.value)
-    const manifestCategories = manifest?.categories || []
+    const manifestCategories = manifest?.categories?.map(item => sanitizeString(item)).filter(item => item) || []
     const categories = userCategories.toString() !== manifestCategories.toString() ? userCategories : null
 
     const userKeywords = [...document.getElementById('web-app-keywords').selectedOptions].map(option => option.value)
-    const manifestKeywords = manifest?.keywords || []
+    const manifestKeywords = manifest?.keywords?.map(item => sanitizeString(item)).filter(item => item) || []
     const keywords = userKeywords.toString() !== manifestKeywords.toString() ? userKeywords : null
 
     // If the manifest does not exist, generate a "fake" manifest data URL

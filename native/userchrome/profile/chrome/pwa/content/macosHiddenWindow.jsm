@@ -1,3 +1,5 @@
+const { sanitizeString } = ChromeUtils.import('resource://pwa/utils/common.jsm');
+
 function OpenPwaShortcut(url) {
   switchToTabHavingURI(url, true);
 }
@@ -19,8 +21,8 @@ class MacOSHiddenWindow {
     shortcuts.forEach((item) => {
       const menuItem = document.createXULElement('menuitem');
 
-      menuItem.setAttribute('oncommand', `OpenPwaShortcut("${item.url}");`);
-      menuItem.setAttribute('label', item.name);
+      menuItem.setAttribute('oncommand', `OpenPwaShortcut("${sanitizeString(item.url)}");`);
+      menuItem.setAttribute('label', sanitizeString(item.name));
 
       dockMenu.appendChild(menuItem);
     });

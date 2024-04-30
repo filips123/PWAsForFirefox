@@ -106,3 +106,8 @@ pub(crate) fn construct_certificates_and_client(
     )
     .context(CLIENT_CONSTRUCT_ERROR)
 }
+
+/// Remove all control characters from the string.
+pub fn sanitize_string(string: &str) -> String {
+    string.chars().filter(|char| !char.is_control()).collect()
+}

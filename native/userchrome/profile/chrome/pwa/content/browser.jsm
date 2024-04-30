@@ -6,6 +6,7 @@ XPCOMUtils.defineLazyModuleGetters(this, {
   sendNativeMessage: 'resource://pwa/utils/nativeMessaging.jsm',
   hookFunction: 'resource://pwa/utils/hookFunction.jsm',
   xPref: 'resource://pwa/utils/xPref.jsm',
+  sanitizeString: 'resource://pwa/utils/common.jsm',
 });
 XPCOMUtils.defineLazyServiceGetter(this, 'ioService', '@mozilla.org/network/io-service;1', Ci.nsIIOService);
 XPCOMUtils.defineLazyServiceGetter(this, 'WindowsUIUtils', '@mozilla.org/windows-ui-utils;1', Ci.nsIWindowsUIUtils);
@@ -84,7 +85,7 @@ class PwaBrowser {
     const siteIcon = siteIcons.find(icon => icon.size >= 32) || siteIcons[siteIcons.length - 1];
     if (siteIcon) tabIconImage.setAttribute('src', siteIcon.icon.src);
 
-    const siteName = window.gFFPWASiteConfig?.config.name || window.gFFPWASiteConfig?.manifest.name || window.gFFPWASiteConfig?.manifest.short_name
+    const siteName = sanitizeString(window.gFFPWASiteConfig?.config.name || window.gFFPWASiteConfig?.manifest.name || window.gFFPWASiteConfig?.manifest.short_name) || new URL(site.manifest.scope).host;
     tabLabel.replaceChildren(siteName);
     document.title = siteName;
 
@@ -352,7 +353,7 @@ class PwaBrowser {
       const existingHandlers = new Set([
         ...window.gFFPWASiteConfig.config.custom_protocol_handlers,
         ...window.gFFPWASiteConfig.manifest.protocol_handlers
-      ].map(handler => handler.protocol).sort());
+      ].map(handler => sanitizeString(handler.protocol)).filter(handler => handler).sort());
       if (existingHandlers.has(protocol)) return;
 
       // Now ask the user and provide the proper callback

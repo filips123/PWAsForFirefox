@@ -1,4 +1,3 @@
-use std::convert::TryInto;
 use std::fs::{copy, create_dir_all, remove_dir_all, remove_file, rename};
 use std::path::{Path, PathBuf};
 
@@ -35,6 +34,7 @@ use winreg::RegKey;
 use crate::components::site::Site;
 use crate::integrations::utils::{process_icons, sanitize_name};
 use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
+use crate::utils::sanitize_string;
 
 const ADD_REMOVE_PROGRAMS_KEY: &str = r"Software\Microsoft\Windows\CurrentVersion\Uninstall";
 const REGISTERED_APPLICATIONS_KEY: &str = r"Software\RegisteredApplications";
@@ -234,11 +234,12 @@ fn create_jump_list_tasks(
 
     for (i, shortcut) in shortcuts.iter().enumerate() {
         let url: Url = shortcut.url.clone().try_into().context("Failed to convert shortcut URL")?;
-        let description = shortcut.description.clone().unwrap_or_else(|| "".into());
+        let name = sanitize_string(&shortcut.name);
+        let description = sanitize_string(shortcut.description.as_deref().unwrap_or(""));
         let icon = icons.join(format!("shortcut{i}.ico",));
 
         if args.update_icons {
-            store_icon(&shortcut.name, &shortcut.icons, &icon, args.client.unwrap())
+            store_icon(&name, &shortcut.icons, &icon, args.client.unwrap())
                 .context("Failed to store shortcut icon")?;
         }
 
@@ -262,7 +263,7 @@ fn create_jump_list_tasks(
 
             // Set title property
             // Docs: https://docs.microsoft.com/en-us/windows/win32/properties/props-system-title
-            let hstring = HSTRING::from(&shortcut.name);
+            let hstring = HSTRING::from(&name);
             let variant = InitPropVariantFromStringVector(Some(&[PCWSTR(hstring.as_ptr())]))?;
             store.SetValue(&PKEY_Title, &variant)?;
 
@@ -344,7 +345,7 @@ fn register_protocol_handlers(
     // Add enabled protocol handlers
     for protocol in &args.site.config.enabled_protocol_handlers {
         associations
-            .set_value(protocol, &ids.regid)
+            .set_value(sanitize_string(protocol), &ids.regid)
             .context("Failed to set protocol registry key")?;
     }
 

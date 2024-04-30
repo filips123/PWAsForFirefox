@@ -18,6 +18,7 @@ use crate::components::site::Site;
 use crate::integrations::categories::XDG_CATEGORIES;
 use crate::integrations::utils::{download_icon, normalize_category_name, process_icons};
 use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
+use crate::utils::sanitize_string;
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
 const CONVERT_ICON_URL_ERROR: &str = "Failed to convert icon URL";
@@ -205,7 +206,7 @@ fn create_desktop_entry(
     let mut categories = vec![];
     for category in args.site.categories() {
         // Normalize category name for easier matching
-        let category = normalize_category_name(category);
+        let category = normalize_category_name(&category);
 
         // Get the mapped XDG category based on the site categories
         if let Some(category) = XDG_CATEGORIES.get(&category) {
@@ -248,7 +249,7 @@ StartupWMClass={wmclass}
         protocols = args.site.config.enabled_protocol_handlers.iter().fold(
             String::new(),
             |mut output, protocol| {
-                let _ = write!(output, "x-scheme-handler/{protocol};");
+                let _ = write!(output, "x-scheme-handler/{};", sanitize_string(protocol));
                 output
             }
         ),
@@ -259,11 +260,12 @@ StartupWMClass={wmclass}
 
     // Store all shortcuts
     for (i, shortcut) in args.site.manifest.shortcuts.iter().enumerate() {
+        let name = sanitize_string(&shortcut.name);
         let url: Url = shortcut.url.clone().try_into().context(CONVERT_SHORTCUT_URL_ERROR)?;
         let icon = format!("{}-{}", ids.classid, i);
 
         if args.update_icons {
-            store_icons(&icon, &shortcut.name, &shortcut.icons, data, args.client.unwrap())
+            store_icons(&icon, &name, &shortcut.icons, data, args.client.unwrap())
                 .context("Failed to store shortcut icons")?;
         }
 
@@ -276,7 +278,7 @@ Exec={exe} site launch {siteid} --url \"{url}\"
 ",
             actionid = i,
             siteid = &ids.ulid,
-            name = &shortcut.name,
+            name = &name,
             icon = &icon,
             url = &url,
             exe = &exe,

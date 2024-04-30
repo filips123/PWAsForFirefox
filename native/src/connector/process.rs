@@ -75,7 +75,7 @@ impl Process for GetConfig {
 impl Process for SetConfig {
     fn process(&self, connection: &Connection) -> Result<ConnectorResponse> {
         let mut storage = Storage::load(connection.dirs)?;
-        storage.config = self.0.to_owned();
+        self.0.clone_into(&mut storage.config);
         storage.write(connection.dirs)?;
         Ok(ConnectorResponse::ConfigSet)
     }

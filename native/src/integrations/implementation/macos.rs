@@ -28,6 +28,7 @@ use crate::integrations::utils::{
     sanitize_name,
 };
 use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
+use crate::utils::sanitize_string;
 
 const BASE_DIRECTORIES_ERROR: &str = "Failed to determine base system directories";
 const CONVERT_ICON_URL_ERROR: &str = "Failed to convert icon URL";
@@ -444,9 +445,10 @@ fn create_app_bundle(args: &IntegrationInstallArgs) -> Result<()> {
         .enabled_protocol_handlers
         .iter()
         .map(|protocol| {
+            let protocol = sanitize_string(protocol);
             let mut handler = plist::dictionary::Dictionary::new();
             handler.insert("CFBundleURLName".into(), format!("{protocol} URL").into());
-            handler.insert("CFBundleURLSchemes".into(), vec![protocol.clone().into()].into());
+            handler.insert("CFBundleURLSchemes".into(), vec![protocol.into()].into());
             handler.into()
         })
         .collect::<Vec<plist::Value>>();

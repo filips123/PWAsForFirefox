@@ -20,6 +20,7 @@ use crate::directories::ProjectDirs;
 use crate::integrations;
 use crate::integrations::IntegrationUninstallArgs;
 use crate::storage::Storage;
+use crate::utils::sanitize_string;
 
 fn apply_profile_template(
     template: &Option<PathBuf>,
@@ -48,8 +49,11 @@ impl Run for ProfileListCommand {
         for (_, profile) in storage.profiles {
             println!(
                 "{:=^60}\nDescription: {}\nID: {}",
-                format!(" {} ", profile.name.unwrap_or_else(|| "* Unnamed *".into())),
-                profile.description.unwrap_or_else(|| "* Nothing *".into()),
+                format!(
+                    " {} ",
+                    sanitize_string(&profile.name.unwrap_or_else(|| "* Unnamed *".into()))
+                ),
+                sanitize_string(&profile.description.unwrap_or_else(|| "* Nothing *".into())),
                 profile.ulid
             );
 

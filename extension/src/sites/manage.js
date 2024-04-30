@@ -22,8 +22,10 @@ import {
   PREF_DEFAULT_PROFILE_TEMPLATE,
   PREF_DISPLAY_PAGE_ACTION,
   PREF_ENABLE_AUTO_LAUNCH,
-  PREF_LAUNCH_CURRENT_URL, PREF_LOCALE,
+  PREF_LAUNCH_CURRENT_URL,
+  PREF_LOCALE,
   PREF_SHOW_UPDATE_POPUP,
+  sanitizeString,
   setConfig,
   setPopupSize
 } from '../utils'
@@ -83,7 +85,8 @@ async function createSiteList () {
   // Create a list element for every instance with handlers for launching and editing
   for (const site of sites) {
     const siteElement = templateElement.content.firstElementChild.cloneNode(true)
-    const siteName = site.config.name || site.manifest.name || site.manifest.short_name || new URL(site.manifest.scope).host
+    const siteName = sanitizeString(site.config.name || site.manifest.name || site.manifest.short_name) || new URL(site.manifest.scope).host
+    const siteDescription = sanitizeString(site.config.description || site.manifest.description) || ''
     const siteIcon = site.config.icon_url || getIcon(buildIconList(site.manifest.icons), 64)
 
     const letterElement = siteElement.querySelector('#sites-list-template-letter')
@@ -106,7 +109,7 @@ async function createSiteList () {
     titleElement.removeAttribute('id')
 
     const descriptionElement = siteElement.querySelector('#sites-list-template-description')
-    descriptionElement.innerText = site.config.description || site.manifest.description || ''
+    descriptionElement.innerText = siteDescription
     descriptionElement.removeAttribute('id')
 
     const launchElement = siteElement.querySelector('#sites-list-template-launch')
@@ -123,8 +126,8 @@ async function createSiteList () {
       const submit = document.getElementById('web-app-submit')
 
       // Set placeholders from manifest
-      document.getElementById('web-app-name').setAttribute('placeholder', site.manifest.name || site.manifest.short_name || new URL(site.manifest.scope).host)
-      document.getElementById('web-app-description').setAttribute('placeholder', site.manifest.description || '')
+      document.getElementById('web-app-name').setAttribute('placeholder', sanitizeString(site.manifest.name || site.manifest.short_name) || new URL(site.manifest.scope).host)
+      document.getElementById('web-app-description').setAttribute('placeholder', sanitizeString(site.manifest.description) || '')
       document.getElementById('web-app-start-url').setAttribute('placeholder', site.manifest.start_url)
 
       // Set values from config
@@ -140,8 +143,9 @@ async function createSiteList () {
       categoriesElement.tagsInstance.reset()
 
       // Set categories from config or manifest
-      const categoriesList = site.config.categories?.length ? site.config.categories : site.manifest.categories
-      for (const category of categoriesList || []) categoriesElement.tagsInstance.addItem(category, category)
+      let categoriesList = site.config.categories?.length ? site.config.categories : site.manifest.categories
+      categoriesList = categoriesList?.map(item => sanitizeString(item)).filter(item => item) || []
+      for (const category of categoriesList) categoriesElement.tagsInstance.addItem(category, category)
 
       // Clear previous keywords
       const keywordsElement = document.getElementById('web-app-keywords')
@@ -149,20 +153,21 @@ async function createSiteList () {
       keywordsElement.tagsInstance.reset()
 
       // Set keywords from config or manifest
-      const keywordsList = site.config.keywords?.length ? site.config.keywords : site.manifest.keywords
-      for (const keyword of keywordsList || []) keywordsElement.tagsInstance.addItem(keyword, keyword)
+      let keywordsList = site.config.keywords?.length ? site.config.keywords : site.manifest.keywords
+      keywordsList = keywordsList?.map(item => sanitizeString(item)).filter(item => item) || []
+      for (const keyword of keywordsList) keywordsElement.tagsInstance.addItem(keyword, keyword)
 
       // Set site's profile from config
       const profilesElement = document.getElementById('web-app-profile')
       profilesElement.replaceChildren()
-      profilesElement.add(new Option(profiles[site.profile].name || site.profile, site.profile))
+      profilesElement.add(new Option(sanitizeString(profiles[site.profile].name) || site.profile, site.profile))
 
       // Create protocol handlers list and set enabled handlers
       // Currently not supported on macOS
       const platform = await browser.runtime.getPlatformInfo()
       if (platform.os !== 'mac') {
-        const possibleHandlers = new Set([...site.config.custom_protocol_handlers, ...site.manifest.protocol_handlers].map(handler => handler.protocol).sort())
-        const enabledHandlers = site.config.enabled_protocol_handlers
+        const possibleHandlers = new Set([...site.config.custom_protocol_handlers, ...site.manifest.protocol_handlers].map(handler => sanitizeString(handler.protocol)).filter(handler => handler).sort())
+        const enabledHandlers = site.config.enabled_protocol_handlers.map(handler => sanitizeString(handler)).filter(handler => handler)
 
         const handlersBox = document.getElementById('web-app-protocol-handlers-box')
         const handlersList = document.getElementById('web-app-protocol-handlers-list')
@@ -314,11 +319,11 @@ async function createSiteList () {
         // Get categories and keywords based on user form input and site manifest
         // If the user list is identical to the manifest, ignore it, otherwise, set it as a user overwrite
         const userCategories = [...document.getElementById('web-app-categories').selectedOptions].map(option => option.value)
-        const manifestCategories = site.manifest.categories || []
+        const manifestCategories = site.manifest.categories?.map(item => sanitizeString(item)).filter(item => item) || []
         const categories = userCategories.toString() !== manifestCategories.toString() ? userCategories : null
 
         const userKeywords = [...document.getElementById('web-app-keywords').selectedOptions].map(option => option.value)
-        const manifestKeywords = site.manifest.keywords || []
+        const manifestKeywords = site.manifest.keywords?.map(item => sanitizeString(item)).filter(item => item) || []
         const keywords = userKeywords.toString() !== manifestKeywords.toString() ? userKeywords : null
 
         // Get list of enabled protocol handlers
@@ -526,7 +531,7 @@ async function createProfileList () {
     const profileElement = templateElement.content.firstElementChild.cloneNode(true)
 
     const nameElement = profileElement.querySelector('#profiles-list-template-name')
-    nameElement.innerText = profile.name || await getMessage('managePageProfileListUnnamed')
+    nameElement.innerText = sanitizeString(profile.name) || await getMessage('managePageProfileListUnnamed')
     nameElement.removeAttribute('id')
 
     const countElement = profileElement.querySelector('#profiles-list-template-count')
@@ -537,7 +542,7 @@ async function createProfileList () {
     countElement.removeAttribute('id')
 
     const descriptionElement = profileElement.querySelector('#profiles-list-template-description')
-    descriptionElement.innerText = profile.description || ''
+    descriptionElement.innerText = sanitizeString(profile.description) || ''
     descriptionElement.removeAttribute('id')
 
     const editElement = profileElement.querySelector('#profiles-list-template-edit')
@@ -684,8 +689,8 @@ async function handleSearch () {
 
     document.getElementById('search-input').oninput = function () {
       for (const item of document.getElementById(listElement).children) {
-        const itemName = item.querySelector('.list-group-item-name')?.innerText.toLowerCase()
-        const searchQuery = this.value.toLowerCase()
+        const itemName = sanitizeString(item.querySelector('.list-group-item-name')?.innerText.toLowerCase())
+        const searchQuery = sanitizeString(this.value.toLowerCase())
 
         if (!itemName) continue
         item.classList.toggle('d-none', itemName.indexOf(searchQuery) === -1)

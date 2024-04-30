@@ -11,6 +11,7 @@ use web_app_manifest::types::ImageSize;
 use crate::integrations::categories::PORTABLEAPPS_CATEGORIES;
 use crate::integrations::utils::{normalize_category_name, process_icons};
 use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
+use crate::utils::sanitize_string;
 
 #[derive(Debug, Clone, Copy)]
 struct PortableAppIcon {
@@ -142,7 +143,15 @@ fn create_appinfo(args: &IntegrationInstallArgs, appid: &str, appinfo: &Path) ->
     config.set("Control", "Start", Some("launch.vbs".into()));
     config.set("Control", "BaseAppID", Some(appid.into()));
 
-    let protocols = args.site.config.enabled_protocol_handlers.join(",");
+    let protocols = args
+        .site
+        .config
+        .enabled_protocol_handlers
+        .iter()
+        .map(|item| sanitize_string(item))
+        .collect::<Vec<_>>()
+        .join(",");
+
     config.set("Associations", "Protocols", Some(protocols));
     config.set("Associations", "ProtocolCommandLine", Some("--protocol \"%1\"".into()));
 

@@ -1,4 +1,3 @@
-use std::convert::TryInto;
 use std::fs::metadata;
 use std::io;
 use std::io::Write;
