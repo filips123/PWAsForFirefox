@@ -17,6 +17,8 @@ SRC_URI="
 	${CARGO_CRATE_URIS}
 "
 
+S="${WORKDIR}/PWAsForFirefox-${PV}/native"
+
 # Main project license
 LICENSE="MPL-2.0"
 
@@ -25,30 +27,28 @@ LICENSE+=""
 
 SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64 ~x86"
-IUSE="lto custom-cflags"
+IUSE="custom-cflags lto static"
 
 # Add app-arch/bzip2 when it finally get pkg-config file
-DEPEND="dev-libs/openssl:="
+DEPEND="!static? ( dev-libs/openssl:= )"
 RDEPEND="${DEPEND}"
 # As Rust produces LLVM IR when using LTO, lld is needed to link. Furthermore,
 # as some crates contain C code, clang should be used to compile them to produce
 # compatible IR.
 BDEPEND="
-	virtual/pkgconfig
 	lto? (
 		!custom-cflags? (
 			sys-devel/clang
 			sys-devel/lld
 		)
 	)
+	!static? ( virtual/pkgconfig )
 "
 
 QA_FLAGS_IGNORED="
 	usr/bin/firefoxpwa
 	usr/libexec/firefoxpwa-connector
 "
-
-S="${WORKDIR}/PWAsForFirefox-${PV}/native"
 
 src_prepare() {
 	default
@@ -60,24 +60,36 @@ src_prepare() {
 }
 
 src_configure() {
-	strip-flags
-
+	# Setup toolchain
 	export CARGO_PROFILE_RELEASE_LTO=$(usex lto true false)
+	strip-flags
 
 	if use lto; then
 		if ! use custom-cflags; then
-			# Fix -flto[=n] not being recognized by clang.
-			tc-is-gcc && is-flag "-flto=*" && replace-flags "-flto=*" "-flto"
 			CC="${CHOST}-clang"
 			CXX="${CHOST}-clang++"
 			RUSTFLAGS="-Clinker=clang -Clink-arg=-fuse-ld=lld ${RUSTFLAGS}"
+
+			# Fix -flto[=n] not being recognized by clang.
+			if tc-is-clang && is-flag "-flto=*"; then
+				replace-flags "-flto=*" "-flto"
+			fi
 		fi
 	else
 		filter-lto
 	fi
 
-	export PKG_CONFIG_ALLOW_CROSS=1
-	export OPENSSL_NO_VENDOR=1
+	# Ask to use system dependencies
+	if ! use static; then
+		export OPENSSL_NO_VENDOR=1
+		export PKG_CONFIG_ALLOW_CROSS=1
+	fi
+
+	# Configure features
+	local myfeatures=(
+		$(usev static)
+	)
+
 	cargo_src_configure
 }
 
@@ -117,18 +129,22 @@ src_install() {
 }
 
 pkg_postinst() {
-	echo "You have successfully installed the native part of the PWAsForFirefox project"
-	echo "You should also install the Firefox extension if you haven't already"
-	echo "Download: https://addons.mozilla.org/firefox/addon/pwas-for-firefox/"
+	if [[ ! ${REPLACING_VERSIONS} ]]; then
+		elog "You have successfully installed the native part of the PWAsForFirefox project."
+		elog "You should also install the Firefox extension if you haven't already."
+		elog
+		elog "Download:"
+		elog "\thttps://addons.mozilla.org/firefox/addon/pwas-for-firefox/"
+	fi
 
 	xdg_pkg_postinst
 }
 
 pkg_postrm() {
-	if [[ ! ${REPLACING_VERSIONS} ]]; then
-		echo "Runtime, profiles and web apps are still installed in user directories"
-		echo "You can remove them manually after this package is uninstalled"
-		echo "Doing that will remove all installed web apps and their data"
+	if [[ ! ${REPLACED_BY_VERSION} ]]; then
+		elog "Runtime, profiles and web apps are still installed in user directories."
+		elog "You can remove them manually after this package is uninstalled."
+		elog "Doing that will remove all installed web apps and their data."
 	fi
 
 	xdg_pkg_postrm
