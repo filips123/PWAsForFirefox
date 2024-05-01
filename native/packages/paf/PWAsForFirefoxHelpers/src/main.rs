@@ -3,7 +3,7 @@
 use tauri_winrt_notification::Toast;
 use trayicon::{MenuBuilder, TrayIconBuilder};
 use winit::event::Event;
-use winit::event_loop::{ControlFlow, EventLoopBuilder};
+use winit::event_loop::{ControlFlow, EventLoop};
 
 #[derive(Clone, Eq, PartialEq)]
 #[allow(dead_code)]
@@ -12,8 +12,9 @@ enum Events {
     Use,
 }
 
+#[allow(deprecated)]
 fn main() {
-    let events = EventLoopBuilder::<Events>::with_user_event().build().unwrap();
+    let events = EventLoop::<Events>::with_user_event().build().unwrap();
     let proxy = events.create_proxy();
     let icon = include_bytes!("icon.ico");
 
