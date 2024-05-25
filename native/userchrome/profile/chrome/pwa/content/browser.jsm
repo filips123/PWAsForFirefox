@@ -36,6 +36,7 @@ class PwaBrowser {
     this.moveMenuButtons();
     this.switchPopupSides();
     this.makeUrlBarReadOnly();
+    this.setDisplayModeStandalone();
     this.handleRegisteringProtocols();
     this.handleOutOfScopeNavigation();
     this.handleOpeningNewWindow();
@@ -324,6 +325,18 @@ class PwaBrowser {
     document.getElementById('urlbar').removeAttribute('focused');
 
     window.toolbar.visible = originalToolbarVisibility;
+  }
+
+  setDisplayModeStandalone () {
+    function hookCurrentBrowser () {
+      // Set the display mode on the main browser window
+      if (location.href === AppConstants.BROWSER_CHROME_URL && window.gBrowser?.selectedBrowser?.browsingContext) {
+        window.gBrowser.selectedBrowser.browsingContext.displayMode = 'standalone';
+      }
+    }
+
+    hookFunction(window.gBrowser, 'init', null, hookCurrentBrowser);
+    hookFunction(window.gBrowser, 'updateCurrentBrowser', null, hookCurrentBrowser);
   }
 
   handleRegisteringProtocols () {
