@@ -10,7 +10,7 @@ pkgdesc="A tool to install, manage and use Progressive Web Apps (PWAs) in Mozill
 pkgver=$VERSION
 pkgrel=1
 url="https://pwasforfirefox.filips.si/"
-arch=("x86_64" "i686")
+arch=("x86_64" "i686" "aarch64" "armv7h")
 license=("MPL2")
 
 depends=("glibc>=2.18")
@@ -21,10 +21,12 @@ install=package.install
 
 source_x86_64=("https://github.com/filips123/PWAsForFirefox/releases/download/v${pkgver}/firefoxpwa_${pkgver}_amd64.deb")
 source_i686=("https://github.com/filips123/PWAsForFirefox/releases/download/v${pkgver}/firefoxpwa_${pkgver}_i386.deb")
-sha256sums_x86_64=(SKIP)
-sha256sums_i686=(SKIP)
+source_aarch64=("https://github.com/filips123/PWAsForFirefox/releases/download/v${pkgver}/firefoxpwa_${pkgver}_arm64.deb")
+source_armv7h=("https://github.com/filips123/PWAsForFirefox/releases/download/v${pkgver}/firefoxpwa_${pkgver}_armhf.deb ")
 b2sums_x86_64=(SKIP)
 b2sums_i686=(SKIP)
+b2sums_aarch64=(SKIP)
+b2sums_armv7h=(SKIP)
 
 prepare() {
     # Extract data from DEB archive
