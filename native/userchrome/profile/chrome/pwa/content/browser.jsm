@@ -1754,7 +1754,8 @@ class PwaBrowser {
 
       onCommand (event) {
         const window = event.target.ownerGlobal;
-        window.BrowserBack(event);
+        if (window.BrowserCommands) window.BrowserCommands.back(event);
+        else window.BrowserBack(event);
       }
     });
 
@@ -1766,7 +1767,8 @@ class PwaBrowser {
 
       onCommand (event) {
         const window = event.target.ownerGlobal;
-        window.BrowserForward(event);
+        if (window.BrowserCommands) window.BrowserCommands.forward(event);
+        else window.BrowserForward(event);
       }
     });
   }
