@@ -30,7 +30,12 @@ KEYWORDS="~amd64 ~arm ~arm64 ~x86"
 IUSE="custom-cflags lto static"
 
 # Add app-arch/bzip2 when it finally get pkg-config file
-DEPEND="!static? ( dev-libs/openssl:= )"
+DEPEND="
+	!static? (
+		app-arch/zstd:=
+		dev-libs/openssl:=
+	)
+"
 RDEPEND="${DEPEND}"
 # As Rust produces LLVM IR when using LTO, lld is needed to link. Furthermore,
 # as some crates contain C code, clang should be used to compile them to produce
@@ -81,8 +86,9 @@ src_configure() {
 
 	# Ask to use system dependencies
 	if ! use static; then
-		export OPENSSL_NO_VENDOR=1
 		export PKG_CONFIG_ALLOW_CROSS=1
+		export ZSTD_SYS_USE_PKG_CONFIG=1
+		export OPENSSL_NO_VENDOR=1
 	fi
 
 	# Configure features
