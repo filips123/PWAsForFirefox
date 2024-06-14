@@ -45,9 +45,9 @@ browser.notifications.onClicked.addListener(async notification => {
 
 // == CONTENT SCRIPT HANDLING
 
-// source for what is a secure context: https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts 
-function isSecureURL(url) {
-  return url.protocol === 'https:' || url.hostname === "127.0.0.1" || url.hostname === "localhost" || url.hostname.endsWith(".localhost")
+// source for what is a secure context: https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts
+function isSecureURL (url) {
+  return url.protocol === 'https:' || url.hostname === '127.0.0.1' || url.hostname === 'localhost' || url.hostname.endsWith('.localhost')
 }
 
 // Detect manifest sent from content script
