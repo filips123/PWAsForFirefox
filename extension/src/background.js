@@ -63,8 +63,10 @@ browser.runtime.onMessage.addListener(async ({ manifestUrl, documentUrl, isSecur
       return
   }
 
-  // If both manifest and the page are loaded over HTTPS, and we are in a secure context, site is a valid web app
-  let isValidPwa = manifestUrl && isSecureURL(manifestUrl) && isSecureURL(documentUrl) && isSecureContext // also check the browser implementation of secure context, just in case
+  // check that the PWA is in a secure context.
+  // We do this through checking the URLs for https, or for special hosts (e.g. localhost). If both the manifest and the page pass these checks, the site is a valid web app
+  // Note: we also check the browser implementation of secure context with `isSecureContext`, just in case
+  let isValidPwa = manifestUrl && isSecureURL(manifestUrl) && isSecureURL(documentUrl) && isSecureContext
 
   // Force show or hide the page action depending on user preference
   const settingsDisplayPageAction = (await browser.storage.local.get(PREF_DISPLAY_PAGE_ACTION))[PREF_DISPLAY_PAGE_ACTION]
