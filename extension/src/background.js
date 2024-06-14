@@ -45,6 +45,11 @@ browser.notifications.onClicked.addListener(async notification => {
 
 // == CONTENT SCRIPT HANDLING
 
+// source for what is a secure context: https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts 
+function isSecureURL(url) {
+  return url.protocol === 'https:' || url.hostname === "127.0.0.1" || url.hostname === "localhost" || url.hostname.endsWith(".localhost")
+}
+
 // Detect manifest sent from content script
 browser.runtime.onMessage.addListener(async ({ manifestUrl, documentUrl, isSecureContext }, { tab }) => {
   manifestUrl = manifestUrl ? new URL(manifestUrl) : undefined
@@ -59,7 +64,7 @@ browser.runtime.onMessage.addListener(async ({ manifestUrl, documentUrl, isSecur
   }
 
   // If both manifest and the page are loaded over HTTPS, and we are in a secure context, site is a valid web app
-  let isValidPwa = manifestUrl && manifestUrl.protocol === 'https:' && documentUrl.protocol === 'https:' && isSecureContext
+  let isValidPwa = manifestUrl && isSecureURL(manifestUrl) && isSecureURL(documentUrl) && isSecureContext
 
   // Force show or hide the page action depending on user preference
   const settingsDisplayPageAction = (await browser.storage.local.get(PREF_DISPLAY_PAGE_ACTION))[PREF_DISPLAY_PAGE_ACTION]
