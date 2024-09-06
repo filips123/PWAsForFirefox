@@ -34,7 +34,6 @@ jobs:
           path: |
             ~/.cache/yarn
             ~/.config/yarn
-            ./extension/.parcel-cache
           key: ${{ runner.os }}-yarn-lint-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-yarn-
 
@@ -46,7 +45,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Lint the project
+      - name: Lint the extension
         run: yarn lint
 
   build:
@@ -57,13 +56,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set the version
+        run: |
+          if [[ $GITHUB_REF == refs/tags/v* ]]
+          then
+            VERSION=${GITHUB_REF/refs\/tags\/v}
+            echo "VERSION=$VERSION" >> $GITHUB_ENV
+            sed -i "s/\"version\": \"0.0.0\"/\"version\": \"$VERSION\"/g" package.json
+            sed -i "s/\"version\": \"0.0.0\"/\"version\": \"$VERSION\"/g" src/manifest.json
+          fi
+
+      - name: Upload the extension source
+        uses: actions/upload-artifact@v4
+        with:
+          name: firefoxpwa-extension-source
+          path: extension/
+
       - name: Configure cache
         uses: actions/cache@v4
         with:
           path: |
             ~/.cache/yarn
             ~/.config/yarn
-            ./extension/.parcel-cache
           key: ${{ runner.os }}-yarn-build-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-yarn-
 
@@ -75,22 +89,13 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
-      - name: Set the version
-        run: |
-          if [[ $GITHUB_REF == refs/tags/v* ]]
-          then
-            VERSION=${GITHUB_REF/refs\/tags\/v}
-            sed -i "s/\"version\": \"0.0.0\"/\"version\": \"$VERSION\"/g" package.json
-            sed -i "s/\"version\": \"0.0.0\"/\"version\": \"$VERSION\"/g" src/manifest.json
-          fi
-
-      - name: Build the project
+      - name: Build the extension
         run: yarn build
 
-      - name: Upload artifacts
-        if: success() || failure()
+      - name: Upload the compiled extension
         uses: actions/upload-artifact@v4
         with:
+          name: firefoxpwa-extension-compiled
           path: extension/dist/*.zip
 
   # Add auto-publishing to AMO once web-ext officially supports and recommends that
