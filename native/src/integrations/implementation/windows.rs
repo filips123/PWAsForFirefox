@@ -7,7 +7,7 @@ use reqwest::blocking::Client;
 use url::Url;
 use web_app_manifest::resources::IconResource;
 use web_app_manifest::types::ImageSize;
-use windows::core::{ComInterface, Interface, Result as WindowsResult, GUID, HSTRING, PCWSTR};
+use windows::core::{Interface, Result as WindowsResult, GUID, HSTRING, PCWSTR};
 use windows::Win32::Storage::EnhancedStorage::{PKEY_AppUserModel_ID, PKEY_Title};
 use windows::Win32::System::Com::StructuredStorage::InitPropVariantFromStringVector;
 use windows::Win32::System::Com::{
@@ -48,12 +48,12 @@ const STARTUP_PROGRAMS_PATH: &str = r"Microsoft\Windows\Start Menu\Programs\Star
 /// Initialize COM for use by the calling thread for the multi-threaded apartment (MTA).
 #[inline]
 fn initialize_windows() -> WindowsResult<()> {
-    unsafe { CoInitializeEx(None, COINIT_MULTITHREADED | COINIT_DISABLE_OLE1DDE) }
+    unsafe { CoInitializeEx(None, COINIT_MULTITHREADED | COINIT_DISABLE_OLE1DDE).ok() }
 }
 
 /// Create a COM object with the given CLSID.
 #[inline]
-fn create_instance<T: Interface + ComInterface>(clsid: &GUID) -> WindowsResult<T> {
+fn create_instance<T: Interface>(clsid: &GUID) -> WindowsResult<T> {
     unsafe { CoCreateInstance(clsid, None, CLSCTX_ALL) }
 }
 

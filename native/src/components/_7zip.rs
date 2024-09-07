@@ -50,7 +50,7 @@ const fn get_download_url() -> &'static str {
 
 #[inline]
 fn run_as_admin<S: AsRef<OsStr>>(cmd: S) -> std::io::Result<ExitStatus> {
-    unsafe { CoInitializeEx(None, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)? };
+    unsafe { CoInitializeEx(None, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE).ok()? };
 
     let mut code = 1;
     let file = HSTRING::from(cmd.as_ref());

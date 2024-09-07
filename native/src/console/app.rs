@@ -55,7 +55,7 @@ pub struct SiteLaunchCommand {
     pub protocol: Option<Option<Url>>,
 
     /// Internal: Directly launch web app without system integration
-    #[cfg(platform_macos)]
+    #[cfg(target_os = "macos")]
     #[clap(long, hide = true)]
     pub direct_launch: bool,
 }

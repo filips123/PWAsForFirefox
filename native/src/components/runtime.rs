@@ -74,7 +74,7 @@ cfg_if! {
         /// the limit breakaway ok flag is set.
         fn allows_breakaway_from_job() -> Result<bool> {
             let mut process_in_job: BOOL = BOOL(0);
-            unsafe { IsProcessInJob(GetCurrentProcess(), HANDLE(0), &mut process_in_job)? }
+            unsafe { IsProcessInJob(GetCurrentProcess(), HANDLE(std::ptr::null_mut()), &mut process_in_job)? }
 
             if process_in_job.0 == 0 {
                 return Ok(true);
@@ -84,7 +84,7 @@ cfg_if! {
 
             unsafe {
                 QueryInformationJobObject(
-                    HANDLE(0),
+                    HANDLE(std::ptr::null_mut()),
                     JobObjectExtendedLimitInformation,
                     &mut info as *mut _ as *mut c_void,
                     mem::size_of_val(&info) as u32,
