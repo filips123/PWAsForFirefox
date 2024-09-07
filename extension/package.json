@@ -35,10 +35,10 @@
     "base64-js": "^1.5.1",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
-    "bootstrap5-tags": "^1.7.1",
-    "dompurify": "^3.1.2",
-    "iframe-resizer": "^4.3.11",
-    "semver": "^7.6.0"
+    "bootstrap5-tags": "^1.7.5",
+    "dompurify": "^3.1.6",
+    "iframe-resizer": "^4.4.5",
+    "semver": "^7.6.3"
   },
   "devDependencies": {
     "@parcel/config-webextension": "^2.12.0",
@@ -49,14 +49,14 @@
     "@twbs/fantasticon": "^3.0.0",
     "eslint": "^8.57.0",
     "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-n": "^17.4.0",
-    "eslint-plugin-promise": "^6.1.1",
-    "eslint-plugin-simple-import-sort": "^12.1.0",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-n": "^17.10.2",
+    "eslint-plugin-promise": "^7.1.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "npm-run-all": "^4.1.5",
     "parcel": "^2.12.0",
-    "rimraf": "^5.0.5",
-    "web-ext": "^7.11.0"
+    "rimraf": "^6.0.1",
+    "web-ext": "^8.2.0"
   },
   "resolutions": {
     "jackspeak": "2.1.1"
