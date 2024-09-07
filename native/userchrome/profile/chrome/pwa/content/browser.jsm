@@ -1886,6 +1886,8 @@ class PwaBrowser {
     xPref.set('browser.tabs.extraDragSpace', false, true);
     xPref.set('browser.tabs.warnOnClose', false, true);
     xPref.set('browser.sessionstore.resume_from_crash', false, true);
+    xPref.set('browser.sessionstore.max_resumed_crashes', 0, true);
+    xPref.set('browser.sessionstore.idleDelay', -1, true);
     xPref.set('browser.shell.checkDefaultBrowser', false, true);
     xPref.set('browser.startup.upgradeDialog.enabled', false, true);
     xPref.set('browser.aboutwelcome.enabled', false, true);
