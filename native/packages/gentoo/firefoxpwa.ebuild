@@ -26,7 +26,7 @@ LICENSE="MPL-2.0"
 LICENSE+=""
 
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64 ~x86"
+KEYWORDS="~amd64 ~arm ~arm64"
 IUSE="custom-cflags lto static"
 
 # Add app-arch/bzip2 when it finally get pkg-config file
