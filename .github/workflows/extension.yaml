@@ -73,16 +73,19 @@ jobs:
             echo "VERSION=$VERSION" >> $GITHUB_ENV
             sed -i "s/\"version\": \"0.0.0\"/\"version\": \"$VERSION\"/g" package.json
             sed -i "s/\"version\": \"0.0.0\"/\"version\": \"$VERSION\"/g" src/manifest.json
+          else
+            echo "VERSION=0.0.0" >> $GITHUB_ENV
           fi
 
       - name: Package the extension source
-        run: zip -r dist/firefoxpwa-${VERSION}-source.zip .
+        run: 7z a "dist/firefoxpwa-${{ env.VERSION }}-source.zip" "." -bd  -mx9 -xr@"../.gitignore"
 
       - name: Upload the extension source
         uses: actions/upload-artifact@v4
         with:
           name: firefoxpwa-extension-source
           path: extension/dist/firefoxpwa-${{ env.VERSION }}-source.zip
+          compression-level: 0
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -99,7 +102,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: firefoxpwa-extension-compiled
-          path: extension/dist/firefoxpwa-${{ env.VERSION }}-compiled.zip
+          path: extension/dist/firefoxpwa-*-compiled.zip
+          compression-level: 0
 
   # Add auto-publishing to AMO once web-ext supports submitting extensions from ZIP files
   # This also includes uploading source code and AMO release notes
