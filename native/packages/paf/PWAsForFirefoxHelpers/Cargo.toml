@@ -9,6 +9,6 @@ codegen-units = 1
 lto = true
 
 [dependencies]
-tauri-winrt-notification = { version = "0.2.1", default-features = false }
-trayicon = { git = "https://github.com/fkrull/trayicon-rs", rev = "4e9f223", default-features = false }
-winit = { version = "0.30.0", default-features = false }
+tauri-winrt-notification = { version = "0.6.0", default-features = false }
+trayicon = { version = "0.2.0", default-features = false }
+winit = { version = "0.30.5", default-features = false }

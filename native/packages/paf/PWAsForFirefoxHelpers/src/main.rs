@@ -6,10 +6,9 @@ use winit::event::Event;
 use winit::event_loop::{ControlFlow, EventLoop};
 
 #[derive(Clone, Eq, PartialEq)]
-#[allow(dead_code)]
 enum Events {
     Exit,
-    Use,
+    ShowMenu,
 }
 
 #[allow(deprecated)]
@@ -30,10 +29,12 @@ fn main() {
         .unwrap_or_default();
 
     let mut tray = TrayIconBuilder::new()
-        .sender_callback(sender)
+        .sender(sender)
         .icon_from_buffer(icon)
         .tooltip("PWAsForFirefox")
         .menu(MenuBuilder::new().item("E&xit", Events::Exit))
+        .on_click(Events::ShowMenu)
+        .on_right_click(Events::ShowMenu)
         .build()
         .unwrap();
 
@@ -45,7 +46,7 @@ fn main() {
             if let Event::UserEvent(event) = event {
                 match event {
                     Events::Exit => target.exit(),
-                    Events::Use => tray.set_menu_item_checkable(Events::Use, true).unwrap(),
+                    Events::ShowMenu => tray.show_menu().unwrap(),
                 }
             }
         })
