@@ -179,12 +179,12 @@ jobs:
         if: matrix.os == 'windows-latest' && matrix.portable == true
         run: |
           mkdir $TEMP/PortableAppsLauncher && cd $TEMP/PortableAppsLauncher
-          curl "https://download2.portableapps.com/portableapps/PortableApps.comLauncher/PortableApps.comLauncher_2.2.8.paf.exe" -o PortableAppsLauncher.paf.exe
+          curl "https://download2.portableapps.com/portableapps/PortableApps.comLauncher/PortableApps.comLauncher_2.2.9.paf.exe" -o PortableAppsLauncher.paf.exe
           7z x -y PortableAppsLauncher.paf.exe
           echo $TEMP/PortableAppsLauncher >> $GITHUB_PATH
 
           mkdir $TEMP/PortableAppsInstaller && cd $TEMP/PortableAppsInstaller
-          curl "https://download2.portableapps.com/portableapps/PortableApps.comInstaller/PortableApps.comInstaller_3.8.8.paf.exe" -o PortableAppsInstaller.paf.exe
+          curl "https://download2.portableapps.com/portableapps/PortableApps.comInstaller/PortableApps.comInstaller_3.8.12.paf.exe" -o PortableAppsInstaller.paf.exe
           7z x -y PortableAppsInstaller.paf.exe
           echo $TEMP/PortableAppsInstaller >> $GITHUB_PATH
 
