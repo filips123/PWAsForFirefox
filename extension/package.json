@@ -20,7 +20,7 @@
     "watch:parcel": "parcel watch src/manifest.json src/{background,content}.js src/**/*.{html,svg} --no-content-hash",
     "build": "run-s prepare:* build:*",
     "build:parcel": "parcel build src/manifest.json src/{background,content}.js src/**/*.{html,svg} --no-content-hash --no-source-maps",
-    "build:webext": "web-ext build -s dist -a dist -n firefoxpwa-{version}.zip",
+    "build:webext": "web-ext build -s dist -a dist -n firefoxpwa-{version}-compiled.zip",
     "lint": "run-s -c lint:*",
     "lint:eslint": "eslint src tools",
     "lint:webext": "web-ext lint -s src",

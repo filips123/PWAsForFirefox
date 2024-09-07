@@ -41,7 +41,7 @@ Note that these are development versions that may be unstable and are not signed
 
 6. Either:
 
-   a. Install the packaged extension from `dist/firefoxpwa-{version}.zip` in `about:debugging`.
+   a. Install the packaged extension from `dist/firefoxpwa-{version}-compiled.zip` in `about:debugging`.
 
    b. Install the development extension from `dist/manifest.json` in `about:debugging`.
 

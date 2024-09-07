@@ -56,6 +56,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Configure cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/yarn
+            ~/.config/yarn
+          key: ${{ runner.os }}-yarn-build-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+
       - name: Set the version
         run: |
           if [[ $GITHUB_REF == refs/tags/v* ]]
@@ -66,20 +75,14 @@ jobs:
             sed -i "s/\"version\": \"0.0.0\"/\"version\": \"$VERSION\"/g" src/manifest.json
           fi
 
+      - name: Package the extension source
+        run: zip -r dist/firefoxpwa-${VERSION}-source.zip .
+
       - name: Upload the extension source
         uses: actions/upload-artifact@v4
         with:
           name: firefoxpwa-extension-source
-          path: extension/
-
-      - name: Configure cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/yarn
-            ~/.config/yarn
-          key: ${{ runner.os }}-yarn-build-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.os }}-yarn-
+          path: extension/dist/firefoxpwa-${{ env.VERSION }}-source.zip
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -96,8 +99,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: firefoxpwa-extension-compiled
-          path: extension/dist/*.zip
+          path: extension/dist/firefoxpwa-${{ env.VERSION }}-compiled.zip
 
-  # Add auto-publishing to AMO once web-ext officially supports and recommends that
-  # This also includes uploading source code because it is needed for built/bundled extensions
-  # See: https://github.com/mozilla/web-ext/issues/2451
+  # Add auto-publishing to AMO once web-ext supports submitting extensions from ZIP files
+  # This also includes uploading source code and AMO release notes
+  # See: https://github.com/mozilla/web-ext/issues/3242
