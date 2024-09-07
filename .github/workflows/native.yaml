@@ -319,7 +319,7 @@ jobs:
         uses: actions/download-artifact@v3
 
       - name: Upload artifacts to GitHub Release
-        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+        uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191
         with:
           fail_on_unmatched_files: true
           files: |
@@ -394,7 +394,7 @@ jobs:
           (cd native/packages/aur/firefox-pwa && namcap -i PKGBUILD)
 
       - name: Release firefox-pwa package
-        uses: KSXGitHub/github-actions-deploy-aur@063daf78a56662642bb00049ce78425ff6d0fad7
+        uses: KSXGitHub/github-actions-deploy-aur@a97f56a8425a7a7f3b8c58607f769c69b089cadb
         with:
           pkgname: firefox-pwa
           pkgbuild: ./native/packages/aur/firefox-pwa/PKGBUILD
@@ -403,10 +403,10 @@ jobs:
           commit_username: ${{ secrets.AUR_USERNAME }}
           commit_email: ${{ secrets.AUR_EMAIL }}
           ssh_private_key: ${{ secrets.AUR_PRIVATE_KEY }}
-          ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
+          ssh_keyscan_types: rsa,ecdsa,ed25519
 
       - name: Release firefox-pwa-bin package
-        uses: KSXGitHub/github-actions-deploy-aur@063daf78a56662642bb00049ce78425ff6d0fad7
+        uses: KSXGitHub/github-actions-deploy-aur@a97f56a8425a7a7f3b8c58607f769c69b089cadb
         with:
           pkgname: firefox-pwa-bin
           pkgbuild: ./native/packages/aur/firefox-pwa-bin/PKGBUILD
@@ -415,7 +415,7 @@ jobs:
           commit_username: ${{ secrets.AUR_USERNAME }}
           commit_email: ${{ secrets.AUR_EMAIL }}
           ssh_private_key: ${{ secrets.AUR_PRIVATE_KEY }}
-          ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
+          ssh_keyscan_types: rsa,ecdsa,ed25519
 
   release-gentoo:
     name: Release on Gentoo GURU
@@ -493,7 +493,7 @@ jobs:
           pkgcheck scan --net --commits
 
       - name: Push updated package
-        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38
+        uses: peter-evans/create-pull-request@8867c4aba1b742c39f8d0ba35429c2dfa4b6cb20
         with:
           token: ${{ secrets.GH_TOKEN }}
           push-to-fork: filips123/gentoo-guru
@@ -565,26 +565,3 @@ jobs:
 
       - name: Release Chocolatey package
         run: choco push native/packages/choco/*.nupkg --source https://push.chocolatey.org/ --key ${{secrets.CHOCO_TOKEN}}
-
-#  release-homebrew:
-#    name: Release on Homebrew
-#    if: startsWith(github.ref, 'refs/tags/v')
-#    runs-on: macos-latest
-#
-#    needs:
-#      - release-github
-#
-#    steps:
-#      - name: Prepare Git user
-#        run: |
-#          git config --global user.name "${{ secrets.GH_USERNAME }}"
-#          git config --global user.email "${{ secrets.GH_EMAIL }}"
-#
-#      - name: Update and release Homebrew formula
-#        env:
-#          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GH_TOKEN }}
-#        run: |
-#          VERSION=${GITHUB_REF/refs\/tags\/v}
-#          brew update
-#          (cd "$(brew --repository homebrew/core)" && git pull origin master --ff-only)
-#          brew bump-formula-pr --no-browse --strict --online --version $VERSION firefoxpwa
