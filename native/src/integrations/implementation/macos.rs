@@ -13,7 +13,6 @@ use image::imageops::FilterType::Gaussian;
 use image::{DynamicImage, Rgba, RgbaImage};
 use log::{debug, error, warn};
 use reqwest::blocking::Client;
-use resvg::usvg::fontdb;
 use resvg::{tiny_skia, usvg};
 use url::Url;
 use web_app_manifest::resources::IconResource;
@@ -256,16 +255,14 @@ fn load_icon(content: &[u8], content_type: &str, size: u32) -> Result<RgbaImage>
 
         let mut pixmap = tiny_skia::Pixmap::new(size, size).context("Invalid target size")?;
 
-        let mut fontdb = fontdb::Database::new();
-        fontdb.load_system_fonts();
-
         let mut opt = usvg::Options::default();
 
-        let resolver = Box::new(move |_: &str, _: &usvg::Options, _: &fontdb::Database| None);
+        opt.fontdb_mut().load_system_fonts();
+
+        let resolver = Box::new(move |_: &str, _: &usvg::Options| None);
         opt.image_href_resolver.resolve_string = resolver;
 
-        let tree =
-            usvg::Tree::from_data(content, &opt, &fontdb).context("Failed to parse SVG icon")?;
+        let tree = usvg::Tree::from_data(content, &opt).context("Failed to parse SVG icon")?;
 
         let transform = tiny_skia::Transform::from_scale(
             size as f32 / tree.size().width(),
