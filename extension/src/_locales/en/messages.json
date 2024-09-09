@@ -242,8 +242,24 @@
     "message": "This extension exchanges personal data (current website and manifest URLs, as well as other PWA details) with the native program when the user initiates the PWA installation. This is necessary in order to correctly obtain and parse the Web Application Manifest and install the PWA. Data are stored on the computer as long as that PWA is installed. No personal data leave the computer or are sent to third parties.",
     "description": "The privacy policy notice on the setup page"
   },
+  "setupPageLicenseLinks": {
+    "message": "You can also read this <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/eula/\" target=\"_blank\">licence agreement</a> and <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/privacy/\" target=\"_blank\">privacy policy</a> on the AMO page.",
+    "description": "The links to the licence agreement and privacy policy on AMO on the setup page"
+  },
+  "setupPageLicenseConsent": {
+    "message": "You cannot use the extension if you do not consent to the above terms. In this case, you can uninstall it with the button below.",
+    "description": "The required consent and uninstallation notice on the setup page"
+  },
+  "setupPageLicenseUninstallation": {
+    "message": "You cannot use the extension if you do not consent to the provided terms. The extension will be uninstalled. You can reinstall it later if you change your mind.",
+    "description": "The dialog displayed when the user declines the license agreement"
+  },
+  "setupPageLicenseDecline": {
+    "message": "Decline and Uninstall",
+    "description": "The decline and uninstall button on the setup page"
+  },
   "setupPageLicenseAccept": {
-    "message": "I accept the license agreement",
+    "message": "Accept the Agreement",
     "description": "The license accept button on the setup page"
   },
   "setupPageConnectorInstallationMain": {

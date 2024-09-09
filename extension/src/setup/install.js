@@ -24,6 +24,10 @@ async function checkLicenseAgreement () {
   }
 }
 
+document.getElementById('license-agreement-decline').onclick = async function () {
+  await browser.management.uninstallSelf({ showConfirmDialog: true, dialogMessage: await getMessage('setupPageLicenseUninstallation') + '\n' })
+}
+
 document.getElementById('license-agreement-accept').onclick = async function () {
   await browser.storage.local.set({ [STORAGE_LICENSE_ACCEPTED]: true })
   await checkLicenseAgreement()
