@@ -120,7 +120,8 @@ function launchSite (siteConfig, urlList, isStartup) {
 // Properly disable Firefox Session Restore and Private Window Separation
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.sessionstore.resume_from_crash', false);
 Services.prefs.getDefaultBranch(null).setIntPref('browser.sessionstore.max_resumed_crashes', 0);
-Services.prefs.getDefaultBranch(null).setIntPref('browser.sessionstore.idleDelay', -1);
+Services.prefs.getDefaultBranch(null).setIntPref('browser.sessionstore.max_tabs_undo', 0);
+Services.prefs.getDefaultBranch(null).setIntPref('browser.sessionstore.max_windows_undo', 0);
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.privateWindowSeparation.enabled', false);
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.privacySegmentation.createdShortcut', true);
 
