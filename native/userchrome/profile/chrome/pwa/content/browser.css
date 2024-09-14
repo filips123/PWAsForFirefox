@@ -160,7 +160,8 @@
     --toolbar-display: flex;
   }
 
-  .overflow-button {
+  .overflow-button,
+  #nav-bar-overflow-button {
     display: var(--toolbar-display);
   }
 
