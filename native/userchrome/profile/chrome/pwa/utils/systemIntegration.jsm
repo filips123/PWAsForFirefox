@@ -45,7 +45,7 @@ function configureThemeColor (window, styles, colorR, colorG, colorB) {
   }
 
   // Set background and text colors to the titlebar and tabs
-  styles.innerHTML += `#navigator-toolbox, html[tabsintitlebar] #main-menubar > *, html[tabsintitlebar] #titlebar > * { background-color: ${backgroundColor} !important; color: ${textColor} !important; }`;
+  styles.innerHTML += `#navigator-toolbox { background-color: ${backgroundColor} !important; color: ${textColor} !important; }`;
   styles.innerHTML += `.tabbrowser-tab { color: ${textColor} !important; }`;
 }
 
