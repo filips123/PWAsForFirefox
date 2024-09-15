@@ -3316,10 +3316,10 @@ ieee754@^1.2.1:
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.2.1.tgz#8eb7a10a63fff25d15a57b001586d177d1b0d352"
   integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
 
-iframe-resizer@^4.4.5:
-  version "4.4.5"
-  resolved "https://registry.yarnpkg.com/iframe-resizer/-/iframe-resizer-4.4.5.tgz#f5048636e7f2fb5d9a09cc2ae78eb2da55ad555c"
-  integrity sha512-U8bCywf/Gh07O69RXo6dXAzTtODQrxaHGHRI7Nt4ipXsuq6EMxVsOP/jjaP43YtXz/ibESS0uSVDN3sOGCzSmw==
+iframe-resizer@4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/iframe-resizer/-/iframe-resizer-4.4.2.tgz#4d319d42c5e16439f5c3ad530dc64ac51e99bcfd"
+  integrity sha512-2SupFCq9V9osWac4q+PodF0E9QdWY5A9VdCpKrrE7HlDrcIsaTp7D6k14mkGXWoWMS9jCavYusik25wTc0YB2Q==
 
 ignore@^5.2.0, ignore@^5.2.4:
   version "5.3.2"

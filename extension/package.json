@@ -37,7 +37,7 @@
     "bootstrap-icons": "^1.11.3",
     "bootstrap5-tags": "^1.7.5",
     "dompurify": "^3.1.6",
-    "iframe-resizer": "^4.4.5",
+    "iframe-resizer": "4.4.2",
     "semver": "^7.6.3"
   },
   "devDependencies": {
