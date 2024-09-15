@@ -59,7 +59,7 @@ script = """
 # Use sudo if it exists
 SUDO=$(which sudo) || $(echo "")
 
-# Install Command Line Tools for Xcode
+# Install Xcode Command Line Tools
 $SUDO xcode-select --install || true
 
 # Copy all files to the correct locations

@@ -528,6 +528,25 @@ To fix this problem:
 
 6. Run [the "Patch profiles and runtime" option](../user-guide/extension.md#patch-profiles-and-runtime) from the extension settings.
 
+### Why does installing a web app fail on macOS?
+
+Compiling the loader while installing a web app on macOS requires the Xcode Command
+Line Tools to be installed.
+
+They should be automatically installed when using Homebrew. If they are not installed,
+you can install them by running the following command:
+
+```shell
+xcode-select --install
+```
+
+If the Xcode Command Line Tools are installed, but the web app installation still fails,
+you can try to remove them by running the following command and install them again:
+
+```shell
+sudo rm -rf /Library/Developer/CommandLineTools
+```
+
 ### Why doesn't allowing microphone or camera work on macOS?
 
 Due to [an unknown problem](https://github.com/filips123/PWAsForFirefox/issues/404),
