@@ -239,10 +239,10 @@ Linux desktop environments and customization options, it's hard to detect them a
 the correct built-in compatibility styles with each of them. However, there are two ways
 how you can manually achieve a better visual integration with your theme.
 
-One way of achieving the native titlebar is to disable CSD for installed web apps. This can
-be done in the Firefox customize page by unchecking the titlebar checkbox. However, this
-will cause a separate bar to appear, which might be undesirable, visually unappealing
-and screen-inefficient.
+One way of achieving the native titlebar is to disable client-side decorations (CSD) for
+installed web apps. This can be done on the Firefox customized page by unchecking the
+titlebar checkbox. However, this will cause a separate bar to appear, which might be
+undesirable, visually unappealing and screen-inefficient.
 
 A better solution is to manually apply custom CSS styling to customize the titlebar appearance.
 See [how to apply custom CSS to web apps](#how-to-apply-custom-css-to-web-apps) and include
@@ -311,6 +311,43 @@ CSS for your platform that is provided below (you can also customize it if you w
 <!-- Those CSS snippets that center elements only center them relative to the parent -->
 <!--If the user has a lot of widgets, the element might not be in the center of the window -->
 <!-- I don't know if there is any CSS solution that reliably works without other problems -->
+
+### How to make the web app titlebar use the system accent color?
+
+On Windows, it is possible to make the web app titlebar use the system accent color
+for active windows. This can be done by [applying the following custom CSS](#how-to-apply-custom-css-to-web-apps):
+
+```css
+@-moz-document url('chrome://browser/content/browser.xhtml') {
+  #navigator-toolbox:not(:-moz-window-inactive),
+  #scrollbutton-up:not(:hover):not(:active):not(:-moz-window-inactive),
+  #scrollbutton-down:not(:hover):not(:active):not(:-moz-window-inactive),
+  .tabbrowser-tab:not(:-moz-window-inactive) {
+    background: AccentColor !important;
+    color: AccentColorText !important;
+    fill: AccentColorText !important;
+  }
+
+  #firefox-view-button[open] > .toolbarbutton-icon,
+  .tab-background:is([selected], [multiselected]) {
+    background-color: color-mix(in srgb, currentColor 18%, transparent) !important;
+    background-image: none !important;
+  }
+}
+```
+
+You also need to disable [the "Allow web apps to override a theme (titlebar) color"
+option](../user-guide/browser.md#allow-web-apps-to-dynamically-change-a-theme-color)
+in the app browser settings to prevent conflicts with the applied styles.
+
+!!! tip
+
+    If you want to use the system accent color for all windows, including inactive,
+    you can remove <nobr>`:not(:-moz-window-inactive)`</nobr> from the styles.
+
+!!! note
+
+    These styles may also work on other operating systems.
 
 ### How to apply custom CSS to web apps?
 
