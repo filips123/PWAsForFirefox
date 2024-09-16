@@ -101,9 +101,9 @@ src_configure() {
 
 src_install() {
 	# Executables
-	dobin target/*/firefoxpwa
+	dobin $(cargo_target_dir)/firefoxpwa
 	exeinto /usr/libexec
-	doexe target/*/firefoxpwa-connector
+	doexe $(cargo_target_dir)/firefoxpwa-connector
 
 	# Manifest
 	local target_dirs=( /usr/lib{,64}/mozilla/native-messaging-hosts )
@@ -113,9 +113,9 @@ src_install() {
 	done
 
 	# Completions
-	newbashcomp target/*/completions/firefoxpwa.bash firefoxpwa
-	dofishcomp target/*/completions/firefoxpwa.fish
-	dozshcomp target/*/completions/_firefoxpwa
+	newbashcomp $(cargo_target_dir)/completions/firefoxpwa.bash firefoxpwa
+	dofishcomp $(cargo_target_dir)/completions/firefoxpwa.fish
+	dozshcomp $(cargo_target_dir)/completions/_firefoxpwa
 
 	# UserChrome
 	insinto /usr/share/firefoxpwa
