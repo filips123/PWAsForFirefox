@@ -139,10 +139,6 @@
     "message": "L’URL de départ doit être une URL valide",
     "description": "A validation error when the web app start URL is invalid"
   },
-  "webAppValidationStartURLScope": {
-    "message": "L’URL de départ doit être dans le domaine :",
-    "description": "A validation error when the web app start URL is out-of-scope, with the scope displayed after the colon"
-  },
   "webAppValidationIconURLInvalid": {
     "message": "L’URL de l’icône doit être une URL valide",
     "description": "A validation error when the web app icon URL is invalid"
@@ -214,10 +210,6 @@
   "setupPageLicensePrivacyPolicy": {
     "message": "Cette extension échange des données personnelles (site web actuel et URLs des manifestes, ainsi que d’autres détails PWA) avec le programme natif lorsque l’utilisateur lance l'installation de la PWA. Ceci est nécessaire pour obtenir et analyser correctement le manifeste de l'application Web et installer la PWA. Les données sont stockées sur l’ordinateur tant que PWA est installée. Aucune donnée personnelle n’est stockée en dehors de l’ordinateur ou envoyée à des tierces parties.",
     "description": "The privacy policy notice on the setup page"
-  },
-  "setupPageLicenseAccept": {
-    "message": "J’accepte l’accord de licence",
-    "description": "The license accept button on the setup page"
   },
   "setupPageConnectorInstallationMain": {
     "message": "Vous devez installer le programme complémentaire pour que l'extension puisse gérer et lancer l’environnement d’exécution dédié et les profils de vos applications web. L’extension ne fonctionnera pas sans ce programme. Veuillez suivre les instructions ci-dessous pour l'installer.",

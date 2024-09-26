@@ -1,0 +1,498 @@
+{
+  "appName": {
+    "message": "Progressive Web Apps for Firefox",
+    "description": "The name of the application, should not be translated"
+  },
+  "appShortName": {
+    "message": "PWAsForFirefox",
+    "description": "The short name of the application, should not be translated"
+  },
+  "appDescription": {
+    "message": "一个用于在Mozilla Firefox上安装、管理、使用渐进式网页应用程序（PWA）的工具",
+    "description": "The description of the application"
+  },
+  "actionInstallSite": {
+    "message": "安装此网站",
+    "description": "Instruct users that they can install the current site here"
+  },
+  "actionLaunchSite": {
+    "message": "启动此网站",
+    "description": "Instruct users that they can launch the current site here"
+  },
+  "updateNotificationTitle": {
+    "message": "PWAsForFirefox更新",
+    "description": "The title of the update notification, displayed when an update is available"
+  },
+  "updateNotificationMessage": {
+    "message": "PWAsForFirefox有可用的更新。请点击通知以显示更新说明。",
+    "description": "The message of the update notification, displayed when an update is available"
+  },
+  "commonError": {
+    "message": "错误",
+    "description": "Displayed before error messages or as a popup title"
+  },
+  "commonWarning": {
+    "message": "警告",
+    "description": "Displayed before warning messages or as a popup title"
+  },
+  "commonNote": {
+    "message": "提示",
+    "description": "Displayed before note messages or as a popup title"
+  },
+  "commonClose": {
+    "message": "关闭",
+    "description": "Displayed as a label for a close button"
+  },
+  "commonCancel": {
+    "message": "取消",
+    "description": "Displayed as a label for a cancel button"
+  },
+  "commonLoading": {
+    "message": "正在加载…",
+    "description": "Displayed when things are still loading"
+  },
+  "commonAnd": {
+    "message": "和",
+    "description": "The \"and\" conjunction, used between untranslatable words"
+  },
+  "commonOr": {
+    "message": "或",
+    "description": "The \"or\" conjunction, used between untranslatable words"
+  },
+  "commonExtensionVersion": {
+    "message": "扩展版本：",
+    "description": "Displayed before the extension version"
+  },
+  "commonFirefoxVersion": {
+    "message": "Firefox 版本：",
+    "description": "Displayed before the main browser version"
+  },
+  "webAppName": {
+    "message": "名称",
+    "description": "The name property of a web app"
+  },
+  "webAppDescription": {
+    "message": "描述",
+    "description": "The description property of a web app"
+  },
+  "webAppCategories": {
+    "message": "分类",
+    "description": "The categories property of a web app"
+  },
+  "webAppKeywords": {
+    "message": "关键词",
+    "description": "The keywords property of a web app"
+  },
+  "webAppStartURL": {
+    "message": "起始网址",
+    "description": "The start URL property of a web app"
+  },
+  "webAppIconURL": {
+    "message": "图标网址",
+    "description": "The icon URL property of a web app"
+  },
+  "webAppID": {
+    "message": "ID",
+    "description": "The ID property of a web app"
+  },
+  "webAppProfile": {
+    "message": "配置文件",
+    "description": "The profile property of a web app"
+  },
+  "profileName": {
+    "message": "名称",
+    "description": "The name property of a profile"
+  },
+  "profileDescription": {
+    "message": "描述",
+    "description": "The description property of a profile"
+  },
+  "profileTemplate": {
+    "message": "模板",
+    "description": "The template property of a profile"
+  },
+  "profileTemplatePlaceholder": {
+    "message": "输入配置文件模板的路径",
+    "description": "The placeholder for the template input"
+  },
+  "profileID": {
+    "message": "ID",
+    "description": "The ID property of a profile"
+  },
+  "webAppValidationNameReuse": {
+    "message": "名称不能与已存在的网页应用相同",
+    "description": "A validation error when the web app name is reused"
+  },
+  "webAppValidationStartURLInvalid": {
+    "message": "起始网址必须是有效的网址",
+    "description": "A validation error when the web app start URL is invalid"
+  },
+  "webAppValidationIconURLInvalid": {
+    "message": "图标网址必须是有效的网址",
+    "description": "A validation error when the web app icon URL is invalid"
+  },
+  "setupPageTitle": {
+    "message": "设置Progressive Web Apps for Firefox",
+    "description": "The title of the setup page"
+  },
+  "setupPageTabLicenseAgreement": {
+    "message": "授权协议",
+    "description": "The licence agreement tab on the setup page"
+  },
+  "setupPageTabRuntimeInstallation": {
+    "message": "运行环境安装",
+    "description": "The runtime installation tab on the setup page"
+  },
+  "setupPageTabReady": {
+    "message": "完成",
+    "description": "The ready tab on the setup page"
+  },
+  "setupPageLicenseThirdPartyDownloaded": {
+    "message": "在用户首次安装运行环境时，将下载以下的开源软件：",
+    "description": "The downloaded third-party assets and code notice on the setup page"
+  },
+  "setupPageLicense7ZipDownloaded": {
+    "message": "如果尚未安装，安装Windows运行环境时将安装 <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a> 。 7-Zip项目由Igor Pavlov和 <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">根据GNU LGPL等许可证</a>授予许可。本项目与7-Zip项目或其开发者没有任何关联。",
+    "description": "The notice for downloaded 7-Zip on the setup page"
+  },
+  "setupPageLicenseConsent": {
+    "message": "如果您不同意上述条款，您将不能使用此扩展。在这种情况下，您可以通过下方按钮卸载。",
+    "description": "The required consent and uninstallation notice on the setup page"
+  },
+  "setupPageLicenseUninstallation": {
+    "message": "如果您不同意这些条款，您将不能使用扩展。 扩展将被卸载。如果您改变主意，您可以稍后重新安装。",
+    "description": "The dialog displayed when the user declines the license agreement"
+  },
+  "setupPageLicenseDecline": {
+    "message": "不接受并卸载",
+    "description": "The decline and uninstall button on the setup page"
+  },
+  "setupPageLicenseAccept": {
+    "message": "接受协议",
+    "description": "The license accept button on the setup page"
+  },
+  "setupPageAdvancedOptionsTitle": {
+    "message": "高级选项",
+    "description": "The advanced runtime installation options toggle on the setup page"
+  },
+  "instructionsPageTitle": {
+    "message": "安装说明",
+    "description": "The title of the installation instructions page"
+  },
+  "instructionsPageTabWindows": {
+    "message": "Windows",
+    "description": "The Microsoft Windows tab on the instructions page"
+  },
+  "instructionsPageTabDebian": {
+    "message": "Debian系Linux（DEB）",
+    "description": "The Debian (DEB) tab on the instructions page"
+  },
+  "instructionsPageTabRedHat": {
+    "message": "Red Hat系Linux（RPM）",
+    "description": "The Red Hat (RPM) tab on the instructions page"
+  },
+  "instructionsPageTabArch": {
+    "message": "Arch系Linux（AUR）",
+    "description": "The Arch (AUR) tab on the instructions page"
+  },
+  "instructionsPageTabGentoo": {
+    "message": "Gentoo系Linux",
+    "description": "The Gentoo tab on the instructions page"
+  },
+  "instructionsPageTabNixOS": {
+    "message": "NixOS Linux",
+    "description": "The NixOS tab on the instructions page"
+  },
+  "instructionsPageTabMacOS": {
+    "message": "macOS",
+    "description": "The macOS tab on the instructions page"
+  },
+  "instructionsPageTabBSD": {
+    "message": "BSD",
+    "description": "The BSD tab on the instructions page"
+  },
+  "instructionsPageTabOtherPlatforms": {
+    "message": "其它平台",
+    "description": "The other platforms tab on the instructions page"
+  },
+  "instructionsPageInstallManualMSITitle": {
+    "message": "若要手动安装该程序：",
+    "description": "The title of the manual MSI installation option"
+  },
+  "installPageTitle": {
+    "message": "安装此网页应用",
+    "description": "The title of the install web app page"
+  },
+  "installPageCreateProfile": {
+    "message": "创建新的配置文件",
+    "description": "The profile creation option on the install web app page"
+  },
+  "installPageAutoCreateProfile": {
+    "message": "自动创建新配置文件",
+    "description": "The automatic profile creation option on the install web app page"
+  },
+  "installPageSeparateProfiles": {
+    "message": "由于存在于一个很难修复的问题，强烈建议为每个网页应用使用单独的配置文件中。请参阅问题报告<a id=\"web-app-profile-warn-issue\"></a>以了解详情。",
+    "description": "The message that tells users each web app should be in a separate profile on affected platforms"
+  },
+  "installPageLaunchNowLabel": {
+    "message": "安装完成后启动网页应用",
+    "description": "The label for the launch now checkbox on the web app installation page"
+  },
+  "installPageLaunchNowTooltip": {
+    "message": "如果您想要在安装后自动启动此网页应用，请启用",
+    "description": "The tooltip for the launch now checkbox on the web app installation page"
+  },
+  "installPageContentScriptError": {
+    "message": "无法访问内容脚本。",
+    "description": "A message that says the extension was not able to access the content script"
+  },
+  "launchPageTitle": {
+    "message": "启动此网页应用",
+    "description": "The title of the launch web app page"
+  },
+  "launchPageInstallNewInstance": {
+    "message": "安装新的实例",
+    "description": "Displayed on the launch web app page to install a new instance"
+  },
+  "managePageTitle": {
+    "message": "管理网页应用和配置文件",
+    "description": "The title of the manage page"
+  },
+  "managePageTabApps": {
+    "message": "应用程序",
+    "description": "The apps tab on the manage page"
+  },
+  "managePageTabProfiles": {
+    "message": "配置文件",
+    "description": "The profiles tab on the manage page"
+  },
+  "managePageTabSettings": {
+    "message": "设置",
+    "description": "The settings tab on the manage page"
+  },
+  "managePageAppListIcon": {
+    "message": "图标",
+    "description": "The icon alternative text on the web app list"
+  },
+  "managePageAppListLaunch": {
+    "message": "启动网页应用",
+    "description": "The launch tooltip on the web app list"
+  },
+  "managePageAppListEdit": {
+    "message": "编辑网页应用",
+    "description": "The edit tooltip on the web app list and the title of the edit web app dialog"
+  },
+  "managePageAppListRemove": {
+    "message": "移除网页应用",
+    "description": "The remove tooltip on the web app list and the title of the remove web app dialog"
+  },
+  "managePageAppListEmpty": {
+    "message": "没有已安装的网页应用！",
+    "description": "A message that is displayed on the web app list when no web apps are installed"
+  },
+  "managePageAppListAdd": {
+    "message": "安装当前网站",
+    "description": "A button that is displayed on the web app list to install the current site"
+  },
+  "managePageProfileListCreate": {
+    "message": "创建配置文件",
+    "description": "The create tooltip on the profile list and the title of the edit profile dialog"
+  },
+  "managePageProfileListEdit": {
+    "message": "编辑配置文件",
+    "description": "The edit tooltip on the profile list and the title of the edit profile dialog"
+  },
+  "managePageProfileListRemove": {
+    "message": "移除配置文件",
+    "description": "The remove tooltip on the profile list and title of the remove profile dialog"
+  },
+  "managePageProfileListEmpty": {
+    "message": "没有可用的配置文件！",
+    "description": "A message that is displayed on the profile list when no profile are available"
+  },
+  "managePageProfileListAdd": {
+    "message": "创建新的配置文件",
+    "description": "A button that is displayed on the profile list to create a new profile"
+  },
+  "managePageProfileListUnnamed": {
+    "message": "未命名",
+    "description": "The unnamed profile on the profile list"
+  },
+  "managePageSettingsDisplayPageAction": {
+    "message": "显示地址栏部件",
+    "description": "The setting for displaying page action (address bar widget)"
+  },
+  "managePageSettingsDisplayPageActionValid": {
+    "message": "在有效的渐进网页应用程序上",
+    "description": "The option to display page action on valid web apps"
+  },
+  "managePageSettingsDisplayPageActionAlways": {
+    "message": "总是",
+    "description": "The option to always display page action"
+  },
+  "managePageSettingsDisplayPageActionNever": {
+    "message": "从不",
+    "description": "The option to never display page action"
+  },
+  "managePageSettingsShowUpdatePopup": {
+    "message": "在扩展更新时显示弹窗",
+    "description": "The setting for showing update popups"
+  },
+  "managePageSettingsEnableAutoLaunch": {
+    "message": "启用自动启动网页应用",
+    "description": "The setting for enabling automatic launching"
+  },
+  "managePageSettingsAlwaysPatch": {
+    "message": "总是修补运行环境和配置文件",
+    "description": "The setting for configuring patching"
+  },
+  "managePageSettingsDarkMode": {
+    "message": "启用深色模式",
+    "description": "The setting for enabling dark mode"
+  },
+  "managePageSettingsDarkModeTooltip": {
+    "message": "只能在系统设置中启用",
+    "description": "The tooltip for the dark mode setting"
+  },
+  "managePageSettingsDefaultProfileTemplate": {
+    "message": "默认配置文件模板",
+    "description": "The setting for default profile template"
+  },
+  "managePageSettingsLanguage": {
+    "message": "语言",
+    "description": "The setting for language"
+  },
+  "managePageSettingsUpdateWebApps": {
+    "message": "更新网页应用",
+    "description": "The button in settings to update web apps"
+  },
+  "managePageSettingsPatchProfiles": {
+    "message": "修补配置文件和运行环境",
+    "description": "The button in settings to patch profiles and runtime"
+  },
+  "managePageSettingsReinstallRuntime": {
+    "message": "重新安装运行环境",
+    "description": "The button in settings to reinstall runtime"
+  },
+  "managePageSettingsAboutProject": {
+    "message": "关于此项目",
+    "description": "The button in settings to display project info"
+  },
+  "managePageFooterOutdated1": {
+    "message": "扩展已经过期！",
+    "description": "The first part of the extension outdated warning"
+  },
+  "managePageFooterOutdated2": {
+    "message": "请更新！",
+    "description": "The second part of the extension outdated warning"
+  },
+  "managePageFooterSearchPlaceholder": {
+    "message": "按名称搜索",
+    "description": "The search placeholder for web apps and profiles"
+  },
+  "managePageAppEditLaunchOnWebsiteLabel": {
+    "message": "在匹配的网站上启动相应网页应用",
+    "description": "The label for the launch on website checkbox on the edit web app dialog"
+  },
+  "managePageAutoLaunchEnable": {
+    "message": "启用",
+    "description": "The enable button for the automatic launching"
+  },
+  "buttonRuntimeInstallDefault": {
+    "message": "安装运行环境",
+    "description": "The runtime installation button on the setup page, allowing the user to install the runtime"
+  },
+  "buttonRuntimeInstallProcessing": {
+    "message": "正在安装运行环境…",
+    "description": "The runtime installation button on the setup page, while the runtime is installing"
+  },
+  "buttonRuntimeInstallFinished": {
+    "message": "运行环境已安装！",
+    "description": "The runtime installation button on the setup page, after the runtime has been installed"
+  },
+  "buttonWebAppInstallDefault": {
+    "message": "安装网页应用",
+    "description": "The web app button on the install web app page, allowing the user to install the web app"
+  },
+  "buttonWebAppInstallProcessing": {
+    "message": "正在安装网页应用…",
+    "description": "The web app installation button on the install web app page, while the web app is installing"
+  },
+  "buttonWebAppInstallFinished": {
+    "message": "网页应用已安装！",
+    "description": "The web app installation button on the install web app page, after the web app has been installed"
+  },
+  "buttonCreateDefault": {
+    "message": "创建",
+    "description": "The create button, allowing the user to create something (profile)"
+  },
+  "buttonCreateProcessing": {
+    "message": "正在创建…",
+    "description": "The create button, while something (profile) is being created"
+  },
+  "buttonCreateFinished": {
+    "message": "创建成功！",
+    "description": "The create button, after something (profile) has been created"
+  },
+  "buttonEditDefault": {
+    "message": "应用",
+    "description": "The edit button, allowing the user to edit something (web app or profile)"
+  },
+  "buttonEditProcessing": {
+    "message": "保存中…",
+    "description": "The edit button, while something (web app or profile) is being edited"
+  },
+  "buttonEditFinished": {
+    "message": "已保存！",
+    "description": "The edit button, after something (web app or profile) has been edited"
+  },
+  "buttonRemoveDefault": {
+    "message": "移除",
+    "description": "The remove button, allowing the user to remove something (web app or profile)"
+  },
+  "buttonRemoveProcessing": {
+    "message": "移除中…",
+    "description": "The remove button, while something (web app or profile) is being removed"
+  },
+  "buttonRemoveFinished": {
+    "message": "已移除！",
+    "description": "The remove button, after something (web app or profile) has been removed"
+  },
+  "buttonUpdateDefault": {
+    "message": "更新",
+    "description": "The update button, allowing the user to update something (all web apps)"
+  },
+  "buttonUpdateProcessing": {
+    "message": "更新中…",
+    "description": "The update button, while something (all web apps) is being updated"
+  },
+  "buttonUpdateFinished": {
+    "message": "已更新！",
+    "description": "The update button, after something (all web apps) has been updated"
+  },
+  "buttonPatchDefault": {
+    "message": "修补",
+    "description": "The patch button, allowing the user to patch something (all web apps or profiles)"
+  },
+  "buttonPatchProcessing": {
+    "message": "修补中…",
+    "description": "The patch button, while something (all web apps or profiles) is being patched"
+  },
+  "buttonPatchFinished": {
+    "message": "已修补！",
+    "description": "The patch button, after something (all web apps or profiles) has been patched"
+  },
+  "buttonReinstallDefault": {
+    "message": "重新安装",
+    "description": "The reinstall button, allowing the user to reinstall something (runtime)"
+  },
+  "buttonReinstallProcessing": {
+    "message": "重新安装中…",
+    "description": "The reinstall button, while something (runtime) is being reinstalled"
+  },
+  "buttonReinstallFinished": {
+    "message": "已重新安装！",
+    "description": "The reinstall button, after something (runtime) has been reinstalled"
+  }
+}
