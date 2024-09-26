@@ -242,15 +242,18 @@ async function initializeForm () {
   // Validate start URL input
   const startUrlValidation = async function () {
     const invalidLabel = document.getElementById('web-app-start-url-invalid')
+    const warningLabel = document.getElementById('web-app-start-url-warning')
 
     // Empty URL defaults to manifest start URL
     if (!this.value) {
       this.setCustomValidity('')
+      this.classList.remove('is-warning')
       return
     }
 
     // Start URL needs to be a valid URL
     if (this.validity.typeMismatch) {
+      this.classList.remove('is-warning')
       this.setCustomValidity(await getMessage('webAppValidationStartURLInvalid'))
       invalidLabel.innerText = this.validationMessage
       return
@@ -258,21 +261,24 @@ async function initializeForm () {
 
     // If the manifest does not exist there is no scope
     if (!manifestExists) {
+      this.classList.remove('is-warning')
       this.setCustomValidity('')
       return
     }
 
-    // Start URL needs to be within the scope
+    // Start URL should be within the scope
     const startUrl = new URL(this.value)
     const scope = new URL(manifest.scope)
     if (startUrl.origin !== scope.origin || !startUrl.pathname.startsWith(scope.pathname)) {
-      this.setCustomValidity(`${await getMessage('webAppValidationStartURLScope')} ${scope}`)
-      invalidLabel.innerText = this.validationMessage
+      this.setCustomValidity('')
+      warningLabel.innerText = `${await getMessage('webAppValidationStartURLScope')} ${scope}`
+      this.classList.add('is-warning')
       return
     }
 
     // All checks passed
     this.setCustomValidity('')
+    this.classList.remove('is-warning')
   }
 
   const startUrlInput = document.getElementById('web-app-start-url')

@@ -160,8 +160,8 @@
     "description": "A validation error when the web app start URL is invalid"
   },
   "webAppValidationStartURLScope": {
-    "message": "Start URL needs to be within the scope:",
-    "description": "A validation error when the web app start URL is out-of-scope, with the scope displayed after the colon"
+    "message": "Start URL should be within the scope:",
+    "description": "A validation warning when the web app start URL is out-of-scope, with the scope displayed after the colon"
   },
   "webAppValidationIconURLInvalid": {
     "message": "Icon URL needs to be a valid URL",

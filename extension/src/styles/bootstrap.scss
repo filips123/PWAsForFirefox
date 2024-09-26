@@ -1,3 +1,5 @@
+@use "sass:map";
+
 @import "bootstrap/scss/_functions";
 
 $color-mode-type: media-query;
@@ -25,7 +27,16 @@ $border-color-dark:         $gray-700-alt;
 @import "bootstrap/scss/_variables";
 @import "bootstrap/scss/_variables-dark";
 
-$form-validation-states: map-remove($form-validation-states, "valid");
+$form-validation-states: map.remove($form-validation-states, "valid");
+
+$form-validation-states: map.set($form-validation-states, "warning", (
+  "color": $yellow-300,
+  "icon": "",
+  "tooltip-color": #fff,
+  "tooltip-bg-color": var(--#{$prefix}warning),
+  "focus-box-shadow": 0 0 $input-btn-focus-blur $input-focus-width rgba(var(--#{$prefix}warning-rgb), $input-btn-focus-color-opacity),
+  "border-color": $yellow-300,
+));
 
 $kbd-color:  $white;
 $kbd-bg:     $gray-800;
