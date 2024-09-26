@@ -139,10 +139,6 @@
     "message": "Link URL awalan harus bersifat valid",
     "description": "A validation error when the web app start URL is invalid"
   },
-  "webAppValidationStartURLScope": {
-    "message": "Link URL awalan harus berada dalam cakupan berikut:",
-    "description": "A validation error when the web app start URL is out-of-scope, with the scope displayed after the colon"
-  },
   "webAppValidationIconURLInvalid": {
     "message": "Link URL ikon harus bersifat valid",
     "description": "A validation error when the web app icon URL is invalid"
