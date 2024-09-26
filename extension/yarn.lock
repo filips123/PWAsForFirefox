@@ -806,7 +806,7 @@
     "@parcel/utils" "2.12.0"
     react-refresh "^0.9.0"
 
-"@parcel/transformer-sass@2.12.0":
+"@parcel/transformer-sass@^2.12.0":
   version "2.12.0"
   resolved "https://registry.yarnpkg.com/@parcel/transformer-sass/-/transformer-sass-2.12.0.tgz#9132ee78197db04baf51d3024a1bf3c35f1df5ef"
   integrity sha512-xLLoSLPST+2AHJwFRLl4foArDjjy6P1RChP3TxMU2MVS1sbKGJnfFhFpHAacH8ASjuGtu5rbpfpHRZePlvoZxw==
@@ -5163,10 +5163,10 @@ safe-stable-stringify@^2.3.1:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-sass@^1.38.0:
-  version "1.78.0"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.78.0.tgz#cef369b2f9dc21ea1d2cf22c979f52365da60841"
-  integrity sha512-AaIqGSrjo5lA2Yg7RvFZrlXDBCp3nV4XP73GrLGvdRWWwk+8H3l0SDvq/5bA4eF+0RFPLuWUk3E+P1U/YqnpsQ==
+sass@1.77.6, sass@^1.38.0:
+  version "1.77.6"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.77.6.tgz#898845c1348078c2e6d1b64f9ee06b3f8bd489e4"
+  integrity sha512-ByXE1oLD79GVq9Ht1PeHWCPMPB8XHpBuz1r85oByKHjZY6qV6rWnQovQzXJXuQ/XyE1Oj3iPk3lo28uzaRA2/Q==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"

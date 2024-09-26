@@ -30,6 +30,7 @@
     "prepare:icons": "node ./tools/icons/generate.js",
     "set-version": "node ./tools/set-version.js"
   },
+  "packageManager": "yarn@1.22.22",
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "base64-js": "^1.5.1",
@@ -45,7 +46,7 @@
     "@parcel/plugin": "^2.12.0",
     "@parcel/resolver-glob": "^2.12.0",
     "@parcel/transformer-raw": "^2.12.0",
-    "@parcel/transformer-sass": "2.12.0",
+    "@parcel/transformer-sass": "^2.12.0",
     "@twbs/fantasticon": "^3.0.0",
     "eslint": "^8.57.0",
     "eslint-config-standard": "^17.1.0",
@@ -59,7 +60,8 @@
     "web-ext": "^8.2.0"
   },
   "resolutions": {
-    "jackspeak": "2.1.1"
+    "jackspeak": "2.1.1",
+    "sass": "1.77.6"
   },
   "icons": [
     "box-arrow-up-right",
