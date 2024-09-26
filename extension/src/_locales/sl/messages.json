@@ -116,8 +116,8 @@
     "description": "A validation error when the web app start URL is invalid"
   },
   "webAppValidationStartURLScope": {
-    "message": "Začetni URL mora biti v območju:",
-    "description": "A validation error when the web app start URL is out-of-scope, with the scope displayed after the colon"
+    "message": "Začetni URL mora verjetno biti v območju:",
+    "description": "A validation warning when the web app start URL is out-of-scope, with the scope displayed after the colon"
   },
   "webAppValidationIconURLInvalid": {
     "message": "URL ikone mora biti veljaven URL",
