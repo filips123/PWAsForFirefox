@@ -155,10 +155,6 @@
     "message": "この拡張機能は、ユーザーが PWA のインストールを開始したときに、個人データ（現在のウェブサイトとマニフェストのURL、およびその他のPWA詳細）をネイティブプログラムと交換します。これは、Web アプリケーションマニフェストを正しく取得・解析し、PWA をインストールするために必要です。データは、その PWA がインストールされている限り、コンピューターに保存されます。個人データがコンピューターから離れたり、第三者に送信されたりすることはありません。",
     "description": "The privacy policy notice on the setup page"
   },
-  "setupPageLicenseAccept": {
-    "message": "ライセンス通知に同意する",
-    "description": "The license accept button on the setup page"
-  },
   "setupPageConnectorInstallationMain": {
     "message": "拡張機能が Web アプリケーションのランタイムとプロファイルを別々に管理し、実行できるように、追加のプログラムをインストールする必要があります。このプログラムがないと、拡張機能は動作しません。以下の手順でインストールしてください。",
     "description": "The main connector installation notice on the setup page"
