@@ -175,7 +175,7 @@ Determines whether out-of-scope URLs should be opened in a default browser.
 
 Enabling this option will automatically close the web app window and open any out-of-scope
 URLs in a default system browser. This may cause problems on some websites, especially
-ones that use SSO (such as Google, YouTube, Spotify, Outlook.com). In such cases, it is
+ones that use SSO (such as Google, YouTube, Spotify, Outlook). In such cases, it is
 recommended to use it in combination with [domains always allowed to be opened in the
 app browser](#domains-always-allowed-to-be-opened-in-the-app-browser).
 
