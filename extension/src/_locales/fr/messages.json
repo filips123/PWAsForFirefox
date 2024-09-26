@@ -139,10 +139,6 @@
     "message": "L’URL de départ doit être une URL valide",
     "description": "A validation error when the web app start URL is invalid"
   },
-  "webAppValidationStartURLScope": {
-    "message": "L’URL de départ doit être dans le domaine :",
-    "description": "A validation error when the web app start URL is out-of-scope, with the scope displayed after the colon"
-  },
   "webAppValidationIconURLInvalid": {
     "message": "L’URL de l’icône doit être une URL valide",
     "description": "A validation error when the web app icon URL is invalid"
