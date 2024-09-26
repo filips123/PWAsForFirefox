@@ -147,6 +147,34 @@
     "message": "完成",
     "description": "The ready tab on the setup page"
   },
+  "setupPageLicenseThirdPartyDownloaded": {
+    "message": "在用户首次安装运行环境时，将下载以下的开源软件：",
+    "description": "The downloaded third-party assets and code notice on the setup page"
+  },
+  "setupPageLicense7ZipDownloaded": {
+    "message": "如果尚未安装，安装Windows运行环境时将安装 <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a> 。 7-Zip项目由Igor Pavlov和 <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">根据GNU LGPL等许可证</a>授予许可。本项目与7-Zip项目或其开发者没有任何关联。",
+    "description": "The notice for downloaded 7-Zip on the setup page"
+  },
+  "setupPageLicenseConsent": {
+    "message": "如果您不同意上述条款，您将不能使用此扩展。在这种情况下，您可以通过下方按钮卸载。",
+    "description": "The required consent and uninstallation notice on the setup page"
+  },
+  "setupPageLicenseUninstallation": {
+    "message": "如果您不同意这些条款，您将不能使用扩展。 扩展将被卸载。如果您改变主意，您可以稍后重新安装。",
+    "description": "The dialog displayed when the user declines the license agreement"
+  },
+  "setupPageLicenseDecline": {
+    "message": "不接受并卸载",
+    "description": "The decline and uninstall button on the setup page"
+  },
+  "setupPageLicenseAccept": {
+    "message": "接受协议",
+    "description": "The license accept button on the setup page"
+  },
+  "setupPageAdvancedOptionsTitle": {
+    "message": "高级选项",
+    "description": "The advanced runtime installation options toggle on the setup page"
+  },
   "instructionsPageTitle": {
     "message": "安装说明",
     "description": "The title of the installation instructions page"
@@ -203,9 +231,21 @@
     "message": "自动创建新配置文件",
     "description": "The automatic profile creation option on the install web app page"
   },
+  "installPageSeparateProfiles": {
+    "message": "由于存在于一个很难修复的问题，强烈建议为每个网页应用使用单独的配置文件中。请参阅问题报告<a id=\"web-app-profile-warn-issue\"></a>以了解详情。",
+    "description": "The message that tells users each web app should be in a separate profile on affected platforms"
+  },
   "installPageLaunchNowLabel": {
     "message": "安装完成后启动网页应用",
     "description": "The label for the launch now checkbox on the web app installation page"
+  },
+  "installPageLaunchNowTooltip": {
+    "message": "如果您想要在安装后自动启动此网页应用，请启用",
+    "description": "The tooltip for the launch now checkbox on the web app installation page"
+  },
+  "installPageContentScriptError": {
+    "message": "无法访问内容脚本。",
+    "description": "A message that says the extension was not able to access the content script"
   },
   "launchPageTitle": {
     "message": "启动此网页应用",
@@ -279,6 +319,14 @@
     "message": "未命名",
     "description": "The unnamed profile on the profile list"
   },
+  "managePageSettingsDisplayPageAction": {
+    "message": "显示地址栏部件",
+    "description": "The setting for displaying page action (address bar widget)"
+  },
+  "managePageSettingsDisplayPageActionValid": {
+    "message": "在有效的渐进网页应用程序上",
+    "description": "The option to display page action on valid web apps"
+  },
   "managePageSettingsDisplayPageActionAlways": {
     "message": "总是",
     "description": "The option to always display page action"
@@ -287,6 +335,30 @@
     "message": "从不",
     "description": "The option to never display page action"
   },
+  "managePageSettingsShowUpdatePopup": {
+    "message": "在扩展更新时显示弹窗",
+    "description": "The setting for showing update popups"
+  },
+  "managePageSettingsEnableAutoLaunch": {
+    "message": "启用自动启动网页应用",
+    "description": "The setting for enabling automatic launching"
+  },
+  "managePageSettingsAlwaysPatch": {
+    "message": "总是修补运行环境和配置文件",
+    "description": "The setting for configuring patching"
+  },
+  "managePageSettingsDarkMode": {
+    "message": "启用深色模式",
+    "description": "The setting for enabling dark mode"
+  },
+  "managePageSettingsDarkModeTooltip": {
+    "message": "只能在系统设置中启用",
+    "description": "The tooltip for the dark mode setting"
+  },
+  "managePageSettingsDefaultProfileTemplate": {
+    "message": "默认配置文件模板",
+    "description": "The setting for default profile template"
+  },
   "managePageSettingsLanguage": {
     "message": "语言",
     "description": "The setting for language"
@@ -294,6 +366,14 @@
   "managePageSettingsUpdateWebApps": {
     "message": "更新网页应用",
     "description": "The button in settings to update web apps"
+  },
+  "managePageSettingsPatchProfiles": {
+    "message": "修补配置文件和运行环境",
+    "description": "The button in settings to patch profiles and runtime"
+  },
+  "managePageSettingsReinstallRuntime": {
+    "message": "重新安装运行环境",
+    "description": "The button in settings to reinstall runtime"
   },
   "managePageSettingsAboutProject": {
     "message": "关于此项目",
@@ -310,6 +390,10 @@
   "managePageFooterSearchPlaceholder": {
     "message": "按名称搜索",
     "description": "The search placeholder for web apps and profiles"
+  },
+  "managePageAppEditLaunchOnWebsiteLabel": {
+    "message": "在匹配的网站上启动相应网页应用",
+    "description": "The label for the launch on website checkbox on the edit web app dialog"
   },
   "managePageAutoLaunchEnable": {
     "message": "启用",
