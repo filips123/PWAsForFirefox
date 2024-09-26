@@ -73,6 +73,10 @@ messages, please use Crowdin's discussions feature to communicate with others.
 
 If your language is not yet available, please contact me on Crowdin.
 
+If possible, please start with the UserChrome translations, and then continue
+with the extension translations, as UserChrome translations are shorter and
+more beneficial to be translated.
+
 <details>
   <summary>Expand localization status</summary>
 
