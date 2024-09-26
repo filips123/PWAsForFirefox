@@ -599,14 +599,12 @@ where the microphone or camera access is required.
 
 3. Set "Microphone" and "Camera" to "Always Allow".
 
-4. Perform any action that requires camera or microphone access. For example, start a meeting, join a call, etc. This should crash.
+4. Click the 9-box grid in the upper right of the Google banner and then select Google Search. Search for "webcamtests" and then open the `webcamtests.com` website from the results.
 
-5. Launch the web app again.
+5. Run the webcam test and the microphone test one after another.
 
-6. Go to the app browser settings. A permissions dialogs from macOS should appear ("Do you want to allow NAME to access the Microphone?", "Do you want to allow NAME to access the Camera?".
+6. A permission dialogs from macOS should appear for each test ("Do you want to allow NAME to access the Microphone?", "Do you want to allow NAME to access the Camera?".
 
 7. Answer yes to both dialogs.
 
-8. Inside the settings, select microphone and camera to use. If you have multiple speakers, you need to select "MacBook Pro Speakers" and it will use whatever the "System Speaker" is from your main toolbar.
-
-9. The Microphone and camera should now work.
+8. The microphone and camera should now work.
