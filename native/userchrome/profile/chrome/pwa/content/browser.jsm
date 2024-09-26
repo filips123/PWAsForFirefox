@@ -186,16 +186,16 @@ class PwaBrowser {
     const menuItem = this.createElement(document, 'menuitem', { id: 'contextmenu-openlinkdefault', 'data-l10n-id': 'context-menu-open-link-default-browser', oncommand: 'gContextMenu.openLinkInDefaultBrowser()' });
     document.getElementById('context-sep-open').before(menuItem)
 
-    hookFunction(window, 'openContextMenu', null, () => {
+    // Handle clicking on it and open link in default browser
+    nsContextMenu.prototype.openLinkInDefaultBrowser = function () {
+      MailIntegration._launchExternalUrl(makeURI(this.linkURL));
+    };
+
+    hookFunction(nsContextMenu.prototype, 'initOpenItems', null, function () {
       // Display it only when clicked on links
-      const shouldShow = window.gContextMenu.onSaveableLink || window.gContextMenu.onPlainTextLink;
+      const shouldShow = this.onSaveableLink || this.onPlainTextLink;
       document.getElementById('context-sep-open').hidden = !shouldShow;
       menuItem.hidden = !shouldShow;
-
-      // Handle clicking on it and open link in default browser
-      window.gContextMenu.openLinkInDefaultBrowser = function () {
-        MailIntegration._launchExternalUrl(makeURI(this.linkURL));
-      };
     });
   }
 
@@ -576,16 +576,6 @@ class PwaBrowser {
         return BrowserWindowTracker._openWindow(options);
       }
     }
-
-    // Handle opening new window from context menus
-    hookFunction(window, 'openContextMenu', null, () => {
-      gContextMenu.openLink = function () {
-        return window.openDialog(AppConstants.BROWSER_CHROME_URL, '_blank', 'chrome,all,dialog=no,non-private', this.linkURL);
-      };
-      gContextMenu.openLinkInPrivateWindow = function () {
-        return window.openDialog(AppConstants.BROWSER_CHROME_URL, '_blank', 'chrome,all,dialog=no,private', this.linkURL);
-      };
-    });
   }
 
   handleDisablingShortcuts () {

@@ -176,6 +176,12 @@
     height: 30px;
   }
 
+  .site-info > .tab-throbber,
+  .site-info > .tab-icon-pending,
+  .site-info > .tab-icon-image {
+    margin-inline-end: 5.5px;
+  }
+
   .tab-icon-image {
     flex-shrink: 0;
   }
