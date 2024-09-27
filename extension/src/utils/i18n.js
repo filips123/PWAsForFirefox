@@ -23,7 +23,7 @@ export async function getCurrentLocale () {
  * @returns {string[]}
  */
 export function getAllLocales () {
-  return Object.keys(messages).map(code => code.replace('_', '-'))
+  return Object.keys(messages)
 }
 
 /**
@@ -83,7 +83,7 @@ function parseICUPlural (message, count, locale) {
  * @returns {Promise<string|undefined>}
  */
 async function getMessageForLocale (key, substitutions, count, locale) {
-  const message = messages?.[locale.replace('-', '_')]?.[key]
+  const message = messages?.[locale]?.[key]
   if (!message) return
 
   let content = message.message
