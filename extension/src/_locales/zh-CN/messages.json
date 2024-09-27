@@ -63,6 +63,14 @@
     "message": "扩展版本：",
     "description": "Displayed before the extension version"
   },
+  "commonNativeVersion": {
+    "message": "原生版本：",
+    "description": "Displayed before the native connector version"
+  },
+  "commonRuntimeVersion": {
+    "message": "运行环境版本：",
+    "description": "Displayed before the app browser version"
+  },
   "commonFirefoxVersion": {
     "message": "Firefox 版本：",
     "description": "Displayed before the main browser version"
@@ -171,9 +179,37 @@
     "message": "接受协议",
     "description": "The license accept button on the setup page"
   },
+  "setupPageConnectorInstallationMain": {
+    "message": "您需要安装附加程序，以便扩展能够管理和运行网页应用的独立运行环境和配置文件。没有此程序，扩展将无法正常运作。请按照下面的说明进行安装。",
+    "description": "The main connector installation notice on the setup page"
+  },
+  "setupPageConnectorInstallationIncompatible": {
+    "message": "当前安装的程序版本可能与当前版本的扩展不兼容。您需要更新程序或使用兼容版本的扩展才能正常运行。",
+    "description": "The incompatible connector installation notice on the setup page"
+  },
   "setupPageAdvancedOptionsTitle": {
     "message": "高级选项",
     "description": "The advanced runtime installation options toggle on the setup page"
+  },
+  "setupPageDefaultRuntimeLocationTitle": {
+    "message": "默认运行环境路径：",
+    "description": "The title for the default runtime locations section"
+  },
+  "setupPageReady": {
+    "message": "此扩展已准备就绪，您可以关闭此页面。",
+    "description": "The ready notice on the setup page"
+  },
+  "updatePageTitle": {
+    "message": "更新Progressive Web Apps for Firefox",
+    "description": "The title of the update page"
+  },
+  "updatePageNativeInstructions": {
+    "message": "请按照以下说明操作。",
+    "description": "Displayed on the update page nstruct users to follow the instructions to update the native connector"
+  },
+  "updatePageExtensionOutdated": {
+    "message": "此扩展目前已经过时。",
+    "description": "Displayed on the update page when the extension is outdated"
   },
   "instructionsPageTitle": {
     "message": "安装说明",
@@ -218,6 +254,14 @@
   "instructionsPageInstallManualMSITitle": {
     "message": "若要手动安装该程序：",
     "description": "The title of the manual MSI installation option"
+  },
+  "instructionsPageLinuxAurInstallSource": {
+    "message": "源代码",
+    "description": "The source AUR package"
+  },
+  "instructionsPageLinuxAurInstallPreBuilt": {
+    "message": "预构建版本",
+    "description": "The pre-built AUR package"
   },
   "installPageTitle": {
     "message": "安装此网页应用",
@@ -395,9 +439,41 @@
     "message": "在匹配的网站上启动相应网页应用",
     "description": "The label for the launch on website checkbox on the edit web app dialog"
   },
+  "managePageAppEditUpdateIconsLabel": {
+    "message": "更新网页应用图标",
+    "description": "The label for the icons update checkbox on the edit web app dialog"
+  },
+  "managePageAppRemoveQuestion": {
+    "message": "您确定要移除此网页应用吗？",
+    "description": "The confirmation question on the remove web app dialog"
+  },
+  "managePageAppRemoveCheckboxLabel": {
+    "message": "删除配置文件和应用数据",
+    "description": "The label for the profile delete checkbox on the remove web app dialog"
+  },
+  "managePageProfileEditApplyProfileLabel": {
+    "message": "应用配置文件模板",
+    "description": "The label for the apply template checkbox on the edit profile dialog"
+  },
   "managePageAutoLaunchEnable": {
     "message": "启用",
     "description": "The enable button for the automatic launching"
+  },
+  "managePagePatchProfilesPatchRuntime": {
+    "message": "修复运行环境",
+    "description": "The checkbox label for patching runtime when patching profiles and runtime"
+  },
+  "managePagePatchProfilesPatchProfiles": {
+    "message": "修复配置文件",
+    "description": "The checkbox label for patching profiles when patching profiles and runtime"
+  },
+  "managePageReinstallRuntimeAbout1": {
+    "message": "您确定要重新安装PWAsForFirefox运行环境吗？这将删除当前的运行环境并从Mozilla下载最新版本。",
+    "description": "The first part of about reinstalling runtime message"
+  },
+  "managePageReinstallRuntimeAbout2": {
+    "message": "这<strong>不会</strong>影响您的Firefox浏览器，也<strong>不会</strong>移除任何配置文件等数据。",
+    "description": "The second part of about reinstalling runtime message"
   },
   "buttonRuntimeInstallDefault": {
     "message": "安装运行环境",
@@ -472,15 +548,15 @@
     "description": "The update button, after something (all web apps) has been updated"
   },
   "buttonPatchDefault": {
-    "message": "修补",
+    "message": "修复",
     "description": "The patch button, allowing the user to patch something (all web apps or profiles)"
   },
   "buttonPatchProcessing": {
-    "message": "修补中…",
+    "message": "修复中…",
     "description": "The patch button, while something (all web apps or profiles) is being patched"
   },
   "buttonPatchFinished": {
-    "message": "已修补！",
+    "message": "已修复！",
     "description": "The patch button, after something (all web apps or profiles) has been patched"
   },
   "buttonReinstallDefault": {
