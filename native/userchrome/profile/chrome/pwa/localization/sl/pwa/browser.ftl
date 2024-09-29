@@ -6,10 +6,12 @@
 toolbar-tabs-ffpwa =
     .toolbarname = Vrstica z zavihki
     .aria-label = Zavihki
+    .accesskey = K
 # The label for the tabs/icon bar, when the tabs mode is disabled
 toolbar-icon-ffpwa =
     .toolbarname = Vrstica z ikonami
     .aria-label = Ikone
+    .accesskey = K
 
 ## Popup inputs should be translated in imperative mood, without any end punctuation
 
