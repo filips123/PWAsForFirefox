@@ -6,10 +6,12 @@
 toolbar-tabs-ffpwa =
     .toolbarname = 标签栏
     .aria-label = 标签页
+    .accesskey = T
 # The label for the tabs/icon bar, when the tabs mode is disabled
 toolbar-icon-ffpwa =
     .toolbarname = 图标栏
     .aria-label = 图标
+    .accesskey = I
 
 ## Popup inputs should be translated in imperative mood, without any end punctuation
 
