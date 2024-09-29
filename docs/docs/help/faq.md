@@ -494,6 +494,15 @@ Firefox, this has been caused by missing patches. You can run [patch profiles an
 runtime](../user-guide/extension.md#patch-profiles-and-runtime) from the extension
 settings to re-apply them.
 
+### Why is the extension popup truncated on Linux?
+
+Due to [a known issue](https://github.com/filips123/PWAsForFirefox/issues/230), when using
+fractional display scaling on Linux, the extension popup might be truncated. In this case,
+you might not be able to fully see all UI elements, notably the web app installation button.
+
+A possible workaround is to use the ++tab++ key to select the button and press ++enter++
+to execute it, or to temporarily disable fractional scaling when installing web apps.
+
 ### Why doesn't the extension find the native connector on Linux?
 
 <!-- Headings here need to use HTML, so they don't appear in the table of contents -->
