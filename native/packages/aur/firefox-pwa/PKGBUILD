@@ -32,12 +32,12 @@ prepare() {
 
     # We don't use libexec on Arch
     sed -i "s@/usr/libexec/firefoxpwa-connector@/usr/lib/firefoxpwa/firefoxpwa-connector@g" manifests/linux.json
-
-    # Disable zstd feature (which currently makes the build fail on Arch)
-    sed -i "s/\"zstd\",//g" Cargo.toml
 }
 
 build() {
+    # Needed to make LTO work with GCC
+    export CFLAGS="-fuse-linker-plugin"
+
     cd $srcdir/$_pkgname-$pkgver/native/
     RUSTUP_TOOLCHAIN=stable cargo build --release
 }
