@@ -1,0 +1,1100 @@
+{
+  "appName": {
+    "message": "Progressive Web Apps for Firefox",
+    "description": "The name of the application, should not be translated"
+  },
+  "appShortName": {
+    "message": "PWAsForFirefox",
+    "description": "The short name of the application, should not be translated"
+  },
+  "appDescription": {
+    "message": "一個用於在Mozilla Firefox上下載、管理、使用漸進式網頁應用程式（PWA）的工具",
+    "description": "The description of the application"
+  },
+  "actionInstallSite": {
+    "message": "下載此網站",
+    "description": "Instruct users that they can install the current site here"
+  },
+  "actionLaunchSite": {
+    "message": "啟動此網站",
+    "description": "Instruct users that they can launch the current site here"
+  },
+  "updateNotificationTitle": {
+    "message": "PWAsForFirefox更新",
+    "description": "The title of the update notification, displayed when an update is available"
+  },
+  "updateNotificationMessage": {
+    "message": "PWAsForFirefox有可用的更新。請點擊通知以顯示更新說明。",
+    "description": "The message of the update notification, displayed when an update is available"
+  },
+  "commonError": {
+    "message": "錯誤",
+    "description": "Displayed before error messages or as a popup title"
+  },
+  "commonWarning": {
+    "message": "警告",
+    "description": "Displayed before warning messages or as a popup title"
+  },
+  "commonNote": {
+    "message": "提示",
+    "description": "Displayed before note messages or as a popup title"
+  },
+  "commonClose": {
+    "message": "關閉",
+    "description": "Displayed as a label for a close button"
+  },
+  "commonCancel": {
+    "message": "取消",
+    "description": "Displayed as a label for a cancel button"
+  },
+  "commonLoading": {
+    "message": "正在加載…",
+    "description": "Displayed when things are still loading"
+  },
+  "commonAnd": {
+    "message": "和",
+    "description": "The \"and\" conjunction, used between untranslatable words"
+  },
+  "commonOr": {
+    "message": "或",
+    "description": "The \"or\" conjunction, used between untranslatable words"
+  },
+  "commonExtensionVersion": {
+    "message": "擴充套件版本：",
+    "description": "Displayed before the extension version"
+  },
+  "commonNativeVersion": {
+    "message": "原生版本：",
+    "description": "Displayed before the native connector version"
+  },
+  "commonRuntimeVersion": {
+    "message": "執行環境版本：",
+    "description": "Displayed before the app browser version"
+  },
+  "commonFirefoxVersion": {
+    "message": "Firefox 版本：",
+    "description": "Displayed before the main browser version"
+  },
+  "webAppName": {
+    "message": "名稱",
+    "description": "The name property of a web app"
+  },
+  "webAppDescription": {
+    "message": "說明",
+    "description": "The description property of a web app"
+  },
+  "webAppCategories": {
+    "message": "分類",
+    "description": "The categories property of a web app"
+  },
+  "webAppKeywords": {
+    "message": "關鍵詞",
+    "description": "The keywords property of a web app"
+  },
+  "webAppStartURL": {
+    "message": "起始化網址",
+    "description": "The start URL property of a web app"
+  },
+  "webAppIconURL": {
+    "message": "圖像網址",
+    "description": "The icon URL property of a web app"
+  },
+  "webAppID": {
+    "message": "ID",
+    "description": "The ID property of a web app"
+  },
+  "webAppProfile": {
+    "message": "配置檔案",
+    "description": "The profile property of a web app"
+  },
+  "webAppProtocolHandlers": {
+    "message": "Protocol Handlers",
+    "description": "The protocol handlers property of a web app"
+  },
+  "profileName": {
+    "message": "名稱",
+    "description": "The name property of a profile"
+  },
+  "profileDescription": {
+    "message": "說明",
+    "description": "The description property of a profile"
+  },
+  "profileTemplate": {
+    "message": "模板",
+    "description": "The template property of a profile"
+  },
+  "profileTemplatePlaceholder": {
+    "message": "匯入配置檔案模板的路徑",
+    "description": "The placeholder for the template input"
+  },
+  "profileID": {
+    "message": "ID",
+    "description": "The ID property of a profile"
+  },
+  "webAppValidationNameReuse": {
+    "message": "名稱無法與已存在的網頁應用相同",
+    "description": "A validation error when the web app name is reused"
+  },
+  "webAppValidationStartURLInvalid": {
+    "message": "起始化網址必須是有效的網址",
+    "description": "A validation error when the web app start URL is invalid"
+  },
+  "webAppValidationStartURLScope": {
+    "message": "Start URL should be within the scope:",
+    "description": "A validation warning when the web app start URL is out-of-scope, with the scope displayed after the colon"
+  },
+  "webAppValidationIconURLInvalid": {
+    "message": "圖像網址必須是有效的網址",
+    "description": "A validation error when the web app icon URL is invalid"
+  },
+  "webAppValidationProfileLimit": {
+    "message": "Only one instance per profile can be installed",
+    "description": "A validation error when multiple web app instances are tried to be installed in the same profile"
+  },
+  "setupPageTitle": {
+    "message": "設定Progressive Web Apps for Firefox",
+    "description": "The title of the setup page"
+  },
+  "setupPageTabLicenseAgreement": {
+    "message": "授權協定",
+    "description": "The licence agreement tab on the setup page"
+  },
+  "setupPageTabConnectorInstallation": {
+    "message": "Connector Installation",
+    "description": "The connector installation tab on the setup page"
+  },
+  "setupPageTabRuntimeInstallation": {
+    "message": "執行環境下載",
+    "description": "The runtime installation tab on the setup page"
+  },
+  "setupPageTabReady": {
+    "message": "完成",
+    "description": "The ready tab on the setup page"
+  },
+  "setupPageLicenseBase": {
+    "message": "The project is licensed under <a href=\"https://www.mozilla.org/MPL/2.0/\" target=\"_blank\">the Mozilla Public License 2.0</a>. By using, redistributing, or modifying it, you must agree to the license, and the additional clauses provided below. See <a href=\"https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE\" target=\"_blank\">the LICENSE file</a> in the project repository for the full MPL 2.0 license text.",
+    "description": "The base license notice on the setup page"
+  },
+  "setupPageLicenseThirdPartyIncluded": {
+    "message": "The project uses additional third-party assets and code:",
+    "description": "The included third-party assets and code notice on the setup page"
+  },
+  "setupPageLicenseLogo": {
+    "message": "The project logo is based on <a href=\"https://www.svgrepo.com/svg/40267/fox\" target=\"_blank\">the \"Fox SVG Vector\" icon</a> and <a href=\"https://github.com/webmaxru/progressive-web-apps-logo\" target=\"_blank\">the community-introduced PWA logo</a>, both dedicated to the public domain using <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\">CC0</a>.",
+    "description": "The logo notice on the setup page"
+  },
+  "setupPageLicenseFirefoxScripts": {
+    "message": "Browser chrome modifications were inspired by and partially derived from the <a href=\"https://github.com/xiaoxiaoflood/firefox-scripts\" target=\"_blank\"><code>xiaoxiaoflood/firefox-scripts</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.",
+    "description": "The notice for `xiaoxiaoflood/firefox-scripts` on the setup page"
+  },
+  "setupPageLicenseFirefoxUiFix": {
+    "message": "Browser chrome modifications partially use code derived from the <a href=\"https://github.com/black7375/Firefox-UI-Fix\" target=\"_blank\"><code>black7375/Firefox-UI-Fix</code></a> repository on GitHub, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.",
+    "description": "The notice for `black7375/Firefox-UI-Fix` on the setup page"
+  },
+  "setupPageLicenseFirefoxSource": {
+    "message": "Browser chrome modifications partially use code and icons derived from <a href=\"https://github.com/mozilla/gecko-dev\" target=\"_blank\">the original Firefox source</a>, licensed under the Mozilla Public License 2.0. Detailed information can be found in the respective files.",
+    "description": "The notice for the Firefox source on the setup page"
+  },
+  "setupPageLicenseMetropolisFont": {
+    "message": "Native programs contain <a href=\"https://fontsarena.com/metropolis-by-chris-simpson/\" target=\"_blank\">the Metropolis Semi Bold typeface</a> by Chris Simpson, released into the public domain using <a href=\"https://unlicense.org/\" target=\"_blank\">Unlicense</a>.",
+    "description": "The notice for Metropolis Typeface on the setup page"
+  },
+  "setupPageLicenseBootstrapIcons": {
+    "message": "Windows installer contains <a href=\"https://icons.getbootstrap.com/\" target=\"_blank\">Bootstrap Icons</a>, licensed under <a href=\"https://opensource.org/licenses/MIT\" target=\"_blank\">the MIT License</a>. Detailed license information can be found in <a href=\"https://github.com/filips123/PWAsForFirefox/blob/main/native/packages/wix/main.wxs\" target=\"_blank\">the WiX configuration file</a>.",
+    "description": "The notice for Bootstrap Icons on the setup page"
+  },
+  "setupPageLicenseThirdPartyDownloaded": {
+    "message": "在用戶首次下載執行環境時，將下載以下的開源軟體：",
+    "description": "The downloaded third-party assets and code notice on the setup page"
+  },
+  "setupPageLicense7ZipDownloaded": {
+    "message": "如果尚未下載，下載Windows執行環境時將下載 <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a> 。 7-Zip項目由Igor Pavlov和 <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">根據GNU LGPL等許可證</a>授予許可。本項目與7-Zip項目或其開發者沒有任何關聯。",
+    "description": "The notice for downloaded 7-Zip on the setup page"
+  },
+  "setupPageLicenseFirefoxDownloaded": {
+    "message": "Installing the runtime on any system will download the unmodified <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> browser and locally modify it. By using this project, you also agree to <a href=\"https://www.mozilla.org/privacy/firefox/\">the Firefox Privacy Notice</a>. Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla Foundation in any way.",
+    "description": "The notice for downloaded Firefox on the setup page"
+  },
+  "setupPageLicensePrivacyPolicy": {
+    "message": "This extension exchanges personal data (current website and manifest URLs, as well as other PWA details) with the native program when the user initiates the PWA installation. This is necessary in order to correctly obtain and parse the Web Application Manifest and install the PWA. Data are stored on the computer as long as that PWA is installed. No personal data leave the computer or are sent to third parties.",
+    "description": "The privacy policy notice on the setup page"
+  },
+  "setupPageLicenseLinks": {
+    "message": "You can also read this <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/eula/\" target=\"_blank\">licence agreement</a> and <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/privacy/\" target=\"_blank\">privacy policy</a> on the AMO page.",
+    "description": "The links to the licence agreement and privacy policy on AMO on the setup page"
+  },
+  "setupPageLicenseConsent": {
+    "message": "如果您不同意上述條款，您將無法使用此擴充套件。在這種情況下，您可以通過下方按鈕卸載。",
+    "description": "The required consent and uninstallation notice on the setup page"
+  },
+  "setupPageLicenseUninstallation": {
+    "message": "如果您不同意這些條款，您將無法使用擴充套件。 擴充套件將被卸載。如果您改變主意，您可以稍后重新下載。",
+    "description": "The dialog displayed when the user declines the license agreement"
+  },
+  "setupPageLicenseDecline": {
+    "message": "不接受并卸載",
+    "description": "The decline and uninstall button on the setup page"
+  },
+  "setupPageLicenseAccept": {
+    "message": "接受協定",
+    "description": "The license accept button on the setup page"
+  },
+  "setupPageConnectorInstallationMain": {
+    "message": "您需要下載附加程式，以便擴充套件能夠管理和執行網頁應用的獨立執行環境和配置檔案。沒有此程式，擴充套件將無法正常運作。請按照下面的說明進行下載。",
+    "description": "The main connector installation notice on the setup page"
+  },
+  "setupPageConnectorInstallationIncompatible": {
+    "message": "目前下載的程式版本可能與目前版本的擴充套件不相容。您需要更新程式或使用相容版本的擴充套件才能正常執行。",
+    "description": "The incompatible connector installation notice on the setup page"
+  },
+  "setupPageRuntimeInstallationAuto": {
+    "message": "This extension also needs a separate Mozilla Firefox runtime where all your Progressive Web App sites will run. Pressing the button below will automatically download the unmodified Mozilla Firefox from the Mozilla servers and locally modify it with the required modifications. You can also check the advanced options below to manually install the runtime.",
+    "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is supported"
+  },
+  "setupPageRuntimeInstallationManual": {
+    "message": "This extension also needs a separate Mozilla Firefox runtime where all your Progressive Web App sites will run. However, your platform currently does not support automatic installation of the runtime. Please follow the advanced options below to install it manually.",
+    "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is not supported"
+  },
+  "setupPageRuntimeInstallation7Zip": {
+    "message": "To install the runtime, you will need <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a> installed. Installing the runtime will automatically trigger the 7-Zip installer if needed. This may require accepting User Account Control prompt. You can also manually install 7-Zip or use your existing 7-zip installation. After the runtime is installed, you can delete 7-Zip manually.",
+    "description": "The runtime installation notice on the setup page, displayed when 7-Zip needs to be installed"
+  },
+  "setupPageRuntimeInstallationAfter": {
+    "message": "After the runtime is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The runtime installation notice on the setup page, displayed always"
+  },
+  "setupPageAdvancedOptionsTitle": {
+    "message": "進階選項",
+    "description": "The advanced runtime installation options toggle on the setup page"
+  },
+  "setupPageAdvancedOptionsFromArchiveTitle": {
+    "message": "Manually installing Firefox from the archive:",
+    "description": "Instructions for manually installing Firefox from the archive, title"
+  },
+  "setupPageAdvancedOptionsFromArchiveStep1": {
+    "message": "Download the Firefox archive from your preferred source (for example, from <a href=\"https://www.mozilla.org/firefox/all/\" target=\"_blank\">the official downloads page</a>).",
+    "description": "Instructions for manually installing Firefox from the archive, step 1"
+  },
+  "setupPageAdvancedOptionsFromArchiveStep2": {
+    "message": "Extract the downloaded archive and copy files to the correct directory (see below).",
+    "description": "Instructions for manually installing Firefox from the archive, step 2"
+  },
+  "setupPageAdvancedOptionsPackageManagerTitle": {
+    "message": "Manually installing Firefox using package manager:",
+    "description": "Instructions for manually installing Firefox using package manager, title"
+  },
+  "setupPageAdvancedOptionsPackageManagerStep1": {
+    "message": "Install Firefox using your distro's package manager (e.g., <kbd>sudo apt install firefox</kbd>, <kbd>sudo yum install firefox</kbd>, …).",
+    "description": "Instructions for manually installing Firefox using package manager, step 1"
+  },
+  "setupPageAdvancedOptionsPackageManagerStep2": {
+    "message": "Copy the installed Firefox files (commonly stored in <kbd>/usr/lib/firefox/</kbd>) to the correct directory (see below).",
+    "description": "Instructions for manually installing Firefox using package manager, step 2"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserTitle": {
+    "message": "Installing an alternative Firefox-based browser (for example, LibreWolf):",
+    "description": "Instructions for using alternative browser for runtime, title"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserStep1": {
+    "message": "Download the \"portable\" archive (binary tarball) for your preferred Firefox-based browser.",
+    "description": "Instructions for using alternative browser for runtime, step 1"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserStep2": {
+    "message": "Extract downloaded archive and copy files to the correct directory (see below).",
+    "description": "Instructions for using alternative browser for runtime, step 2"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserStep3": {
+    "message": "Inside that directory, symlink the main binary of your browser (for example, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) as <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.",
+    "description": "Instructions for using alternative browser for runtime, step 3"
+  },
+  "setupPageAdvancedOptionsOverlayTitle": {
+    "message": "Linking the global Firefox installation with FUSE OverlayFS:",
+    "description": "Instructions for linking the runtime with FUSE OverlayFS, title"
+  },
+  "setupPageAdvancedOptionsOverlayStep1": {
+    "message": "Instructions are available <a href=\"https://pwasforfirefox.filips.si/help/faq/#how-to-use-fuse-overlayfs-with-the-app-browser\" target=\"_blank\">on the documentation website</a>.",
+    "description": "Instructions for linking the runtime with FUSE OverlayFS, step 1"
+  },
+  "setupPageDefaultRuntimeLocationTitle": {
+    "message": "預設執行環境路徑：",
+    "description": "The title for the default runtime locations section"
+  },
+  "setupPageReady": {
+    "message": "此擴充套件已准備備妥，您可以關閉此頁面。",
+    "description": "The ready notice on the setup page"
+  },
+  "updatePageTitle": {
+    "message": "更新Progressive Web Apps for Firefox",
+    "description": "The title of the update page"
+  },
+  "updatePageNativeOutdated": {
+    "message": "The native connector is currently outdated.",
+    "description": "Displayed on the update page when the native connector is outdated"
+  },
+  "updatePageNativeCompatible": {
+    "message": "It is compatible with the current extension version, but it is strongly recommended to update it to get the latest features and fixes.",
+    "description": "Displayed on the update page when the native connector is compatible"
+  },
+  "updatePageNativeIncompatible": {
+    "message": "It is <strong>not</strong> compatible with the current extension version, so you cannot use the extension until you update it.",
+    "description": "Displayed on the update page when the native connector is incompatible"
+  },
+  "updatePageNativeInstructions": {
+    "message": "請按照以下說明作業。",
+    "description": "Displayed on the update page nstruct users to follow the instructions to update the native connector"
+  },
+  "updatePageExtensionOutdated": {
+    "message": "此擴充套件目前已經過時。",
+    "description": "Displayed on the update page when the extension is outdated"
+  },
+  "updatePageExtensionCompatible": {
+    "message": "It is compatible with the current connector version, but it is strongly recommended to update it to get the latest features and fixes.",
+    "description": "Displayed on the update page when the extension is compatible"
+  },
+  "updatePageExtensionIncompatible": {
+    "message": "It is <strong>not</strong> compatible with the current connector version, so you cannot use the extension until you update it.",
+    "description": "Displayed on the update page when the extension is incompatible"
+  },
+  "updatePageExtensionInstructions": {
+    "message": "Please update it from the Firefox addon manager (<kbd>about:addons</kbd>).",
+    "description": "Displayed on the update page nstruct users to follow the instructions to update the extension"
+  },
+  "updatePageUpdated": {
+    "message": "The extension and the native connector are updated to the same version. You can close this page.",
+    "description": "Displayed on the update page when both the extension and the native connector are updated to the same version"
+  },
+  "updatePageReleaseNotes": {
+    "message": "You can read <a href=\"https://github.com/filips123/PWAsForFirefox/releases\" target=\"_blank\">the release notes</a> for a list of new features, bug fixes and other improvements.",
+    "description": "Displayed on the update page to link the release notes"
+  },
+  "updatePageReleaseNotesIncompatible": {
+    "message": "This update <strong>may contain backward-incompatible changes</strong>, so you may also need to re-configure some things as specified in the release notes to make it work.",
+    "description": "Displayed on the update page when an update contains potential backward-incompatible changes"
+  },
+  "instructionsPageTitle": {
+    "message": "下載說明",
+    "description": "The title of the installation instructions page"
+  },
+  "instructionsPageTabWindows": {
+    "message": "Windows",
+    "description": "The Microsoft Windows tab on the instructions page"
+  },
+  "instructionsPageTabDebian": {
+    "message": "Debian系Linux（DEB）",
+    "description": "The Debian (DEB) tab on the instructions page"
+  },
+  "instructionsPageTabRedHat": {
+    "message": "Red Hat系Linux（RPM）",
+    "description": "The Red Hat (RPM) tab on the instructions page"
+  },
+  "instructionsPageTabArch": {
+    "message": "Arch系Linux（AUR）",
+    "description": "The Arch (AUR) tab on the instructions page"
+  },
+  "instructionsPageTabGentoo": {
+    "message": "Gentoo系Linux",
+    "description": "The Gentoo tab on the instructions page"
+  },
+  "instructionsPageTabNixOS": {
+    "message": "NixOS Linux",
+    "description": "The NixOS tab on the instructions page"
+  },
+  "instructionsPageTabMacOS": {
+    "message": "macOS",
+    "description": "The macOS tab on the instructions page"
+  },
+  "instructionsPageTabBSD": {
+    "message": "BSD",
+    "description": "The BSD tab on the instructions page"
+  },
+  "instructionsPageTabSourceCode": {
+    "message": "From Source Code",
+    "description": "The source code tab on the instructions page"
+  },
+  "instructionsPageTabOtherPlatforms": {
+    "message": "其他平台",
+    "description": "The other platforms tab on the instructions page"
+  },
+  "instructionsPageOr": {
+    "message": "Or…",
+    "description": "The \"or\" conjunction, displayed in the installation options list"
+  },
+  "instructionsPageAfterProgramsInstalled": {
+    "message": "After the programs are installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The final installation step in installation options that use the \"program\" terminology"
+  },
+  "instructionsPageAfterPackageInstalled": {
+    "message": "After the package is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The final installation step in installation options that use the \"package\" terminology"
+  },
+  "instructionsPageAfterProjectInstalled": {
+    "message": "After the project is installed, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The final installation step in installation options that use the \"project\" terminology"
+  },
+  "instructionsPageInstallManualMSITitle": {
+    "message": "若要手動下載該程式：",
+    "description": "The title of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualMSIStep1": {
+    "message": "Download and install the <a id=\"connector-download-url-crt\" target=\"_blank\">Visual C++ Redistributable</a>.",
+    "description": "The step 1 of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualMSIStep2": {
+    "message": "Download and run the <a id=\"connector-download-url-msi\" target=\"_blank\">PWAsForFirefox MSI installer</a>.",
+    "description": "The step 2 of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualDEBTitle": {
+    "message": "To install the package manually:",
+    "description": "The title of the manual DEB installation option"
+  },
+  "instructionsPageInstallManualDEBStep1": {
+    "message": "Download and install the <a id=\"connector-download-url-deb\" target=\"_blank\">PWAsForFirefox DEB package</a>.",
+    "description": "The step 1 of the manual DEB installation option"
+  },
+  "instructionsPageInstallManualRPMTitle": {
+    "message": "To install the package manually:",
+    "description": "The title of the manual RPM installation option"
+  },
+  "instructionsPageInstallManualRPMStep1": {
+    "message": "Download and install the <a id=\"connector-download-url-rpm\" target=\"_blank\">PWAsForFirefox RPM package</a>.",
+    "description": "The step 1 of the manual RPM installation option"
+  },
+  "instructionsPageInstallWingetTitle": {
+    "message": "To install the package using Windows Package Manager:",
+    "description": "The title of the Windows Package Manager (winget) installation option"
+  },
+  "instructionsPageInstallWingetStep1": {
+    "message": "Make sure <a href=\"https://github.com/microsoft/winget-cli#installing-the-client\" target=\"_blank\">Windows Package Manager</a> is installed.",
+    "description": "The step 1 of the Windows Package Manager (winget) installation option"
+  },
+  "instructionsPageInstallWingetStep2": {
+    "message": "Install the package using winget:",
+    "description": "The step 2 of the Windows Package Manager (winget) installation option"
+  },
+  "instructionsPageInstallChocolateyTitle": {
+    "message": "To install the package using Chocolatey:",
+    "description": "The title of the Chocolatey installation option"
+  },
+  "instructionsPageInstallChocolateyStep1": {
+    "message": "Make sure <a href=\"https://chocolatey.org/install\" target=\"_blank\">Chocolatey</a> is installed.",
+    "description": "The step 1 of the Chocolatey installation option"
+  },
+  "instructionsPageInstallChocolateyStep2": {
+    "message": "Install the package using choco:",
+    "description": "The step 2 of the Chocolatey installation option"
+  },
+  "instructionsPageInstallNpackdTitle": {
+    "message": "To install the package using Npackd:",
+    "description": "The title of the Npackd installation option"
+  },
+  "instructionsPageInstallNpackdStep1": {
+    "message": "Make sure <a href=\"https://www.npackd.org/\" target=\"_blank\">Npackd</a> is installed.",
+    "description": "The step 1 of the Npackd installation option"
+  },
+  "instructionsPageInstallNpackdStep2": {
+    "message": "Install the package using ncl:",
+    "description": "The step 2 of the Npackd installation option"
+  },
+  "instructionsPageInstallScoopTitle": {
+    "message": "To install the package using Scoop:",
+    "description": "The title of the Scoop installation option"
+  },
+  "instructionsPageInstallScoopStep1": {
+    "message": "Make sure <a href=\"https://scoop.sh/\" target=\"_blank\">Scoop</a> is installed.",
+    "description": "The step 1 of the Scoop installation option"
+  },
+  "instructionsPageInstallScoopStep2": {
+    "message": "Add the scoop extras bucket:",
+    "description": "The step 2 of the Scoop installation option"
+  },
+  "instructionsPageInstallScoopStep3": {
+    "message": "Install the package using scoop:",
+    "description": "The step 3 of the Scoop installation option"
+  },
+  "instructionsPageInstallPAFTitle": {
+    "message": "To install the package using PortableApps.com:",
+    "description": "The title of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPAFStep1": {
+    "message": "Make sure <a href=\"https://portableapps.com/download\" target=\"_blank\">PortableApps.com Platform</a> is installed.",
+    "description": "The step 1 of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPAFStep2": {
+    "message": "Download the <a id=\"connector-download-url-paf\" target=\"_blank\">PWAsForFirefox PAF package</a> and install it using PortableApps.com Platform.",
+    "description": "The step 2 of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPAFStep3": {
+    "message": "Run the PWAsForFirefox program using PortableApps.com Platform and wait until a notification appears.",
+    "description": "The step 3 of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPAFStep4": {
+    "message": "When the program is running, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The step 4 of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPackagecloudTitle": {
+    "message": "To install the package from the packagecloud.io repository:",
+    "description": "The title of the packagecloud.io installation option"
+  },
+  "instructionsPageInstallPackagecloudStep1": {
+    "message": "Follow the instructions on the <a href=\"https://packagecloud.io/filips/FirefoxPWA\" target=\"_blank\">packagecloud.io repository</a> website.",
+    "description": "The step 1 of the packagecloud.io installation option"
+  },
+  "instructionsPagePackagecloudThanks": {
+    "message": "Thanks to packagecloud.io for sponsoring this project and providing us a free hosting for our DEB and RPM packages!",
+    "description": "A message that thanks packagecloud.io for sponsoring the project"
+  },
+  "instructionsPagePackagecloudAlt": {
+    "message": "Private NPM registry and Maven, RPM, DEB, PyPi and RubyGem Repository · packagecloud",
+    "description": "An alternative text for the packagecloud.io logo"
+  },
+  "instructionsPageLinuxAurInstallStep1": {
+    "message": "Download and install one of PWAsForFirefox AUR packages:",
+    "description": "The step 1 of the Linux AUR installation option"
+  },
+  "instructionsPageLinuxAurInstallSource": {
+    "message": "來源碼",
+    "description": "The source AUR package"
+  },
+  "instructionsPageLinuxAurInstallPreBuilt": {
+    "message": "預搆建版本",
+    "description": "The pre-built AUR package"
+  },
+  "instructionsPageLinuxGentooInstallStep1": {
+    "message": "Enable Gentoo GURU overlay using eselect:",
+    "description": "The step 1 of the Gentoo installation option"
+  },
+  "instructionsPageLinuxGentooInstallStep2": {
+    "message": "Sync Gentoo GURU overlay using emerge:",
+    "description": "The step 2 of the Gentoo installation option"
+  },
+  "instructionsPageLinuxGentooInstallStep3": {
+    "message": "Install the package using emerge:",
+    "description": "The step 3 of the Gentoo installation option"
+  },
+  "instructionsPageLinuxNixOSInstallStep1": {
+    "message": "Add the following Nix code to your NixOS Configuration, usually located in <kbd>/etc/nixos/configuration.nix</kbd>:",
+    "description": "The step 1 of the NixOS installation option"
+  },
+  "instructionsPageLinuxNixOSInstallStep1After": {
+    "message": "… to make sure the package is both in the <kbd>PATH</kbd> and in the Firefox's <kbd>nativeMessagingHosts</kbd>.",
+    "description": "The step 1 of the NixOS installation option"
+  },
+  "instructionsPageLinuxNixOSInstallStep2": {
+    "message": "Rebuild your system:",
+    "description": "The step 2 of the NixOS installation option"
+  },
+  "instructionsPageLinuxNixOSInstallStep3": {
+    "message": "After you have rebuilt the system, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The step 3 of the NixOS installation option"
+  },
+  "instructionsPageLinuxNixOSInstallNotice": {
+    "message": "The package currently needs to be installed from nixos/nixpkgs unstable channel.",
+    "description": "The unstable channel notice for the NixOS installation option"
+  },
+  "instructionsPageMacOSInstallStep1": {
+    "message": "Make sure <a href=\"https://brew.sh/\" target=\"_blank\">Homebrew</a> is installed.",
+    "description": "The step 1 of the macOS installation option"
+  },
+  "instructionsPageMacOSInstallStep2": {
+    "message": "Install the formula using brew:",
+    "description": "The step 2 of the macOS installation option"
+  },
+  "instructionsPageMacOSInstallStep3": {
+    "message": "Follow the instructions displayed in the caveats section of installation output to link the manifest.",
+    "description": "The step 3 of the macOS installation option"
+  },
+  "instructionsPageMacOSInstallStep4": {
+    "message": "After the formula is installed and the manifest is linked, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
+    "description": "The step 4 of the macOS installation option"
+  },
+  "instructionsPageBSDInstallNotice": {
+    "message": "To install the project on BSD, please follow the instructions from the source installation section.",
+    "description": "The notice for the BSD installation option"
+  },
+  "instructionsPageBSDInstallWarning": {
+    "message": "Support for BSD relies on XDG Desktop Entry Specification (made for Linux) and is not regularly tested.",
+    "description": "The warning for the BSD installation option"
+  },
+  "instructionsPageSourceInstallStep1": {
+    "message": "Make sure <a href=\"https://github.com/sagiegurari/cargo-make\" target=\"_blank\"><kbd>cargo-make</kbd></a> is installed and up to date.",
+    "description": "The step 1 of the source installation option"
+  },
+  "instructionsPageSourceInstallStep2": {
+    "message": "Make sure <a href=\"https://wixtoolset.org/docs/wix3/\" target=\"_blank\">WiX Toolset v3</a> is installed (Windows-only).",
+    "description": "The step 2 of the source installation option, displayed on Windows only"
+  },
+  "instructionsPageSourceInstallStep3": {
+    "message": "Clone the <a href=\"https://github.com/filips123/PWAsForFirefox\" target=\"_blank\">repository</a> and <kbd>cd</kbd> into the <kbd>native</kbd> directory.",
+    "description": "The step 3 of the source installation option"
+  },
+  "instructionsPageSourceInstallStep4": {
+    "message": "Checkout the <kbd class=\"connector-repository-tag\"></kbd> tag.",
+    "description": "The step 4 of the source installation option, tag is dynamically set to the correct version"
+  },
+  "instructionsPageSourceInstallStep5": {
+    "message": "Prepare the source code for building:",
+    "description": "The step 5 of the source installation option"
+  },
+  "instructionsPageSourceInstallStep6": {
+    "message": "Build and install the project:",
+    "description": "The step 6 of the source installation option"
+  },
+  "instructionsPageSourceInstallNotice1": {
+    "message": "For a list of commands to do this, check <a id=\"connector-source-install\" target=\"_blank\">the README file in the repository</a>.",
+    "description": "The notice for a list of commands for the source installation option"
+  },
+  "instructionsPageSourceInstallNotice2": {
+    "message": "If you want to package PWAsForFirefox for your distribution or have already packaged it, please let me know, so I can help with the packaging and list it in the installation instructions. If the packaging platform supports any auto-submission/uploading feature, please also let me know, as I might integrate it directly with GitHub Actions to make sure the packages are always up-to-date.",
+    "description": "The notice for packaging the project for the source installation option"
+  },
+  "instructionsPageOtherInstallNotice": {
+    "message": "Your operating system is not officially supported. You can try building and installing the project from source with instructions from the source installation section. You may need to adjust them to make it work with your operating system, and there is no guarantee that it will work.",
+    "description": "The notice for the other installation option"
+  },
+  "installPageTitle": {
+    "message": "下載此網頁應用",
+    "description": "The title of the install web app page"
+  },
+  "installPageCreateProfile": {
+    "message": "建立新的配置檔案",
+    "description": "The profile creation option on the install web app page"
+  },
+  "installPageAutoCreateProfile": {
+    "message": "自動建立新配置檔案",
+    "description": "The automatic profile creation option on the install web app page"
+  },
+  "installPageSeparateProfiles": {
+    "message": "由於存在於一個很難修復的問題，強烈建議為每個網頁應用使用單獨的配置檔案中。請參閱問題報告<a id=\"web-app-profile-warn-issue\"></a>以了解詳情。",
+    "description": "The message that tells users each web app should be in a separate profile on affected platforms"
+  },
+  "installPageUseManifestLabel": {
+    "message": "Use the manifest for determining app properties",
+    "description": "The label for the use manifest checkbox on the web app installation page"
+  },
+  "installPageUseManifestTooltip": {
+    "message": "Disable only if you cannot install this web app with the manifest enabled",
+    "description": "The tooltip for the use manifest checkbox on the web app installation page"
+  },
+  "installPageLaunchNowLabel": {
+    "message": "下載完成后啟動網頁應用",
+    "description": "The label for the launch now checkbox on the web app installation page"
+  },
+  "installPageLaunchNowTooltip": {
+    "message": "如果您想要在下載后自動啟動此網頁應用，請啟用",
+    "description": "The tooltip for the launch now checkbox on the web app installation page"
+  },
+  "installPageContentScriptError": {
+    "message": "無法存取內容程式檔。",
+    "description": "A message that says the extension was not able to access the content script"
+  },
+  "installPageContentScriptErrorDevelopment": {
+    "message": "You are using a development build, so this is probably caused by a live-reloading feature. The error may be fixed by disabling it or building in release mode.",
+    "description": "A message that extends the content script error with more details when a development build is used"
+  },
+  "installPageContentScriptErrorRestricted": {
+    "message": "Some <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts\" target=\"_blank\">Mozilla websites</a> are restricted for extensions. This is a Firefox security feature and cannot be disabled. Restricted websites cannot be installed as web apps.",
+    "description": "A message that extends the content script error with more details when used on restricted domains"
+  },
+  "launchPageTitle": {
+    "message": "啟動此網頁應用",
+    "description": "The title of the launch web app page"
+  },
+  "launchPageInstallNewInstance": {
+    "message": "下載新的實例",
+    "description": "Displayed on the launch web app page to install a new instance"
+  },
+  "managePageTitle": {
+    "message": "管理網頁應用和配置檔案",
+    "description": "The title of the manage page"
+  },
+  "managePageTabApps": {
+    "message": "應用程式",
+    "description": "The apps tab on the manage page"
+  },
+  "managePageTabProfiles": {
+    "message": "配置檔案",
+    "description": "The profiles tab on the manage page"
+  },
+  "managePageTabSettings": {
+    "message": "設定",
+    "description": "The settings tab on the manage page"
+  },
+  "managePageAppListIcon": {
+    "message": "圖像",
+    "description": "The icon alternative text on the web app list"
+  },
+  "managePageAppListLaunch": {
+    "message": "啟動網頁應用",
+    "description": "The launch tooltip on the web app list"
+  },
+  "managePageAppListEdit": {
+    "message": "編輯網頁應用",
+    "description": "The edit tooltip on the web app list and the title of the edit web app dialog"
+  },
+  "managePageAppListRemove": {
+    "message": "移除網頁應用",
+    "description": "The remove tooltip on the web app list and the title of the remove web app dialog"
+  },
+  "managePageAppListEmpty": {
+    "message": "沒有已下載的網頁應用！",
+    "description": "A message that is displayed on the web app list when no web apps are installed"
+  },
+  "managePageAppListAdd": {
+    "message": "下載目前網站",
+    "description": "A button that is displayed on the web app list to install the current site"
+  },
+  "managePageProfileListCreate": {
+    "message": "建立配置檔案",
+    "description": "The create tooltip on the profile list and the title of the edit profile dialog"
+  },
+  "managePageProfileListEdit": {
+    "message": "編輯配置檔案",
+    "description": "The edit tooltip on the profile list and the title of the edit profile dialog"
+  },
+  "managePageProfileListRemove": {
+    "message": "移除配置檔案",
+    "description": "The remove tooltip on the profile list and title of the remove profile dialog"
+  },
+  "managePageProfileListEmpty": {
+    "message": "沒有可用的配置檔案！",
+    "description": "A message that is displayed on the profile list when no profile are available"
+  },
+  "managePageProfileListAdd": {
+    "message": "建立新的配置檔案",
+    "description": "A button that is displayed on the profile list to create a new profile"
+  },
+  "managePageProfileListUnnamed": {
+    "message": "未命名",
+    "description": "The unnamed profile on the profile list"
+  },
+  "managePageProfileListCount": {
+    "message": "{count, plural, one {# app} other {# apps}}",
+    "description": "The web app count in the profile, supports limited pluralization options"
+  },
+  "managePageSettingsDisplayPageAction": {
+    "message": "察看位址欄部件",
+    "description": "The setting for displaying page action (address bar widget)"
+  },
+  "managePageSettingsDisplayPageActionValid": {
+    "message": "在有效的漸進網頁應用程式上",
+    "description": "The option to display page action on valid web apps"
+  },
+  "managePageSettingsDisplayPageActionAlways": {
+    "message": "總是",
+    "description": "The option to always display page action"
+  },
+  "managePageSettingsDisplayPageActionNever": {
+    "message": "從不",
+    "description": "The option to never display page action"
+  },
+  "managePageSettingsLaunchCurrentURL": {
+    "message": "Launch web apps on active URLs",
+    "description": "The setting for launching web apps on active URLs"
+  },
+  "managePageSettingsShowUpdatePopup": {
+    "message": "在擴充套件更新時察看彈窗",
+    "description": "The setting for showing update popups"
+  },
+  "managePageSettingsEnableAutoLaunch": {
+    "message": "啟用自動啟動網頁應用",
+    "description": "The setting for enabling automatic launching"
+  },
+  "managePageSettingsAlwaysPatch": {
+    "message": "總是修補執行環境和配置檔案",
+    "description": "The setting for configuring patching"
+  },
+  "managePageSettingsEnableWayland": {
+    "message": "Use Wayland Display Server",
+    "description": "The setting for enabling Wayland (Linux-only)"
+  },
+  "managePageSettingsEnableXInput2": {
+    "message": "Use X Input Extension 2",
+    "description": "The setting for enabling XInput2 (Linux-only)"
+  },
+  "managePageSettingsEnablePortals": {
+    "message": "Use XDG Desktop Portals",
+    "description": "The setting for enabling XDG Desktop Portals (Linux-only)"
+  },
+  "managePageSettingsDarkMode": {
+    "message": "啟用深色型態",
+    "description": "The setting for enabling dark mode"
+  },
+  "managePageSettingsDarkModeTooltip": {
+    "message": "只能在系統設定中啟用",
+    "description": "The tooltip for the dark mode setting"
+  },
+  "managePageSettingsDefaultProfileTemplate": {
+    "message": "預設配置檔案模板",
+    "description": "The setting for default profile template"
+  },
+  "managePageSettingsAutoLaunchExclusion": {
+    "message": "Automatic launching exclusion",
+    "description": "The setting for auto launch exclusion"
+  },
+  "managePageSettingsAutoLaunchExclusionPlaceholder": {
+    "message": "Enter a regex of excluded URLs",
+    "description": "The placeholder for auto launch exclusion"
+  },
+  "managePageSettingsLanguage": {
+    "message": "語言",
+    "description": "The setting for language"
+  },
+  "managePageSettingsUpdateWebApps": {
+    "message": "更新網頁應用",
+    "description": "The button in settings to update web apps"
+  },
+  "managePageSettingsPatchProfiles": {
+    "message": "修補配置檔案和執行環境",
+    "description": "The button in settings to patch profiles and runtime"
+  },
+  "managePageSettingsReinstallRuntime": {
+    "message": "重新下載執行環境",
+    "description": "The button in settings to reinstall runtime"
+  },
+  "managePageSettingsAboutProject": {
+    "message": "關於此項目",
+    "description": "The button in settings to display project info"
+  },
+  "managePageFooterOutdated1": {
+    "message": "擴充套件已經過期！",
+    "description": "The first part of the extension outdated warning"
+  },
+  "managePageFooterOutdated2": {
+    "message": "請更新！",
+    "description": "The second part of the extension outdated warning"
+  },
+  "managePageFooterSearchPlaceholder": {
+    "message": "按名稱搜索",
+    "description": "The search placeholder for web apps and profiles"
+  },
+  "managePageAppEditLaunchOnWebsiteLabel": {
+    "message": "在符合的網站上啟動相應網頁應用",
+    "description": "The label for the launch on website checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnWebsiteTooltip": {
+    "message": "Determines if web app will be automatically launched when visiting the matching website",
+    "description": "The tooltip for the launch on website checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnLoginLabel": {
+    "message": "Launch this web app on system login",
+    "description": "The label for the launch on login checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnLoginTooltip": {
+    "message": "Determines if web app will be automatically launched on the system login",
+    "description": "The tooltip for the launch on login checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnBrowserLabel": {
+    "message": "Launch this web app on browser launch",
+    "description": "The label for the launch on browser checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnBrowserTooltip": {
+    "message": "Determines if web app will be automatically launched on the browser launch",
+    "description": "The tooltip for the launch on browser checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateManifestLabel": {
+    "message": "Update web app manifest",
+    "description": "The label for the manifest update checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateManifestTooltip": {
+    "message": "Determines if manifest will be updated when you edit this web app",
+    "description": "The tooltip for the manifest update checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateIconsLabel": {
+    "message": "更新網頁應用圖標",
+    "description": "The label for the icons update checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateIconsTooltip": {
+    "message": "Determines if icons will be updated when you edit this web app",
+    "description": "The tooltip for the icons update checkbox on the edit web app dialog"
+  },
+  "managePageAppRemoveQuestion": {
+    "message": "您確定要移除此網頁應用嗎？",
+    "description": "The confirmation question on the remove web app dialog"
+  },
+  "managePageAppRemoveNotLast": {
+    "message": "Other apps are present in this profile, so the profile will <strong>not</strong> be removed. The app data will <strong>remain</strong>, but you can remove them through the app browser or by deleting the app's profile.",
+    "description": "The additional clarification on the remove web app dialog if the web app is not the last in its profile"
+  },
+  "managePageAppRemoveLast": {
+    "message": "This is the last app in this profile, so you can choose to delete it and the associated app data.",
+    "description": "The additional clarification on the remove web app dialog if the web app is the last in its profile"
+  },
+  "managePageAppRemoveCheckboxLabel": {
+    "message": "移除配置檔案和應用資料",
+    "description": "The label for the profile delete checkbox on the remove web app dialog"
+  },
+  "managePageAppRemoveCheckboxTooltip": {
+    "message": "Determines if the current app profile and data will be deleted while uninstalling the app",
+    "description": "The label for the profile delete checkbox on the remove web app dialog"
+  },
+  "managePageProfileEditApplyProfileLabel": {
+    "message": "應用配置檔案模板",
+    "description": "The label for the apply template checkbox on the edit profile dialog"
+  },
+  "managePageProfileRemoveQuestion": {
+    "message": "Are you sure you want to remove this profile? This will completely remove the profile and all associated web apps, including their data. You might not be able to fully recover this action.",
+    "description": "The confirmation question on the remove profile dialog"
+  },
+  "managePageProfileRemoveDefault": {
+    "message": "Default profile cannot be completely removed. Web apps and data will be cleared, but the profile will stay.",
+    "description": "The additional clarification on the remove profile dialog if this is the default profile"
+  },
+  "managePageAutoLaunchTitle": {
+    "message": "Automatic web app launching",
+    "description": "The title of the automatic launching dialog"
+  },
+  "managePageAutoLaunchAboutMain": {
+    "message": "Enabling <em>automatic web app launching</em> will automatically launch all URLs that match the scopes of your enabled web apps as a web app.",
+    "description": "The main clarification about the automatic launching"
+  },
+  "managePageAutoLaunchAboutExperimental": {
+    "message": "This feature is experimental, may not work with all websites correctly, and may impact performance. It needs to be additionally enabled per web app in the web app settings using the <em>$OPTION$</em> option.",
+    "description": "The experimental clarification about the automatic launching",
+    "placeholders": {
+      "option": {
+        "content": "$managePageAppEditLaunchOnWebsiteLabel$",
+        "example": "Launch this web app on matching website"
+      }
+    }
+  },
+  "managePageAutoLaunchAboutPermissions": {
+    "message": "Additional browser permissions are required for this to work. They will be requested automatically after enabling it if they are not already permitted.",
+    "description": "The permissions clarification about the automatic launching"
+  },
+  "managePageAutoLaunchEnable": {
+    "message": "啟用",
+    "description": "The enable button for the automatic launching"
+  },
+  "managePageUpdateWebAppsAbout1": {
+    "message": "This will download and parse manifests for all your web apps and register them again to the operating systems. Any changes in web app manifests will also be reflected on your system.",
+    "description": "The first part of about updating web apps message"
+  },
+  "managePageUpdateWebAppsAbout2": {
+    "message": "Alternatively, you can register all web apps to the operating system without performing any manifest updates. This can be used if you transferred your config file from another device.",
+    "description": "The second part of about updating web apps message"
+  },
+  "managePageUpdateWebAppsManifest": {
+    "message": "Perform manifest updates",
+    "description": "The checkbox label for performing manifest updates when updating web apps"
+  },
+  "managePagePatchProfilesAbout1": {
+    "message": "This will patch all profiles and runtime with the current globally installed version.",
+    "description": "The first part of about patching profiles and runtime message"
+  },
+  "managePagePatchProfilesAbout2": {
+    "message": "This is useful after (re)installing a custom runtime, or if you are experiencing problems with web app launching.",
+    "description": "The second part of about patching profiles and runtime message"
+  },
+  "managePagePatchProfilesPatchRuntime": {
+    "message": "修復執行環境",
+    "description": "The checkbox label for patching runtime when patching profiles and runtime"
+  },
+  "managePagePatchProfilesPatchProfiles": {
+    "message": "修復配置檔案",
+    "description": "The checkbox label for patching profiles when patching profiles and runtime"
+  },
+  "managePageReinstallRuntimeAbout1": {
+    "message": "您確定要重新下載PWAsForFirefox執行環境嗎？這將移除目前的執行環境并從Mozilla下載最新版本。",
+    "description": "The first part of about reinstalling runtime message"
+  },
+  "managePageReinstallRuntimeAbout2": {
+    "message": "這<strong>不會</strong>影響您的Firefox瀏覽器，也<strong>不會</strong>移除任何配置檔案等資料。",
+    "description": "The second part of about reinstalling runtime message"
+  },
+  "buttonRuntimeInstallDefault": {
+    "message": "下載執行環境",
+    "description": "The runtime installation button on the setup page, allowing the user to install the runtime"
+  },
+  "buttonRuntimeInstallProcessing": {
+    "message": "正在下載執行環境…",
+    "description": "The runtime installation button on the setup page, while the runtime is installing"
+  },
+  "buttonRuntimeInstallFinished": {
+    "message": "執行環境已下載！",
+    "description": "The runtime installation button on the setup page, after the runtime has been installed"
+  },
+  "buttonWebAppInstallDefault": {
+    "message": "下載網頁應用",
+    "description": "The web app button on the install web app page, allowing the user to install the web app"
+  },
+  "buttonWebAppInstallProcessing": {
+    "message": "正在下載網頁應用…",
+    "description": "The web app installation button on the install web app page, while the web app is installing"
+  },
+  "buttonWebAppInstallFinished": {
+    "message": "網頁應用已下載！",
+    "description": "The web app installation button on the install web app page, after the web app has been installed"
+  },
+  "buttonCreateDefault": {
+    "message": "建立",
+    "description": "The create button, allowing the user to create something (profile)"
+  },
+  "buttonCreateProcessing": {
+    "message": "正在建立…",
+    "description": "The create button, while something (profile) is being created"
+  },
+  "buttonCreateFinished": {
+    "message": "建立成功！",
+    "description": "The create button, after something (profile) has been created"
+  },
+  "buttonEditDefault": {
+    "message": "應用",
+    "description": "The edit button, allowing the user to edit something (web app or profile)"
+  },
+  "buttonEditProcessing": {
+    "message": "儲存中…",
+    "description": "The edit button, while something (web app or profile) is being edited"
+  },
+  "buttonEditFinished": {
+    "message": "已儲存！",
+    "description": "The edit button, after something (web app or profile) has been edited"
+  },
+  "buttonRemoveDefault": {
+    "message": "移除",
+    "description": "The remove button, allowing the user to remove something (web app or profile)"
+  },
+  "buttonRemoveProcessing": {
+    "message": "移除中…",
+    "description": "The remove button, while something (web app or profile) is being removed"
+  },
+  "buttonRemoveFinished": {
+    "message": "已移除！",
+    "description": "The remove button, after something (web app or profile) has been removed"
+  },
+  "buttonUpdateDefault": {
+    "message": "更新",
+    "description": "The update button, allowing the user to update something (all web apps)"
+  },
+  "buttonUpdateProcessing": {
+    "message": "更新中…",
+    "description": "The update button, while something (all web apps) is being updated"
+  },
+  "buttonUpdateFinished": {
+    "message": "已更新！",
+    "description": "The update button, after something (all web apps) has been updated"
+  },
+  "buttonPatchDefault": {
+    "message": "修復",
+    "description": "The patch button, allowing the user to patch something (all web apps or profiles)"
+  },
+  "buttonPatchProcessing": {
+    "message": "修復中…",
+    "description": "The patch button, while something (all web apps or profiles) is being patched"
+  },
+  "buttonPatchFinished": {
+    "message": "已修復！",
+    "description": "The patch button, after something (all web apps or profiles) has been patched"
+  },
+  "buttonReinstallDefault": {
+    "message": "重新下載",
+    "description": "The reinstall button, allowing the user to reinstall something (runtime)"
+  },
+  "buttonReinstallProcessing": {
+    "message": "重新下載中…",
+    "description": "The reinstall button, while something (runtime) is being reinstalled"
+  },
+  "buttonReinstallFinished": {
+    "message": "已重新下載！",
+    "description": "The reinstall button, after something (runtime) has been reinstalled"
+  }
+}
