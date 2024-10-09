@@ -100,10 +100,11 @@ jobs:
         run: cargo fmt --all -- --check
 
   build:
-    name: Build (${{ matrix.target }})
+    name: Build (${{ matrix.target }}, ${{ matrix.portable && 'portable' || 'standalone' }})
     runs-on: ${{ matrix.os }}
 
     permissions:
+      actions: read
       contents: read
       attestations: write
       id-token: write
@@ -190,12 +191,12 @@ jobs:
         if: matrix.os == 'windows-latest' && matrix.portable == true
         run: |
           mkdir $TEMP/PortableAppsLauncher && cd $TEMP/PortableAppsLauncher
-          curl "https://github.com/filips123/PortableAppsTools/releases/download/PortableAppsLauncher/2.2.9/PortableAppsLauncher.paf.exe" -o PortableAppsLauncher.paf.exe
+          curl -L "https://github.com/filips123/PortableAppsTools/releases/download/PortableAppsLauncher/2.2.9/PortableAppsLauncher.paf.exe" -o PortableAppsLauncher.paf.exe
           7z x -y PortableAppsLauncher.paf.exe
           echo $TEMP/PortableAppsLauncher >> $GITHUB_PATH
 
           mkdir $TEMP/PortableAppsInstaller && cd $TEMP/PortableAppsInstaller
-          curl "https://github.com/filips123/PortableAppsTools/releases/download/PortableAppsInstaller/3.8.12/PortableAppsInstaller.paf.exe" -o PortableAppsInstaller.paf.exe
+          curl -L "https://github.com/filips123/PortableAppsTools/releases/download/PortableAppsInstaller/3.8.12/PortableAppsInstaller.paf.exe" -o PortableAppsInstaller.paf.exe
           7z x -y PortableAppsInstaller.paf.exe
           echo $TEMP/PortableAppsInstaller >> $GITHUB_PATH
 
@@ -308,18 +309,7 @@ jobs:
         id: target
         env:
           TARGET: ${{ matrix.target }}
-        run: echo "::set-output name=target::${TARGET%%-*}"
-
-      - name: Attest artifacts
-        # if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-path: |
-            native/target/completions.zip
-            native/target/debian/*.deb
-            native/target/rpm/*.rpm
-            native/target/wix/*.msi
-            native/target/paf/*.paf.exe
+        run: echo "target=${TARGET%%-*}" >> $GITHUB_OUTPUT
 
       - name: Upload shell completions
         if: matrix.target == 'x86_64-unknown-linux-gnu'
@@ -345,7 +335,8 @@ jobs:
           path: native/target/rpm/*.rpm
           compression-level: 0
 
-      - name: Upload MSI (Windows)
+      - name: Upload unsigned MSI (Windows)
+        id: artifact-unsigned-msi
         if: matrix.os == 'windows-latest' && matrix.portable != true
         uses: actions/upload-artifact@v4
         with:
@@ -353,13 +344,67 @@ jobs:
           path: native/target/wix/*.msi
           compression-level: 0
 
-      - name: Upload PAF (Windows)
+      - name: Upload unsigned PAF (Windows)
+        id: artifact-unsigned-paf
         if: matrix.os == 'windows-latest' && matrix.portable == true
         uses: actions/upload-artifact@v4
         with:
           name: unsigned-windows-paf-${{ steps.target.outputs.target }}
           path: native/target/paf/*.paf.exe
           compression-level: 0
+
+      - name: Sign MSI (Windows)
+        # if: startsWith(github.ref, 'refs/tags/v')
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_POLICY_SLUG }}
+          github-artifact-id: ${{ steps.artifact-unsigned-msi.outputs.artifact-id }}
+          artifact-configuration-slug: installer
+          output-artifact-directory: signed/msi
+
+      - name: Sign PAF (Windows)
+        # if: startsWith(github.ref, 'refs/tags/v')
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_POLICY_SLUG }}
+          github-artifact-id: ${{ steps.artifact-unsigned-paf.outputs.artifact-id }}
+          artifact-configuration-slug: portable
+          output-artifact-directory: signed/paf
+
+      - name: Upload signed MSI (Windows)
+        if: matrix.os == 'windows-latest' && matrix.portable != true # && startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-windows-msi-${{ steps.target.outputs.target }}
+          path: signed/msi/*.msi
+          compression-level: 0
+
+      - name: Upload signed PAF (Windows)
+        if: matrix.os == 'windows-latest' && matrix.portable == true # && startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-windows-paf-${{ steps.target.outputs.target }}
+          path: signed/paf/*.paf.exe
+          compression-level: 0
+
+      - name: Attest artifacts
+        # if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: |
+            native/target/completions.zip
+            native/target/debian/*.deb
+            native/target/rpm/*.rpm
+            native/target/wix/*.msi
+            native/target/paf/*.paf.exe
+            signed/msi/*.msi
+            signed/paf/*.paf.exe
 
   release-github:
     name: Release on GitHub
