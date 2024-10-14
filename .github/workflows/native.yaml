@@ -164,6 +164,12 @@ jobs:
           cache-all-crates: true
           key: ${{ matrix.target }}-${{ matrix.portable == true }}
 
+      - name: Determine target architecture
+        id: target
+        env:
+          TARGET: ${{ matrix.target }}
+        run: echo "target=${TARGET%%-*}" >> $GITHUB_OUTPUT
+
       - name: Install cross (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -245,22 +251,75 @@ jobs:
         run: |
           zip -rj target/completions.zip target/x86_64-unknown-linux-gnu/release/completions/*
 
+      - name: Upload shell completions
+        if: matrix.target == 'x86_64-unknown-linux-gnu'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-shell-completions
+          path: native/target/completions.zip
+          compression-level: 0
+
       - name: Package DEB (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
           cargo deb --verbose --no-build --target ${{ matrix.target }}
           mkdir -p target/debian/ && cp -r target/${{ matrix.target }}/debian/*.deb target/debian/
 
+      - name: Upload DEB (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-linux-deb-${{ steps.target.outputs.target }}
+          path: native/target/debian/*.deb
+          compression-level: 0
+
       - name: Package RPM (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
           cargo rpm build --verbose --no-cargo-build --target ${{ matrix.target }}
+
+      - name: Upload RPM (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-linux-rpm-${{ steps.target.outputs.target }}
+          path: native/target/rpm/*.rpm
+          compression-level: 0
 
       - name: Package MSI (Windows)
         if: matrix.os == 'windows-latest' && matrix.portable != true
         run: |
           heat dir userchrome -o packages/wix/userchrome.wxs -scom -srd -sreg -gg -cg UserChrome -dr UserChromeDir -var wix.UserChromeSource
           cargo wix --verbose --no-build --nocapture --target ${{ matrix.target }}
+
+      - name: Upload unsigned MSI (Windows)
+        id: artifact-unsigned-msi
+        if: matrix.os == 'windows-latest' && matrix.portable != true
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-artifacts-windows-msi-${{ steps.target.outputs.target }}
+          path: native/target/wix/*.msi
+          compression-level: 0
+
+      - name: Sign MSI with SignPath (Windows)
+        if: matrix.os == 'windows-latest' && matrix.portable != true # && startsWith(github.ref, 'refs/tags/v')
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: ${{ secrets.SIGNPATH_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_POLICY_SLUG }}
+          github-artifact-id: ${{ steps.artifact-unsigned-msi.outputs.artifact-id }}
+          artifact-configuration-slug: installer
+          output-artifact-directory: signed/msi
+
+      - name: Upload signed MSI (Windows)
+        if: matrix.os == 'windows-latest' && matrix.portable != true # && startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-windows-msi-${{ steps.target.outputs.target }}
+          path: signed/msi/*.msi
+          compression-level: 0
 
       - name: Package PAF (Windows)
         if: matrix.os == 'windows-latest' && matrix.portable == true
@@ -305,45 +364,6 @@ jobs:
           mv PWAsForFirefoxPortable_*.paf.exe ../../target/paf/firefoxpwa_${VERSION}_online.paf.exe
           echo "::endgroup::"
 
-      - name: Determine target architecture
-        id: target
-        env:
-          TARGET: ${{ matrix.target }}
-        run: echo "target=${TARGET%%-*}" >> $GITHUB_OUTPUT
-
-      - name: Upload shell completions
-        if: matrix.target == 'x86_64-unknown-linux-gnu'
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts-shell-completions
-          path: native/target/completions.zip
-          compression-level: 0
-
-      - name: Upload DEB (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts-linux-deb-${{ steps.target.outputs.target }}
-          path: native/target/debian/*.deb
-          compression-level: 0
-
-      - name: Upload RPM (Linux)
-        if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts-linux-rpm-${{ steps.target.outputs.target }}
-          path: native/target/rpm/*.rpm
-          compression-level: 0
-
-      - name: Upload unsigned MSI (Windows)
-        id: artifact-unsigned-msi
-        if: matrix.os == 'windows-latest' && matrix.portable != true
-        uses: actions/upload-artifact@v4
-        with:
-          name: unsigned-artifacts-windows-msi-${{ steps.target.outputs.target }}
-          path: native/target/wix/*.msi
-          compression-level: 0
-
       - name: Upload unsigned PAF (Windows)
         id: artifact-unsigned-paf
         if: matrix.os == 'windows-latest' && matrix.portable == true
@@ -352,18 +372,6 @@ jobs:
           name: unsigned-artifacts-windows-paf-${{ steps.target.outputs.target }}
           path: native/target/paf/*.paf.exe
           compression-level: 0
-
-      - name: Sign MSI with SignPath (Windows)
-        if: matrix.os == 'windows-latest' && matrix.portable != true # && startsWith(github.ref, 'refs/tags/v')
-        uses: signpath/github-action-submit-signing-request@v1
-        with:
-          api-token: ${{ secrets.SIGNPATH_TOKEN }}
-          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
-          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
-          signing-policy-slug: ${{ vars.SIGNPATH_POLICY_SLUG }}
-          github-artifact-id: ${{ steps.artifact-unsigned-msi.outputs.artifact-id }}
-          artifact-configuration-slug: installer
-          output-artifact-directory: signed/msi
 
       - name: Sign PAF with SignPath (Windows)
         if: matrix.os == 'windows-latest' && matrix.portable == true # && startsWith(github.ref, 'refs/tags/v')
@@ -376,14 +384,6 @@ jobs:
           github-artifact-id: ${{ steps.artifact-unsigned-paf.outputs.artifact-id }}
           artifact-configuration-slug: portable
           output-artifact-directory: signed/paf
-
-      - name: Upload signed MSI (Windows)
-        if: matrix.os == 'windows-latest' && matrix.portable != true # && startsWith(github.ref, 'refs/tags/v')
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-artifacts-windows-msi-${{ steps.target.outputs.target }}
-          path: signed/msi/*.msi
-          compression-level: 0
 
       - name: Upload signed PAF (Windows)
         if: matrix.os == 'windows-latest' && matrix.portable == true # && startsWith(github.ref, 'refs/tags/v')
