@@ -100,7 +100,7 @@ jobs:
         run: cargo fmt --all -- --check
 
   build:
-    name: Build (${{ matrix.target }}, ${{ matrix.portable && 'portable' || 'standalone' }})
+    name: Build (${{ matrix.target }}, ${{ matrix.portable && 'portable' || 'normal' }})
     runs-on: ${{ matrix.os }}
 
     permissions:
@@ -164,12 +164,6 @@ jobs:
           cache-all-crates: true
           key: ${{ matrix.target }}-${{ matrix.portable == true }}
 
-      - name: Determine target architecture
-        id: target
-        env:
-          TARGET: ${{ matrix.target }}
-        run: echo "target=${TARGET%%-*}" >> $GITHUB_OUTPUT
-
       - name: Install cross (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -232,6 +226,12 @@ jobs:
             printf '[target.armv7-unknown-linux-gnueabihf]\nstrip = { path = "arm-linux-gnueabihf-strip" }\nobjcopy = { path = "arm-linux-gnueabihf-objcopy" }\n' >> .cargo/config
           fi
 
+      - name: Determine the target architecture
+        id: target
+        env:
+          TARGET: ${{ matrix.target }}
+        run: echo "target=${TARGET%%-*}" >> $GITHUB_OUTPUT
+
       - name: Set the version
         run: |
           if [[ $GITHUB_REF == refs/tags/v* ]]
@@ -286,13 +286,34 @@ jobs:
           path: native/target/rpm/*.rpm
           compression-level: 0
 
+      - name: Upload unsigned executables (Windows, MSI)
+        id: unsigned-executables-normal
+        if: matrix.os == 'windows-latest' && matrix.portable != true
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-executables-normal-${{ steps.target.outputs.target }}
+          path: native/target/${{ matrix.target }}/release/*.exe
+          compression-level: 0
+
+      - name: Sign executables with SignPath (Windows, MSI)
+        if: matrix.os == 'windows-latest' && matrix.portable != true # && startsWith(github.ref, 'refs/tags/v')
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: ${{ secrets.SIGNPATH_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_POLICY_SLUG }}
+          github-artifact-id: ${{ steps.unsigned-executables-normal.outputs.artifact-id }}
+          artifact-configuration-slug: installer-contents
+          output-artifact-directory: native/target/${{ matrix.target }}/release
+
       - name: Package MSI (Windows)
         if: matrix.os == 'windows-latest' && matrix.portable != true
         run: |
           heat dir userchrome -o packages/wix/userchrome.wxs -scom -srd -sreg -gg -cg UserChrome -dr UserChromeDir -var wix.UserChromeSource
           cargo wix --verbose --no-build --nocapture --target ${{ matrix.target }}
 
-      - name: Upload unsigned MSI (Windows)
+      - name: Upload unsigned MSI (Windows, MSI)
         id: artifact-unsigned-msi
         if: matrix.os == 'windows-latest' && matrix.portable != true
         uses: actions/upload-artifact@v4
@@ -301,7 +322,7 @@ jobs:
           path: native/target/wix/*.msi
           compression-level: 0
 
-      - name: Sign MSI with SignPath (Windows)
+      - name: Sign MSI with SignPath (Windows, MSI)
         if: matrix.os == 'windows-latest' && matrix.portable != true # && startsWith(github.ref, 'refs/tags/v')
         uses: signpath/github-action-submit-signing-request@v1
         with:
@@ -313,7 +334,7 @@ jobs:
           artifact-configuration-slug: installer
           output-artifact-directory: signed/msi
 
-      - name: Upload signed MSI (Windows)
+      - name: Upload signed MSI (Windows, MSI)
         if: matrix.os == 'windows-latest' && matrix.portable != true # && startsWith(github.ref, 'refs/tags/v')
         uses: actions/upload-artifact@v4
         with:
