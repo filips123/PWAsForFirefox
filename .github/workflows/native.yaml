@@ -143,6 +143,8 @@ jobs:
             portable: true
 
     steps:
+      # == Setting Environment
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -163,6 +165,8 @@ jobs:
           cache-on-failure: true
           cache-all-crates: true
           key: ${{ matrix.target }}-${{ matrix.portable == true }}
+
+      # == Setting Dependencies
 
       - name: Install cross (Linux)
         if: matrix.os == 'ubuntu-latest'
@@ -199,6 +203,8 @@ jobs:
           curl -L "https://github.com/filips123/PortableAppsTools/releases/download/PortableAppsInstaller/3.8.12/PortableAppsInstaller.paf.exe" -o PortableAppsInstaller.paf.exe
           7z x -y PortableAppsInstaller.paf.exe
           echo $TEMP/PortableAppsInstaller >> $GITHUB_PATH
+
+      # == Building Project
 
       - name: Configure Linux builds
         if: matrix.os == 'ubuntu-latest'
@@ -237,14 +243,19 @@ jobs:
           if [[ $GITHUB_REF == refs/tags/v* ]]
           then
             VERSION=${GITHUB_REF/refs\/tags\/v}
+            echo "VERSION=$VERSION" >> $GITHUB_ENV
             sed -i "s/version = \"0.0.0\"/version = \"$VERSION\"/g" Cargo.toml
             sed -i "s/DISTRIBUTION_VERSION = '0.0.0'/DISTRIBUTION_VERSION = '$VERSION'/g" userchrome/profile/chrome/pwa/chrome.jsm
+          else
+            echo "VERSION=0.0.0" >> $GITHUB_ENV
           fi
 
       - name: Build the project
         run: |
           [[ ${{ matrix.os }} == ubuntu-latest ]] && CARGO="cross" || CARGO="cargo"
           $CARGO build --release --target ${{ matrix.target }} ${{ matrix.flags }}
+
+      # == Packaging Shell Completions
 
       - name: Package shell completions
         if: matrix.target == 'x86_64-unknown-linux-gnu'
@@ -258,6 +269,8 @@ jobs:
           name: build-artifacts-shell-completions
           path: native/target/completions.zip
           compression-level: 0
+
+      # == Packaging Linux DEB
 
       - name: Package DEB (Linux)
         if: matrix.os == 'ubuntu-latest'
@@ -273,6 +286,8 @@ jobs:
           path: native/target/debian/*.deb
           compression-level: 0
 
+      # == Packaging Linux RPM
+
       - name: Package RPM (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -286,14 +301,15 @@ jobs:
           path: native/target/rpm/*.rpm
           compression-level: 0
 
+      # == Packaging Windows MSI
+
       - name: Upload unsigned executables (Windows, MSI)
         id: unsigned-executables-normal
-        if: matrix.os == 'windows-latest' && matrix.portable != true
+        if: matrix.os == 'windows-latest' && matrix.portable != true # && startsWith(github.ref, 'refs/tags/v')
         uses: actions/upload-artifact@v4
         with:
           name: unsigned-executables-normal-${{ steps.target.outputs.target }}
           path: native/target/${{ matrix.target }}/release/*.exe
-          compression-level: 0
 
       - name: Sign executables with SignPath (Windows, MSI)
         if: matrix.os == 'windows-latest' && matrix.portable != true # && startsWith(github.ref, 'refs/tags/v')
@@ -307,7 +323,7 @@ jobs:
           artifact-configuration-slug: installer-contents
           output-artifact-directory: native/target/${{ matrix.target }}/release
 
-      - name: Package MSI (Windows)
+      - name: Package MSI (Windows, MSI)
         if: matrix.os == 'windows-latest' && matrix.portable != true
         run: |
           heat dir userchrome -o packages/wix/userchrome.wxs -scom -srd -sreg -gg -cg UserChrome -dr UserChromeDir -var wix.UserChromeSource
@@ -342,7 +358,9 @@ jobs:
           path: signed/msi/*.msi
           compression-level: 0
 
-      - name: Package PAF (Windows)
+      # == Packaging Windows PAF
+
+      - name: Prepare portable package (Windows, PAF)
         if: matrix.os == 'windows-latest' && matrix.portable == true
         run: |
           # Build helper executables
@@ -362,30 +380,53 @@ jobs:
 
           # Set the package version
           echo "::group::Setting the package versions"
-          if [[ $GITHUB_REF == refs/tags/v* ]]
+          if [[ $VERSION != 0.0.0 ]]
           then
-            VERSION=${GITHUB_REF/refs\/tags\/v}
             sed -i "s/PackageVersion=0.0.0.0/PackageVersion=$VERSION.0/g" packages/paf/PWAsForFirefoxPortable/App/AppInfo/appinfo.ini
             sed -i "s/DisplayVersion=0.0.0/DisplayVersion=$VERSION/g" packages/paf/PWAsForFirefoxPortable/App/AppInfo/appinfo.ini
-          else
-            VERSION=0.0.0
           fi
           echo "::endgroup::"
 
-          # Generate the launcher and installer
-          echo "::group::Generating the launcher and installer"
-          cd packages/paf
-          PortableApps.comLauncherGenerator.exe $(cygpath -d $(realpath PWAsForFirefoxPortable))
-          PortableApps.comInstaller.exe $(cygpath -d $(realpath PWAsForFirefoxPortable))
+          # Generate the launcher
+          echo "::group::Generating the launcher"
+          (cd packages/paf && PortableApps.comLauncherGenerator.exe $(cygpath -d $(realpath PWAsForFirefoxPortable)))
+          echo "::endgroup::"
+
+      - name: Upload unsigned contents (Windows, PAF)
+        id: unsigned-executables-portable
+        if: matrix.os == 'windows-latest' && matrix.portable == true # && startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-executables-portable-${{ steps.target.outputs.target }}
+          path: native/packages/paf/PWAsForFirefoxPortable
+
+      - name: Sign contents with SignPath (Windows, PAF)
+        if: matrix.os == 'windows-latest' && matrix.portable == true # && startsWith(github.ref, 'refs/tags/v')
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: ${{ secrets.SIGNPATH_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_POLICY_SLUG }}
+          github-artifact-id: ${{ steps.unsigned-executables-portable.outputs.artifact-id }}
+          artifact-configuration-slug: portable-contents
+          output-artifact-directory: native/packages/paf/PWAsForFirefoxPortable
+
+      - name: Generate portable package (Windows, PAF)
+        if: matrix.os == 'windows-latest' && matrix.portable == true
+        run: |
+          # Generate the installer
+          echo "::group::Generating the launcher"
+          (cd packages/paf && PortableApps.comInstaller.exe $(cygpath -d $(realpath PWAsForFirefoxPortable)))
           echo "::endgroup::"
 
           # Rename the installer
           echo "::group::Renaming the installer"
-          mkdir -p ../../target/paf/
-          mv PWAsForFirefoxPortable_*.paf.exe ../../target/paf/firefoxpwa_${VERSION}_online.paf.exe
+          mkdir -p target/paf/
+          mv packages/paf/PWAsForFirefoxPortable_*.paf.exe target/paf/firefoxpwa_${VERSION}_online.paf.exe
           echo "::endgroup::"
 
-      - name: Upload unsigned PAF (Windows)
+      - name: Upload unsigned PAF (Windows, PAF)
         id: artifact-unsigned-paf
         if: matrix.os == 'windows-latest' && matrix.portable == true
         uses: actions/upload-artifact@v4
@@ -394,7 +435,7 @@ jobs:
           path: native/target/paf/*.paf.exe
           compression-level: 0
 
-      - name: Sign PAF with SignPath (Windows)
+      - name: Sign PAF with SignPath (Windows, PAF)
         if: matrix.os == 'windows-latest' && matrix.portable == true # && startsWith(github.ref, 'refs/tags/v')
         uses: signpath/github-action-submit-signing-request@v1
         with:
@@ -406,13 +447,15 @@ jobs:
           artifact-configuration-slug: portable
           output-artifact-directory: signed/paf
 
-      - name: Upload signed PAF (Windows)
+      - name: Upload signed PAF (Windows, PAF)
         if: matrix.os == 'windows-latest' && matrix.portable == true # && startsWith(github.ref, 'refs/tags/v')
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts-windows-paf-${{ steps.target.outputs.target }}
           path: signed/paf/*.paf.exe
           compression-level: 0
+
+      # == BUILD PROVENANCE
 
       - name: Attest artifacts
         # if: startsWith(github.ref, 'refs/tags/v')
