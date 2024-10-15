@@ -305,14 +305,14 @@ jobs:
 
       - name: Upload unsigned executables (Windows, MSI)
         id: unsigned-executables-normal
-        if: matrix.os == 'windows-latest' && matrix.portable != true # && startsWith(github.ref, 'refs/tags/v')
+        if: matrix.os == 'windows-latest' && matrix.portable != true && startsWith(github.ref, 'refs/tags/v')
         uses: actions/upload-artifact@v4
         with:
           name: unsigned-executables-normal-${{ steps.target.outputs.target }}
           path: native/target/${{ matrix.target }}/release/*.exe
 
       - name: Sign executables with SignPath (Windows, MSI)
-        if: matrix.os == 'windows-latest' && matrix.portable != true # && startsWith(github.ref, 'refs/tags/v')
+        if: matrix.os == 'windows-latest' && matrix.portable != true && startsWith(github.ref, 'refs/tags/v')
         uses: signpath/github-action-submit-signing-request@v1
         with:
           api-token: ${{ secrets.SIGNPATH_TOKEN }}
@@ -339,7 +339,7 @@ jobs:
           compression-level: 0
 
       - name: Sign MSI with SignPath (Windows, MSI)
-        if: matrix.os == 'windows-latest' && matrix.portable != true # && startsWith(github.ref, 'refs/tags/v')
+        if: matrix.os == 'windows-latest' && matrix.portable != true && startsWith(github.ref, 'refs/tags/v')
         uses: signpath/github-action-submit-signing-request@v1
         with:
           api-token: ${{ secrets.SIGNPATH_TOKEN }}
@@ -351,7 +351,7 @@ jobs:
           output-artifact-directory: signed/msi
 
       - name: Upload signed MSI (Windows, MSI)
-        if: matrix.os == 'windows-latest' && matrix.portable != true # && startsWith(github.ref, 'refs/tags/v')
+        if: matrix.os == 'windows-latest' && matrix.portable != true && startsWith(github.ref, 'refs/tags/v')
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts-windows-msi-${{ steps.target.outputs.target }}
@@ -394,14 +394,14 @@ jobs:
 
       - name: Upload unsigned contents (Windows, PAF)
         id: unsigned-executables-portable
-        if: matrix.os == 'windows-latest' && matrix.portable == true # && startsWith(github.ref, 'refs/tags/v')
+        if: matrix.os == 'windows-latest' && matrix.portable == true && startsWith(github.ref, 'refs/tags/v')
         uses: actions/upload-artifact@v4
         with:
           name: unsigned-executables-portable-${{ steps.target.outputs.target }}
           path: native/packages/paf/PWAsForFirefoxPortable
 
       - name: Sign contents with SignPath (Windows, PAF)
-        if: matrix.os == 'windows-latest' && matrix.portable == true # && startsWith(github.ref, 'refs/tags/v')
+        if: matrix.os == 'windows-latest' && matrix.portable == true && startsWith(github.ref, 'refs/tags/v')
         uses: signpath/github-action-submit-signing-request@v1
         with:
           api-token: ${{ secrets.SIGNPATH_TOKEN }}
@@ -436,7 +436,7 @@ jobs:
           compression-level: 0
 
       - name: Sign PAF with SignPath (Windows, PAF)
-        if: matrix.os == 'windows-latest' && matrix.portable == true # && startsWith(github.ref, 'refs/tags/v')
+        if: matrix.os == 'windows-latest' && matrix.portable == true && startsWith(github.ref, 'refs/tags/v')
         uses: signpath/github-action-submit-signing-request@v1
         with:
           api-token: ${{ secrets.SIGNPATH_TOKEN }}
@@ -448,7 +448,7 @@ jobs:
           output-artifact-directory: signed/paf
 
       - name: Upload signed PAF (Windows, PAF)
-        if: matrix.os == 'windows-latest' && matrix.portable == true # && startsWith(github.ref, 'refs/tags/v')
+        if: matrix.os == 'windows-latest' && matrix.portable == true && startsWith(github.ref, 'refs/tags/v')
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts-windows-paf-${{ steps.target.outputs.target }}
@@ -458,7 +458,7 @@ jobs:
       # == BUILD PROVENANCE
 
       - name: Attest artifacts
-        # if: startsWith(github.ref, 'refs/tags/v')
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/attest-build-provenance@v1
         with:
           subject-path: |
