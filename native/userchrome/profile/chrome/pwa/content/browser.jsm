@@ -617,7 +617,7 @@ class PwaBrowser {
     let shownByDefault = Services.xulStore.getValue(window.document.documentURI, iconBar.id, 'collapsed') !== 'true';
     if (!shownByDefault) {
       window.TabBarVisibility.update = function () {}
-      titleBar.setAttribute('autohide', 'true');
+      titleBar?.setAttribute('autohide', 'true');
       iconBar.setAttribute('collapsed', 'true');
     }
 
@@ -653,10 +653,10 @@ class PwaBrowser {
         (event.key !== 'AltGraph')
       ) {
         if (iconBar.hasAttribute('collapsed')) {
-          titleBar.removeAttribute('autohide');
+          titleBar?.removeAttribute('autohide');
           iconBar.removeAttribute('collapsed');
         } else {
-          titleBar.setAttribute('autohide', 'true');
+          titleBar?.setAttribute('autohide', 'true');
           iconBar.setAttribute('collapsed', 'true');
         }
       }
@@ -671,10 +671,10 @@ class PwaBrowser {
     hookFunction(window, 'setToolbarVisibility', (toolbar, visible, persist) => {
       if (toolbar === iconBar && persist) {
         if (!visible) {
-          titleBar.setAttribute('autohide', 'true');
+          titleBar?.setAttribute('autohide', 'true');
           window.TabBarVisibility.update = function () {};
         } else  {
-          titleBar.removeAttribute('autohide');
+          titleBar?.removeAttribute('autohide');
         }
 
         shownByDefault = visible;
@@ -683,11 +683,11 @@ class PwaBrowser {
 
     // Show/hide main titlebar when menu bar is active/inactive
     document.addEventListener('DOMMenuBarActive', () => {
-      titleBar.removeAttribute('autohide');
+      titleBar?.removeAttribute('autohide');
     });
 
     document.addEventListener('DOMMenuBarInactive', () => {
-      titleBar.setAttribute('autohide', 'true');
+      titleBar?.setAttribute('autohide', 'true');
     });
   }
 
