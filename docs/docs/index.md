@@ -97,6 +97,14 @@ providing us a free hosting for our DEB and RPM packages!
 
 [![Private NPM repository and Maven, RPM, DEB, PyPi and RubyGems repository · packagecloud](https://assets-production.packagecloud.io/assets/packagecloud-logo-light-3c521566d5567fe0ce8435ef1f9485b0c3ad28a958af6f520d82ad3b232d2ff3.png){ loading=lazy width=500 }](https://packagecloud.io/)
 
+Thanks to [SignPath Foundation](https://signpath.org/) for providing us a free code
+signing certificate for Windows packages and [SignPath](https://about.signpath.io/)
+for providing the code signing infrastructure!
+{: style="padding-top:0.5rem;" }
+
+[![Free Code Signing for Open Source software · SignPath](https://signpath.org/assets/logo.svg){ loading=lazy width=500 }](https://signpath.org/)
+
+
 Thanks to all donors for providing financial support for the project!
 {: style="padding-top:0.5rem;padding-bottom:0.5rem;" }
 
