@@ -840,9 +840,20 @@ class PwaBrowser {
           && content.document.location.protocol !== 'https:'
         ) return;
 
-        // Obtain initial theme color
+        // Store if we found a valid meta tag
+        let appliedColor = false;
+
+        // Obtain the initial theme color
         for (const metaElement of content.document.querySelectorAll('meta[name=theme-color]')) {
-          if (handleMetaElement(metaElement)) break;
+          if (handleMetaElement(metaElement)) {
+            appliedColor = true;
+            break;
+          }
+        }
+
+        // Remove the color if there is no valid tag
+        if (!appliedColor) {
+          sendAsyncMessage('firefoxpwa:theme-color', { color: null });
         }
 
         // Watch for meta[name=theme-color] changes

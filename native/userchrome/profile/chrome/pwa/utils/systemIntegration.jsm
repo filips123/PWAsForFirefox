@@ -13,6 +13,9 @@ XPCOMUtils.defineLazyServiceGetter(this, 'ImgTools', '@mozilla.org/image/tools;1
 XPCOMUtils.defineLazyServiceGetter(this, 'WinUIUtils', '@mozilla.org/windows-ui-utils;1', Ci.nsIWindowsUIUtils);
 XPCOMUtils.defineLazyServiceGetter(this, 'WinTaskbar', '@mozilla.org/windows-taskbar;1', Ci.nsIWinTaskbar);
 
+const INTEGRATION_STATIC_STYLES = 'firefoxpwa-system-integration-styles'
+const INTEGRATION_DYNAMIC_STYLES = 'firefoxpwa-system-integration-styles-dynamic'
+
 /**
  * @param {Window} window
  * @param {String} elementId
@@ -39,7 +42,11 @@ function configureThemeColor (window, styles, colorR, colorG, colorB) {
   const textColor = (brightness > 125) ? 'black' : 'white';
 
   // Set toolbar color to fix wrong window controls on Linux
-  if (AppConstants.platform === 'linux' && window.document.documentElement.getAttribute('lwtheme') !== 'true') {
+  if (
+    AppConstants.platform === 'linux' &&
+    window.document.documentElement.getAttribute('lwtheme') !== 'true' &&
+    window.document.location.href.startsWith('chrome://browser/')
+  ) {
     if (brightness > 125) xPref.set('browser.theme.toolbar-theme', 1); // Light theme
     else xPref.set('browser.theme.toolbar-theme', 0); // Dark theme
   }
@@ -134,8 +141,7 @@ function setWindowColors (window, site) {
   // We need to remove alpha/transparency channel because windows cannot be transparent
   // Colors will always be in #rrggbb or #rrggbbaa because they are processed by a Rust library
 
-  const stylesElementId = 'firefoxpwa-system-integration-styles';
-  const styles = createOrGetStyles(window, stylesElementId);
+  const styles = createOrGetStyles(window, INTEGRATION_STATIC_STYLES);
 
   // Set the window background color
   if (xPref.get(window.ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR) && site.manifest.background_color) {
@@ -158,9 +164,13 @@ function setWindowColors (window, site) {
 
   // Set the theme (titlebar) background and text colors
   if (xPref.get(window.ChromeLoader.PREF_SITES_SET_THEME_COLOR) && site.manifest.theme_color) {
+    // Set the static theme color from the manifest
     const colorHex = site.manifest.theme_color.substring(0, 7);
     const colorRGB = colorHex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i).slice(1).map(c => parseInt(c, 16));
     configureThemeColor(window, styles, colorRGB[0], colorRGB[1], colorRGB[2]);
+
+    // Reset the dynamic theme color styles
+    createOrGetStyles(window, INTEGRATION_DYNAMIC_STYLES);
   }
 }
 
@@ -206,11 +216,20 @@ function applySystemIntegration (window, site) {
 /**
  * Apply dynamic theme color from the content's meta tag.
  *
+ * If the color is not specified, it will be reverted to the color from the manifest.
+ *
  * @param {ChromeWindow&Window} window - Window where integration should be applied
- * @param {{r: Number, g: Number, b: Number, a: Number}} color - Color that should be applied
+ * @param {{r: Number, g: Number, b: Number, a: Number} | null} color - Color that should be applied
  */
 function applyDynamicThemeColor (window, color) {
-  const stylesElementId = 'firefoxpwa-system-integration-styles-dynamic';
-  const styles = createOrGetStyles(window, stylesElementId);
-  configureThemeColor(window, styles, color.r, color.g, color.b);
+  // This will always reset the dynamic styles element
+  const styles = createOrGetStyles(window, INTEGRATION_DYNAMIC_STYLES);
+
+  if (color) {
+    // Set the dynamic theme color from the meta tag
+    configureThemeColor(window, styles, color.r, color.g, color.b);
+  } else if (window.gFFPWASiteConfig) {
+    // Reset to the default colors from the manifest
+    setWindowColors(window, window.gFFPWASiteConfig);
+  }
 }
