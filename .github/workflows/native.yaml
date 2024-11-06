@@ -488,7 +488,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: build-artifact-*
+          pattern: build-artifacts-*
           path: artifacts
           merge-multiple: true
 
@@ -523,7 +523,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: build-artifact-linux-*
+          pattern: build-artifacts-linux-*
           path: artifacts
           merge-multiple: true
 
@@ -737,7 +737,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: build-artifact-windows-msi-*
+          pattern: build-artifacts-windows-msi-*
           path: artifacts
           merge-multiple: true
 
