@@ -24,6 +24,9 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -51,6 +54,11 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      attestations: write
+      id-token: write
 
     steps:
       - name: Checkout repository
@@ -84,8 +92,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: firefoxpwa-extension-source
-          path: extension/dist/firefoxpwa-${{ env.VERSION }}-source.zip
+          path: extension/dist/firefoxpwa-*-source.zip
           compression-level: 0
+
+      - name: Attest the extension source
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: extension/dist/firefoxpwa-*-source.zip
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -104,6 +118,12 @@ jobs:
           name: firefoxpwa-extension-compiled
           path: extension/dist/firefoxpwa-*-compiled.zip
           compression-level: 0
+
+      - name: Attest the compiled extension
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: extension/dist/firefoxpwa-*-compiled.zip
 
   # Add auto-publishing to AMO once web-ext supports submitting extensions from ZIP files
   # This also includes uploading source code and AMO release notes

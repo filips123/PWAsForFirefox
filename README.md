@@ -69,6 +69,12 @@ Thanks to [packagecloud.io](https://packagecloud.io/) for sponsoring this projec
 
 &nbsp;
 
+Thanks to [SignPath Foundation](https://signpath.org/) for providing us a free code signing certificate for Windows packages and [SignPath](https://about.signpath.io/) for providing the code signing infrastructure!
+
+  [<img src="https://signpath.org/assets/logo.svg" alt="Free Code Signing for Open Source software · SignPath" width="500">](https://signpath.org/)
+
+&nbsp;
+
 Thanks to all donors for providing financial support for the project!</br>
 <sub>Please check [supported donation services](https://github.com/filips123/PWAsForFirefox?sponsor=1) if you want to help the project by donating.</sub>
 

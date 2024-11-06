@@ -560,6 +560,14 @@
     "message": "When the program is running, you should be automatically proceeded to the next step. If nothing changes after around 30 seconds, restart the browser.",
     "description": "The step 4 of the PortableApps.com installation option"
   },
+  "instructionsPageSignPathThanks": {
+    "message": "Thanks to <a href=\"https://signpath.org/\" target=\"_blank\">SignPath Foundation</a> for providing us a free code signing certificate for Windows packages and <a href=\"https://about.signpath.io/\" target=\"_blank\">SignPath</a> for providing the code signing infrastructure!",
+    "description": "A message that thanks SignPath for sponsoring the project"
+  },
+  "instructionsPageSignPathAlt": {
+    "message": "Free Code Signing for Open Source software · SignPath",
+    "description": "An alternative text for the SignPath logo"
+  },
   "instructionsPageInstallPackagecloudTitle": {
     "message": "To install the package from the packagecloud.io repository:",
     "description": "The title of the packagecloud.io installation option"

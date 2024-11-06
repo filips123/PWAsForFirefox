@@ -23,6 +23,9 @@ jobs:
     name: Clippy (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
 
+    permissions:
+      contents: read
+
     defaults:
       run:
         working-directory: native
@@ -49,7 +52,7 @@ jobs:
           toolchain: stable
           components: clippy
           cache: false
-          rustflags: ""
+          rustflags: ''
 
       - name: Configure cache
         uses: Swatinem/rust-cache@v2
@@ -66,6 +69,9 @@ jobs:
     name: Rustfmt
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+
     defaults:
       run:
         working-directory: native
@@ -81,7 +87,7 @@ jobs:
           toolchain: nightly
           components: rustfmt
           cache: false
-          rustflags: ""
+          rustflags: ''
 
       - name: Configure cache
         uses: Swatinem/rust-cache@v2
@@ -94,8 +100,14 @@ jobs:
         run: cargo fmt --all -- --check
 
   build:
-    name: Build (${{ matrix.target }})
+    name: Build (${{ matrix.target }}, ${{ matrix.portable && 'portable' || 'normal' }})
     runs-on: ${{ matrix.os }}
+
+    permissions:
+      actions: read
+      contents: read
+      attestations: write
+      id-token: write
 
     defaults:
       run:
@@ -131,6 +143,8 @@ jobs:
             portable: true
 
     steps:
+      # == Setting Environment
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -140,7 +154,7 @@ jobs:
           toolchain: stable
           target: ${{ matrix.target }}
           cache: false
-          rustflags: ""
+          rustflags: ''
 
       - name: Configure cache
         uses: Swatinem/rust-cache@v2
@@ -152,6 +166,8 @@ jobs:
           cache-all-crates: true
           key: ${{ matrix.target }}-${{ matrix.portable == true }}
 
+      # == Setting Dependencies
+
       - name: Install cross (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
@@ -162,7 +178,7 @@ jobs:
       - name: Install Cargo DEB (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
-          cargo install cargo-deb --git https://github.com/kornelski/cargo-deb.git --rev 423d53ed8f0559bc339013aa7e1a3f2fde493c0e
+          cargo install cargo-deb --git https://github.com/kornelski/cargo-deb.git --rev 7e66d7f6162cc1cc2349c2abfb6258bf43eb6aa5
 
       - name: Install Cargo RPM (Linux)
         if: matrix.os == 'ubuntu-latest'
@@ -179,14 +195,16 @@ jobs:
         if: matrix.os == 'windows-latest' && matrix.portable == true
         run: |
           mkdir $TEMP/PortableAppsLauncher && cd $TEMP/PortableAppsLauncher
-          curl "https://download2.portableapps.com/portableapps/PortableApps.comLauncher/PortableApps.comLauncher_2.2.9.paf.exe" -o PortableAppsLauncher.paf.exe
+          curl -L "https://github.com/filips123/PortableAppsTools/releases/download/PortableAppsLauncher/2.2.9/PortableAppsLauncher.paf.exe" -o PortableAppsLauncher.paf.exe
           7z x -y PortableAppsLauncher.paf.exe
           echo $TEMP/PortableAppsLauncher >> $GITHUB_PATH
 
           mkdir $TEMP/PortableAppsInstaller && cd $TEMP/PortableAppsInstaller
-          curl "https://download2.portableapps.com/portableapps/PortableApps.comInstaller/PortableApps.comInstaller_3.8.12.paf.exe" -o PortableAppsInstaller.paf.exe
+          curl -L "https://github.com/filips123/PortableAppsTools/releases/download/PortableAppsInstaller/3.8.12/PortableAppsInstaller.paf.exe" -o PortableAppsInstaller.paf.exe
           7z x -y PortableAppsInstaller.paf.exe
           echo $TEMP/PortableAppsInstaller >> $GITHUB_PATH
+
+      # == Building Project
 
       - name: Configure Linux builds
         if: matrix.os == 'ubuntu-latest'
@@ -214,13 +232,22 @@ jobs:
             printf '[target.armv7-unknown-linux-gnueabihf]\nstrip = { path = "arm-linux-gnueabihf-strip" }\nobjcopy = { path = "arm-linux-gnueabihf-objcopy" }\n' >> .cargo/config
           fi
 
+      - name: Determine the target architecture
+        id: target
+        env:
+          TARGET: ${{ matrix.target }}
+        run: echo "target=${TARGET%%-*}" >> $GITHUB_OUTPUT
+
       - name: Set the version
         run: |
           if [[ $GITHUB_REF == refs/tags/v* ]]
           then
             VERSION=${GITHUB_REF/refs\/tags\/v}
+            echo "VERSION=$VERSION" >> $GITHUB_ENV
             sed -i "s/version = \"0.0.0\"/version = \"$VERSION\"/g" Cargo.toml
             sed -i "s/DISTRIBUTION_VERSION = '0.0.0'/DISTRIBUTION_VERSION = '$VERSION'/g" userchrome/profile/chrome/pwa/chrome.jsm
+          else
+            echo "VERSION=0.0.0" >> $GITHUB_ENV
           fi
 
       - name: Build the project
@@ -228,10 +255,22 @@ jobs:
           [[ ${{ matrix.os }} == ubuntu-latest ]] && CARGO="cross" || CARGO="cargo"
           $CARGO build --release --target ${{ matrix.target }} ${{ matrix.flags }}
 
+      # == Packaging Shell Completions
+
       - name: Package shell completions
         if: matrix.target == 'x86_64-unknown-linux-gnu'
         run: |
           zip -rj target/completions.zip target/x86_64-unknown-linux-gnu/release/completions/*
+
+      - name: Upload shell completions
+        if: matrix.target == 'x86_64-unknown-linux-gnu'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-shell-completions
+          path: native/target/completions.zip
+          compression-level: 0
+
+      # == Packaging Linux DEB
 
       - name: Package DEB (Linux)
         if: matrix.os == 'ubuntu-latest'
@@ -239,18 +278,89 @@ jobs:
           cargo deb --verbose --no-build --target ${{ matrix.target }}
           mkdir -p target/debian/ && cp -r target/${{ matrix.target }}/debian/*.deb target/debian/
 
+      - name: Upload DEB (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-linux-deb-${{ steps.target.outputs.target }}
+          path: native/target/debian/*.deb
+          compression-level: 0
+
+      # == Packaging Linux RPM
+
       - name: Package RPM (Linux)
         if: matrix.os == 'ubuntu-latest'
         run: |
           cargo rpm build --verbose --no-cargo-build --target ${{ matrix.target }}
 
-      - name: Package MSI (Windows)
+      - name: Upload RPM (Linux)
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-linux-rpm-${{ steps.target.outputs.target }}
+          path: native/target/rpm/*.rpm
+          compression-level: 0
+
+      # == Packaging Windows MSI
+
+      - name: Upload unsigned executables (Windows, MSI)
+        id: unsigned-executables-normal
+        if: matrix.os == 'windows-latest' && matrix.portable != true && startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-executables-normal-${{ steps.target.outputs.target }}
+          path: native/target/${{ matrix.target }}/release/*.exe
+
+      - name: Sign executables with SignPath (Windows, MSI)
+        if: matrix.os == 'windows-latest' && matrix.portable != true && startsWith(github.ref, 'refs/tags/v')
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: ${{ secrets.SIGNPATH_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_POLICY_SLUG }}
+          github-artifact-id: ${{ steps.unsigned-executables-normal.outputs.artifact-id }}
+          artifact-configuration-slug: installer-contents
+          output-artifact-directory: native/target/${{ matrix.target }}/release
+
+      - name: Package MSI (Windows, MSI)
         if: matrix.os == 'windows-latest' && matrix.portable != true
         run: |
           heat dir userchrome -o packages/wix/userchrome.wxs -scom -srd -sreg -gg -cg UserChrome -dr UserChromeDir -var wix.UserChromeSource
           cargo wix --verbose --no-build --nocapture --target ${{ matrix.target }}
 
-      - name: Package PAF (Windows)
+      - name: Upload unsigned MSI (Windows, MSI)
+        id: artifact-unsigned-msi
+        if: matrix.os == 'windows-latest' && matrix.portable != true
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-artifacts-windows-msi-${{ steps.target.outputs.target }}
+          path: native/target/wix/*.msi
+          compression-level: 0
+
+      - name: Sign MSI with SignPath (Windows, MSI)
+        if: matrix.os == 'windows-latest' && matrix.portable != true && startsWith(github.ref, 'refs/tags/v')
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: ${{ secrets.SIGNPATH_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_POLICY_SLUG }}
+          github-artifact-id: ${{ steps.artifact-unsigned-msi.outputs.artifact-id }}
+          artifact-configuration-slug: installer
+          output-artifact-directory: signed/msi
+
+      - name: Upload signed MSI (Windows, MSI)
+        if: matrix.os == 'windows-latest' && matrix.portable != true && startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-windows-msi-${{ steps.target.outputs.target }}
+          path: signed/msi/*.msi
+          compression-level: 0
+
+      # == Packaging Windows PAF
+
+      - name: Prepare portable package (Windows, PAF)
         if: matrix.os == 'windows-latest' && matrix.portable == true
         run: |
           # Build helper executables
@@ -270,44 +380,104 @@ jobs:
 
           # Set the package version
           echo "::group::Setting the package versions"
-          if [[ $GITHUB_REF == refs/tags/v* ]]
+          if [[ $VERSION != 0.0.0 ]]
           then
-            VERSION=${GITHUB_REF/refs\/tags\/v}
             sed -i "s/PackageVersion=0.0.0.0/PackageVersion=$VERSION.0/g" packages/paf/PWAsForFirefoxPortable/App/AppInfo/appinfo.ini
             sed -i "s/DisplayVersion=0.0.0/DisplayVersion=$VERSION/g" packages/paf/PWAsForFirefoxPortable/App/AppInfo/appinfo.ini
-          else
-            VERSION=0.0.0
           fi
           echo "::endgroup::"
 
-          # Generate the launcher and installer
-          echo "::group::Generating the launcher and installer"
-          cd packages/paf
-          PortableApps.comLauncherGenerator.exe $(cygpath -d $(realpath PWAsForFirefoxPortable))
-          PortableApps.comInstaller.exe $(cygpath -d $(realpath PWAsForFirefoxPortable))
+          # Generate the launcher
+          echo "::group::Generating the launcher"
+          (cd packages/paf && PortableApps.comLauncherGenerator.exe $(cygpath -d $(realpath PWAsForFirefoxPortable)))
+          echo "::endgroup::"
+
+      - name: Upload unsigned contents (Windows, PAF)
+        id: unsigned-executables-portable
+        if: matrix.os == 'windows-latest' && matrix.portable == true && startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: unsigned-executables-portable-${{ steps.target.outputs.target }}
+          path: native/packages/paf/PWAsForFirefoxPortable
+
+      - name: Sign contents with SignPath (Windows, PAF)
+        if: matrix.os == 'windows-latest' && matrix.portable == true && startsWith(github.ref, 'refs/tags/v')
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: ${{ secrets.SIGNPATH_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_POLICY_SLUG }}
+          github-artifact-id: ${{ steps.unsigned-executables-portable.outputs.artifact-id }}
+          artifact-configuration-slug: portable-contents
+          output-artifact-directory: native/packages/paf/PWAsForFirefoxPortable
+
+      - name: Generate portable package (Windows, PAF)
+        if: matrix.os == 'windows-latest' && matrix.portable == true
+        run: |
+          # Generate the installer
+          echo "::group::Generating the launcher"
+          (cd packages/paf && PortableApps.comInstaller.exe $(cygpath -d $(realpath PWAsForFirefoxPortable)))
           echo "::endgroup::"
 
           # Rename the installer
           echo "::group::Renaming the installer"
-          mkdir -p ../../target/paf/
-          mv PWAsForFirefoxPortable_*.paf.exe ../../target/paf/firefoxpwa_${VERSION}_online.paf.exe
+          mkdir -p target/paf/
+          mv packages/paf/PWAsForFirefoxPortable_*.paf.exe target/paf/firefoxpwa_${VERSION}_online.paf.exe
           echo "::endgroup::"
 
-      - name: Upload artifacts
-        if: success() || failure()
-        uses: actions/upload-artifact@v3
+      - name: Upload unsigned PAF (Windows, PAF)
+        id: artifact-unsigned-paf
+        if: matrix.os == 'windows-latest' && matrix.portable == true
+        uses: actions/upload-artifact@v4
         with:
-          path: |
+          name: unsigned-artifacts-windows-paf-${{ steps.target.outputs.target }}
+          path: native/target/paf/*.paf.exe
+          compression-level: 0
+
+      - name: Sign PAF with SignPath (Windows, PAF)
+        if: matrix.os == 'windows-latest' && matrix.portable == true && startsWith(github.ref, 'refs/tags/v')
+        uses: signpath/github-action-submit-signing-request@v1
+        with:
+          api-token: ${{ secrets.SIGNPATH_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG }}
+          signing-policy-slug: ${{ vars.SIGNPATH_POLICY_SLUG }}
+          github-artifact-id: ${{ steps.artifact-unsigned-paf.outputs.artifact-id }}
+          artifact-configuration-slug: portable
+          output-artifact-directory: signed/paf
+
+      - name: Upload signed PAF (Windows, PAF)
+        if: matrix.os == 'windows-latest' && matrix.portable == true && startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts-windows-paf-${{ steps.target.outputs.target }}
+          path: signed/paf/*.paf.exe
+          compression-level: 0
+
+      # == BUILD PROVENANCE
+
+      - name: Attest artifacts
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: |
             native/target/completions.zip
             native/target/debian/*.deb
             native/target/rpm/*.rpm
             native/target/wix/*.msi
             native/target/paf/*.paf.exe
+            signed/msi/*.msi
+            signed/paf/*.paf.exe
 
   release-github:
     name: Release on GitHub
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+
+    permissions:
+      actions: read
+      contents: write
 
     needs:
       - clippy
@@ -316,18 +486,22 @@ jobs:
 
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
+        with:
+          pattern: build-artifact-*
+          path: artifacts
+          merge-multiple: true
 
       - name: Upload artifacts to GitHub Release
         uses: softprops/action-gh-release@c062e08bd532815e2082a85e87e3ef29c3e6d191
         with:
           fail_on_unmatched_files: true
           files: |
-            artifact/completions.zip
-            artifact/debian/*.deb
-            artifact/rpm/*.rpm
-            artifact/wix/*.msi
-            artifact/paf/*.paf.exe
+            artifacts/completions.zip
+            artifacts/*.deb
+            artifacts/*.rpm
+            artifacts/*.msi
+            artifacts/*.paf.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -336,6 +510,10 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
 
+    permissions:
+      actions: read
+      contents: read
+
     needs:
       - clippy
       - rustfmt
@@ -343,7 +521,11 @@ jobs:
 
     steps:
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
+        with:
+          pattern: build-artifact-linux-*
+          path: artifacts
+          merge-multiple: true
 
       - name: Install packagecloud.io CLI
         run: sudo gem install package_cloud
@@ -352,14 +534,17 @@ jobs:
         env:
           PACKAGECLOUD_TOKEN: ${{ secrets.PACKAGECLOUD_TOKEN }}
         run: |
-          package_cloud push filips/FirefoxPWA/any/any artifact/debian/*.deb
-          package_cloud push filips/FirefoxPWA/rpm_any/rpm_any artifact/rpm/*.rpm
+          package_cloud push filips/FirefoxPWA/any/any artifacts/*.deb
+          package_cloud push filips/FirefoxPWA/rpm_any/rpm_any artifacts/*.rpm
 
   release-aur:
     name: Release on Arch User Repository
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     container: archlinux
+
+    permissions:
+      contents: read
 
     needs:
       - release-github
@@ -400,8 +585,8 @@ jobs:
           pkgbuild: ./native/packages/aur/firefox-pwa/PKGBUILD
           assets: ./native/packages/aur/firefox-pwa/**
           commit_message: Update to ${{ env.VERSION }}
-          commit_username: ${{ secrets.AUR_USERNAME }}
-          commit_email: ${{ secrets.AUR_EMAIL }}
+          commit_username: ${{ vars.AUR_USERNAME }}
+          commit_email: ${{ vars.AUR_EMAIL }}
           ssh_private_key: ${{ secrets.AUR_PRIVATE_KEY }}
           ssh_keyscan_types: rsa,ecdsa,ed25519
 
@@ -412,8 +597,8 @@ jobs:
           pkgbuild: ./native/packages/aur/firefox-pwa-bin/PKGBUILD
           assets: ./native/packages/aur/firefox-pwa-bin/**
           commit_message: Update to ${{ env.VERSION }}
-          commit_username: ${{ secrets.AUR_USERNAME }}
-          commit_email: ${{ secrets.AUR_EMAIL }}
+          commit_username: ${{ vars.AUR_USERNAME }}
+          commit_email: ${{ vars.AUR_EMAIL }}
           ssh_private_key: ${{ secrets.AUR_PRIVATE_KEY }}
           ssh_keyscan_types: rsa,ecdsa,ed25519
 
@@ -422,6 +607,9 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     container: ghcr.io/filips123/gentoo-pycargoebuild
+
+    permissions:
+      contents: read
 
     needs:
       - release-github
@@ -452,8 +640,8 @@ jobs:
       - name: Prepare Git user
         working-directory: tmp/guru
         run: |
-          git config --local user.name "${{ secrets.GENTOO_USERNAME }}"
-          git config --local user.email "${{ secrets.GENTOO_EMAIL }}"
+          git config --local user.name "${{ vars.GENTOO_USERNAME }}"
+          git config --local user.email "${{ vars.GENTOO_EMAIL }}"
           git config --local user.signingkey "${{ secrets.GENTOO_KEY_ID }}"
 
       - name: Prepare Git settings
@@ -507,6 +695,9 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: windows-latest
 
+    permissions:
+      contents: read
+
     needs:
       - release-github
 
@@ -517,8 +708,8 @@ jobs:
 
       - name: Prepare Git user
         run: |
-          git config --global user.name "${{ secrets.GH_USERNAME }}"
-          git config --global user.email "${{ secrets.GH_EMAIL }}"
+          git config --global user.name "${{ vars.WINGET_USERNAME }}"
+          git config --global user.email "${{ vars.WINGET_EMAIL }}"
 
       - name: Update and release package manifest
         run: |
@@ -532,6 +723,10 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: windows-latest
 
+    permissions:
+      actions: read
+      contents: read
+
     needs:
       - release-github
 
@@ -540,12 +735,16 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
+        with:
+          pattern: build-artifact-windows-msi-*
+          path: artifacts
+          merge-multiple: true
 
       - name: Calculate version and installer checksums
         run: |
           echo "::group::Copying installers to the package"
-          cp -R artifact/wix/*.msi native/packages/choco/tools/
+          cp -R artifacts/*.msi native/packages/choco/tools/
           echo "::endgroup::"
 
           echo "::group::Setting the package version"
