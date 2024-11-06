@@ -3,23 +3,17 @@
 ## Example: https://pontoon.mozilla.org/sl/firefox/browser/browser/browserContext.ftl/?search=open-link&search_identifiers=true
 
 context-menu-image-view-current-tab =
-    .label = Odpri sliko
-    .accesskey = { main-context-menu-image-view-new-tab.accesskey }
-context-menu-image-view-new-tab =
-    .label = { main-context-menu-image-view-new-tab.label }
+    .label = 打开图像
     .accesskey = { main-context-menu-image-view-new-tab.accesskey }
 context-menu-image-view-new-window =
-    .label = Odpri sliko v novem oknu
+    .label = 在新窗口中打开图像
     .accesskey = { main-context-menu-image-view-new-tab.accesskey }
 context-menu-video-view-current-tab =
-    .label = Odpri videoposnetek
-    .accesskey = { main-context-menu-video-view-new-tab.accesskey }
-context-menu-video-view-new-tab =
-    .label = { main-context-menu-video-view-new-tab.label }
+    .label = 打开视频
     .accesskey = { main-context-menu-video-view-new-tab.accesskey }
 context-menu-video-view-new-window =
-    .label = Odpri videoposnetek v novem oknu
+    .label = 在新窗口中打开视频
     .accesskey = { main-context-menu-video-view-new-tab.accesskey }
 context-menu-open-link-default-browser =
-    .label = Odpri povezavo v privzetem brskalniku
+    .label = 在默认浏览器中打开链接
     .accesskey = D
