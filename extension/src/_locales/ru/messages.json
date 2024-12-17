@@ -32,7 +32,7 @@
       "description": "The title of the update notification, displayed when an update is available"
     },
     "updateNotificationMessage": {
-      "message": "Доступно обновления для PWAsForFirefox. Пожалуйста, нажмите на уведомление, чтобы увидеть инструкцию по обновлению.",
+      "message": "Доступно обновления для PWAsForFirefox. Пожалуйста, нажмите на уведомление, чтобы увидеть инструкцию по усановке обновления.",
       "description": "The message of the update notification, displayed when an update is available"
     },
   
@@ -106,11 +106,11 @@
       "description": "The keywords property of a web app"
     },
     "webAppStartURL": {
-      "message": "URL страницы",
+      "message": "URL-адрес страницы",
       "description": "The start URL property of a web app"
     },
     "webAppIconURL": {
-      "message": "URL иконки",
+      "message": "URL-адрес иконки",
       "description": "The icon URL property of a web app"
     },
     "webAppID": {
@@ -156,15 +156,15 @@
       "description": "A validation error when the web app name is reused"
     },
     "webAppValidationStartURLInvalid": {
-      "message": "URL страницы должен быть правильным URL",
+      "message": "URL-адрес страницы должен быть правильным",
       "description": "A validation error when the web app start URL is invalid"
     },
     "webAppValidationStartURLScope": {
-      "message": "URL страницы должен быть within the scope:",
+      "message": "URL-адрес страницы должен быть within the scope:",
       "description": "A validation warning when the web app start URL is out-of-scope, with the scope displayed after the colon"
     },
     "webAppValidationIconURLInvalid": {
-      "message": "URL иконки должен быть правильным URL",
+      "message": "URL-адрес иконки должен быть правильным",
       "description": "A validation error when the web app icon URL is invalid"
     },
     "webAppValidationProfileLimit": {
@@ -231,15 +231,15 @@
       "description": "The downloaded third-party assets and code notice on the setup page"
     },
     "setupPageLicense7ZipDownloaded": {
-      "message": "Установка Runtime на Windows скачает <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>, если он не установлен. Проект 7-Zip создан Игорем Павловым и находится под лицензией <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">GNU LGPL license</a>. Этот проект ни коим образом не связан с 7-Zip или его разработчиками.",
+      "message": "Установка Runtime на Windows скачает <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>, если он уже не установлен. Проект 7-Zip создан Игорем Павловым и находится под лицензией <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">GNU LGPL license</a>. Наш проект ни коим образом не связан с 7-Zip или его разработчиками.",
       "description": "The notice for downloaded 7-Zip on the setup page"
     },
     "setupPageLicenseFirefoxDownloaded": {
-      "message": "Установка Runtime на любые системы скачает оригинальный браузер <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> и модифицирует его. Пользуясь этим проектом вы также соглашаетесь с <a href=\"https://www.mozilla.org/privacy/firefox/\">Условиями пользования Firefox</a>. Firefox находится под лицензией Mozilla Public License 2.0. Firefox и логотип Firefox являются торговыми марками Mozilla Foundation в США и друих странах. Этот проект ни коим образом не связан с Mozilla Foundation.",
+      "message": "Установка Runtime на любые системы скачает оригинальный браузер <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> и модифицирует его. Пользуясь этим проектом, вы также соглашаетесь с <a href=\"https://www.mozilla.org/privacy/firefox/\">Условиями пользования Firefox</a>. Firefox находится под лицензией Mozilla Public License 2.0. Firefox и логотип Firefox являются торговыми марками Mozilla Foundation в США и друих странах. Наш проект ни коим образом не связан с Mozilla Foundation.",
       "description": "The notice for downloaded Firefox on the setup page"
     },
     "setupPageLicensePrivacyPolicy": {
-      "message": "Это расширение передаёт персональные данные (текущий сайт и манифесты URLs, как и другие данные PWA) с приложением, где пользователь осуществляет установку PWA. Это обязательно для правильного получения и разбора манифеста веб-приложения и установки PWA. Данные хранятся на компьютере, пока PWA установлен. Никакие персональные данные не покидают компьютер и не передаются третьим лицам.",
+      "message": "Это расширение передаёт персональные данные (текущий сайт и манифесты URL-адресов, как и другие данные PWA) с приложением, где пользователь осуществляет установку PWA. Это обязательно для правильного получения и разбора манифеста веб-приложения и установки PWA. Данные хранятся на компьютере, пока PWA установлен. Никакие персональные данные не покидают компьютер и не передаются третьим лицам.",
       "description": "The privacy policy notice on the setup page"
     },
     "setupPageLicenseLinks": {
@@ -251,7 +251,7 @@
       "description": "The required consent and uninstallation notice on the setup page"
     },
     "setupPageLicenseUninstallation": {
-      "message": "Вы не сможете воспользоваться расширением, если не примите приведённые правила. Расширение будет удалено. Вы можете переустановить его позже, если поменяете своё мнение.",
+      "message": "Вы не сможете воспользоваться расширением, если не примите приведённые правила. Расширение будет удалено. Вы можете переустановить его позже, если поменяете своё решение.",
       "description": "The dialog displayed when the user declines the license agreement"
     },
     "setupPageLicenseDecline": {
@@ -279,7 +279,7 @@
       "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is not supported"
     },
     "setupPageRuntimeInstallation7Zip": {
-      "message": "Чтобы установить Runtime, нужен установленный <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>. Установшик Runtime начнёт автоматчески устанавливать 7-Zip, если он не установлен. Может потребоваться разрешение Контроля учётных записей. Вы также можете смамостоятельно установить 7-Zip или использовать уже установленный. После установки Runtime можете удалить 7-Zip.",
+      "message": "Чтобы установить Runtime, нужен установленный <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>. Установшик Runtime начнёт автоматчески устанавливать 7-Zip, если он уже не установлен. Может потребоваться разрешение Контроля учётных записей. Вы также можете смамостоятельно установить 7-Zip или использовать уже установленный. После установки Runtime можете удалить 7-Zip.",
       "description": "The runtime installation notice on the setup page, displayed when 7-Zip needs to be installed"
     },
     "setupPageRuntimeInstallationAfter": {
@@ -327,7 +327,7 @@
       "description": "Instructions for using alternative browser for runtime, step 2"
     },
     "setupPageAdvancedOptionsAlternativeBrowserStep3": {
-      "message": "Внутри это директории создайте symlink на основной файл браузера (например, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) как <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.",
+      "message": "Внутри этой директории создайте symlink на основной файл браузера (например, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) как <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.",
       "description": "Instructions for using alternative browser for runtime, step 3"
     },
     "setupPageAdvancedOptionsOverlayTitle": {
@@ -354,15 +354,15 @@
       "description": "The title of the update page"
     },
     "updatePageNativeOutdated": {
-      "message": "Connector устарело.",
+      "message": "Connector устарел.",
       "description": "Displayed on the update page when the native connector is outdated"
     },
     "updatePageNativeCompatible": {
-      "message": "Оно совместимо с текущей версией расширения, но настоятельно рекомендуется обновиться, чтобы получить последние функции и исправления.",
+      "message": "Он совместим с текущей версией расширения, но настоятельно рекомендуется обновиться, чтобы получить последние функции и исправления.",
       "description": "Displayed on the update page when the native connector is compatible"
     },
     "updatePageNativeIncompatible": {
-      "message": "Оно <strong>не</strong> совместимо с текущей версией расширения, так что вы не можете использовать расширение, пока не обновите его.",
+      "message": "Он <strong>не</strong> совместим с текущей версией расширения, так что вы не можете использовать расширение, пока не обновите его.",
       "description": "Displayed on the update page when the native connector is incompatible"
     },
     "updatePageNativeInstructions": {
@@ -390,7 +390,7 @@
       "description": "Displayed on the update page when both the extension and the native connector are updated to the same version"
     },
     "updatePageReleaseNotes": {
-      "message": "Вы можете прочитать <a href=\"https://github.com/filips123/PWAsForFirefox/releases\" target=\"_blank\">примечания к выпуску</a>, чтобы узнать о новыхфункциях, исправлениях и других изменениях.",
+      "message": "Вы можете прочитать <a href=\"https://github.com/filips123/PWAsForFirefox/releases\" target=\"_blank\">примечания к выпуску</a>, чтобы узнать о новых функциях, исправлениях и других изменениях.",
       "description": "Displayed on the update page to link the release notes"
     },
     "updatePageReleaseNotesIncompatible": {
@@ -577,7 +577,7 @@
       "description": "The step 1 of the packagecloud.io installation option"
     },
     "instructionsPagePackagecloudThanks": {
-      "message": "Спасибо packagecloud.io за спонсорстсво проекта и предоставления бесплатного хостинга для наших DEB- и RPM-пакетов!",
+      "message": "Спасибо packagecloud.io за спонсорстсво проекта и предоставление бесплатного хостинга для наших DEB- и RPM-пакетов!",
       "description": "A message that thanks packagecloud.io for sponsoring the project"
     },
     "instructionsPagePackagecloudAlt": {
@@ -712,7 +712,7 @@
       "description": "The label for the use manifest checkbox on the web app installation page"
     },
     "installPageUseManifestTooltip": {
-      "message": "Отклчите, только если вы не можете установить это веб-приложение с включённым манифестом",
+      "message": "Отключите, только если вы не можете установить это веб-приложение с включённым манифестом",
       "description": "The tooltip for the use manifest checkbox on the web app installation page"
     },
     "installPageLaunchNowLabel": {
@@ -732,7 +732,7 @@
       "description": "A message that extends the content script error with more details when a development build is used"
     },
     "installPageContentScriptErrorRestricted": {
-      "message": "Некоторые <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts\" target=\"_blank\">сайты Mozilla</a> ограничены для расширений. Это функция безопасности Firefox, котора не может быть отключена. Ограниченные сайты не могут быть установлены как веб-приложения.",
+      "message": "Некоторые <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts\" target=\"_blank\">сайты Mozilla</a> ограничены для расширений. Это функция безопасности Firefox, которая не может быть отключена. Ограниченные сайты не могут быть установлены как веб-приложения.",
       "description": "A message that extends the content script error with more details when used on restricted domains"
     },
   
@@ -821,7 +821,7 @@
     },
   
     "managePageSettingsDisplayPageAction": {
-      "message": "Отображать строку адреса",
+      "message": "Отображать адресную строку",
       "description": "The setting for displaying page action (address bar widget)"
     },
     "managePageSettingsDisplayPageActionValid": {
@@ -837,7 +837,7 @@
       "description": "The option to never display page action"
     },
     "managePageSettingsLaunchCurrentURL": {
-      "message": "Запускать веб-приложения на активных URLs",
+      "message": "Запускать веб-приложения в активных URL-адресах",
       "description": "The setting for launching web apps on active URLs"
     },
     "managePageSettingsShowUpdatePopup": {
@@ -853,7 +853,7 @@
       "description": "The setting for configuring patching"
     },
     "managePageSettingsEnableWayland": {
-      "message": "Испольовать Wayland Display Server",
+      "message": "Использовать Wayland Display Server",
       "description": "The setting for enabling Wayland (Linux-only)"
     },
     "managePageSettingsEnableXInput2": {
@@ -881,7 +881,7 @@
       "description": "The setting for auto launch exclusion"
     },
     "managePageSettingsAutoLaunchExclusionPlaceholder": {
-      "message": "Введите regex исключённых URLs",
+      "message": "Введите regex исключённых URL-адресов",
       "description": "The placeholder for auto launch exclusion"
     },
     "managePageSettingsLanguage": {
@@ -999,7 +999,7 @@
       "description": "The title of the automatic launching dialog"
     },
     "managePageAutoLaunchAboutMain": {
-      "message": "Включение <em>автоматического запуска веб-приложений</em> будет автоматически запускать все URLs, которые попадают в список включённых веб-приложений, как веб-приложения.",
+      "message": "Включение <em>автоматического запуска веб-приложений</em> будет автоматически запускать все URL-адреса, которые попадают в список включённых веб-приложений, как веб-приложения.",
       "description": "The main clarification about the automatic launching"
     },
     "managePageAutoLaunchAboutExperimental": {
@@ -1013,7 +1013,7 @@
       }
     },
     "managePageAutoLaunchAboutPermissions": {
-      "message": "Для работы требуются дополнительные разрешения браузера. Они будут автоматически запрошены после включения, если они ещё не даны.",
+      "message": "Для работы требуются дополнительные разрешения браузера. Они будут автоматически запрошены после включения, если они ещё не предоставлены.",
       "description": "The permissions clarification about the automatic launching"
     },
     "managePageAutoLaunchEnable": {
