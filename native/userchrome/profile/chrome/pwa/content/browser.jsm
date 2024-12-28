@@ -50,6 +50,7 @@ class PwaBrowser {
     setTimeout(() => { this.renameOpenImageAction() });
     setTimeout(() => { this.disableNewTabShortcuts() });
     this.renameHomepageWidget();
+    this.handleKioskMode();
   }
 
   loadLocalizationSources () {
@@ -86,16 +87,16 @@ class PwaBrowser {
     const siteIcon = siteIcons.find(icon => icon.size >= 32) || siteIcons[siteIcons.length - 1];
     if (siteIcon) tabIconImage.setAttribute('src', siteIcon.icon.src);
 
-    const siteName = sanitizeString(window.gFFPWASiteConfig?.config.name || window.gFFPWASiteConfig?.manifest.name || window.gFFPWASiteConfig?.manifest.short_name) || new URL(site.manifest.scope).host;
+    const siteScope = window.gFFPWASiteConfig?.manifest.scope ? new URL(window.gFFPWASiteConfig.manifest.scope).host : null;
+    const siteName = sanitizeString(window.gFFPWASiteConfig?.config.name || window.gFFPWASiteConfig?.manifest.name || window.gFFPWASiteConfig?.manifest.short_name) || siteScope;
     tabLabel.replaceChildren(siteName);
     document.title = siteName;
 
     // Sync current tab favicon and title with custom info elements
     // This can be disabled by user using our preferences
     const docDS = document.documentElement.dataset;
-    docDS['contentTitleDefault'] = docDS['contentTitlePrivate'] = 'CONTENTTITLE'
-    docDS['titleDefault'] = docDS['titlePrivate'] = siteName
-
+    docDS['contentTitleDefault'] = docDS['contentTitlePrivate'] = 'CONTENTTITLE';
+    docDS['titleDefault'] = docDS['titlePrivate'] = siteName;
     setTimeout(() => {
       window.gBrowser.updateTitlebar = function () {
         const dynamicTitle = xPref.get(ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE);
@@ -900,6 +901,15 @@ class PwaBrowser {
       try {
         document.l10n.setAttributes(document.getElementById('home-button'), 'toolbar-button-home-ffpwa');
       } catch (_) {}
+    });
+  }
+
+  handleKioskMode () {
+    window.addEventListener('MozAfterPaint', () => {
+      if (window.BrowserHandler.kiosk && window.toolbar.visible) {
+        // Enable fullscreen when kiosk mode is enabled for non-popup windows
+        window.fullScreen = true;
+      }
     });
   }
 
