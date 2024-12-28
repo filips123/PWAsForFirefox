@@ -36,7 +36,7 @@ class PwaBrowser {
     this.moveMenuButtons();
     this.switchPopupSides();
     this.makeUrlBarReadOnly();
-    this.setDisplayModeStandalone();
+    setTimeout(() => { this.setDisplayModeStandalone() });
     this.handleRegisteringProtocols();
     this.handleOutOfScopeNavigation();
     this.handleOpeningNewWindow();
@@ -96,10 +96,12 @@ class PwaBrowser {
     docDS['contentTitleDefault'] = docDS['contentTitlePrivate'] = 'CONTENTTITLE'
     docDS['titleDefault'] = docDS['titlePrivate'] = siteName
 
-    window.gBrowser.updateTitlebar = function () {
-      const dynamicTitle = xPref.get(ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE);
-      if (dynamicTitle) document.title = this.getWindowTitleForBrowser(this.selectedBrowser);
-    };
+    setTimeout(() => {
+      window.gBrowser.updateTitlebar = function () {
+        const dynamicTitle = xPref.get(ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE);
+        if (dynamicTitle) document.title = this.getWindowTitleForBrowser(this.selectedBrowser);
+      };
+    });
 
     function updateNameAndIcon (source) {
       const dynamicIcon = xPref.get(ChromeLoader.PREF_DYNAMIC_WINDOW_ICON);
@@ -1801,9 +1803,10 @@ class PwaBrowser {
 
   configureAll () {
     this.configureLayout();
-    this.configureWidgets();
     this.configureSettings();
     this.disableOnboarding();
+
+    setTimeout(() => { this.configureWidgets() });
   }
 
   configureLayout () {
