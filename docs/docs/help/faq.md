@@ -396,6 +396,34 @@ can make this easier.
     and the ability to run arbitrary programs. Please be very cautious when adding third-party
     scripts and make sure you trust the code.
 
+### How to uninstall this project?
+
+To completely uninstall the project, you can follow the steps below. This will remove
+all installed web apps, including their data, and other settings. You will not be able
+to reverse this process, so make sure to back up any important data.
+
+1. Uninstall all installed web apps using the extension or [the command-line program](../user-guide/console.md#uninstalling-a-web-app).
+2. Remove all web app profiles using the extension or [the command-line program](../user-guide/console.md#removing-a-profile).
+3. Uninstall the PWAsForFirefox extension from the browser.
+4. Uninstall the PWAsForFirefox native program from the system.
+5. Remove [the user data directory](../resources/installation-directories.md#user-data).
+
+To uninstall the native program, you should follow the instructions of the package manager
+you used to install it.
+
+??? "Windows"
+
+    You can uninstall the native program using the Windows Settings or Control Panel.
+
+??? "Linux"
+
+    You can uninstall the native program using the package manager you used to install it.
+    You can remove the custom repository and the key by deleting their files from the system.
+
+??? "macOS"
+
+    You can uninstall the native program using Homebrew by running `brew uninstall firefoxpwa`.
+
 ## Usage
 
 ### How to install addons to the app browser?
