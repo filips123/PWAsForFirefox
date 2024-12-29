@@ -18,5 +18,25 @@
   "actionLaunchSite": {
     "message": "Запустити цей сайт",
     "description": "Instruct users that they can launch the current site here"
+  },
+  "updateNotificationTitle": {
+    "message": "Оновлення PWAsForFirefox",
+    "description": "The title of the update notification, displayed when an update is available"
+  },
+  "updateNotificationMessage": {
+    "message": "Доступне PWAsForFirefox. Натисніть на сповіщення, щоб показати інструкції оновлення.",
+    "description": "The message of the update notification, displayed when an update is available"
+  },
+  "commonError": {
+    "message": "Помилка",
+    "description": "Displayed before error messages or as a popup title"
+  },
+  "commonWarning": {
+    "message": "Попередження",
+    "description": "Displayed before warning messages or as a popup title"
+  },
+  "commonNote": {
+    "message": "Примітка",
+    "description": "Displayed before note messages or as a popup title"
   }
 }
