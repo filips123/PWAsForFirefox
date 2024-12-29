@@ -119,18 +119,18 @@ impl ProjectDirs {
             // On Windows, executables and system data are in the same directory
             // We can just obtain it once, store it, and re-use it for both directories
             if #[cfg(all(platform_windows, not(feature = "portable")))] {
-                use winreg::{enums::HKEY_LOCAL_MACHINE, enums::HKEY_CURRENT_USER, RegKey};
+                use windows_registry::{Key, CURRENT_USER, LOCAL_MACHINE};
 
-                let path = |root: RegKey| -> Result<PathBuf> {
-                    let subkey = root.open_subkey(r"Software\filips\FirefoxPWA").context("Failed to open registry key")?;
-                    let path: String = subkey.get_value("Path").context("Failed to read registry key")?;
+                let path = |root: &Key| -> Result<PathBuf> {
+                    let key = root.open(r"Software\filips\FirefoxPWA").context("Failed to open registry key")?;
+                    let path = key.get_string("Path").context("Failed to read registry key")?;
                     Ok(PathBuf::from(path))
                 };
 
                 // We try to use per-user install if it exists, otherwise per-machine install
                 // If both keys are absent, something is wrong with the installation
-                let install = path(RegKey::predef(HKEY_CURRENT_USER))
-                    .or_else(|_| path(RegKey::predef(HKEY_LOCAL_MACHINE)))
+                let install = path(CURRENT_USER)
+                    .or_else(|_| path(LOCAL_MACHINE))
                     .context("Failed to obtain path from registry")?;
             }
         }
