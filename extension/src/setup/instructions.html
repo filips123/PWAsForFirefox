@@ -14,7 +14,7 @@
         <button class="nav-link" id="windows-install-tab" data-bs-toggle="tab" data-bs-target="#windows-install-pane" type="button" role="tab" aria-controls="windows-install-pane" aria-selected="false" data-i18n="instructionsPageTabWindows"></button>
         <button class="nav-link" id="linux-deb-install-tab" data-bs-toggle="tab" data-bs-target="#linux-deb-install-pane" type="button" role="tab" aria-controls="linux-deb-install-pane" aria-selected="false" data-i18n="instructionsPageTabDebian"></button>
         <button class="nav-link" id="linux-rpm-install-tab" data-bs-toggle="tab" data-bs-target="#linux-rpm-install-pane" type="button" role="tab" aria-controls="linux-rpm-install-pane" aria-selected="false" data-i18n="instructionsPageTabRedHat"></button>
-        <button class="nav-link" id="linux-aur-install-tab" data-bs-toggle="tab" data-bs-target="#linux-aur-install-pane" type="button" role="tab" aria-controls="linux-aur-install-pane" aria-selected="false" data-i18n="instructionsPageTabArch"></button>
+        <button class="nav-link" id="linux-arch-install-tab" data-bs-toggle="tab" data-bs-target="#linux-arch-install-pane" type="button" role="tab" aria-controls="linux-arch-install-pane" aria-selected="false" data-i18n="instructionsPageTabArch"></button>
         <button class="nav-link" id="linux-gentoo-install-tab" data-bs-toggle="tab" data-bs-target="#linux-gentoo-install-pane" type="button" role="tab" aria-controls="linux-gentoo-install-pane" aria-selected="false" data-i18n="instructionsPageTabGentoo"></button>
         <button class="nav-link" id="linux-nixos-install-tab" data-bs-toggle="tab" data-bs-target="#linux-nixos-install-pane" type="button" role="tab" aria-controls="linux-nixos-install-pane" aria-selected="false" data-i18n="instructionsPageTabNixOS"></button>
         <button class="nav-link" id="macos-install-tab" data-bs-toggle="tab" data-bs-target="#macos-install-pane" type="button" role="tab" aria-controls="macos-install-pane" aria-selected="false" data-i18n="instructionsPageTabMacOS"></button>
@@ -126,15 +126,9 @@
           </div>
         </div>
 
-        <div class="tab-pane fade" id="linux-aur-install-pane" role="tabpanel" aria-labelledby="linux-rpm-install-tab">
+        <div class="tab-pane fade" id="linux-arch-install-pane" role="tabpanel" aria-labelledby="linux-rpm-install-tab">
           <ol>
-            <li>
-              <span data-i18n="instructionsPageLinuxAurInstallStep1"></span>
-              <ul>
-                <li><a href="https://aur.archlinux.org/packages/firefox-pwa/" target="_blank"><kbd>firefox-pwa</kbd></a> (<span data-i18n="instructionsPageLinuxAurInstallSource"></span>)</li>
-                <li><a href="https://aur.archlinux.org/packages/firefox-pwa-bin/" target="_blank"><kbd>firefox-pwa-bin</kbd></a> (<span data-i18n="instructionsPageLinuxAurInstallPreBuilt"></span>)</li>
-              </ul>
-            </li>
+            <li><span data-i18n="instructionsPageLinuxArchInstallStep1"></span> <kbd>sudo pacman -S firefoxpwa</kbd></li>
             <li data-i18n="instructionsPageAfterPackageInstalled"></li>
           </ol>
         </div>

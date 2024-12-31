@@ -5,7 +5,9 @@
 * Windows (pre-built MSI installer)
 * Debian-like Linux (pre-built DEB package)
 * Red Hat-like Linux (pre-built RPM package)
-* Arch-like Linux (source and binary AUR packages)
+* Arch-like Linux (package in `[extra]` repository)
+* Gentoo-like Linux (ebuild in GURU overlay)
+* NixOS Linux (nixpkgs package)
 * Other Linux (source installation only)
 * macOS (bottled Homebrew formula)
 * BSD (source installation only)[^4]

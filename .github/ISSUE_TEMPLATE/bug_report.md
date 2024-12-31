@@ -46,7 +46,7 @@ labels: bug
 * Operating system:
 * System architecture:
 * Desktop environment: <!-- If on Linux -->
-* Installation method: <!-- MSI/DEB/RPM/AUR/source... -->
+* Installation method: <!-- MSI/DEB/RPM/Arch/Gentoo/source/... -->
 * PWAsForFirefox extension version:
 * PWAsForFirefox native version:
 * PWAsForFirefox runtime version:

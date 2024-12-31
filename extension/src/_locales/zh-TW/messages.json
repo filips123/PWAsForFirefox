@@ -216,8 +216,8 @@
     "description": "The Red Hat (RPM) tab on the instructions page"
   },
   "instructionsPageTabArch": {
-    "message": "Arch系Linux（AUR）",
-    "description": "The Arch (AUR) tab on the instructions page"
+    "message": "Arch系Linux",
+    "description": "The Arch tab on the instructions page"
   },
   "instructionsPageTabGentoo": {
     "message": "Gentoo系Linux",

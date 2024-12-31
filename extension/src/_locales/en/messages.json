@@ -417,8 +417,8 @@
     "description": "The Red Hat (RPM) tab on the instructions page"
   },
   "instructionsPageTabArch": {
-    "message": "Arch-like Linux (AUR)",
-    "description": "The Arch (AUR) tab on the instructions page"
+    "message": "Arch-like Linux",
+    "description": "The Arch tab on the instructions page"
   },
   "instructionsPageTabGentoo": {
     "message": "Gentoo-like Linux",
@@ -584,17 +584,9 @@
     "message": "Private NPM registry and Maven, RPM, DEB, PyPi and RubyGem Repository · packagecloud",
     "description": "An alternative text for the packagecloud.io logo"
   },
-  "instructionsPageLinuxAurInstallStep1": {
-    "message": "Download and install one of PWAsForFirefox AUR packages:",
-    "description": "The step 1 of the Linux AUR installation option"
-  },
-  "instructionsPageLinuxAurInstallSource": {
-    "message": "source",
-    "description": "The source AUR package"
-  },
-  "instructionsPageLinuxAurInstallPreBuilt": {
-    "message": "pre-built",
-    "description": "The pre-built AUR package"
+  "instructionsPageLinuxArchInstallStep1": {
+    "message": "Install the package using pacman:",
+    "description": "The step 1 of the Arch Linux installation option"
   },
   "instructionsPageLinuxGentooInstallStep1": {
     "message": "Enable Gentoo GURU overlay using eselect:",
@@ -625,7 +617,7 @@
     "description": "The step 3 of the NixOS installation option"
   },
   "instructionsPageLinuxNixOSInstallNotice": {
-    "message": "The package currently needs to be installed from nixos/nixpkgs unstable channel.",
+    "message": "It is recommended to install the package from the nixos/nixpkgs unstable channel.",
     "description": "The unstable channel notice for the NixOS installation option"
   },
   "instructionsPageMacOSInstallStep1": {

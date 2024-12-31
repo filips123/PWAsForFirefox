@@ -80,7 +80,7 @@ more beneficial to be translated.
 <details>
   <summary>Expand localization status</summary>
 
-[![Localization status](https://badges.awesome-crowdin.com/translation-13220281-466834.png)](https://crowdin.com/project/firefoxpwa)
+  [![Localization Status](https://badges.awesome-crowdin.com/translation-13220281-466834.png)](https://crowdin.com/project/firefoxpwa)
 </details>
 
 ### Extension Translations
