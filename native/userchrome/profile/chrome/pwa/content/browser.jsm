@@ -349,6 +349,7 @@ class PwaBrowser {
 
     hookFunction(window.gBrowser, 'init', null, hookCurrentBrowser);
     hookFunction(window.gBrowser, 'updateCurrentBrowser', null, hookCurrentBrowser);
+    hookCurrentBrowser();
   }
 
   handleRegisteringProtocols () {
