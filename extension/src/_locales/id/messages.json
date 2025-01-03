@@ -270,13 +270,5 @@
   "instructionsPageInstallNpackdStep2": {
     "message": "Instal paketnya menggunakan ncl:",
     "description": "The step 2 of the Npackd installation option"
-  },
-  "instructionsPageLinuxAurInstallSource": {
-    "message": "sumber",
-    "description": "The source AUR package"
-  },
-  "instructionsPageLinuxAurInstallPreBuilt": {
-    "message": "pra-muat",
-    "description": "The pre-built AUR package"
   }
 }
