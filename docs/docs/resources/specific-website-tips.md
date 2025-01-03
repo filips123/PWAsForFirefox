@@ -23,6 +23,7 @@ to change something in this list, please create a new issue or PR.
 | Microsoft, Outlook     | `login.live.com,login.microsoftonline.com` |
 | Proton                 | `account.proton.me`                        |
 | Spotify                | `accounts.spotify.com`                     |
+| Notion                 | `www.notion.com`                           |
 
 ## Websites With Invalid Manifests
 
