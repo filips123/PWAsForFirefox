@@ -177,6 +177,6 @@ impl _7Zip {
             None => bail!("7-Zip is currently not installed"),
         };
 
-        Ok(Command::new(executable).args(args).spawn()?.wait()?)
+        Ok(Command::new(executable).args(args).status()?)
     }
 }
