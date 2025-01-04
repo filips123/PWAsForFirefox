@@ -37,7 +37,8 @@
       visibility: visible;
     }
 
-    :root[tabsintitlebar][sizemode="normal"]:not([gtktiledwindow="true"]) body {
+    :root[tabsintitlebar][sizemode="normal"]:not([gtktiledwindow="true"]) body,
+    :root[customtitlebar][sizemode="normal"]:not([gtktiledwindow="true"]) body {
       border-top-left-radius: env(-moz-gtk-csd-titlebar-radius);
       border-top-right-radius: env(-moz-gtk-csd-titlebar-radius);
     }
@@ -138,7 +139,7 @@
 
   #star-button-box,
   #tracking-protection-icon-container,
-  html:not([tabsintitlebar]) .site-info > * {
+  html:not([tabsintitlebar]):not([customtitlebar]) .site-info > * {
     display: none;
   }
 
