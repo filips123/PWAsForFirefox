@@ -22,8 +22,7 @@ use windows::Win32::UI::Shell::{
     SEE_MASK_NOCLOSEPROCESS,
     SHELLEXECUTEINFOW,
 };
-use winreg::enums::HKEY_LOCAL_MACHINE;
-use winreg::RegKey;
+use windows_registry::LOCAL_MACHINE;
 
 #[inline]
 const fn get_download_url() -> &'static str {
@@ -31,7 +30,7 @@ const fn get_download_url() -> &'static str {
     use const_format::formatcp;
 
     #[allow(dead_code)]
-    const VERSION: &str = "2301";
+    const VERSION: &str = "2409";
 
     cfg_if! {
         if #[cfg(target_arch = "x86")] {
@@ -95,16 +94,15 @@ impl _7Zip {
     }
 
     fn new_from_registry() -> Result<Self> {
-        let hklm = RegKey::predef(HKEY_LOCAL_MACHINE);
-        let subkey = hklm.open_subkey(r"Software\Microsoft\Windows\CurrentVersion\Uninstall\7-Zip");
+        let key = LOCAL_MACHINE.open(r"Software\Microsoft\Windows\CurrentVersion\Uninstall\7-Zip");
 
         let version;
         let executable;
 
-        match subkey {
-            Ok(subkey) => {
-                let display_version: String = subkey.get_value("DisplayVersion")?;
-                let install_location: String = subkey.get_value("InstallLocation")?;
+        match key {
+            Ok(key) => {
+                let display_version = key.get_string("DisplayVersion")?;
+                let install_location = key.get_string("InstallLocation")?;
 
                 version = Some(display_version);
                 executable = Some(PathBuf::from(install_location).join("7z.exe"));
@@ -179,6 +177,6 @@ impl _7Zip {
             None => bail!("7-Zip is currently not installed"),
         };
 
-        Ok(Command::new(executable).args(args).spawn()?.wait()?)
+        Ok(Command::new(executable).args(args).status()?)
     }
 }

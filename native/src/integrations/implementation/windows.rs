@@ -1,5 +1,5 @@
 use std::fs::{copy, create_dir_all, remove_dir_all, remove_file, rename};
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 use anyhow::{Context, Result};
 use log::warn;
@@ -28,8 +28,7 @@ use windows::Win32::UI::Shell::{
     ShellLink,
 };
 use windows::Win32::UI::WindowsAndMessaging::SW_SHOWMINNOACTIVE;
-use winreg::enums::HKEY_CURRENT_USER;
-use winreg::RegKey;
+use windows_registry::{Key, CURRENT_USER};
 
 use crate::components::site::Site;
 use crate::integrations::utils::{process_icons, sanitize_name};
@@ -109,18 +108,18 @@ fn create_arp_entry(
     exe: &str,
     icon: &str,
 ) -> Result<()> {
-    let (key, _) = RegKey::predef(HKEY_CURRENT_USER)
-        .create_subkey(PathBuf::from(ADD_REMOVE_PROGRAMS_KEY).join(&ids.regid))
+    let key = CURRENT_USER
+        .create(format!(r"{ADD_REMOVE_PROGRAMS_KEY}\{}", &ids.regid))
         .context("Failed to create registry key")?;
 
-    key.set_value("UninstallString", &format!("{} site uninstall --quiet {}", &exe, &ids.ulid))?;
-    key.set_value("DisplayIcon", &icon)?;
-    key.set_value("DisplayName", &ids.name)?;
-    key.set_value("Publisher", &args.site.domain())?;
-    key.set_value("URLInfoAbout", &args.site.url())?;
-    key.set_value("NoModify", &1u32)?;
-    key.set_value("NoRepair", &1u32)?;
-    key.set_value("Comments", &"Installed using PWAsForFirefox")?;
+    key.set_string("UninstallString", &format!("{} site uninstall --quiet {}", &exe, &ids.ulid))?;
+    key.set_string("DisplayIcon", icon)?;
+    key.set_string("DisplayName", &ids.name)?;
+    key.set_string("Publisher", &args.site.domain())?;
+    key.set_string("URLInfoAbout", &args.site.url())?;
+    key.set_u32("NoModify", 1u32)?;
+    key.set_u32("NoRepair", 1u32)?;
+    key.set_string("Comments", "Installed using PWAsForFirefox")?;
 
     Ok(())
 }
@@ -289,63 +288,62 @@ fn register_protocol_handlers(
     exe: &str,
     icon: &str,
 ) -> Result<()> {
-    let assign_values = |key: RegKey| -> Result<()> {
-        key.set_value("ApplicationName", &ids.name)
+    let assign_values = |key: &Key| -> Result<()> {
+        key.set_string("ApplicationName", &ids.name)
             .context("Failed to set ApplicationName application key")?;
-        key.set_value("ApplicationDescription", &ids.description)
+        key.set_string("ApplicationDescription", &ids.description)
             .context("Failed to set ApplicationDescription application key")?;
-        key.set_value("ApplicationIcon", &format!("{icon},0"))
+        key.set_string("ApplicationIcon", &format!("{icon},0"))
             .context("Failed to set ApplicationIcon application key")?;
-        key.set_value("AppUserModelID", &ids.appid)
+        key.set_string("AppUserModelID", &ids.appid)
             .context("Failed to set AppUserModelID application key")?;
         Ok(())
     };
 
-    let hkcu = RegKey::predef(HKEY_CURRENT_USER);
     let capabilities_path = format!(r"Software\filips\FirefoxPWA\{}\Capabilities", ids.regid);
     let classes_path = format!(r"Software\Classes\{}", ids.regid);
 
     // Add web app to a list of registered applications
-    let (registered_applications, _) = hkcu
-        .create_subkey(REGISTERED_APPLICATIONS_KEY)
-        .context("Failed to open RegisteredApplications list")?;
-    registered_applications
-        .set_value(&ids.regid, &capabilities_path)
+    CURRENT_USER
+        .create(REGISTERED_APPLICATIONS_KEY)
+        .context("Failed to open RegisteredApplications list")?
+        .set_string(&ids.regid, &capabilities_path)
         .context("Failed to add to RegisteredApplications list")?;
 
     // Register application details
-    let (application, _) = hkcu
-        .create_subkey(format!(r"{classes_path}\Application"))
+    let application = CURRENT_USER
+        .create(format!(r"{classes_path}\Application"))
         .context("Failed to create application registry key")?;
-    let (capabilities, _) = hkcu
-        .create_subkey(&capabilities_path)
+    let capabilities = CURRENT_USER
+        .create(&capabilities_path)
         .context("Failed to create capabilities registry key")?;
-    assign_values(application).context("Failed to set application registry key")?;
-    assign_values(capabilities).context("Failed to set capabilities registry key")?;
+    assign_values(&application).context("Failed to set application registry key")?;
+    assign_values(&capabilities).context("Failed to set capabilities registry key")?;
 
     // Register application open commands
     let ulid = &ids.ulid;
-    let (open_command, _) = hkcu
-        .create_subkey(format!(r"{classes_path}\Shell\open\command"))
-        .context("Failed to create open command registry key")?;
-    open_command
-        .set_value("", &format!("\"{exe}\" site launch {ulid} --protocol \"%1\""))
+    CURRENT_USER
+        .create(format!(r"{classes_path}\Shell\open\command"))
+        .context("Failed to create open command registry key")?
+        .set_string("", &format!("\"{exe}\" site launch {ulid} --protocol \"%1\""))
         .context("Failed to set open command registry key")?;
 
     // Create URL associations key
-    let (associations, _) = hkcu
-        .create_subkey(format!(r"{capabilities_path}\UrlAssociations"))
+    let associations = CURRENT_USER
+        .create(format!(r"{capabilities_path}\UrlAssociations"))
         .context("Failed to create URL associations registry key")?;
 
     // Remove existing protocol handlers
-    for (protocol, _) in associations.enum_values().filter_map(|item| item.ok()) {
-        let _ = associations.delete_value(protocol);
+    if let Ok(protocols) = associations.values() {
+        for (protocol, _) in protocols {
+            let _ = associations.remove_value(protocol);
+        }
     }
 
     // Add enabled protocol handlers
     for protocol in &args.site.config.enabled_protocol_handlers {
         associations
-            .set_value(sanitize_string(protocol), &ids.regid)
+            .set_string(sanitize_string(protocol), ids.regid.clone())
             .context("Failed to set protocol registry key")?;
     }
 
@@ -401,7 +399,6 @@ pub fn install(args: &IntegrationInstallArgs) -> Result<()> {
 #[inline]
 pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
     let ids = SiteIds::create_for(args.site);
-    let hkcu = RegKey::predef(HKEY_CURRENT_USER);
 
     // Sanitize the name to prevent overflows and invalid filenames
     let name = sanitize_name(&ids.name, &ids.ulid);
@@ -411,7 +408,7 @@ pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
     let _ = remove_dir_all(icons_directory);
 
     // Remove ARP entry
-    let _ = hkcu.delete_subkey_all(PathBuf::from(ADD_REMOVE_PROGRAMS_KEY).join(&ids.regid));
+    let _ = CURRENT_USER.remove_tree(format!(r"{ADD_REMOVE_PROGRAMS_KEY}\{}", &ids.regid));
 
     let data = directories::BaseDirs::new()
         .context("Failed to determine base system directories")?
@@ -434,11 +431,11 @@ pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
     }
 
     // Remove protocol handlers
-    if let Ok((key, _)) = hkcu.create_subkey(REGISTERED_APPLICATIONS_KEY) {
-        let _ = key.delete_value(&ids.regid);
+    if let Ok(key) = CURRENT_USER.create(REGISTERED_APPLICATIONS_KEY) {
+        let _ = key.remove_value(&ids.regid);
     }
-    let _ = hkcu.delete_subkey_all(format!(r"Software\FirefoxPWA\{}", ids.regid));
-    let _ = hkcu.delete_subkey_all(format!(r"Software\Classes\{}", ids.regid));
+    let _ = CURRENT_USER.remove_tree(format!(r"Software\FirefoxPWA\{}", ids.regid));
+    let _ = CURRENT_USER.remove_tree(format!(r"Software\Classes\{}", ids.regid));
 
     Ok(())
 }

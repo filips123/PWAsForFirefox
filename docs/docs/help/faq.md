@@ -396,6 +396,34 @@ can make this easier.
     and the ability to run arbitrary programs. Please be very cautious when adding third-party
     scripts and make sure you trust the code.
 
+### How to uninstall this project?
+
+To completely uninstall the project, you can follow the steps below. This will remove
+all installed web apps, including their data, and other settings. You will not be able
+to reverse this process, so make sure to back up any important data.
+
+1. Uninstall all installed web apps using the extension or [the command-line program](../user-guide/console.md#uninstalling-a-web-app).
+2. Remove all web app profiles using the extension or [the command-line program](../user-guide/console.md#removing-a-profile).
+3. Uninstall the PWAsForFirefox extension from the browser.
+4. Uninstall the PWAsForFirefox native program from the system.
+5. Remove [the user data directory](../resources/installation-directories.md#user-data).
+
+To uninstall the native program, you should follow the instructions of the package manager
+you used to install it.
+
+??? "Windows"
+
+    You can uninstall the native program using the Windows Settings or Control Panel.
+
+??? "Linux"
+
+    You can uninstall the native program using the package manager you used to install it.
+    You can remove the custom repository and the key by deleting their files from the system.
+
+??? "macOS"
+
+    You can uninstall the native program using Homebrew by running `brew uninstall firefoxpwa`.
+
 ## Usage
 
 ### How to install addons to the app browser?
@@ -546,6 +574,47 @@ Firefox downloaded directly from Mozilla's website.
     use native messaging (KeePassXC, Plasma Integration, etc.) work with your setup.
     If they also do not work, it's probably a problem with your Firefox version/setup.
     If they do work, it might be a problem with PWAsForFirefox.
+
+### How to fix a security features warning on Linux?
+
+You may see a warning that "some of Firefox’s security features may offer less protection
+on your current operating system" on specific Linux distributions.
+
+The sandbox in Firefox makes use of unprivileged user namespaces when creating new processes
+for enforcing more security. This can be considered a security risk, therefore some Linux
+distributions have started to restrict its usage and only allow it to work where there is
+an AppArmor profile. You can read more about this warning in [the official Mozilla
+documentation](https://support.mozilla.org/en-US/kb/install-firefox-linux#w_security-features-warning).
+
+The default AppArmor profile currently cannot cover the runtime used by PWAsForFirefox,
+so you will have to manually create a custom AppArmor profile for the runtime.
+
+To configure a custom AppArmor profile for the runtime, create a file named `firefoxpwa`
+in `/etc/apparmor.d/` with the following content:
+
+```apparmor
+# This profile allows everything and only exists to give the
+# application a name instead of having the label "unconfined"
+
+abi <abi/4.0>,
+include <tunables/global>
+
+profile firefoxpwa /home/<USER>/.local/share/firefoxpwa/runtime/firefox/{firefox,firefox-bin,updater} flags=(unconfined) {
+  userns,
+
+  # Site-specific additions and overrides. See local/README for details.
+  include if exists <local/firefox>
+}
+```
+
+You should replace `<USER>` with your username. You may also need to replace the path
+to the runtime depending on your [user data directory](../resources/installation-directories.md#runtime).
+
+After creating the profile, you need to reload the AppArmor profiles:
+
+```shell
+sudo systemctl restart apparmor.service
+```
 
 ### Why does the extension detect a wrong connector version on Windows?
 

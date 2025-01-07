@@ -212,8 +212,8 @@
     "description": "The Red Hat (RPM) tab on the instructions page"
   },
   "instructionsPageTabArch": {
-    "message": "Linux berbasis Arch (AUR)",
-    "description": "The Arch (AUR) tab on the instructions page"
+    "message": "Linux berbasis Arch",
+    "description": "The Arch tab on the instructions page"
   },
   "instructionsPageTabGentoo": {
     "message": "Linux berbasis Gentoo",

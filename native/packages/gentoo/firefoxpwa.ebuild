@@ -1,4 +1,4 @@
-# Copyright 2023-2024 Gentoo Authors
+# Copyright 2023-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -43,8 +43,8 @@ RDEPEND="${DEPEND}"
 BDEPEND="
 	lto? (
 		!custom-cflags? (
-			sys-devel/clang
-			sys-devel/lld
+			llvm-core/clang
+			llvm-core/lld
 		)
 	)
 	!static? ( virtual/pkgconfig )

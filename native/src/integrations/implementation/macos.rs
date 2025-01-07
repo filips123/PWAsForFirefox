@@ -1,8 +1,7 @@
 use std::cmp::Ordering;
 use std::convert::TryInto;
-use std::fs::{create_dir_all, remove_dir_all, rename, write, File, Permissions};
+use std::fs::{create_dir_all, remove_dir_all, rename, write, File};
 use std::io::{BufWriter, Read, Write};
-use std::os::unix::fs::PermissionsExt;
 use std::path::Path;
 use std::process::{Child, Command, Stdio};
 
@@ -39,6 +38,8 @@ const CREATE_ICON_FILE_ERROR: &str = "Failed to create icon file";
 const CREATE_TEMP_FILE_ERROR: &str = "Failed to create temporary file";
 const CREATE_APPLICATION_DIRECTORY_ERROR: &str = "Failed to create application directory";
 const WRITE_APPLICATION_FILE_ERROR: &str = "Failed to write application file";
+const WRITE_LOADER_SOURCE_ERROR: &str = "Failed to write loader source";
+const COMPILE_LOADER_SOURCE_ERROR: &str = "Failed to compile loader source";
 const STORE_ICONS_ERROR: &str = "Failed to store icons";
 const LAUNCH_APPLICATION_BUNDLE: &str = "Failed to launch web app via system integration";
 const APP_BUNDLE_NAME_ERROR: &str = "Failed to get name of app bundle";
@@ -482,9 +483,8 @@ fn create_app_bundle(args: &IntegrationInstallArgs) -> Result<()> {
     plist::to_file_xml(info_plist, &info_plist_value).context(WRITE_APPLICATION_FILE_ERROR)?;
     write(pkg_info, format!("APPL{appid}")).context(WRITE_APPLICATION_FILE_ERROR)?;
 
-    // Create and compile loader executable using Swift compiler
-    // Swift compiler (swiftc) is part of Command Line Tools for Xcode which is required by Homebrew
-    // We can assume users will have it installed, but provide old script-based fallback just in case
+    // Create and compile a custom loader executable using the Swift compiler
+    // Swift compiler (swiftc) is part of Xcode Command Line Tools, which are required by Homebrew
     if Command::new("xcode-select").stdout(Stdio::null()).arg("-p").status().is_ok() {
         let loader_source_content = format!(
             r#"import Foundation
@@ -505,27 +505,23 @@ task.waitUntilExit()
         loader_source_file
             .as_file_mut()
             .write_all(loader_source_content.as_bytes())
-            .context("Failed to write loader source")?;
+            .context(WRITE_LOADER_SOURCE_ERROR)?;
 
-        Command::new("swiftc")
+        debug!("Compiling loader source");
+
+        let status = Command::new("swiftc")
             .arg("-O")
             .arg("-o")
             .arg(loader)
             .arg(loader_source_file.path().as_os_str())
             .status()
-            .context("Failed to compile loader source")?;
-    } else {
-        warn!("Could not find Command Line Tools for Xcode");
-        warn!("Falling back to the legacy script-based loader");
-        warn!("Tools can be installed using: xcode-select --install");
-        warn!("After installing, update your web app to apply changes");
+            .context(COMPILE_LOADER_SOURCE_ERROR)?;
 
-        #[rustfmt::skip]
-        let loader_content = format!("#!/usr/bin/env sh\n\n{exe} site launch --direct-launch {ulid} \"$@\"\n");
-        let mut loader_file = File::create(loader).context(WRITE_APPLICATION_FILE_ERROR)?;
-        let loader_permissions = Permissions::from_mode(0o755);
-        loader_file.set_permissions(loader_permissions).context(WRITE_APPLICATION_FILE_ERROR)?;
-        loader_file.write_all(loader_content.as_ref()).context(WRITE_APPLICATION_FILE_ERROR)?;
+        if !status.success() {
+            bail!(COMPILE_LOADER_SOURCE_ERROR);
+        }
+    } else {
+        bail!("Could not find Xcode Command Line Tools");
     }
 
     // Update icons if needed

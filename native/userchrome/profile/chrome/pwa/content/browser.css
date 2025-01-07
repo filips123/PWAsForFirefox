@@ -37,7 +37,8 @@
       visibility: visible;
     }
 
-    :root[tabsintitlebar][sizemode="normal"]:not([gtktiledwindow="true"]) body {
+    :root[tabsintitlebar][sizemode="normal"]:not([gtktiledwindow="true"]) body,
+    :root[customtitlebar][sizemode="normal"]:not([gtktiledwindow="true"]) body {
       border-top-left-radius: env(-moz-gtk-csd-titlebar-radius);
       border-top-right-radius: env(-moz-gtk-csd-titlebar-radius);
     }
@@ -86,6 +87,12 @@
     height: 100%;
   }
 
+  /* Overflow title before widgets */
+
+  #TabsToolbar-customization-target {
+    min-width: 0;
+  }
+
   /* Hide titlebar when the icon bar is hidden */
 
   #titlebar[autohide] {
@@ -132,7 +139,7 @@
 
   #star-button-box,
   #tracking-protection-icon-container,
-  html:not([tabsintitlebar]) .site-info > * {
+  html:not([tabsintitlebar]):not([customtitlebar]) .site-info > * {
     display: none;
   }
 
@@ -174,12 +181,23 @@
     margin-bottom: auto;
     margin-left: 6px;
     height: 30px;
+    overflow: hidden;
   }
 
   .site-info > .tab-throbber,
   .site-info > .tab-icon-pending,
   .site-info > .tab-icon-image {
     margin-inline-end: 5.5px;
+  }
+
+  .site-info {
+    --tab-label-mask-size: 1em;
+  }
+
+  @media not (forced-colors) {
+    .site-info {
+      --tab-label-mask-size: 2em;
+    }
   }
 
   .tab-icon-image {

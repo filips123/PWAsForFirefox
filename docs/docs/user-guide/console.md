@@ -12,7 +12,7 @@ The project also provides shell completion files for Bash, Elvish, Fish, PowerSh
 
     On Windows, all completions are installed into the `completions` directory in your
     chosen installation directory, but you need to manually load them into your shell.
-    When using DEB or RPM packages or installing the package from Homebrew or AUR,
+    When using DEB or RPM packages or installing the package from Homebrew or Arch,
     completions for Bash, Fish, and Zsh are automatically installed into required
     directories and loaded by shells.
 
