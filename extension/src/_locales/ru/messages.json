@@ -919,11 +919,11 @@
     },
   
     "managePageAppEditLaunchOnWebsiteLabel": {
-      "message": "Запускать веб-приложение при заходе на сайт",
+      "message": "Запускать это веб-приложение на соответствующем сайте",
       "description": "The label for the launch on website checkbox on the edit web app dialog"
     },
     "managePageAppEditLaunchOnWebsiteTooltip": {
-      "message": "Определяет, будет ли веб-приложение автоматически запущено при заходе на соответствующий сайт",
+      "message": "Определяет, будет ли веб-приложение автоматически запускаться при посещении соответствующего сайта",
       "description": "The tooltip for the launch on website checkbox on the edit web app dialog"
     },
     "managePageAppEditLaunchOnLoginLabel": {
@@ -931,7 +931,7 @@
       "description": "The label for the launch on login checkbox on the edit web app dialog"
     },
     "managePageAppEditLaunchOnLoginTooltip": {
-      "message": "Определяет, будет ли веб-приложение автоматически запущено при входе в систему",
+      "message": "Определяет, будет ли веб-приложение автоматически запускаться при входе в систему",
       "description": "The tooltip for the launch on login checkbox on the edit web app dialog"
     },
     "managePageAppEditLaunchOnBrowserLabel": {
@@ -939,7 +939,7 @@
       "description": "The label for the launch on browser checkbox on the edit web app dialog"
     },
     "managePageAppEditLaunchOnBrowserTooltip": {
-      "message": "Определяет, будет ли веб-приложение автоматически запущено при открытии браузера",
+      "message": "Определяет, будет ли веб-приложение автоматически запускаться при запуске браузера",
       "description": "The tooltip for the launch on browser checkbox on the edit web app dialog"
     },
     "managePageAppEditUpdateManifestLabel": {
@@ -1026,11 +1026,11 @@
       "description": "The first part of about updating web apps message"
     },
     "managePageUpdateWebAppsAbout2": {
-      "message": "Как вариант, вы можете зарегистрировать все веб-приложения в операционной системе без выполнения каких-либо обновлений манифестов. Может быть использовано, если вы переносите конфигурацонный файл с другого устройства.",
+      "message": "Как вариант, вы можете зарегистрировать все веб-приложения в операционной системе без выполнения обновлений манифеста. Это может быть использовано, если вы перенесли файл конфигурации с другого устройства.",
       "description": "The second part of about updating web apps message"
     },
     "managePageUpdateWebAppsManifest": {
-      "message": "Выполнить обновление манифестов",
+      "message": "Выполнить обновления манифеста",
       "description": "The checkbox label for performing manifest updates when updating web apps"
     },
   

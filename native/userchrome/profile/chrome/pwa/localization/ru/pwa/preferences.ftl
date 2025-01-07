@@ -54,10 +54,10 @@ links-target-choice-keep =
 launch-type-description = При запуске веб-приложения, которое уже открыто
 
 launch-type-choice-new-window =
-    .label = Открыть веб-пиложение в новом окне
+    .label = Открыть веб-приложение в новом окне
 
 launch-type-choice-new-tab =
-    .label = Открыть веб-пиложение в новой вкладке
+    .label = Открыть веб-приложение в новой вкладке
 
 launch-type-choice-replace =
     .label = Заменить текущую вкладку
@@ -67,7 +67,7 @@ launch-type-choice-focus =
 
 ## Address Bar Preference
 
-display-address-bar-description = Обображать адресную строку
+display-address-bar-description = Отображать адресную строку
 
 display-address-bar-choice-out-of-scope =
     .label = Когда URL-адрес выходит за пределы области действия

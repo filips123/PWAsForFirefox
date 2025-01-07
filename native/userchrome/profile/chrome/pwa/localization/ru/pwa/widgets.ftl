@@ -4,51 +4,51 @@
 
 toolbar-button-mute =
     .label = Переключатель звука
-    .tooltiptext = Toggle the page sound ({ $shortcut })
+    .tooltiptext = Переключить звук страницы ({ $shortcut })
 
 toolbar-button-reader-view =
-    .label = Обзор читателей
-    .tooltiptext = Toggle the reader view ({ $shortcut })
+    .label = Режим чтения
+    .tooltiptext = Переключить режим чтения ({ $shortcut })
 
 toolbar-button-copy-link =
     .label = Скопировать ссылку
-    .tooltiptext = Copy a link to this page
+    .tooltiptext = Скопировать ссылку на эту страницу
 
 toolbar-button-share-link =
     .label = Поделиться ссылкой
-    .tooltiptext = Share a link to this page
+    .tooltiptext = Поделиться ссылкой на эту страницу
 
 toolbar-button-send-to-device =
     .label = Отправить на устройство
-    .tooltiptext = Send this page to another device
+    .tooltiptext = Отправить эту страницу на другое устройство
 
 toolbar-button-open-in-browser =
     .label = Открыть в браузере
-    .tooltiptext = Open this page in browser
+    .tooltiptext = Открыть эту страницу в браузере
 
 toolbar-button-tracking-protection =
     .label = Защита от слежения
-    .tooltiptext = View information about tracking protection on this site
+    .tooltiptext = Просмотр информации о защите от слежения на этом сайте
 
 toolbar-button-identity =
-    .label = Иннформация сайта
-    .tooltiptext = View information about this site
+    .label = Информация сайта
+    .tooltiptext = Просмотр информации об этом сайте
 
 toolbar-button-permissions =
     .label = Разрешения сайта
-    .tooltiptext = View permissions granted to this site
+    .tooltiptext = Просмотр разрешений, предоставленных этому сайту
 
 toolbar-button-notifications =
     .label = Уведомления сайта
-    .tooltiptext = Popup notifications for this site
+    .tooltiptext = Всплывающие уведомления для этого сайта
 
 toolbar-button-close =
     .label = Закрыть
-    .tooltiptext = Close the current page
+    .tooltiptext = Закрыть текущую страницу
 
 toolbar-button-home-ffpwa =
     .label = { navbar-home.label }
-    .tooltiptext = App Start Page
+    .tooltiptext = Стартовая страница приложения
 
 ## Internal messages that should not be translated
 
