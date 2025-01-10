@@ -107,6 +107,10 @@
     "message": "Профиль",
     "description": "The profile property of a web app"
   },
+  "webAppProtocolHandlers": {
+    "message": "Обработчики протоколов",
+    "description": "The protocol handlers property of a web app"
+  },
   "profileName": {
     "message": "Название",
     "description": "The name property of a profile"
@@ -375,6 +379,26 @@
     "message": "Windows",
     "description": "The Microsoft Windows tab on the instructions page"
   },
+  "instructionsPageTabDebian": {
+    "message": "Debian-подобные Linux (DEB)",
+    "description": "The Debian (DEB) tab on the instructions page"
+  },
+  "instructionsPageTabRedHat": {
+    "message": "Red Hat-подобные Linux (RPM)",
+    "description": "The Red Hat (RPM) tab on the instructions page"
+  },
+  "instructionsPageTabArch": {
+    "message": "Arch-подобные Linux",
+    "description": "The Arch tab on the instructions page"
+  },
+  "instructionsPageTabGentoo": {
+    "message": "Gentoo-подобные Linux",
+    "description": "The Gentoo tab on the instructions page"
+  },
+  "instructionsPageTabNixOS": {
+    "message": "NixOS Linux",
+    "description": "The NixOS tab on the instructions page"
+  },
   "instructionsPageTabMacOS": {
     "message": "macOS",
     "description": "The macOS tab on the instructions page"
@@ -530,6 +554,10 @@
   "instructionsPagePackagecloudAlt": {
     "message": "Частный реестр NPM и репозитории Maven, RPM, DEB, PyPi и RubyGem - packagecloud",
     "description": "An alternative text for the packagecloud.io logo"
+  },
+  "instructionsPageLinuxArchInstallStep1": {
+    "message": "Установить пакет, используя pacman:",
+    "description": "The step 1 of the Arch Linux installation option"
   },
   "instructionsPageLinuxGentooInstallStep1": {
     "message": "Включите Gentoo GURU overlay, используя eselect:",
@@ -738,6 +766,10 @@
   "managePageProfileListUnnamed": {
     "message": "Безымянный",
     "description": "The unnamed profile on the profile list"
+  },
+  "managePageProfileListCount": {
+    "message": "{count, plural, one {# приложение} other {# приложения(й)}}",
+    "description": "The web app count in the profile, supports limited pluralization options"
   },
   "managePageSettingsDisplayPageAction": {
     "message": "Отображать адресную строку",
