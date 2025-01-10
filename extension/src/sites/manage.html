@@ -24,6 +24,10 @@
         <div class="tab-content">
           <div class="tab-pane fade show active" id="sites-pane" role="tabpanel" aria-labelledby="sites-tab">
             <div class="list-group list-group-flush list-group-border-last" id="sites-list">
+              <button type="button" class="list-group-item list-group-item-action fst-italic" id="site-install-button">
+                <span class="bi bi-plus-lg pe-1"></span>
+                <span data-i18n="managePageAppListAdd"></span>
+              </button>
               <template id="sites-list-template">
                 <div class="list-group-item d-flex justify-content-between align-items-start">
                   <div class="site-icon me-2 my-auto letter-icon" id="sites-list-template-letter"></div>
@@ -49,15 +53,15 @@
                   <div><em data-i18n="managePageAppListEmpty"></em></div>
                 </div>
               </div>
-              <button type="button" class="list-group-item list-group-item-action fst-italic" id="site-install-button">
-                <span class="bi bi-plus-lg pe-1"></span>
-                <span data-i18n="managePageAppListAdd"></span>
-              </button>
             </div>
           </div>
 
           <div class="tab-pane fade" id="profiles-pane" role="tabpanel" aria-labelledby="profiles-tab">
             <div class="list-group list-group-flush list-group-border-last" id="profiles-list">
+              <button type="button" class="list-group-item list-group-item-action fst-italic" id="profile-create-button">
+                <span class="bi bi-plus-lg pe-1"></span>
+                <span data-i18n="managePageProfileListAdd"></span>
+              </button>
               <template id="profiles-list-template">
                 <div class="list-group-item d-flex justify-content-between align-items-start">
                   <div class="me-2 text-overflow-hide">
@@ -81,10 +85,6 @@
                   <div><em data-i18n="managePageProfileListEmpty"></em></div>
                 </div>
               </div>
-              <button type="button" class="list-group-item list-group-item-action fst-italic" id="profile-create-button">
-                <span class="bi bi-plus-lg pe-1"></span>
-                <span data-i18n="managePageProfileListAdd"></span>
-              </button>
             </div>
           </div>
 

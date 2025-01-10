@@ -1,0 +1,1122 @@
+{
+  // Extension Properties
+  "appName": {
+    "message": "Progressive Web Apps for Firefox",
+    "description": "The name of the application, should not be translated"
+  },
+  "appShortName": {
+    "message": "PWAsForFirefox",
+    "description": "The short name of the application, should not be translated"
+  },
+  "appDescription": {
+    "message": "Инструмент для установки, управления и использования Progressive Web Apps (PWAs) в Mozilla Firefox",
+    "description": "The description of the application"
+  },
+  // Extension Actions
+  "actionInstallSite": {
+    "message": "Установить этот сайт",
+    "description": "Instruct users that they can install the current site here"
+  },
+  "actionLaunchSite": {
+    "message": "Запустить этот сайт",
+    "description": "Instruct users that they can launch the current site here"
+  },
+  // Update Notification
+  "updateNotificationTitle": {
+    "message": "Обновление PWAsForFirefox",
+    "description": "The title of the update notification, displayed when an update is available"
+  },
+  "updateNotificationMessage": {
+    "message": "Доступно обновления для PWAsForFirefox. Пожалуйста, нажмите на уведомление, чтобы увидеть инструкцию по установке обновления.",
+    "description": "The message of the update notification, displayed when an update is available"
+  },
+  // Common Messages
+  "commonError": {
+    "message": "Ошибка",
+    "description": "Displayed before error messages or as a popup title"
+  },
+  "commonWarning": {
+    "message": "Предупреждение",
+    "description": "Displayed before warning messages or as a popup title"
+  },
+  "commonNote": {
+    "message": "Примечание",
+    "description": "Displayed before note messages or as a popup title"
+  },
+  "commonClose": {
+    "message": "Закрыть",
+    "description": "Displayed as a label for a close button"
+  },
+  "commonCancel": {
+    "message": "Выйти",
+    "description": "Displayed as a label for a cancel button"
+  },
+  "commonLoading": {
+    "message": "Загрузка…",
+    "description": "Displayed when things are still loading"
+  },
+  "commonAnd": {
+    "message": "и",
+    "description": "The \"and\" conjunction, used between untranslatable words"
+  },
+  "commonOr": {
+    "message": "или",
+    "description": "The \"or\" conjunction, used between untranslatable words"
+  },
+  "commonExtensionVersion": {
+    "message": "Версия расширения:",
+    "description": "Displayed before the extension version"
+  },
+  "commonNativeVersion": {
+    "message": "Версия приложения:",
+    "description": "Displayed before the native connector version"
+  },
+  "commonRuntimeVersion": {
+    "message": "Версия Runtime:",
+    "description": "Displayed before the app browser version"
+  },
+  "commonFirefoxVersion": {
+    "message": "Версия Firefox:",
+    "description": "Displayed before the main browser version"
+  },
+  // Web App Properties
+  "webAppName": {
+    "message": "Название",
+    "description": "The name property of a web app"
+  },
+  "webAppDescription": {
+    "message": "Описание",
+    "description": "The description property of a web app"
+  },
+  "webAppCategories": {
+    "message": "Категории",
+    "description": "The categories property of a web app"
+  },
+  "webAppKeywords": {
+    "message": "Ключевые слова",
+    "description": "The keywords property of a web app"
+  },
+  "webAppStartURL": {
+    "message": "URL-адрес страницы",
+    "description": "The start URL property of a web app"
+  },
+  "webAppIconURL": {
+    "message": "URL-адрес иконки",
+    "description": "The icon URL property of a web app"
+  },
+  "webAppID": {
+    "message": "ID",
+    "description": "The ID property of a web app"
+  },
+  "webAppProfile": {
+    "message": "Профиль",
+    "description": "The profile property of a web app"
+  },
+  "webAppProtocolHandlers": {
+    "message": "Protocol Handlers",
+    "description": "The protocol handlers property of a web app"
+  },
+  // Profile Properties
+  "profileName": {
+    "message": "Название",
+    "description": "The name property of a profile"
+  },
+  "profileDescription": {
+    "message": "Описание",
+    "description": "The description property of a profile"
+  },
+  "profileTemplate": {
+    "message": "Шаблон",
+    "description": "The template property of a profile"
+  },
+  "profileTemplatePlaceholder": {
+    "message": "Введите путь до шаблона профиля",
+    "description": "The placeholder for the template input"
+  },
+  "profileID": {
+    "message": "ID",
+    "description": "The ID property of a profile"
+  },
+  // Web App Validation
+  "webAppValidationNameReuse": {
+    "message": "Название не можеть повторяться с другим веб-приложением",
+    "description": "A validation error when the web app name is reused"
+  },
+  "webAppValidationStartURLInvalid": {
+    "message": "URL-адрес страницы должен быть правильным",
+    "description": "A validation error when the web app start URL is invalid"
+  },
+  "webAppValidationStartURLScope": {
+    "message": "URL-адрес страницы должен быть within the scope:",
+    "description": "A validation warning when the web app start URL is out-of-scope, with the scope displayed after the colon"
+  },
+  "webAppValidationIconURLInvalid": {
+    "message": "URL-адрес иконки должен быть правильным",
+    "description": "A validation error when the web app icon URL is invalid"
+  },
+  "webAppValidationProfileLimit": {
+    "message": "Для каждого профиля может быть установлен только один экземпляр",
+    "description": "A validation error when multiple web app instances are tried to be installed in the same profile"
+  },
+  // Setup Page
+  "setupPageTitle": {
+    "message": "Установка Progressive Web Apps for Firefox",
+    "description": "The title of the setup page"
+  },
+  "setupPageTabLicenseAgreement": {
+    "message": "Лицензионное соглашение",
+    "description": "The licence agreement tab on the setup page"
+  },
+  "setupPageTabConnectorInstallation": {
+    "message": "Установка Connector",
+    "description": "The connector installation tab on the setup page"
+  },
+  "setupPageTabRuntimeInstallation": {
+    "message": "Установа Runtime",
+    "description": "The runtime installation tab on the setup page"
+  },
+  "setupPageTabReady": {
+    "message": "Готово",
+    "description": "The ready tab on the setup page"
+  },
+  "setupPageLicenseBase": {
+    "message": "Проект находится под лицензией <a href=\"https://www.mozilla.org/MPL/2.0/\" target=\"_blank\">the Mozilla Public License 2.0</a>. Используя, распространяя или модифицируя его, вы соглашаетесь с лицензией и дополнительными положениями, предусмотренными ниже. Откройте <a href=\"https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE\" target=\"_blank\">файл LICENSE</a> в репозитории проекта для полного текста лицензии MPL 2.0.",
+    "description": "The base license notice on the setup page"
+  },
+  "setupPageLicenseThirdPartyIncluded": {
+    "message": "Проект использует сторонние дополнительные ресурсы и код:",
+    "description": "The included third-party assets and code notice on the setup page"
+  },
+  "setupPageLicenseLogo": {
+    "message": "Логотип проекта основан на <a href=\"https://www.svgrepo.com/svg/40267/fox\" target=\"_blank\">the \"Fox SVG Vector\" icon</a> и <a href=\"https://github.com/webmaxru/progressive-web-apps-logo\" target=\"_blank\">логотипе PWA, предоставленном сообществом</a>, выложенными для публичного пользования по <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\">CC0</a>.",
+    "description": "The logo notice on the setup page"
+  },
+  "setupPageLicenseFirefoxScripts": {
+    "message": "Изменения браузера были вдохновлены и частично взяты из репозитория <a href=\"https://github.com/xiaoxiaoflood/firefox-scripts\" target=\"_blank\"><code>xiaoxiaoflood/firefox-scripts</code></a> на GitHub, находящимся под лицензией Mozilla Public License 2.0. Подробная информация о лицензии может быть найдена в соответствующем файле.",
+    "description": "The notice for `xiaoxiaoflood/firefox-scripts` on the setup page"
+  },
+  "setupPageLicenseFirefoxUiFix": {
+    "message": "Изменения браузера частично используют код и иконки из репозитория <a href=\"https://github.com/black7375/Firefox-UI-Fix\" target=\"_blank\"><code>black7375/Firefox-UI-Fix</code></a> на GitHub, находящимся под лицензией Mozilla Public License 2.0. Подробная информация о лицензии может быть найдена в соответствующем файле.",
+    "description": "The notice for `black7375/Firefox-UI-Fix` on the setup page"
+  },
+  "setupPageLicenseFirefoxSource": {
+    "message": "Изменения браузера частично используют код и иконки из <a href=\"https://github.com/mozilla/gecko-dev\" target=\"_blank\">исходного кода оригинального Firefox</a>, ниходящимся под лицензией Mozilla Public License 2.0. Подробная информация о лицензии может быть найдена в соответствующем файле.",
+    "description": "The notice for the Firefox source on the setup page"
+  },
+  "setupPageLicenseMetropolisFont": {
+    "message": "Программа содержит шрифт <a href=\"https://fontsarena.com/metropolis-by-chris-simpson/\" target=\"_blank\">Metropolis Semi Bold</a> Криса Симпсона, выложенный для публичного пользования на <a href=\"https://unlicense.org/\" target=\"_blank\">Unlicense</a>.",
+    "description": "The notice for Metropolis Typeface on the setup page"
+  },
+  "setupPageLicenseBootstrapIcons": {
+    "message": "Установщик Windows содержит <a href=\"https://icons.getbootstrap.com/\" target=\"_blank\">Bootstrap Icons</a>, находящиеся под лицензией <a href=\"https://opensource.org/licenses/MIT\" target=\"_blank\">MIT License</a>. Подробная информация о лицензии может быть найдена в <a href=\"https://github.com/filips123/PWAsForFirefox/blob/main/native/packages/wix/main.wxs\" target=\"_blank\">конфигурационном файле WiX</a>.",
+    "description": "The notice for Bootstrap Icons on the setup page"
+  },
+  "setupPageLicenseThirdPartyDownloaded": {
+    "message": "Дополнительное программное обеспечение с исходным кодом будет скачано и установлено во время инициации Runtime пользователем:",
+    "description": "The downloaded third-party assets and code notice on the setup page"
+  },
+  "setupPageLicense7ZipDownloaded": {
+    "message": "Установка Runtime на Windows скачает <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>, если он уже не установлен. Проект 7-Zip создан Игорем Павловым и находится под лицензией <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">GNU LGPL license</a>. Наш проект ни коим образом не связан с 7-Zip или его разработчиками.",
+    "description": "The notice for downloaded 7-Zip on the setup page"
+  },
+  "setupPageLicenseFirefoxDownloaded": {
+    "message": "Установка Runtime на любые системы скачает оригинальный браузер <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> и модифицирует его. Пользуясь этим проектом, вы также соглашаетесь с <a href=\"https://www.mozilla.org/privacy/firefox/\">Условиями пользования Firefox</a>. Firefox находится под лицензией Mozilla Public License 2.0. Firefox и логотип Firefox являются торговыми марками Mozilla Foundation в США и друих странах. Наш проект ни коим образом не связан с Mozilla Foundation.",
+    "description": "The notice for downloaded Firefox on the setup page"
+  },
+  "setupPageLicensePrivacyPolicy": {
+    "message": "Это расширение передаёт персональные данные (текущий сайт и манифесты URL-адресов, как и другие данные PWA) с приложением, где пользователь осуществляет установку PWA. Это обязательно для правильного получения и разбора манифеста веб-приложения и установки PWA. Данные хранятся на компьютере, пока PWA установлен. Никакие персональные данные не покидают компьютер и не передаются третьим лицам.",
+    "description": "The privacy policy notice on the setup page"
+  },
+  "setupPageLicenseLinks": {
+    "message": "Вы также можете прочитать <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/eula/\" target=\"_blank\">Лицензионное соглашение</a> и <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/privacy/\" target=\"_blank\">Условия пользования</a> на странице AMO.",
+    "description": "The links to the licence agreement and privacy policy on AMO on the setup page"
+  },
+  "setupPageLicenseConsent": {
+    "message": "Вы не сможете воспользоваться расширением, если не примите приведённые правила. В ином случае вы можете удалить его, нажав на кнопку ниже.",
+    "description": "The required consent and uninstallation notice on the setup page"
+  },
+  "setupPageLicenseUninstallation": {
+    "message": "Вы не сможете воспользоваться расширением, если не примите приведённые правила. Расширение будет удалено. Вы можете переустановить его позже, если поменяете своё решение.",
+    "description": "The dialog displayed when the user declines the license agreement"
+  },
+  "setupPageLicenseDecline": {
+    "message": "Отказаться и удалить",
+    "description": "The decline and uninstall button on the setup page"
+  },
+  "setupPageLicenseAccept": {
+    "message": "Принять соглашение",
+    "description": "The license accept button on the setup page"
+  },
+  "setupPageConnectorInstallationMain": {
+    "message": "Вам нужно установить дополнительную программу, чтобы расширение могло управлять и запускать отдельный Runtime и профили для ваших веб-приложений. Расширение не будет работать без этой программы. Пожалуйста, следуйте инструкции ниже, чтобы установить её.",
+    "description": "The main connector installation notice on the setup page"
+  },
+  "setupPageConnectorInstallationIncompatible": {
+    "message": "Версия установленного приложения может быть не совместима с текущей версией расширения. Вам нужно обновить программу или расширение до поддерживаемой версии, чтобы всё правильно заработало.",
+    "description": "The incompatible connector installation notice on the setup page"
+  },
+  "setupPageRuntimeInstallationAuto": {
+    "message": "Этому расширению также нужен отдельный Mozilla Firefox Runtime, в котором будут запускаться все ваши Progressive Web App сайты. Нажав на кнопку ниже, начнётся автоматическое скачаивание оригинального Mozilla Firefox с серверов Mozilla и последующая его необходимая модификация. Вы также можете проверить инструкцию ниже, чтобы самостоятельно установить Runtime.",
+    "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is supported"
+  },
+  "setupPageRuntimeInstallationManual": {
+    "message": "Этому расширению также нужен отдельный Mozilla Firefox Runtime, в котором будут запускаться все ваши Progressive Web App сайты. Однако ваша платформа не поддерживает автоматическую установку Runtime. Пожалуйста, следуйте инструкции ниже, чтобы самостоятельно установить его.",
+    "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is not supported"
+  },
+  "setupPageRuntimeInstallation7Zip": {
+    "message": "Чтобы установить Runtime, нужен установленный <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>. Установшик Runtime начнёт автоматчески устанавливать 7-Zip, если он уже не установлен. Может потребоваться разрешение Контроля учётных записей. Вы также можете смамостоятельно установить 7-Zip или использовать уже установленный. После установки Runtime можете удалить 7-Zip.",
+    "description": "The runtime installation notice on the setup page, displayed when 7-Zip needs to be installed"
+  },
+  "setupPageRuntimeInstallationAfter": {
+    "message": "После установки Runtime вы должны автоматически перейти к следующему шагу. Если примерно через 30 секунд ничего не изменится, перезапустите браузер.",
+    "description": "The runtime installation notice on the setup page, displayed always"
+  },
+  "setupPageAdvancedOptionsTitle": {
+    "message": "Дополнительные инструкции",
+    "description": "The advanced Runtime installation options toggle on the setup page"
+  },
+  "setupPageAdvancedOptionsFromArchiveTitle": {
+    "message": "Самостоятельно установите Firefox из архива:",
+    "description": "Instructions for manually installing Firefox from the archive, title"
+  },
+  "setupPageAdvancedOptionsFromArchiveStep1": {
+    "message": "Скачайте арихив Firefox из желаемого источника (например, с <a href=\"https://www.mozilla.org/firefox/all/\" target=\"_blank\">официальной страницы</a>).",
+    "description": "Instructions for manually installing Firefox from the archive, step 1"
+  },
+  "setupPageAdvancedOptionsFromArchiveStep2": {
+    "message": "Распакуйте скачанный архив и скопируйте файлы в директорию (смотрите ниже).",
+    "description": "Instructions for manually installing Firefox from the archive, step 2"
+  },
+  "setupPageAdvancedOptionsPackageManagerTitle": {
+    "message": "Самосоятельно установите Firefox, используя пакетный менеджер:",
+    "description": "Instructions for manually installing Firefox using package manager, title"
+  },
+  "setupPageAdvancedOptionsPackageManagerStep1": {
+    "message": "Установите Firefox, используя пакетный менеджер (например, <kbd>sudo apt install firefox</kbd>, <kbd>sudo yum install firefox</kbd>, …).",
+    "description": "Instructions for manually installing Firefox using package manager, step 1"
+  },
+  "setupPageAdvancedOptionsPackageManagerStep2": {
+    "message": "Скопируйте установленные файлы Firefox (обычно хранятся в <kbd>/usr/lib/firefox/</kbd>) в директорию (смотрите ниже).",
+    "description": "Instructions for manually installing Firefox using package manager, step 2"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserTitle": {
+    "message": "Установите альтернативный Firefox-based браузер (например, LibreWolf):",
+    "description": "Instructions for using alternative browser for runtime, title"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserStep1": {
+    "message": "Скачайте \"portable\" архив (binary tarball) для вашего Firefox-based браузера.",
+    "description": "Instructions for using alternative browser for runtime, step 1"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserStep2": {
+    "message": "Распакуйте скачанный архив и скопируйте файлы в директорию (смотрите ниже).",
+    "description": "Instructions for using alternative browser for runtime, step 2"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserStep3": {
+    "message": "Внутри этой директории создайте symlink на основной файл браузера (например, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) как <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.",
+    "description": "Instructions for using alternative browser for runtime, step 3"
+  },
+  "setupPageAdvancedOptionsOverlayTitle": {
+    "message": "Связывание глобальной установки Firefox с FUSE OverlayFS:",
+    "description": "Instructions for linking the runtime with FUSE OverlayFS, title"
+  },
+  "setupPageAdvancedOptionsOverlayStep1": {
+    "message": "Инструкции доступны <a href=\"https://pwasforfirefox.filips.si/help/faq/#how-to-use-fuse-overlayfs-with-the-app-browser\" target=\"_blank\">на сайте-документации</a>.",
+    "description": "Instructions for linking the runtime with FUSE OverlayFS, step 1"
+  },
+  "setupPageDefaultRuntimeLocationTitle": {
+    "message": "Стандартное место установки Runtime:",
+    "description": "The title for the default runtime locations section"
+  },
+  "setupPageReady": {
+    "message": "Расширение готово к использованию. Можете закрыть это окно.",
+    "description": "The ready notice on the setup page"
+  },
+  // Update Page
+  "updatePageTitle": {
+    "message": "Обновить Progressive Web Apps for Firefox",
+    "description": "The title of the update page"
+  },
+  "updatePageNativeOutdated": {
+    "message": "Connector устарел.",
+    "description": "Displayed on the update page when the native connector is outdated"
+  },
+  "updatePageNativeCompatible": {
+    "message": "Он совместим с текущей версией расширения, но настоятельно рекомендуется обновиться, чтобы получить последние функции и исправления.",
+    "description": "Displayed on the update page when the native connector is compatible"
+  },
+  "updatePageNativeIncompatible": {
+    "message": "Он <strong>не</strong> совместим с текущей версией расширения, так что вы не можете использовать расширение, пока не обновите его.",
+    "description": "Displayed on the update page when the native connector is incompatible"
+  },
+  "updatePageNativeInstructions": {
+    "message": "Пожалуйста, слеуйте инструкции ниже.",
+    "description": "Displayed on the update page nstruct users to follow the instructions to update the native connector"
+  },
+  "updatePageExtensionOutdated": {
+    "message": "Расширение устарело.",
+    "description": "Displayed on the update page when the extension is outdated"
+  },
+  "updatePageExtensionCompatible": {
+    "message": "Оно совместимо с текущей версией connector, но настоятельно рекомендуется обновиться, чтобы получить последние функции и исправления.",
+    "description": "Displayed on the update page when the extension is compatible"
+  },
+  "updatePageExtensionIncompatible": {
+    "message": "Оно <strong>не</strong> совместимо с текущей версией connector, так что вы не можете использовать расширение, пока не обновите его.",
+    "description": "Displayed on the update page when the extension is incompatible"
+  },
+  "updatePageExtensionInstructions": {
+    "message": "Пожалуйста, обновите из менеждера расширений Firefox (<kbd>about:addons</kbd>).",
+    "description": "Displayed on the update page nstruct users to follow the instructions to update the extension"
+  },
+  "updatePageUpdated": {
+    "message": "Расширение и connector обновлены до одной версии. Можете закрыть это окно.",
+    "description": "Displayed on the update page when both the extension and the native connector are updated to the same version"
+  },
+  "updatePageReleaseNotes": {
+    "message": "Вы можете прочитать <a href=\"https://github.com/filips123/PWAsForFirefox/releases\" target=\"_blank\">примечания к выпуску</a>, чтобы узнать о новых функциях, исправлениях и других изменениях.",
+    "description": "Displayed on the update page to link the release notes"
+  },
+  "updatePageReleaseNotesIncompatible": {
+    "message": "Это обновление <strong>может содержать несовместимые с прошлыми версиями изменения</strong>, так что вам может потребоваться перенастроить кое-что, как указано в примечаниях к выпуску, чтобы всё правильно заработало.",
+    "description": "Displayed on the update page when an update contains potential backward-incompatible changes"
+  },
+  // Installation Instructions Page
+  "instructionsPageTitle": {
+    "message": "Инструкции по установке",
+    "description": "The title of the installation instructions page"
+  },
+  "instructionsPageTabWindows": {
+    "message": "Windows",
+    "description": "The Microsoft Windows tab on the instructions page"
+  },
+  "instructionsPageTabDebian": {
+    "message": "Debian-like Linux (DEB)",
+    "description": "The Debian (DEB) tab on the instructions page"
+  },
+  "instructionsPageTabRedHat": {
+    "message": "Red Hat-like Linux (RPM)",
+    "description": "The Red Hat (RPM) tab on the instructions page"
+  },
+  "instructionsPageTabArch": {
+    "message": "Arch-like Linux (AUR)",
+    "description": "The Arch (AUR) tab on the instructions page"
+  },
+  "instructionsPageTabGentoo": {
+    "message": "Gentoo-like Linux",
+    "description": "The Gentoo tab on the instructions page"
+  },
+  "instructionsPageTabNixOS": {
+    "message": "NixOS Linux",
+    "description": "The NixOS tab on the instructions page"
+  },
+  "instructionsPageTabMacOS": {
+    "message": "macOS",
+    "description": "The macOS tab on the instructions page"
+  },
+  "instructionsPageTabBSD": {
+    "message": "BSD",
+    "description": "The BSD tab on the instructions page"
+  },
+  "instructionsPageTabSourceCode": {
+    "message": "Из исходного кода",
+    "description": "The source code tab on the instructions page"
+  },
+  "instructionsPageTabOtherPlatforms": {
+    "message": "Друге платформы",
+    "description": "The other platforms tab on the instructions page"
+  },
+  "instructionsPageOr": {
+    "message": "Или…",
+    "description": "The \"or\" conjunction, displayed in the installation options list"
+  },
+  "instructionsPageAfterProgramsInstalled": {
+    "message": "После установки программы вы должны автоматически перейти к следующему шагу. Если примерно через 30 секунд ничего не изменится, перезапустите браузер.",
+    "description": "The final installation step in installation options that use the \"program\" terminology"
+  },
+  "instructionsPageAfterPackageInstalled": {
+    "message": "После установки пакета вы должны автоматически перейти к следующему шагу. Если примерно через 30 секунд ничего не изменится, перезапустите браузер.",
+    "description": "The final installation step in installation options that use the \"package\" terminology"
+  },
+  "instructionsPageAfterProjectInstalled": {
+    "message": "После установки проекта вы должны автоматически перейти к следующему шагу. Если примерно через 30 секунд ничего не изменится, перезапустите браузер.",
+    "description": "The final installation step in installation options that use the \"project\" terminology"
+  },
+  "instructionsPageInstallManualMSITitle": {
+    "message": "Самостоятельно установите пакет:",
+    "description": "The title of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualMSIStep1": {
+    "message": "Скачайте и установите <a id=\"connector-download-url-crt\" target=\"_blank\">Visual C++ Redistributable</a>.",
+    "description": "The step 1 of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualMSIStep2": {
+    "message": "Скачайте и запустите <a id=\"connector-download-url-msi\" target=\"_blank\">MSI-установщик PWAsForFirefox</a>.",
+    "description": "The step 2 of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualDEBTitle": {
+    "message": "Самостоятельно установите пакет:",
+    "description": "The title of the manual DEB installation option"
+  },
+  "instructionsPageInstallManualDEBStep1": {
+    "message": "Скачайте и установите <a id=\"connector-download-url-deb\" target=\"_blank\">PWAsForFirefox DEB-пакет</a>.",
+    "description": "The step 1 of the manual DEB installation option"
+  },
+  "instructionsPageInstallManualRPMTitle": {
+    "message": "Самостоятельно установите пакет:",
+    "description": "The title of the manual RPM installation option"
+  },
+  "instructionsPageInstallManualRPMStep1": {
+    "message": "Скачайте и установите <a id=\"connector-download-url-rpm\" target=\"_blank\">PWAsForFirefox RPM-пакет</a>.",
+    "description": "The step 1 of the manual RPM installation option"
+  },
+  "instructionsPageInstallWingetTitle": {
+    "message": "Установите пакет, используя Windows Package Manager:",
+    "description": "The title of the Windows Package Manager (winget) installation option"
+  },
+  "instructionsPageInstallWingetStep1": {
+    "message": "Убедитесь, что <a href=\"https://github.com/microsoft/winget-cli#installing-the-client\" target=\"_blank\">Windows Package Manager</a> установлен.",
+    "description": "The step 1 of the Windows Package Manager (winget) installation option"
+  },
+  "instructionsPageInstallWingetStep2": {
+    "message": "Установите пакет, используя winget:",
+    "description": "The step 2 of the Windows Package Manager (winget) installation option"
+  },
+  "instructionsPageInstallChocolateyTitle": {
+    "message": "Установите пакет, используя Chocolatey:",
+    "description": "The title of the Chocolatey installation option"
+  },
+  "instructionsPageInstallChocolateyStep1": {
+    "message": "Убедитесь, что <a href=\"https://chocolatey.org/install\" target=\"_blank\">Chocolatey</a> установлен.",
+    "description": "The step 1 of the Chocolatey installation option"
+  },
+  "instructionsPageInstallChocolateyStep2": {
+    "message": "Установите пакет, используя choco:",
+    "description": "The step 2 of the Chocolatey installation option"
+  },
+  "instructionsPageInstallNpackdTitle": {
+    "message": "Установите пакет, используя Npackd:",
+    "description": "The title of the Npackd installation option"
+  },
+  "instructionsPageInstallNpackdStep1": {
+    "message": "Убедитесь, что <a href=\"https://www.npackd.org/\" target=\"_blank\">Npackd</a> установлен.",
+    "description": "The step 1 of the Npackd installation option"
+  },
+  "instructionsPageInstallNpackdStep2": {
+    "message": "Установите пакет, используя ncl:",
+    "description": "The step 2 of the Npackd installation option"
+  },
+  "instructionsPageInstallScoopTitle": {
+    "message": "Установите пакет, используя Scoop:",
+    "description": "The title of the Scoop installation option"
+  },
+  "instructionsPageInstallScoopStep1": {
+    "message": "Убедитесь, что <a href=\"https://scoop.sh/\" target=\"_blank\">Scoop</a> установлен.",
+    "description": "The step 1 of the Scoop installation option"
+  },
+  "instructionsPageInstallScoopStep2": {
+    "message": "Добавить scoop extras bucket:",
+    "description": "The step 2 of the Scoop installation option"
+  },
+  "instructionsPageInstallScoopStep3": {
+    "message": "Установите пакет, используя scoop:",
+    "description": "The step 3 of the Scoop installation option"
+  },
+  "instructionsPageInstallPAFTitle": {
+    "message": "Установите пакет, используя PortableApps.com:",
+    "description": "The title of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPAFStep1": {
+    "message": "Убеитесь, что <a href=\"https://portableapps.com/download\" target=\"_blank\">PortableApps.com Platform</a> установлено.",
+    "description": "The step 1 of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPAFStep2": {
+    "message": "Скачайте <a id=\"connector-download-url-paf\" target=\"_blank\">PWAsForFirefox PAF-пакет</a> и установите его, используя PortableApps.com Platform.",
+    "description": "The step 2 of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPAFStep3": {
+    "message": "Запустите программу PWAsForFirefox, используя PortableApps.com Platform, и дождитесь появления уведомления.",
+    "description": "The step 3 of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPAFStep4": {
+    "message": "Когда программа запустится, вы должны автоматически перейти к следующему шагу. Если примерно через 30 секунд ничего не изменится, перезапустите браузер.",
+    "description": "The step 4 of the PortableApps.com installation option"
+  },
+  "instructionsPageSignPathThanks": {
+    "message": "Спасибо <a href=\"https://signpath.org/\" target=\"_blank\">SignPath Foundation</a> за предоставлние нам бесплатного сертификата подписи кода для пакетов Windows и <a href=\"https://about.signpath.io/\" target=\"_blank\">SignPath</a> за предоставление инфраструктуры для подписания кода!",
+    "description": "A message that thanks SignPath for sponsoring the project"
+  },
+  "instructionsPageSignPathAlt": {
+    "message": "Бесплатная подпись кода для программ с открытым исходным кодом · SignPath",
+    "description": "An alternative text for the SignPath logo"
+  },
+  "instructionsPageInstallPackagecloudTitle": {
+    "message": "Установите пакет из репозитория packagecloud.io:",
+    "description": "The title of the packagecloud.io installation option"
+  },
+  "instructionsPageInstallPackagecloudStep1": {
+    "message": "Следуйте инструкции в <a href=\"https://packagecloud.io/filips/FirefoxPWA\" target=\"_blank\">репозитории packagecloud.io</a>",
+    "description": "The step 1 of the packagecloud.io installation option"
+  },
+  "instructionsPagePackagecloudThanks": {
+    "message": "Спасибо packagecloud.io за спонсорстсво проекта и предоставление бесплатного хостинга для наших DEB- и RPM-пакетов!",
+    "description": "A message that thanks packagecloud.io for sponsoring the project"
+  },
+  "instructionsPagePackagecloudAlt": {
+    "message": "Частный реестр NPM и репозитории Maven, RPM, DEB, PyPi и RubyGem - packagecloud",
+    "description": "An alternative text for the packagecloud.io logo"
+  },
+  "instructionsPageLinuxAurInstallStep1": {
+    "message": "Скачайте и установите один из AUR-пакетов PWAsForFirefox:",
+    "description": "The step 1 of the Linux AUR installation option"
+  },
+  "instructionsPageLinuxAurInstallSource": {
+    "message": "Исходный код",
+    "description": "The source AUR package"
+  },
+  "instructionsPageLinuxAurInstallPreBuilt": {
+    "message": "pre-built",
+    "description": "The pre-built AUR package"
+  },
+  "instructionsPageLinuxGentooInstallStep1": {
+    "message": "Включите Gentoo GURU overlay, используя eselect:",
+    "description": "The step 1 of the Gentoo installation option"
+  },
+  "instructionsPageLinuxGentooInstallStep2": {
+    "message": "Синхронизируйте Gentoo GURU overlay, используя emerge:",
+    "description": "The step 2 of the Gentoo installation option"
+  },
+  "instructionsPageLinuxGentooInstallStep3": {
+    "message": "Установите пакет, используя emerge:",
+    "description": "The step 3 of the Gentoo installation option"
+  },
+  "instructionsPageLinuxNixOSInstallStep1": {
+    "message": "Добавьте следующий код Nix в конфигурацию NixOS, которая обычно находится по пути <kbd>/etc/nixos/configuration.nix</kbd>:",
+    "description": "The step 1 of the NixOS installation option"
+  },
+  "instructionsPageLinuxNixOSInstallStep1After": {
+    "message": "…чтобы убедиться, что пакет и в <kbd>PATH</kbd>, и в <kbd>nativeMessagingHosts</kbd> Firefox.",
+    "description": "The step 1 of the NixOS installation option"
+  },
+  "instructionsPageLinuxNixOSInstallStep2": {
+    "message": "Пересоздайте систему:",
+    "description": "The step 2 of the NixOS installation option"
+  },
+  "instructionsPageLinuxNixOSInstallStep3": {
+    "message": "После пересоздания системы вы должны автоматически перейти к следующему шагу. Если примерно через 30 секунд ничего не изменится, перезапустите браузер.",
+    "description": "The step 3 of the NixOS installation option"
+  },
+  "instructionsPageLinuxNixOSInstallNotice": {
+    "message": "В настоящее время пакет должен быть установлен из нестабильного канала nixos/nixpkgs.",
+    "description": "The unstable channel notice for the NixOS installation option"
+  },
+  "instructionsPageMacOSInstallStep1": {
+    "message": "Убедитесь, что <a href=\"https://brew.sh/\" target=\"_blank\">Homebrew</a> установлен.",
+    "description": "The step 1 of the macOS installation option"
+  },
+  "instructionsPageMacOSInstallStep2": {
+    "message": "Установите formula, используя brew:",
+    "description": "The step 2 of the macOS installation option"
+  },
+  "instructionsPageMacOSInstallStep3": {
+    "message": "Следуйте инструкции, отображаемой в разделе caveats при выводе результатов установки, чтобы связать манифест.",
+    "description": "The step 3 of the macOS installation option"
+  },
+  "instructionsPageMacOSInstallStep4": {
+    "message": "После установки formula и подключения манифеста вы должны автоматически перейти к следующему шагу. Если примерно через 30 секунд ничего не изменится, перезапустите браузер.",
+    "description": "The step 4 of the macOS installation option"
+  },
+  "instructionsPageBSDInstallNotice": {
+    "message": "Чтобы установить проект на BSD, пожалуйста, следуйте инструкции из раздела установки исходного кода.",
+    "description": "The notice for the BSD installation option"
+  },
+  "instructionsPageBSDInstallWarning": {
+    "message": "Поддержка BSD основывается на спецификации XDG Desktop Entry Specification (созданной для Linux) и не проверяется регулярно.",
+    "description": "The warning for the BSD installation option"
+  },
+  "instructionsPageSourceInstallStep1": {
+    "message": "Убедитесь, что <a href=\"https://github.com/sagiegurari/cargo-make\" target=\"_blank\"><kbd>cargo-make</kbd></a> установлен и последней версии.",
+    "description": "The step 1 of the source installation option"
+  },
+  "instructionsPageSourceInstallStep2": {
+    "message": "Убедитесь, что <a href=\"https://wixtoolset.org/docs/wix3/\" target=\"_blank\">WiX Toolset v3</a> установлено (только для Windows).",
+    "description": "The step 2 of the source installation option, displayed on Windows only"
+  },
+  "instructionsPageSourceInstallStep3": {
+    "message": "Склонируйте <a href=\"https://github.com/filips123/PWAsForFirefox\" target=\"_blank\">репозиторий</a> и <kbd>cd</kbd> в директорию <kbd>native</kbd>.",
+    "description": "The step 3 of the source installation option"
+  },
+  "instructionsPageSourceInstallStep4": {
+    "message": "Проверьте тэг <kbd class=\"connector-repository-tag\"></kbd>.",
+    "description": "The step 4 of the source installation option, tag is dynamically set to the correct version"
+  },
+  "instructionsPageSourceInstallStep5": {
+    "message": "Подготовьте исходный код для сборки:",
+    "description": "The step 5 of the source installation option"
+  },
+  "instructionsPageSourceInstallStep6": {
+    "message": "Соберите и установите проект:",
+    "description": "The step 6 of the source installation option"
+  },
+  "instructionsPageSourceInstallNotice1": {
+    "message": "Список команд для этого способа можно найти в файле <a id=\"connector-source-install\" target=\"_blank\">README</a> в репозитории.",
+    "description": "The notice for a list of commands for the source installation option"
+  },
+  "instructionsPageSourceInstallNotice2": {
+    "message": "Если вы хотите упаковать PWAsForFirefox для своего дистрибутива или уже упаковали его, пожалуйста, дайте мне знать, чтобы я мог помочь с упаковкой и указать это в инструкции по установке. Если платформа для упаковки поддерживает какую-либо функцию автоматической отправки/загрузки, пожалуйста, также сообщите мне, так как я могу интегрировать её непосредственно с GitHub Actions, чтобы убедиться, что пакеты всегда актуальны.",
+    "description": "The notice for packaging the project for the source installation option"
+  },
+  "instructionsPageOtherInstallNotice": {
+    "message": "Ваша операционная система официально не поддерживается. Вы можете попробовать собрать и установить проект из исходного кода, следуя инструкции из раздела выше. Возможно, вам придётся много чего настраивать, чтобы всё правильно заработало в вашей операционной системе, и нет никакой гарантии, что всё будут работать.",
+    "description": "The notice for the other installation option"
+  },
+  // Install Page
+  "installPageTitle": {
+    "message": "Установить веб-приложение",
+    "description": "The title of the install web app page"
+  },
+  "installPageCreateProfile": {
+    "message": "Создать новый профиль",
+    "description": "The profile creation option on the install web app page"
+  },
+  "installPageAutoCreateProfile": {
+    "message": "Автоматически создать новый профиль",
+    "description": "The automatic profile creation option on the install web app page"
+  },
+  "installPageSeparateProfiles": {
+    "message": "Настоятельно рекомендуется устанавливать веб-приложения в отдельные профили из-за трудноисправимого бага. Смотрите проблему <a id=\"web-app-profile-warn-issue\"></a> для больших подробностей.",
+    "description": "The message that tells users each web app should be in a separate profile on affected platforms"
+  },
+  "installPageUseManifestLabel": {
+    "message": "Использовать манифест для определения свойств приложения",
+    "description": "The label for the use manifest checkbox on the web app installation page"
+  },
+  "installPageUseManifestTooltip": {
+    "message": "Отключите, только если вы не можете установить это веб-приложение с включённым манифестом",
+    "description": "The tooltip for the use manifest checkbox on the web app installation page"
+  },
+  "installPageLaunchNowLabel": {
+    "message": "Запустить веб-приложение после установки",
+    "description": "The label for the launch now checkbox on the web app installation page"
+  },
+  "installPageLaunchNowTooltip": {
+    "message": "Включите, если хотите, чтобы это веб-приложение запустилось после его установки",
+    "description": "The tooltip for the launch now checkbox on the web app installation page"
+  },
+  "installPageContentScriptError": {
+    "message": "Ошибка в получении скрипта содержания.",
+    "description": "A message that says the extension was not able to access the content script"
+  },
+  "installPageContentScriptErrorDevelopment": {
+    "message": "Вы используете dev build, так что это, вероятно, вызвано функцией live-reloading. Ошибка может быть исправлена удалением или собиранием в режиме release.",
+    "description": "A message that extends the content script error with more details when a development build is used"
+  },
+  "installPageContentScriptErrorRestricted": {
+    "message": "Некоторые <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts\" target=\"_blank\">сайты Mozilla</a> ограничены для расширений. Это функция безопасности Firefox, которая не может быть отключена. Ограниченные сайты не могут быть установлены как веб-приложения.",
+    "description": "A message that extends the content script error with more details when used on restricted domains"
+  },
+  // Launch Page
+  "launchPageTitle": {
+    "message": "Запустить веб-приложение",
+    "description": "The title of the launch web app page"
+  },
+  "launchPageInstallNewInstance": {
+    "message": "Установить новый экземляр",
+    "description": "Displayed on the launch web app page to install a new instance"
+  },
+  // Manage Page
+  "managePageTitle": {
+    "message": "Управлять веб-приложениями и профилями",
+    "description": "The title of the manage page"
+  },
+  "managePageTabApps": {
+    "message": "Приложения",
+    "description": "The apps tab on the manage page"
+  },
+  "managePageTabProfiles": {
+    "message": "Профили",
+    "description": "The profiles tab on the manage page"
+  },
+  "managePageTabSettings": {
+    "message": "Настройки",
+    "description": "The settings tab on the manage page"
+  },
+  "managePageAppListIcon": {
+    "message": "Иконка",
+    "description": "The icon alternative text on the web app list"
+  },
+  "managePageAppListLaunch": {
+    "message": "Запустить веб-приложение",
+    "description": "The launch tooltip on the web app list"
+  },
+  "managePageAppListEdit": {
+    "message": "Редактировать веб-приложение",
+    "description": "The edit tooltip on the web app list and the title of the edit web app dialog"
+  },
+  "managePageAppListRemove": {
+    "message": "Удалить веб-приложение",
+    "description": "The remove tooltip on the web app list and the title of the remove web app dialog"
+  },
+  "managePageAppListEmpty": {
+    "message": "Нет установленных веб-приложений!",
+    "description": "A message that is displayed on the web app list when no web apps are installed"
+  },
+  "managePageAppListAdd": {
+    "message": "Установить текущий сайт",
+    "description": "A button that is displayed on the web app list to install the current site"
+  },
+  "managePageProfileListCreate": {
+    "message": "Создать профиль",
+    "description": "The create tooltip on the profile list and the title of the edit profile dialog"
+  },
+  "managePageProfileListEdit": {
+    "message": "Редактировать профиль",
+    "description": "The edit tooltip on the profile list and the title of the edit profile dialog"
+  },
+  "managePageProfileListRemove": {
+    "message": "Удалить профиль",
+    "description": "The remove tooltip on the profile list and title of the remove profile dialog"
+  },
+  "managePageProfileListEmpty": {
+    "message": "Нет доступных профилей!",
+    "description": "A message that is displayed on the profile list when no profile are available"
+  },
+  "managePageProfileListAdd": {
+    "message": "Создать новый профиль",
+    "description": "A button that is displayed on the profile list to create a new profile"
+  },
+  "managePageProfileListUnnamed": {
+    "message": "Безымянный",
+    "description": "The unnamed profile on the profile list"
+  },
+  "managePageProfileListCount": {
+    "message": "{count, plural, one {# app} other {# apps}}",
+    "description": "The web app count in the profile, supports limited pluralization options"
+  },
+  "managePageSettingsDisplayPageAction": {
+    "message": "Отображать адресную строку",
+    "description": "The setting for displaying page action (address bar widget)"
+  },
+  "managePageSettingsDisplayPageActionValid": {
+    "message": "У веб-приложений",
+    "description": "The option to display page action on valid web apps"
+  },
+  "managePageSettingsDisplayPageActionAlways": {
+    "message": "Всегда",
+    "description": "The option to always display page action"
+  },
+  "managePageSettingsDisplayPageActionNever": {
+    "message": "Никогда",
+    "description": "The option to never display page action"
+  },
+  "managePageSettingsLaunchCurrentURL": {
+    "message": "Запускать веб-приложения в активных URL-адресах",
+    "description": "The setting for launching web apps on active URLs"
+  },
+  "managePageSettingsShowUpdatePopup": {
+    "message": "Показывать всплывающее окно при обновлении расширения",
+    "description": "The setting for showing update popups"
+  },
+  "managePageSettingsEnableAutoLaunch": {
+    "message": "Автоматический запуск веб-приложений",
+    "description": "The setting for enabling automatic launching"
+  },
+  "managePageSettingsAlwaysPatch": {
+    "message": "Всегда патчить Runtime и профиль",
+    "description": "The setting for configuring patching"
+  },
+  "managePageSettingsEnableWayland": {
+    "message": "Использовать Wayland Display Server",
+    "description": "The setting for enabling Wayland (Linux-only)"
+  },
+  "managePageSettingsEnableXInput2": {
+    "message": "Использовать X Input Extension 2",
+    "description": "The setting for enabling XInput2 (Linux-only)"
+  },
+  "managePageSettingsEnablePortals": {
+    "message": "Использовать XDG Desktop Portals",
+    "description": "The setting for enabling XDG Desktop Portals (Linux-only)"
+  },
+  "managePageSettingsDarkMode": {
+    "message": "Включить тёмный режим",
+    "description": "The setting for enabling dark mode"
+  },
+  "managePageSettingsDarkModeTooltip": {
+    "message": "Может быть включено только в настройках системы",
+    "description": "The tooltip for the dark mode setting"
+  },
+  "managePageSettingsDefaultProfileTemplate": {
+    "message": "Стандартный шаблон профиля",
+    "description": "The setting for default profile template"
+  },
+  "managePageSettingsAutoLaunchExclusion": {
+    "message": "Исключения автоматического запуска",
+    "description": "The setting for auto launch exclusion"
+  },
+  "managePageSettingsAutoLaunchExclusionPlaceholder": {
+    "message": "Введите regex исключённых URL-адресов",
+    "description": "The placeholder for auto launch exclusion"
+  },
+  "managePageSettingsLanguage": {
+    "message": "Язык",
+    "description": "The setting for language"
+  },
+  "managePageSettingsUpdateWebApps": {
+    "message": "Обновить веб-приложения",
+    "description": "The button in settings to update web apps"
+  },
+  "managePageSettingsPatchProfiles": {
+    "message": "Пропатчить профили и Runtime",
+    "description": "The button in settings to patch profiles and runtime"
+  },
+  "managePageSettingsReinstallRuntime": {
+    "message": "Переустановить Runtime",
+    "description": "The button in settings to reinstall runtime"
+  },
+  "managePageSettingsAboutProject": {
+    "message": "О проекте",
+    "description": "The button in settings to display project info"
+  },
+  "managePageFooterOutdated1": {
+    "message": "Расширение устарело!",
+    "description": "The first part of the extension outdated warning"
+  },
+  "managePageFooterOutdated2": {
+    "message": "Пожалуйста, обновитесь!",
+    "description": "The second part of the extension outdated warning"
+  },
+  "managePageFooterSearchPlaceholder": {
+    "message": "Искать по названию",
+    "description": "The search placeholder for web apps and profiles"
+  },
+  "managePageAppEditLaunchOnWebsiteLabel": {
+    "message": "Запускать это веб-приложение на соответствующем сайте",
+    "description": "The label for the launch on website checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnWebsiteTooltip": {
+    "message": "Определяет, будет ли веб-приложение автоматически запускаться при посещении соответствующего сайта",
+    "description": "The tooltip for the launch on website checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnLoginLabel": {
+    "message": "Запускать веб-приложение при входе в систему",
+    "description": "The label for the launch on login checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnLoginTooltip": {
+    "message": "Определяет, будет ли веб-приложение автоматически запускаться при входе в систему",
+    "description": "The tooltip for the launch on login checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnBrowserLabel": {
+    "message": "Запускать веб-приложение при открытии браузера",
+    "description": "The label for the launch on browser checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnBrowserTooltip": {
+    "message": "Определяет, будет ли веб-приложение автоматически запускаться при запуске браузера",
+    "description": "The tooltip for the launch on browser checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateManifestLabel": {
+    "message": "Обновить манифест веб-приложения",
+    "description": "The label for the manifest update checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateManifestTooltip": {
+    "message": "Определяет, будет ли обновлён манифест при редактировании веб-приложения",
+    "description": "The tooltip for the manifest update checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateIconsLabel": {
+    "message": "Обновить иконку веб-приложения",
+    "description": "The label for the icons update checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateIconsTooltip": {
+    "message": "Определяет, будет ли обновлена иконка при редактировании веб-приложения",
+    "description": "The tooltip for the icons update checkbox on the edit web app dialog"
+  },
+  "managePageAppRemoveQuestion": {
+    "message": "Вы уверены, что хотите удалить это веб-приложение?",
+    "description": "The confirmation question on the remove web app dialog"
+  },
+  "managePageAppRemoveNotLast": {
+    "message": "В этом профиле присутствуют другие приложения, так что профиль <strong>не</strong> может быть удалён. Данные приложения <strong>останутся</strong>, но вы можете удалить их через браузер или путём удаления профиля приложения.",
+    "description": "The additional clarification on the remove web app dialog if the web app is not the last in its profile"
+  },
+  "managePageAppRemoveLast": {
+    "message": "Это последнее приложение этого профиля, так что вы можете выбрать удаление его и связанных данных.",
+    "description": "The additional clarification on the remove web app dialog if the web app is the last in its profile"
+  },
+  "managePageAppRemoveCheckboxLabel": {
+    "message": "Удалить профиль и данные приложения",
+    "description": "The label for the profile delete checkbox on the remove web app dialog"
+  },
+  "managePageAppRemoveCheckboxTooltip": {
+    "message": "Определяет, будут ли удалены текущий профиль и данные приложения при его деинсталляции",
+    "description": "The label for the profile delete checkbox on the remove web app dialog"
+  },
+  "managePageProfileEditApplyProfileLabel": {
+    "message": "Использовать шаблон профиля",
+    "description": "The label for the apply template checkbox on the edit profile dialog"
+  },
+  "managePageProfileRemoveQuestion": {
+    "message": "Вы уверены, что хотите удалить профиль? Это полностью удалит профиль и все его веб-приложения, включая их данные. Вы не сможете полность откатить это действие.",
+    "description": "The confirmation question on the remove profile dialog"
+  },
+  "managePageProfileRemoveDefault": {
+    "message": "Стандартный профиль не может быть удалён полностью. Веб-приложения и данные будут очищены, но профиль останется.",
+    "description": "The additional clarification on the remove profile dialog if this is the default profile"
+  },
+  "managePageAutoLaunchTitle": {
+    "message": "Автоматический запуск веб-приложений",
+    "description": "The title of the automatic launching dialog"
+  },
+  "managePageAutoLaunchAboutMain": {
+    "message": "Включение <em>автоматического запуска веб-приложений</em> будет автоматически запускать все URL-адреса, которые попадают в список включённых веб-приложений, как веб-приложения.",
+    "description": "The main clarification about the automatic launching"
+  },
+  "managePageAutoLaunchAboutExperimental": {
+    "message": "Эта функция экспериментальна, может не работать со всеми сайтами и может повлиять на производительность. Должна быть дополнительно включена в настройках веб-приложения, используя <em>$OPTION$</em>.",
+    "description": "The experimental clarification about the automatic launching",
+    "placeholders": {
+      "option": {
+        "content": "$managePageAppEditLaunchOnWebsiteLabel$",
+        "example": "Launch this web app on matching website"
+      }
+    }
+  },
+  "managePageAutoLaunchAboutPermissions": {
+    "message": "Для работы требуются дополнительные разрешения браузера. Они будут автоматически запрошены после включения, если они ещё не предоставлены.",
+    "description": "The permissions clarification about the automatic launching"
+  },
+  "managePageAutoLaunchEnable": {
+    "message": "Включить",
+    "description": "The enable button for the automatic launching"
+  },
+  "managePageUpdateWebAppsAbout1": {
+    "message": "Скачает и разберёт манифесты для всех ваших приложений и снова зарегистрирует их в операционную систему. Любые изменения в манифестах веб-приложений также будет отражаться в вашей системе.",
+    "description": "The first part of about updating web apps message"
+  },
+  "managePageUpdateWebAppsAbout2": {
+    "message": "Как вариант, вы можете зарегистрировать все веб-приложения в операционной системе без выполнения обновлений манифеста. Это может быть использовано, если вы перенесли файл конфигурации с другого устройства.",
+    "description": "The second part of about updating web apps message"
+  },
+  "managePageUpdateWebAppsManifest": {
+    "message": "Выполнить обновления манифеста",
+    "description": "The checkbox label for performing manifest updates when updating web apps"
+  },
+  "managePagePatchProfilesAbout1": {
+    "message": "Пропатчит все профили и Runtime с текущей установленной версией.",
+    "description": "The first part of about patching profiles and runtime message"
+  },
+  "managePagePatchProfilesAbout2": {
+    "message": "Полезно после (пере)установки пользовательского Runtime, или если у вас есть проблемы с запуском веб-приложения.",
+    "description": "The second part of about patching profiles and runtime message"
+  },
+  "managePagePatchProfilesPatchRuntime": {
+    "message": "Пропатчить Runtime",
+    "description": "The checkbox label for patching runtime when patching profiles and runtime"
+  },
+  "managePagePatchProfilesPatchProfiles": {
+    "message": "Пропатчить профили",
+    "description": "The checkbox label for patching profiles when patching profiles and runtime"
+  },
+  "managePageReinstallRuntimeAbout1": {
+    "message": "Вы уверены, что хотите переустановить PWAsForFirefox Runtime? Это приведёт к удалению текущего Runtime и к скачиванию последней версии от Mozilla.",
+    "description": "The first part of about reinstalling runtime message"
+  },
+  "managePageReinstallRuntimeAbout2": {
+    "message": "Это <strong>не</strong> скажется на основном браузере Firefox и <strong>не</strong> удалит какие-либо профили или другие данные.",
+    "description": "The second part of about reinstalling runtime message"
+  },
+  // Buttons
+  "buttonRuntimeInstallDefault": {
+    "message": "Установить Runtime",
+    "description": "The runtime installation button on the setup page, allowing the user to install the runtime"
+  },
+  "buttonRuntimeInstallProcessing": {
+    "message": "Runtime устанавливается…",
+    "description": "The runtime installation button on the setup page, while the runtime is installing"
+  },
+  "buttonRuntimeInstallFinished": {
+    "message": "Runtime установился!",
+    "description": "The runtime installation button on the setup page, after the runtime has been installed"
+  },
+  "buttonWebAppInstallDefault": {
+    "message": "Установить веб-приложение",
+    "description": "The web app button on the install web app page, allowing the user to install the web app"
+  },
+  "buttonWebAppInstallProcessing": {
+    "message": "Веб-приложение устанавливается…",
+    "description": "The web app installation button on the install web app page, while the web app is installing"
+  },
+  "buttonWebAppInstallFinished": {
+    "message": "Веб-приложение установлено!",
+    "description": "The web app installation button on the install web app page, after the web app has been installed"
+  },
+  "buttonCreateDefault": {
+    "message": "Создать",
+    "description": "The create button, allowing the user to create something (profile)"
+  },
+  "buttonCreateProcessing": {
+    "message": "Создаётся…",
+    "description": "The create button, while something (profile) is being created"
+  },
+  "buttonCreateFinished": {
+    "message": "Создано!",
+    "description": "The create button, after something (profile) has been created"
+  },
+  "buttonEditDefault": {
+    "message": "Применить изменения",
+    "description": "The edit button, allowing the user to edit something (web app or profile)"
+  },
+  "buttonEditProcessing": {
+    "message": "Сохраняется…",
+    "description": "The edit button, while something (web app or profile) is being edited"
+  },
+  "buttonEditFinished": {
+    "message": "Сохранено!",
+    "description": "The edit button, after something (web app or profile) has been edited"
+  },
+  "buttonRemoveDefault": {
+    "message": "Удалить",
+    "description": "The remove button, allowing the user to remove something (web app or profile)"
+  },
+  "buttonRemoveProcessing": {
+    "message": "Удаляется…",
+    "description": "The remove button, while something (web app or profile) is being removed"
+  },
+  "buttonRemoveFinished": {
+    "message": "Удалено!",
+    "description": "The remove button, after something (web app or profile) has been removed"
+  },
+  "buttonUpdateDefault": {
+    "message": "Обновить",
+    "description": "The update button, allowing the user to update something (all web apps)"
+  },
+  "buttonUpdateProcessing": {
+    "message": "Обновляется…",
+    "description": "The update button, while something (all web apps) is being updated"
+  },
+  "buttonUpdateFinished": {
+    "message": "Обновлено!",
+    "description": "The update button, after something (all web apps) has been updated"
+  },
+  "buttonPatchDefault": {
+    "message": "Пропатчить",
+    "description": "The patch button, allowing the user to patch something (all web apps or profiles)"
+  },
+  "buttonPatchProcessing": {
+    "message": "Патчится…",
+    "description": "The patch button, while something (all web apps or profiles) is being patched"
+  },
+  "buttonPatchFinished": {
+    "message": "Пропатчено!",
+    "description": "The patch button, after something (all web apps or profiles) has been patched"
+  },
+  "buttonReinstallDefault": {
+    "message": "Переустановить",
+    "description": "The reinstall button, allowing the user to reinstall something (runtime)"
+  },
+  "buttonReinstallProcessing": {
+    "message": "Переустанавливается…",
+    "description": "The reinstall button, while something (runtime) is being reinstalled"
+  },
+  "buttonReinstallFinished": {
+    "message": "Переустановлено!",
+    "description": "The reinstall button, after something (runtime) has been reinstalled"
+  }
+}
