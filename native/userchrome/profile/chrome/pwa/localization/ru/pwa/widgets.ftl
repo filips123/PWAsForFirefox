@@ -41,3 +41,9 @@ toolbar-button-home-ffpwa =
 
 ## Internal messages that should not be translated
 
+toolbar-button-back-ffpwa =
+    .label = { main-context-menu-back-2.aria-label }
+    .tooltiptext = { main-context-menu-back-2.tooltiptext }
+toolbar-button-forward-ffpwa =
+    .label = { main-context-menu-forward-2.aria-label }
+    .tooltiptext = { main-context-menu-forward-2.tooltiptext }
