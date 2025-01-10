@@ -1,4 +1,12 @@
 {
+  "appName": {
+    "message": "Progressive Web Apps for Firefox",
+    "description": "The name of the application, should not be translated"
+  },
+  "appShortName": {
+    "message": "PWAsForFirefox",
+    "description": "The short name of the application, should not be translated"
+  },
   "appDescription": {
     "message": "Инструмент для установки, управления и использования Progressive Web Apps (PWAs) в Mozilla Firefox",
     "description": "The description of the application"
@@ -91,6 +99,10 @@
     "message": "URL-адрес иконки",
     "description": "The icon URL property of a web app"
   },
+  "webAppID": {
+    "message": "ID",
+    "description": "The ID property of a web app"
+  },
   "webAppProfile": {
     "message": "Профиль",
     "description": "The profile property of a web app"
@@ -110,6 +122,10 @@
   "profileTemplatePlaceholder": {
     "message": "Введите путь до шаблона профиля",
     "description": "The placeholder for the template input"
+  },
+  "profileID": {
+    "message": "ID",
+    "description": "The ID property of a profile"
   },
   "webAppValidationNameReuse": {
     "message": "Название не можеть повторяться с другим веб-приложением",
@@ -355,9 +371,21 @@
     "message": "Инструкции по установке",
     "description": "The title of the installation instructions page"
   },
+  "instructionsPageTabWindows": {
+    "message": "Windows",
+    "description": "The Microsoft Windows tab on the instructions page"
+  },
   "instructionsPageTabArch": {
     "message": "Arch-like Linux (AUR)",
     "description": "The Arch tab on the instructions page"
+  },
+  "instructionsPageTabMacOS": {
+    "message": "macOS",
+    "description": "The macOS tab on the instructions page"
+  },
+  "instructionsPageTabBSD": {
+    "message": "BSD",
+    "description": "The BSD tab on the instructions page"
   },
   "instructionsPageTabSourceCode": {
     "message": "Из исходного кода",
