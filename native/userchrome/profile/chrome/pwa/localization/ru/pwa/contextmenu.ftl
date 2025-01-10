@@ -5,11 +5,17 @@
 context-menu-image-view-current-tab =
     .label = Открыть изображение
     .accesskey = { main-context-menu-image-view-new-tab.accesskey }
+context-menu-image-view-new-tab =
+    .label = { main-context-menu-image-view-new-tab.label }
+    .accesskey = { main-context-menu-image-view-new-tab.accesskey }
 context-menu-image-view-new-window =
     .label = Открыть изображение в новом окне
     .accesskey = { main-context-menu-image-view-new-tab.accesskey }
 context-menu-video-view-current-tab =
     .label = Открыть видео
+    .accesskey = { main-context-menu-video-view-new-tab.accesskey }
+context-menu-video-view-new-tab =
+    .label = { main-context-menu-video-view-new-tab.label }
     .accesskey = { main-context-menu-video-view-new-tab.accesskey }
 context-menu-video-view-new-window =
     .label = Открыть видео в новом окне
