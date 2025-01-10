@@ -1,643 +1,559 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title data-i18n="managePageTitle"></title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+    <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
+    <link rel="stylesheet" href="manage.scss" />
+  </head>
 
-<head>
-  <title data-i18n="managePageTitle"></title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
-  <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
-  <link rel="stylesheet" href="manage.scss" />
-</head>
-
-<body>
-  <div class="card vh-100">
-    <div class="card-header sticky-top">
-      <nav>
-        <div class="nav nav-tabs card-header-tabs" id="card-navigation" role="tablist">
-          <button class="nav-link active" id="sites-tab" data-bs-toggle="tab" data-bs-target="#sites-pane" type="button"
-            role="tab" aria-controls="sites-pane" aria-selected="true" data-i18n="managePageTabApps"></button>
-          <button class="nav-link" id="profiles-tab" data-bs-toggle="tab" data-bs-target="#profiles-pane" type="button"
-            role="tab" aria-controls="profiles-pane" aria-selected="false" data-i18n="managePageTabProfiles"></button>
-          <button class="nav-link icon-link ms-auto py-0 bi-gear-fill lead" id="settings-tab" data-bs-toggle="tab"
-            data-bs-target="#settings-pane" type="button" role="tab" aria-controls="settings-pane" aria-selected="false"
-            data-i18n data-i18n-title="managePageTabSettings" data-i18n-aria-label="managePageTabSettings"></button>
-        </div>
-      </nav>
-    </div>
-
-    <div class="card-body">
-      <div class="tab-content">
-        <div class="tab-pane fade show active" id="sites-pane" role="tabpanel" aria-labelledby="sites-tab">
-          <div class="list-group list-group-flush list-group-border-last" id="sites-list">
-            <button type="button" class="list-group-item list-group-item-action fst-italic" id="site-install-button">
-              <span class="bi bi-plus-lg pe-1"></span>
-              <span data-i18n="managePageAppListAdd"></span>
-            </button>
-            <template id="sites-list-template">
-              <div class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="site-icon me-2 my-auto letter-icon" id="sites-list-template-letter"></div>
-                <img class="site-icon me-2 my-auto" id="sites-list-template-icon" />
-                <div class="me-2 text-overflow-hide">
-                  <div class="list-group-item-name" id="sites-list-template-title"></div>
-                  <div class="list-group-item-description" id="sites-list-template-description"></div>
-                </div>
-                <div class="btn-group my-auto">
-                  <button type="button" class="btn btn-outline-primary bi-box-arrow-up-right"
-                    id="sites-list-template-launch"></button>
-                  <button type="button" class="btn btn-outline-primary bi-pencil-square"
-                    id="sites-list-template-edit"></button>
-                  <button type="button" class="btn btn-outline-primary bi-trash"
-                    id="sites-list-template-remove"></button>
-                </div>
-              </div>
-            </template>
-            <div class="list-group-item justify-content-between align-items-start d-flex" id="sites-list-loading">
-              <div>
-                <div><em data-i18n="commonLoading"></em></div>
-              </div>
-            </div>
-            <div class="list-group-item justify-content-between align-items-start d-flex d-none" id="sites-list-empty">
-              <div>
-                <div><em data-i18n="managePageAppListEmpty"></em></div>
-              </div>
-            </div>
+  <body>
+    <div class="card vh-100">
+      <div class="card-header sticky-top">
+        <nav>
+          <div class="nav nav-tabs card-header-tabs" id="card-navigation" role="tablist">
+            <button class="nav-link active" id="sites-tab" data-bs-toggle="tab" data-bs-target="#sites-pane" type="button" role="tab" aria-controls="sites-pane" aria-selected="true" data-i18n="managePageTabApps"></button>
+            <button class="nav-link" id="profiles-tab" data-bs-toggle="tab" data-bs-target="#profiles-pane" type="button" role="tab" aria-controls="profiles-pane" aria-selected="false" data-i18n="managePageTabProfiles"></button>
+            <button class="nav-link icon-link ms-auto py-0 bi-gear-fill lead" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-pane" type="button" role="tab" aria-controls="settings-pane" aria-selected="false" data-i18n data-i18n-title="managePageTabSettings" data-i18n-aria-label="managePageTabSettings"></button>
           </div>
-        </div>
+        </nav>
+      </div>
 
-        <div class="tab-pane fade" id="profiles-pane" role="tabpanel" aria-labelledby="profiles-tab">
-          <div class="list-group list-group-flush list-group-border-last" id="profiles-list">
-            <template id="profiles-list-template">
-              <div class="list-group-item d-flex justify-content-between align-items-start">
-                <div class="me-2 text-overflow-hide">
-                  <span class="list-group-item-name" id="profiles-list-template-name"></span>
-                  <span class="list-group-item-count text-secondary" id="profiles-list-template-count"></span>
-                  <div class="list-group-item-description" id="profiles-list-template-description"></div>
+      <div class="card-body">
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="sites-pane" role="tabpanel" aria-labelledby="sites-tab">
+            <div class="list-group list-group-flush list-group-border-last" id="sites-list">
+              <button type="button" class="list-group-item list-group-item-action fst-italic" id="site-install-button">
+                <span class="bi bi-plus-lg pe-1"></span>
+                <span data-i18n="managePageAppListAdd"></span>
+              </button>
+              <template id="sites-list-template">
+                <div class="list-group-item d-flex justify-content-between align-items-start">
+                  <div class="site-icon me-2 my-auto letter-icon" id="sites-list-template-letter"></div>
+                  <img class="site-icon me-2 my-auto" id="sites-list-template-icon" />
+                  <div class="me-2 text-overflow-hide">
+                    <div class="list-group-item-name" id="sites-list-template-title"></div>
+                    <div class="list-group-item-description" id="sites-list-template-description"></div>
+                  </div>
+                  <div class="btn-group my-auto">
+                    <button type="button" class="btn btn-outline-primary bi-box-arrow-up-right" id="sites-list-template-launch"></button>
+                    <button type="button" class="btn btn-outline-primary bi-pencil-square" id="sites-list-template-edit"></button>
+                    <button type="button" class="btn btn-outline-primary bi-trash" id="sites-list-template-remove"></button>
+                  </div>
                 </div>
-                <div class="btn-group my-auto">
-                  <button type="button" class="btn btn-outline-primary bi-pencil-square"
-                    id="profiles-list-template-edit"></button>
-                  <button type="button" class="btn btn-outline-primary bi-trash"
-                    id="profiles-list-template-remove"></button>
-                </div>
-              </div>
-            </template>
-            <div class="list-group-item justify-content-between align-items-start d-flex" id="profiles-list-loading">
-              <div>
-                <div><em data-i18n="commonLoading"></em></div>
-              </div>
-            </div>
-            <div class="list-group-item justify-content-between align-items-start d-flex d-none"
-              id="profiles-list-empty">
-              <div>
-                <div><em data-i18n="managePageProfileListEmpty"></em></div>
-              </div>
-            </div>
-            <button type="button" class="list-group-item list-group-item-action fst-italic" id="profile-create-button">
-              <span class="bi bi-plus-lg pe-1"></span>
-              <span data-i18n="managePageProfileListAdd"></span>
-            </button>
-          </div>
-        </div>
-
-        <div class="tab-pane fade" id="settings-pane" role="tabpanel" aria-labelledby="settings-tab">
-          <div class="list-group list-group-flush list-group-border-last">
-            <div class="list-group-item">
-              <div class="row align-items-center">
+              </template>
+              <div class="list-group-item justify-content-between align-items-start d-flex" id="sites-list-loading">
                 <div>
-                  <label class="fw-bold mb-0" for="settings-display-page-action"
-                    data-i18n="managePageSettingsDisplayPageAction"></label>
+                  <div><em data-i18n="commonLoading"></em></div>
                 </div>
-                <div id="settings-display-page-action">
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="settings-display-page-action"
-                      id="settings-display-page-action-valid" value="valid" checked>
-                    <label class="form-check-label" for="settings-display-page-action-valid"
-                      data-i18n="managePageSettingsDisplayPageActionValid"></label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="settings-display-page-action"
-                      id="settings-display-page-action-always" value="always">
-                    <label class="form-check-label" for="settings-display-page-action-always"
-                      data-i18n="managePageSettingsDisplayPageActionAlways"></label>
-                  </div>
-                  <div class="form-check">
-                    <input class="form-check-input" type="radio" name="settings-display-page-action"
-                      id="settings-display-page-action-never" value="never">
-                    <label class="form-check-label" for="settings-display-page-action-never"
-                      data-i18n="managePageSettingsDisplayPageActionNever"></label>
-                  </div>
+              </div>
+              <div class="list-group-item justify-content-between align-items-start d-flex d-none" id="sites-list-empty">
+                <div>
+                  <div><em data-i18n="managePageAppListEmpty"></em></div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="list-group-item">
-              <div class="row align-items-center">
-                <div class="col">
-                  <label class="fw-bold mb-0" for="settings-launch-current-url"
-                    data-i18n="managePageSettingsLaunchCurrentURL"></label>
-                </div>
-                <div class="col-auto">
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="settings-launch-current-url">
+          <div class="tab-pane fade" id="profiles-pane" role="tabpanel" aria-labelledby="profiles-tab">
+            <div class="list-group list-group-flush list-group-border-last" id="profiles-list">
+              <button type="button" class="list-group-item list-group-item-action fst-italic" id="profile-create-button">
+                <span class="bi bi-plus-lg pe-1"></span>
+                <span data-i18n="managePageProfileListAdd"></span>
+              </button>
+              <template id="profiles-list-template">
+                <div class="list-group-item d-flex justify-content-between align-items-start">
+                  <div class="me-2 text-overflow-hide">
+                    <span class="list-group-item-name" id="profiles-list-template-name"></span>
+                    <span class="list-group-item-count text-secondary" id="profiles-list-template-count"></span>
+                    <div class="list-group-item-description" id="profiles-list-template-description"></div>
                   </div>
+                  <div class="btn-group my-auto">
+                    <button type="button" class="btn btn-outline-primary bi-pencil-square" id="profiles-list-template-edit"></button>
+                    <button type="button" class="btn btn-outline-primary bi-trash" id="profiles-list-template-remove"></button>
+                  </div>
+                </div>
+              </template>
+              <div class="list-group-item justify-content-between align-items-start d-flex" id="profiles-list-loading">
+                <div>
+                  <div><em data-i18n="commonLoading"></em></div>
+                </div>
+              </div>
+              <div class="list-group-item justify-content-between align-items-start d-flex d-none" id="profiles-list-empty">
+                <div>
+                  <div><em data-i18n="managePageProfileListEmpty"></em></div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div class="list-group-item">
-              <div class="row align-items-center">
-                <div class="col">
-                  <label class="fw-bold mb-0" for="settings-show-update-popup"
-                    data-i18n="managePageSettingsShowUpdatePopup"></label>
-                </div>
-                <div class="col-auto">
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="settings-show-update-popup">
+          <div class="tab-pane fade" id="settings-pane" role="tabpanel" aria-labelledby="settings-tab">
+            <div class="list-group list-group-flush list-group-border-last">
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div>
+                    <label class="fw-bold mb-0" for="settings-display-page-action" data-i18n="managePageSettingsDisplayPageAction"></label>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="list-group-item">
-              <div class="row align-items-center">
-                <div class="col">
-                  <label class="fw-bold mb-0" for="settings-enable-auto-launch"
-                    data-i18n="managePageSettingsEnableAutoLaunch"></label>
-                </div>
-                <div class="col-auto">
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="settings-enable-auto-launch">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="list-group-item" id="settings-always-patch-container" data-i18n data-i18n-title="commonLoading">
-              <div class="row align-items-center">
-                <div class="col">
-                  <label class="fw-bold mb-0" for="settings-always-patch"
-                    data-i18n="managePageSettingsAlwaysPatch"></label>
-                </div>
-                <div class="col-auto">
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="settings-always-patch" disabled>
+                  <div id="settings-display-page-action">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="settings-display-page-action" id="settings-display-page-action-valid" value="valid" checked>
+                      <label class="form-check-label" for="settings-display-page-action-valid" data-i18n="managePageSettingsDisplayPageActionValid"></label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="settings-display-page-action" id="settings-display-page-action-always" value="always">
+                      <label class="form-check-label" for="settings-display-page-action-always" data-i18n="managePageSettingsDisplayPageActionAlways"></label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="settings-display-page-action" id="settings-display-page-action-never" value="never">
+                      <label class="form-check-label" for="settings-display-page-action-never" data-i18n="managePageSettingsDisplayPageActionNever"></label>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="list-group-item d-none" id="settings-enable-wayland-container" data-i18n
-              data-i18n-title="commonLoading">
-              <div class="row align-items-center">
-                <div class="col">
-                  <label class="fw-bold mb-0" for="settings-enable-wayland"
-                    data-i18n="managePageSettingsEnableWayland"></label>
-                </div>
-                <div class="col-auto">
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="settings-enable-wayland" disabled>
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <label class="fw-bold mb-0" for="settings-launch-current-url" data-i18n="managePageSettingsLaunchCurrentURL"></label>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="settings-launch-current-url">
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="list-group-item d-none" id="settings-use-xinput2-container" data-i18n
-              data-i18n-title="commonLoading">
-              <div class="row align-items-center">
-                <div class="col">
-                  <label class="fw-bold mb-0" for="settings-use-xinput2"
-                    data-i18n="managePageSettingsEnableXInput2"></label>
-                </div>
-                <div class="col-auto">
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="settings-use-xinput2" disabled>
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <label class="fw-bold mb-0" for="settings-show-update-popup" data-i18n="managePageSettingsShowUpdatePopup"></label>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="settings-show-update-popup">
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="list-group-item d-none" id="settings-use-portals-container" data-i18n
-              data-i18n-title="commonLoading">
-              <div class="row align-items-center">
-                <div class="col">
-                  <label class="fw-bold mb-0" for="settings-use-portals"
-                    data-i18n="managePageSettingsEnablePortals"></label>
-                </div>
-                <div class="col-auto">
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="settings-use-portals" disabled>
+              <div class="list-group-item">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <label class="fw-bold mb-0" for="settings-enable-auto-launch" data-i18n="managePageSettingsEnableAutoLaunch"></label>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="settings-enable-auto-launch">
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="list-group-item">
-              <div class="row align-items-center" data-i18n data-i18n-title="managePageSettingsDarkModeTooltip">
-                <div class="col">
-                  <label class="fw-bold mb-0" for="settings-enable-dark-mode"
-                    data-i18n="managePageSettingsDarkMode"></label>
-                </div>
-                <div class="col-auto">
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="settings-enable-dark-mode" disabled>
+              <div class="list-group-item" id="settings-always-patch-container" data-i18n data-i18n-title="commonLoading">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <label class="fw-bold mb-0" for="settings-always-patch" data-i18n="managePageSettingsAlwaysPatch"></label>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="settings-always-patch" disabled>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="list-group-item">
-              <div>
-                <label class="fw-bold mb-0" for="settings-default-profile-template"
-                  data-i18n="managePageSettingsDefaultProfileTemplate"></label>
-                <input type="text" class="form-control form-control-sm" id="settings-default-profile-template" data-i18n
-                  data-i18n-placeholder="profileTemplatePlaceholder" />
-                <!-- This has to be a text input because Firefox does not support file inputs in extension popups -->
+              <div class="list-group-item d-none" id="settings-enable-wayland-container" data-i18n data-i18n-title="commonLoading">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <label class="fw-bold mb-0" for="settings-enable-wayland" data-i18n="managePageSettingsEnableWayland"></label>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="settings-enable-wayland" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list-group-item d-none" id="settings-use-xinput2-container" data-i18n data-i18n-title="commonLoading">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <label class="fw-bold mb-0" for="settings-use-xinput2" data-i18n="managePageSettingsEnableXInput2"></label>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="settings-use-xinput2" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list-group-item d-none" id="settings-use-portals-container" data-i18n data-i18n-title="commonLoading">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <label class="fw-bold mb-0" for="settings-use-portals" data-i18n="managePageSettingsEnablePortals"></label>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="settings-use-portals" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list-group-item">
+                <div class="row align-items-center" data-i18n data-i18n-title="managePageSettingsDarkModeTooltip">
+                  <div class="col">
+                    <label class="fw-bold mb-0" for="settings-enable-dark-mode" data-i18n="managePageSettingsDarkMode"></label>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="settings-enable-dark-mode" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list-group-item">
+                <div>
+                  <label class="fw-bold mb-0" for="settings-default-profile-template" data-i18n="managePageSettingsDefaultProfileTemplate"></label>
+                  <input type="text" class="form-control form-control-sm" id="settings-default-profile-template" data-i18n data-i18n-placeholder="profileTemplatePlaceholder" />
+                  <!-- This has to be a text input because Firefox does not support file inputs in extension popups -->
+                </div>
+              </div>
+
+              <div class="list-group-item">
+                <div>
+                  <label class="fw-bold mb-0" for="settings-auto-launch-exclusion" data-i18n="managePageSettingsAutoLaunchExclusion"></label>
+                  <input type="text" class="form-control form-control-sm" id="settings-auto-launch-exclusion" data-i18n data-i18n-placeholder="managePageSettingsAutoLaunchExclusionPlaceholder" />
+                </div>
+              </div>
+
+              <div class="list-group-item">
+                <div>
+                  <label class="fw-bold mb-0" for="settings-language" data-i18n="managePageSettingsLanguage"></label>
+                  <select class="form-select form-select-sm" id="settings-language"></select>
+                </div>
+              </div>
+
+              <button type="button" class="list-group-item list-group-item-action fw-bold" id="update-all-sites" data-i18n="managePageSettingsUpdateWebApps"></button>
+
+              <button type="button" class="list-group-item list-group-item-action fw-bold" id="patch-all-profiles" data-i18n="managePageSettingsPatchProfiles"></button>
+
+              <button type="button" class="list-group-item list-group-item-action fw-bold" id="reinstall-runtime" data-i18n="managePageSettingsReinstallRuntime"></button>
+
+              <button type="button" class="list-group-item list-group-item-action fw-bold" id="about-project" data-i18n="managePageSettingsAboutProject"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer ps-2 pe-0 m-0 row bg-warning text-dark d-none" id="extension-outdated-box">
+        <p class="col-11 mx-0 my-auto"><span data-i18n="managePageFooterOutdated1"></span> <a id="extension-outdated-update" target="_blank" data-i18n="managePageFooterOutdated2"></a></p>
+        <button type="button" class="col-1 btn-close my-auto tiny" id="extension-outdated-close" data-i18n data-i18n-aria-label="commonClose"></button>
+      </div>
+      <div class="card-footer px-2 mx-0 row" id="search-box">
+        <label for="search-input" class="form-label visually-hidden" data-i18n="managePageFooterSearchPlaceholder"></label>
+        <input class="form-control" id="search-input" type="search" data-i18n data-i18n-placeholder="managePageFooterSearchPlaceholder" data-i18n-aria-label="managePageFooterSearchPlaceholder" />
+      </div>
+    </div>
+
+    <div class="offcanvas offcanvas-start card-offcanvas" tabindex="-1" id="site-edit-offcanvas" aria-labelledby="site-edit-label">
+      <div class="card-header card-offcanvas-header sticky-top">
+        <span data-i18n="managePageAppListEdit"></span>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" data-i18n data-i18n-aria-label="commonClose"></button>
+      </div>
+      <div class="card-body card-offcanvas-body">
+        <form class="needs-validation" id="web-app-form">
+          <div class="mb-3">
+            <label for="web-app-name" class="form-label fw-bold" data-i18n="webAppName"></label>
+            <input type="text" class="form-control form-control-sm" id="web-app-name" />
+            <div class="invalid-feedback" id="web-app-name-invalid"></div>
+          </div>
+          <div class="mb-3">
+            <label for="web-app-description" class="form-label fw-bold" data-i18n="webAppDescription"></label>
+            <input type="text" class="form-control form-control-sm" id="web-app-description" />
+          </div>
+          <div class="mb-3">
+            <label for="web-app-categories" class="form-label fw-bold" data-i18n="webAppCategories"></label>
+            <select class="form-select-tags" id="web-app-categories" multiple data-allow-new="true">
+              <option selected disabled hidden value="">​</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="web-app-keywords" class="form-label fw-bold" data-i18n="webAppKeywords"></label>
+            <select class="form-select-tags" id="web-app-keywords" multiple data-allow-new="true">
+              <option selected disabled hidden value="">​</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="web-app-start-url" class="form-label fw-bold" data-i18n="webAppStartURL"></label>
+            <input type="url" class="form-control form-control-sm" id="web-app-start-url" />
+            <div class="invalid-feedback" id="web-app-start-url-invalid"></div>
+            <div class="warning-feedback" id="web-app-start-url-warning"></div>
+          </div>
+          <div class="mb-3">
+            <label for="web-app-icon-url" class="form-label fw-bold" data-i18n="webAppIconURL"></label>
+            <input type="url" class="form-control form-control-sm" id="web-app-icon-url" />
+            <div class="invalid-feedback" id="web-app-icon-url-invalid"></div>
+          </div>
+          <div class="mb-3">
+            <label for="web-app-ulid" class="form-label fw-bold" data-i18n="webAppID"></label>
+            <input type="url" class="form-control form-control-sm" id="web-app-ulid" readonly />
+          </div>
+          <div class="mb-3">
+            <label for="web-app-profile" class="form-label" data-i18n="webAppProfile"></label>
+            <select class="form-select form-select-sm" id="web-app-profile" disabled></select>
+          </div>
+        </form>
+        <form>
+          <div class="mb-3 d-none" id="web-app-protocol-handlers-box">
+            <div class="form-label fw-bold" data-i18n="webAppProtocolHandlers"></div>
+            <div class="list-group list-group-flush list-group-no-border" id="web-app-protocol-handlers-list"></div>
+          </div>
+          <div class="mt-4"></div>
+          <div class="form-check mb-1 d-none" id="web-app-auto-launch-box" data-i18n data-i18n-title="managePageAppEditLaunchOnWebsiteTooltip">
+            <input class="form-check-input" type="checkbox" id="web-app-auto-launch">
+            <label class="form-check-label" for="web-app-auto-launch" data-i18n="managePageAppEditLaunchOnWebsiteLabel"></label>
+          </div>
+          <div class="form-check mb-1" id="web-app-launch-on-login-box" data-i18n data-i18n-title="managePageAppEditLaunchOnLoginTooltip">
+            <input class="form-check-input" type="checkbox" id="web-app-launch-on-login">
+            <label class="form-check-label" for="web-app-launch-on-login" data-i18n="managePageAppEditLaunchOnLoginLabel"></label>
+          </div>
+          <div class="form-check mb-1 mb-3" id="web-app-launch-on-browser-box" data-i18n data-i18n-title="managePageAppEditLaunchOnBrowserTooltip">
+            <input class="form-check-input" type="checkbox" id="web-app-launch-on-browser">
+            <label class="form-check-label" for="web-app-launch-on-browser" data-i18n="managePageAppEditLaunchOnBrowserLabel"></label>
+          </div>
+          <div class="form-check mb-1" id="web-app-update-manifest-box" data-i18n data-i18n-title="managePageAppEditUpdateManifestTooltip">
+            <input class="form-check-input" type="checkbox" id="web-app-update-manifest" checked>
+            <label class="form-check-label" for="web-app-update-manifest" data-i18n="managePageAppEditUpdateManifestLabel"></label>
+          </div>
+          <div class="form-check" id="web-app-update-icons-box" data-i18n data-i18n-title="managePageAppEditUpdateIconsTooltip">
+            <input class="form-check-input" type="checkbox" id="web-app-update-icons" checked>
+            <label class="form-check-label" for="web-app-update-icons" data-i18n="managePageAppEditUpdateIconsLabel"></label>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer position-sticky bottom-0 py-2">
+        <button type="submit" class="btn btn-primary" id="web-app-submit" disabled data-i18n="commonLoading"></button>
+      </div>
+    </div>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="profile-edit-offcanvas" aria-labelledby="profile-edit-label">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="profile-edit-label" data-i18n="managePageProfileListEdit"></h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" data-i18n data-i18n-aria-label="commonClose"></button>
+      </div>
+      <div class="offcanvas-body">
+        <form class="needs-validation" id="profile-form">
+          <div class="mb-3">
+            <label for="profile-name" class="form-label" data-i18n="profileName"></label>
+            <input type="text" class="form-control form-control-sm" id="profile-name" />
+          </div>
+          <div class="mb-3">
+            <label for="profile-description" class="form-label" data-i18n="profileDescription"></label>
+            <input type="text" class="form-control form-control-sm" id="profile-description" />
+          </div>
+          <div class="mb-3" id="profile-template-div">
+            <label for="profile-template" class="form-label" data-i18n="profileTemplate"></label>
+            <input type="text" class="form-control form-control-sm" id="profile-template" data-i18n data-i18n-placeholder="profileTemplatePlaceholder" />
+            <!-- This has to be a text input because Firefox does not support file inputs in extension popups -->
+          </div>
+          <div class="mb-3" id="profile-ulid-div">
+            <label for="profile-ulid" class="form-label fw-bold" data-i18n="profileID"></label>
+            <input type="url" class="form-control form-control-sm" id="profile-ulid" readonly />
+          </div>
+          <div class="mb-3" id="profile-template-editing-div">
+            <label for="profile-template" class="form-label no-validation mb-1">
+                <input class="form-check-input" type="checkbox" value="" id="profile-template-editing-apply" />
+                <label class="form-check-label" for="profile-template-editing-apply" data-i18n="managePageProfileEditApplyProfileLabel"></label>
+            </label>
+            <label for="profile-template-editing" class="form-label visually-hidden" data-i18n="profileTemplate"></label>
+            <input type="text" class="form-control form-control-sm" id="profile-template-editing" data-i18n data-i18n-placeholder="profileTemplatePlaceholder" />
+            <!-- This has to be a text input because Firefox does not support file inputs in extension popups -->
+          </div>
+          <button type="submit" class="btn btn-primary" id="profile-submit" disabled data-i18n="commonLoading"></button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal fade" id="site-remove-modal" tabindex="-1" aria-labelledby="site-remove-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="site-remove-label" data-i18n="managePageAppListRemove"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n data-i18n-aria-label="commonClose"></button>
+          </div>
+          <div class="modal-body">
+            <p data-i18n="managePageAppRemoveQuestion"></p>
+            <p id="site-remove-not-last" data-i18n="managePageAppRemoveNotLast"></p>
+            <div id="site-remove-last">
+              <p data-i18n="managePageAppRemoveLast"></p>
+              <div class="form-check" data-i18n data-i18n-title="managePageAppRemoveCheckboxTooltip">
+                <input class="form-check-input" type="checkbox" id="site-remove-last-checkbox" checked>
+                <label class="form-check-label" for="site-remove-last-checkbox" data-i18n="managePageAppRemoveCheckboxLabel"></label>
               </div>
             </div>
-
-            <div class="list-group-item">
-              <div>
-                <label class="fw-bold mb-0" for="settings-auto-launch-exclusion"
-                  data-i18n="managePageSettingsAutoLaunchExclusion"></label>
-                <input type="text" class="form-control form-control-sm" id="settings-auto-launch-exclusion" data-i18n
-                  data-i18n-placeholder="managePageSettingsAutoLaunchExclusionPlaceholder" />
-              </div>
-            </div>
-
-            <div class="list-group-item">
-              <div>
-                <label class="fw-bold mb-0" for="settings-language" data-i18n="managePageSettingsLanguage"></label>
-                <select class="form-select form-select-sm" id="settings-language"></select>
-              </div>
-            </div>
-
-            <button type="button" class="list-group-item list-group-item-action fw-bold" id="update-all-sites"
-              data-i18n="managePageSettingsUpdateWebApps"></button>
-
-            <button type="button" class="list-group-item list-group-item-action fw-bold" id="patch-all-profiles"
-              data-i18n="managePageSettingsPatchProfiles"></button>
-
-            <button type="button" class="list-group-item list-group-item-action fw-bold" id="reinstall-runtime"
-              data-i18n="managePageSettingsReinstallRuntime"></button>
-
-            <button type="button" class="list-group-item list-group-item-action fw-bold" id="about-project"
-              data-i18n="managePageSettingsAboutProject"></button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="commonCancel"></button>
+            <button type="button" class="btn btn-primary" id="site-remove-button" data-i18n="buttonRemoveDefault"></button>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="card-footer ps-2 pe-0 m-0 row bg-warning text-dark d-none" id="extension-outdated-box">
-      <p class="col-11 mx-0 my-auto"><span data-i18n="managePageFooterOutdated1"></span> <a
-          id="extension-outdated-update" target="_blank" data-i18n="managePageFooterOutdated2"></a></p>
-      <button type="button" class="col-1 btn-close my-auto tiny" id="extension-outdated-close" data-i18n
-        data-i18n-aria-label="commonClose"></button>
+    <div class="modal fade" id="profile-remove-modal" tabindex="-1" aria-labelledby="profile-remove-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="profile-remove-label" data-i18n="managePageProfileListRemove"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n data-i18n-aria-label="commonClose"></button>
+          </div>
+          <div class="modal-body">
+            <p data-i18n="managePageProfileRemoveQuestion"></p>
+            <p class="d-none" id="profile-remove-default" data-i18n="managePageProfileRemoveDefault"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="commonCancel"></button>
+            <button type="button" class="btn btn-primary" id="profile-remove-button" data-i18n="buttonRemoveDefault"></button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="card-footer px-2 mx-0 row" id="search-box">
-      <label for="search-input" class="form-label visually-hidden"
-        data-i18n="managePageFooterSearchPlaceholder"></label>
-      <input class="form-control" id="search-input" type="search" data-i18n
-        data-i18n-placeholder="managePageFooterSearchPlaceholder"
-        data-i18n-aria-label="managePageFooterSearchPlaceholder" />
-    </div>
-  </div>
 
-  <div class="offcanvas offcanvas-start card-offcanvas" tabindex="-1" id="site-edit-offcanvas"
-    aria-labelledby="site-edit-label">
-    <div class="card-header card-offcanvas-header sticky-top">
-      <span data-i18n="managePageAppListEdit"></span>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" data-i18n
-        data-i18n-aria-label="commonClose"></button>
+    <div class="modal fade" id="enable-auto-launch-modal" tabindex="-1" aria-labelledby="enable-auto-launch-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="enable-auto-launch-label" data-i18n="managePageAutoLaunchTitle"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n data-i18n-aria-label="commonClose"></button>
+          </div>
+          <div class="modal-body">
+            <p data-i18n="managePageAutoLaunchAboutMain"></p>
+            <p data-i18n="managePageAutoLaunchAboutExperimental"></p>
+            <p data-i18n="managePageAutoLaunchAboutPermissions"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="commonCancel"></button>
+            <button type="button" class="btn btn-primary" id="enable-auto-launch-confirm" data-i18n="managePageAutoLaunchEnable"></button>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="card-body card-offcanvas-body">
-      <form class="needs-validation" id="web-app-form">
-        <div class="mb-3">
-          <label for="web-app-name" class="form-label fw-bold" data-i18n="webAppName"></label>
-          <input type="text" class="form-control form-control-sm" id="web-app-name" />
-          <div class="invalid-feedback" id="web-app-name-invalid"></div>
-        </div>
-        <div class="mb-3">
-          <label for="web-app-description" class="form-label fw-bold" data-i18n="webAppDescription"></label>
-          <input type="text" class="form-control form-control-sm" id="web-app-description" />
-        </div>
-        <div class="mb-3">
-          <label for="web-app-categories" class="form-label fw-bold" data-i18n="webAppCategories"></label>
-          <select class="form-select-tags" id="web-app-categories" multiple data-allow-new="true">
-            <option selected disabled hidden value="">​</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="web-app-keywords" class="form-label fw-bold" data-i18n="webAppKeywords"></label>
-          <select class="form-select-tags" id="web-app-keywords" multiple data-allow-new="true">
-            <option selected disabled hidden value="">​</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="web-app-start-url" class="form-label fw-bold" data-i18n="webAppStartURL"></label>
-          <input type="url" class="form-control form-control-sm" id="web-app-start-url" />
-          <div class="invalid-feedback" id="web-app-start-url-invalid"></div>
-          <div class="warning-feedback" id="web-app-start-url-warning"></div>
-        </div>
-        <div class="mb-3">
-          <label for="web-app-icon-url" class="form-label fw-bold" data-i18n="webAppIconURL"></label>
-          <input type="url" class="form-control form-control-sm" id="web-app-icon-url" />
-          <div class="invalid-feedback" id="web-app-icon-url-invalid"></div>
-        </div>
-        <div class="mb-3">
-          <label for="web-app-ulid" class="form-label fw-bold" data-i18n="webAppID"></label>
-          <input type="url" class="form-control form-control-sm" id="web-app-ulid" readonly />
-        </div>
-        <div class="mb-3">
-          <label for="web-app-profile" class="form-label" data-i18n="webAppProfile"></label>
-          <select class="form-select form-select-sm" id="web-app-profile" disabled></select>
-        </div>
-      </form>
-      <form>
-        <div class="mb-3 d-none" id="web-app-protocol-handlers-box">
-          <div class="form-label fw-bold" data-i18n="webAppProtocolHandlers"></div>
-          <div class="list-group list-group-flush list-group-no-border" id="web-app-protocol-handlers-list"></div>
-        </div>
-        <div class="mt-4"></div>
-        <div class="form-check mb-1 d-none" id="web-app-auto-launch-box" data-i18n
-          data-i18n-title="managePageAppEditLaunchOnWebsiteTooltip">
-          <input class="form-check-input" type="checkbox" id="web-app-auto-launch">
-          <label class="form-check-label" for="web-app-auto-launch"
-            data-i18n="managePageAppEditLaunchOnWebsiteLabel"></label>
-        </div>
-        <div class="form-check mb-1" id="web-app-launch-on-login-box" data-i18n
-          data-i18n-title="managePageAppEditLaunchOnLoginTooltip">
-          <input class="form-check-input" type="checkbox" id="web-app-launch-on-login">
-          <label class="form-check-label" for="web-app-launch-on-login"
-            data-i18n="managePageAppEditLaunchOnLoginLabel"></label>
-        </div>
-        <div class="form-check mb-1 mb-3" id="web-app-launch-on-browser-box" data-i18n
-          data-i18n-title="managePageAppEditLaunchOnBrowserTooltip">
-          <input class="form-check-input" type="checkbox" id="web-app-launch-on-browser">
-          <label class="form-check-label" for="web-app-launch-on-browser"
-            data-i18n="managePageAppEditLaunchOnBrowserLabel"></label>
-        </div>
-        <div class="form-check mb-1" id="web-app-update-manifest-box" data-i18n
-          data-i18n-title="managePageAppEditUpdateManifestTooltip">
-          <input class="form-check-input" type="checkbox" id="web-app-update-manifest" checked>
-          <label class="form-check-label" for="web-app-update-manifest"
-            data-i18n="managePageAppEditUpdateManifestLabel"></label>
-        </div>
-        <div class="form-check" id="web-app-update-icons-box" data-i18n
-          data-i18n-title="managePageAppEditUpdateIconsTooltip">
-          <input class="form-check-input" type="checkbox" id="web-app-update-icons" checked>
-          <label class="form-check-label" for="web-app-update-icons"
-            data-i18n="managePageAppEditUpdateIconsLabel"></label>
-        </div>
-      </form>
-    </div>
-    <div class="card-footer position-sticky bottom-0 py-2">
-      <button type="submit" class="btn btn-primary" id="web-app-submit" disabled data-i18n="commonLoading"></button>
-    </div>
-  </div>
 
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="profile-edit-offcanvas" aria-labelledby="profile-edit-label">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="profile-edit-label" data-i18n="managePageProfileListEdit"></h5>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" data-i18n
-        data-i18n-aria-label="commonClose"></button>
-    </div>
-    <div class="offcanvas-body">
-      <form class="needs-validation" id="profile-form">
-        <div class="mb-3">
-          <label for="profile-name" class="form-label" data-i18n="profileName"></label>
-          <input type="text" class="form-control form-control-sm" id="profile-name" />
-        </div>
-        <div class="mb-3">
-          <label for="profile-description" class="form-label" data-i18n="profileDescription"></label>
-          <input type="text" class="form-control form-control-sm" id="profile-description" />
-        </div>
-        <div class="mb-3" id="profile-template-div">
-          <label for="profile-template" class="form-label" data-i18n="profileTemplate"></label>
-          <input type="text" class="form-control form-control-sm" id="profile-template" data-i18n
-            data-i18n-placeholder="profileTemplatePlaceholder" />
-          <!-- This has to be a text input because Firefox does not support file inputs in extension popups -->
-        </div>
-        <div class="mb-3" id="profile-ulid-div">
-          <label for="profile-ulid" class="form-label fw-bold" data-i18n="profileID"></label>
-          <input type="url" class="form-control form-control-sm" id="profile-ulid" readonly />
-        </div>
-        <div class="mb-3" id="profile-template-editing-div">
-          <label for="profile-template" class="form-label no-validation mb-1">
-            <input class="form-check-input" type="checkbox" value="" id="profile-template-editing-apply" />
-            <label class="form-check-label" for="profile-template-editing-apply"
-              data-i18n="managePageProfileEditApplyProfileLabel"></label>
-          </label>
-          <label for="profile-template-editing" class="form-label visually-hidden" data-i18n="profileTemplate"></label>
-          <input type="text" class="form-control form-control-sm" id="profile-template-editing" data-i18n
-            data-i18n-placeholder="profileTemplatePlaceholder" />
-          <!-- This has to be a text input because Firefox does not support file inputs in extension popups -->
-        </div>
-        <button type="submit" class="btn btn-primary" id="profile-submit" disabled data-i18n="commonLoading"></button>
-      </form>
-    </div>
-  </div>
-
-  <div class="modal fade" id="site-remove-modal" tabindex="-1" aria-labelledby="site-remove-label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="site-remove-label" data-i18n="managePageAppListRemove"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n
-            data-i18n-aria-label="commonClose"></button>
-        </div>
-        <div class="modal-body">
-          <p data-i18n="managePageAppRemoveQuestion"></p>
-          <p id="site-remove-not-last" data-i18n="managePageAppRemoveNotLast"></p>
-          <div id="site-remove-last">
-            <p data-i18n="managePageAppRemoveLast"></p>
-            <div class="form-check" data-i18n data-i18n-title="managePageAppRemoveCheckboxTooltip">
-              <input class="form-check-input" type="checkbox" id="site-remove-last-checkbox" checked>
-              <label class="form-check-label" for="site-remove-last-checkbox"
-                data-i18n="managePageAppRemoveCheckboxLabel"></label>
+    <div class="modal fade" id="update-all-sites-modal" tabindex="-1" aria-labelledby="update-all-sites-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="update-all-sites-label" data-i18n="managePageSettingsUpdateWebApps"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n data-i18n-aria-label="commonClose"></button>
+          </div>
+          <div class="modal-body">
+            <p data-i18n="managePageUpdateWebAppsAbout1"></p>
+            <p data-i18n="managePageUpdateWebAppsAbout2"></p>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="update-all-sites-manifests" checked>
+              <label class="form-check-label" for="update-all-sites-manifests" data-i18n="managePageUpdateWebAppsManifest"></label>
             </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="commonCancel"></button>
-          <button type="button" class="btn btn-primary" id="site-remove-button"
-            data-i18n="buttonRemoveDefault"></button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="profile-remove-modal" tabindex="-1" aria-labelledby="profile-remove-label"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="profile-remove-label" data-i18n="managePageProfileListRemove"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n
-            data-i18n-aria-label="commonClose"></button>
-        </div>
-        <div class="modal-body">
-          <p data-i18n="managePageProfileRemoveQuestion"></p>
-          <p class="d-none" id="profile-remove-default" data-i18n="managePageProfileRemoveDefault"></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="commonCancel"></button>
-          <button type="button" class="btn btn-primary" id="profile-remove-button"
-            data-i18n="buttonRemoveDefault"></button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="enable-auto-launch-modal" tabindex="-1" aria-labelledby="enable-auto-launch-label"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="enable-auto-launch-label" data-i18n="managePageAutoLaunchTitle"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n
-            data-i18n-aria-label="commonClose"></button>
-        </div>
-        <div class="modal-body">
-          <p data-i18n="managePageAutoLaunchAboutMain"></p>
-          <p data-i18n="managePageAutoLaunchAboutExperimental"></p>
-          <p data-i18n="managePageAutoLaunchAboutPermissions"></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="commonCancel"></button>
-          <button type="button" class="btn btn-primary" id="enable-auto-launch-confirm"
-            data-i18n="managePageAutoLaunchEnable"></button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="update-all-sites-modal" tabindex="-1" aria-labelledby="update-all-sites-label"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="update-all-sites-label" data-i18n="managePageSettingsUpdateWebApps"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n
-            data-i18n-aria-label="commonClose"></button>
-        </div>
-        <div class="modal-body">
-          <p data-i18n="managePageUpdateWebAppsAbout1"></p>
-          <p data-i18n="managePageUpdateWebAppsAbout2"></p>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="update-all-sites-manifests" checked>
-            <label class="form-check-label" for="update-all-sites-manifests"
-              data-i18n="managePageUpdateWebAppsManifest"></label>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="commonCancel"></button>
+            <button type="button" class="btn btn-primary" id="update-all-sites-button" data-i18n="buttonUpdateDefault"></button>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="commonCancel"></button>
-          <button type="button" class="btn btn-primary" id="update-all-sites-button"
-            data-i18n="buttonUpdateDefault"></button>
-        </div>
       </div>
     </div>
-  </div>
 
-  <div class="modal fade" id="patch-all-profiles-modal" tabindex="-1" aria-labelledby="patch-all-profiles-label"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="patch-all-profiles-label" data-i18n="managePageSettingsPatchProfiles"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n
-            data-i18n-aria-label="commonClose"></button>
-        </div>
-        <div class="modal-body">
-          <p data-i18n="managePagePatchProfilesAbout1"></p>
-          <p data-i18n="managePagePatchProfilesAbout2"></p>
-          <div class="form-check mb-1">
-            <input class="form-check-input" type="checkbox" value="" id="patch-all-profiles-runtime" checked>
-            <label class="form-check-label" for="patch-all-profiles-runtime"
-              data-i18n="managePagePatchProfilesPatchRuntime"></label>
+    <div class="modal fade" id="patch-all-profiles-modal" tabindex="-1" aria-labelledby="patch-all-profiles-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="patch-all-profiles-label" data-i18n="managePageSettingsPatchProfiles"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n data-i18n-aria-label="commonClose"></button>
           </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="patch-all-profiles-profiles" checked>
-            <label class="form-check-label" for="patch-all-profiles-profiles"
-              data-i18n="managePagePatchProfilesPatchProfiles"></label>
+          <div class="modal-body">
+            <p data-i18n="managePagePatchProfilesAbout1"></p>
+            <p data-i18n="managePagePatchProfilesAbout2"></p>
+            <div class="form-check mb-1">
+              <input class="form-check-input" type="checkbox" value="" id="patch-all-profiles-runtime" checked>
+              <label class="form-check-label" for="patch-all-profiles-runtime" data-i18n="managePagePatchProfilesPatchRuntime"></label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="patch-all-profiles-profiles" checked>
+              <label class="form-check-label" for="patch-all-profiles-profiles" data-i18n="managePagePatchProfilesPatchProfiles"></label>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="commonCancel"></button>
+            <button type="button" class="btn btn-primary" id="patch-all-profiles-button" data-i18n="buttonPatchDefault"></button>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="commonCancel"></button>
-          <button type="button" class="btn btn-primary" id="patch-all-profiles-button"
-            data-i18n="buttonPatchDefault"></button>
+      </div>
+    </div>
+
+    <div class="modal fade" id="reinstall-runtime-modal" tabindex="-1" aria-labelledby="reinstall-runtime-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reinstall-runtime-label" data-i18n="managePageSettingsReinstallRuntime"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n data-i18n-aria-label="commonClose"></button>
+          </div>
+          <div class="modal-body">
+            <p data-i18n="managePageReinstallRuntimeAbout1"></p>
+            <p data-i18n="managePageReinstallRuntimeAbout2"></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="commonCancel"></button>
+            <button type="button" class="btn btn-primary" id="reinstall-runtime-button" data-i18n="buttonReinstallDefault"></button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="modal fade" id="reinstall-runtime-modal" tabindex="-1" aria-labelledby="reinstall-runtime-label"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="reinstall-runtime-label" data-i18n="managePageSettingsReinstallRuntime"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n
-            data-i18n-aria-label="commonClose"></button>
-        </div>
-        <div class="modal-body">
-          <p data-i18n="managePageReinstallRuntimeAbout1"></p>
-          <p data-i18n="managePageReinstallRuntimeAbout2"></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="commonCancel"></button>
-          <button type="button" class="btn btn-primary" id="reinstall-runtime-button"
-            data-i18n="buttonReinstallDefault"></button>
+    <div class="modal fade" id="about-project-modal" tabindex="-1" aria-labelledby="about-project-label" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="about-project-label" data-i18n="managePageSettingsAboutProject"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n data-i18n-aria-label="commonClose"></button>
+          </div>
+          <div class="modal-body">
+            <!-- The body of this modal is intentionally left untranslated -->
+            <!-- It contains help and diagnostic data which are better left intact -->
+            <span>Project versions:</span>
+            <ul>
+              <li>Extension version: <span id="about-extension-version"></span></li>
+              <li>Native version: <span id="about-native-version"></span></li>
+              <li>Runtime version: <span id="about-runtime-version"></span></li>
+              <li>Firefox version: <span id="about-firefox-version"></span></li>
+            </ul>
+            <span>Project links:</span>
+            <ul>
+              <li><a href="https://github.com/filips123/PWAsForFirefox">Repository</a></li>
+              <li><a href="https://pwasforfirefox.filips.si/">Documentation</a></li>
+              <li><a href="https://github.com/filips123/PWAsForFirefox/issues">Bug Tracker</a></li>
+              <li><a href="https://addons.mozilla.org/firefox/addon/pwas-for-firefox">Addon Store</a></li>
+              <li><a href="https://github.com/filips123/PWAsForFirefox?sponsor=1">Donations</a></li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-i18n="commonClose"></button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="modal fade" id="about-project-modal" tabindex="-1" aria-labelledby="about-project-label"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="about-project-label" data-i18n="managePageSettingsAboutProject"></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" data-i18n
-            data-i18n-aria-label="commonClose"></button>
-        </div>
-        <div class="modal-body">
-          <!-- The body of this modal is intentionally left untranslated -->
-          <!-- It contains help and diagnostic data which are better left intact -->
-          <span>Project versions:</span>
-          <ul>
-            <li>Extension version: <span id="about-extension-version"></span></li>
-            <li>Native version: <span id="about-native-version"></span></li>
-            <li>Runtime version: <span id="about-runtime-version"></span></li>
-            <li>Firefox version: <span id="about-firefox-version"></span></li>
-          </ul>
-          <span>Project links:</span>
-          <ul>
-            <li><a href="https://github.com/filips123/PWAsForFirefox">Repository</a></li>
-            <li><a href="https://pwasforfirefox.filips.si/">Documentation</a></li>
-            <li><a href="https://github.com/filips123/PWAsForFirefox/issues">Bug Tracker</a></li>
-            <li><a href="https://addons.mozilla.org/firefox/addon/pwas-for-firefox">Addon Store</a></li>
-            <li><a href="https://github.com/filips123/PWAsForFirefox?sponsor=1">Donations</a></li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-i18n="commonClose"></button>
-        </div>
+    <div class="toast fade hide" id="error-toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="15000">
+      <div class="toast-header">
+        <strong class="me-auto" data-i18n="commonError"></strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" data-i18n data-i18n-aria-label="commonClose"></button>
       </div>
+      <div class="toast-body" id="error-text"></div>
     </div>
-  </div>
 
-  <div class="toast fade hide" id="error-toast" role="alert" aria-live="assertive" aria-atomic="true"
-    data-bs-delay="15000">
-    <div class="toast-header">
-      <strong class="me-auto" data-i18n="commonError"></strong>
-      <button type="button" class="btn-close" data-bs-dismiss="toast" data-i18n
-        data-i18n-aria-label="commonClose"></button>
-    </div>
-    <div class="toast-body" id="error-text"></div>
-  </div>
-
-  <script type="module" src="manage.js"></script>
-</body>
-
+    <script type="module" src="manage.js"></script>
+  </body>
 </html>
