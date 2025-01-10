@@ -244,7 +244,7 @@
     "description": "Instructions for manually installing Firefox using package manager, title"
   },
   "setupPageAdvancedOptionsPackageManagerStep1": {
-    "message": "Instale o Firefox usando o gerenciador de pacotes do seu distro (por exemplo, <kbd> sudo apt install firefox </kbd>, <kbd> sudo yum install firefox </kbd>,…).",
+    "message": "Instale o Firefox usando o gerenciador de pacotes do seu distro (por exemplo, <kbd> sudo apt install firefox </kbd>, <kbd> sudo yum install firefox </kbd>, …).",
     "description": "Instructions for manually installing Firefox using package manager, step 1"
   },
   "setupPageAdvancedOptionsPackageManagerStep2": {
@@ -323,6 +323,10 @@
     "message": "Instruções de instalação",
     "description": "The title of the installation instructions page"
   },
+  "instructionsPageTabWindows": {
+    "message": "Windows",
+    "description": "The Microsoft Windows tab on the instructions page"
+  },
   "instructionsPageTabDebian": {
     "message": "Linux do tipo Debian (Deb)",
     "description": "The Debian (DEB) tab on the instructions page"
@@ -346,6 +350,10 @@
   "instructionsPageTabMacOS": {
     "message": "macos",
     "description": "The macOS tab on the instructions page"
+  },
+  "instructionsPageTabBSD": {
+    "message": "BSD",
+    "description": "The BSD tab on the instructions page"
   },
   "instructionsPageTabSourceCode": {
     "message": "Do código -fonte",
@@ -483,6 +491,10 @@
     "message": "Recomenda -se instalar o pacote no canal instável NIXOS/NIXPKGS.",
     "description": "The unstable channel notice for the NixOS installation option"
   },
+  "instructionsPageMacOSInstallStep1": {
+    "message": "Verifique se <a href=\"https://brew.sh/\" target=\"_blank\">Homebrew</a> está instalado.",
+    "description": "The step 1 of the macOS installation option"
+  },
   "instructionsPageMacOSInstallStep2": {
     "message": "Erro ao traduzir",
     "description": "The step 2 of the macOS installation option"
@@ -503,6 +515,14 @@
     "message": "O suporte ao BSD depende da especificação de entrada da Desktop XDG (feita para Linux) e não é testada regularmente.",
     "description": "The warning for the BSD installation option"
   },
+  "instructionsPageSourceInstallStep1": {
+    "message": "Verifique se <a href=\"https://github.com/sagiegurari/cargo-make\" target=\"_blank\"><kbd>cargo-make</kbd></a> está instalado e atualizado.",
+    "description": "The step 1 of the source installation option"
+  },
+  "instructionsPageSourceInstallStep2": {
+    "message": "Verifique se <a href=\"https://wixtoolset.org/docs/wix3/\" target=\"_blank\">WiX Toolset v3</a> está instalado (apenas com Windows).",
+    "description": "The step 2 of the source installation option, displayed on Windows only"
+  },
   "instructionsPageSourceInstallStep3": {
     "message": "Clone o <a href = \"https://github.com/filips123/pwasforfirefox\" target = \"_ blank\"> repositório </a> e <kbd> cd </kbd> no diretório <kbd> nativo </kbd>",
     "description": "The step 3 of the source installation option"
@@ -518,6 +538,10 @@
   "instructionsPageSourceInstallStep6": {
     "message": "Construa e instale o projeto:",
     "description": "The step 6 of the source installation option"
+  },
+  "instructionsPageSourceInstallNotice1": {
+    "message": "Para uma lista de comandos para fazer isso, verifique <a id=\"connector-source-install\" target=\"_blank\">o arquivo README no repositório</a>.",
+    "description": "The notice for a list of commands for the source installation option"
   },
   "instructionsPageSourceInstallNotice2": {
     "message": "Se você deseja empacotar o PWASFORFIREFOX para sua distribuição ou já o empacotou, informe -me, para que eu possa ajudar com a embalagem e listá -la nas instruções de instalação.",
@@ -803,6 +827,10 @@
     "message": "Lançamento automático de aplicativos da web",
     "description": "The title of the automatic launching dialog"
   },
+  "managePageAutoLaunchAboutMain": {
+    "message": "Ativando o <em>ançamento automático de aplicativos da web</em> iniciará automaticamente todos os URLs que correspondem aos escopos dos aplicativos da Web ativados como um aplicativo da Web.",
+    "description": "The main clarification about the automatic launching"
+  },
   "managePageAutoLaunchAboutPermissions": {
     "message": "Permissões adicionais do navegador são necessárias para que isso funcione.",
     "description": "The permissions clarification about the automatic launching"
@@ -843,6 +871,10 @@
     "message": "Tem certeza de que deseja reinstalar o tempo de execução do PWASFORFIREFOX?",
     "description": "The first part of about reinstalling runtime message"
   },
+  "managePageReinstallRuntimeAbout2": {
+    "message": "Isso <strong>não afetará</strong> seu navegador Firefox principal e <strong>não removerá</strong> remover perfis ou outros dados.",
+    "description": "The second part of about reinstalling runtime message"
+  },
   "buttonRuntimeInstallDefault": {
     "message": "Instale o tempo de execução",
     "description": "The runtime installation button on the setup page, allowing the user to install the runtime"
@@ -872,7 +904,7 @@
     "description": "The create button, allowing the user to create something (profile)"
   },
   "buttonCreateProcessing": {
-    "message": "Criando ...",
+    "message": "Criando…",
     "description": "The create button, while something (profile) is being created"
   },
   "buttonCreateFinished": {
@@ -884,7 +916,7 @@
     "description": "The edit button, allowing the user to edit something (web app or profile)"
   },
   "buttonEditProcessing": {
-    "message": "Salvando ...",
+    "message": "Salvando…",
     "description": "The edit button, while something (web app or profile) is being edited"
   },
   "buttonEditFinished": {
@@ -908,7 +940,7 @@
     "description": "The update button, allowing the user to update something (all web apps)"
   },
   "buttonUpdateProcessing": {
-    "message": "Atualizando ...",
+    "message": "Atualizando…",
     "description": "The update button, while something (all web apps) is being updated"
   },
   "buttonUpdateFinished": {
@@ -920,7 +952,7 @@
     "description": "The patch button, allowing the user to patch something (all web apps or profiles)"
   },
   "buttonPatchProcessing": {
-    "message": "Patching ...",
+    "message": "Patching…",
     "description": "The patch button, while something (all web apps or profiles) is being patched"
   },
   "buttonPatchFinished": {
@@ -932,7 +964,7 @@
     "description": "The reinstall button, allowing the user to reinstall something (runtime)"
   },
   "buttonReinstallProcessing": {
-    "message": "Reinstalando ...",
+    "message": "Reinstalando…",
     "description": "The reinstall button, while something (runtime) is being reinstalled"
   },
   "buttonReinstallFinished": {
