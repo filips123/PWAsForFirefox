@@ -375,10 +375,6 @@
     "message": "Windows",
     "description": "The Microsoft Windows tab on the instructions page"
   },
-  "instructionsPageTabArch": {
-    "message": "Arch-like Linux (AUR)",
-    "description": "The Arch tab on the instructions page"
-  },
   "instructionsPageTabMacOS": {
     "message": "macOS",
     "description": "The macOS tab on the instructions page"
