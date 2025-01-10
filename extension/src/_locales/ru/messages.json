@@ -1,18 +1,8 @@
 {
-  // Extension Properties
-  "appName": {
-    "message": "Progressive Web Apps for Firefox",
-    "description": "The name of the application, should not be translated"
-  },
-  "appShortName": {
-    "message": "PWAsForFirefox",
-    "description": "The short name of the application, should not be translated"
-  },
   "appDescription": {
     "message": "Инструмент для установки, управления и использования Progressive Web Apps (PWAs) в Mozilla Firefox",
     "description": "The description of the application"
   },
-  // Extension Actions
   "actionInstallSite": {
     "message": "Установить этот сайт",
     "description": "Instruct users that they can install the current site here"
@@ -21,7 +11,6 @@
     "message": "Запустить этот сайт",
     "description": "Instruct users that they can launch the current site here"
   },
-  // Update Notification
   "updateNotificationTitle": {
     "message": "Обновление PWAsForFirefox",
     "description": "The title of the update notification, displayed when an update is available"
@@ -30,7 +19,6 @@
     "message": "Доступно обновления для PWAsForFirefox. Пожалуйста, нажмите на уведомление, чтобы увидеть инструкцию по установке обновления.",
     "description": "The message of the update notification, displayed when an update is available"
   },
-  // Common Messages
   "commonError": {
     "message": "Ошибка",
     "description": "Displayed before error messages or as a popup title"
@@ -79,7 +67,6 @@
     "message": "Версия Firefox:",
     "description": "Displayed before the main browser version"
   },
-  // Web App Properties
   "webAppName": {
     "message": "Название",
     "description": "The name property of a web app"
@@ -104,19 +91,10 @@
     "message": "URL-адрес иконки",
     "description": "The icon URL property of a web app"
   },
-  "webAppID": {
-    "message": "ID",
-    "description": "The ID property of a web app"
-  },
   "webAppProfile": {
     "message": "Профиль",
     "description": "The profile property of a web app"
   },
-  "webAppProtocolHandlers": {
-    "message": "Protocol Handlers",
-    "description": "The protocol handlers property of a web app"
-  },
-  // Profile Properties
   "profileName": {
     "message": "Название",
     "description": "The name property of a profile"
@@ -133,11 +111,6 @@
     "message": "Введите путь до шаблона профиля",
     "description": "The placeholder for the template input"
   },
-  "profileID": {
-    "message": "ID",
-    "description": "The ID property of a profile"
-  },
-  // Web App Validation
   "webAppValidationNameReuse": {
     "message": "Название не можеть повторяться с другим веб-приложением",
     "description": "A validation error when the web app name is reused"
@@ -158,7 +131,6 @@
     "message": "Для каждого профиля может быть установлен только один экземпляр",
     "description": "A validation error when multiple web app instances are tried to be installed in the same profile"
   },
-  // Setup Page
   "setupPageTitle": {
     "message": "Установка Progressive Web Apps for Firefox",
     "description": "The title of the setup page"
@@ -273,7 +245,7 @@
   },
   "setupPageAdvancedOptionsTitle": {
     "message": "Дополнительные инструкции",
-    "description": "The advanced Runtime installation options toggle on the setup page"
+    "description": "The advanced runtime installation options toggle on the setup page"
   },
   "setupPageAdvancedOptionsFromArchiveTitle": {
     "message": "Самостоятельно установите Firefox из архива:",
@@ -331,7 +303,6 @@
     "message": "Расширение готово к использованию. Можете закрыть это окно.",
     "description": "The ready notice on the setup page"
   },
-  // Update Page
   "updatePageTitle": {
     "message": "Обновить Progressive Web Apps for Firefox",
     "description": "The title of the update page"
@@ -380,42 +351,13 @@
     "message": "Это обновление <strong>может содержать несовместимые с прошлыми версиями изменения</strong>, так что вам может потребоваться перенастроить кое-что, как указано в примечаниях к выпуску, чтобы всё правильно заработало.",
     "description": "Displayed on the update page when an update contains potential backward-incompatible changes"
   },
-  // Installation Instructions Page
   "instructionsPageTitle": {
     "message": "Инструкции по установке",
     "description": "The title of the installation instructions page"
   },
-  "instructionsPageTabWindows": {
-    "message": "Windows",
-    "description": "The Microsoft Windows tab on the instructions page"
-  },
-  "instructionsPageTabDebian": {
-    "message": "Debian-like Linux (DEB)",
-    "description": "The Debian (DEB) tab on the instructions page"
-  },
-  "instructionsPageTabRedHat": {
-    "message": "Red Hat-like Linux (RPM)",
-    "description": "The Red Hat (RPM) tab on the instructions page"
-  },
   "instructionsPageTabArch": {
     "message": "Arch-like Linux (AUR)",
-    "description": "The Arch (AUR) tab on the instructions page"
-  },
-  "instructionsPageTabGentoo": {
-    "message": "Gentoo-like Linux",
-    "description": "The Gentoo tab on the instructions page"
-  },
-  "instructionsPageTabNixOS": {
-    "message": "NixOS Linux",
-    "description": "The NixOS tab on the instructions page"
-  },
-  "instructionsPageTabMacOS": {
-    "message": "macOS",
-    "description": "The macOS tab on the instructions page"
-  },
-  "instructionsPageTabBSD": {
-    "message": "BSD",
-    "description": "The BSD tab on the instructions page"
+    "description": "The Arch tab on the instructions page"
   },
   "instructionsPageTabSourceCode": {
     "message": "Из исходного кода",
@@ -565,18 +507,6 @@
     "message": "Частный реестр NPM и репозитории Maven, RPM, DEB, PyPi и RubyGem - packagecloud",
     "description": "An alternative text for the packagecloud.io logo"
   },
-  "instructionsPageLinuxAurInstallStep1": {
-    "message": "Скачайте и установите один из AUR-пакетов PWAsForFirefox:",
-    "description": "The step 1 of the Linux AUR installation option"
-  },
-  "instructionsPageLinuxAurInstallSource": {
-    "message": "Исходный код",
-    "description": "The source AUR package"
-  },
-  "instructionsPageLinuxAurInstallPreBuilt": {
-    "message": "pre-built",
-    "description": "The pre-built AUR package"
-  },
   "instructionsPageLinuxGentooInstallStep1": {
     "message": "Включите Gentoo GURU overlay, используя eselect:",
     "description": "The step 1 of the Gentoo installation option"
@@ -669,7 +599,6 @@
     "message": "Ваша операционная система официально не поддерживается. Вы можете попробовать собрать и установить проект из исходного кода, следуя инструкции из раздела выше. Возможно, вам придётся много чего настраивать, чтобы всё правильно заработало в вашей операционной системе, и нет никакой гарантии, что всё будут работать.",
     "description": "The notice for the other installation option"
   },
-  // Install Page
   "installPageTitle": {
     "message": "Установить веб-приложение",
     "description": "The title of the install web app page"
@@ -714,7 +643,6 @@
     "message": "Некоторые <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts\" target=\"_blank\">сайты Mozilla</a> ограничены для расширений. Это функция безопасности Firefox, которая не может быть отключена. Ограниченные сайты не могут быть установлены как веб-приложения.",
     "description": "A message that extends the content script error with more details when used on restricted domains"
   },
-  // Launch Page
   "launchPageTitle": {
     "message": "Запустить веб-приложение",
     "description": "The title of the launch web app page"
@@ -723,7 +651,6 @@
     "message": "Установить новый экземляр",
     "description": "Displayed on the launch web app page to install a new instance"
   },
-  // Manage Page
   "managePageTitle": {
     "message": "Управлять веб-приложениями и профилями",
     "description": "The title of the manage page"
@@ -787,10 +714,6 @@
   "managePageProfileListUnnamed": {
     "message": "Безымянный",
     "description": "The unnamed profile on the profile list"
-  },
-  "managePageProfileListCount": {
-    "message": "{count, plural, one {# app} other {# apps}}",
-    "description": "The web app count in the profile, supports limited pluralization options"
   },
   "managePageSettingsDisplayPageAction": {
     "message": "Отображать адресную строку",
@@ -1022,7 +945,6 @@
     "message": "Это <strong>не</strong> скажется на основном браузере Firefox и <strong>не</strong> удалит какие-либо профили или другие данные.",
     "description": "The second part of about reinstalling runtime message"
   },
-  // Buttons
   "buttonRuntimeInstallDefault": {
     "message": "Установить Runtime",
     "description": "The runtime installation button on the setup page, allowing the user to install the runtime"
