@@ -171,17 +171,57 @@
     "message": "Preparar",
     "description": "The ready tab on the setup page"
   },
+  "setupPageLicenseBase": {
+    "message": "O projeto está licenciado em <a href = \"https://www.mozilla.org/mpl/2.0/\" Target = \"_ Blank\"> The Mozilla Public License 2.0 </a>. Ao usar, redistribuir ou modificar, você deve concordar com a licença e as cláusulas adicionais fornecidas abaixo. Consulte <a href=\"https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE\" target=\"_blank\">the LICENSE file</a> in the project repository for the full MPL 2.0 license text.",
+    "description": "The base license notice on the setup page"
+  },
   "setupPageLicenseThirdPartyIncluded": {
     "message": "O projeto usa ativos e código adicionais de terceiros:",
     "description": "The included third-party assets and code notice on the setup page"
+  },
+  "setupPageLicenseLogo": {
+    "message": "O logotipo do projeto é baseado em <a href=\"https://www.svgrepo.com/svg/40267/fox\" target=\"_blank\">the \"Fox SVG Vector\" icon</a> and <a href=\"https://github.com/webmaxru/progressive-web-apps-logo\" target=\"_blank\">the community-introduced PWA logo</a>, both dedicated to the public domain using <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\">CC0</a>.",
+    "description": "The logo notice on the setup page"
+  },
+  "setupPageLicenseFirefoxScripts": {
+    "message": "As modificações do Chrome do navegador foram inspiradas e parcialmente derivadas do repositório <a href=\"https://github.com/xiaoxiaoflood/firefox-scripts\" target=\"_blank\"><code>xiaoxiaoflood/firefox-scripts</code></a> no GitHub, licenciado sob a Mozilla Public License 2.0. Informações detalhadas podem ser encontradas nos respectivos arquivos.",
+    "description": "The notice for `xiaoxiaoflood/firefox-scripts` on the setup page"
+  },
+  "setupPageLicenseFirefoxUiFix": {
+    "message": "As modificações do Chrome do navegador usam parcialmente o código derivado do repositório <a href=\"https://github.com/black7375/Firefox-UI-Fix\" target=\"_blank\"><code>black7375/Firefox-UI-Fix</code></a> no GitHub, licenciado sob a Mozilla Public License 2.0. Informações detalhadas podem ser encontradas nos respectivos arquivos.",
+    "description": "The notice for `black7375/Firefox-UI-Fix` on the setup page"
+  },
+  "setupPageLicenseFirefoxSource": {
+    "message": "As modificações do Chrome do navegador usam parcialmente código e ícones derivados de <a href=\"https://github.com/mozilla/gecko-dev\" target=\"_blank\">a fonte original do Firefox, licenciada</a> sob a Mozilla Public License 2.0. Informações detalhadas podem ser encontradas nos respectivos arquivos.",
+    "description": "The notice for the Firefox source on the setup page"
+  },
+  "setupPageLicenseMetropolisFont": {
+    "message": "Os programas nativos contêm <a href=\"https://fontsarena.com/metropolis-by-chris-simpson/\" target=\"_blank\">the Metropolis Semi Bold type guy</a> de Chris Simpson, lançado em domínio público usando <a href=\"https://unlicense.org/\" target=\"_blank\">Unlicense</a>.",
+    "description": "The notice for Metropolis Typeface on the setup page"
+  },
+  "setupPageLicenseBootstrapIcons": {
+    "message": "O instalador do Windows contém <a href=\"https://icons.getbootstrap.com/\" target=\"_blank\">Bootstrap Icons</a>, licenciado sob <a href=\"https://opensource.org/licenses/MIT\" target=\"_blank\">a Licença MIT</a>. Informações detalhadas sobre a licença podem ser encontradas em <a href=\"https://github.com/filips123/PWAsForFirefox/blob/main/native/packages/wix/main.wxs\" target=\"_blank\">o arquivo de configuração do WiX</a>.",
+    "description": "The notice for Bootstrap Icons on the setup page"
   },
   "setupPageLicenseThirdPartyDownloaded": {
     "message": "O software de código aberto adicional será baixado e instalado em tempo de execução quando iniciado pelo usuário:",
     "description": "The downloaded third-party assets and code notice on the setup page"
   },
+  "setupPageLicense7ZipDownloaded": {
+    "message": "A instalação do runtime no Windows instalará <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a> se ainda não estiver instalado. O projeto 7-Zip é feito por Igor Pavlov e <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">licenciado sob a licença GNU LGPL e outros</a>. Este projeto não é afiliado ao projeto 7-Zip ou seus desenvolvedores de forma alguma.",
+    "description": "The notice for downloaded 7-Zip on the setup page"
+  },
+  "setupPageLicenseFirefoxDownloaded": {
+    "message": "A instalação do tempo de execução em qualquer sistema fará o download do navegador <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox não modificado e o modificará</a> localmente. Ao usar este projeto, você também concorda em <a href=\"https://www.mozilla.org/privacy/firefox/\">o Aviso de Privacidade do Firefox</a>. O Firefox é licenciado sob a Mozilla Public License 2.0. Firefox e o logotipo do Firefox são marcas comerciais da Mozilla Foundation nos EUA e em outros países. Este projeto não é afiliado à Fundação Mozilla de forma alguma.",
+    "description": "The notice for downloaded Firefox on the setup page"
+  },
   "setupPageLicensePrivacyPolicy": {
     "message": "Esta extensão troca dados pessoais (Site atual e URLs manifestos, bem como outros detalhes da PWA) com o programa nativo quando o usuário inicia a instalação da PWA.",
     "description": "The privacy policy notice on the setup page"
+  },
+  "setupPageLicenseLinks": {
+    "message": "Você também pode ler esta política de privacidade <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/eula/\" target=\"_blank\"> e</a> <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/privacy/\" target=\"_blank\">privacy na</a> página AMO.",
+    "description": "The links to the licence agreement and privacy policy on AMO on the setup page"
   },
   "setupPageLicenseConsent": {
     "message": "Você não pode usar a extensão se não concordar com os termos acima.",
@@ -263,9 +303,17 @@
     "message": "Extrair o arquivo baixado e copiar arquivos para o diretório correto (veja abaixo).",
     "description": "Instructions for using alternative browser for runtime, step 2"
   },
+  "setupPageAdvancedOptionsAlternativeBrowserStep3": {
+    "message": "Dentro desse diretório, crie um link simbólico para o binário principal do seu navegador (por exemplo, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) como <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.",
+    "description": "Instructions for using alternative browser for runtime, step 3"
+  },
   "setupPageAdvancedOptionsOverlayTitle": {
     "message": "Vinculando a instalação global do Firefox com o Fuse Overlayfs:",
     "description": "Instructions for linking the runtime with FUSE OverlayFS, title"
+  },
+  "setupPageAdvancedOptionsOverlayStep1": {
+    "message": "As instruções estão disponíveis <a href=\"https://pwasforfirefox.filips.si/help/faq/#how-to-use-fuse-overlayfs-with-the-app-browser\" target=\"_blank\">no site da documentação</a>.",
+    "description": "Instructions for linking the runtime with FUSE OverlayFS, step 1"
   },
   "setupPageDefaultRuntimeLocationTitle": {
     "message": "Locais de tempo de execução padrão:",
@@ -307,6 +355,10 @@
     "message": "Não é <strong> não </strong> compatível com a versão atual do conector, portanto, você não pode usar a extensão até atualizá -la.",
     "description": "Displayed on the update page when the extension is incompatible"
   },
+  "updatePageExtensionInstructions": {
+    "message": "Por favor, atualize-o a partir do gerenciador de complementos do Firefox (<kbd>about:addons</kbd>).",
+    "description": "Displayed on the update page nstruct users to follow the instructions to update the extension"
+  },
   "updatePageUpdated": {
     "message": "A extensão e o conector nativo são atualizados para a mesma versão.",
     "description": "Displayed on the update page when both the extension and the native connector are updated to the same version"
@@ -328,23 +380,23 @@
     "description": "The Microsoft Windows tab on the instructions page"
   },
   "instructionsPageTabDebian": {
-    "message": "Linux do tipo Debian (Deb)",
+    "message": "Linux do tipo Debian (DEB)",
     "description": "The Debian (DEB) tab on the instructions page"
   },
   "instructionsPageTabRedHat": {
-    "message": "Red Hat-Like Linux (RPM)",
+    "message": "Linux do tipo Red Hat (RPM)",
     "description": "The Red Hat (RPM) tab on the instructions page"
   },
   "instructionsPageTabArch": {
-    "message": "Linux semelhante ao arco",
+    "message": "Linux do tipo Arch",
     "description": "The Arch tab on the instructions page"
   },
   "instructionsPageTabGentoo": {
-    "message": "Linux, tipo Gentoo",
+    "message": "Linux do tipo Gentoo",
     "description": "The Gentoo tab on the instructions page"
   },
   "instructionsPageTabNixOS": {
-    "message": "Nixos Linux",
+    "message": "NixOS Linux",
     "description": "The NixOS tab on the instructions page"
   },
   "instructionsPageTabMacOS": {
@@ -383,17 +435,37 @@
     "message": "Para instalar o programa manualmente:",
     "description": "The title of the manual MSI installation option"
   },
+  "instructionsPageInstallManualMSIStep1": {
+    "message": "Baixe e instale o <a id=\"connector-download-url-crt\" target=\"_blank\">Visual C++ Redistributable</a>.",
+    "description": "The step 1 of the manual MSI installation option"
+  },
+  "instructionsPageInstallManualMSIStep2": {
+    "message": "Baixe e execute o instalador <a id=\"connector-download-url-msi\" target=\"_blank\">PWAsForFirefox MSI</a>.",
+    "description": "The step 2 of the manual MSI installation option"
+  },
   "instructionsPageInstallManualDEBTitle": {
     "message": "Para instalar o pacote manualmente:",
     "description": "The title of the manual DEB installation option"
+  },
+  "instructionsPageInstallManualDEBStep1": {
+    "message": "Baixe e instale o pacote <a id=\"connector-download-url-deb\" target=\"_blank\">PWAsForFirefox DEB</a>.",
+    "description": "The step 1 of the manual DEB installation option"
   },
   "instructionsPageInstallManualRPMTitle": {
     "message": "Para instalar o pacote manualmente:",
     "description": "The title of the manual RPM installation option"
   },
+  "instructionsPageInstallManualRPMStep1": {
+    "message": "Baixe e instale o pacote RPM <a id=\"connector-download-url-rpm\" target=\"_blank\">PWAsForFirefox</a>.",
+    "description": "The step 1 of the manual RPM installation option"
+  },
   "instructionsPageInstallWingetTitle": {
     "message": "Para instalar o pacote usando o Windows Package Manager:",
     "description": "The title of the Windows Package Manager (winget) installation option"
+  },
+  "instructionsPageInstallWingetStep1": {
+    "message": "Certifique-se de que <a href=\"https://github.com/microsoft/winget-cli#installing-the-client\" target=\"_blank\">Gerenciador de Pacotes do Windows</a> esteja instalado.",
+    "description": "The step 1 of the Windows Package Manager (winget) installation option"
   },
   "instructionsPageInstallWingetStep2": {
     "message": "Instale o pacote usando Winget:",
@@ -403,6 +475,10 @@
     "message": "Para instalar o pacote usando chocolate:",
     "description": "The title of the Chocolatey installation option"
   },
+  "instructionsPageInstallChocolateyStep1": {
+    "message": "Certifique-se de que <a href=\"https://chocolatey.org/install\" target=\"_blank\">Chocolatey</a> esteja instalado.",
+    "description": "The step 1 of the Chocolatey installation option"
+  },
   "instructionsPageInstallChocolateyStep2": {
     "message": "Instale o pacote usando Choco:",
     "description": "The step 2 of the Chocolatey installation option"
@@ -411,6 +487,10 @@
     "message": "Para instalar o pacote usando o npackd:",
     "description": "The title of the Npackd installation option"
   },
+  "instructionsPageInstallNpackdStep1": {
+    "message": "Certifique-se de que <a href=\"https://www.npackd.org/\" target=\"_blank\">Npackd</a> esteja instalado.",
+    "description": "The step 1 of the Npackd installation option"
+  },
   "instructionsPageInstallNpackdStep2": {
     "message": "Instale o pacote usando o NCL:",
     "description": "The step 2 of the Npackd installation option"
@@ -418,6 +498,10 @@
   "instructionsPageInstallScoopTitle": {
     "message": "Para instalar o pacote usando o SCOOP:",
     "description": "The title of the Scoop installation option"
+  },
+  "instructionsPageInstallScoopStep1": {
+    "message": "Certifique-se de que o <a href=\"https://scoop.sh/\" target=\"_blank\">Scoop</a> esteja instalado.",
+    "description": "The step 1 of the Scoop installation option"
   },
   "instructionsPageInstallScoopStep2": {
     "message": "Adicione o bucket do Scoop Extras:",
@@ -431,6 +515,14 @@
     "message": "Para instalar o pacote usando o PortableApps.com:",
     "description": "The title of the PortableApps.com installation option"
   },
+  "instructionsPageInstallPAFStep1": {
+    "message": "Certifique-se de que a plataforma <a href=\"https://portableapps.com/download\" target=\"_blank\">PortableApps.com esteja</a> instalada.",
+    "description": "The step 1 of the PortableApps.com installation option"
+  },
+  "instructionsPageInstallPAFStep2": {
+    "message": "Baixe o pacote PAF <a id=\"connector-download-url-paf\" target=\"_blank\">PWAsForFirefox e</a> instale-o usando PortableApps.com Platform.",
+    "description": "The step 2 of the PortableApps.com installation option"
+  },
   "instructionsPageInstallPAFStep3": {
     "message": "Execute o programa PWASFORFIREFOX usando a plataforma PortableApps.com e aguarde até que uma notificação apareça.",
     "description": "The step 3 of the PortableApps.com installation option"
@@ -438,6 +530,10 @@
   "instructionsPageInstallPAFStep4": {
     "message": "Quando o programa estiver em execução, você deve prosseguir automaticamente para a próxima etapa.",
     "description": "The step 4 of the PortableApps.com installation option"
+  },
+  "instructionsPageSignPathThanks": {
+    "message": "Obrigado a <a href=\"https://signpath.org/\" target=\"_blank\">SignPath Foundation</a> por nos fornecer um certificado de assinatura de código gratuito para pacotes do Windows e <a href=\"https://about.signpath.io/\" target=\"_blank\">SignPath</a> por fornecer a infraestrutura de assinatura de código!",
+    "description": "A message that thanks SignPath for sponsoring the project"
   },
   "instructionsPageSignPathAlt": {
     "message": "Assinatura de código gratuito para software de código aberto · sinalizador",
@@ -477,6 +573,10 @@
   },
   "instructionsPageLinuxNixOSInstallStep1": {
     "message": "Adicione o código NIX a seguir à sua configuração de nixos, geralmente localizada em <kbd> /etc/nixos/configuration.nix </kbd>:",
+    "description": "The step 1 of the NixOS installation option"
+  },
+  "instructionsPageLinuxNixOSInstallStep1After": {
+    "message": "… para garantir que o pacote esteja no <kbd>PATH</kbd> e nos <kbd>nativeMessagingHosts</kbd> do Firefox.",
     "description": "The step 1 of the NixOS installation option"
   },
   "instructionsPageLinuxNixOSInstallStep2": {
@@ -562,6 +662,10 @@
   "installPageAutoCreateProfile": {
     "message": "Crie automaticamente um novo perfil",
     "description": "The automatic profile creation option on the install web app page"
+  },
+  "installPageSeparateProfiles": {
+    "message": "É altamente recomendável instalar cada aplicativo da web em um perfil separado devido a um bug difícil de corrigir. Consulte o problema <a id=\"web-app-profile-warn-issue\"></a> para obter mais detalhes.",
+    "description": "The message that tells users each web app should be in a separate profile on affected platforms"
   },
   "installPageUseManifestLabel": {
     "message": "Use o manifesto para determinar as propriedades do aplicativo",
@@ -663,6 +767,10 @@
     "message": "Sem nome",
     "description": "The unnamed profile on the profile list"
   },
+  "managePageProfileListCount": {
+    "message": "{count, plural, one {# app} other {# apps}}",
+    "description": "The web app count in the profile, supports limited pluralization options"
+  },
   "managePageSettingsDisplayPageAction": {
     "message": "Widget de barra de endereço de exibição",
     "description": "The setting for displaying page action (address bar widget)"
@@ -694,6 +802,10 @@
   "managePageSettingsAlwaysPatch": {
     "message": "Sempre patch o tempo de execução e perfil",
     "description": "The setting for configuring patching"
+  },
+  "managePageSettingsEnableWayland": {
+    "message": "Usar o servidor de exibição Wayland",
+    "description": "The setting for enabling Wayland (Linux-only)"
   },
   "managePageSettingsEnableXInput2": {
     "message": "Use X Extensão de entrada 2",
