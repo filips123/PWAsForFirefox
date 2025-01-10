@@ -7,7 +7,6 @@ toolbar-tabs-ffpwa =
     .toolbarname = Barra de abas
     .aria-label = Abas
     .accesskey = A
-
 # The label for the tabs/icon bar, when the tabs mode is disabled
 toolbar-icon-ffpwa =
     .toolbarname = Barra de ícones
