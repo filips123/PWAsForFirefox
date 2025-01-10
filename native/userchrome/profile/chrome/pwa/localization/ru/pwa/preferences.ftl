@@ -1,5 +1,6 @@
 ## Progressive Web Apps Group Details
 
+firefoxpwa-group-header = Progressive Web Apps
 firefoxpwa-group-note = Необходимо перезапустить браузер для применения этих настроек
 
 ## Colors Preferences
