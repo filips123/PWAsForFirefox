@@ -172,7 +172,7 @@
     "description": "The ready tab on the setup page"
   },
   "setupPageLicenseBase": {
-    "message": "O projeto está licenciado em <a href = \"https://www.mozilla.org/mpl/2.0/\" Target = \"_ Blank\"> The Mozilla Public License 2.0 </a>. Ao usar, redistribuir ou modificar, você deve concordar com a licença e as cláusulas adicionais fornecidas abaixo. Consulte <a href=\"https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE\" target=\"_blank\">the LICENSE file</a> in the project repository for the full MPL 2.0 license text.",
+    "message": "O projeto está licenciado sob <a href=\"https://www.mozilla.org/MPL/2.0/\" target=\"_blank\">the Mozilla Public License 2.0</a>. Ao usá-lo, redistribuí-lo ou modificá-lo, você deve concordar com a licença e as cláusulas adicionais fornecidas abaixo. Consulte <a href=\"https://github.com/filips123/PWAsForFirefox/blob/main/LICENSE\" target=\"_blank\">o arquivo LICENSE</a> no repositório do projeto para obter o texto completo da licença MPL 2.0.",
     "description": "The base license notice on the setup page"
   },
   "setupPageLicenseThirdPartyIncluded": {
@@ -911,6 +911,10 @@
     "message": "Tem certeza de que deseja remover este aplicativo da web?",
     "description": "The confirmation question on the remove web app dialog"
   },
+  "managePageAppRemoveNotLast": {
+    "message": "Outros aplicativos estão presentes neste perfil, portanto, o perfil <strong>não</strong> será removido. Os dados do aplicativo <strong>permanecerão</strong>, mas você pode removê-los por meio do navegador do aplicativo ou excluindo o perfil do aplicativo.",
+    "description": "The additional clarification on the remove web app dialog if the web app is not the last in its profile"
+  },
   "managePageAppRemoveLast": {
     "message": "Este é o último aplicativo neste perfil, para que você possa excluí -lo e os dados do aplicativo associados.",
     "description": "The additional clarification on the remove web app dialog if the web app is the last in its profile"
@@ -942,6 +946,16 @@
   "managePageAutoLaunchAboutMain": {
     "message": "Ativando o <em>ançamento automático de aplicativos da web</em> iniciará automaticamente todos os URLs que correspondem aos escopos dos aplicativos da Web ativados como um aplicativo da Web.",
     "description": "The main clarification about the automatic launching"
+  },
+  "managePageAutoLaunchAboutExperimental": {
+    "message": "Esse recurso é experimental, pode não funcionar corretamente com todos os sites e pode afetar o desempenho. Ele precisa ser ativado adicionalmente por aplicativo da web nas configurações do aplicativo da web usando a opção <em>$OPTION$</em>.",
+    "description": "The experimental clarification about the automatic launching",
+    "placeholders": {
+      "option": {
+        "content": "$managePageAppEditLaunchOnWebsiteLabel$",
+        "example": "Launch this web app on matching website"
+      }
+    }
   },
   "managePageAutoLaunchAboutPermissions": {
     "message": "Permissões adicionais do navegador são necessárias para que isso funcione.",
