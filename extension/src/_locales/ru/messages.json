@@ -132,11 +132,11 @@
     "description": "The ID property of a profile"
   },
   "webAppValidationNameReuse": {
-    "message": "Название не можеть повторяться с другим веб-приложением",
+    "message": "Название не может повторяться с другими веб-приложениями",
     "description": "A validation error when the web app name is reused"
   },
   "webAppValidationStartURLInvalid": {
-    "message": "URL-адрес страницы должен быть правильным",
+    "message": "URL-адрес страницы должен быть корректным",
     "description": "A validation error when the web app start URL is invalid"
   },
   "webAppValidationStartURLScope": {
@@ -888,7 +888,7 @@
     "description": "The label for the launch on browser checkbox on the edit web app dialog"
   },
   "managePageAppEditLaunchOnBrowserTooltip": {
-    "message": "Определяет, будет ли веб-приложение автоматически запускаться при запуске браузера",
+    "message": "Определяет, будет ли веб-приложение автоматически запускаться при открытии браузера",
     "description": "The tooltip for the launch on browser checkbox on the edit web app dialog"
   },
   "managePageAppEditUpdateManifestLabel": {
