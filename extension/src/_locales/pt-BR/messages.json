@@ -216,7 +216,7 @@
     "description": "The notice for downloaded Firefox on the setup page"
   },
   "setupPageLicensePrivacyPolicy": {
-    "message": "Esta extensão troca dados pessoais (Site atual e URLs manifestos, bem como outros detalhes da PWA) com o programa nativo quando o usuário inicia a instalação da PWA.",
+    "message": "Esta extensão troca dados pessoais (URLs atuais do site e manifesto, bem como outros detalhes do PWA) com o programa nativo quando o usuário inicia a instalação do PWA. Isso é necessário para obter e analisar corretamente o Web Application Manifest e instalar o PWA. Os dados são armazenados no computador enquanto o PWA estiver instalado. Nenhum dado pessoal sai do computador ou é enviado a terceiros.",
     "description": "The privacy policy notice on the setup page"
   },
   "setupPageLicenseLinks": {
@@ -224,11 +224,11 @@
     "description": "The links to the licence agreement and privacy policy on AMO on the setup page"
   },
   "setupPageLicenseConsent": {
-    "message": "Você não pode usar a extensão se não concordar com os termos acima.",
+    "message": "Você não pode usar a extensão se não concordar com os termos acima. Neste caso, você pode desinstalá-la com o botão abaixo.",
     "description": "The required consent and uninstallation notice on the setup page"
   },
   "setupPageLicenseUninstallation": {
-    "message": "Você não pode usar a extensão se não concordar com os termos fornecidos.",
+    "message": "Você não pode usar a extensão se não concordar com os termos fornecidos. A extensão será desinstalada. Você pode reinstalá-la mais tarde se mudar de ideia.",
     "description": "The dialog displayed when the user declines the license agreement"
   },
   "setupPageLicenseDecline": {
@@ -256,11 +256,11 @@
     "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is not supported"
   },
   "setupPageRuntimeInstallation7Zip": {
-    "message": "Para instalar o tempo de execução, você precisará de <a href = \"https://7-zip.org/\" target = \"_ blank\"> 7-zip </a> instalado.",
+    "message": "Para instalar o tempo de execução, você precisará do <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a> instalado. A instalação do tempo de execução irá automaticamente acionar o instalador do 7-Zip, se necessário. Isso pode exigir a aceitação do prompt de Controle de Conta de Usuário. Você também pode instalar o 7-Zip manualmente ou usar a instalação do 7-Zip existente. Após a instalação do tempo de execução, você pode excluir o 7-Zip manualmente.",
     "description": "The runtime installation notice on the setup page, displayed when 7-Zip needs to be installed"
   },
   "setupPageRuntimeInstallationAfter": {
-    "message": "Após a instalação do tempo de execução, você deve prosseguir automaticamente para a próxima etapa.",
+    "message": "Após o runtime ser instalado, você deve prosseguir automaticamente para a próxima etapa. Se nada mudar após cerca de 30 segundos, reinicie o navegador.",
     "description": "The runtime installation notice on the setup page, displayed always"
   },
   "setupPageAdvancedOptionsTitle": {
@@ -320,11 +320,11 @@
     "description": "The title for the default runtime locations section"
   },
   "setupPageReady": {
-    "message": "Esta extensão agora está pronta para ser usada.",
+    "message": "Esta extensão agora está pronta para ser usada. Você pode fechar esta página.",
     "description": "The ready notice on the setup page"
   },
   "updatePageTitle": {
-    "message": "Atualize aplicativos da Web Progressive para Firefox",
+    "message": "Atualize aplicativos da Web Progressivo para Firefox",
     "description": "The title of the update page"
   },
   "updatePageNativeOutdated": {
@@ -360,7 +360,7 @@
     "description": "Displayed on the update page nstruct users to follow the instructions to update the extension"
   },
   "updatePageUpdated": {
-    "message": "A extensão e o conector nativo são atualizados para a mesma versão.",
+    "message": "A extensão e o conector nativo são atualizados para a mesma versão. Você pode fechar esta página.",
     "description": "Displayed on the update page when both the extension and the native connector are updated to the same version"
   },
   "updatePageReleaseNotes": {
@@ -368,7 +368,7 @@
     "description": "Displayed on the update page to link the release notes"
   },
   "updatePageReleaseNotesIncompatible": {
-    "message": "Esta atualização <strong> pode conter alterações compatíveis com versões anteriores </strong>; portanto, você também pode precisar reconfigurar algumas coisas, conforme especificado nas notas de lançamento para fazê-lo funcionar.",
+    "message": "Esta atualização <strong>pode conter alterações incompatíveis com versões anteriores</strong>, então você também pode precisar reconfigurar algumas coisas conforme especificado nas notas de versão para que ela funcione.",
     "description": "Displayed on the update page when an update contains potential backward-incompatible changes"
   },
   "instructionsPageTitle": {
@@ -400,7 +400,7 @@
     "description": "The NixOS tab on the instructions page"
   },
   "instructionsPageTabMacOS": {
-    "message": "macos",
+    "message": "macOS",
     "description": "The macOS tab on the instructions page"
   },
   "instructionsPageTabBSD": {
@@ -420,15 +420,15 @@
     "description": "The \"or\" conjunction, displayed in the installation options list"
   },
   "instructionsPageAfterProgramsInstalled": {
-    "message": "Após a instalação dos programas, você deve ser prosseguido automaticamente para a próxima etapa.",
+    "message": "Após os programas serem instalados, você deve prosseguir automaticamente para o próximo passo. Se nada mudar após cerca de 30 segundos, reinicie o navegador.",
     "description": "The final installation step in installation options that use the \"program\" terminology"
   },
   "instructionsPageAfterPackageInstalled": {
-    "message": "Após a instalação do pacote, você deve ser prosseguido automaticamente para a próxima etapa.",
+    "message": "Após o pacote ser instalado, você deve prosseguir automaticamente para o próximo passo. Se nada mudar após cerca de 30 segundos, reinicie o navegador.",
     "description": "The final installation step in installation options that use the \"package\" terminology"
   },
   "instructionsPageAfterProjectInstalled": {
-    "message": "Após a instalação do projeto, você deve ser prosseguido automaticamente para a próxima etapa.",
+    "message": "Após o projeto ser instalado, você deve prosseguir automaticamente para o próximo passo. Se nada mudar após cerca de 30 segundos, reinicie o navegador.",
     "description": "The final installation step in installation options that use the \"project\" terminology"
   },
   "instructionsPageInstallManualMSITitle": {
@@ -520,7 +520,7 @@
     "description": "The step 1 of the PortableApps.com installation option"
   },
   "instructionsPageInstallPAFStep2": {
-    "message": "Baixe o pacote PAF <a id=\"connector-download-url-paf\" target=\"_blank\">PWAsForFirefox e</a> instale-o usando PortableApps.com Platform.",
+    "message": "Baixe o <a id=\"connector-download-url-paf\" target=\"_blank\">pacote PAF do PWAsForFirefox</a> e instale-o usando a Plataforma PortableApps.com.",
     "description": "The step 2 of the PortableApps.com installation option"
   },
   "instructionsPageInstallPAFStep3": {
@@ -528,7 +528,7 @@
     "description": "The step 3 of the PortableApps.com installation option"
   },
   "instructionsPageInstallPAFStep4": {
-    "message": "Quando o programa estiver em execução, você deve prosseguir automaticamente para a próxima etapa.",
+    "message": "Quando o programa estiver em execução, você deverá ser automaticamente encaminhado para o próximo passo. Se nada mudar após cerca de 30 segundos, reinicie o navegador.",
     "description": "The step 4 of the PortableApps.com installation option"
   },
   "instructionsPageSignPathThanks": {
@@ -544,7 +544,7 @@
     "description": "The title of the packagecloud.io installation option"
   },
   "instructionsPageInstallPackagecloudStep1": {
-    "message": "Siga as instruções no <a href = \"https://packagecloud.io/filips/firefoxpwa\" Target = \"_ Blank\"> Packagecloud.io Repositório </a>",
+    "message": "Siga as instruções no site do <a href=\"https://packagecloud.io/filips/FirefoxPWA\" target=\"_blank\">repositório packagecloud.io</a>.",
     "description": "The step 1 of the packagecloud.io installation option"
   },
   "instructionsPagePackagecloudThanks": {
@@ -584,11 +584,11 @@
     "description": "The step 2 of the NixOS installation option"
   },
   "instructionsPageLinuxNixOSInstallStep3": {
-    "message": "Depois de reconstruir o sistema, você deve prosseguir automaticamente para a próxima etapa.",
+    "message": "Após reconstruir o sistema, você deve prosseguir automaticamente para a próxima etapa. Se nada mudar após cerca de 30 segundos, reinicie o navegador.",
     "description": "The step 3 of the NixOS installation option"
   },
   "instructionsPageLinuxNixOSInstallNotice": {
-    "message": "Recomenda -se instalar o pacote no canal instável NIXOS/NIXPKGS.",
+    "message": "É recomendável instalar o pacote do canal instável nixos/nixpkgs.",
     "description": "The unstable channel notice for the NixOS installation option"
   },
   "instructionsPageMacOSInstallStep1": {
@@ -596,7 +596,7 @@
     "description": "The step 1 of the macOS installation option"
   },
   "instructionsPageMacOSInstallStep2": {
-    "message": "Erro ao traduzir",
+    "message": "Instale a fórmula usando brew:",
     "description": "The step 2 of the macOS installation option"
   },
   "instructionsPageMacOSInstallStep3": {
@@ -604,7 +604,7 @@
     "description": "The step 3 of the macOS installation option"
   },
   "instructionsPageMacOSInstallStep4": {
-    "message": "Depois que a fórmula é instalada e o manifesto estiver vinculado, você deve ser prosseguido automaticamente para a próxima etapa.",
+    "message": "Após a fórmula ser instalada e o manifesto ser vinculado, você deve prosseguir automaticamente para a próxima etapa. Se nada mudar após cerca de 30 segundos, reinicie o navegador.",
     "description": "The step 4 of the macOS installation option"
   },
   "instructionsPageBSDInstallNotice": {
@@ -624,11 +624,11 @@
     "description": "The step 2 of the source installation option, displayed on Windows only"
   },
   "instructionsPageSourceInstallStep3": {
-    "message": "Clone o <a href = \"https://github.com/filips123/pwasforfirefox\" target = \"_ blank\"> repositório </a> e <kbd> cd </kbd> no diretório <kbd> nativo </kbd>",
+    "message": "Clone o <a href=\"https://github.com/filips123/PWAsForFirefox\" target=\"_blank\">repositório</a> e o <kbd>cd</kbd> no diretório <kbd>native</kbd>.",
     "description": "The step 3 of the source installation option"
   },
   "instructionsPageSourceInstallStep4": {
-    "message": "Confira a tag <kbd class = \"conector-repository-tag\"> </kbd>.",
+    "message": "Confira a tag <kbd class=\"connector-repository-tag\"></kbd>.",
     "description": "The step 4 of the source installation option, tag is dynamically set to the correct version"
   },
   "instructionsPageSourceInstallStep5": {
@@ -644,11 +644,11 @@
     "description": "The notice for a list of commands for the source installation option"
   },
   "instructionsPageSourceInstallNotice2": {
-    "message": "Se você deseja empacotar o PWASFORFIREFOX para sua distribuição ou já o empacotou, informe -me, para que eu possa ajudar com a embalagem e listá -la nas instruções de instalação.",
+    "message": "Se você quiser empacotar o PWAsForFirefox para sua distribuição ou já o tiver empacotado, por favor me avise, para que eu possa ajudar com o empacotamento e listá-lo nas instruções de instalação. Se a plataforma de empacotamento suportar qualquer recurso de envio/upload automático, por favor também me avise, pois posso integrá-lo diretamente com o GitHub Actions para garantir que os pacotes estejam sempre atualizados.",
     "description": "The notice for packaging the project for the source installation option"
   },
   "instructionsPageOtherInstallNotice": {
-    "message": "Seu sistema operacional não é oficialmente apoiado.",
+    "message": "Seu sistema operacional não é oficialmente suportado. Você pode tentar compilar e instalar o projeto a partir da fonte com instruções da seção de instalação da fonte. Pode ser necessário ajustá-las para que funcione com seu sistema operacional, e não há garantia de que funcionará.",
     "description": "The notice for the other installation option"
   },
   "installPageTitle": {
@@ -688,11 +688,11 @@
     "description": "A message that says the extension was not able to access the content script"
   },
   "installPageContentScriptErrorDevelopment": {
-    "message": "Você está usando uma compilação de desenvolvimento, então isso provavelmente é causado por um recurso de realização ao vivo.",
+    "message": "Você está usando uma compilação de desenvolvimento, então isso provavelmente é causado por um recurso de recarregamento ao vivo. O erro pode ser corrigido desabilitando-o ou compilando no modo de lançamento.",
     "description": "A message that extends the content script error with more details when a development build is used"
   },
   "installPageContentScriptErrorRestricted": {
-    "message": "Alguns <a href = \"https://developer.mozilla.org/en-us/docs/mozilla/add-ons/webextensions/content_scripts\" Target = \"_ Blank\"> sites de mozilla </a> são restritos para extensões.",
+    "message": "Alguns <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts\" target=\"_blank\">sites Mozilla</a> são restritos para extensões. Este é um recurso de segurança do Firefox e não pode ser desabilitado. Sites restritos não podem ser instalados como aplicativos da web.",
     "description": "A message that extends the content script error with more details when used on restricted domains"
   },
   "launchPageTitle": {
@@ -708,7 +708,7 @@
     "description": "The title of the manage page"
   },
   "managePageTabApps": {
-    "message": "Erro ao traduzir",
+    "message": "Aplicativos",
     "description": "The apps tab on the manage page"
   },
   "managePageTabProfiles": {
@@ -932,11 +932,11 @@
     "description": "The label for the apply template checkbox on the edit profile dialog"
   },
   "managePageProfileRemoveQuestion": {
-    "message": "Tem certeza de que deseja remover este perfil?",
+    "message": "Tem certeza de que deseja remover este perfil? Isso removerá completamente o perfil e todos os aplicativos da web associados, incluindo seus dados. Talvez você não consiga recuperar totalmente esta ação.",
     "description": "The confirmation question on the remove profile dialog"
   },
   "managePageProfileRemoveDefault": {
-    "message": "O perfil padrão não pode ser completamente removido.",
+    "message": "O perfil padrão não pode ser completamente removido. Aplicativos da web e dados serão limpos, mas o perfil permanecerá.",
     "description": "The additional clarification on the remove profile dialog if this is the default profile"
   },
   "managePageAutoLaunchTitle": {
@@ -958,7 +958,7 @@
     }
   },
   "managePageAutoLaunchAboutPermissions": {
-    "message": "Permissões adicionais do navegador são necessárias para que isso funcione.",
+    "message": "Permissões adicionais do navegador são necessárias para que isso funcione. Elas serão solicitadas automaticamente após a ativação, caso ainda não tenham sido permitidas.",
     "description": "The permissions clarification about the automatic launching"
   },
   "managePageAutoLaunchEnable": {
@@ -966,11 +966,11 @@
     "description": "The enable button for the automatic launching"
   },
   "managePageUpdateWebAppsAbout1": {
-    "message": "Isso baixará e analisará os manifestos de todos os seus aplicativos da Web e os registrará novamente nos sistemas operacionais.",
+    "message": "Isso fará o download e analisará manifestos para todos os seus aplicativos da web e os registrará novamente nos sistemas operacionais. Quaisquer alterações nos manifestos de aplicativos da web também serão refletidas no seu sistema.",
     "description": "The first part of about updating web apps message"
   },
   "managePageUpdateWebAppsAbout2": {
-    "message": "Como alternativa, você pode registrar todos os aplicativos da Web no sistema operacional sem executar nenhuma atualização de manifesto.",
+    "message": "Alternativamente, você pode registrar todos os aplicativos da web no sistema operacional sem executar nenhuma atualização de manifesto. Isso pode ser usado se você transferiu seu arquivo de configuração de outro dispositivo.",
     "description": "The second part of about updating web apps message"
   },
   "managePageUpdateWebAppsManifest": {
@@ -994,7 +994,7 @@
     "description": "The checkbox label for patching profiles when patching profiles and runtime"
   },
   "managePageReinstallRuntimeAbout1": {
-    "message": "Tem certeza de que deseja reinstalar o tempo de execução do PWASFORFIREFOX?",
+    "message": "Tem certeza de que deseja reinstalar o runtime PWAsForFirefox? Isso removerá seu runtime atual e baixará a versão mais recente do Mozilla.",
     "description": "The first part of about reinstalling runtime message"
   },
   "managePageReinstallRuntimeAbout2": {
