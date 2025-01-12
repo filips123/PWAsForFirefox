@@ -423,18 +423,6 @@
     "message": "このプロジェクトのスポンサーであり、DEBとRPMパッケージのホスティングを無料で提供してくださった packagecloud.io に感謝します！",
     "description": "A message that thanks packagecloud.io for sponsoring the project"
   },
-  "instructionsPageLinuxAurInstallStep1": {
-    "message": "PWAsForFirefox AUR パッケージのいずれかをダウンロードし、インストールします：",
-    "description": "The step 1 of the Linux AUR installation option"
-  },
-  "instructionsPageLinuxAurInstallSource": {
-    "message": "ソース",
-    "description": "The source AUR package"
-  },
-  "instructionsPageLinuxAurInstallPreBuilt": {
-    "message": "プレビルド済み",
-    "description": "The pre-built AUR package"
-  },
   "instructionsPageMacOSInstallStep1": {
     "message": "<a href=\"https://brew.sh/\" target=\"_blank\">Homebrew</a> がインストールされていることを確認してください。",
     "description": "The step 1 of the macOS installation option"

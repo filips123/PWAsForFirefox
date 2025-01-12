@@ -231,14 +231,6 @@
     "message": "若要手動下載該程式：",
     "description": "The title of the manual MSI installation option"
   },
-  "instructionsPageLinuxAurInstallSource": {
-    "message": "來源碼",
-    "description": "The source AUR package"
-  },
-  "instructionsPageLinuxAurInstallPreBuilt": {
-    "message": "預搆建版本",
-    "description": "The pre-built AUR package"
-  },
   "installPageTitle": {
     "message": "下載此網頁應用",
     "description": "The title of the install web app page"
