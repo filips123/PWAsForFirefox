@@ -8,7 +8,7 @@
     "description": "The short name of the application, should not be translated"
   },
   "appDescription": {
-    "message": "Uma ferramenta para instalar, gerenciar e usar aplicativos da Web Progressive (PWAs) em Mozilla Firefox",
+    "message": "Uma ferramenta para instalar, gerenciar e usar aplicativos da Web Progressivo (PWAs) em Mozilla Firefox",
     "description": "The description of the application"
   },
   "actionInstallSite": {
@@ -20,11 +20,11 @@
     "description": "Instruct users that they can launch the current site here"
   },
   "updateNotificationTitle": {
-    "message": "Atualização PWASFORFIREFOX",
+    "message": "Atualização PWAsForFirefox",
     "description": "The title of the update notification, displayed when an update is available"
   },
   "updateNotificationMessage": {
-    "message": "Uma atualização do PWASFORFIREFOX está disponível.",
+    "message": "Uma atualização do PWAsForFirefox está disponível. Clique na notificação para exibir as instruções de atualização.",
     "description": "The message of the update notification, displayed when an update is available"
   },
   "commonError": {
@@ -100,7 +100,7 @@
     "description": "The icon URL property of a web app"
   },
   "webAppID": {
-    "message": "EU IA",
+    "message": "ID",
     "description": "The ID property of a web app"
   },
   "webAppProfile": {
@@ -128,7 +128,7 @@
     "description": "The placeholder for the template input"
   },
   "profileID": {
-    "message": "EU IA",
+    "message": "ID",
     "description": "The ID property of a profile"
   },
   "webAppValidationNameReuse": {
@@ -240,19 +240,19 @@
     "description": "The license accept button on the setup page"
   },
   "setupPageConnectorInstallationMain": {
-    "message": "Você precisa instalar o programa adicional para que a extensão possa gerenciar e executar o tempo de execução e os perfis separados para seus aplicativos da web.",
+    "message": "Você precisa instalar o programa adicional para que a extensão possa gerenciar e executar tempos de execução e perfis separados para seus aplicativos web. A extensão não funcionará sem este programa. Por favor, siga as instruções abaixo para instalá-lo.",
     "description": "The main connector installation notice on the setup page"
   },
   "setupPageConnectorInstallationIncompatible": {
-    "message": "A versão de um programa atualmente instalado pode ser incompatível com a versão atual da extensão.",
+    "message": "A versão de um programa instalado atualmente pode ser incompatível com a versão atual da extensão. Você precisa atualizar o programa ou a extensão para uma versão compatível para fazê-los funcionar corretamente.",
     "description": "The incompatible connector installation notice on the setup page"
   },
   "setupPageRuntimeInstallationAuto": {
-    "message": "Essa extensão também precisa de um tempo de execução do Mozilla Firefox separado, onde todos os seus sites progressivos de aplicativos da web serão executados.",
+    "message": "Esta extensão também precisa de um tempo de execução separado do Mozilla Firefox, onde todos os seus sites Progressivo Web App serão executados. Pressionar o botão abaixo fará o download automático do Mozilla Firefox não modificado dos servidores Mozilla e o modificará localmente com as modificações necessárias. Você também pode verificar as opções avançadas abaixo para instalar manualmente o tempo de execução.",
     "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is supported"
   },
   "setupPageRuntimeInstallationManual": {
-    "message": "Essa extensão também precisa de um tempo de execução do Mozilla Firefox separado, onde todos os seus sites progressivos de aplicativos da web serão executados.",
+    "message": "Esta extensão também precisa de um tempo de execução separado do Mozilla Firefox, onde todos os seus sites Progressivo Web App serão executados. No entanto, sua plataforma atualmente não suporta a instalação automática do tempo de execução. Siga as opções avançadas abaixo para instalá-lo manualmente.",
     "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is not supported"
   },
   "setupPageRuntimeInstallation7Zip": {
