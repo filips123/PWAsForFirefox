@@ -33,7 +33,7 @@ import { getAllLocales, getCurrentLocale, getMessage } from '../utils/i18n'
 import { knownCategories } from './categories'
 
 // Display install/update page when clicked on browser action and the native program is not correctly installed
-async function handleNativeStatus () {
+async function handleNativeStatus() {
   switch (await checkNativeStatus()) {
     case 'install':
       await browser.tabs.create({ url: browser.runtime.getURL('setup/install.html') })
@@ -54,7 +54,7 @@ async function handleNativeStatus () {
 }
 
 // Fill the site list
-async function createSiteList () {
+async function createSiteList() {
   const siteInstallButton = document.getElementById('site-install-button')
 
   // Hide the installation button on sites where it wouldn't work
@@ -75,20 +75,33 @@ async function createSiteList () {
 
   // Get the list elements
   const listElement = document.getElementById('sites-list')
+  const gridContainer = document.getElementById('grid-list')
   const templateElement = document.getElementById('sites-list-template')
+  const gridTemplateElement = document.getElementById('grid-list-template')
   const loadingElement = document.getElementById('sites-list-loading')
+  const gridLoadingElement = document.getElementById('grid-list-loading')
   const emptyElement = document.getElementById('sites-list-empty')
+  const gridEmptyElement = document.getElementById('grid-list-empty')
 
   loadingElement.classList.add('d-none')
-  if (!sites.length) emptyElement.classList.remove('d-none')
+  gridLoadingElement.classList.add('d-none')
+  if (!sites.length) {
+    emptyElement.classList.remove('d-none')
+    gridEmptyElement.classList.remove('d-none')
+  }
 
   // Create a list element for every instance with handlers for launching and editing
   for (const site of sites) {
+    // Create list view item
     const siteElement = templateElement.content.firstElementChild.cloneNode(true)
+    // Create grid view item
+    const gridItem = gridTemplateElement.content.firstElementChild.cloneNode(true)
+
     const siteName = sanitizeString(site.config.name || site.manifest.name || site.manifest.short_name) || new URL(site.manifest.scope).host
     const siteDescription = sanitizeString(site.config.description || site.manifest.description) || ''
     const siteIcon = site.config.icon_url || getIcon(buildIconList(site.manifest.icons), 64)
 
+    // Setup list view item
     const letterElement = siteElement.querySelector('#sites-list-template-letter')
     if (siteIcon) letterElement.classList.add('d-none')
     letterElement.setAttribute('data-letter', siteName[0])
@@ -104,6 +117,71 @@ async function createSiteList () {
       iconElement.classList.add('d-none')
     }
 
+    // Setup grid view item
+    const gridLetterElement = gridItem.querySelector('#grid-list-template-letter')
+    if (siteIcon) gridLetterElement.classList.add('d-none')
+    gridLetterElement.setAttribute('data-letter', siteName[0])
+    gridLetterElement.removeAttribute('id')
+
+    const gridIconElement = gridItem.querySelector('#grid-list-template-icon')
+    if (!siteIcon) gridIconElement.classList.add('d-none')
+    gridIconElement.src = siteIcon
+    gridIconElement.setAttribute('alt', await getMessage('managePageAppListIcon'))
+    gridIconElement.removeAttribute('id')
+    gridIconElement.onerror = () => {
+      gridLetterElement.classList.remove('d-none')
+      gridIconElement.classList.add('d-none')
+    }
+
+    // Handle grid item clicks to show/hide buttons
+    const buttonsPopup = gridItem.querySelector('.grid-item-buttons')
+    gridItem.addEventListener('click', (event) => {
+      // Don't show popup if clicking on a button
+      if (event.target.closest('.grid-item-buttons')) {
+        return
+      }
+
+      // Remove active class from all other items
+      document.querySelectorAll('.grid-item').forEach(item => {
+        if (item !== gridItem) {
+          item.classList.remove('active')
+        }
+      })
+
+      // Toggle active class on clicked item
+      gridItem.classList.toggle('active')
+
+      if (gridItem.classList.contains('active')) {
+        // Position the popup at click coordinates
+        buttonsPopup.style.top = `${event.clientY}px`
+        buttonsPopup.style.left = `${event.clientX}px`
+
+        // Adjust position if popup would go off screen
+        const rect = buttonsPopup.getBoundingClientRect()
+        const viewportWidth = document.documentElement.clientWidth
+        const viewportHeight = document.documentElement.clientHeight
+
+        if (rect.right > viewportWidth) {
+          buttonsPopup.style.left = `${event.clientX - rect.width}px`
+        }
+        if (rect.bottom > viewportHeight) {
+          buttonsPopup.style.top = `${event.clientY - rect.height}px`
+        }
+      }
+
+      event.stopPropagation()
+    })
+
+    // Close popup when clicking outside
+    document.addEventListener('click', (event) => {
+      if (!event.target.closest('.grid-item')) {
+        document.querySelectorAll('.grid-item').forEach(item => {
+          item.classList.remove('active')
+        })
+      }
+    })
+
+    // Set titles and descriptions
     const titleElement = siteElement.querySelector('#sites-list-template-title')
     titleElement.innerText = siteName
     titleElement.removeAttribute('id')
@@ -112,16 +190,32 @@ async function createSiteList () {
     descriptionElement.innerText = siteDescription
     descriptionElement.removeAttribute('id')
 
+    const gridTitleElement = gridItem.querySelector('#grid-list-template-title')
+    gridTitleElement.innerText = siteName
+    gridTitleElement.removeAttribute('id')
+
+    // Setup launch buttons
     const launchElement = siteElement.querySelector('#sites-list-template-launch')
+    const gridLaunchElement = gridItem.querySelector('#grid-list-template-launch')
     const launchElementTooltip = await getMessage('managePageAppListLaunch')
+
     launchElement.addEventListener('click', () => { launchSite(site) })
+    gridLaunchElement.addEventListener('click', () => { launchSite(site) })
+
     launchElement.setAttribute('title', launchElementTooltip)
     launchElement.setAttribute('aria-label', launchElementTooltip)
     launchElement.removeAttribute('id')
 
+    gridLaunchElement.setAttribute('title', launchElementTooltip)
+    gridLaunchElement.setAttribute('aria-label', launchElementTooltip)
+    gridLaunchElement.removeAttribute('id')
+
+    // Setup edit buttons
     const editElement = siteElement.querySelector('#sites-list-template-edit')
+    const gridEditElement = gridItem.querySelector('#grid-list-template-edit')
     const editElementTooltip = await getMessage('managePageAppListEdit')
-    editElement.addEventListener('click', async (event) => {
+
+    const editHandler = async (event) => {
       const form = document.getElementById('web-app-form')
       const submit = document.getElementById('web-app-submit')
 
@@ -379,14 +473,25 @@ async function createSiteList () {
       // Show offcanvas element
       Offcanvas.getOrCreateInstance(document.getElementById('site-edit-offcanvas')).show()
       event.preventDefault()
-    })
+    }
+
+    editElement.addEventListener('click', editHandler)
+    gridEditElement.addEventListener('click', editHandler)
+
     editElement.setAttribute('title', editElementTooltip)
     editElement.setAttribute('aria-label', editElementTooltip)
     editElement.removeAttribute('id')
 
+    gridEditElement.setAttribute('title', editElementTooltip)
+    gridEditElement.setAttribute('aria-label', editElementTooltip)
+    gridEditElement.removeAttribute('id')
+
+    // Setup remove buttons
     const removeElement = siteElement.querySelector('#sites-list-template-remove')
+    const gridRemoveElement = gridItem.querySelector('#grid-list-template-remove')
     const removeElementTooltip = await getMessage('managePageAppListRemove')
-    removeElement.addEventListener('click', () => {
+
+    const removeHandler = () => {
       const lastSiteInProfile = profiles[site.profile].sites.length <= 1
 
       document.getElementById('site-remove-button').onclick = async function () {
@@ -433,17 +538,26 @@ async function createSiteList () {
       }
 
       Modal.getOrCreateInstance(document.getElementById('site-remove-modal')).show()
-    })
+    }
+
+    removeElement.addEventListener('click', removeHandler)
+    gridRemoveElement.addEventListener('click', removeHandler)
+
     removeElement.setAttribute('title', removeElementTooltip)
     removeElement.setAttribute('aria-label', removeElementTooltip)
     removeElement.removeAttribute('id')
 
+    gridRemoveElement.setAttribute('title', removeElementTooltip)
+    gridRemoveElement.setAttribute('aria-label', removeElementTooltip)
+    gridRemoveElement.removeAttribute('id')
+
     listElement.insertBefore(siteElement, templateElement)
+    gridContainer.insertBefore(gridItem, gridTemplateElement)
   }
 }
 
 // Fill the list of profiles
-async function createProfileList () {
+async function createProfileList() {
   // Handle creating new profile
   // Just re-use the same form as for editing, but with different labels and handling
   document.getElementById('profile-create-button').addEventListener('click', async (event) => {
@@ -688,17 +802,25 @@ async function createProfileList () {
 }
 
 // Handle site and profile search
-async function handleSearch () {
-  const searchHandler = function (listElement) {
+async function handleSearch() {
+  const searchHandler = function (listElement, gridElement) {
     document.getElementById('search-box').classList.remove('invisible')
 
     document.getElementById('search-input').oninput = function () {
+      const searchQuery = sanitizeString(this.value.toLowerCase())
+
       for (const item of document.getElementById(listElement).children) {
         const itemName = sanitizeString(item.querySelector('.list-group-item-name')?.innerText.toLowerCase())
-        const searchQuery = sanitizeString(this.value.toLowerCase())
-
         if (!itemName) continue
         item.classList.toggle('d-none', itemName.indexOf(searchQuery) === -1)
+      }
+
+      if (gridElement) {
+        for (const item of document.getElementById(gridElement).children) {
+          const itemName = sanitizeString(item.querySelector('.list-group-item-name')?.innerText.toLowerCase())
+          if (!itemName) continue
+          item.classList.toggle('d-none', itemName.indexOf(searchQuery) === -1)
+        }
       }
     }
   }
@@ -707,15 +829,16 @@ async function handleSearch () {
     document.getElementById('search-box').classList.add('invisible')
   }
 
+  document.getElementById('grid-tab').addEventListener('click', () => searchHandler('grid-list'))
   document.getElementById('sites-tab').addEventListener('click', () => searchHandler('sites-list'))
   document.getElementById('profiles-tab').addEventListener('click', () => searchHandler('profiles-list'))
   document.getElementById('settings-tab').addEventListener('click', () => searchHide())
 
-  searchHandler('sites-list')
+  searchHandler('grid-list')
 }
 
 // Handle extension settings
-async function handleSettings (hasChanged = false) {
+async function handleSettings(hasChanged = false) {
   // Get settings from local storage and media query
   const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL, PREF_SHOW_UPDATE_POPUP, PREF_ENABLE_AUTO_LAUNCH, PREF_DEFAULT_PROFILE_TEMPLATE, PREF_AUTO_LAUNCH_EXCLUSION])
   const settingsDisplayPageAction = settings[PREF_DISPLAY_PAGE_ACTION] ? settings[PREF_DISPLAY_PAGE_ACTION] : 'valid'
