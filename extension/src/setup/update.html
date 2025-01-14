@@ -1,60 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title data-i18n="updatePageTitle"></title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
-    <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
-    <link rel="stylesheet" href="update.scss" />
-  </head>
 
-  <body class="bg-body-tertiary">
-    <div class="container-fluid vh-100">
-      <div class="row justify-content-center">
-        <div class="wrapper my-4 px-4 py-0">
-          <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-            <h1 class="text-center pb-2" data-i18n="updatePageTitle"></h1>
-            <div class="row">
-              <div class="pb-3">
-                <p id="native-not-updated" class="px-3 d-none">
-                  <span data-i18n="updatePageNativeOutdated"></span>
-                  <span id="native-versions-compatible" data-i18n="updatePageNativeCompatible" class="d-none"></span>
-                  <span id="native-versions-incompatible" data-i18n="updatePageNativeIncompatible" class="d-none"></span>
-                  <span data-i18n="updatePageNativeInstructions"></span>
-                </p>
+<head>
+  <title data-i18n="updatePageTitle"></title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+  <link rel="shortcut icon" type="image/png" href="../images/addon-logo.svg" />
+  <link rel="stylesheet" href="update.scss" />
+</head>
 
-                <p id="extension-not-updated" class="px-3 d-none">
-                  <span data-i18n="updatePageExtensionOutdated"></span>
-                  <span id="extension-versions-compatible" data-i18n="updatePageExtensionCompatible" class="d-none"></span>
-                  <span id="extension-versions-incompatible" data-i18n="updatePageExtensionIncompatible" class="d-none"></span>
-                  <span data-i18n="updatePageExtensionInstructions"></span>
-                </p>
+<body class="bg-body-tertiary">
+  <div class="container-fluid vh-100">
+    <div class="row justify-content-center">
+      <div class="wrapper my-4 px-4 py-0">
+        <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+          <h1 class="text-center pb-2" data-i18n="updatePageTitle"></h1>
+          <div class="row">
+            <div class="pb-3">
+              <p id="native-not-updated" class="px-3 d-none">
+                <span data-i18n="updatePageNativeOutdated"></span>
+                <span id="native-versions-compatible" data-i18n="updatePageNativeCompatible" class="d-none"></span>
+                <span id="native-versions-incompatible" data-i18n="updatePageNativeIncompatible" class="d-none"></span>
+                <span data-i18n="updatePageNativeInstructions"></span>
+              </p>
 
-                <p id="both-updated" data-i18n="updatePageUpdated" class="px-3 d-none"></p>
+              <p id="extension-not-updated" class="px-3 d-none">
+                <span data-i18n="updatePageExtensionOutdated"></span>
+                <span id="extension-versions-compatible" data-i18n="updatePageExtensionCompatible"
+                  class="d-none"></span>
+                <span id="extension-versions-incompatible" data-i18n="updatePageExtensionIncompatible"
+                  class="d-none"></span>
+                <span data-i18n="updatePageExtensionInstructions"></span>
+              </p>
 
-                <p id="release-notes-show" class="px-3 d-none">
-                  <span data-i18n="updatePageReleaseNotes"></span>
-                  <span id="release-notes-incompatible" data-i18n="updatePageReleaseNotesIncompatible" class="d-none"></span>
-                </p>
+              <p id="both-updated" data-i18n="updatePageUpdated" class="px-3 d-none"></p>
 
-                <p id="native-error" class="px-3 d-none">
-                  <strong><span data-i18n="commonError"></span>:</strong>
-                  <span id="native-error-text"></span>
-                </p>
+              <p id="release-notes-show" class="px-3 d-none">
+                <span data-i18n="updatePageReleaseNotes"></span>
+                <span id="release-notes-incompatible" data-i18n="updatePageReleaseNotesIncompatible"
+                  class="d-none"></span>
+              </p>
 
-                <ul class="px-3 list-unstyled">
-                  <li><strong data-i18n="commonExtensionVersion"></strong> <span id="version-extension"><em data-i18n="commonLoading"></em></span></li>
-                  <li><strong data-i18n="commonNativeVersion"></strong> <span id="version-native"><em data-i18n="commonLoading"></em></span></li>
-                </ul>
+              <p id="native-error" class="px-3 d-none">
+                <strong><span data-i18n="commonError"></span>:</strong>
+                <span id="native-error-text"></span>
+              </p>
 
-                <iframe class="px-3 d-none" id="connector-instructions" src="instructions.html"></iframe>
-              </div>
+              <ul class="px-3 list-unstyled">
+                <li><strong data-i18n="commonExtensionVersion"></strong> <span id="version-extension"><em
+                      data-i18n="commonLoading"></em></span></li>
+                <li><strong data-i18n="commonNativeVersion"></strong> <span id="version-native"><em
+                      data-i18n="commonLoading"></em></span></li>
+              </ul>
+
+              <iframe class="px-3 d-none" id="connector-instructions" src="instructions.html"></iframe>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script type="module" src="update.js"></script>
-  </body>
+  <script type="module" src="update.js"></script>
+</body>
+
 </html>
