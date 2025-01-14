@@ -33,7 +33,7 @@ import { getAllLocales, getCurrentLocale, getMessage } from '../utils/i18n'
 import { knownCategories } from './categories'
 
 // Display install/update page when clicked on browser action and the native program is not correctly installed
-async function handleNativeStatus() {
+async function handleNativeStatus () {
   switch (await checkNativeStatus()) {
     case 'install':
       await browser.tabs.create({ url: browser.runtime.getURL('setup/install.html') })
@@ -54,7 +54,7 @@ async function handleNativeStatus() {
 }
 
 // Fill the site list
-async function createSiteList() {
+async function createSiteList () {
   const siteInstallButton = document.getElementById('site-install-button')
 
   // Hide the installation button on sites where it wouldn't work
@@ -557,7 +557,7 @@ async function createSiteList() {
 }
 
 // Fill the list of profiles
-async function createProfileList() {
+async function createProfileList () {
   // Handle creating new profile
   // Just re-use the same form as for editing, but with different labels and handling
   document.getElementById('profile-create-button').addEventListener('click', async (event) => {
@@ -802,7 +802,7 @@ async function createProfileList() {
 }
 
 // Handle site and profile search
-async function handleSearch() {
+async function handleSearch () {
   const searchHandler = function (listElement, gridElement) {
     document.getElementById('search-box').classList.remove('invisible')
 
@@ -838,7 +838,7 @@ async function handleSearch() {
 }
 
 // Handle extension settings
-async function handleSettings(hasChanged = false) {
+async function handleSettings (hasChanged = false) {
   // Get settings from local storage and media query
   const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL, PREF_SHOW_UPDATE_POPUP, PREF_ENABLE_AUTO_LAUNCH, PREF_DEFAULT_PROFILE_TEMPLATE, PREF_AUTO_LAUNCH_EXCLUSION])
   const settingsDisplayPageAction = settings[PREF_DISPLAY_PAGE_ACTION] ? settings[PREF_DISPLAY_PAGE_ACTION] : 'valid'
