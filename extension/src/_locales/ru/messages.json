@@ -1,5 +1,4 @@
 {
-  // Extension Properties
   "appName": {
     "message": "Progressive Web Apps for Firefox",
     "description": "The name of the application, should not be translated"
@@ -12,7 +11,6 @@
     "message": "Инструмент для установки, управления и использования Progressive Web Apps (PWAs) в Mozilla Firefox",
     "description": "The description of the application"
   },
-  // Extension Actions
   "actionInstallSite": {
     "message": "Установить этот сайт",
     "description": "Instruct users that they can install the current site here"
@@ -21,7 +19,6 @@
     "message": "Запустить этот сайт",
     "description": "Instruct users that they can launch the current site here"
   },
-  // Update Notification
   "updateNotificationTitle": {
     "message": "Обновление PWAsForFirefox",
     "description": "The title of the update notification, displayed when an update is available"
@@ -30,7 +27,6 @@
     "message": "Доступно обновления для PWAsForFirefox. Пожалуйста, нажмите на уведомление, чтобы увидеть инструкцию по установке обновления.",
     "description": "The message of the update notification, displayed when an update is available"
   },
-  // Common Messages
   "commonError": {
     "message": "Ошибка",
     "description": "Displayed before error messages or as a popup title"
@@ -79,7 +75,6 @@
     "message": "Версия Firefox:",
     "description": "Displayed before the main browser version"
   },
-  // Web App Properties
   "webAppName": {
     "message": "Название",
     "description": "The name property of a web app"
@@ -113,10 +108,9 @@
     "description": "The profile property of a web app"
   },
   "webAppProtocolHandlers": {
-    "message": "Protocol Handlers",
+    "message": "Обработчики протоколов",
     "description": "The protocol handlers property of a web app"
   },
-  // Profile Properties
   "profileName": {
     "message": "Название",
     "description": "The name property of a profile"
@@ -137,13 +131,12 @@
     "message": "ID",
     "description": "The ID property of a profile"
   },
-  // Web App Validation
   "webAppValidationNameReuse": {
-    "message": "Название не можеть повторяться с другим веб-приложением",
+    "message": "Название не может повторяться с другими веб-приложениями",
     "description": "A validation error when the web app name is reused"
   },
   "webAppValidationStartURLInvalid": {
-    "message": "URL-адрес страницы должен быть правильным",
+    "message": "URL-адрес страницы должен быть корректным",
     "description": "A validation error when the web app start URL is invalid"
   },
   "webAppValidationStartURLScope": {
@@ -151,14 +144,13 @@
     "description": "A validation warning when the web app start URL is out-of-scope, with the scope displayed after the colon"
   },
   "webAppValidationIconURLInvalid": {
-    "message": "URL-адрес иконки должен быть правильным",
+    "message": "URL-адрес иконки должен быть корректным",
     "description": "A validation error when the web app icon URL is invalid"
   },
   "webAppValidationProfileLimit": {
     "message": "Для каждого профиля может быть установлен только один экземпляр",
     "description": "A validation error when multiple web app instances are tried to be installed in the same profile"
   },
-  // Setup Page
   "setupPageTitle": {
     "message": "Установка Progressive Web Apps for Firefox",
     "description": "The title of the setup page"
@@ -172,7 +164,7 @@
     "description": "The connector installation tab on the setup page"
   },
   "setupPageTabRuntimeInstallation": {
-    "message": "Установа Runtime",
+    "message": "Установка Runtime",
     "description": "The runtime installation tab on the setup page"
   },
   "setupPageTabReady": {
@@ -200,7 +192,7 @@
     "description": "The notice for `black7375/Firefox-UI-Fix` on the setup page"
   },
   "setupPageLicenseFirefoxSource": {
-    "message": "Изменения браузера частично используют код и иконки из <a href=\"https://github.com/mozilla/gecko-dev\" target=\"_blank\">исходного кода оригинального Firefox</a>, ниходящимся под лицензией Mozilla Public License 2.0. Подробная информация о лицензии может быть найдена в соответствующем файле.",
+    "message": "Изменения браузера частично используют код и иконки из <a href=\"https://github.com/mozilla/gecko-dev\" target=\"_blank\">исходного кода оригинального Firefox</a>, находящимся под лицензией Mozilla Public License 2.0. Подробная информация о лицензии может быть найдена в соответствующем файле.",
     "description": "The notice for the Firefox source on the setup page"
   },
   "setupPageLicenseMetropolisFont": {
@@ -220,7 +212,7 @@
     "description": "The notice for downloaded 7-Zip on the setup page"
   },
   "setupPageLicenseFirefoxDownloaded": {
-    "message": "Установка Runtime на любые системы скачает оригинальный браузер <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> и модифицирует его. Пользуясь этим проектом, вы также соглашаетесь с <a href=\"https://www.mozilla.org/privacy/firefox/\">Условиями пользования Firefox</a>. Firefox находится под лицензией Mozilla Public License 2.0. Firefox и логотип Firefox являются торговыми марками Mozilla Foundation в США и друих странах. Наш проект ни коим образом не связан с Mozilla Foundation.",
+    "message": "Установка Runtime на любые системы скачает оригинальный браузер <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> и модифицирует его. Пользуясь этим проектом, вы также соглашаетесь с <a href=\"https://www.mozilla.org/privacy/firefox/\">Условиями пользования Firefox</a>. Firefox находится под лицензией Mozilla Public License 2.0. Firefox и логотип Firefox являются торговыми марками Mozilla Foundation в США и других странах. Наш проект ни коим образом не связан с Mozilla Foundation.",
     "description": "The notice for downloaded Firefox on the setup page"
   },
   "setupPageLicensePrivacyPolicy": {
@@ -256,7 +248,7 @@
     "description": "The incompatible connector installation notice on the setup page"
   },
   "setupPageRuntimeInstallationAuto": {
-    "message": "Этому расширению также нужен отдельный Mozilla Firefox Runtime, в котором будут запускаться все ваши Progressive Web App сайты. Нажав на кнопку ниже, начнётся автоматическое скачаивание оригинального Mozilla Firefox с серверов Mozilla и последующая его необходимая модификация. Вы также можете проверить инструкцию ниже, чтобы самостоятельно установить Runtime.",
+    "message": "Этому расширению также нужен отдельный Mozilla Firefox Runtime, в котором будут запускаться все ваши Progressive Web App сайты. Нажав на кнопку ниже, начнётся автоматическое скачивание оригинального Mozilla Firefox с серверов Mozilla и последующая его необходимая модификация. Вы также можете проверить инструкцию ниже, чтобы самостоятельно установить Runtime.",
     "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is supported"
   },
   "setupPageRuntimeInstallationManual": {
@@ -264,7 +256,7 @@
     "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is not supported"
   },
   "setupPageRuntimeInstallation7Zip": {
-    "message": "Чтобы установить Runtime, нужен установленный <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>. Установшик Runtime начнёт автоматчески устанавливать 7-Zip, если он уже не установлен. Может потребоваться разрешение Контроля учётных записей. Вы также можете смамостоятельно установить 7-Zip или использовать уже установленный. После установки Runtime можете удалить 7-Zip.",
+    "message": "Чтобы установить Runtime, нужен установленный <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>. Установщик Runtime начнёт автоматически устанавливать 7-Zip, если он уже не установлен. Может потребоваться разрешение Контроля учётных записей. Вы также можете самостоятельно установить 7-Zip или использовать уже установленный. После установки Runtime можете удалить 7-Zip.",
     "description": "The runtime installation notice on the setup page, displayed when 7-Zip needs to be installed"
   },
   "setupPageRuntimeInstallationAfter": {
@@ -273,14 +265,14 @@
   },
   "setupPageAdvancedOptionsTitle": {
     "message": "Дополнительные инструкции",
-    "description": "The advanced Runtime installation options toggle on the setup page"
+    "description": "The advanced runtime installation options toggle on the setup page"
   },
   "setupPageAdvancedOptionsFromArchiveTitle": {
     "message": "Самостоятельно установите Firefox из архива:",
     "description": "Instructions for manually installing Firefox from the archive, title"
   },
   "setupPageAdvancedOptionsFromArchiveStep1": {
-    "message": "Скачайте арихив Firefox из желаемого источника (например, с <a href=\"https://www.mozilla.org/firefox/all/\" target=\"_blank\">официальной страницы</a>).",
+    "message": "Скачайте архив Firefox из желаемого источника (например, с <a href=\"https://www.mozilla.org/firefox/all/\" target=\"_blank\">официальной страницы</a>).",
     "description": "Instructions for manually installing Firefox from the archive, step 1"
   },
   "setupPageAdvancedOptionsFromArchiveStep2": {
@@ -288,7 +280,7 @@
     "description": "Instructions for manually installing Firefox from the archive, step 2"
   },
   "setupPageAdvancedOptionsPackageManagerTitle": {
-    "message": "Самосоятельно установите Firefox, используя пакетный менеджер:",
+    "message": "Самостоятельно установите Firefox, используя пакетный менеджер:",
     "description": "Instructions for manually installing Firefox using package manager, title"
   },
   "setupPageAdvancedOptionsPackageManagerStep1": {
@@ -331,7 +323,6 @@
     "message": "Расширение готово к использованию. Можете закрыть это окно.",
     "description": "The ready notice on the setup page"
   },
-  // Update Page
   "updatePageTitle": {
     "message": "Обновить Progressive Web Apps for Firefox",
     "description": "The title of the update page"
@@ -349,7 +340,7 @@
     "description": "Displayed on the update page when the native connector is incompatible"
   },
   "updatePageNativeInstructions": {
-    "message": "Пожалуйста, слеуйте инструкции ниже.",
+    "message": "Пожалуйста, следуйте инструкции ниже.",
     "description": "Displayed on the update page nstruct users to follow the instructions to update the native connector"
   },
   "updatePageExtensionOutdated": {
@@ -365,7 +356,7 @@
     "description": "Displayed on the update page when the extension is incompatible"
   },
   "updatePageExtensionInstructions": {
-    "message": "Пожалуйста, обновите из менеждера расширений Firefox (<kbd>about:addons</kbd>).",
+    "message": "Пожалуйста, обновите из менеджера расширений Firefox (<kbd>about:addons</kbd>).",
     "description": "Displayed on the update page nstruct users to follow the instructions to update the extension"
   },
   "updatePageUpdated": {
@@ -380,7 +371,6 @@
     "message": "Это обновление <strong>может содержать несовместимые с прошлыми версиями изменения</strong>, так что вам может потребоваться перенастроить кое-что, как указано в примечаниях к выпуску, чтобы всё правильно заработало.",
     "description": "Displayed on the update page when an update contains potential backward-incompatible changes"
   },
-  // Installation Instructions Page
   "instructionsPageTitle": {
     "message": "Инструкции по установке",
     "description": "The title of the installation instructions page"
@@ -390,19 +380,19 @@
     "description": "The Microsoft Windows tab on the instructions page"
   },
   "instructionsPageTabDebian": {
-    "message": "Debian-like Linux (DEB)",
+    "message": "Debian-подобные Linux (DEB)",
     "description": "The Debian (DEB) tab on the instructions page"
   },
   "instructionsPageTabRedHat": {
-    "message": "Red Hat-like Linux (RPM)",
+    "message": "Red Hat-подобные Linux (RPM)",
     "description": "The Red Hat (RPM) tab on the instructions page"
   },
   "instructionsPageTabArch": {
-    "message": "Arch-like Linux (AUR)",
-    "description": "The Arch (AUR) tab on the instructions page"
+    "message": "Arch-подобные Linux",
+    "description": "The Arch tab on the instructions page"
   },
   "instructionsPageTabGentoo": {
-    "message": "Gentoo-like Linux",
+    "message": "Gentoo-подобные Linux",
     "description": "The Gentoo tab on the instructions page"
   },
   "instructionsPageTabNixOS": {
@@ -542,7 +532,7 @@
     "description": "The step 4 of the PortableApps.com installation option"
   },
   "instructionsPageSignPathThanks": {
-    "message": "Спасибо <a href=\"https://signpath.org/\" target=\"_blank\">SignPath Foundation</a> за предоставлние нам бесплатного сертификата подписи кода для пакетов Windows и <a href=\"https://about.signpath.io/\" target=\"_blank\">SignPath</a> за предоставление инфраструктуры для подписания кода!",
+    "message": "Спасибо <a href=\"https://signpath.org/\" target=\"_blank\">SignPath Foundation</a> за предоставление нам бесплатного сертификата подписи кода для пакетов Windows и <a href=\"https://about.signpath.io/\" target=\"_blank\">SignPath</a> за предоставление инфраструктуры для подписания кода!",
     "description": "A message that thanks SignPath for sponsoring the project"
   },
   "instructionsPageSignPathAlt": {
@@ -558,24 +548,16 @@
     "description": "The step 1 of the packagecloud.io installation option"
   },
   "instructionsPagePackagecloudThanks": {
-    "message": "Спасибо packagecloud.io за спонсорстсво проекта и предоставление бесплатного хостинга для наших DEB- и RPM-пакетов!",
+    "message": "Спасибо packagecloud.io за спонсорство проекта и предоставление бесплатного хостинга для наших DEB- и RPM-пакетов!",
     "description": "A message that thanks packagecloud.io for sponsoring the project"
   },
   "instructionsPagePackagecloudAlt": {
     "message": "Частный реестр NPM и репозитории Maven, RPM, DEB, PyPi и RubyGem - packagecloud",
     "description": "An alternative text for the packagecloud.io logo"
   },
-  "instructionsPageLinuxAurInstallStep1": {
-    "message": "Скачайте и установите один из AUR-пакетов PWAsForFirefox:",
-    "description": "The step 1 of the Linux AUR installation option"
-  },
-  "instructionsPageLinuxAurInstallSource": {
-    "message": "Исходный код",
-    "description": "The source AUR package"
-  },
-  "instructionsPageLinuxAurInstallPreBuilt": {
-    "message": "pre-built",
-    "description": "The pre-built AUR package"
+  "instructionsPageLinuxArchInstallStep1": {
+    "message": "Установить пакет, используя pacman:",
+    "description": "The step 1 of the Arch Linux installation option"
   },
   "instructionsPageLinuxGentooInstallStep1": {
     "message": "Включите Gentoo GURU overlay, используя eselect:",
@@ -646,7 +628,7 @@
     "description": "The step 3 of the source installation option"
   },
   "instructionsPageSourceInstallStep4": {
-    "message": "Проверьте тэг <kbd class=\"connector-repository-tag\"></kbd>.",
+    "message": "Проверьте тег <kbd class=\"connector-repository-tag\"></kbd>.",
     "description": "The step 4 of the source installation option, tag is dynamically set to the correct version"
   },
   "instructionsPageSourceInstallStep5": {
@@ -669,7 +651,6 @@
     "message": "Ваша операционная система официально не поддерживается. Вы можете попробовать собрать и установить проект из исходного кода, следуя инструкции из раздела выше. Возможно, вам придётся много чего настраивать, чтобы всё правильно заработало в вашей операционной системе, и нет никакой гарантии, что всё будут работать.",
     "description": "The notice for the other installation option"
   },
-  // Install Page
   "installPageTitle": {
     "message": "Установить веб-приложение",
     "description": "The title of the install web app page"
@@ -714,16 +695,14 @@
     "message": "Некоторые <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts\" target=\"_blank\">сайты Mozilla</a> ограничены для расширений. Это функция безопасности Firefox, которая не может быть отключена. Ограниченные сайты не могут быть установлены как веб-приложения.",
     "description": "A message that extends the content script error with more details when used on restricted domains"
   },
-  // Launch Page
   "launchPageTitle": {
     "message": "Запустить веб-приложение",
     "description": "The title of the launch web app page"
   },
   "launchPageInstallNewInstance": {
-    "message": "Установить новый экземляр",
+    "message": "Установить новый экземпляр",
     "description": "Displayed on the launch web app page to install a new instance"
   },
-  // Manage Page
   "managePageTitle": {
     "message": "Управлять веб-приложениями и профилями",
     "description": "The title of the manage page"
@@ -789,7 +768,7 @@
     "description": "The unnamed profile on the profile list"
   },
   "managePageProfileListCount": {
-    "message": "{count, plural, one {# app} other {# apps}}",
+    "message": "{count, plural, one {# приложение} few {# приложения} other {# приложений}}",
     "description": "The web app count in the profile, supports limited pluralization options"
   },
   "managePageSettingsDisplayPageAction": {
@@ -909,7 +888,7 @@
     "description": "The label for the launch on browser checkbox on the edit web app dialog"
   },
   "managePageAppEditLaunchOnBrowserTooltip": {
-    "message": "Определяет, будет ли веб-приложение автоматически запускаться при запуске браузера",
+    "message": "Определяет, будет ли веб-приложение автоматически запускаться при открытии браузера",
     "description": "The tooltip for the launch on browser checkbox on the edit web app dialog"
   },
   "managePageAppEditUpdateManifestLabel": {
@@ -953,7 +932,7 @@
     "description": "The label for the apply template checkbox on the edit profile dialog"
   },
   "managePageProfileRemoveQuestion": {
-    "message": "Вы уверены, что хотите удалить профиль? Это полностью удалит профиль и все его веб-приложения, включая их данные. Вы не сможете полность откатить это действие.",
+    "message": "Вы уверены, что хотите удалить профиль? Это полностью удалит профиль и все его веб-приложения, включая их данные. Вы не сможете полностью откатить это действие.",
     "description": "The confirmation question on the remove profile dialog"
   },
   "managePageProfileRemoveDefault": {
@@ -995,7 +974,7 @@
     "description": "The second part of about updating web apps message"
   },
   "managePageUpdateWebAppsManifest": {
-    "message": "Выполнить обновления манифеста",
+    "message": "Выполнить обновления манифестов",
     "description": "The checkbox label for performing manifest updates when updating web apps"
   },
   "managePagePatchProfilesAbout1": {
@@ -1022,7 +1001,6 @@
     "message": "Это <strong>не</strong> скажется на основном браузере Firefox и <strong>не</strong> удалит какие-либо профили или другие данные.",
     "description": "The second part of about reinstalling runtime message"
   },
-  // Buttons
   "buttonRuntimeInstallDefault": {
     "message": "Установить Runtime",
     "description": "The runtime installation button on the setup page, allowing the user to install the runtime"
