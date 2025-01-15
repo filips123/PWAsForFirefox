@@ -768,7 +768,7 @@
     "description": "The unnamed profile on the profile list"
   },
   "managePageProfileListCount": {
-    "message": "{count, plural, one {# приложение} other {# приложения(й)}}",
+    "message": "{count, plural, one {# приложение} few {# приложения} other {# приложений}}",
     "description": "The web app count in the profile, supports limited pluralization options"
   },
   "managePageSettingsDisplayPageAction": {
