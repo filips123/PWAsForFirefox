@@ -29,10 +29,11 @@ SLOT="0"
 KEYWORDS="~amd64 ~arm ~arm64"
 IUSE="custom-cflags lto static"
 
-# Add app-arch/bzip2 when it finally get pkg-config file
 DEPEND="
 	!static? (
 		app-arch/zstd:=
+		app-arch/bzip2:=
+		app-arch/xz-utils:=
 		dev-libs/openssl:=
 	)
 "
@@ -75,7 +76,7 @@ src_configure() {
 			CXX="${CHOST}-clang++"
 			RUSTFLAGS="-Clinker=clang -Clink-arg=-fuse-ld=lld ${RUSTFLAGS}"
 
-			# Fix -flto[=n] not being recognized by clang.
+			# Fix -flto[=n] not being recognized by clang
 			if tc-is-clang && is-flag "-flto=*"; then
 				replace-flags "-flto=*" "-flto"
 			fi

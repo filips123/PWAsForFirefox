@@ -7,7 +7,6 @@ toolbar-tabs-ffpwa =
     .toolbarname = Панель вкладок
     .aria-label = Вкладки
     .accesskey = T
-
 # The label for the tabs/icon bar, when the tabs mode is disabled
 toolbar-icon-ffpwa =
     .toolbarname = Панель иконки
