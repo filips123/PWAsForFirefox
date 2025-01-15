@@ -140,7 +140,7 @@
     "description": "A validation error when the web app start URL is invalid"
   },
   "webAppValidationStartURLScope": {
-    "message": "URL-адрес страницы должен быть within the scope:",
+    "message": "URL-адрес страницы должен быть в области видимости:",
     "description": "A validation warning when the web app start URL is out-of-scope, with the scope displayed after the colon"
   },
   "webAppValidationIconURLInvalid": {
@@ -244,7 +244,7 @@
     "description": "The main connector installation notice on the setup page"
   },
   "setupPageConnectorInstallationIncompatible": {
-    "message": "Версия установленного приложения может быть не совместима с текущей версией расширения. Вам нужно обновить программу или расширение до поддерживаемой версии, чтобы всё правильно заработало.",
+    "message": "Версия установленного приложения может быть не совместима с текущей версией расширения. Вам нужно обновить программу или расширение до поддерживаемой версии, чтобы всё правильно работало.",
     "description": "The incompatible connector installation notice on the setup page"
   },
   "setupPageRuntimeInstallationAuto": {
