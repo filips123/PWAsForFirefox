@@ -288,29 +288,50 @@ impl Runtime {
                 let _7zip = _7Zip::new()?;
                 let success = _7zip.run(vec!["x", &archive, &format!("-o{}", &extracted)]).context(EXTRACT_ERROR)?.success();
                 if !success { bail!(EXTRACT_ERROR) }
+
                 source.push("core");
+
             } else if #[cfg(platform_linux)] {
+                use anyhow::bail;
                 use std::fs::File;
+                use std::io::Read;
+                use std::io::Seek;
+                use std::io::SeekFrom;
                 use bzip2::read::BzDecoder;
+                use xz2::read::XzDecoder;
                 use tar::Archive;
 
-                let mut compressed = Archive::new(BzDecoder::new(File::open(&archive)?));
-                compressed.unpack(&extracted).context(EXTRACT_ERROR)?;
+                let mut file = File::open(&archive).context(EXTRACT_ERROR)?;
+                let mut buffer = [0; 3];
+                file.read_exact(&mut buffer)?;
+                file.seek(SeekFrom::Start(0))?;
+
+                let compressed: Box<dyn std::io::Read> = match &buffer {
+                    b"\x42\x5A\x68" => Box::new(BzDecoder::new(file)),
+                    b"\xFD\x37\x7A" => Box::new(XzDecoder::new(file)),
+                    _ => bail!("Unsupported compression method"),
+                };
+
+                let mut bundle = Archive::new(compressed);
+                bundle.unpack(&extracted).context(EXTRACT_ERROR)?;
+
                 source.push("firefox");
+
             } else if #[cfg(platform_macos)] {
                 use dmg::Attach;
 
                 let info = Attach::new(&archive).with().context(EXTRACT_ERROR)?;
-                let mut options = CopyOptions::new();
                 let mut mount_point = info.mount_point.clone();
 
                 mount_point.push("Firefox.app");
                 source.push("Firefox.app");
 
+                let mut options = CopyOptions::new();
                 options.content_only = true;
                 copy(&mount_point, &source, &options)?;
 
                 source.pop();
+
             } else {
                 panic!("{}", UNSUPPORTED_PLATFORM_ERROR);
             }
