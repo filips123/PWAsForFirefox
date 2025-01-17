@@ -68,7 +68,7 @@
     "description": "Displayed before the native connector version"
   },
   "commonRuntimeVersion": {
-    "message": "Версия Runtime:",
+    "message": "Версия среды выполнения:",
     "description": "Displayed before the app browser version"
   },
   "commonFirefoxVersion": {
@@ -164,7 +164,7 @@
     "description": "The connector installation tab on the setup page"
   },
   "setupPageTabRuntimeInstallation": {
-    "message": "Установка Runtime",
+    "message": "Установка среды выполнения",
     "description": "The runtime installation tab on the setup page"
   },
   "setupPageTabReady": {
@@ -204,15 +204,15 @@
     "description": "The notice for Bootstrap Icons on the setup page"
   },
   "setupPageLicenseThirdPartyDownloaded": {
-    "message": "Дополнительное программное обеспечение с исходным кодом будет скачано и установлено во время инициации Runtime пользователем:",
+    "message": "Дополнительное программное обеспечение с исходным кодом будет скачано и установлено во время инициации среды выполнения пользователем:",
     "description": "The downloaded third-party assets and code notice on the setup page"
   },
   "setupPageLicense7ZipDownloaded": {
-    "message": "Установка Runtime на Windows скачает <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>, если он уже не установлен. Проект 7-Zip создан Игорем Павловым и находится под лицензией <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">GNU LGPL license</a>. Наш проект ни коим образом не связан с 7-Zip или его разработчиками.",
+    "message": "Установка средвы выполнения на Windows скачает <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>, если он уже не установлен. Проект 7-Zip создан Игорем Павловым и находится под лицензией <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">GNU LGPL license</a>. Наш проект ни коим образом не связан с 7-Zip или его разработчиками.",
     "description": "The notice for downloaded 7-Zip on the setup page"
   },
   "setupPageLicenseFirefoxDownloaded": {
-    "message": "Установка Runtime на любые системы скачает оригинальный браузер <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> и модифицирует его. Пользуясь этим проектом, вы также соглашаетесь с <a href=\"https://www.mozilla.org/privacy/firefox/\">Условиями пользования Firefox</a>. Firefox находится под лицензией Mozilla Public License 2.0. Firefox и логотип Firefox являются торговыми марками Mozilla Foundation в США и других странах. Наш проект ни коим образом не связан с Mozilla Foundation.",
+    "message": "Установка среды выполнения на любые системы скачает оригинальный браузер <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> и модифицирует его. Пользуясь этим проектом, вы также соглашаетесь с <a href=\"https://www.mozilla.org/privacy/firefox/\">Условиями пользования Firefox</a>. Firefox находится под лицензией Mozilla Public License 2.0. Firefox и логотип Firefox являются торговыми марками Mozilla Foundation в Сша и других странах. Наш проект ни коим образом не связан с Mozilla Foundation.",
     "description": "The notice for downloaded Firefox on the setup page"
   },
   "setupPageLicensePrivacyPolicy": {
@@ -256,11 +256,11 @@
     "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is not supported"
   },
   "setupPageRuntimeInstallation7Zip": {
-    "message": "Чтобы установить Runtime, нужен установленный <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>. Установщик Runtime начнёт автоматически устанавливать 7-Zip, если он уже не установлен. Может потребоваться разрешение Контроля учётных записей. Вы также можете самостоятельно установить 7-Zip или использовать уже установленный. После установки Runtime можете удалить 7-Zip.",
+    "message": "Чтобы установить средуц выполнения, нужен установленный <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>. Установщик средвы выполнения начнёт автоматически устанавливать 7-Zip, если он уже не установлен. Может потребоваться разрешение Контроля учётных записей. Вы также можете самостоятельно установить 7-Zip или использовать уже установленный. После установки среды выполнения можете удалить 7-Zip.",
     "description": "The runtime installation notice on the setup page, displayed when 7-Zip needs to be installed"
   },
   "setupPageRuntimeInstallationAfter": {
-    "message": "После установки Runtime вы должны автоматически перейти к следующему шагу. Если примерно через 30 секунд ничего не изменится, перезапустите браузер.",
+    "message": "После установки среды выполнения вы должны автоматически перейти к следующему шагу. Если примерно через 30 секунд ничего не изменится, перезапустите браузер.",
     "description": "The runtime installation notice on the setup page, displayed always"
   },
   "setupPageAdvancedOptionsTitle": {
@@ -316,7 +316,7 @@
     "description": "Instructions for linking the runtime with FUSE OverlayFS, step 1"
   },
   "setupPageDefaultRuntimeLocationTitle": {
-    "message": "Стандартное место установки Runtime:",
+    "message": "Стандартное место установки среды выполнения:",
     "description": "The title for the default runtime locations section"
   },
   "setupPageReady": {
@@ -576,7 +576,7 @@
     "description": "The step 1 of the NixOS installation option"
   },
   "instructionsPageLinuxNixOSInstallStep1After": {
-    "message": "…чтобы убедиться, что пакет и в <kbd>PATH</kbd>, и в <kbd>nativeMessagingHosts</kbd> Firefox.",
+    "message": "…чтобы убедиться, что пакет находится и в <kbd>PATH</kbd>, и в <kbd>nativeMessagingHosts</kbd> Firefox.",
     "description": "The step 1 of the NixOS installation option"
   },
   "instructionsPageLinuxNixOSInstallStep2": {
@@ -800,7 +800,7 @@
     "description": "The setting for enabling automatic launching"
   },
   "managePageSettingsAlwaysPatch": {
-    "message": "Всегда патчить Runtime и профиль",
+    "message": "Всегда патчить среду выполнения и профиль",
     "description": "The setting for configuring patching"
   },
   "managePageSettingsEnableWayland": {
@@ -844,11 +844,11 @@
     "description": "The button in settings to update web apps"
   },
   "managePageSettingsPatchProfiles": {
-    "message": "Пропатчить профили и Runtime",
+    "message": "Пропатчить профили и среду выполнения",
     "description": "The button in settings to patch profiles and runtime"
   },
   "managePageSettingsReinstallRuntime": {
-    "message": "Переустановить Runtime",
+    "message": "Переустановить среду выполнения",
     "description": "The button in settings to reinstall runtime"
   },
   "managePageSettingsAboutProject": {
@@ -978,15 +978,15 @@
     "description": "The checkbox label for performing manifest updates when updating web apps"
   },
   "managePagePatchProfilesAbout1": {
-    "message": "Пропатчит все профили и Runtime с текущей установленной версией.",
+    "message": "Пропатчит все профили и среду выполнения с текущей установленной версией.",
     "description": "The first part of about patching profiles and runtime message"
   },
   "managePagePatchProfilesAbout2": {
-    "message": "Полезно после (пере)установки пользовательского Runtime, или если у вас есть проблемы с запуском веб-приложения.",
+    "message": "Полезно после (пере)установки пользовательской среды выполнения, или если у вас есть проблемы с запуском веб-приложения.",
     "description": "The second part of about patching profiles and runtime message"
   },
   "managePagePatchProfilesPatchRuntime": {
-    "message": "Пропатчить Runtime",
+    "message": "Пропатчить среду выполнения",
     "description": "The checkbox label for patching runtime when patching profiles and runtime"
   },
   "managePagePatchProfilesPatchProfiles": {
@@ -994,7 +994,7 @@
     "description": "The checkbox label for patching profiles when patching profiles and runtime"
   },
   "managePageReinstallRuntimeAbout1": {
-    "message": "Вы уверены, что хотите переустановить PWAsForFirefox Runtime? Это приведёт к удалению текущего Runtime и к скачиванию последней версии от Mozilla.",
+    "message": "Вы уверены, что хотите переустановить среду выполнения PWAsForFirefox? Это приведёт к удалению текущей и скачиванию последней версии от Mozilla.",
     "description": "The first part of about reinstalling runtime message"
   },
   "managePageReinstallRuntimeAbout2": {
@@ -1002,15 +1002,15 @@
     "description": "The second part of about reinstalling runtime message"
   },
   "buttonRuntimeInstallDefault": {
-    "message": "Установить Runtime",
+    "message": "Установить среду выполнения",
     "description": "The runtime installation button on the setup page, allowing the user to install the runtime"
   },
   "buttonRuntimeInstallProcessing": {
-    "message": "Runtime устанавливается…",
+    "message": "Среда выполнения устанавливается…",
     "description": "The runtime installation button on the setup page, while the runtime is installing"
   },
   "buttonRuntimeInstallFinished": {
-    "message": "Runtime установился!",
+    "message": "Среда выполнения установилась!",
     "description": "The runtime installation button on the setup page, after the runtime has been installed"
   },
   "buttonWebAppInstallDefault": {
