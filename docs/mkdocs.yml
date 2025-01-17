@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+
 site_name: PWAsForFirefox
 site_description: A tool to install, manage and use Progressive Web Apps (PWAs) in Mozilla Firefox
 site_author: filips
@@ -94,20 +96,27 @@ markdown_extensions:
 plugins:
   - search:
       separator: '[\s\-,:!=\[\]()"/]+|\.(?!\d)|&[lg]t;'
-  - minify:
-      minify_html: true
-      minify_js: true
-      minify_css: true
-      cache_safe: true
-      htmlmin_opts:
-        remove_comments: true
-        reduce_boolean_attributes: true
-      js_files:
-        - assets/javascripts/statistics.js
-        - assets/javascripts/feedback.js
-      css_files:
-        - assets/stylesheets/theme.css
   - macros
+  - i18n:
+      docs_structure: folder
+      fallback_to_default: true
+      reconfigure_material: true
+      reconfigure_search: true
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: ru
+          name: Русский
+          build: true
+          nav_translations:
+            Home: Главная
+            Installation: Установка
+            User Guide: Руководство пользователя
+            Resources: Ресурсы
+            Help: Помощь
+            About: О нас
 
 hooks:
   - hooks/breadcrumbs.py
@@ -155,7 +164,8 @@ extra:
           note: Thanks for your feedback! Help us improve this page by <a href="https://github.com/filips123/PWAsForFirefox/issues/new?labels=enhancement,documentation&template=feature_request.md&title=Documentation feedback+for+*{title}*" target="_blank" rel="noopener">opening an issue</a>.
 
 nav:
-  - index.md
+  - Home:
+      - index.md
   - Installation:
       - installation/requirements.md
       - installation/extension.md
