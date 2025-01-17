@@ -113,9 +113,9 @@ Site Specific Browser (SSB).
 
 <h3>Другие упоминания</h3>
 
-Спасибо [всем мейнтейнерам пакетов](https://repology.org/project/firefoxpwa/information)
-которые следят за тем, чтобы проект был актуальным! Спасибо [всем переводчикам](https://crowdin.com/project/firefoxpwa)
-которые делают проект доступным на многих языках! Спасибо [всем, кто поставил звёздочку](https://github.com/filips123/PWAsForFirefox/stargazers),
+Спасибо [всем мейнтейнерам пакетов](https://repology.org/project/firefoxpwa/information),
+которые следят за тем, чтобы проект был актуальным! Спасибо [всем переводчикам](https://crowdin.com/project/firefoxpwa),
+которые делают проект доступным на многих языках! Спасибо [всем, кто поставил звёздочку](https://github.com/filips123/PWAsForFirefox/stargazers)
 нашему репозиторию на GitHub. Наконец спасибо Mozilla и их разработчикам за
 создание Firefox и возможность модифицировать его UI, используя JavaScript!
 
