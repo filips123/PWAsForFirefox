@@ -8,7 +8,7 @@
     "description": "The short name of the application, should not be translated"
   },
   "appDescription": {
-    "message": "Инструмент для установки, управления и использования Progressive Web Apps (PWAs) в Mozilla Firefox",
+    "message": "Инструмент для установки, управления и использования прогрессивных веб-приложений (PWAs) в Mozilla Firefox",
     "description": "The description of the application"
   },
   "actionInstallSite": {
@@ -64,7 +64,7 @@
     "description": "Displayed before the extension version"
   },
   "commonNativeVersion": {
-    "message": "Версия приложения:",
+    "message": "Версия нативного приложения:",
     "description": "Displayed before the native connector version"
   },
   "commonRuntimeVersion": {
@@ -160,7 +160,7 @@
     "description": "The licence agreement tab on the setup page"
   },
   "setupPageTabConnectorInstallation": {
-    "message": "Установка Connector",
+    "message": "Установка коннектора",
     "description": "The connector installation tab on the setup page"
   },
   "setupPageTabRuntimeInstallation": {
@@ -240,7 +240,7 @@
     "description": "The license accept button on the setup page"
   },
   "setupPageConnectorInstallationMain": {
-    "message": "Вам нужно установить дополнительную программу, чтобы расширение могло управлять и запускать отдельный Runtime и профили для ваших веб-приложений. Расширение не будет работать без этой программы. Пожалуйста, следуйте инструкции ниже, чтобы установить её.",
+    "message": "Вам нужно установить дополнительную программу, чтобы расширение могло управлять и запускать отдельную среду выполнения и профили для ваших веб-приложений. Расширение не будет работать без этой программы. Пожалуйста, следуйте инструкции ниже, чтобы установить её.",
     "description": "The main connector installation notice on the setup page"
   },
   "setupPageConnectorInstallationIncompatible": {
@@ -248,11 +248,11 @@
     "description": "The incompatible connector installation notice on the setup page"
   },
   "setupPageRuntimeInstallationAuto": {
-    "message": "Этому расширению также нужен отдельный Mozilla Firefox Runtime, в котором будут запускаться все ваши Progressive Web App сайты. Нажав на кнопку ниже, начнётся автоматическое скачивание оригинального Mozilla Firefox с серверов Mozilla и последующая его необходимая модификация. Вы также можете проверить инструкцию ниже, чтобы самостоятельно установить Runtime.",
+    "message": "Этому расширению также нужна отдельная среда выполнения Mozilla Firefox, в которой будут запускаться все ваши прогрессивные веб-приложения. Нажав на кнопку ниже, начнётся автоматическое скачивание оригинального Mozilla Firefox с серверов Mozilla и последующая его необходимая модификация. Вы также можете проверить инструкцию ниже, чтобы самостоятельно установить среду выполнения.",
     "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is supported"
   },
   "setupPageRuntimeInstallationManual": {
-    "message": "Этому расширению также нужен отдельный Mozilla Firefox Runtime, в котором будут запускаться все ваши Progressive Web App сайты. Однако ваша платформа не поддерживает автоматическую установку Runtime. Пожалуйста, следуйте инструкции ниже, чтобы самостоятельно установить его.",
+    "message": "Этому расширению также нужна отдельная среда выполнения Mozilla Firefox, в которой будут запускаться все ваши прогрессивные веб-приложения. Однако ваша платформа не поддерживает автоматическую установку среды выполнения. Пожалуйста, следуйте инструкции ниже, чтобы самостоятельно установить её.",
     "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is not supported"
   },
   "setupPageRuntimeInstallation7Zip": {
@@ -328,7 +328,7 @@
     "description": "The title of the update page"
   },
   "updatePageNativeOutdated": {
-    "message": "Connector устарел.",
+    "message": "Коннектор устарел.",
     "description": "Displayed on the update page when the native connector is outdated"
   },
   "updatePageNativeCompatible": {
@@ -348,11 +348,11 @@
     "description": "Displayed on the update page when the extension is outdated"
   },
   "updatePageExtensionCompatible": {
-    "message": "Оно совместимо с текущей версией connector, но настоятельно рекомендуется обновиться, чтобы получить последние функции и исправления.",
+    "message": "Оно совместимо с текущей версией коннектора, но настоятельно рекомендуется обновиться, чтобы получить последние функции и исправления.",
     "description": "Displayed on the update page when the extension is compatible"
   },
   "updatePageExtensionIncompatible": {
-    "message": "Оно <strong>не</strong> совместимо с текущей версией connector, так что вы не можете использовать расширение, пока не обновите его.",
+    "message": "Оно <strong>не</strong> совместимо с текущей версией коннектора, так что вы не можете использовать расширение, пока не обновите его.",
     "description": "Displayed on the update page when the extension is incompatible"
   },
   "updatePageExtensionInstructions": {
@@ -360,7 +360,7 @@
     "description": "Displayed on the update page nstruct users to follow the instructions to update the extension"
   },
   "updatePageUpdated": {
-    "message": "Расширение и connector обновлены до одной версии. Можете закрыть это окно.",
+    "message": "Расширение и коннектор обновлены до одной версии. Можете закрыть это окно.",
     "description": "Displayed on the update page when both the extension and the native connector are updated to the same version"
   },
   "updatePageReleaseNotes": {
@@ -776,7 +776,7 @@
     "description": "The setting for displaying page action (address bar widget)"
   },
   "managePageSettingsDisplayPageActionValid": {
-    "message": "У веб-приложений",
+    "message": "У прогрессивных веб-приложений",
     "description": "The option to display page action on valid web apps"
   },
   "managePageSettingsDisplayPageActionAlways": {
