@@ -111,10 +111,10 @@ plugins:
           nav_translations:
             Home: Главная
             Installation: Установка
-            User Guide: Руководство пользователя
+            User Guide: Руководство
             Resources: Ресурсы
             Help: Помощь
-            About: О нас
+            About: О проекте
 
 hooks:
   - hooks/breadcrumbs.py
@@ -162,7 +162,8 @@ extra:
           note: Thanks for your feedback! Help us improve this page by <a href="https://github.com/filips123/PWAsForFirefox/issues/new?labels=enhancement,documentation&template=feature_request.md&title=Documentation feedback+for+*{title}*" target="_blank" rel="noopener">opening an issue</a>.
 
 nav:
-  - index.md
+  - Home:
+      - index.md
   - Installation:
       - installation/requirements.md
       - installation/extension.md

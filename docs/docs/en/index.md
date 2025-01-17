@@ -4,8 +4,9 @@ hide:
 ---
 
 <style>
-.md-sidebar--primary {
-  visibility: hidden;
+.md-sidebar--primary,
+a.md-nav__link:nth-child(3) > span:nth-child(1) {
+  visibility:hidden;
 }
 </style>
 
