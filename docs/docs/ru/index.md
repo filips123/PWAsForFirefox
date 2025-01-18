@@ -1,6 +1,7 @@
 ---
 hide:
   - path
+title: Главная
 ---
 
 <style>
