@@ -33,7 +33,7 @@ a.md-nav__link:nth-child(3) > span:nth-child(1) {
 <!-- We can try to use them to make this page look better and more "attractive" -->
 <!-- Also add links to specific documentation pages, screenshots, descriptions, etc. -->
 
-## О проекте {: style="margin-top:0;" }
+## О проекте {: style="margin-top:0;" id="о_проекте"}
 
 [Progressive Web Apps (PWAs)](https://developer.mozilla.org/docs/Web/Progressive_web_apps)
 — это веб-приложения, которые используют веб-API и функции вместе со стратегией прогрессивного улучшения, чтобы
@@ -54,7 +54,7 @@ Site Specific Browser (SSB).
     Вы также должны посетить [нашу страницу ЧАВО](help/faq.md) и [раздел «О проекте»](about/how-it-works.md),
     если хотите узнать больше о проекте.
 
-## Использование
+## Использование {: id="использование"}
 
 !!! tip
 
@@ -65,7 +65,7 @@ Site Specific Browser (SSB).
 установке и настройке проекта. Для подробных инструкций по использованию, пожалуйста, также ознакомьтесь с
 [руководством пользователя](user-guide/extension.md) и связанными страницами.
 
-## Возможности
+## Возможности {: id="возможности"}
 
 * Инструмент командной строки для установки, управления и Progressive Web Apps в Firefox.
 * Расширение для настройки нативных программ и установки, управления и запуска PWAs и их профилей непосредственно из основного браузера Firefox.
@@ -78,7 +78,7 @@ Site Specific Browser (SSB).
 
 Вы можете увидеть полный список возможностей [на специальной странице](about/supported-features.md).
 
-## Спонсоры
+## Спонсоры {: id="спонсоры"}
 
 <!-- Headings here need to use HTML, so they don't appear in the table of contents -->
 
@@ -102,7 +102,7 @@ Site Specific Browser (SSB).
 
 !!! note
 
-    Пожалуйста, посетите [сервисы поддержки донатами](about/contributing.md#donations), если у вас
+    Пожалуйста, посетите [сервисы поддержки донатами](about/contributing.md#донаты), если у вас
     есть желание помочь проекту донатом.
 
 <h3>Контрибьюторы</h3>
