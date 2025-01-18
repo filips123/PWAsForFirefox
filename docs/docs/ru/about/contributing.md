@@ -1,6 +1,6 @@
 # Участие в проекте
 
-<style></style>
+<style>
 .brands > ul { list-style: none !important; }
 .brands > ul > li { margin-left: .1rem !important; }
 .brand { padding-right: .4rem; }
@@ -13,7 +13,7 @@
 
 ## Как внести вклад {: id="как_внести_вклад"}
 
-Вы можете прочитать [наш гайд по контрибуции][link-contributing] на GitHub. При работе с
+Вы можете прочитать [наше руководство по контрибуции][link-contributing] на GitHub. При работе с
 вопросами безопасности, пожалуйста, также ознакомьтесь с [нашей политикой безопасности][link-security].
 
 [link-contributing]: https://github.com/filips123/PWAsForFirefox/blob/main/.github/CONTRIBUTING.md
