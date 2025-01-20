@@ -208,11 +208,11 @@
     "description": "The downloaded third-party assets and code notice on the setup page"
   },
   "setupPageLicense7ZipDownloaded": {
-    "message": "Установка средвы выполнения на Windows скачает <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>, если он уже не установлен. Проект 7-Zip создан Игорем Павловым и находится под лицензией <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">GNU LGPL license</a>. Наш проект ни коим образом не связан с 7-Zip или его разработчиками.",
+    "message": "Установка среды выполнения на Windows скачает <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>, если он уже не установлен. Проект 7-Zip создан Игорем Павловым и находится под лицензией <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">GNU LGPL license</a>. Наш проект ни коим образом не связан с 7-Zip или его разработчиками.",
     "description": "The notice for downloaded 7-Zip on the setup page"
   },
   "setupPageLicenseFirefoxDownloaded": {
-    "message": "Установка среды выполнения на любые системы скачает оригинальный браузер <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> и модифицирует его. Пользуясь этим проектом, вы также соглашаетесь с <a href=\"https://www.mozilla.org/privacy/firefox/\">Условиями пользования Firefox</a>. Firefox находится под лицензией Mozilla Public License 2.0. Firefox и логотип Firefox являются торговыми марками Mozilla Foundation в Сша и других странах. Наш проект ни коим образом не связан с Mozilla Foundation.",
+    "message": "Установка среды выполнения на любые системы скачает оригинальный браузер <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> и модифицирует его. Пользуясь этим проектом, вы также соглашаетесь с <a href=\"https://www.mozilla.org/privacy/firefox/\">Условиями пользования Firefox</a>. Firefox находится под лицензией Mozilla Public License 2.0. Firefox и логотип Firefox являются торговыми марками Mozilla Foundation в США и других странах. Наш проект ни коим образом не связан с Mozilla Foundation.",
     "description": "The notice for downloaded Firefox on the setup page"
   },
   "setupPageLicensePrivacyPolicy": {
@@ -256,7 +256,7 @@
     "description": "The runtime installation notice on the setup page, displayed on platforms where auto installation is not supported"
   },
   "setupPageRuntimeInstallation7Zip": {
-    "message": "Чтобы установить средуц выполнения, нужен установленный <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>. Установщик средвы выполнения начнёт автоматически устанавливать 7-Zip, если он уже не установлен. Может потребоваться разрешение Контроля учётных записей. Вы также можете самостоятельно установить 7-Zip или использовать уже установленный. После установки среды выполнения можете удалить 7-Zip.",
+    "message": "Чтобы установить среду выполнения, нужен установленный <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>. Установщик среды выполнения начнёт автоматически устанавливать 7-Zip, если он уже не установлен. Может потребоваться разрешение Контроля учётных записей. Вы также можете самостоятельно установить 7-Zip или использовать уже установленный. После установки среды выполнения можете удалить 7-Zip.",
     "description": "The runtime installation notice on the setup page, displayed when 7-Zip needs to be installed"
   },
   "setupPageRuntimeInstallationAfter": {
