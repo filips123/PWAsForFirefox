@@ -986,7 +986,7 @@
     "description": "The second part of about patching profiles and runtime message"
   },
   "managePagePatchProfilesPatchRuntime": {
-    "message": "Time de execução do patch",
+    "message": "Tempo de execução do patch",
     "description": "The checkbox label for patching runtime when patching profiles and runtime"
   },
   "managePagePatchProfilesPatchProfiles": {
