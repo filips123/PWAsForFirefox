@@ -75,13 +75,13 @@ impl Run for SiteLaunchCommand {
             // Force patching if this is enabled
             true
         } else {
-            // Uses "chrome.jsm" file because it contains version info
-            let source = dirs.sysdata.join("userchrome/profile/chrome/pwa/chrome.jsm");
+            // Uses "chrome.sys.mjs" file because it contains version info
+            let source = dirs.sysdata.join("../../userchrome/profile/chrome/pwa/chrome.sys.mjs");
             let target = dirs
                 .userdata
                 .join("profiles")
                 .join(profile.ulid.to_string())
-                .join("chrome/pwa/chrome.jsm");
+                .join("chrome/pwa/chrome.sys.mjs");
 
             // Only patch if modification dates of source and target are different
             // In case any error happens, just force patching

@@ -1,10 +1,5 @@
-const EXPORTED_SYMBOLS = ['sendNativeMessage'];
-
-const { XPCOMUtils } = ChromeUtils.import('resource://gre/modules/XPCOMUtils.jsm');
-XPCOMUtils.defineLazyModuleGetters(this, {
-  ExtensionCommon: 'resource://gre/modules/ExtensionCommon.jsm',
-  NativeApp: 'resource://gre/modules/NativeMessaging.jsm',
-});
+import { ExtensionCommon } from 'resource://gre/modules/ExtensionCommon.sys.mjs';
+import { NativeApp } from 'resource://gre/modules/NativeMessaging.sys.mjs';
 
 const extensionId = 'firefoxpwa@filips.si';
 const nativeAppId = 'firefoxpwa';
@@ -39,7 +34,7 @@ class UserChromeContext extends ExtensionCommon.BaseContext {
  * @returns {Promise<Object>} The response from the native program
  * @throws {Error} If sending the message failed
  */
-function sendNativeMessage(message) {
+export function sendNativeMessage(message) {
   const userChromeContext = new UserChromeContext();
   const nativeMessage = NativeApp.encodeMessage(userChromeContext, message);
   const nativeApp = new NativeApp(userChromeContext, nativeAppId);

@@ -1,5 +1,3 @@
-const EXPORTED_SYMBOLS = ['sanitizeString'];
-
 /**
  * Removes all control characters from the string.
  *
@@ -7,6 +5,6 @@ const EXPORTED_SYMBOLS = ['sanitizeString'];
  *
  * @returns {string|undefined}
  */
-function sanitizeString (string) {
+export function sanitizeString (string) {
   return string?.replace(/[\u0000-\u001F\u007F-\u009F]/g, '');
 }

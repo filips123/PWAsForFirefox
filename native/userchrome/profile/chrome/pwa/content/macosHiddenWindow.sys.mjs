@@ -1,4 +1,4 @@
-const { sanitizeString } = ChromeUtils.import('resource://pwa/utils/common.jsm');
+import { sanitizeString } from 'resource://pwa/utils/common.sys.mjs';
 
 function OpenPwaShortcut(url) {
   switchToTabHavingURI(url, true);

@@ -38,11 +38,11 @@ end
 # Replace versions in files
 cargo_toml_path = set "./Cargo.toml"
 cargo_lock_path = set "./Cargo.lock"
-chrome_jsm_path = set "./userchrome/profile/chrome/pwa/chrome.jsm"
+chrome_mjs_path = set "./userchrome/profile/chrome/pwa/chrome.sys.mjs"
 cargo_toml_exists = is_file ${cargo_toml_path}
 cargo_lock_exists = is_file ${cargo_lock_path}
-chrome_jsm_exists = is_file ${chrome_jsm_path}
-if ${cargo_toml_exists} and ${cargo_lock_exists} and ${chrome_jsm_exists}
+chrome_mjs_exists = is_file ${chrome_mjs_path}
+if ${cargo_toml_exists} and ${cargo_lock_exists} and ${chrome_mjs_exists}
     echo "Setting version in Cargo.toml to \"${pwa_ver}\""
     cargo_toml = readfile ${cargo_toml_path}
     cargo_toml = replace_version ${cargo_toml} "# Version will be set by CI from the Git tag when building and releasing\nversion = \"" ${pwa_ver} "\""
@@ -51,10 +51,10 @@ if ${cargo_toml_exists} and ${cargo_lock_exists} and ${chrome_jsm_exists}
     cargo_lock = readfile ${cargo_lock_path}
     cargo_lock = replace_version ${cargo_lock} "name = \"firefoxpwa\"\nversion = \"" ${pwa_ver} "\""
     writefile ${cargo_lock_path} ${cargo_lock}
-    echo "Setting version in chrome.jsm to \"${pwa_ver}\""
-    chrome_jsm = readfile ${chrome_jsm_path}
-    chrome_jsm = replace_version ${chrome_jsm} "DISTRIBUTION_VERSION = '" ${pwa_ver} "'"
-    writefile ${chrome_jsm_path} ${chrome_jsm}
+    echo "Setting version in chrome.sys.mjs to \"${pwa_ver}\""
+    chrome_mjs = readfile ${chrome_mjs_path}
+    chrome_mjs = replace_version ${chrome_mjs} "DISTRIBUTION_VERSION = '" ${pwa_ver} "'"
+    writefile ${chrome_mjs_path} ${chrome_mjs}
 else
-    assert_fail "Unable to locate ./Cargo.toml, ./Cargo.lock and ./userchrome/profile/chrome/pwa/chrome.jsm"
+    assert_fail "Unable to locate ./Cargo.toml, ./Cargo.lock and ./userchrome/profile/chrome/pwa/chrome.sys.mjs"
 end

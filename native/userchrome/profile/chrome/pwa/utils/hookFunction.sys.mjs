@@ -1,5 +1,3 @@
-const EXPORTED_SYMBOLS = ['hookFunction'];
-
 // File is mostly copied from xiaoxiaoflood/firefox-scripts repository on GitHub, licensed under MPL 2.0
 // Original source: https://github.com/xiaoxiaoflood/firefox-scripts/blob/69675c7f09e9009b63b1cc239b94c03c5962a9d7/chrome/utils/hookFunction.jsm
 
@@ -19,7 +17,7 @@ const EXPORTED_SYMBOLS = ['hookFunction'];
  * @returns {function} A function which can be called to safely un-hook the hook
  * @throws {Error} If the function is not found in context
  */
-function hookFunction(functionContext, functionName, onBeforeFunction, onAfterFunction) {
+export function hookFunction(functionContext, functionName, onBeforeFunction, onAfterFunction) {
   let originalFunction = functionContext[functionName];
 
   if (!originalFunction) {

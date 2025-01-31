@@ -380,7 +380,7 @@ To load custom JS into the web app profile:
 1. Locate your web app profile inside [the profiles directory](../resources/installation-directories.md#profiles).
 2. Inside the profile directory, create a `chrome` directory (if it does not exist yet).
 3. Inside the `chrome` directory, create a `user` directory (if it does not exist yet).
-4. Inside the `user` directory, create a `boot.jsm` or `boot.sys.mjs` file (if it does not exist yet).
+4. Inside the `user` directory, create a `boot.sys.mjs` file (if it does not exist yet).
 5. Copy your JS into the correct file (depending on the module format).
 6. Relaunch the web app.
 

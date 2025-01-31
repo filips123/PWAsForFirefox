@@ -1,17 +1,17 @@
-const EXPORTED_SYMBOLS = ['buildIconList', 'applySystemIntegration', 'applyDynamicThemeColor'];
+import { XPCOMUtils } from 'resource://gre/modules/XPCOMUtils.sys.mjs';
 
-const { XPCOMUtils } = ChromeUtils.import('resource://gre/modules/XPCOMUtils.jsm');
-const Services = globalThis.Services || ChromeUtils.import('resource://gre/modules/Services.jsm').Services;
-XPCOMUtils.defineLazyModuleGetters(this, {
-  AppConstants: 'resource://gre/modules/AppConstants.jsm',
-  ImageTools: 'resource:///modules/ssb/ImageTools.jsm',
-  NetUtil: 'resource://gre/modules/NetUtil.jsm',
-  xPref: 'resource://pwa/utils/xPref.jsm',
-  sanitizeString: 'resource://pwa/utils/common.jsm',
+const lazy = {};
+
+ChromeUtils.defineESModuleGetters(lazy, {
+  AppConstants: 'resource://gre/modules/AppConstants.sys.mjs',
+  NetUtil: 'resource://gre/modules/NetUtil.sys.mjs',
+  sanitizeString: 'resource://pwa/utils/common.sys.mjs',
+  xPref: 'resource://pwa/utils/xPref.sys.mjs',
 });
-XPCOMUtils.defineLazyServiceGetter(this, 'ImgTools', '@mozilla.org/image/tools;1', Ci.imgITools);
-XPCOMUtils.defineLazyServiceGetter(this, 'WinUIUtils', '@mozilla.org/windows-ui-utils;1', Ci.nsIWindowsUIUtils);
-XPCOMUtils.defineLazyServiceGetter(this, 'WinTaskbar', '@mozilla.org/windows-taskbar;1', Ci.nsIWinTaskbar);
+
+XPCOMUtils.defineLazyServiceGetter(lazy, 'ImgTools', '@mozilla.org/image/tools;1', Ci.imgITools);
+XPCOMUtils.defineLazyServiceGetter(lazy, 'WinTaskbar', '@mozilla.org/windows-taskbar;1', Ci.nsIWinTaskbar);
+XPCOMUtils.defineLazyServiceGetter(lazy, 'WinUIUtils', '@mozilla.org/windows-ui-utils;1', Ci.nsIWindowsUIUtils);
 
 const INTEGRATION_STATIC_STYLES = 'firefoxpwa-system-integration-styles'
 const INTEGRATION_DYNAMIC_STYLES = 'firefoxpwa-system-integration-styles-dynamic'
@@ -43,12 +43,12 @@ function configureThemeColor (window, styles, colorR, colorG, colorB) {
 
   // Set toolbar color to fix wrong window controls on Linux
   if (
-    AppConstants.platform === 'linux' &&
+    lazy.AppConstants.platform === 'linux' &&
     window.document.documentElement.getAttribute('lwtheme') !== 'true' &&
     window.document.location.href.startsWith('chrome://browser/')
   ) {
-    if (brightness > 125) xPref.set('browser.theme.toolbar-theme', 1); // Light theme
-    else xPref.set('browser.theme.toolbar-theme', 0); // Dark theme
+    if (brightness > 125) lazy.xPref.set('browser.theme.toolbar-theme', 1); // Light theme
+    else lazy.xPref.set('browser.theme.toolbar-theme', 0); // Dark theme
   }
 
   // Set background and text colors to the titlebar and tabs
@@ -58,12 +58,12 @@ function configureThemeColor (window, styles, colorR, colorG, colorB) {
 
 function loadImage (uri) {
   return new Promise((resolve, reject) => {
-    let channel = NetUtil.newChannel({
+    let channel = lazy.NetUtil.newChannel({
       uri: uri,
       loadUsingSystemPrincipal: true,
     });
 
-    ImgTools.decodeImageFromChannelAsync(
+    lazy.ImgTools.decodeImageFromChannelAsync(
       uri,
       channel,
       (container, status) => {
@@ -81,7 +81,7 @@ function loadImage (uri) {
   });
 }
 
-function buildIconList (icons, purpose = 'any') {
+export function buildIconList (icons, purpose = 'any') {
   let iconList = [];
 
   for (let icon of icons) {
@@ -124,15 +124,15 @@ async function setWindowIcons (window, site) {
   }] : site.manifest.icons);
 
   let windowIcons = await Promise.all([
-    getIcon(iconList, WinUIUtils.systemSmallIconSize),
-    getIcon(iconList, WinUIUtils.systemLargeIconSize),
+    getIcon(iconList, lazy.WinUIUtils.systemSmallIconSize),
+    getIcon(iconList, lazy.WinUIUtils.systemLargeIconSize),
   ]);
 
   if (windowIcons[0] || windowIcons[1]) {
     // There is a small delay here because otherwise `setWindowIcon` may fail
     // It shouldn't visually matter because the icon will be set by a shortcut anyway
     window.setTimeout(() => {
-      WinUIUtils.setWindowIcon(window, windowIcons[0], windowIcons[1]);
+      lazy.WinUIUtils.setWindowIcon(window, windowIcons[0], windowIcons[1]);
     }, 100);
   }
 }
@@ -144,7 +144,7 @@ function setWindowColors (window, site) {
   const styles = createOrGetStyles(window, INTEGRATION_STATIC_STYLES);
 
   // Set the window background color
-  if (xPref.get(window.ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR) && site.manifest.background_color) {
+  if (lazy.xPref.get(window.ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR) && site.manifest.background_color) {
     const backgroundColor = site.manifest.background_color.substring(0, 7);
 
     // Set background color to the browser window
@@ -163,7 +163,7 @@ function setWindowColors (window, site) {
   }
 
   // Set the theme (titlebar) background and text colors
-  if (xPref.get(window.ChromeLoader.PREF_SITES_SET_THEME_COLOR) && site.manifest.theme_color) {
+  if (lazy.xPref.get(window.ChromeLoader.PREF_SITES_SET_THEME_COLOR) && site.manifest.theme_color) {
     // Set the static theme color from the manifest
     const colorHex = site.manifest.theme_color.substring(0, 7);
     const colorRGB = colorHex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i).slice(1).map(c => parseInt(c, 16));
@@ -190,10 +190,10 @@ function setWindowColors (window, site) {
  * @param {ChromeWindow&Window} window - Window where integration should be applied
  * @param {object} site - Site config for which integration should be used
  */
-function applySystemIntegration (window, site) {
+export function applySystemIntegration (window, site) {
   // Set title only on the main browser chrome window
-  if (window.location.href === AppConstants.BROWSER_CHROME_URL) {
-    const name = sanitizeString(site.config.name || site.manifest.name || site.manifest.short_name);
+  if (window.location.href === lazy.AppConstants.BROWSER_CHROME_URL) {
+    const name = lazy.sanitizeString(site.config.name || site.manifest.name || site.manifest.short_name);
     window.document.title = name || new URL(site.manifest.scope).host;
   }
 
@@ -201,8 +201,8 @@ function applySystemIntegration (window, site) {
   window.document.documentElement.setAttribute('windowclass', `FFPWA-${site.ulid}`);
   window.document.documentElement.setAttribute('windowname', `FFPWA-${site.ulid}`);
 
-  if (AppConstants.platform === 'win') {
-    WinTaskbar.setGroupIdForWindow(window, `filips.firefoxpwa.${site.ulid}`);
+  if (lazy.AppConstants.platform === 'win') {
+    lazy.WinTaskbar.setGroupIdForWindow(window, `filips.firefoxpwa.${site.ulid}`);
     setWindowIcons(window, site);
   }
 
@@ -221,7 +221,7 @@ function applySystemIntegration (window, site) {
  * @param {ChromeWindow&Window} window - Window where integration should be applied
  * @param {{r: Number, g: Number, b: Number, a: Number} | null} color - Color that should be applied
  */
-function applyDynamicThemeColor (window, color) {
+export function applyDynamicThemeColor (window, color) {
   // This will always reset the dynamic styles element
   const styles = createOrGetStyles(window, INTEGRATION_DYNAMIC_STYLES);
 

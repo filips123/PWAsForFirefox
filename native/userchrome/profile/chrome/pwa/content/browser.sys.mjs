@@ -1,15 +1,26 @@
-XPCOMUtils.defineLazyModuleGetters(this, {
-  BrowserWindowTracker: 'resource:///modules/BrowserWindowTracker.jsm',
-  applyDynamicThemeColor: 'resource://pwa/utils/systemIntegration.jsm',
-  applySystemIntegration: 'resource://pwa/utils/systemIntegration.jsm',
-  buildIconList: 'resource://pwa/utils/systemIntegration.jsm',
-  sendNativeMessage: 'resource://pwa/utils/nativeMessaging.jsm',
-  hookFunction: 'resource://pwa/utils/hookFunction.jsm',
-  xPref: 'resource://pwa/utils/xPref.jsm',
-  sanitizeString: 'resource://pwa/utils/common.jsm',
+import { OnboardingMessageProvider } from 'resource:///modules/asrouter/OnboardingMessageProvider.sys.mjs';
+import { nsContentDispatchChooser } from 'resource://gre/modules/ContentDispatchChooser.sys.mjs';
+import { WebNavigationManager } from 'resource://gre/modules/WebNavigation.sys.mjs';
+import { XPCOMUtils } from 'resource://gre/modules/XPCOMUtils.sys.mjs';
+import { BrowserGlue } from 'resource:///modules/BrowserGlue.sys.mjs';
+import { BrowserWindowTracker } from 'resource:///modules/BrowserWindowTracker.sys.mjs';
+import { WebProtocolHandlerRegistrar } from 'resource:///modules/WebProtocolHandlerRegistrar.sys.mjs';
+
+import { sanitizeString } from 'resource://pwa/utils/common.sys.mjs';
+import { hookFunction } from 'resource://pwa/utils/hookFunction.sys.mjs';
+import { xPref } from 'resource://pwa/utils/xPref.sys.mjs';
+
+const lazy = {};
+
+ChromeUtils.defineESModuleGetters(lazy, {
+  sendNativeMessage: 'resource://pwa/utils/nativeMessaging.sys.mjs',
+  applyDynamicThemeColor: 'resource://pwa/utils/systemIntegration.sys.mjs',
+  applySystemIntegration: 'resource://pwa/utils/systemIntegration.sys.mjs',
+  buildIconList: 'resource://pwa/utils/systemIntegration.sys.mjs',
 });
-XPCOMUtils.defineLazyServiceGetter(this, 'ioService', '@mozilla.org/network/io-service;1', Ci.nsIIOService);
-XPCOMUtils.defineLazyServiceGetter(this, 'WindowsUIUtils', '@mozilla.org/windows-ui-utils;1', Ci.nsIWindowsUIUtils);
+
+XPCOMUtils.defineLazyServiceGetter(lazy, 'ioService', '@mozilla.org/network/io-service;1', Ci.nsIIOService);
+XPCOMUtils.defineLazyServiceGetter(lazy, 'WindowsUIUtils', '@mozilla.org/windows-ui-utils;1', Ci.nsIWindowsUIUtils);
 
 class PwaBrowser {
   constructor () {
@@ -83,7 +94,7 @@ class PwaBrowser {
     document.getElementById('TabsToolbar-customization-target').append(siteInfo);
 
     // Set initial favicon and title to the site's static info
-    const siteIcons = buildIconList(window.gFFPWASiteConfig?.manifest.icons || []);
+    const siteIcons = lazy.buildIconList(window.gFFPWASiteConfig?.manifest.icons || []);
     const siteIcon = siteIcons.find(icon => icon.size >= 32) || siteIcons[siteIcons.length - 1];
     if (siteIcon) tabIconImage.setAttribute('src', siteIcon.icon.src);
 
@@ -357,8 +368,6 @@ class PwaBrowser {
     // Some checks here are directly based on the Firefox code, licensed under MPL 2.0
     // Original source: https://github.com/mozilla/gecko-dev/blob/a62618baa72cd0ba6c0a5f5fc0b1d63f2866b7c6/browser/components/protocolhandler/WebProtocolHandlerRegistrar.jsm
 
-    const { WebProtocolHandlerRegistrar } = Cu.import('resource:///modules/WebProtocolHandlerRegistrar.jsm');
-
     WebProtocolHandlerRegistrar.prototype.registerProtocolHandler = function (protocol, url, title, documentURI, browserOrWindow) {
       protocol = (protocol || '').toLowerCase();
       if (!url || !documentURI) return;
@@ -396,7 +405,7 @@ class PwaBrowser {
 
         async callback (notification, buttonInfo) {
           // Send a request to the native program to register the handler
-          const response = await sendNativeMessage({
+          const response = await lazy.sendNativeMessage({
             cmd: 'RegisterProtocolHandler',
             params: {
               site: buttonInfo.protocolInfo.site,
@@ -434,7 +443,7 @@ class PwaBrowser {
     WebProtocolHandlerRegistrar.prototype.removeProtocolHandler = function (protocol, url) {
       (async () => {
         // Send a request to the native program to unregister the handler
-        const response = await sendNativeMessage({
+        const response = await lazy.sendNativeMessage({
           cmd: 'UnregisterProtocolHandler',
           params: {
             site: window.gFFPWASiteConfig.ulid,
@@ -498,7 +507,6 @@ class PwaBrowser {
 
     // Allow opening HTTP links without confirmation popup
     // This applies to all ways of opening HTTP links in default browser
-    const { nsContentDispatchChooser } = ChromeUtils.import('resource://gre/modules/ContentDispatchChooser.jsm');
     nsContentDispatchChooser.prototype._hasProtocolHandlerPermissionOriginal = nsContentDispatchChooser.prototype._hasProtocolHandlerPermission;
     nsContentDispatchChooser.prototype._hasProtocolHandlerPermission = function(scheme, principal, triggeredExternally) {
       if (scheme === 'http' || scheme === 'https') return true;
@@ -533,7 +541,6 @@ class PwaBrowser {
 
     // Handle passing config from old to new window and closing out-of-scope windows
     // Also handles applying the system integration for "disconnected" windows
-    const { WebNavigationManager } = Cu.import('resource://gre/modules/WebNavigation.jsm');
     WebNavigationManager.addListener('onCreatedNavigationTarget', details => {
       const newWindow = details.browser.ownerGlobal;
       const sourceWindow = details.sourceTabBrowser.ownerGlobal;
@@ -541,7 +548,7 @@ class PwaBrowser {
       // Pass config from the old window to a new one
       if (!newWindow.gFFPWASiteConfig) {
         newWindow.gFFPWASiteConfig = sourceWindow.gFFPWASiteConfig;
-        applySystemIntegration(newWindow, newWindow.gFFPWASiteConfig);
+        lazy.applySystemIntegration(newWindow, newWindow.gFFPWASiteConfig);
       }
 
       // Open out-of-scope links in default browser and close the newly-opened tab
@@ -791,7 +798,7 @@ class PwaBrowser {
     // Handle switching browser tabs in tabs mode
     window.gBrowser.tabbox.addEventListener('select', () => {
       if (!window.gBrowser.selectedBrowser.gFFPWACurrentColor || !this.canLoad(window.gBrowser.currentURI)) return;
-      applyDynamicThemeColor(window, window.gBrowser.selectedBrowser.gFFPWACurrentColor);
+      lazy.applyDynamicThemeColor(window, window.gBrowser.selectedBrowser.gFFPWACurrentColor);
     })
 
     // Handle theme color messages from the frame script
@@ -799,7 +806,7 @@ class PwaBrowser {
     Services.mm.addMessageListener('firefoxpwa:theme-color', (message) => {
       if (window.gBrowser.selectedBrowser !== message.target || !this.canLoad(window.gBrowser.currentURI)) return;
       window.gBrowser.selectedBrowser.gFFPWACurrentColor = message.data.color;
-      applyDynamicThemeColor(window, message.data.color);
+      lazy.applyDynamicThemeColor(window, message.data.color);
     });
 
     // Inject frame script into website content
@@ -1108,7 +1115,7 @@ class PwaBrowser {
           const currentUrl = gURLBar.makeURIReadable(browser.currentURI).displaySpec;
           const currentTitle = browser.contentTitle;
 
-          WindowsUIUtils.shareUrl(currentUrl, currentTitle);
+          lazy.WindowsUIUtils.shareUrl(currentUrl, currentTitle);
         }
       });
     }
@@ -1540,7 +1547,7 @@ class PwaBrowser {
         });
       },
       onCommand (event) {
-          event.target.ownerGlobal.gIdentityHandler.handleIdentityButtonEvent(event);
+        event.target.ownerGlobal.gIdentityHandler.handleIdentityButtonEvent(event);
       }
     });
   }
@@ -1821,18 +1828,54 @@ class PwaBrowser {
   }
 
   configureLayout () {
-    // Configure default layout
-    let { gAreas } = Cu.import('resource:///modules/CustomizableUI.jsm');
-    gAreas.get(CustomizableUI.AREA_NAVBAR).set('defaultPlacements', ['close-page-button', 'back-button', 'forward-button', 'urlbar-container']);
-    gAreas.get(CustomizableUI.AREA_TABSTRIP).set('defaultPlacements', ['site-info', 'tabbrowser-tabs', 'new-tab-button', 'alltabs-button', 'mute-button', 'notifications-button', 'permissions-button', 'downloads-button', 'tracking-protection-button', 'identity-button', 'unified-extensions-button']);
-    gAreas.get(CustomizableUI.AREA_BOOKMARKS).set('defaultCollapsed', 'never');
+    // Configure the default placements of widgets
+    const defaultPlacements = {
+      [CustomizableUI.AREA_NAVBAR]: ['close-page-button', 'back-button', 'forward-button', 'urlbar-container'],
+      [CustomizableUI.AREA_TABSTRIP]: ['site-info', 'tabbrowser-tabs', 'new-tab-button', 'alltabs-button', 'mute-button', 'notifications-button', 'permissions-button', 'downloads-button', 'tracking-protection-button', 'identity-button', 'unified-extensions-button']
+    };
+
+    // We cannot directly set the default placements because Firefox does not expose such a function
+    // Instead, we listen for area reset events and set the default placements when the event is fired
+    // In the future, we can try to implement such a function in Firefox and submit a patch
+
+    const listener = {
+      onAreaReset: (area) => {
+        try {
+          // Start a batch update of items
+          CustomizableUI.beginBatchUpdate();
+
+          if (defaultPlacements.hasOwnProperty(area)) {
+            // Remove all existing widgets from the area
+            for (const widget of CustomizableUI.getWidgetIdsInArea(area)) {
+              CustomizableUI.removeWidgetFromArea(widget);
+            }
+
+            // Add default widgets to the area
+            for (const [ix, widget] of defaultPlacements[area].entries()) {
+              CustomizableUI.addWidgetToArea(widget, area, ix);
+            }
+          }
+        } finally {
+          // End the batch update of items
+          CustomizableUI.endBatchUpdate();
+        }
+
+        // Hide bookmarks toolbar by default
+        xPref.clear('browser.toolbars.bookmarks.visibility');
+      },
+    };
+    CustomizableUI.addListener(listener);
 
     // Reset layout to default on the first run, otherwise widgets are misplaced
     // We can check for the first run using telemetry reporting policy preference
     // Although this relies on the telemetry module, it still works on LibreWolf where telemetry is disabled
     setTimeout(() => {
       if (xPref.get('toolkit.telemetry.reportingpolicy.firstRun', false, true)) {
+        // Reset the layout to default
         CustomizableUI.reset();
+
+        // Hide bookmarks toolbar by default
+        xPref.clear('browser.toolbars.bookmarks.visibility');
       }
     });
   }
@@ -1843,14 +1886,16 @@ class PwaBrowser {
     // this.modifyWidget('back-button', { removable: true });
     // this.modifyWidget('forward-button', { removable: true });
 
+    // We need to import these modules here as they are not available initially
+
     // Make extensions widgets go to the tab strip area by default
-    const { BrowserActionBase } = ChromeUtils.import('resource://gre/modules/ExtensionActions.jsm');
+    const { BrowserActionBase } = ChromeUtils.importESModule('resource://gre/modules/ExtensionActions.sys.mjs');
     hookFunction(BrowserActionBase.prototype, 'getDefaultArea', null, function () {
       return this.globals.default_area === 'navbar' ? 'tabstrip' : this.globals.default_area;
     })
 
     // Make Firefox Profiler button go to the tab strip area by default
-    const { ProfilerMenuButton } = ChromeUtils.import('resource://devtools/client/performance-new/popup/menu-button.jsm.js');
+    const { ProfilerMenuButton } = ChromeUtils.importESModule('resource://devtools/client/performance-new/popup/menu-button.sys.mjs');
     ProfilerMenuButton.addToNavbar = function (document) {
       CustomizableUI.addWidgetToArea('profiler-button', CustomizableUI.AREA_TABSTRIP);
     }
@@ -2033,13 +2078,7 @@ class PwaBrowser {
 
   disableOnboarding () {
     // Disable default browser prompt
-    const { BrowserGlue } = ChromeUtils.import('resource:///modules/BrowserGlue.jsm');
     BrowserGlue.prototype._maybeShowDefaultBrowserPrompt = async () => null;
-
-    // Handle both post-124 and pre-124 paths
-    let OnboardingMessageProvider = undefined;
-    try { OnboardingMessageProvider = ChromeUtils.import('resource:///modules/asrouter/OnboardingMessageProvider.jsm').OnboardingMessageProvider }
-    catch { OnboardingMessageProvider = ChromeUtils.import('resource://activity-stream/lib/OnboardingMessageProvider.jsm').OnboardingMessageProvider }
 
     // Disable onboarding messages
     OnboardingMessageProvider.getMessages = async () => [];
@@ -2132,7 +2171,7 @@ class PwaBrowser {
     if (!uri || uri.spec === 'about:blank') return true;
     if (!target.gFFPWASiteConfig) return false;
 
-    const scope = ioService.newURI(target.gFFPWASiteConfig.manifest.scope);
+    const scope = lazy.ioService.newURI(target.gFFPWASiteConfig.manifest.scope);
 
     if (scope.prePath !== uri.prePath) return false;
     return uri.filePath.startsWith(scope.filePath);

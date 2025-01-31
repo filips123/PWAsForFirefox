@@ -62,7 +62,7 @@ src_prepare() {
 	# Set version in source files as per build instructions
 	sed -i "s/version = \"0.0.0\"/version = \"${PV}\"/g" Cargo.toml || die
 	sed -i "s/DISTRIBUTION_VERSION = '0.0.0'/DISTRIBUTION_VERSION = '${PV}'/g" \
-		userchrome/profile/chrome/pwa/chrome.jsm || die
+		userchrome/profile/chrome/pwa/chrome.sys.mjs || die
 }
 
 src_configure() {

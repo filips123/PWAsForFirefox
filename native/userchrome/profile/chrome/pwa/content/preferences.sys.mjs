@@ -1,8 +1,7 @@
-XPCOMUtils.defineLazyModuleGetters(this, {
-  ShortcutUtils: 'resource://gre/modules/ShortcutUtils.jsm',
-  hookFunction: 'resource://pwa/utils/hookFunction.jsm',
-  xPref: 'resource://pwa/utils/xPref.jsm',
-});
+import { ShortcutUtils } from 'resource://gre/modules/ShortcutUtils.sys.mjs';
+
+import { hookFunction } from 'resource://pwa/utils/hookFunction.sys.mjs';
+import { xPref } from 'resource://pwa/utils/xPref.sys.mjs';
 
 class PwaPreferences {
   preferenceElementsAdded = false
@@ -19,8 +18,8 @@ class PwaPreferences {
     hookFunction(gMainPane, 'init', null, () => { this.addPreferenceElements(); });
 
     // Handle switch of preferences on load and when they changes
-    setTimeout(() => { this.handleTabsModePreferenceSwitch(true); } );
-    xPref.addListener(ChromeLoader.PREF_ENABLE_TABS_MODE, () => { this.handleTabsModePreferenceSwitch() } );
+    setTimeout(() => { this.handleTabsModePreferenceSwitch(true); });
+    xPref.addListener(ChromeLoader.PREF_ENABLE_TABS_MODE, () => { this.handleTabsModePreferenceSwitch() });
   }
 
   addPreferenceData () {
@@ -165,7 +164,7 @@ class PwaPreferences {
   handleTabsModePreferenceSwitch (onLoad = false) {
     function setTabsSectionDisabled (disabled) {
       document.querySelectorAll('#mainPrefPane > groupbox:nth-child(11) > *').forEach(elem => elem.disabled = disabled)
-      document.querySelector('#launchTypeNewTab').disabled = disabled
+      document.querySelectorAll('#launchTypeNewTab').forEach(elem => elem.disabled = disabled)
     }
 
     if (xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) {

@@ -1,15 +1,9 @@
-const EXPORTED_SYMBOLS = [];
+import { AppConstants } from 'resource://gre/modules/AppConstants.sys.mjs';
+import { NetUtil } from 'resource://gre/modules/NetUtil.sys.mjs';
+import { nsDefaultCommandLineHandler, nsBrowserContentHandler } from 'resource:///modules/BrowserContentHandler.sys.mjs';
+import { BrowserWindowTracker } from 'resource:///modules/BrowserWindowTracker.sys.mjs';
 
-const { XPCOMUtils } = ChromeUtils.import('resource://gre/modules/XPCOMUtils.jsm');
-const Services = globalThis.Services || ChromeUtils.import('resource://gre/modules/Services.jsm').Services;
-ChromeUtils.defineLazyGetter(this, 'gSystemPrincipal', () => Services.scriptSecurityManager.getSystemPrincipal());
-XPCOMUtils.defineLazyModuleGetters(this, {
-  AppConstants: 'resource://gre/modules/AppConstants.jsm',
-  BrowserWindowTracker: 'resource:///modules/BrowserWindowTracker.jsm',
-  NetUtil: 'resource://gre/modules/NetUtil.jsm',
-  LangPackMatcher: 'resource://gre/modules/LangPackMatcher.jsm',
-  applySystemIntegration: 'resource://pwa/utils/systemIntegration.jsm',
-});
+import { applySystemIntegration } from 'resource://pwa/utils/systemIntegration.sys.mjs';
 
 /**
  * Reads the PWAsForFirefox config file and parses it as JSON.
@@ -126,7 +120,6 @@ Services.prefs.getDefaultBranch(null).setBoolPref('browser.privateWindowSeparati
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.privacySegmentation.createdShortcut', true);
 
 // Override command line helper to intercept PWAsForFirefox arguments and start loading the site
-const { nsDefaultCommandLineHandler } = Cu.import('resource:///modules/BrowserContentHandler.jsm');
 nsDefaultCommandLineHandler.prototype._handle = nsDefaultCommandLineHandler.prototype.handle;
 nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
   const isStartup = cmdLine.state === Ci.nsICommandLine.STATE_INITIAL_LAUNCH;
@@ -183,7 +176,6 @@ nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
 // Still does not work when multiple web apps are used in the same profile
 // This does not matter currently because of #81, but once it is fixed, this also needs to be reworked
 if (AppConstants.platform === 'macosx') {
-  const { nsBrowserContentHandler } = Cu.import('resource:///modules/BrowserContentHandler.jsm');
   nsBrowserContentHandler.prototype._getNewWindowArgs = nsBrowserContentHandler.prototype.getNewWindowArgs;
   nsBrowserContentHandler.prototype.getNewWindowArgs = function () {
     if (globalThis.gFFPWASiteConfig) {
@@ -220,4 +212,4 @@ Services.obs.addObserver(async subject => {
 }, 'webextension-langpack-startup');
 
 // Import browser chrome modifications
-ChromeUtils.import('resource://pwa/chrome.jsm');
+ChromeUtils.importESModule('resource://pwa/chrome.sys.mjs');

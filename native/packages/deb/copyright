@@ -25,13 +25,13 @@ Copyright: Chris Simpson (@chrismsimpson)
 License: Unlicense
 Comment: Download: https://fontsarena.com/metropolis-by-chris-simpson/
 
-Files: userchrome/profile/utils/hookFunction.jsm
+Files: userchrome/profile/utils/hookFunction.sys.mjs
 Copyright: xiaoxiaoflood <xiaoxiaoflood@gmail.com>
 Copyright: filips <projects@filips.si>
 License: MPL-2.0
 Comment: Original source: https://github.com/xiaoxiaoflood/firefox-scripts/blob/69675c7f09e9009b63b1cc239b94c03c5962a9d7/chrome/utils/hookFunction.jsm
 
-Files: userchrome/profile/utils/xPref.jsm
+Files: userchrome/profile/utils/xPref.sys.mjs
 Copyright: xiaoxiaoflood <xiaoxiaoflood@gmail.com>
 Copyright: filips <projects@filips.si>
 License: MPL-2.0

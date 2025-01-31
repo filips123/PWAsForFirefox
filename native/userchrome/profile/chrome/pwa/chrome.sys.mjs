@@ -1,11 +1,6 @@
-const EXPORTED_SYMBOLS = [];
+import { AppConstants } from 'resource://gre/modules/AppConstants.sys.mjs';
 
-const { XPCOMUtils } = ChromeUtils.import('resource://gre/modules/XPCOMUtils.jsm');
-const Services = globalThis.Services || ChromeUtils.import('resource://gre/modules/Services.jsm').Services;
-XPCOMUtils.defineLazyModuleGetters(this, {
-  AppConstants: 'resource://gre/modules/AppConstants.jsm',
-  applySystemIntegration: 'resource://pwa/utils/systemIntegration.jsm',
-});
+import { applySystemIntegration } from 'resource://pwa/utils/systemIntegration.sys.mjs';
 
 const SSS = Cc['@mozilla.org/content/style-sheet-service;1'].getService(Ci.nsIStyleSheetService);
 
@@ -16,11 +11,11 @@ class ChromeLoader {
 
   static FILES_BASE = Services.io.getProtocolHandler('file').QueryInterface(Ci.nsIFileProtocolHandler).getURLSpecFromDir(Services.dirsvc.get('UChrm', Ci.nsIFile));
 
-  static BROWSER_SCRIPT = 'pwa/content/browser.jsm';
+  static BROWSER_SCRIPT = 'pwa/content/browser.sys.mjs';
   static BROWSER_STYLES = 'pwa/content/browser.css';
-  static PREFERENCES_SCRIPT = 'pwa/content/preferences.jsm';
+  static PREFERENCES_SCRIPT = 'pwa/content/preferences.sys.mjs';
   static PREFERENCES_STYLES = 'pwa/content/preferences.css';
-  static MACOS_HIDDEN_WINDOW_SCRIPT = 'pwa/content/macosHiddenWindow.jsm';
+  static MACOS_HIDDEN_WINDOW_SCRIPT = 'pwa/content/macosHiddenWindow.sys.mjs';
 
   static DISTRIBUTION_ID = 'firefoxpwa';
   static DISTRIBUTION_VERSION = '0.0.0';
@@ -79,7 +74,7 @@ class ChromeLoader {
 
     // Load a site config from a global object - Fix for reopening web app after closing all windows on macOS
     // Cannot be applied to other OSes - Does not work with multiple web apps in the same profile
-    // Also has some other problems - See `nsBrowserContentHandler` in `boot.jsm` for more details
+    // Also has some other problems - See `nsBrowserContentHandler` in `boot.sys.mjs` for more details
     if (AppConstants.platform === 'macosx' || AppConstants.platform === 'linux') {
       if (!window.gFFPWASiteConfig && globalThis.gFFPWASiteConfig) window.gFFPWASiteConfig = globalThis.gFFPWASiteConfig;
       globalThis.gFFPWASiteConfig = window.gFFPWASiteConfig;
@@ -115,7 +110,8 @@ class ChromeLoader {
   }
 
   loadUserScript (scriptFilename, window) {
-    return Services.scriptloader.loadSubScript(ChromeLoader.FILES_BASE + scriptFilename, window, 'UTF-8');
+    const script = `data:application/javascript,ChromeUtils.importESModule('resource://${scriptFilename}', { global: 'current' });`;
+    return Services.scriptloader.loadSubScript(script, window, 'UTF-8');
   }
 }
 
