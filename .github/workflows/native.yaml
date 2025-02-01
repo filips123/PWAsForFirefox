@@ -604,17 +604,10 @@ jobs:
           ebuild "firefoxpwa-$VERSION.ebuild" manifest
           echo "::endgroup::"
 
-      - name: Commit updated package
-        working-directory: tmp/guru/www-plugins/firefoxpwa
-        run: |
+          echo "::group::Committing the package"
           git add -A
           pkgdev commit --signoff
-
-      - name: Scan updated package
-        working-directory: tmp/guru/www-plugins/firefoxpwa
-        run: |
-          git remote set-head origin master
-          pkgcheck scan --net --commits
+          echo "::endgroup::"
 
       - name: Remove old packages
         working-directory: tmp/guru/www-plugins/firefoxpwa
@@ -664,6 +657,12 @@ jobs:
           git add -A
           pkgdev commit --signoff
           echo "::endgroup::"
+
+      - name: Scan package changes
+        working-directory: tmp/guru/www-plugins/firefoxpwa
+        run: |
+          git remote set-head origin master
+          pkgcheck scan --net --commits
 
       - name: Push package changes
         uses: peter-evans/create-pull-request@8867c4aba1b742c39f8d0ba35429c2dfa4b6cb20
