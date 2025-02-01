@@ -558,6 +558,7 @@ jobs:
         with:
           repository: gentoo/guru
           path: tmp/guru
+          fetch-depth: 0
 
       - name: Configure cache
         run: echo "CACHE_ID=$(date --utc '+%Y-%V')" >> $GITHUB_ENV
@@ -615,7 +616,56 @@ jobs:
           git remote set-head origin master
           pkgcheck scan --net --commits
 
-      - name: Push updated package
+      - name: Remove old packages
+        working-directory: tmp/guru/www-plugins/firefoxpwa
+        run: |
+          # Set the number of ebuilds to keep
+          PRESERVE=3
+
+          # Collect all ebuild files
+          files=(firefoxpwa-*.ebuild)
+
+          # Skip if there are not enough ebuilds
+          if [ "${#files[@]}" -le "$PRESERVE" ]
+          then
+            echo "No old ebuilds to remove"
+            exit 0
+          fi
+
+          # Get the time the ebuilds were created
+          timestamped=""
+          for file in "${files[@]}"
+          do
+            timestamp=$(git log --diff-filter=A --format=%at -1 -- "$file" 2> /dev/null || echo 0)
+            timestamped+="$timestamp $file"$'\n'
+          done
+          timestamped=$(echo "$timestamped" | sed '/^$/d')
+
+          # Sort the ebuilds by time
+          mapfile -t sorted < <(echo "$timestamped" | sort -n | awk '{print $2}')
+
+          # Remove all but the last few ebuilds
+          echo "::group::Removing old ebuilds"
+          dropped=$((${#sorted[@]} - PRESERVE))
+          for file in "${sorted[@]:0:$dropped}"
+          do
+            echo "Removing $file"
+            rm "$file"
+          done
+          echo "::endgroup::"
+
+          # Regenerate the manifest
+          echo "::group::Regenerating the manifest"
+          pkgdev manifest
+          echo "::endgroup::"
+
+          # Commit the changes
+          echo "::group::Committing the changes"
+          git add -A
+          pkgdev commit --signoff
+          echo "::endgroup::"
+
+      - name: Push package changes
         uses: peter-evans/create-pull-request@8867c4aba1b742c39f8d0ba35429c2dfa4b6cb20
         with:
           token: ${{ secrets.GH_TOKEN }}
