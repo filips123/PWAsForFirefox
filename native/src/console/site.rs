@@ -11,10 +11,7 @@ use url::Url;
 use crate::components::runtime::Runtime;
 use crate::components::site::{Site, SiteConfig};
 use crate::console::app::{
-    SiteInstallCommand,
-    SiteLaunchCommand,
-    SiteUninstallCommand,
-    SiteUpdateCommand,
+    SiteInstallCommand, SiteLaunchCommand, SiteUninstallCommand, SiteUpdateCommand,
 };
 use crate::console::{store_value, store_value_vec, Run};
 use crate::directories::ProjectDirs;
@@ -46,7 +43,7 @@ impl Run for SiteLaunchCommand {
             bail!("Runtime not installed");
         }
 
-        #[cfg(feature = "linked-runtime")]
+        #[cfg(platform_linux)]
         {
             use std::fs::File;
             use std::io::Read;

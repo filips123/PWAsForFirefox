@@ -154,14 +154,14 @@ pub struct SetConfig(pub Config);
 /// [`ConnectorResponse::RuntimeInstalled`] - No data.
 ///
 
-#[cfg(feature = "linked-runtime")]
+#[cfg(platform_linux)]
 #[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
 pub struct InstallRuntime {
     /// Experimental: Use a linked runtime instead of downloading from Mozilla.
     pub link: bool,
 }
 
-#[cfg(not(feature = "linked-runtime"))]
+#[cfg(not(platform_linux))]
 #[derive(Debug, Eq, PartialEq, Clone)]
 pub struct InstallRuntime;
 
@@ -612,7 +612,7 @@ impl Into<crate::console::app::HTTPClientConfig> for HTTPClientConfig {
 
 deserialize_unit_struct!(GetSystemVersions);
 deserialize_unit_struct!(GetConfig);
-#[cfg(not(feature = "linked-runtime"))]
+#[cfg(not(platform_linux))]
 deserialize_unit_struct!(InstallRuntime);
 deserialize_unit_struct!(UninstallRuntime);
 deserialize_unit_struct!(GetSiteList);

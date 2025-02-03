@@ -49,7 +49,7 @@ pub struct Config {
     /// May be overwritten with a system environment variable.
     pub runtime_use_portals: bool,
 
-    #[cfg(feature = "linked-runtime")]
+    #[cfg(platform_linux)]
     /// Experimental: Using the system runtime to save some disk space.
     /// This might not work on your system.
     pub use_linked_runtime: bool,
