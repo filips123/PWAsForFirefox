@@ -745,6 +745,10 @@
     "message": "Manage web apps and profiles",
     "description": "The title of the manage page"
   },
+  "managePageTabGrid": {
+    "message": "Grid",
+    "description": "The grid tab on the manage page"
+  },
   "managePageTabApps": {
     "message": "Apps",
     "description": "The apps tab on the manage page"
