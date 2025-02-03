@@ -183,6 +183,10 @@
     "message": "Upravljaj aplikacije in profile",
     "description": "The title of the manage page"
   },
+  "managePageTabGrid": {
+    "message": "Mreža",
+    "description": "The grid tab on the manage page"
+  },
   "managePageTabApps": {
     "message": "Aplikacije",
     "description": "The apps tab on the manage page"

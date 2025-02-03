@@ -85,6 +85,7 @@ async function createSiteList () {
 
   loadingElement.classList.add('d-none')
   gridLoadingElement.classList.add('d-none')
+
   if (!sites.length) {
     emptyElement.classList.remove('d-none')
     gridEmptyElement.classList.remove('d-none')
@@ -94,6 +95,7 @@ async function createSiteList () {
   for (const site of sites) {
     // Create list view item
     const siteElement = templateElement.content.firstElementChild.cloneNode(true)
+
     // Create grid view item
     const gridItem = gridTemplateElement.content.firstElementChild.cloneNode(true)
 

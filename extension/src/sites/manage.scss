@@ -9,8 +9,7 @@
 // Card & Size Modifications
 //////////////////////////////
 
-html,
-body {
+html, body {
   min-height: 34rem;
   position: relative;
   overflow-x: hidden;
@@ -62,15 +61,15 @@ body {
 // List Styles
 //////////////////////////////
 
-.list-group-flush>.list-group-item {
+.list-group-flush > .list-group-item {
   padding: 0.5rem 0.75rem;
 }
 
-.list-group-border-last>.list-group-item:last-child {
+.list-group-border-last > .list-group-item:last-child {
   border-bottom-width: 1px;
 }
 
-.list-group-no-border>.list-group-item {
+.list-group-no-border > .list-group-item {
   border: none;
   padding-bottom: 0;
 }
@@ -80,8 +79,7 @@ body {
   border-top: none;
 }
 
-.text-overflow-hide,
-.text-overflow-hide>* {
+.text-overflow-hide, .text-overflow-hide > * {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
@@ -113,15 +111,12 @@ body {
   cursor: pointer;
   height: 85px;
 
-  .site-icon,
-  .list-group-item-name {
+  .site-icon, .list-group-item-name {
     transition: opacity 0.2s ease-in-out;
   }
 
   &:hover {
-
-    .site-icon,
-    .list-group-item-name {
+    .site-icon, .list-group-item-name {
       opacity: 0.7;
     }
   }
