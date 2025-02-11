@@ -57,7 +57,7 @@ cfg_if! {
         use std::ffi::c_void;
         use std::mem;
 
-        use windows::Win32::Foundation::{BOOL, HANDLE};
+        use windows::Win32::Foundation::BOOL;
         use windows::Win32::System::JobObjects::{
             IsProcessInJob,
             JobObjectExtendedLimitInformation,
@@ -74,7 +74,7 @@ cfg_if! {
         /// the limit breakaway ok flag is set.
         fn allows_breakaway_from_job() -> Result<bool> {
             let mut process_in_job: BOOL = BOOL(0);
-            unsafe { IsProcessInJob(GetCurrentProcess(), HANDLE(std::ptr::null_mut()), &mut process_in_job)? }
+            unsafe { IsProcessInJob(GetCurrentProcess(), None, &mut process_in_job)? }
 
             if process_in_job.0 == 0 {
                 return Ok(true);
@@ -84,7 +84,7 @@ cfg_if! {
 
             unsafe {
                 QueryInformationJobObject(
-                    HANDLE(std::ptr::null_mut()),
+                    None,
                     JobObjectExtendedLimitInformation,
                     &mut info as *mut _ as *mut c_void,
                     mem::size_of_val(&info) as u32,
