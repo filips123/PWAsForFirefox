@@ -21,8 +21,11 @@ class MacOSHiddenWindow {
     shortcuts.forEach((item) => {
       const menuItem = document.createXULElement('menuitem');
 
-      menuItem.setAttribute('oncommand', `OpenPwaShortcut("${sanitizeString(item.url)}");`);
       menuItem.setAttribute('label', sanitizeString(item.name));
+
+      menuItem.addEventListener('command', () => {
+        OpenPwaShortcut(sanitizeString(item.url));
+      });
 
       dockMenu.appendChild(menuItem);
     });

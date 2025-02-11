@@ -86,7 +86,9 @@ class PwaBrowser {
     const tabIconImage = this.createElement(document, 'image', { class: 'tab-icon-image', role: 'presentation', fadein: 'true' });
     siteInfo.append(tabIconImage);
 
-    const tabLabelContainer = this.createElement(document, 'hbox', { class: 'tab-label-container', onoverflow: 'this.setAttribute(\'textoverflow\', \'true\');', onunderflow: 'this.removeAttribute(\'textoverflow\');' });
+    const tabLabelContainer = this.createElement(document, 'hbox', { class: 'tab-label-container' });
+    tabLabelContainer.addEventListener('overflow', () => tabLabelContainer.setAttribute('textoverflow', 'true'));
+    tabLabelContainer.addEventListener('underflow', () => tabLabelContainer.removeAttribute('textoverflow'));
     const tabLabel = this.createElement(document, 'label', { class: 'tab-text tab-label', role: 'presentation', fadein: 'true' });
     tabLabelContainer.append(tabLabel);
     siteInfo.append(tabLabelContainer);
@@ -179,9 +181,12 @@ class PwaBrowser {
     }, true);
 
     // Handle opening with Ctrl+L and Alt+D
-    document.getElementById('Browser:OpenLocation').setAttribute(
-      'oncommand',
-      '(' + addressInputHandle.toString() + ')()'
+    document.getElementById('Browser:OpenLocation').addEventListener(
+      'command',
+      event => {
+        event.preventDefault();
+        addressInputHandle();
+      }
     );
   }
 
@@ -197,7 +202,8 @@ class PwaBrowser {
     document.getElementById('context-openlink').accessKey = 'N';
 
     // Create context menu item that opens link in a default browser
-    const menuItem = this.createElement(document, 'menuitem', { id: 'contextmenu-openlinkdefault', 'data-l10n-id': 'context-menu-open-link-default-browser', oncommand: 'gContextMenu.openLinkInDefaultBrowser()' });
+    const menuItem = this.createElement(document, 'menuitem', { id: 'contextmenu-openlinkdefault', 'data-l10n-id': 'context-menu-open-link-default-browser' });
+    menuItem.addEventListener('command', () => gContextMenu.openLinkInDefaultBrowser());
     document.getElementById('context-sep-open').before(menuItem)
 
     // Handle clicking on it and open link in default browser
@@ -495,7 +501,7 @@ class PwaBrowser {
 
       // Display URL bar when the website it out-of-scope
       document.getElementById('nav-bar').classList.toggle('shown', displayBar);
-      window.gURLBar.updateLayoutBreakout();
+      window.gURLBar.updateLayoutBreakout?.();
 
       // Store the last in-scope URL so the close widget can return to it
       if (canLoad && uri && uri.spec !== 'about:blank') {
