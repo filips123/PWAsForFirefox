@@ -46,7 +46,7 @@ impl Run for SiteLaunchCommand {
             bail!("Runtime not installed");
         }
 
-        #[cfg(feature = "linked-runtime")]
+        #[cfg(platform_linux)]
         {
             use std::fs::File;
             use std::io::Read;

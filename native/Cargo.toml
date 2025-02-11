@@ -23,7 +23,6 @@ lto = true
 portable = ["dep:phf"]
 static = ["reqwest/native-tls-vendored", "bzip2/static", "xz2/static"]
 immutable-runtime = []
-linked-runtime = ["dep:blake3"]
 
 [dependencies]
 ab_glyph = "0.2.29"
@@ -77,9 +76,9 @@ features = [
 [target.'cfg(any(target_os = "linux", target_os = "dragonfly", target_os = "freebsd", target_os = "openbsd", target_os = "netbsd"))'.dependencies]
 glob = "0.3.2"
 phf = { version = "0.11.2", features = ["macros"] }
-blake3 = { version = "1.5.5", optional = true }
 
 [target.'cfg(target_os = "linux")'.dependencies]
+blake3 = "1.5.5"
 bzip2 = "0.5.0"
 xz2 = "0.1.7"
 tar = "0.4.43"
