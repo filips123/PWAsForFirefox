@@ -38,16 +38,7 @@ fs_extra = "1.3.0"
 gag = "1.0.0"
 image = "0.25.5"
 log = "0.4.22"
-reqwest = { version = "0.12.11", features = [
-    "blocking",
-    "socks",
-    "gzip",
-    "brotli",
-    "zstd",
-    "deflate",
-    "native-tls",
-    "native-tls-alpn",
-] }
+reqwest = { version = "0.12.11", features = ["blocking", "socks", "gzip", "brotli", "zstd", "deflate", "native-tls", "native-tls-alpn"] }
 resvg = "0.44.0"
 serde = { version = "1.0.217", features = ["derive"] }
 serde_json = "1.0.134"
@@ -79,7 +70,7 @@ features = [
     "Win32_UI_WindowsAndMessaging",
     "Win32_UI_Shell",
     "Win32_UI_Shell_Common",
-    "Win32_UI_Shell_PropertiesSystem",
+    "Win32_UI_Shell_PropertiesSystem"
 ]
 
 [target.'cfg(any(target_os = "linux", target_os = "dragonfly", target_os = "freebsd", target_os = "openbsd", target_os = "netbsd"))'.dependencies]
@@ -108,7 +99,10 @@ ulid = "1.1.3"
 url = "2.5.4"
 
 [package.metadata.wix]
-include = ["packages/wix/main.wxs", "packages/wix/userchrome.wxs"]
+include = [
+    "packages/wix/main.wxs",
+    "packages/wix/userchrome.wxs"
+]
 
 [package.metadata.deb]
 section = "web"
@@ -121,76 +115,28 @@ license-file = "packages/deb/copyright"
 revision = ""
 assets = [
     # Executables
-    [
-        "target/release/firefoxpwa",
-        "/usr/bin/firefoxpwa",
-        "755",
-    ],
-    [
-        "target/release/firefoxpwa-connector",
-        "/usr/libexec/firefoxpwa-connector",
-        "755",
-    ],
+    ["target/release/firefoxpwa", "/usr/bin/firefoxpwa", "755"],
+    ["target/release/firefoxpwa-connector", "/usr/libexec/firefoxpwa-connector", "755"],
 
     # Manifest
-    [
-        "manifests/linux.json",
-        "/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json",
-        "644",
-    ],
+    ["manifests/linux.json", "/usr/lib/mozilla/native-messaging-hosts/firefoxpwa.json", "644"],
 
     # Completions
-    [
-        "target/release/completions/firefoxpwa.bash",
-        "/usr/share/bash-completion/completions/firefoxpwa",
-        "644",
-    ],
-    [
-        "target/release/completions/firefoxpwa.fish",
-        "/usr/share/fish/vendor_completions.d/firefoxpwa.fish",
-        "644",
-    ],
-    [
-        "target/release/completions/_firefoxpwa",
-        "/usr/share/zsh/vendor-completions/_firefoxpwa",
-        "644",
-    ],
+    ["target/release/completions/firefoxpwa.bash", "/usr/share/bash-completion/completions/firefoxpwa", "644"],
+    ["target/release/completions/firefoxpwa.fish", "/usr/share/fish/vendor_completions.d/firefoxpwa.fish", "644"],
+    ["target/release/completions/_firefoxpwa", "/usr/share/zsh/vendor-completions/_firefoxpwa", "644"],
 
     # UserChrome
-    [
-        "userchrome/**/*",
-        "/usr/share/firefoxpwa/userchrome/",
-        "644",
-    ],
+    ["userchrome/**/*", "/usr/share/firefoxpwa/userchrome/", "644"],
 
     # Documentation
-    [
-        "../README.md",
-        "/usr/share/doc/firefoxpwa/README.md",
-        "644",
-    ],
-    [
-        "../native/README.md",
-        "/usr/share/doc/firefoxpwa/README-NATIVE.md",
-        "644",
-    ],
-    [
-        "../extension/README.md",
-        "/usr/share/doc/firefoxpwa/README-EXTENSION.md",
-        "644",
-    ],
+    ["../README.md", "/usr/share/doc/firefoxpwa/README.md", "644"],
+    ["../native/README.md", "/usr/share/doc/firefoxpwa/README-NATIVE.md", "644"],
+    ["../extension/README.md", "/usr/share/doc/firefoxpwa/README-EXTENSION.md", "644"],
 
     # AppStream Metadata
-    [
-        "packages/appstream/si.filips.FirefoxPWA.metainfo.xml",
-        "/usr/share/metainfo/si.filips.FirefoxPWA.metainfo.xml",
-        "644",
-    ],
-    [
-        "packages/appstream/si.filips.FirefoxPWA.svg",
-        "/usr/share/icons/hicolor/scalable/apps/si.filips.FirefoxPWA.svg",
-        "644",
-    ],
+    ["packages/appstream/si.filips.FirefoxPWA.metainfo.xml", "/usr/share/metainfo/si.filips.FirefoxPWA.metainfo.xml", "644"],
+    ["packages/appstream/si.filips.FirefoxPWA.svg", "/usr/share/icons/hicolor/scalable/apps/si.filips.FirefoxPWA.svg", "644"],
 ]
 
 [package.metadata.rpm]
