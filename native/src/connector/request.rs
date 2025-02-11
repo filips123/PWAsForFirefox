@@ -153,7 +153,6 @@ pub struct SetConfig(pub Config);
 ///
 /// [`ConnectorResponse::RuntimeInstalled`] - No data.
 ///
-
 #[cfg(platform_linux)]
 #[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
 pub struct InstallRuntime {

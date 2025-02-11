@@ -455,7 +455,7 @@ jobs:
           path: signed/paf/*.paf.exe
           compression-level: 0
 
-      # == BUILD PROVENANCE
+      # == Build Provenance
 
       - name: Attest artifacts
         if: startsWith(github.ref, 'refs/tags/v')
