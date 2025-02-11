@@ -1377,12 +1377,6 @@ class PwaBrowser {
           },
         };
         CustomizableUI.addListener(listener);
-      },
-
-      onCommand (event) {
-        const window = event.target.ownerGlobal;
-        window.gUnifiedExtensions._button = event.target;
-        window.gUnifiedExtensions.togglePanel(event);
       }
     });
   }
