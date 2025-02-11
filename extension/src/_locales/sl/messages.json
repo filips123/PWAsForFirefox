@@ -319,9 +319,21 @@
     "message": "Posodobi aplikacije",
     "description": "The button in settings to update web apps"
   },
+  "managePageSettingsReinstallRuntime": {
+    "message": "Ponovno namesti izvajalnik",
+    "description": "The button in settings to reinstall runtime"
+  },
   "managePageSettingsAboutProject": {
     "message": "O projektu",
     "description": "The button in settings to display project info"
+  },
+  "managePageFooterOutdated1": {
+    "message": "Razširitev ni posodobljena!",
+    "description": "The first part of the extension outdated warning"
+  },
+  "managePageFooterOutdated2": {
+    "message": "Prosimo, posodobite jo!",
+    "description": "The second part of the extension outdated warning"
   },
   "managePageFooterSearchPlaceholder": {
     "message": "Išči po imenu",
@@ -331,13 +343,119 @@
     "message": "Zaženi aplikacijo na ujemajočih straneh",
     "description": "The label for the launch on website checkbox on the edit web app dialog"
   },
+  "managePageAppEditLaunchOnWebsiteTooltip": {
+    "message": "Določa, ali se bo spletna aplikacija samodejno zagnala ob obisku ustreznega spletnega mesta",
+    "description": "The tooltip for the launch on website checkbox on the edit web app dialog"
+  },
   "managePageAppEditLaunchOnLoginLabel": {
     "message": "Zaženi aplikacijo ob prijavi v sistem",
     "description": "The label for the launch on login checkbox on the edit web app dialog"
   },
+  "managePageAppEditLaunchOnLoginTooltip": {
+    "message": "Določa, ali se bo spletna aplikacija samodejno zagnala ob prijavi v sistem",
+    "description": "The tooltip for the launch on login checkbox on the edit web app dialog"
+  },
   "managePageAppEditLaunchOnBrowserLabel": {
     "message": "Zaženi aplikacijo ob zagonu brskalnika",
     "description": "The label for the launch on browser checkbox on the edit web app dialog"
+  },
+  "managePageAppEditLaunchOnBrowserTooltip": {
+    "message": "Določa, ali se bo spletna aplikacija samodejno zagnala ob zagonu brskalnika",
+    "description": "The tooltip for the launch on browser checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateManifestLabel": {
+    "message": "Posodobi manifest spletne aplikacije",
+    "description": "The label for the manifest update checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateManifestTooltip": {
+    "message": "Določa, ali bo manifest posodobljen, ko uredite to spletno aplikacijo",
+    "description": "The tooltip for the manifest update checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateIconsLabel": {
+    "message": "Posodobi ikone spletne aplikacije",
+    "description": "The label for the icons update checkbox on the edit web app dialog"
+  },
+  "managePageAppEditUpdateIconsTooltip": {
+    "message": "Določa, ali bodo ikone posodobljene, ko uredite to spletno aplikacijo",
+    "description": "The tooltip for the icons update checkbox on the edit web app dialog"
+  },
+  "managePageAppRemoveQuestion": {
+    "message": "Ali ste prepričani, da želite odstraniti to spletno aplikacijo?",
+    "description": "The confirmation question on the remove web app dialog"
+  },
+  "managePageAppRemoveNotLast": {
+    "message": "V tem profilu so prisotne tudi druge aplikacije, zato profil <strong>ne</strong> bo odstranjen. Podatki aplikacije bodo <strong>ostali</strong>, vendar jih lahko odstranite prek brskalnika aplikacije ali tako, da izbrišete profil aplikacije.",
+    "description": "The additional clarification on the remove web app dialog if the web app is not the last in its profile"
+  },
+  "managePageAppRemoveLast": {
+    "message": "To je zadnja aplikacija v tem profilu, zato ga lahko tudi izbrišete.",
+    "description": "The additional clarification on the remove web app dialog if the web app is the last in its profile"
+  },
+  "managePageAppRemoveCheckboxLabel": {
+    "message": "Izbrišite podatke profila in aplikacije",
+    "description": "The label for the profile delete checkbox on the remove web app dialog"
+  },
+  "managePageAppRemoveCheckboxTooltip": {
+    "message": "Določa, ali bodo trenutni profil aplikacije in podatki izbrisani med odstranjevanjem aplikacije",
+    "description": "The label for the profile delete checkbox on the remove web app dialog"
+  },
+  "managePageProfileEditApplyProfileLabel": {
+    "message": "Uporabi predlogo profila",
+    "description": "The label for the apply template checkbox on the edit profile dialog"
+  },
+  "managePageProfileRemoveQuestion": {
+    "message": "Ali ste prepričani, da želite odstraniti ta profil? S tem boste popolnoma odstranili profil in vse povezane spletne aplikacije, vključno z njihovimi podatki. Tega dejanja morda ne boste mogli razveljaviti.",
+    "description": "The confirmation question on the remove profile dialog"
+  },
+  "managePageProfileRemoveDefault": {
+    "message": "Privzetega profila ni mogoče popolnoma odstraniti. Spletne aplikacije in podatki bodo izbrisani, profil pa bo ostal.",
+    "description": "The additional clarification on the remove profile dialog if this is the default profile"
+  },
+  "managePageAutoLaunchTitle": {
+    "message": "Samodejni zagon spletnih aplikacij",
+    "description": "The title of the automatic launching dialog"
+  },
+  "managePageAutoLaunchAboutMain": {
+    "message": "Če omogočite <em>samodejni zagon spletnih aplikacij</em>, se bodo vsi URL-ji, ki se ujemajo z obsegom vaših omogočenih spletnih aplikacij, samodejno zagnali kot spletne aplikacije.",
+    "description": "The main clarification about the automatic launching"
+  },
+  "managePageAutoLaunchAboutExperimental": {
+    "message": "Ta funkcija je eksperimentalna, morda ne bo pravilno delovala z vsemi spletnimi mesti in lahko vpliva na učinkovitost delovanja. Dodatno jo je treba omogočiti za vsako spletno aplikacijo v njenih nastavitvah z možnostjo <em>$OPTION$</em>.",
+    "description": "The experimental clarification about the automatic launching",
+    "placeholders": {
+      "option": {
+        "content": "$managePageAppEditLaunchOnWebsiteLabel$",
+        "example": "Launch this web app on matching website"
+      }
+    }
+  },
+  "managePageAutoLaunchAboutPermissions": {
+    "message": "Za delovanje so potrebna dodatna dovoljenja brskalnika. Ko to funkcijo omogočite, se bo prikazalo okno za omogočanje dovoljenj.",
+    "description": "The permissions clarification about the automatic launching"
+  },
+  "managePageAutoLaunchEnable": {
+    "message": "Omogoči",
+    "description": "The enable button for the automatic launching"
+  },
+  "managePageUpdateWebAppsAbout1": {
+    "message": "S tem boste prenesli in razčlenili manifeste za vse vaše spletne aplikacije in jih znova registrirali v operacijski sistem. Vse spremembe v manifestih spletnih aplikacij se bodo odražale tudi v vašem sistemu.",
+    "description": "The first part of about updating web apps message"
+  },
+  "managePageUpdateWebAppsAbout2": {
+    "message": "Lahko pa registrirate vse spletne aplikacije v operacijski sistem brez izvajanja posodobitev manifesta. To je lahko uporabno, če ste svojo konfiguracijsko datoteko prenesli iz druge naprave.",
+    "description": "The second part of about updating web apps message"
+  },
+  "managePageUpdateWebAppsManifest": {
+    "message": "Izvedi posodobitve manifesta",
+    "description": "The checkbox label for performing manifest updates when updating web apps"
+  },
+  "managePageReinstallRuntimeAbout1": {
+    "message": "Ali ste prepričani, da želite znova namestiti izvajalnik PWAsForFirefox? S tem boste odstranili vaš trenutni izvajalnik in prenesli najnovejšo različico od Mozille.",
+    "description": "The first part of about reinstalling runtime message"
+  },
+  "managePageReinstallRuntimeAbout2": {
+    "message": "To <strong>ne</strong> bo vplivalo na vaš glavni brskalnik Firefox in <strong>ne</strong> bo odstranilo nobenih profilov ali drugih podatkov.",
+    "description": "The second part of about reinstalling runtime message"
   },
   "buttonWebAppInstallDefault": {
     "message": "Namesti aplikacijo",

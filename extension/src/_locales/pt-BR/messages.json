@@ -707,6 +707,10 @@
     "message": "Gerenciar aplicativos e perfis da web",
     "description": "The title of the manage page"
   },
+  "managePageTabGrid": {
+    "message": "Grade",
+    "description": "The grid tab on the manage page"
+  },
   "managePageTabApps": {
     "message": "Aplicativos",
     "description": "The apps tab on the manage page"
@@ -986,7 +990,7 @@
     "description": "The second part of about patching profiles and runtime message"
   },
   "managePagePatchProfilesPatchRuntime": {
-    "message": "Time de execução do patch",
+    "message": "Tempo de execução do patch",
     "description": "The checkbox label for patching runtime when patching profiles and runtime"
   },
   "managePagePatchProfilesPatchProfiles": {
