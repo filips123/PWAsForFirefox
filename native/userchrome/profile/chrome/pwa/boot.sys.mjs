@@ -1,5 +1,6 @@
 import { AppConstants } from 'resource://gre/modules/AppConstants.sys.mjs';
 import { NetUtil } from 'resource://gre/modules/NetUtil.sys.mjs';
+import { nsContentDispatchChooser } from 'resource://gre/modules/ContentDispatchChooser.sys.mjs';
 import { nsDefaultCommandLineHandler, nsBrowserContentHandler } from 'resource:///modules/BrowserContentHandler.sys.mjs';
 import { BrowserWindowTracker } from 'resource:///modules/BrowserWindowTracker.sys.mjs';
 
@@ -187,6 +188,13 @@ if (AppConstants.platform === 'macosx') {
     }
   }
 }
+
+// Allow opening HTTP(S) links in a default browser without a confirmation popup
+nsContentDispatchChooser.prototype._hasProtocolHandlerPermissionOriginal = nsContentDispatchChooser.prototype._hasProtocolHandlerPermission;
+nsContentDispatchChooser.prototype._hasProtocolHandlerPermission = function(scheme, principal, triggeredExternally) {
+  if (scheme === 'http' || scheme === 'https') return true;
+  return this._hasProtocolHandlerPermissionOriginal(scheme, principal, triggeredExternally);
+};
 
 // Register a localization source for the packaged locales
 Services.obs.addObserver(async () => {

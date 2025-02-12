@@ -1,5 +1,4 @@
 import { OnboardingMessageProvider } from 'resource:///modules/asrouter/OnboardingMessageProvider.sys.mjs';
-import { nsContentDispatchChooser } from 'resource://gre/modules/ContentDispatchChooser.sys.mjs';
 import { WebNavigationManager } from 'resource://gre/modules/WebNavigation.sys.mjs';
 import { XPCOMUtils } from 'resource://gre/modules/XPCOMUtils.sys.mjs';
 import { BrowserGlue } from 'resource:///modules/BrowserGlue.sys.mjs';
@@ -510,14 +509,6 @@ class PwaBrowser {
     });
 
     if (ChromeLoader.INITIALIZED_BROWSER) return;
-
-    // Allow opening HTTP links without confirmation popup
-    // This applies to all ways of opening HTTP links in default browser
-    nsContentDispatchChooser.prototype._hasProtocolHandlerPermissionOriginal = nsContentDispatchChooser.prototype._hasProtocolHandlerPermission;
-    nsContentDispatchChooser.prototype._hasProtocolHandlerPermission = function(scheme, principal, triggeredExternally) {
-      if (scheme === 'http' || scheme === 'https') return true;
-      return this._hasProtocolHandlerPermissionOriginal(scheme, principal, triggeredExternally);
-    };
 
     // Handle blocking out-of-scope URLs and redirecting them to the main browser
     Services.obs.addObserver(subject => {
