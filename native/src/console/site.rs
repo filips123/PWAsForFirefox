@@ -46,7 +46,7 @@ impl Run for SiteLaunchCommand {
             bail!("Runtime not installed");
         }
 
-        #[cfg(platform_linux)]
+        #[cfg(all(platform_linux, not(feature = "immutable-runtime")))]
         {
             use std::fs::File;
             use std::io::Read;

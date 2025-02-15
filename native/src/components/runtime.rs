@@ -352,7 +352,7 @@ impl Runtime {
         Ok(())
     }
 
-    #[cfg(platform_linux)]
+    #[cfg(all(platform_linux, not(feature = "immutable-runtime")))]
     pub fn link(&self) -> Result<()> {
         use std::fs::{copy, create_dir_all};
         use std::os::unix::fs::symlink;
