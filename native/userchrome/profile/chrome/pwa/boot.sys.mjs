@@ -2,9 +2,19 @@ import { AppConstants } from 'resource://gre/modules/AppConstants.sys.mjs';
 import { NetUtil } from 'resource://gre/modules/NetUtil.sys.mjs';
 import { nsContentDispatchChooser } from 'resource://gre/modules/ContentDispatchChooser.sys.mjs';
 import { nsDefaultCommandLineHandler, nsBrowserContentHandler } from 'resource:///modules/BrowserContentHandler.sys.mjs';
+import { BrowserGlue } from 'resource:///modules/BrowserGlue.sys.mjs';
 import { BrowserWindowTracker } from 'resource:///modules/BrowserWindowTracker.sys.mjs';
+import { WebProtocolHandlerRegistrar } from 'resource:///modules/WebProtocolHandlerRegistrar.sys.mjs';
+import { OnboardingMessageProvider } from 'resource:///modules/asrouter/OnboardingMessageProvider.sys.mjs';
 
 import { applySystemIntegration } from 'resource://pwa/utils/systemIntegration.sys.mjs';
+
+const lazy = {};
+
+ChromeUtils.defineESModuleGetters(lazy, {
+  sendNativeMessage: 'resource://pwa/utils/nativeMessaging.sys.mjs',
+  sanitizeString: 'resource://pwa/utils/common.sys.mjs',
+});
 
 /**
  * Reads the PWAsForFirefox config file and parses it as JSON.
@@ -117,8 +127,17 @@ Services.prefs.getDefaultBranch(null).setBoolPref('browser.sessionstore.resume_f
 Services.prefs.getDefaultBranch(null).setIntPref('browser.sessionstore.max_resumed_crashes', 0);
 Services.prefs.getDefaultBranch(null).setIntPref('browser.sessionstore.max_tabs_undo', 0);
 Services.prefs.getDefaultBranch(null).setIntPref('browser.sessionstore.max_windows_undo', 0);
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.shell.checkDefaultBrowser', false);
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.startup.upgradeDialog.enabled', false);
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.privateWindowSeparation.enabled', false);
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.privacySegmentation.createdShortcut', true);
+
+// Disable default browser prompt
+BrowserGlue.prototype._maybeShowDefaultBrowserPrompt = async () => null;
+
+// Disable onboarding messages
+OnboardingMessageProvider.getMessages = async () => [];
+OnboardingMessageProvider.getUntranslatedMessages = async () => [];
 
 // Override command line helper to intercept PWAsForFirefox arguments and start loading the site
 nsDefaultCommandLineHandler.prototype._handle = nsDefaultCommandLineHandler.prototype.handle;
@@ -195,6 +214,118 @@ nsContentDispatchChooser.prototype._hasProtocolHandlerPermission = function(sche
   if (scheme === 'http' || scheme === 'https') return true;
   return this._hasProtocolHandlerPermissionOriginal(scheme, principal, triggeredExternally);
 };
+
+// Handle opening new window from keyboard shortcuts
+BrowserWindowTracker._openWindow = BrowserWindowTracker.openWindow;
+BrowserWindowTracker.openWindow = function (options) {
+  if (options.openerWindow && options.openerWindow.gFFPWASiteConfig && !options.args) {
+    options.args = Cc['@mozilla.org/supports-string;1'].createInstance(Ci.nsISupportsString);
+    options.args.data = options.openerWindow.HomePage.get(options.openerWindow);
+  }
+  return BrowserWindowTracker._openWindow(options);
+};
+
+// Some checks for protocol handlers are directly based on the Firefox code, licensed under MPL 2.0
+// Original source: https://github.com/mozilla/gecko-dev/blob/a62618baa72cd0ba6c0a5f5fc0b1d63f2866b7c6/browser/components/protocolhandler/WebProtocolHandlerRegistrar.jsm
+
+// Handle registering custom protocol handlers
+WebProtocolHandlerRegistrar.prototype.registerProtocolHandler = function (protocol, url, title, documentURI, browserOrWindow) {
+  protocol = (protocol || '').toLowerCase();
+  if (!url || !documentURI) return;
+
+  // Some special handling for e10s and non-e10s
+  let browser = browserOrWindow;
+  if (browserOrWindow instanceof Ci.nsIDOMWindow) {
+    let rootDocShell = browserOrWindow.docShell.sameTypeRootTreeItem;
+    browser = rootDocShell.QueryInterface(Ci.nsIDocShell).chromeEventHandler;
+  }
+
+  // Get the browser window
+  let browserWindow = browser.ownerGlobal;
+
+  // Check if protocol handler is allowed
+  try { browser.ownerGlobal.navigator.checkProtocolHandlerAllowed(protocol, url, documentURI) }
+  catch (_) { return }
+
+  // If the protocol handler is already registered, just return early
+  // We only allow one handler (either manifest or custom) per protocol scheme
+  const existingHandlers = new Set([
+    ...browserWindow.gFFPWASiteConfig.config.custom_protocol_handlers,
+    ...browserWindow.gFFPWASiteConfig.manifest.protocol_handlers
+  ].map(handler => lazy.sanitizeString(handler.protocol)).filter(handler => handler).sort());
+  if (existingHandlers.has(protocol)) return;
+
+  // Now ask the user and provide the proper callback
+  const message = this._getFormattedString('addProtocolHandlerMessage', [url.host, protocol,]);
+
+  const notificationBox = browser.getTabBrowser().getNotificationBox(browser);
+  const notificationIcon = url.prePath + '/favicon.ico';
+  const notificationValue = 'Protocol Registration: ' + protocol;
+
+  const addButton = {
+    label: this._getString('addProtocolHandlerAddButton'),
+    accessKey: this._getString('addProtocolHandlerAddButtonAccesskey'),
+    protocolInfo: { site: browserWindow.gFFPWASiteConfig.ulid, protocol: protocol, url: url.spec },
+
+    async callback (notification, buttonInfo) {
+      // Send a request to the native program to register the handler
+      const response = await lazy.sendNativeMessage({
+        cmd: 'RegisterProtocolHandler',
+        params: {
+          site: buttonInfo.protocolInfo.site,
+          protocol: buttonInfo.protocolInfo.protocol,
+          url: buttonInfo.protocolInfo.url,
+        }
+      });
+      if (response.type === 'Error') throw new Error(response.data);
+      if (response.type !== 'ProtocolHandlerRegistered') throw new Error(`Received invalid response type: ${response.type}`);
+
+      // Reset the handlerInfo to ask before the next use
+      const eps = Cc['@mozilla.org/uriloader/external-protocol-service;1'].getService(Ci.nsIExternalProtocolService);
+      const handlerInfo = eps.getProtocolHandlerInfo(buttonInfo.protocolInfo.protocol);
+      handlerInfo.alwaysAskBeforeHandling = true;
+
+      const hs = Cc['@mozilla.org/uriloader/handler-service;1'].getService(Ci.nsIHandlerService);
+      hs.store(handlerInfo);
+
+      // Hide the notification
+      notificationBox.currentNotification.close();
+    },
+  };
+
+  notificationBox.appendNotification(
+    notificationValue,
+    {
+      label: message,
+      image: notificationIcon,
+      priority: notificationBox.PRIORITY_INFO_LOW
+    },
+    [addButton]
+  );
+};
+
+// Handle unregistering custom protocol handlers
+// Disabled for now until we figure out how to access window from here
+// WebProtocolHandlerRegistrar.prototype.removeProtocolHandler = function (protocol, url) {
+//   (async () => {
+//     // Send a request to the native program to unregister the handler
+//     const response = await lazy.sendNativeMessage({
+//       cmd: 'UnregisterProtocolHandler',
+//       params: {
+//         site: window.gFFPWASiteConfig.ulid,
+//         protocol,
+//         url,
+//       }
+//     });
+//     if (response.type === 'Error') throw new Error(response.data);
+//     if (response.type !== 'ProtocolHandlerUnregistered') throw new Error(`Received invalid response type: ${response.type}`);
+//
+//     // Reset the handlerInfo to ask before the next use
+//     const eps = Cc['@mozilla.org/uriloader/external-protocol-service;1'].getService(Ci.nsIExternalProtocolService);
+//     const handlerInfo = eps.getProtocolHandlerInfo(protocol);
+//     handlerInfo.alwaysAskBeforeHandling = true;
+//   })()
+// };
 
 // Register a localization source for the packaged locales
 Services.obs.addObserver(async () => {
