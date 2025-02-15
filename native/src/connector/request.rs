@@ -45,7 +45,7 @@ macro_rules! deserialize_unit_struct {
         impl<'de> Deserialize<'de> for $msg {
             fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
             where
-                D: serde::de::Deserializer<'de>,
+                D: Deserializer<'de>,
             {
                 struct Visitor;
 
@@ -77,7 +77,7 @@ const fn default_as_true() -> bool {
     true
 }
 
-/// Supports "double option" pattern for update requests.
+/// Supports the "double option" pattern for update requests.
 ///
 /// - Parses missing field as `None`.
 /// - Parses field with value `None` as `Some(None)`.
@@ -147,22 +147,20 @@ pub struct SetConfig(pub Config);
 ///
 /// # Parameters
 ///
-/// None.
+/// See [fields](#fields).
 ///
 /// # Returns
 ///
 /// [`ConnectorResponse::RuntimeInstalled`] - No data.
 ///
-#[cfg(platform_linux)]
-#[derive(Deserialize, Debug, Eq, PartialEq, Clone)]
-pub struct InstallRuntime {
-    /// Experimental: Use a linked runtime instead of downloading from Mozilla.
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone, Default)]
+pub struct InstallRuntimeOptions {
+    /// Whether to use a linked runtime instead of downloading from Mozilla (experimental, default: `false`).
+    #[serde(default)]
     pub link: bool,
 }
 
-#[cfg(not(platform_linux))]
-#[derive(Debug, Eq, PartialEq, Clone)]
-pub struct InstallRuntime;
+pub type InstallRuntime = Option<InstallRuntimeOptions>;
 
 /// Uninstalls the Firefox runtime.
 ///
@@ -174,8 +172,10 @@ pub struct InstallRuntime;
 ///
 /// [`ConnectorResponse::RuntimeUninstalled`] - No Data
 ///
-#[derive(Debug, Eq, PartialEq, Clone)]
-pub struct UninstallRuntime;
+#[derive(Deserialize, Debug, Eq, PartialEq, Clone, Default)]
+pub struct UninstallRuntimeOptions {}
+
+pub type UninstallRuntime = Option<UninstallRuntimeOptions>;
 
 /// Gets all installed web apps.
 ///
@@ -376,11 +376,11 @@ pub struct UpdateSite {
     /// If empty, no handlers are registered to the operating system.
     pub enabled_protocol_handlers: Option<Vec<String>>,
 
-    /// Whether the web app should be launched on the system login.
+    /// Whether the web app should be launched on the system login (default: `false`).
     #[serde(default)]
     pub launch_on_login: Option<bool>,
 
-    /// Whether the web app should be launched on the browser launch.
+    /// Whether the web app should be launched on the browser launch (default: `false`).
     #[serde(default)]
     pub launch_on_browser: Option<bool>,
 
@@ -401,7 +401,7 @@ pub struct UpdateSite {
 ///
 /// # Parameters
 ///
-/// None.
+/// See [fields](#fields).
 ///
 /// # Returns
 ///
@@ -514,7 +514,7 @@ pub struct UpdateProfile {
 ///
 /// # Parameters
 ///
-/// None.
+/// See [fields](#fields).
 ///
 /// # Returns
 ///
@@ -611,9 +611,6 @@ impl Into<crate::console::app::HTTPClientConfig> for HTTPClientConfig {
 
 deserialize_unit_struct!(GetSystemVersions);
 deserialize_unit_struct!(GetConfig);
-#[cfg(not(platform_linux))]
-deserialize_unit_struct!(InstallRuntime);
-deserialize_unit_struct!(UninstallRuntime);
 deserialize_unit_struct!(GetSiteList);
 deserialize_unit_struct!(GetProfileList);
 

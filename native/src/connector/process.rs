@@ -83,9 +83,12 @@ impl Process for SetConfig {
 
 impl Process for InstallRuntime {
     fn process(&self, _connection: &Connection) -> Result<ConnectorResponse> {
+        #[cfg(platform_linux)]
+        let options = self.clone().unwrap_or_default();
+
         let command = RuntimeInstallCommand {
             #[cfg(platform_linux)]
-            link: self.link,
+            link: options.link,
         };
         command.run()?;
 
