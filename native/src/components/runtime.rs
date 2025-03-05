@@ -365,11 +365,12 @@ impl Runtime {
         self.uninstall()?;
 
         storage.config.use_linked_runtime = true;
+        storage.config.linked_runtime_path = FFOX.to_string();
 
         info!("Linking the runtime");
 
-        if Path::new(FFOX).exists() {
-            for entry in read_dir(FFOX)?.flatten() {
+        if Path::new(&storage.config.linked_runtime_path).exists() {
+            for entry in read_dir(&storage.config.linked_runtime_path)?.flatten() {
                 let entry = entry.path();
                 match entry.file_name().expect("Couldn't retrieve a file name").to_str() {
                     // Use a different branch for the "defaults" folder due to the patches to apply afterwhile
