@@ -139,6 +139,8 @@ fn get_download_url() -> &'static str {
             concatcp!(BASE_DOWNLOAD_URL, "linux")
         } else if #[cfg(all(platform_linux, target_arch = "x86_64"))] {
             concatcp!(BASE_DOWNLOAD_URL, "linux64")
+        } else if #[cfg(all(platform_linux, target_arch = "aarch64"))] {
+            concatcp!(BASE_DOWNLOAD_URL, "linux64-aarch64")
         } else if #[cfg(platform_macos)] {
             concatcp!(BASE_DOWNLOAD_URL, "osx")
         } else {
