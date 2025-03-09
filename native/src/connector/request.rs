@@ -158,6 +158,9 @@ pub struct InstallRuntimeOptions {
     /// Whether to use a linked runtime instead of downloading from Mozilla (experimental, default: `false`).
     #[serde(default)]
     pub link: bool,
+    /// Experimental: Use a linked runtime instead of downloading from Mozilla.
+    /// Optional: Path of my firefox runtime
+    pub path: String,
 }
 
 pub type InstallRuntime = Option<InstallRuntimeOptions>;
