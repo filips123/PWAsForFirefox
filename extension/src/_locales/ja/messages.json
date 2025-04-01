@@ -476,7 +476,7 @@
     "description": "The title of the install web app page"
   },
   "installPageCreateProfile": {
-    "message": "新規プロファイルの作成e",
+    "message": "新規プロファイルの作成",
     "description": "The profile creation option on the install web app page"
   },
   "installPageSeparateProfiles": {
