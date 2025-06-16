@@ -197,6 +197,7 @@ impl Process for UpdateAllSites {
             let old_name = site.name();
 
             let client = construct_certificates_and_client(
+                self.client.user_agent.as_deref(),
                 &self.client.tls_root_certificates_der,
                 &self.client.tls_root_certificates_pem,
                 self.client.tls_danger_accept_invalid_certs,

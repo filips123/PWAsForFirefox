@@ -196,6 +196,7 @@ impl SiteInstallCommand {
         };
 
         let client = construct_certificates_and_client(
+            self.client.user_agent.as_deref(),
             &self.client.tls_root_certificates_der,
             &self.client.tls_root_certificates_pem,
             self.client.tls_danger_accept_invalid_certs,
@@ -309,6 +310,7 @@ impl Run for SiteUpdateCommand {
         store_value!(site.config.launch_on_browser, self.launch_on_browser);
 
         let client = construct_certificates_and_client(
+            self.client.user_agent.as_deref(),
             &self.client.tls_root_certificates_der,
             &self.client.tls_root_certificates_pem,
             self.client.tls_danger_accept_invalid_certs,

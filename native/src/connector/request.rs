@@ -582,6 +582,9 @@ pub struct UnregisterProtocolHandler {
 /// Contains a HTTP client configuration.
 #[derive(Deserialize, Debug, Eq, PartialEq, Clone, Default)]
 pub struct HTTPClientConfig {
+    /// A custom user-agent header.
+    pub user_agent: Option<String>,
+
     /// A list of paths to DER certificate files.
     pub tls_root_certificates_der: Option<Vec<PathBuf>>,
 
@@ -601,6 +604,7 @@ pub struct HTTPClientConfig {
 impl Into<crate::console::app::HTTPClientConfig> for HTTPClientConfig {
     fn into(self) -> crate::console::app::HTTPClientConfig {
         crate::console::app::HTTPClientConfig {
+            user_agent: self.user_agent,
             tls_root_certificates_der: self.tls_root_certificates_der,
             tls_root_certificates_pem: self.tls_root_certificates_pem,
             tls_danger_accept_invalid_certs: self.tls_danger_accept_invalid_certs,

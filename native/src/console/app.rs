@@ -290,6 +290,10 @@ pub struct RuntimePatchCommand {}
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct HTTPClientConfig {
+    /// Use a custom user-agent header
+    #[clap(long)]
+    pub user_agent: Option<String>,
+
     /// Import additional root certificates from a DER file
     #[clap(long, value_hint = clap::ValueHint::FilePath)]
     pub tls_root_certificates_der: Option<Vec<PathBuf>>,
