@@ -55,7 +55,7 @@ most such cases, you can use `curl` to download the manifest with the same user-
 as PWAsForFirefox, which should be the same as what the native program receives.
 
 ```shell
-curl -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0" -H "Sec-Fetch-Site: none" -H "Sec-Fetch-Dest: manifest" "https://example.com/manifest.json"
+curl -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0" -H "Sec-Fetch-Site: none" -H "Sec-Fetch-Dest: manifest" "https://example.com/manifest.json"
 ```
 
 ## Reporting Issues

@@ -9,7 +9,7 @@ use reqwest::header::{HeaderMap, HeaderValue};
 use reqwest::Certificate;
 
 const APP_USER_AGENT: &str =
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0";
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0";
 
 /// Load DER and PEM certificates from files.
 ///
