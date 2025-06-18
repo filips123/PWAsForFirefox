@@ -707,6 +707,10 @@
     "message": "Управлять веб-приложениями и профилями",
     "description": "The title of the manage page"
   },
+  "managePageTabGrid": {
+    "message": "Сетка",
+    "description": "The grid tab on the manage page"
+  },
   "managePageTabApps": {
     "message": "Приложения",
     "description": "The apps tab on the manage page"
