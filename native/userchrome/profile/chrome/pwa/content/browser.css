@@ -12,7 +12,7 @@
 
   /* Fix tab colors */
 
-  @media (-moz-bool-pref: "firefoxpwa.sitesSetThemeColor") {
+  @media -moz-pref("firefoxpwa.sitesSetThemeColor") {
     #firefox-view-button[open] > .toolbarbutton-icon,
     .tab-background:is([selected], [multiselected]) {
       background-color: color-mix(in srgb, currentColor 18%, transparent) !important;
@@ -49,7 +49,7 @@
   /* Original source: https://github.com/black7375/Firefox-UI-Fix/blob/87334f4d890fbcf927e8435cb36f73e697d26a3b/src/compatibility/_os.scss#L131-L148 */
 
   @media (-moz-gtk-csd-available) {
-    @media (-moz-bool-pref: "firefoxpwa.alwaysUseNativeWindowControls") {
+    @media -moz-pref("firefoxpwa.alwaysUseNativeWindowControls") {
       .titlebar-button:-moz-lwtheme {
         appearance: auto !important;
       }

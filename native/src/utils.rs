@@ -9,7 +9,7 @@ use reqwest::header::{HeaderMap, HeaderValue};
 use reqwest::Certificate;
 
 const APP_USER_AGENT: &str =
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0";
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0";
 
 /// Load DER and PEM certificates from files.
 ///
@@ -54,11 +54,13 @@ pub fn load_certificates(
 ///
 /// # Parameters
 ///
+/// - `user_agent` - A custom user-agent header.
 /// - `root_certificates` - A list of additional root certificates.
 /// - `danger_accept_invalid_certs` - Whether the client accepts invalid certs (dangerous).
 /// - `danger_accept_invalid_hostnames` - Whether the client accepts invalid hostnames (dangerous).
 ///
 pub fn construct_client(
+    user_agent: Option<&str>,
     root_certificates: Vec<Certificate>,
     danger_accept_invalid_certs: bool,
     danger_accept_invalid_hostnames: bool,
@@ -68,7 +70,7 @@ pub fn construct_client(
     headers.insert("Sec-Fetch-Dest", HeaderValue::from_static("manifest"));
 
     let mut builder = Client::builder()
-        .user_agent(APP_USER_AGENT)
+        .user_agent(user_agent.unwrap_or(APP_USER_AGENT))
         .default_headers(headers)
         .danger_accept_invalid_certs(danger_accept_invalid_certs)
         .danger_accept_invalid_hostnames(danger_accept_invalid_hostnames);
@@ -91,6 +93,7 @@ pub fn construct_client(
 /// details and description of function parameters.
 ///
 pub(crate) fn construct_certificates_and_client(
+    user_agent: Option<&str>,
     certificates_der: &Option<Vec<PathBuf>>,
     certificates_pem: &Option<Vec<PathBuf>>,
     danger_accept_invalid_certs: bool,
@@ -100,6 +103,7 @@ pub(crate) fn construct_certificates_and_client(
     const CLIENT_CONSTRUCT_ERROR: &str = "Failed to construct HTTP client";
 
     construct_client(
+        user_agent,
         load_certificates(certificates_der, certificates_pem).context(CLIENT_CERT_ERROR)?,
         danger_accept_invalid_certs,
         danger_accept_invalid_hostnames,
