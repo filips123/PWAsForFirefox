@@ -194,6 +194,11 @@ class PwaBrowser {
     // Remap access key for opening new window to "N"
     document.getElementById('context-openlink').accessKey = 'N';
 
+    // Quick fix to prevent error on Firefox ESR 128
+    // We can remove it when ESR 128 is no longer supported
+    try { let _ = nsContextMenu }
+    catch (error) { return }
+
     // Create context menu item that opens link in a default browser
     const menuItem = this.createElement(document, 'menuitem', { id: 'contextmenu-openlinkdefault', 'data-l10n-id': 'context-menu-open-link-default-browser' });
     menuItem.addEventListener('command', () => gContextMenu.openLinkInDefaultBrowser());
