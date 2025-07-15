@@ -11,11 +11,11 @@ class ChromeLoader {
 
   static FILES_BASE = Services.io.getProtocolHandler('file').QueryInterface(Ci.nsIFileProtocolHandler).getURLSpecFromDir(Services.dirsvc.get('UChrm', Ci.nsIFile));
 
-  static BROWSER_SCRIPT = 'pwa/content/browser.sys.mjs';
+  static BROWSER_SCRIPT = 'pwa/content/browser.load.js';
   static BROWSER_STYLES = 'pwa/content/browser.css';
-  static PREFERENCES_SCRIPT = 'pwa/content/preferences.sys.mjs';
+  static PREFERENCES_SCRIPT = 'pwa/content/preferences.load.js';
   static PREFERENCES_STYLES = 'pwa/content/preferences.css';
-  static MACOS_HIDDEN_WINDOW_SCRIPT = 'pwa/content/macosHiddenWindow.sys.mjs';
+  static MACOS_HIDDEN_WINDOW_SCRIPT = 'pwa/content/macosHiddenWindow.load.js';
 
   static DISTRIBUTION_ID = 'firefoxpwa';
   static DISTRIBUTION_VERSION = '0.0.0';
@@ -110,8 +110,7 @@ class ChromeLoader {
   }
 
   loadUserScript (scriptFilename, window) {
-    const script = `data:application/javascript,ChromeUtils.importESModule('resource://${scriptFilename}', { global: 'current' });`;
-    return Services.scriptloader.loadSubScript(script, window, 'UTF-8');
+    return Services.scriptloader.loadSubScript(`resource://${scriptFilename}`, window, 'UTF-8');
   }
 }
 
