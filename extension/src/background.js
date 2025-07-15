@@ -120,7 +120,7 @@ browser.permissions.onRemoved.addListener(permissionsListener)
 // == LAUNCH ON WEBSITE HANDLING
 
 // Handle opening new URLs and redirect enable URLs to web apps
-// This will obtain site list for every request (twice) which will impact performance
+// This will obtain site list for every request which will impact performance
 // In the future, we should find a way to cache it and only update it when it changes
 
 const getMatchingUrlHandler = async target => {
@@ -136,6 +136,10 @@ const getMatchingUrlHandler = async target => {
   }
 }
 
+// Track opened tabs that are new navigation targets
+const navigationTargetTabs = new Set()
+
+// Handle top-level GET requests and redirects
 browser.webRequest?.onBeforeRequest.addListener(
   async details => {
     // Only handle top-level GET requests
@@ -162,31 +166,34 @@ browser.webRequest?.onBeforeRequest.addListener(
       params: { id: site.ulid, url: details.url }
     })
 
-    // Prevent the request
+    // Close the tab if it was opened as a new navigation target
+    if (navigationTargetTabs.has(details.tabId)) {
+      navigationTargetTabs.delete(details.tabId)
+      await browser.tabs.remove(details.tabId)
+    }
+
+    // Prevent the request from being processed by the browser
     return { cancel: true }
   },
   { urls: ['<all_urls>'] },
   ['blocking']
 )
 
-browser.webNavigation?.onCreatedNavigationTarget.addListener(async details => {
-  // Get auto launch extension settings
-  const settings = await browser.storage.local.get([PREF_ENABLE_AUTO_LAUNCH, PREF_AUTO_LAUNCH_EXCLUSION])
+// Track tabs opened as new navigation targets
+browser.webNavigation?.onCreatedNavigationTarget.addListener(details => {
+  navigationTargetTabs.add(details.tabId)
+})
 
-  // Only handle when the auto launch feature is enabled
-  if (!settings[PREF_ENABLE_AUTO_LAUNCH]) return
+// Remove tab from the set after its first committed navigation
+browser.webNavigation?.onCommitted.addListener(details => {
+  if (details.frameId === 0) {
+    navigationTargetTabs.delete(details.tabId)
+  }
+})
 
-  // Do not handle excluded URLs
-  const pattern = settings[PREF_AUTO_LAUNCH_EXCLUSION]
-  const re = new RegExp(pattern)
-  if (pattern && re.test(details.url)) return
-
-  // Find the matching web app
-  const site = await getMatchingUrlHandler(details.url)
-  if (!site) return
-
-  // Close the newly opened tab/window
-  await browser.tabs.remove(details.tabId)
+// Remove tab from the set after it has been closed
+browser.tabs.onRemoved.addListener(tabId => {
+  navigationTargetTabs.delete(tabId)
 })
 
 // = LAUNCH ON BROWSER HANDLING
