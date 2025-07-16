@@ -132,6 +132,10 @@ Services.prefs.getDefaultBranch(null).setBoolPref('browser.startup.upgradeDialog
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.privateWindowSeparation.enabled', false);
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.privacySegmentation.createdShortcut', true);
 
+// Force disable vertical tabs until we figure out how to properly support them (#667)
+Services.prefs.setBoolPref('sidebar.verticalTabs', false);
+Services.prefs.setBoolPref('sidebar.revamp', false);
+
 // Disable default browser prompt
 BrowserGlue.prototype._maybeShowDefaultBrowserPrompt = async () => null;
 

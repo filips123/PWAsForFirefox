@@ -11,6 +11,12 @@
     display: none;
   }
 
+  /* Hide the layout (vertical tabs) group */
+  /* Hidden until we figure out how to properly support them (#667) */
+  groupbox[data-subcategory="layout"] {
+    display: none;
+  }
+
   /* Hide native window controls preference when CSD is not available */
   /* Because it doesn't have effect on those platforms */
   @media not (-moz-gtk-csd-available) {
