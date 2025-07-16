@@ -24,4 +24,10 @@
       display: none;
     }
   }
+
+  /* Remove margin on global input elements */
+  .global-input {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
 }

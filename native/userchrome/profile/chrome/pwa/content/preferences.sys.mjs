@@ -117,7 +117,7 @@ class PwaPreferences {
       <description data-l10n-id="allowed-domains-description"></description>
     </label>
     <vbox>
-      <html:input type="text" preference="${ChromeLoader.PREF_ALLOWED_DOMAINS}" data-l10n-id="allowed-domains-input" />
+      <html:input type="text" class="global-input" preference="${ChromeLoader.PREF_ALLOWED_DOMAINS}" data-l10n-id="allowed-domains-input" />
     </vbox>
   </vbox>
 </groupbox>
@@ -163,8 +163,8 @@ class PwaPreferences {
 
   handleTabsModePreferenceSwitch (onLoad = false) {
     function setTabsSectionDisabled (disabled) {
-      document.querySelectorAll('#mainPrefPane > groupbox:nth-child(11) > *').forEach(elem => elem.disabled = disabled)
-      document.querySelectorAll('#launchTypeNewTab').forEach(elem => elem.disabled = disabled)
+      document.querySelector('[data-l10n-id="tabs-group-header"]').closest('groupbox').childNodes.forEach(elem => elem.disabled = disabled);
+      document.querySelector('#launchTypeNewTab').disabled = disabled;
     }
 
     if (xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) {
