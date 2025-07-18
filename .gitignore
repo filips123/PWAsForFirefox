@@ -56,12 +56,20 @@ jspm_packages/
 node_modules/
 web_modules/
 
+# Yarn Modern
+*/.yarn/*
+!*/.yarn/patches
+!*/.yarn/plugins
+!*/.yarn/releases
+!*/.yarn/versions
+.pnp.*
+
 # Generated userchrome.wxs WiX file
 # Needs to be manually generated before running cargo wix
 /native/packages/wix/userchrome.wxs
 
 # Generated PortableApps.com EXE files and data
-# Need to be generated using PA.com tools
+# Needs to be generated using PA.com tools
 /native/packages/paf/**/*.exe
 /native/packages/paf/PWAsForFirefoxPortable/Data/*
 /native/packages/paf/PWAsForFirefoxPortable/App/*

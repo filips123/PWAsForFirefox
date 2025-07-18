@@ -31,12 +31,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Configure cache
         uses: actions/cache@v4
         with:
           path: |
             ~/.cache/yarn
             ~/.config/yarn
+            ~/.yarn/berry/cache
           key: ${{ runner.os }}-yarn-lint-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-yarn-
 
@@ -46,7 +50,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Lint the extension
         run: yarn lint
@@ -64,12 +68,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Enable Corepack
+        run: corepack enable
+
       - name: Configure cache
         uses: actions/cache@v4
         with:
           path: |
             ~/.cache/yarn
             ~/.config/yarn
+            ~/.yarn/berry/cache
           key: ${{ runner.os }}-yarn-build-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ runner.os }}-yarn-
 
@@ -107,7 +115,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Build the extension
         run: yarn build

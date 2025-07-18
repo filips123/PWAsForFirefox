@@ -4,10 +4,17 @@
 .*  text eol=lf
 .*  text=auto
 
-# Exclude unused files in archive
-.editorconfig       export-ignore
-.gitattributes      export-ignore
-.gitignore          export-ignore
-.github             export-ignore
-benches             export-ignore
-tests               export-ignore
+# Show language aware diffs
+*.css   diff=css
+*.htm   diff=html
+*.html  diff=html
+*.vue   diff=html
+*.py    diff=python
+*.md    diff=markdown
+*.sh    diff=bash
+
+# Mark Yarn files as generated
+*/.yarn/**            linguist-vendored
+*/.yarn/releases/*    binary
+*/.yarn/plugins/**/*  binary
+*/.pnp.*              binary linguist-generated

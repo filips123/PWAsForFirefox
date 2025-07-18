@@ -23,7 +23,11 @@ Note that these are development versions that may be unstable and are not signed
 
 ### From Source
 
-1. Install Node.js and Yarn package manager.
+1. Install Node.js and [Yarn](https://yarnpkg.com/) package manager using [`corepack`](https://nodejs.org/docs/latest-v20.x/api/corepack.html):
+
+   ```bash
+   corepack enable
+   ```
 
 2. Clone the repository and cd into the `extension` (this) directory.
 
