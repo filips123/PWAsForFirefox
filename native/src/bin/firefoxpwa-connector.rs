@@ -2,7 +2,7 @@ use std::fs::OpenOptions;
 use std::process::exit;
 
 use anyhow::Result;
-use log::{error, LevelFilter};
+use log::{LevelFilter, error};
 use simplelog::{ColorChoice, CombinedLogger, Config, TermLogger, TerminalMode, WriteLogger};
 
 #[rustfmt::skip]
@@ -23,7 +23,7 @@ fn main() -> Result<()> {
     ])?;
 
     if let Err(error) = Connection::start(&dirs, debugmode) {
-        error!("{:?}", error);
+        error!("{error:?}");
         exit(1);
     }
 

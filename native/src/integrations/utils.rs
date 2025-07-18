@@ -4,10 +4,10 @@ use std::cmp::Ordering;
 use std::path::Path;
 
 use ab_glyph::{Font, FontRef, PxScale};
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use data_url::DataUrl;
-use image::imageops::FilterType::Gaussian;
 use image::ColorType::Rgba8;
+use image::imageops::FilterType::Gaussian;
 use image::{ImageBuffer, Rgb, RgbImage};
 use log::{debug, error, warn};
 use reqwest::blocking::Client;
@@ -32,11 +32,7 @@ pub fn sanitize_name<'a>(name: &'a str, id: &'a str) -> String {
     sanitized = sanitized.trim_start_matches([' ', '.']).into();
     sanitized = sanitize_filename::sanitize(sanitized);
 
-    if sanitized.is_empty() {
-        format!("Site {}", &id)
-    } else {
-        sanitized
-    }
+    if sanitized.is_empty() { format!("Site {}", &id) } else { sanitized }
 }
 
 /// Normalize category name.
@@ -162,7 +158,7 @@ pub fn process_icons(
         match process_icon(icon, size, path, client).context("Failed to process icon") {
             Ok(_) => return Ok(()),
             Err(error) => {
-                error!("{:?}", error);
+                error!("{error:?}");
                 warn!("Falling back to the next available icon");
             }
         }
@@ -214,11 +210,7 @@ fn normalize_icons<'a>(icons: &'a [IconResource], size: &'a ImageSize) -> Vec<&'
         let size1 = size1.unwrap();
         let size2 = size2.unwrap();
 
-        if size1 >= size && size2 >= size {
-            size1.cmp(size2)
-        } else {
-            size1.cmp(size2).reverse()
-        }
+        if size1 >= size && size2 >= size { size1.cmp(size2) } else { size1.cmp(size2).reverse() }
     });
 
     icons
@@ -244,7 +236,7 @@ fn process_icon(icon: &IconResource, size: &ImageSize, path: &Path, client: &Cli
     };
 
     let url: Url = icon.src.clone().try_into().context("Failed to convert icon URL")?;
-    debug!("Processing icon {}", url);
+    debug!("Processing icon {url}");
 
     // Download icon and get its content type
     let (content, content_type) = download_icon(url, client).context("Failed to download icon")?;

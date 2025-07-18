@@ -4,24 +4,24 @@ use std::os::windows::process::ExitStatusExt;
 use std::path::PathBuf;
 use std::process::{Command, ExitStatus};
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use cfg_if::cfg_if;
 use const_format::formatcp;
 use log::{info, warn};
 use tempfile::Builder;
-use windows::core::{w, HSTRING, PCWSTR};
 use windows::Win32::System::Com::{
-    CoInitializeEx,
     COINIT_APARTMENTTHREADED,
     COINIT_DISABLE_OLE1DDE,
+    CoInitializeEx,
 };
-use windows::Win32::System::Threading::{GetExitCodeProcess, WaitForSingleObject, INFINITE};
+use windows::Win32::System::Threading::{GetExitCodeProcess, INFINITE, WaitForSingleObject};
 use windows::Win32::UI::Shell::{
-    ShellExecuteExW,
     SEE_MASK_NOASYNC,
     SEE_MASK_NOCLOSEPROCESS,
     SHELLEXECUTEINFOW,
+    ShellExecuteExW,
 };
+use windows::core::{HSTRING, PCWSTR, w};
 use windows_registry::LOCAL_MACHINE;
 
 #[inline]
@@ -30,7 +30,7 @@ const fn get_download_url() -> &'static str {
     use const_format::formatcp;
 
     #[allow(dead_code)]
-    const VERSION: &str = "2409";
+    const VERSION: &str = "2500";
 
     cfg_if! {
         if #[cfg(target_arch = "x86")] {
@@ -141,7 +141,9 @@ impl _7Zip {
         const EXEC_ERROR: &str = "Failed to execute the 7-Zip installer";
         const CLEANUP_ERROR: &str = "Failed to clean up the 7-Zip installer";
 
-        warn!("This will install 7-Zip, made by Igor Pavlov, licensed under the GNU LGPL license and others");
+        warn!(
+            "This will install 7-Zip, made by Igor Pavlov, licensed under the GNU LGPL license and others"
+        );
         warn!("This project is not affiliated with the 7-Zip project or its developers in any way");
         warn!("Check the 7-zip website for more details: https://7-zip.org/");
 

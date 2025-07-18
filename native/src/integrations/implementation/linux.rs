@@ -1,6 +1,6 @@
 use std::convert::TryInto;
 use std::fmt::Write as FmtWrite;
-use std::fs::{copy, create_dir_all, remove_file, write, File};
+use std::fs::{File, copy, create_dir_all, remove_file, write};
 use std::io::Write as IoWrite;
 use std::path::Path;
 use std::process::Command;
@@ -106,7 +106,7 @@ fn store_icons(
         let mut process = || -> Result<()> {
             // Only icons with absolute URLs can be used
             let url: Url = icon.src.clone().try_into().context(CONVERT_ICON_URL_ERROR)?;
-            debug!("Processing icon {}", url);
+            debug!("Processing icon {url}");
 
             // Download icon and get its content type
             let (content, content_type) =
@@ -163,7 +163,7 @@ fn store_icons(
 
         // Process the icon and catch errors
         if let Err(error) = process().context(PROCESS_ICON_ERROR) {
-            error!("{:?}", error);
+            error!("{error:?}");
             warn!("Falling back to the next available icon");
         }
     }

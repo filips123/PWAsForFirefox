@@ -1,14 +1,14 @@
 use std::cmp::Ordering;
 use std::convert::TryInto;
-use std::fs::{create_dir_all, remove_dir_all, rename, write, File};
+use std::fs::{File, create_dir_all, remove_dir_all, rename, write};
 use std::io::{BufWriter, Read, Write};
 use std::path::Path;
 use std::process::{Child, Command, Stdio};
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use icns::{IconFamily, IconType, Image, PixelFormat};
-use image::imageops::resize;
 use image::imageops::FilterType::Gaussian;
+use image::imageops::resize;
 use image::{DynamicImage, Rgba, RgbaImage};
 use log::{debug, error, warn};
 use reqwest::blocking::Client;
@@ -80,11 +80,7 @@ impl MacOSIconSize {
     }
 
     fn size(&self) -> u32 {
-        if self.hdpi {
-            self.size * 2
-        } else {
-            self.size
-        }
+        if self.hdpi { self.size * 2 } else { self.size }
     }
 }
 
@@ -131,11 +127,7 @@ fn sort_icons_for_size(icons: &mut [&IconResource], size: &ImageSize) {
         let size1 = size1.unwrap();
         let size2 = size2.unwrap();
 
-        if size1 >= size && size2 >= size {
-            size1.cmp(size2)
-        } else {
-            size1.cmp(size2).reverse()
-        }
+        if size1 >= size && size2 >= size { size1.cmp(size2) } else { size1.cmp(size2).reverse() }
     };
 
     // Compare icons by purpose, and by size if purposes are the same
@@ -183,14 +175,14 @@ fn store_icons(target: &Path, name: &str, icons: &[IconResource], client: &Clien
     for size in &icon_sizes {
         let img_size = size.size();
 
-        debug!("Looking for icon size {}", img_size);
+        debug!("Looking for icon size {img_size}");
         sort_icons_for_size(icons, &ImageSize::Fixed(img_size, img_size));
 
         for icon in &mut *icons {
             // Wrapped into a closure to emulate currently unstable `try` blocks
             let mut process = || -> Result<()> {
                 let url: Url = icon.src.clone().try_into().context(CONVERT_ICON_URL_ERROR)?;
-                debug!("Processing icon {}", url);
+                debug!("Processing icon {url}");
 
                 // Download the image from the URL and load it as RGBA
                 let (bytes, img_type) = download_icon(url, client).context(DOWNLOAD_ICON_ERROR)?;
@@ -206,7 +198,7 @@ fn store_icons(target: &Path, name: &str, icons: &[IconResource], client: &Clien
                     size.icon_type(),
                 )?;
 
-                debug!("Added size {}", img_size);
+                debug!("Added size {img_size}");
                 Ok(())
             };
 
@@ -214,7 +206,7 @@ fn store_icons(target: &Path, name: &str, icons: &[IconResource], client: &Clien
             match process().context(PROCESS_ICON_ERROR) {
                 Ok(_) => break,
                 Err(error) => {
-                    error!("{:?}", error);
+                    error!("{error:?}");
                     warn!("Falling back to the next available icon");
                 }
             }
@@ -373,7 +365,7 @@ fn verify_app_is_pwa(app_bundle: &Path, app_id: &str) -> Result<()> {
 
     let pkg_info_id = format!("APPL{app_id}");
     debug!("Verifying if a bundle is a web app");
-    debug!("'{}' should be '{}'", pkg_info_content, pkg_info_id);
+    debug!("'{pkg_info_content}' should be '{pkg_info_id}'");
 
     if pkg_info_content != pkg_info_id {
         let bundle_name = app_bundle

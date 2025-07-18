@@ -2,7 +2,7 @@ use std::process::exit;
 
 use anyhow::Result;
 use clap::Parser;
-use log::{error, LevelFilter};
+use log::{LevelFilter, error};
 use simplelog::{ColorChoice, Config, TermLogger, TerminalMode};
 
 #[rustfmt::skip]
@@ -13,7 +13,7 @@ fn main() -> Result<()> {
 
     let app = App::parse();
     if let Err(error) = app.run() {
-        error!("{:?}", error);
+        error!("{error:?}");
         exit(1);
     }
 

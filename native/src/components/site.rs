@@ -8,9 +8,9 @@ use reqwest::blocking::Client;
 use serde::{Deserialize, Serialize};
 use ulid::Ulid;
 use url::Url;
+pub use web_app_manifest::WebAppManifest as SiteManifest;
 use web_app_manifest::resources::{IconResource, ProtocolHandlerResource};
 use web_app_manifest::types::{ImagePurpose, ImageSize, Url as ManifestUrl};
-pub use web_app_manifest::WebAppManifest as SiteManifest;
 
 use crate::components::runtime::Runtime;
 use crate::directories::ProjectDirs;

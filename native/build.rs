@@ -1,6 +1,6 @@
 use cfg_aliases::cfg_aliases;
 use clap::CommandFactory;
-use clap_complete::{generate_to, Shell};
+use clap_complete::{Shell, generate_to};
 
 #[path = "src/console/app.rs"]
 mod app;

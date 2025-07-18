@@ -30,10 +30,10 @@ impl<'a> Connection<'a> {
         // Wrapped into a closure to emulate currently unstable `try` blocks
         let handle = || -> Result<ConnectorResponse> {
             let request = connection.receive().context("Failed to receive request")?;
-            info!("Received a request: {:?}", request);
+            info!("Received a request: {request:?}");
 
             let response = connection.process(&request).context("Failed to process request")?;
-            info!("Processed the request: {:?}", response);
+            info!("Processed the request: {response:?}");
 
             Ok(response)
         };
@@ -49,7 +49,7 @@ impl<'a> Connection<'a> {
             Err(error) => {
                 // There was some error while processing the request
                 // Pack it into a custom response message and send it back
-                error!("{:?}", error);
+                error!("{error:?}");
 
                 // We need a bit special handling to skip the first error
                 let cause: String = error

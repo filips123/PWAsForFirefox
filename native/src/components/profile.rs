@@ -1,7 +1,7 @@
 use std::fs::{create_dir_all, remove_dir_all};
 
 use anyhow::{Context, Result};
-use fs_extra::dir::{copy, CopyOptions};
+use fs_extra::dir::{CopyOptions, copy};
 use log::info;
 use serde::{Deserialize, Serialize};
 use ulid::Ulid;

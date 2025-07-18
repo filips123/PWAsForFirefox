@@ -4,9 +4,9 @@ use std::path::PathBuf;
 
 use anyhow::{Context, Result};
 use log::warn;
+use reqwest::Certificate;
 use reqwest::blocking::Client;
 use reqwest::header::{HeaderMap, HeaderValue};
-use reqwest::Certificate;
 
 const APP_USER_AGENT: &str =
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0";

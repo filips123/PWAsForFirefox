@@ -3,10 +3,10 @@ use std::io::Result as IoResult;
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command};
 
-use anyhow::{anyhow, Context, Result};
+use anyhow::{Context, Result, anyhow};
 use cfg_if::cfg_if;
 use configparser::ini::Ini;
-use fs_extra::dir::{copy, CopyOptions};
+use fs_extra::dir::{CopyOptions, copy};
 use log::{info, warn};
 use tempfile::{NamedTempFile, TempDir};
 
@@ -57,7 +57,7 @@ cfg_if! {
         use std::ffi::c_void;
         use std::mem;
 
-        use windows::Win32::Foundation::BOOL;
+        use windows::core::BOOL;
         use windows::Win32::System::JobObjects::{
             IsProcessInJob,
             JobObjectExtendedLimitInformation,
@@ -261,7 +261,9 @@ impl Runtime {
         warn!("Firefox is licensed under the Mozilla Public License 2.0");
         warn!("Firefox is a trademark of the Mozilla Foundation in the U.S. and other countries");
         warn!("This project is not affiliated with the Mozilla Foundation in any way");
-        warn!("By using this project you also agree to the Firefox Privacy Notice: https://www.mozilla.org/privacy/firefox/");
+        warn!(
+            "By using this project you also agree to the Firefox Privacy Notice: https://www.mozilla.org/privacy/firefox/"
+        );
         warn!("Check the Firefox website for more details: https://www.mozilla.org/firefox/");
 
         info!("Downloading the runtime archive");

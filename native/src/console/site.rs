@@ -2,7 +2,7 @@ use std::fs::metadata;
 use std::io;
 use std::io::Write;
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use cfg_if::cfg_if;
 use log::{info, warn};
 use ulid::Ulid;
@@ -16,7 +16,7 @@ use crate::console::app::{
     SiteUninstallCommand,
     SiteUpdateCommand,
 };
-use crate::console::{store_value, store_value_vec, Run};
+use crate::console::{Run, store_value, store_value_vec};
 use crate::directories::ProjectDirs;
 use crate::integrations;
 use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
@@ -52,7 +52,7 @@ impl Run for SiteLaunchCommand {
             use std::io::Read;
             use std::path::Path;
 
-            use blake3::{hash, Hash};
+            use blake3::{Hash, hash};
 
             fn hasher<P: AsRef<Path>>(path: P) -> Hash {
                 let mut file = File::open(path.as_ref().join("firefox")).unwrap();
@@ -223,7 +223,7 @@ impl SiteInstallCommand {
         storage.sites.insert(ulid, site);
         storage.write(&dirs)?;
 
-        info!("Web app installed: {}", ulid);
+        info!("Web app installed: {ulid}");
 
         if self.launch_now {
             let command = SiteLaunchCommand {

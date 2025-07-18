@@ -4,7 +4,7 @@ use std::io::Write;
 use std::path::PathBuf;
 
 use anyhow::{Context, Result};
-use fs_extra::dir::{copy, CopyOptions};
+use fs_extra::dir::{CopyOptions, copy};
 use log::{info, warn};
 use ulid::Ulid;
 
@@ -15,7 +15,7 @@ use crate::console::app::{
     ProfileRemoveCommand,
     ProfileUpdateCommand,
 };
-use crate::console::{store_value, Run};
+use crate::console::{Run, store_value};
 use crate::directories::ProjectDirs;
 use crate::integrations;
 use crate::integrations::IntegrationUninstallArgs;
@@ -102,7 +102,7 @@ impl ProfileCreateCommand {
 
         apply_profile_template(&self.template, &ulid, &dirs)?;
 
-        info!("Profile created: {}", ulid);
+        info!("Profile created: {ulid}");
         Ok(ulid)
     }
 }
@@ -115,7 +115,9 @@ impl Run for ProfileRemoveCommand {
         let profile = storage.profiles.get_mut(&self.id).context("Profile does not exist")?;
 
         if !self.quiet {
-            warn!("This will completely remove the profile and all associated web apps, including their data");
+            warn!(
+                "This will completely remove the profile and all associated web apps, including their data"
+            );
             warn!("You might not be able to fully recover this action");
 
             print!("Do you want to continue (y/n)? ");

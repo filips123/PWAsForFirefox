@@ -2,8 +2,8 @@ use anyhow::{Context, Result};
 use cfg_if::cfg_if;
 
 use crate::components::runtime::Runtime;
-use crate::console::app::{RuntimeInstallCommand, RuntimePatchCommand, RuntimeUninstallCommand};
 use crate::console::Run;
+use crate::console::app::{RuntimeInstallCommand, RuntimePatchCommand, RuntimeUninstallCommand};
 use crate::directories::ProjectDirs;
 
 impl Run for RuntimeInstallCommand {

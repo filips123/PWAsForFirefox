@@ -1,8 +1,9 @@
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use cfg_if::cfg_if;
 use log::{info, warn};
 
 use crate::components::runtime::Runtime;
+use crate::connector::Connection;
 use crate::connector::request::{
     CreateProfile,
     GetConfig,
@@ -24,7 +25,7 @@ use crate::connector::request::{
     UpdateSite,
 };
 use crate::connector::response::ConnectorResponse;
-use crate::connector::Connection;
+use crate::console::Run;
 use crate::console::app::{
     ProfileCreateCommand,
     ProfileRemoveCommand,
@@ -36,7 +37,6 @@ use crate::console::app::{
     SiteUninstallCommand,
     SiteUpdateCommand,
 };
-use crate::console::Run;
 use crate::integrations;
 use crate::integrations::IntegrationInstallArgs;
 use crate::storage::Storage;
