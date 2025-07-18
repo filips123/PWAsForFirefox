@@ -26,13 +26,12 @@ LICENSE="MPL-2.0"
 LICENSE+=""
 
 SLOT="0"
-KEYWORDS="~amd64 ~arm ~arm64"
+KEYWORDS="~amd64 ~arm64"
 IUSE="custom-cflags lto static"
 
 DEPEND="
 	!static? (
 		app-arch/zstd:=
-		app-arch/bzip2:=
 		app-arch/xz-utils:=
 		dev-libs/openssl:=
 	)

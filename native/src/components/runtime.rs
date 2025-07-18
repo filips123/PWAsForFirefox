@@ -294,28 +294,13 @@ impl Runtime {
                 source.push("core");
 
             } else if #[cfg(platform_linux)] {
-                use anyhow::bail;
                 use std::fs::File;
-                use std::io::Read;
-                use std::io::Seek;
-                use std::io::SeekFrom;
-                use bzip2::read::BzDecoder;
                 use xz2::read::XzDecoder;
                 use tar::Archive;
 
-                let mut file = File::open(&archive).context(EXTRACT_ERROR)?;
-                let mut buffer = [0; 3];
-                file.read_exact(&mut buffer)?;
-                file.seek(SeekFrom::Start(0))?;
-
-                let compressed: Box<dyn std::io::Read> = match &buffer {
-                    b"\x42\x5A\x68" => Box::new(BzDecoder::new(file)),
-                    b"\xFD\x37\x7A" => Box::new(XzDecoder::new(file)),
-                    _ => bail!("Unsupported compression method"),
-                };
-
-                let mut bundle = Archive::new(compressed);
-                bundle.unpack(&extracted).context(EXTRACT_ERROR)?;
+                let file = File::open(&archive).context(EXTRACT_ERROR)?;
+                let mut compressed = Archive::new(XzDecoder::new(file));
+                compressed.unpack(&extracted).context(EXTRACT_ERROR)?;
 
                 source.push("firefox");
 

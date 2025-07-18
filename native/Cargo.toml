@@ -21,7 +21,7 @@ lto = true
 
 [features]
 portable = ["dep:phf"]
-static = ["reqwest/native-tls-vendored", "bzip2/static", "xz2/static"]
+static = ["reqwest/native-tls-vendored", "xz2/static"]
 immutable-runtime = []
 
 [dependencies]
@@ -79,7 +79,6 @@ phf = { version = "0.11.3", features = ["macros"] }
 
 [target.'cfg(target_os = "linux")'.dependencies]
 blake3 = "1.5.5"
-bzip2 = "0.5.1"
 xz2 = "0.1.7"
 tar = "0.4.43"
 
