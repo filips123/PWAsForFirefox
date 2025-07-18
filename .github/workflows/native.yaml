@@ -20,7 +20,7 @@ defaults:
 
 jobs:
   clippy:
-    name: Clippy (${{ matrix.os }})
+    name: Build (${{ matrix.os }}, ${{ matrix.portable && 'portable' || 'normal' }})
     runs-on: ${{ matrix.os }}
 
     permissions:
