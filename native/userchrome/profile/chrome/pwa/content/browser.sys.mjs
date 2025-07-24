@@ -432,7 +432,7 @@ class PwaBrowser {
       // Open the default browser and cancel the request for out-of-scope URLs
       if (checkOutOfScope(httpChannel.URI, chromeWindow)) {
         MailIntegration._launchExternalUrl(httpChannel.URI);
-        httpChannel.cancel(418);
+        httpChannel.cancel(Cr.NS_BINDING_ABORTED);
       }
     }, 'http-on-modify-request', false);
 
