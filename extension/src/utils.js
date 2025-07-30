@@ -173,13 +173,17 @@ export async function checkNativeStatus () {
  * Supported platforms:
  * - Windows: All (x86, x64, ARM64)
  * - MacOS: All (x64, ARM64)
- * - Linux: x86, x64
+ * - Linux: x86, x64, ARM64
  *
  * @returns {Promise<boolean>}
  */
 export async function isAutoRuntimeInstallSupported () {
   const { os, arch } = await browser.runtime.getPlatformInfo()
-  return os === 'win' || os === 'mac' || (os === 'linux' && (arch === 'x86-64' || arch === 'x86-32'))
+  return (
+    os === 'win' ||
+    os === 'mac' ||
+    (os === 'linux' && (arch === 'x86-64' || arch === 'x86-32' || arch === 'arm64' || arch === 'aarch64'))
+  )
 }
 
 /**

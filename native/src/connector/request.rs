@@ -143,7 +143,7 @@ pub struct SetConfig(pub Config);
 ///
 /// - Windows: All (x86, x64, ARM64)
 /// - MacOS: All (x64, ARM64)
-/// - Linux: x86, x64
+/// - Linux: x86, x64, ARM64
 ///
 /// # Parameters
 ///
