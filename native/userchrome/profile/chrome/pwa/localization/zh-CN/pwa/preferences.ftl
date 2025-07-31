@@ -23,6 +23,8 @@ launch-type-choice-new-tab =
     .label = 在新标签页中打开网页应用
 launch-type-choice-replace =
     .label = 替换现有标签页
+launch-type-choice-focus =
+    .label = 聚焦当前的窗口
 
 ## Address Bar Preference
 
@@ -42,3 +44,11 @@ shortcuts-group-note = 您可能需要重新启动浏览器以应用这些设置
 
 ## Keyboard Shortcuts Preferences
 
+shortcuts-close-tab =
+    .label = 关闭标签页（{ $shortcut }）
+shortcuts-close-window =
+    .label = 关闭窗口（{ $shortcut }）
+shortcuts-quit-application =
+    .label = 退出应用（{ $shortcut }）
+shortcuts-private-browsing =
+    .label = 隐私浏览（{ $shortcut }）
