@@ -575,7 +575,9 @@ jobs:
     container: ghcr.io/filips123/gentoo-pycargoebuild
 
     permissions:
-      contents: read
+      contents: write
+      attestations: write
+      id-token: write
 
     needs:
       - release-github
@@ -636,7 +638,7 @@ jobs:
         run: |
           echo "::group::Updating the package ebuild"
           cp "$GITHUB_WORKSPACE/native/packages/gentoo/firefoxpwa.ebuild" "firefoxpwa-$VERSION.ebuild"
-          pycargoebuild -i "firefoxpwa-$VERSION.ebuild" "$GITHUB_WORKSPACE/native"
+          pycargoebuild -i "firefoxpwa-$VERSION.ebuild" -c "$GITHUB_WORKSPACE/native"
           echo "::endgroup::"
 
           echo "::group::Updating the package manifest"
@@ -696,6 +698,19 @@ jobs:
           git add -A
           pkgdev commit --signoff
           echo "::endgroup::"
+
+      - name: Attest crates tarball
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
+        with:
+          subject-path: /var/cache/distfiles/firefoxpwa-*-crates.tar.xz
+
+      - name: Upload crates tarball to GitHub Release
+        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.3.2
+        with:
+          fail_on_unmatched_files: true
+          files: /var/cache/distfiles/firefoxpwa-*-crates.tar.xz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Scan package changes
         working-directory: tmp/guru/www-plugins/firefoxpwa

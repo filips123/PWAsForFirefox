@@ -14,6 +14,7 @@ HOMEPAGE="https://pwasforfirefox.filips.si/"
 
 SRC_URI="
 	https://github.com/filips123/PWAsForFirefox/archive/v${PV}.tar.gz -> ${P}.tar.gz
+	https://github.com/filips123/PWAsForFirefox/releases/download/v${PV}/firefoxpwa-${PV}-crates.tar.xz
 	${CARGO_CRATE_URIS}
 "
 
@@ -139,8 +140,7 @@ pkg_postinst() {
 		elog "You have successfully installed the native part of the PWAsForFirefox project."
 		elog "You should also install the Firefox extension if you haven't already."
 		elog
-		elog "Download:"
-		elog "\thttps://addons.mozilla.org/firefox/addon/pwas-for-firefox/"
+		elog "Download: https://addons.mozilla.org/firefox/addon/pwas-for-firefox/"
 	fi
 
 	xdg_pkg_postinst
