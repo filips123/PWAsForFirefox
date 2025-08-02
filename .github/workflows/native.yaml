@@ -303,7 +303,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: build-artifacts-linux-deb-${{ steps.target.outputs.target }}
+          name: unsigned-artifacts-linux-deb-${{ steps.target.outputs.target }}
           path: native/target/debian/*.deb
           compression-level: 0
 
@@ -318,7 +318,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
-          name: build-artifacts-linux-rpm-${{ steps.target.outputs.target }}
+          name: unsigned-artifacts-linux-rpm-${{ steps.target.outputs.target }}
           path: native/target/rpm/*.rpm
           compression-level: 0
 
@@ -491,6 +491,83 @@ jobs:
             signed/msi/*.msi
             signed/paf/*.paf.exe
 
+  sign:
+    name: Sign Linux packages
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: read
+      contents: read
+      attestations: write
+      id-token: write
+
+    needs:
+      - build
+
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        with:
+          egress-policy: audit
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install gnupg debsigs rpm
+
+      - name: Download artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: unsigned-artifacts-linux-*
+          path: artifacts
+          merge-multiple: true
+
+      - name: Import GPG key
+        run: echo "${{ secrets.PACKAGES_KEY_PRIVATE }}" | gpg --import --batch
+
+      - name: Prepare RPM macros
+        run: |
+          echo "%_gpg_name ${{ vars.PACKAGES_KEY_NAME }}" >> ~/.rpmmacros
+          echo "%__gpg /usr/bin/gpg" >> ~/.rpmmacros
+
+      - name: Sign DEB packages
+        run: |
+          for file in artifacts/*.deb
+          do
+            echo "Signing $file"
+            debsigs --sign=origin --default-key="${{ vars.PACKAGES_KEY_ID }}" "$file"
+          done
+
+      - name: Sign RPM packages
+        run: |
+          for file in artifacts/*.rpm
+          do
+            echo "Signing $file"
+            rpm --addsign "$file"
+          done
+
+      - name: Upload signed DEB packages
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: build-artifacts-linux-deb
+          path: artifacts/*.deb
+          compression-level: 0
+
+      - name: Upload signed RPM packages
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: build-artifacts-linux-rpm
+          path: artifacts/*.rpm
+          compression-level: 0
+
+      - name: Attest artifacts
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
+        with:
+          subject-path: |
+            artifacts/*.deb
+            artifacts/*.rpm
+
   release-github:
     name: Release on GitHub
     if: startsWith(github.ref, 'refs/tags/v')
@@ -504,6 +581,7 @@ jobs:
       - clippy
       - rustfmt
       - build
+      - sign
 
     steps:
       - name: Harden runner
@@ -544,6 +622,7 @@ jobs:
       - clippy
       - rustfmt
       - build
+      - sign
 
     steps:
       - name: Harden runner
@@ -619,7 +698,7 @@ jobs:
         run: |
           git config --local user.name "${{ vars.GENTOO_USERNAME }}"
           git config --local user.email "${{ vars.GENTOO_EMAIL }}"
-          git config --local user.signingkey "${{ secrets.GENTOO_KEY_ID }}"
+          git config --local user.signingkey "${{ vars.GENTOO_KEY_ID }}"
 
       - name: Prepare Git settings
         working-directory: tmp/guru
