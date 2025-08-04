@@ -1,6 +1,6 @@
 # Updates
 
-The extension and native versions should be kept in sync to avoid potential problems and
+The extension and application should be kept in sync to avoid potential problems and
 missing features. It is recommended to keep them updated to the newest available version,
 unless there are known big bugs in that release.
 

@@ -1,4 +1,4 @@
-# Requirements
+# Application Requirements
 
 ## Supported Systems
 
@@ -12,16 +12,18 @@
 * macOS (bottled Homebrew formula)
 * BSD (source installation only)[^4]
 
-## Extension Requirements
-
-* Last 2 Firefox versions *OR* Firefox ESR
-* Other Firefox-based browsers may also work[^1]
-
-## Native Requirements
+## Requirements
 
 * Windows: [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
 * macOS: Xcode Command Line Tools[^2]
 * Linux: `glibc` 2.18 or later[^3]
+
+# Extension Requirements
+
+## Supported Browsers
+
+* Last 2 Firefox versions *OR* Firefox ESR
+* Other Firefox-based browsers may also work[^1]
 
 [^1]: Check [FAQ](../help/faq.md#how-to-use-an-alternative-browser-as-a-main-browser) for additional setup.
 [^2]: Automatically installed if using Homebrew.
