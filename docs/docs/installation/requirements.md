@@ -1,6 +1,8 @@
-# Application Requirements
+# Requirements
 
-## Supported Systems
+## Application
+
+### Supported Systems
 
 * Windows (pre-built MSI installer)
 * Debian-like Linux (pre-built DEB package)
@@ -12,13 +14,13 @@
 * macOS (bottled Homebrew formula)
 * BSD (source installation only)[^4]
 
-## Requirements
+### Application Requirements
 
 * Windows: [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
 * macOS: Xcode Command Line Tools[^2]
 * Linux: `glibc` 2.18 or later[^3]
 
-# Extension Requirements
+## Extension
 
 ## Supported Browsers
 
