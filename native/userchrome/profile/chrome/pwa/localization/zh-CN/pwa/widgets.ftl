@@ -4,10 +4,10 @@
 
 toolbar-button-mute =
     .label = 声音开关
-    .tooltiptext = Toggle the page sound ({ $shortcut })
+    .tooltiptext = 切换页面声音（{ $shortcut }）
 toolbar-button-reader-view =
     .label = 阅读视图
-    .tooltiptext = Toggle the reader view ({ $shortcut })
+    .tooltiptext = 切换阅读视图（{ $shortcut }）
 toolbar-button-copy-link =
     .label = 复制链接
     .tooltiptext = 复制到此页面的链接
