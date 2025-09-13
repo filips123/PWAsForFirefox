@@ -173,14 +173,15 @@ class PwaBrowser {
       }
     }, true);
 
-    // Handle opening with Ctrl+L and Alt+D
-    document.getElementById('Browser:OpenLocation').addEventListener(
-      'command',
-      event => {
-        event.preventDefault();
-        addressInputHandle();
-      }
-    );
+    // Handle opening with Ctrl+L and Alt+D (Browser:OpenLocation)
+    window.openLocation = _ => {
+      addressInputHandle();
+    };
+
+    // Handle opening with Ctrl+K and Ctrl+J/Ctrl+E/Cmd+Opt+F (Tools:Search)
+    SearchUIUtils.webSearch = _ => {
+      addressInputHandle();
+    };
   }
 
   createNotificationAnchor () {
