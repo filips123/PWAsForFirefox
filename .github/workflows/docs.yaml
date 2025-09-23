@@ -46,6 +46,9 @@ jobs:
           python-version: '3.13'
           cache: pip
 
+      - name: Install Wrangler
+        run: npm install -g wrangler@3.x
+
       - name: Install dependencies
         run: pip install -r requirements.txt
 
