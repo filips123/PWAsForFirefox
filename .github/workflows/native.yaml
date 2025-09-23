@@ -662,6 +662,8 @@ jobs:
       - release-github
 
     steps:
+      # == Setting Environment
+
       - name: Harden runner
         uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
         with:
@@ -706,30 +708,48 @@ jobs:
           git config --local pull.ff only
           git config --local pull.rebase merges
           git config --local commit.gpgsign 1
+          git remote set-head origin master
 
       - name: Set the version
         run: |
           VERSION=${GITHUB_REF/refs\/tags\/v}
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Generate updated package
+      # == Generating New Package
+
+      - name: Generate package ebuild
         working-directory: tmp/guru/www-plugins/firefoxpwa
         run: |
-          echo "::group::Updating the package ebuild"
           cp "$GITHUB_WORKSPACE/native/packages/gentoo/firefoxpwa.ebuild" "firefoxpwa-$VERSION.ebuild"
           pycargoebuild -i "firefoxpwa-$VERSION.ebuild" -c "$GITHUB_WORKSPACE/native"
-          echo "::endgroup::"
 
-          echo "::group::Updating the package manifest"
-          ebuild "firefoxpwa-$VERSION.ebuild" manifest
-          echo "::endgroup::"
+      - name: Attest crates tarball
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
+        with:
+          subject-path: /var/cache/distfiles/firefoxpwa-*-crates.tar.xz
 
-          echo "::group::Committing the package"
+      - name: Upload crates tarball to GitHub Release
+        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.3.2
+        with:
+          fail_on_unmatched_files: true
+          files: /var/cache/distfiles/firefoxpwa-*-crates.tar.xz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update package manifest
+        working-directory: tmp/guru/www-plugins/firefoxpwa
+        run: ebuild "firefoxpwa-$VERSION.ebuild" manifest
+
+      - name: Commit package changes
+        working-directory: tmp/guru/www-plugins/firefoxpwa
+        run: |
           git add -A
           pkgdev commit --signoff
-          echo "::endgroup::"
 
-      - name: Remove old packages
+      # == Removing Old Packages
+
+      - name: Remove old ebuilds
+        id: remove-old-ebuilds
         working-directory: tmp/guru/www-plugins/firefoxpwa
         run: |
           # Set the number of ebuilds to keep
@@ -742,6 +762,7 @@ jobs:
           if [ "${#files[@]}" -le "$PRESERVE" ]
           then
             echo "No old ebuilds to remove"
+            echo "removed=false" >> $GITHUB_OUTPUT
             exit 0
           fi
 
@@ -758,44 +779,33 @@ jobs:
           mapfile -t sorted < <(echo "$timestamped" | sort -n | awk '{print $2}')
 
           # Remove all but the last few ebuilds
-          echo "::group::Removing old ebuilds"
           dropped=$((${#sorted[@]} - PRESERVE))
           for file in "${sorted[@]:0:$dropped}"
           do
             echo "Removing $file"
             rm "$file"
           done
-          echo "::endgroup::"
 
-          # Regenerate the manifest
-          echo "::group::Regenerating the manifest"
-          pkgdev manifest
-          echo "::endgroup::"
+          # Mark the ebuilds as removed
+          echo "removed=true" >> $GITHUB_OUTPUT
 
-          # Commit the changes
-          echo "::group::Committing the changes"
+      - name: Update package manifest
+        if: steps.remove-old-ebuilds.outputs.removed == 'true'
+        working-directory: tmp/guru/www-plugins/firefoxpwa
+        run: pkgdev manifest
+
+      - name: Commit package changes
+        if: steps.remove-old-ebuilds.outputs.removed == 'true'
+        working-directory: tmp/guru/www-plugins/firefoxpwa
+        run: |
           git add -A
           pkgdev commit --signoff
-          echo "::endgroup::"
 
-      - name: Attest crates tarball
-        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
-        with:
-          subject-path: /var/cache/distfiles/firefoxpwa-*-crates.tar.xz
-
-      - name: Upload crates tarball to GitHub Release
-        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.3.2
-        with:
-          fail_on_unmatched_files: true
-          files: /var/cache/distfiles/firefoxpwa-*-crates.tar.xz
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # == Pushing Changes
 
       - name: Scan package changes
         working-directory: tmp/guru/www-plugins/firefoxpwa
-        run: |
-          git remote set-head origin master
-          pkgcheck scan --net --commits
+        run: pkgcheck scan --net --commits
 
       - name: Push package changes
         uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
@@ -806,6 +816,12 @@ jobs:
           branch: "add-firefoxpwa-${{ env.VERSION }}"
           title: "www-plugins/firefoxpwa: add ${{ env.VERSION }}"
           body: ""
+
+      # == Cleanup
+
+      - name: Cleanup crates tarball
+        if: always()
+        run: rm -f /var/cache/distfiles/firefoxpwa-*-crates.tar.xz || true
 
   release-winget:
     name: Release on Windows Package Manager

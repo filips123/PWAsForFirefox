@@ -14,9 +14,14 @@ HOMEPAGE="https://pwasforfirefox.filips.si/"
 
 SRC_URI="
 	https://github.com/filips123/PWAsForFirefox/archive/v${PV}.tar.gz -> ${P}.tar.gz
-	https://github.com/filips123/PWAsForFirefox/releases/download/v${PV}/firefoxpwa-${PV}-crates.tar.xz
-	${CARGO_CRATE_URIS}
 "
+
+if [[ ${PKGBUMPING} != ${PVR} ]]; then
+	SRC_URI+="
+		https://github.com/filips123/PWAsForFirefox/releases/download/v${PV}/firefoxpwa-${PV}-crates.tar.xz
+		${CARGO_CRATE_URIS}
+	"
+fi
 
 S="${WORKDIR}/PWAsForFirefox-${PV}/native"
 
