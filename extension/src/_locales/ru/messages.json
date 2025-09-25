@@ -211,10 +211,6 @@
     "message": "Установка среды выполнения на Windows скачает <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>, если он уже не установлен. Проект 7-Zip создан Игорем Павловым и находится под лицензией <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">GNU LGPL license</a>. Наш проект ни коим образом не связан с 7-Zip или его разработчиками.",
     "description": "The notice for downloaded 7-Zip on the setup page"
   },
-  "setupPageLicenseFirefoxDownloaded": {
-    "message": "Установка среды выполнения на любые системы скачает оригинальный браузер <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> и модифицирует его. Пользуясь этим проектом, вы также соглашаетесь с <a href=\"https://www.mozilla.org/privacy/firefox/\">Условиями пользования Firefox</a>. Firefox находится под лицензией Mozilla Public License 2.0. Firefox и логотип Firefox являются торговыми марками Mozilla Foundation в США и других странах. Наш проект ни коим образом не связан с Mozilla Foundation.",
-    "description": "The notice for downloaded Firefox on the setup page"
-  },
   "setupPageLicensePrivacyPolicy": {
     "message": "Это расширение передаёт персональные данные (текущий сайт и манифесты URL-адресов, как и другие данные PWA) с приложением, где пользователь осуществляет установку PWA. Это обязательно для правильного получения и разбора манифеста веб-приложения и установки PWA. Данные хранятся на компьютере, пока PWA установлен. Никакие персональные данные не покидают компьютер и не передаются третьим лицам.",
     "description": "The privacy policy notice on the setup page"
