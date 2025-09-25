@@ -203,10 +203,6 @@
     "message": "L’installation de l’environnement d’exécution sous Windows installera <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a> s’il n'est pas déjà installé. Le projet 7-Zip est réalisé par Igor Pavlov et <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">sous la licence GNU LGPL et autres</a>. Ce projet n'est pas affilié au projet 7-Zip ou ses développeurs de quelque manière que ce soit.",
     "description": "The notice for downloaded 7-Zip on the setup page"
   },
-  "setupPageLicenseFirefoxDownloaded": {
-    "message": "L’installation de l’environnement d’exécution sur n’importe quel système téléchargera le navigateur <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> non modifié et le modifiera localement. En utilisant ce projet, vous acceptez également <a href=\"https://www.mozilla.org/privacy/firefox/\">la politique de confidentialité de Firefox</a>. Firefox utilise la licence Mozilla Public License 2.0. Firefox et le logo Firefox sont des marques déposées de la Fondation Mozilla aux États-Unis d’Amérique et dans d'autres pays. Ce projet n'est en aucun cas affilié à la Fondation Mozilla.",
-    "description": "The notice for downloaded Firefox on the setup page"
-  },
   "setupPageLicensePrivacyPolicy": {
     "message": "Cette extension échange des données personnelles (site web actuel et URLs des manifestes, ainsi que d’autres détails PWA) avec le programme natif lorsque l’utilisateur lance l'installation de la PWA. Ceci est nécessaire pour obtenir et analyser correctement le manifeste de l'application Web et installer la PWA. Les données sont stockées sur l’ordinateur tant que PWA est installée. Aucune donnée personnelle n’est stockée en dehors de l’ordinateur ou envoyée à des tierces parties.",
     "description": "The privacy policy notice on the setup page"
