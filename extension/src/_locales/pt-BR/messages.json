@@ -211,10 +211,6 @@
     "message": "A instalação do runtime no Windows instalará <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a> se ainda não estiver instalado. O projeto 7-Zip é feito por Igor Pavlov e <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">licenciado sob a licença GNU LGPL e outros</a>. Este projeto não é afiliado ao projeto 7-Zip ou seus desenvolvedores de forma alguma.",
     "description": "The notice for downloaded 7-Zip on the setup page"
   },
-  "setupPageLicenseFirefoxDownloaded": {
-    "message": "A instalação do tempo de execução em qualquer sistema fará o download do navegador <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox não modificado e o modificará</a> localmente. Ao usar este projeto, você também concorda em <a href=\"https://www.mozilla.org/privacy/firefox/\">o Aviso de Privacidade do Firefox</a>. O Firefox é licenciado sob a Mozilla Public License 2.0. Firefox e o logotipo do Firefox são marcas comerciais da Mozilla Foundation nos EUA e em outros países. Este projeto não é afiliado à Fundação Mozilla de forma alguma.",
-    "description": "The notice for downloaded Firefox on the setup page"
-  },
   "setupPageLicensePrivacyPolicy": {
     "message": "Esta extensão troca dados pessoais (URLs atuais do site e manifesto, bem como outros detalhes do PWA) com o programa nativo quando o usuário inicia a instalação do PWA. Isso é necessário para obter e analisar corretamente o Web Application Manifest e instalar o PWA. Os dados são armazenados no computador enquanto o PWA estiver instalado. Nenhum dado pessoal sai do computador ou é enviado a terceiros.",
     "description": "The privacy policy notice on the setup page"
