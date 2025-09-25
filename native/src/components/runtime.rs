@@ -261,10 +261,10 @@ impl Runtime {
         warn!("Firefox is licensed under the Mozilla Public License 2.0");
         warn!("Firefox is a trademark of the Mozilla Foundation in the U.S. and other countries");
         warn!("This project is not affiliated with the Mozilla Foundation in any way");
-        warn!(
-            "By using this project you also agree to the Firefox Privacy Notice: https://www.mozilla.org/privacy/firefox/"
-        );
-        warn!("Check the Firefox website for more details: https://www.mozilla.org/firefox/");
+        warn!("By using the runtime you agree to the Firefox Terms of Use and Privacy Notice");
+        warn!("Firefox Terms of Use: https://www.mozilla.org/about/legal/terms/firefox/");
+        warn!("Firefox Privacy Notice: https://www.mozilla.org/privacy/firefox/");
+        warn!("Firefox Website: https://www.mozilla.org/firefox/");
 
         info!("Downloading the runtime archive");
         let mut archive = NamedTempFile::new().context(TEMP_FILE_ERROR)?;

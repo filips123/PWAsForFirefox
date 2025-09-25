@@ -1852,6 +1852,7 @@ class PwaBrowser {
     xPref.set('browser.uidensity', 1, true);
     xPref.set('browser.link.open_newwindow', 1, true);
     xPref.set('datareporting.policy.firstRunURL', '', true);
+    xPref.set('termsofuse.bypassNotification', true, true);
 
     // Prevent syncing preferences that are commonly set to different values in web apps
     // In the future, we could try to implement a different syncing "channel" just for web apps

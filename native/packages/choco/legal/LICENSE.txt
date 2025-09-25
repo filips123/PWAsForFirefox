@@ -40,9 +40,10 @@ Additional open source software will be downloaded and installed at runtime when
   LGPL license and others <https://7-zip.org/license.txt>. This project is not affiliated
   with the 7-Zip project or its developers in any way.
 
-- Installing the runtime on any system will download the unmodified Mozilla Firefox
-  <https://www.mozilla.org/firefox/>, and locally modify it. By using this project you also
-  agree to the Firefox Privacy Notice <https://www.mozilla.org/privacy/firefox/>. Firefox is
-  licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks
-  of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated
-  with the Mozilla Foundation in any way.
+- Installing the runtime on any system will download the unmodified Mozilla Firefox browser
+  <https://www.mozilla.org/firefox/> and locally modify it. By using the runtime you agree
+  to the Firefox Terms of Use <https://www.mozilla.org/about/legal/terms/firefox/> and
+  Privacy Notice <https://www.mozilla.org/privacy/firefox/>. Firefox is licensed under the
+  Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla
+  Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla
+  Foundation in any way.

@@ -141,11 +141,11 @@ impl _7Zip {
         const EXEC_ERROR: &str = "Failed to execute the 7-Zip installer";
         const CLEANUP_ERROR: &str = "Failed to clean up the 7-Zip installer";
 
-        warn!(
-            "This will install 7-Zip, made by Igor Pavlov, licensed under the GNU LGPL license and others"
-        );
+        warn!("This will install 7-Zip on your system");
+        warn!("7-Zip is made by Igor Pavlov, and licensed under the GNU LGPL license and others");
         warn!("This project is not affiliated with the 7-Zip project or its developers in any way");
-        warn!("Check the 7-zip website for more details: https://7-zip.org/");
+        warn!("7-Zip License: https://7-zip.org/license.txt");
+        warn!("7-Zip Website: https://7-zip.org/");
 
         let mut installer = Builder::new()
             .prefix("firefoxpwa-7zip-")

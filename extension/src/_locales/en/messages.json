@@ -235,7 +235,7 @@
     "description": "The notice for downloaded 7-Zip on the setup page"
   },
   "setupPageLicenseFirefoxDownloaded": {
-    "message": "Installing the runtime on any system will download the unmodified <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> browser and locally modify it. By using this project, you also agree to <a href=\"https://www.mozilla.org/privacy/firefox/\">the Firefox Privacy Notice</a>. Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla Foundation in any way.",
+    "message": "Installing the runtime on any system will download the unmodified <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> browser and locally modify it. By using the runtime you agree to the Firefox <a href=\"https://www.mozilla.org/about/legal/terms/firefox/\">Terms of Use</a> and <a href=\"https://www.mozilla.org/privacy/firefox/\">Privacy Notice</a>. Firefox is licensed under the Mozilla Public License 2.0. Firefox and the Firefox logo are trademarks of the Mozilla Foundation in the U.S. and other countries. This project is not affiliated with the Mozilla Foundation in any way.",
     "description": "The notice for downloaded Firefox on the setup page"
   },
   "setupPageLicensePrivacyPolicy": {

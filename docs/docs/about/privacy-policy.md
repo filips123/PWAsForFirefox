@@ -11,7 +11,8 @@ No personal data leave the computer or are sent to third parties.
 ## Runtime Privacy Policy
 
 As installed web apps are running inside a Mozilla Firefox browser, you need to agree
-to [the Firefox Privacy Notice](https://www.mozilla.org/privacy/firefox/).
+to the Firefox [Terms of Use](https://www.mozilla.org/about/legal/terms/firefox/) and
+[Privacy Notice](https://www.mozilla.org/privacy/firefox/).
 
 ## Website Privacy Policy
 
