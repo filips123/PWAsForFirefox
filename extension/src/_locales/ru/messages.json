@@ -291,25 +291,9 @@
     "message": "Установите альтернативный Firefox-based браузер (например, LibreWolf):",
     "description": "Instructions for using alternative browser for runtime, title"
   },
-  "setupPageAdvancedOptionsAlternativeBrowserStep1": {
-    "message": "Скачайте \"portable\" архив (binary tarball) для вашего Firefox-based браузера.",
-    "description": "Instructions for using alternative browser for runtime, step 1"
-  },
-  "setupPageAdvancedOptionsAlternativeBrowserStep2": {
-    "message": "Распакуйте скачанный архив и скопируйте файлы в директорию (смотрите ниже).",
-    "description": "Instructions for using alternative browser for runtime, step 2"
-  },
-  "setupPageAdvancedOptionsAlternativeBrowserStep3": {
-    "message": "Внутри этой директории создайте symlink на основной файл браузера (например, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) как <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.",
-    "description": "Instructions for using alternative browser for runtime, step 3"
-  },
   "setupPageAdvancedOptionsOverlayTitle": {
     "message": "Связывание глобальной установки Firefox с FUSE OverlayFS:",
     "description": "Instructions for linking the runtime with FUSE OverlayFS, title"
-  },
-  "setupPageAdvancedOptionsOverlayStep1": {
-    "message": "Инструкции доступны <a href=\"https://pwasforfirefox.filips.si/help/faq/#how-to-use-fuse-overlayfs-with-the-app-browser\" target=\"_blank\">на сайте-документации</a>.",
-    "description": "Instructions for linking the runtime with FUSE OverlayFS, step 1"
   },
   "setupPageDefaultRuntimeLocationTitle": {
     "message": "Стандартное место установки среды выполнения:",
