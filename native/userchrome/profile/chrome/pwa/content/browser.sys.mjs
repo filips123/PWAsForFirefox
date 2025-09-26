@@ -511,7 +511,9 @@ class PwaBrowser {
 
     // Hide tabs/icon bar on launch if it should be hidden by default
     // Also prevent un-collapsing of tabs/icon bar by some Firefox function
-    let shownByDefault = Services.xulStore.getValue(window.document.documentURI, iconBar.id, 'collapsed') !== 'true';
+    const collapsedSet = Services.xulStore.hasValue(window.document.documentURI, iconBar.id, 'collapsed');
+    const collapsedValue = Services.xulStore.getValue(window.document.documentURI, iconBar.id, 'collapsed');
+    let shownByDefault = !collapsedSet || !(collapsedValue === 'true' || collapsedValue === '');
     if (!shownByDefault) {
       window.TabBarVisibility.update = function () {}
       titleBar?.setAttribute('autohide', 'true');
