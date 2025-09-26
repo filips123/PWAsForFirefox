@@ -295,25 +295,9 @@
     "message": "Instalando um navegador alternativo baseado em Firefox (por exemplo, Librewolf):",
     "description": "Instructions for using alternative browser for runtime, title"
   },
-  "setupPageAdvancedOptionsAlternativeBrowserStep1": {
-    "message": "Faça o download do arquivo \"portátil\" (tarball binário) para o seu navegador baseado em Firefox preferido.",
-    "description": "Instructions for using alternative browser for runtime, step 1"
-  },
-  "setupPageAdvancedOptionsAlternativeBrowserStep2": {
-    "message": "Extrair o arquivo baixado e copiar arquivos para o diretório correto (veja abaixo).",
-    "description": "Instructions for using alternative browser for runtime, step 2"
-  },
-  "setupPageAdvancedOptionsAlternativeBrowserStep3": {
-    "message": "Dentro desse diretório, crie um link simbólico para o binário principal do seu navegador (por exemplo, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) como <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.",
-    "description": "Instructions for using alternative browser for runtime, step 3"
-  },
   "setupPageAdvancedOptionsOverlayTitle": {
     "message": "Vinculando a instalação global do Firefox com o Fuse Overlayfs:",
     "description": "Instructions for linking the runtime with FUSE OverlayFS, title"
-  },
-  "setupPageAdvancedOptionsOverlayStep1": {
-    "message": "As instruções estão disponíveis <a href=\"https://pwasforfirefox.filips.si/help/faq/#how-to-use-fuse-overlayfs-with-the-app-browser\" target=\"_blank\">no site da documentação</a>.",
-    "description": "Instructions for linking the runtime with FUSE OverlayFS, step 1"
   },
   "setupPageDefaultRuntimeLocationTitle": {
     "message": "Locais de tempo de execução padrão:",
