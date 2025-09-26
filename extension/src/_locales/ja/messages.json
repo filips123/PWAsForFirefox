@@ -211,18 +211,6 @@
     "message": "Firefox ベースの代替ブラウザ（例: LibreWolf）をランタイムに使用する:",
     "description": "Instructions for using alternative browser for runtime, title"
   },
-  "setupPageAdvancedOptionsAlternativeBrowserStep1": {
-    "message": "お使いの Firefox ベースのブラウザに対応したポータブル版アーカイブ（tarball バイナリ）をダウンロードしてください。",
-    "description": "Instructions for using alternative browser for runtime, step 1"
-  },
-  "setupPageAdvancedOptionsAlternativeBrowserStep2": {
-    "message": "ダウンロードしたアーカイブを展開し、ファイルを正しいディレクトリにコピーする（下記を参照）。",
-    "description": "Instructions for using alternative browser for runtime, step 2"
-  },
-  "setupPageAdvancedOptionsAlternativeBrowserStep3": {
-    "message": "そのディレクトリの中に存在する、ブラウザのメインバイナリを探し、 (例：, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) 見つけたファイルを <kbd>firefox.exe</kbd>/<kbd>firefox</kbd> に名前を直します。",
-    "description": "Instructions for using alternative browser for runtime, step 3"
-  },
   "setupPageDefaultRuntimeLocationTitle": {
     "message": "デフォルトのランタイムの場所:",
     "description": "The title for the default runtime locations section"
