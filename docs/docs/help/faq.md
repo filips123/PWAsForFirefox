@@ -166,9 +166,24 @@ runtime](../user-guide/extension.md#patch-profiles-and-runtime) from the extensi
 
 ???+ note "Generic"
 
-    1. Download the "portable" archive (binary tarball) for your preferred Firefox-based browser.
-    2. Extract downloaded archive and copy files [to the runtime directory](../resources/installation-directories.md#runtime).
-    3. Inside that directory, symlink the main binary of your browser as `firefox.exe`/`firefox`.
+    === "Windows"
+
+        1. Download the portable archive (binary tarball) for your preferred Firefox-based browser.
+        2. Extract the downloaded archive and copy files [to the runtime directory](../resources/installation-directories.md#runtime).
+        3. Inside that directory, symlink the main binary of your browser as `firefox.exe`.
+
+    === "Linux"
+
+        1. Download the portable archive (binary tarball) for your preferred Firefox-based browser.
+        2. Extract the downloaded archive and copy files [to the runtime directory](../resources/installation-directories.md#runtime).
+        3. Inside that directory, symlink the main binary of your browser as `firefox`.
+
+    === "macOS"
+
+        1. Download the disk image for your preferred Firefox-based browser.
+        2. Extract the disk image and copy the app bundle [to the runtime directory](../resources/installation-directories.md#runtime).
+        3. Rename the app bundle in the runtime directory to `Firefox.app`.
+        4. Inside the `Firefox.app/Contents/MacOS` directory, symlink the main binary of your browser as `firefox`.
 
 ??? note "LibreWolf"
 

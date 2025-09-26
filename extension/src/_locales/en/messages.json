@@ -319,24 +319,28 @@
     "description": "Instructions for using alternative browser for runtime, title"
   },
   "setupPageAdvancedOptionsAlternativeBrowserStep1": {
-    "message": "Download the \"portable\" archive (binary tarball) for your preferred Firefox-based browser.",
+    "message": "Download the portable archive (binary tarball) for your preferred Firefox-based browser.",
     "description": "Instructions for using alternative browser for runtime, step 1"
   },
   "setupPageAdvancedOptionsAlternativeBrowserStep2": {
-    "message": "Extract downloaded archive and copy files to the correct directory (see below).",
+    "message": "Extract the downloaded archive and copy files to the correct directory (see below).",
     "description": "Instructions for using alternative browser for runtime, step 2"
   },
   "setupPageAdvancedOptionsAlternativeBrowserStep3": {
-    "message": "Inside that directory, symlink the main binary of your browser (for example, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) as <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.",
+    "message": "Inside that directory, symlink the main binary of your browser as <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.",
     "description": "Instructions for using alternative browser for runtime, step 3"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserLink": {
+    "message": "Detailed instructions are available <a href=\"https://pwasforfirefox.filips.si/help/faq/#how-to-use-an-alternative-browser-as-an-app-browser\" target=\"_blank\">on the documentation website</a>.",
+    "description": "Instructions for using alternative browser for runtime, link to the documentation"
   },
   "setupPageAdvancedOptionsOverlayTitle": {
     "message": "Linking the global Firefox installation with FUSE OverlayFS:",
     "description": "Instructions for linking the runtime with FUSE OverlayFS, title"
   },
-  "setupPageAdvancedOptionsOverlayStep1": {
-    "message": "Instructions are available <a href=\"https://pwasforfirefox.filips.si/help/faq/#how-to-use-fuse-overlayfs-with-the-app-browser\" target=\"_blank\">on the documentation website</a>.",
-    "description": "Instructions for linking the runtime with FUSE OverlayFS, step 1"
+  "setupPageAdvancedOptionsOverlayLink": {
+    "message": "Detailed instructions are available <a href=\"https://pwasforfirefox.filips.si/help/faq/#how-to-use-fuse-overlayfs-with-the-app-browser\" target=\"_blank\">on the documentation website</a>.",
+    "description": "Instructions for linking the runtime with FUSE OverlayFS, link to the documentation"
   },
   "setupPageDefaultRuntimeLocationTitle": {
     "message": "Default runtime locations:",
