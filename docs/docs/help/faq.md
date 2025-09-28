@@ -599,7 +599,7 @@ The sandbox in Firefox makes use of unprivileged user namespaces when creating n
 for enforcing more security. This can be considered a security risk, therefore some Linux
 distributions have started to restrict its usage and only allow it to work where there is
 an AppArmor profile. You can read more about this warning in [the official Mozilla
-documentation](https://support.mozilla.org/en-US/kb/install-firefox-linux#w_security-features-warning).
+documentation](https://support.mozilla.org/kb/linux-security-warning).
 
 The default AppArmor profile currently cannot cover the runtime used by PWAsForFirefox,
 so you will have to manually create a custom AppArmor profile for the runtime.
@@ -614,7 +614,7 @@ in `/etc/apparmor.d/` with the following content:
 abi <abi/4.0>,
 include <tunables/global>
 
-profile firefoxpwa /home/<USER>/.local/share/firefoxpwa/runtime/firefox/{firefox,firefox-bin,updater} flags=(unconfined) {
+profile firefoxpwa /home/<USER>/.local/share/firefoxpwa/runtime/{firefox,firefox-bin,updater} flags=(unconfined) {
   userns,
 
   # Site-specific additions and overrides. See local/README for details.
