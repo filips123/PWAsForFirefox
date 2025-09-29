@@ -3,11 +3,18 @@ const isAppleMaskIcon = link => link.getAttribute('rel').toLowerCase().includes(
 function getIconType (link) {
   const type = link.getAttribute('type')
   if (type) return type.includes('/') ? type : `image/${type}`
-  else return isAppleMaskIcon(link) ? 'image/svg+xml' : null
+  else return isAppleMaskIcon(link) ? 'image/svg+xml' : undefined
 }
 
 function getIconPurpose (link) {
   return isAppleMaskIcon(link) ? 'monochrome' : 'any'
+}
+
+function getIconSizes (link) {
+  const sizes = link.getAttribute('sizes')
+  if (sizes) return sizes
+
+  if (getIconType(link) === 'image/svg+xml') return 'any'
 }
 
 // Obtain the initial web app manifest URL
@@ -32,11 +39,12 @@ browser.runtime.onMessage.addListener((message, _, sendResponse) => {
     description: document.querySelector('meta[name=description]')?.content,
     icons: [...document.getElementsByTagName('link')]
       .filter(link => link.getAttribute('rel')?.toLowerCase().includes('icon'))
+      .filter(link => !link.media || window.matchMedia(link.media).matches)
       .map(link => ({
         src: new URL(link.getAttribute('href'), document.baseURI).href,
         type: getIconType(link),
         purpose: getIconPurpose(link),
-        sizes: link.getAttribute('sizes') || ''
+        sizes: getIconSizes(link)
       }))
   }
 
