@@ -1,12 +1,10 @@
 #![allow(dead_code)]
 
-use std::fs::File;
 use std::path::Path;
 
 use ab_glyph::{Font, FontRef, PxScale};
 use anyhow::{Context, Result, bail};
 use data_url::DataUrl;
-use ico::{IconDir, IconDirEntry, IconImage, ResourceType};
 use image::imageops::Lanczos3;
 use image::{ImageBuffer, Rgb, RgbImage, RgbaImage};
 use log::{debug, error, warn};
@@ -143,13 +141,14 @@ pub fn store_multisize_icon(
     path: &Path,
     client: &Client,
 ) -> Result<()> {
-    let mut icondir = IconDir::new(ResourceType::Icon);
+    let mut icondir = ico::IconDir::new(ico::ResourceType::Icon);
 
     for &size in sizes {
         for icon in normalize_icons(icons, &ImageSize::Fixed(size, size)) {
             if let Ok(rgba) = render_icon(icon, (size, size), client) {
-                let image = IconImage::from_rgba_data(size, size, rgba.into_raw());
-                let entry = IconDirEntry::encode(&image).context("Failed to encode ICO entry")?;
+                let image = ico::IconImage::from_rgba_data(size, size, rgba.into_raw());
+                let entry =
+                    ico::IconDirEntry::encode(&image).context("Failed to encode ICO entry")?;
 
                 icondir.add_entry(entry);
                 break;
@@ -165,13 +164,13 @@ pub fn store_multisize_icon(
         for &size in sizes {
             let icon = generate_fallback_icon(letter, &ImageSize::Fixed(size, size))
                 .context("Failed to generate fallback icon")?;
-            let image = IconImage::from_rgba_data(size, size, icon.into_raw());
-            let entry = IconDirEntry::encode(&image).context("Failed to encode ICO entry")?;
+            let image = ico::IconImage::from_rgba_data(size, size, icon.into_raw());
+            let entry = ico::IconDirEntry::encode(&image).context("Failed to encode ICO entry")?;
             icondir.add_entry(entry);
         }
     }
 
-    let mut file = File::create(path).context("Failed to create ICO file")?;
+    let mut file = std::fs::File::create(path).context("Failed to create ICO file")?;
     icondir.write(&mut file).context("Failed to write ICO file")?;
 
     Ok(())
