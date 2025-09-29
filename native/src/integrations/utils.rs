@@ -1,14 +1,14 @@
 #![allow(dead_code)]
 
-use std::cmp::Ordering;
+use std::fs::File;
 use std::path::Path;
 
 use ab_glyph::{Font, FontRef, PxScale};
 use anyhow::{Context, Result, bail};
 use data_url::DataUrl;
-use image::ColorType::Rgba8;
-use image::imageops::FilterType::Gaussian;
-use image::{ImageBuffer, Rgb, RgbImage};
+use ico::{IconDir, IconDirEntry, IconImage, ResourceType};
+use image::imageops::Lanczos3;
+use image::{ImageBuffer, Rgb, RgbImage, RgbaImage};
 use log::{debug, error, warn};
 use reqwest::blocking::Client;
 use resvg::{tiny_skia, usvg};
@@ -75,8 +75,110 @@ pub fn download_icon(url: Url, client: &Client) -> Result<(Vec<u8>, String)> {
     }
 }
 
-/// Generate an icon from a letter.
-pub fn generate_icon(letter: char, size: &ImageSize) -> Result<RgbImage> {
+/// Obtain the best available icon from the icon list and save it to a file.
+///
+/// Icons are first filtered and sorted using the [`normalize_icons`] function to
+/// determine the best matching icons for the target size.
+///
+/// Icon needs to be processed and converted to a correct format (determined from
+/// the filename). In case anything fails, the next icons are tried. If no provided
+/// icons are working, the icon is generated from the first letter of the name.
+///
+/// See [`normalize_icons`] and [`process_icon`] for more details.
+///
+/// # Parameters
+///
+/// - `icons`: A list of available icons for the web app or shortcut.
+/// - `fallback`: A web app or shortcut name. Used to generate a fallback icon.
+/// - `size`: A target icon size. Must be a valid fixed (non-zero) size variant.
+/// - `path`: A path where the icon should be saved.
+/// - `client`: An instance of a blocking HTTP client.
+///
+pub fn store_icon(
+    icons: &[IconResource],
+    fallback: &str,
+    size: &ImageSize,
+    path: &Path,
+    client: &Client,
+) -> Result<()> {
+    for icon in normalize_icons(icons, size) {
+        match process_icon(icon, size, path, client).context("Failed to process icon") {
+            Ok(_) => return Ok(()),
+            Err(error) => {
+                error!("{error:?}");
+                warn!("Falling back to the next available icon");
+            }
+        }
+    }
+
+    warn!("No compatible or working icon was found");
+    warn!("Falling back to the generated icon from the name");
+    let letter = fallback.chars().next().context("Failed to get the first letter")?;
+    let icon = generate_fallback_icon(letter, size).context("Failed to generate fallback icon")?;
+    icon.save(path).context("Failed to save generated image")?;
+    Ok(())
+}
+
+/// Create a single ICO file containing multiple sizes.
+/// Icons are first filtered and sorted using the [`normalize_icons`] function to
+/// determine the best matching icons for each target size.
+///
+/// Icon needs to be processed and converted to a correct format (determined from
+/// the filename). In case anything fails, the next icons are tried. If no provided
+/// icons are working, the icon is generated from the first letter of the name.
+///
+/// # Parameters
+///
+/// - `icons`: A list of available icons for the web app or shortcut.
+/// - `fallback`: A web app or shortcut name. Used to generate a fallback icon.
+/// - `size`: A list of target icon sizes.
+/// - `path`: A path where the icon should be saved.
+/// - `client`: An instance of a blocking HTTP client.
+///
+#[cfg(platform_windows)]
+pub fn store_multisize_icon(
+    icons: &[IconResource],
+    fallback: &str,
+    sizes: &[u32],
+    path: &Path,
+    client: &Client,
+) -> Result<()> {
+    let mut icondir = IconDir::new(ResourceType::Icon);
+
+    for &size in sizes {
+        for icon in normalize_icons(icons, &ImageSize::Fixed(size, size)) {
+            if let Ok(rgba) = render_icon(icon, (size, size), client) {
+                let image = IconImage::from_rgba_data(size, size, rgba.into_raw());
+                let entry = IconDirEntry::encode(&image).context("Failed to encode ICO entry")?;
+
+                icondir.add_entry(entry);
+                break;
+            }
+        }
+    }
+
+    if icondir.entries().is_empty() {
+        warn!("No compatible or working icon was found");
+        warn!("Falling back to the generated icon from the name");
+        let letter = fallback.chars().next().context("Failed to get the first letter")?;
+
+        for &size in sizes {
+            let icon = generate_fallback_icon(letter, &ImageSize::Fixed(size, size))
+                .context("Failed to generate fallback icon")?;
+            let image = IconImage::from_rgba_data(size, size, icon.into_raw());
+            let entry = IconDirEntry::encode(&image).context("Failed to encode ICO entry")?;
+            icondir.add_entry(entry);
+        }
+    }
+
+    let mut file = File::create(path).context("Failed to create ICO file")?;
+    icondir.write(&mut file).context("Failed to write ICO file")?;
+
+    Ok(())
+}
+
+/// Generate a fallback icon from the provided letter.
+pub fn generate_fallback_icon(letter: char, size: &ImageSize) -> Result<RgbImage> {
     // Icon must have a fixed size
     let size = match size {
         ImageSize::Fixed(a, b) => (a, b),
@@ -131,47 +233,6 @@ pub fn generate_icon(letter: char, size: &ImageSize) -> Result<RgbImage> {
     Ok(image)
 }
 
-/// Obtain and process the best available icon from the icon list.
-///
-/// Icon needs to be processed and converted to a correct format (determined from
-/// the filename). In case anything fails, the next icons are tried. If no provided
-/// icons are working, the icon is generated from the first letter of the name.
-///
-/// See [`normalize_icons`] and [`process_icon`] for more details.
-///
-/// # Parameters
-///
-/// - `icons`: A list of available icons for the web app or shortcut.
-/// - `fallback`:  A web app or shortcut name. Used to generate a fallback icon.
-/// - `size`: A target icon size. Must be a valid fixed (non-zero) size variant.
-/// - `path`:  A path where the icon should be saved.
-/// - `client`: An instance of a blocking HTTP client.
-///
-pub fn process_icons(
-    icons: &[IconResource],
-    fallback: &str,
-    size: &ImageSize,
-    path: &Path,
-    client: &Client,
-) -> Result<()> {
-    for icon in normalize_icons(icons, size) {
-        match process_icon(icon, size, path, client).context("Failed to process icon") {
-            Ok(_) => return Ok(()),
-            Err(error) => {
-                error!("{error:?}");
-                warn!("Falling back to the next available icon");
-            }
-        }
-    }
-
-    warn!("No compatible or working icon was found");
-    warn!("Falling back to the generated icon from the name");
-    let letter = fallback.chars().next().context("Failed to get the first letter")?;
-    let icon = generate_icon(letter, size).context("Failed to generate icon")?;
-    icon.save(path).context("Failed to save generated image")?;
-    Ok(())
-}
-
 //////////////////////////////
 // Internal
 //////////////////////////////
@@ -192,27 +253,33 @@ fn is_icon_supported(icon: &&IconResource) -> bool {
 
 /// Filter out all incompatible icons and sort them.
 ///
-/// All icons are first filtered to remove unsupported icons, and then sorted
-/// by their largest size. Icons larger than the target icon size are sorted
-/// in the ascending order, and others are sorted in descending.
+/// Icons are first filtered to remove icons without the `any` purpose and
+/// then sorted depending on their sizes.
+///
+/// Icons that match the target size exactly are preferred the most, followed
+/// by icons with the `any` size. Next are icons larger than the target size
+/// in the ascending order, and finally, icons smaller than the target size
+/// in the descending order. Any icons without known sizes are placed last.
 fn normalize_icons<'a>(icons: &'a [IconResource], size: &'a ImageSize) -> Vec<&'a IconResource> {
     let mut icons: Vec<&IconResource> = icons.iter().filter(is_icon_supported).collect();
 
-    icons.sort_by(|icon1, icon2| {
-        let size1 = icon1.sizes.iter().max();
-        let size2 = icon2.sizes.iter().max();
+    let key = |icon: &IconResource| {
+        use std::cmp::Reverse;
 
-        if size1.is_none() || size2.is_none() {
-            return Ordering::Equal;
-        };
+        if icon.sizes.contains(size) {
+            (0, None, None)
+        } else if icon.sizes.contains(&ImageSize::Any) {
+            (1, None, None)
+        } else if let Some(smallest_larger) = icon.sizes.iter().filter(|s| *s >= size).min() {
+            (2, Some(*smallest_larger), None)
+        } else if let Some(largest_smaller) = icon.sizes.iter().filter(|s| *s <= size).max() {
+            (3, None, Some(Reverse(*largest_smaller)))
+        } else {
+            (4, None, None)
+        }
+    };
 
-        // Unwrap is safe, because sizes is checked above
-        let size1 = size1.unwrap();
-        let size2 = size2.unwrap();
-
-        if size1 >= size && size2 >= size { size1.cmp(size2) } else { size1.cmp(size2).reverse() }
-    });
-
+    icons.sort_by_key(|icon| key(icon));
     icons
 }
 
@@ -235,25 +302,36 @@ fn process_icon(icon: &IconResource, size: &ImageSize, path: &Path, client: &Cli
         _ => bail!("A fixed image size variant must be provided"),
     };
 
-    let url: Url = icon.src.clone().try_into().context("Failed to convert icon URL")?;
-    debug!("Processing icon {url}");
+    let img = render_icon(icon, size, client)?;
+    img.save(path).context("Failed to save icon")?;
 
-    // Download icon and get its content type
+    Ok(())
+}
+
+/// Download and render an icon into an RGBA image buffer of the given size.
+fn render_icon(icon: &IconResource, size: (u32, u32), client: &Client) -> Result<RgbaImage> {
+    let url: Url = icon.src.clone().try_into().context("Failed to convert icon URL")?;
+    debug!("Rendering icon {url} to {}x{}", size.0, size.1);
+
+    // Download the icon and get its content type
     let (content, content_type) = download_icon(url, client).context("Failed to download icon")?;
 
     if content_type == "image/svg+xml" {
         // Parse and render SVG icons using `resvg` crate
-        debug!("Processing as SVG icon");
+        debug!("Rendering as SVG icon");
 
         let mut pixmap = tiny_skia::Pixmap::new(size.0, size.1).context("Invalid target size")?;
 
         let mut opt = usvg::Options::default();
 
+        // Load the system font database
         opt.fontdb_mut().load_system_fonts();
 
+        // Prevent resolving external resources
         let resolver = Box::new(move |_: &str, _: &usvg::Options| None);
         opt.image_href_resolver.resolve_string = resolver;
 
+        // Parse the icon source
         let tree = usvg::Tree::from_data(&content, &opt).context("Failed to parse SVG icon")?;
 
         let transform = tiny_skia::Transform::from_scale(
@@ -261,19 +339,19 @@ fn process_icon(icon: &IconResource, size: &ImageSize, path: &Path, client: &Cli
             size.1 as f32 / tree.size().height(),
         );
 
+        // Render the icon to the target size
         resvg::render(&tree, transform, &mut pixmap.as_mut());
 
-        image::save_buffer(path, pixmap.data(), size.0, size.1, Rgba8)
-            .context("Failed to save SVG icon")?;
+        // Load the icon into an RGBA image
+        let img = RgbaImage::from_raw(size.0, size.1, pixmap.take())
+            .context("Failed to load SVG icon")?;
 
-        return Ok(());
+        return Ok(img);
     }
 
-    // Parse raster icons using the `image` crate, resize them and store them to a file
-    debug!("Processing as raster icon");
-    let mut img = image::load_from_memory(&content).context("Failed to load raster icon")?;
-    img = img.resize(size.0, size.1, Gaussian);
-    img.save(path).context("Failed to save raster icon")?;
-
-    Ok(())
+    // Load raster icons using the `image` crate and resize them
+    debug!("Rendering as raster icon");
+    let img = image::load_from_memory(&content).context("Failed to load raster icon")?;
+    let img = img.resize(size.0, size.1, Lanczos3).into_rgba8();
+    Ok(img)
 }
