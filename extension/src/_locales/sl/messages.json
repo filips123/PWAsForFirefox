@@ -311,6 +311,26 @@
     "message": "Vnesite regex izključenih URL-jev",
     "description": "The placeholder for auto launch exclusion"
   },
+  "managePageSettingsDefaultTab": {
+    "message": "Privzeti zavihek",
+    "description": "The setting for default tab"
+  },
+  "managePageSettingsDefaultTabSiteGrid": {
+    "message": "Mreža aplikacij",
+    "description": "The option to select web app grid as default tab"
+  },
+  "managePageSettingsDefaultTabSiteList": {
+    "message": "Seznam aplikacij",
+    "description": "The option to select web app list as default tab"
+  },
+  "managePageSettingsDefaultTabProfiles": {
+    "message": "Profili",
+    "description": "The option to select profiles as default tab"
+  },
+  "managePageSettingsDefaultTabSettings": {
+    "message": "Nastavitve",
+    "description": "The option to select settings as default tab"
+  },
   "managePageSettingsLanguage": {
     "message": "Jezik",
     "description": "The setting for language"

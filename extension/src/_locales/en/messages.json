@@ -884,6 +884,26 @@
     "message": "Enter a regex of excluded URLs",
     "description": "The placeholder for auto launch exclusion"
   },
+  "managePageSettingsDefaultTab": {
+    "message": "Default tab",
+    "description": "The setting for default tab"
+  },
+  "managePageSettingsDefaultTabSiteGrid": {
+    "message": "Web app grid",
+    "description": "The option to select web app grid as default tab"
+  },
+  "managePageSettingsDefaultTabSiteList": {
+    "message": "Web app list",
+    "description": "The option to select web app list as default tab"
+  },
+  "managePageSettingsDefaultTabProfiles": {
+    "message": "Profiles",
+    "description": "The option to select profiles as default tab"
+  },
+  "managePageSettingsDefaultTabSettings": {
+    "message": "Settings",
+    "description": "The option to select settings as default tab"
+  },
   "managePageSettingsLanguage": {
     "message": "Language",
     "description": "The setting for language"

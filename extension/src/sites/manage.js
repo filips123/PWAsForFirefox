@@ -20,6 +20,7 @@ import {
   obtainSiteList,
   PREF_AUTO_LAUNCH_EXCLUSION,
   PREF_DEFAULT_PROFILE_TEMPLATE,
+  PREF_DEFAULT_TAB,
   PREF_DISPLAY_PAGE_ACTION,
   PREF_ENABLE_AUTO_LAUNCH,
   PREF_LAUNCH_CURRENT_URL,
@@ -49,6 +50,30 @@ async function handleNativeStatus () {
       document.getElementById('extension-outdated-close').addEventListener('click', () => outdatedBox.classList.add('d-none'))
       outdatedBox.classList.remove('d-none')
     }
+      break
+  }
+}
+
+// Set a default tab based on the setting
+async function setDefaultTab () {
+  const settingsDefaultTab = (await browser.storage.local.get([PREF_DEFAULT_TAB]))[PREF_DEFAULT_TAB] ?? 'site-grid'
+
+  switch (settingsDefaultTab) {
+    case 'site-grid':
+      document.getElementById('grid-tab').classList.add('active')
+      document.getElementById('grid-pane').classList.add('show', 'active')
+      break
+    case 'site-list':
+      document.getElementById('sites-tab').classList.add('active')
+      document.getElementById('sites-pane').classList.add('show', 'active')
+      break
+    case 'profiles':
+      document.getElementById('profiles-tab').classList.add('active')
+      document.getElementById('profiles-pane').classList.add('show', 'active')
+      break
+    case 'settings':
+      document.getElementById('settings-tab').classList.add('active')
+      document.getElementById('settings-pane').classList.add('show', 'active')
       break
   }
 }
@@ -842,7 +867,7 @@ async function handleSearch () {
 // Handle extension settings
 async function handleSettings (hasChanged = false) {
   // Get settings from local storage and media query
-  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL, PREF_SHOW_UPDATE_POPUP, PREF_ENABLE_AUTO_LAUNCH, PREF_DEFAULT_PROFILE_TEMPLATE, PREF_AUTO_LAUNCH_EXCLUSION])
+  const settings = await browser.storage.local.get([PREF_DISPLAY_PAGE_ACTION, PREF_LAUNCH_CURRENT_URL, PREF_SHOW_UPDATE_POPUP, PREF_ENABLE_AUTO_LAUNCH, PREF_DEFAULT_PROFILE_TEMPLATE, PREF_AUTO_LAUNCH_EXCLUSION, PREF_DEFAULT_TAB])
   const settingsDisplayPageAction = settings[PREF_DISPLAY_PAGE_ACTION] ? settings[PREF_DISPLAY_PAGE_ACTION] : 'valid'
   const settingsLaunchCurrentUrl = settings[PREF_LAUNCH_CURRENT_URL] !== undefined ? settings[PREF_LAUNCH_CURRENT_URL] : true
   const settingsShowUpdatePopup = settings[PREF_SHOW_UPDATE_POPUP] !== undefined ? settings[PREF_SHOW_UPDATE_POPUP] : true
@@ -850,6 +875,7 @@ async function handleSettings (hasChanged = false) {
   const settingsEnableDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
   const settingsDefaultProfileTemplate = settings[PREF_DEFAULT_PROFILE_TEMPLATE] || null
   const settingsAutoLaunchExclusion = settings[PREF_AUTO_LAUNCH_EXCLUSION] || null
+  const settingsDefaultTab = settings[PREF_DEFAULT_TAB] ?? 'site-grid'
 
   // Set settings input values
   document.getElementById('settings-display-page-action').querySelector(`#settings-display-page-action-${settingsDisplayPageAction}`).checked = true
@@ -859,6 +885,7 @@ async function handleSettings (hasChanged = false) {
   document.getElementById('settings-enable-dark-mode').checked = settingsEnableDarkMode
   document.getElementById('settings-default-profile-template').value = settingsDefaultProfileTemplate
   document.getElementById('settings-auto-launch-exclusion').value = settingsAutoLaunchExclusion
+  document.getElementById('settings-default-tab').value = settingsDefaultTab
 
   // Do not re-register listeners
   if (hasChanged) return
@@ -919,6 +946,11 @@ async function handleSettings (hasChanged = false) {
   // Listen for auto launch exclusion input changes
   document.getElementById('settings-auto-launch-exclusion').addEventListener('change', async function () {
     await browser.storage.local.set({ [PREF_AUTO_LAUNCH_EXCLUSION]: this.value || null })
+  })
+
+  // Handle default tab selection
+  document.getElementById('settings-default-tab').addEventListener('change', async function () {
+    await browser.storage.local.set({ [PREF_DEFAULT_TAB]: this.value })
   })
 
   // Handle language selection
@@ -1119,6 +1151,7 @@ handleNativeStatus()
 for (const element of document.querySelectorAll('.form-select-tags')) { element.tagsInstance = new Tags(element) }
 Tab.getOrCreateInstance(document.getElementById('card-navigation'))
 setPopupSize()
+setDefaultTab()
 createSiteList()
 createProfileList()
 handleSearch()
