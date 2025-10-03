@@ -2,8 +2,8 @@ import '../utils/i18nHtml'
 
 import { iframeResize } from 'iframe-resizer'
 
-import { isAutoRuntimeInstallSupported } from '../utils'
-import { getMessage } from '../utils/i18n'
+import { isAutoRuntimeInstallSupported, PREF_LOCALE } from '../utils'
+import { getAllLocales, getCurrentLocale, getMessage } from '../utils/i18n'
 
 const iframeResizer = iframeResize({}, '#connector-instructions')[0].iFrameResizer
 
@@ -159,3 +159,23 @@ async function startWizard () {
 }
 
 startWizard()
+
+/*****************************
+ Language Switcher
+ ****************************/
+
+async function handleLanguageSwitcher () {
+  const languageElement = document.getElementById('setup-language')
+  const languageNames = new Intl.DisplayNames(['en'], { type: 'language', languageDisplay: 'standard' })
+  const allLocales = getAllLocales().map(code => [languageNames.of(code), code]).sort((a, b) => a[0].localeCompare(b[0], 'en'))
+  const currentLocale = await getCurrentLocale()
+  for (const [name, code] of allLocales) {
+    languageElement.append(new Option(name, code, code === currentLocale, code === currentLocale))
+  }
+  languageElement.addEventListener('change', async function () {
+    await browser.storage.local.set({ [PREF_LOCALE]: this.value })
+    window.location.reload()
+  })
+}
+
+handleLanguageSwitcher()
