@@ -8,7 +8,7 @@
     "description": "The short name of the application, should not be translated"
   },
   "appDescription": {
-    "message": "Uma ferramenta para instalar, gerenciar e usar aplicativos da Web Progressivo (PWAs) em Mozilla Firefox",
+    "message": "Uma ferramenta para instalar, gerenciar e usar Aplicativos Web Progressivos (PWAs) no Mozilla Firefox",
     "description": "The description of the application"
   },
   "actionInstallSite": {
@@ -842,6 +842,26 @@
   "managePageSettingsAutoLaunchExclusionPlaceholder": {
     "message": "Digite um regex de URLs excluídos",
     "description": "The placeholder for auto launch exclusion"
+  },
+  "managePageSettingsDefaultTab": {
+    "message": "Aba padrão",
+    "description": "The setting for default tab"
+  },
+  "managePageSettingsDefaultTabSiteGrid": {
+    "message": "Grade de aplicativos da Web",
+    "description": "The option to select web app grid as default tab"
+  },
+  "managePageSettingsDefaultTabSiteList": {
+    "message": "Lista de aplicativos da Web",
+    "description": "The option to select web app list as default tab"
+  },
+  "managePageSettingsDefaultTabProfiles": {
+    "message": "Perfis",
+    "description": "The option to select profiles as default tab"
+  },
+  "managePageSettingsDefaultTabSettings": {
+    "message": "Configurações",
+    "description": "The option to select settings as default tab"
   },
   "managePageSettingsLanguage": {
     "message": "Linguagem",
