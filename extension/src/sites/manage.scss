@@ -93,7 +93,7 @@ html, body {
 
 #grid-list {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 0.25rem;
   padding: 0.25rem;
   margin: 0 auto;
@@ -110,6 +110,7 @@ html, body {
   position: relative;
   cursor: pointer;
   height: 85px;
+  width: 95px;
 
   .site-icon, .list-group-item-name {
     transition: opacity 0.2s ease-in-out;
@@ -186,6 +187,10 @@ html, body {
   &.active .grid-item-buttons {
     display: block;
   }
+}
+
+.grid-status {
+  padding: 0.5rem 0.75rem;
 }
 
 //////////////////////////////

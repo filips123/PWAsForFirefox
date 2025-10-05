@@ -9,7 +9,7 @@ use log::warn;
 use web_app_manifest::types::ImageSize;
 
 use crate::integrations::categories::PORTABLEAPPS_CATEGORIES;
-use crate::integrations::utils::{normalize_category_name, process_icons};
+use crate::integrations::utils::{normalize_category_name, store_icon, store_multisize_icon};
 use crate::integrations::{IntegrationInstallArgs, IntegrationUninstallArgs};
 use crate::utils::sanitize_string;
 
@@ -95,7 +95,6 @@ fn store_icons(args: &IntegrationInstallArgs, path: &Path) -> Result<()> {
         PortableAppIcon { size: 75, format: "png" },
         PortableAppIcon { size: 128, format: "png" },
         PortableAppIcon { size: 256, format: "png" },
-        PortableAppIcon { size: 256, format: "ico" },
     ];
 
     let icons = &args.site.icons();
@@ -103,8 +102,12 @@ fn store_icons(args: &IntegrationInstallArgs, path: &Path) -> Result<()> {
     let client = args.client.unwrap();
 
     for icon in required {
-        process_icons(icons, fallback, &icon.size(), &path.join(icon.filename()), client)?;
+        store_icon(icons, fallback, &icon.size(), &path.join(icon.filename()), client)?;
     }
+
+    // Skip sizes 32 and smaller as that causes bad rendering
+    let sizes = [48, 64, 128, 256];
+    store_multisize_icon(icons, fallback, &sizes, &path.join("appicon.ico"), client)?;
 
     Ok(())
 }

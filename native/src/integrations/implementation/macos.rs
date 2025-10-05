@@ -7,7 +7,7 @@ use std::process::{Child, Command, Stdio};
 
 use anyhow::{Context, Result, bail};
 use icns::{IconFamily, IconType, Image, PixelFormat};
-use image::imageops::FilterType::Gaussian;
+use image::imageops::FilterType::Lanczos3;
 use image::imageops::resize;
 use image::{DynamicImage, Rgba, RgbaImage};
 use log::{debug, error, warn};
@@ -21,7 +21,7 @@ use crate::components::site::Site;
 use crate::integrations::categories::MACOS_CATEGORIES;
 use crate::integrations::utils::{
     download_icon,
-    generate_icon,
+    generate_fallback_icon,
     normalize_category_name,
     sanitize_name,
 };
@@ -44,7 +44,7 @@ const STORE_ICONS_ERROR: &str = "Failed to store icons";
 const LAUNCH_APPLICATION_BUNDLE: &str = "Failed to launch web app via system integration";
 const APP_BUNDLE_NAME_ERROR: &str = "Failed to get name of app bundle";
 const APP_BUNDLE_UNICODE_ERROR: &str = "Failed to check name of app bundle for Unicode validity";
-const GENERATE_ICON_ERROR: &str = "Failed to generate icon";
+const GENERATE_FALLBACK_ICON_ERROR: &str = "Failed to generate fallback icon";
 const GET_LETTER_ERROR: &str = "Failed to get first letter";
 
 const ICON_SAFE_ZONE_FACTOR: f64 = 0.697265625;
@@ -221,7 +221,8 @@ fn store_icons(target: &Path, name: &str, icons: &[IconResource], client: &Clien
 
         for size in &icon_sizes {
             let image_size = ImageSize::Fixed(size.size(), size.size());
-            let image_data = generate_icon(letter, &image_size).context(GENERATE_ICON_ERROR)?;
+            let image_data = generate_fallback_icon(letter, &image_size)
+                .context(GENERATE_FALLBACK_ICON_ERROR)?;
 
             let mut img = DynamicImage::ImageRgb8(image_data).into_rgba8();
             mask_icon(&mut img, true).context(MASK_ICON_ERROR)?;
@@ -270,7 +271,7 @@ fn load_icon(content: &[u8], content_type: &str, size: u32) -> Result<RgbaImage>
     // Parse raster icons using the `image` crate and resize it to the correct size
     debug!("Processing as raster icon");
     let img = image::load_from_memory(content).context("Failed to load raster icon")?;
-    let img = img.resize_to_fill(size, size, Gaussian).into_rgba8();
+    let img = img.resize_to_fill(size, size, Lanczos3).into_rgba8();
     Ok(img)
 }
 
@@ -286,8 +287,8 @@ fn mask_icon(icon: &mut RgbaImage, maskable: bool) -> Result<()> {
     let icon_size = Point { x: icon.width(), y: icon.height() };
     let mask = image::load_from_memory(include_bytes!("../../../assets/icon-mask-macos.png"))?;
     let shadow = image::load_from_memory(include_bytes!("../../../assets/icon-shadow-macos.png"))?;
-    let scaled_mask = mask.resize(icon_size.x, icon_size.y, Gaussian); // This is really slow in debug builds, up to ~1s
-    let scaled_shadow = shadow.resize(icon_size.x, icon_size.y, Gaussian); // This is really slow in debug builds, up to ~1s
+    let scaled_mask = mask.resize(icon_size.x, icon_size.y, Lanczos3); // This is really slow in debug builds, up to ~1s
+    let scaled_shadow = shadow.resize(icon_size.x, icon_size.y, Lanczos3); // This is really slow in debug builds, up to ~1s
     let mask_data = scaled_mask.into_rgba8();
     let shadow_data = scaled_shadow.into_rgba8();
 
@@ -308,7 +309,7 @@ fn mask_icon(icon: &mut RgbaImage, maskable: bool) -> Result<()> {
     let scaled_icon_data: RgbaImage = if maskable {
         icon.clone()
     } else {
-        resize(icon, scaled_icon_size.x, scaled_icon_size.y, Gaussian)
+        resize(icon, scaled_icon_size.x, scaled_icon_size.y, Lanczos3)
     };
 
     let background = RgbaImage::from_pixel(icon_size.x, icon_size.y, Rgba([255, 255, 255, 255]));

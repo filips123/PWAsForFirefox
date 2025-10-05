@@ -106,17 +106,16 @@
                       </div>
                       <div style="padding-left: 1rem;" class="pb-1">
                         <strong data-i18n="setupPageAdvancedOptionsAlternativeBrowserTitle"></strong>
-                        <ol>
+                        <ol class="mb-0">
                           <li data-i18n="setupPageAdvancedOptionsAlternativeBrowserStep1"></li>
                           <li data-i18n="setupPageAdvancedOptionsAlternativeBrowserStep2"></li>
                           <li data-i18n="setupPageAdvancedOptionsAlternativeBrowserStep3"></li>
                         </ol>
+                        <p class="ps-3" data-i18n="setupPageAdvancedOptionsAlternativeBrowserLink"></p>
                       </div>
                       <div style="padding-left: 1rem;" class="pb-1">
                         <strong data-i18n="setupPageAdvancedOptionsOverlayTitle"></strong>
-                        <ol>
-                          <li data-i18n="setupPageAdvancedOptionsOverlayStep1"></li>
-                        </ol>
+                        <p class="ps-3" data-i18n="setupPageAdvancedOptionsOverlayLink"></p>
                       </div>
                       <div style="padding-left: 1rem;" class="pb-1">
                         <strong data-i18n="setupPageDefaultRuntimeLocationTitle"></strong>
@@ -133,6 +132,12 @@
                 <!-- Ready -->
                 <div id="ready-view" class="px-3 d-none">
                   <p data-i18n="setupPageReady"></p>
+                </div>
+
+                <!-- Language Switcher -->
+                <div class="language-switcher mx-auto text-center">
+                  <label class="fw-bold mb-2" for="setup-language" data-i18n="managePageSettingsLanguage"></label>
+                  <select class="form-select form-select-sm" id="setup-language"></select>
                 </div>
 
               </div>

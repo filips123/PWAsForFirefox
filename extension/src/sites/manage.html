@@ -13,7 +13,7 @@
       <div class="card-header sticky-top">
         <nav>
           <div class="nav nav-tabs card-header-tabs" id="card-navigation" role="tablist">
-            <button class="nav-link active icon-link py-0 bi-grid-3x3-gap-fill" id="grid-tab" data-bs-toggle="tab" data-bs-target="#grid-pane" type="button" role="tab" aria-controls="grid-pane" aria-selected="true" data-i18n data-i18n-title="managePageTabGrid" data-i18n-aria-label="managePageTabGrid"></button>
+            <button class="nav-link icon-link py-0 bi-grid-3x3-gap-fill" id="grid-tab" data-bs-toggle="tab" data-bs-target="#grid-pane" type="button" role="tab" aria-controls="grid-pane" aria-selected="true" data-i18n data-i18n-title="managePageTabGrid" data-i18n-aria-label="managePageTabGrid"></button>
             <button class="nav-link" id="sites-tab" data-bs-toggle="tab" data-bs-target="#sites-pane" type="button" role="tab" aria-controls="sites-pane" aria-selected="false" data-i18n="managePageTabApps"></button>
             <button class="nav-link" id="profiles-tab" data-bs-toggle="tab" data-bs-target="#profiles-pane" type="button" role="tab" aria-controls="profiles-pane" aria-selected="false" data-i18n="managePageTabProfiles"></button>
             <button class="nav-link icon-link ms-auto py-0 bi-gear-fill lead" id="settings-tab" data-bs-toggle="tab" data-bs-target="#settings-pane" type="button" role="tab" aria-controls="settings-pane" aria-selected="false" data-i18n data-i18n-title="managePageTabSettings" data-i18n-aria-label="managePageTabSettings"></button>
@@ -23,7 +23,7 @@
 
       <div class="card-body">
         <div class="tab-content">
-          <div class="tab-pane fade show active" id="grid-pane" role="tabpanel" aria-labelledby="grid-tab">
+          <div class="tab-pane fade" id="grid-pane" role="tabpanel" aria-labelledby="grid-tab">
             <div class="list-group list-group-flush list-group-border-last" id="grid-list">
               <template id="grid-list-template">
                 <div class="grid-item">
@@ -41,16 +41,12 @@
                   </div>
                 </div>
               </template>
-              <div class="list-group-item justify-content-between align-items-start d-flex" id="grid-list-loading">
-                <div>
-                  <div><em data-i18n="commonLoading"></em></div>
-                </div>
-              </div>
-              <div class="list-group-item justify-content-between align-items-start d-flex d-none" id="grid-list-empty">
-                <div>
-                  <div><em data-i18n="managePageAppListEmpty"></em></div>
-                </div>
-              </div>
+            </div>
+            <div class="grid-status" id="grid-list-loading">
+              <div><em data-i18n="commonLoading"></em></div>
+            </div>
+            <div class="grid-status d-none" id="grid-list-empty">
+              <div><em data-i18n="managePageAppListEmpty"></em></div>
             </div>
           </div>
 
@@ -260,6 +256,18 @@
                 <div>
                   <label class="fw-bold mb-0" for="settings-auto-launch-exclusion" data-i18n="managePageSettingsAutoLaunchExclusion"></label>
                   <input type="text" class="form-control form-control-sm" id="settings-auto-launch-exclusion" data-i18n data-i18n-placeholder="managePageSettingsAutoLaunchExclusionPlaceholder" />
+                </div>
+              </div>
+
+              <div class="list-group-item">
+                <div>
+                  <label class="fw-bold mb-0" for="settings-default-tab" data-i18n="managePageSettingsDefaultTab"></label>
+                  <select class="form-select form-select-sm" id="settings-default-tab">
+                    <option value="site-grid" data-i18n="managePageSettingsDefaultTabSiteGrid" selected></option>
+                    <option value="site-list" data-i18n="managePageSettingsDefaultTabSiteList"></option>
+                    <option value="profiles" data-i18n="managePageSettingsDefaultTabProfiles"></option>
+                    <option value="settings" data-i18n="managePageSettingsDefaultTabSettings"></option>
+                  </select>
                 </div>
               </div>
 
