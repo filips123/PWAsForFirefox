@@ -714,6 +714,7 @@ jobs:
         run: |
           VERSION=${GITHUB_REF/refs\/tags\/v}
           echo "VERSION=$VERSION" >> $GITHUB_ENV
+          sed -i "s/version = \"0.0.0\"/version = \"$VERSION\"/g" "$GITHUB_WORKSPACE/native/Cargo.toml"
 
       # == Generating New Package
 
