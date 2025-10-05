@@ -212,7 +212,7 @@
     "description": "The notice for downloaded 7-Zip on the setup page"
   },
   "setupPageLicenseFirefoxDownloaded": {
-    "message": "A instalação do tempo de execução em qualquer sistema fará o download do navegador <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox não modificado e o modificará</a> localmente. Ao usar este projeto, você também concorda em <a href=\"https://www.mozilla.org/privacy/firefox/\">o Aviso de Privacidade do Firefox</a>. O Firefox é licenciado sob a Mozilla Public License 2.0. Firefox e o logotipo do Firefox são marcas comerciais da Mozilla Foundation nos EUA e em outros países. Este projeto não é afiliado à Fundação Mozilla de forma alguma.",
+    "message": "A instalação do runtime em qualquer sistema baixará o navegador <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> sem modificações e o modificará localmente. Ao usar o runtime, você concorda com os <a href=\"https://www.mozilla.org/about/legal/terms/firefox/\">Termos de Uso</a> e o <a href=\"https://www.mozilla.org/privacy/firefox/\">Aviso de Privacidade</a> do Firefox. O Firefox é licenciado sob a Mozilla Public License 2.0. Firefox e o logotipo do Firefox são marcas registradas da Mozilla Foundation nos Eua e em outros países. Este projeto não possui qualquer vínculo com a Mozilla Foundation.",
     "description": "The notice for downloaded Firefox on the setup page"
   },
   "setupPageLicensePrivacyPolicy": {
@@ -296,24 +296,28 @@
     "description": "Instructions for using alternative browser for runtime, title"
   },
   "setupPageAdvancedOptionsAlternativeBrowserStep1": {
-    "message": "Faça o download do arquivo \"portátil\" (tarball binário) para o seu navegador baseado em Firefox preferido.",
+    "message": "Baixe o arquivo portátil (tarball binário) para o navegador baseado no Firefox de sua preferência.",
     "description": "Instructions for using alternative browser for runtime, step 1"
   },
   "setupPageAdvancedOptionsAlternativeBrowserStep2": {
-    "message": "Extrair o arquivo baixado e copiar arquivos para o diretório correto (veja abaixo).",
+    "message": "Extraia o arquivo baixado e copie os arquivos para o diretório correto (veja abaixo).",
     "description": "Instructions for using alternative browser for runtime, step 2"
   },
   "setupPageAdvancedOptionsAlternativeBrowserStep3": {
-    "message": "Dentro desse diretório, crie um link simbólico para o binário principal do seu navegador (por exemplo, <kbd>librewolf.exe</kbd>/<kbd>librewolf-bin</kbd>) como <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.",
+    "message": "Dentro desse diretório, crie um link simbólico para o binário principal do seu navegador como <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.",
     "description": "Instructions for using alternative browser for runtime, step 3"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserLink": {
+    "message": "Instruções detalhadas estão disponíveis <a href=\"https://pwasforfirefox.filips.si/help/faq/#how-to-use-an-alternative-browser-as-an-app-browser\" target=\"_blank\">no site de documentação</a>.",
+    "description": "Instructions for using alternative browser for runtime, link to the documentation"
   },
   "setupPageAdvancedOptionsOverlayTitle": {
     "message": "Vinculando a instalação global do Firefox com o Fuse Overlayfs:",
     "description": "Instructions for linking the runtime with FUSE OverlayFS, title"
   },
-  "setupPageAdvancedOptionsOverlayStep1": {
-    "message": "As instruções estão disponíveis <a href=\"https://pwasforfirefox.filips.si/help/faq/#how-to-use-fuse-overlayfs-with-the-app-browser\" target=\"_blank\">no site da documentação</a>.",
-    "description": "Instructions for linking the runtime with FUSE OverlayFS, step 1"
+  "setupPageAdvancedOptionsOverlayLink": {
+    "message": "Instruções detalhadas estão disponíveis <a href=\"https://pwasforfirefox.filips.si/help/faq/#how-to-use-fuse-overlayfs-with-the-app-browser\" target=\"_blank\">no site de documentação</a>.",
+    "description": "Instructions for linking the runtime with FUSE OverlayFS, link to the documentation"
   },
   "setupPageDefaultRuntimeLocationTitle": {
     "message": "Locais de tempo de execução padrão:",
