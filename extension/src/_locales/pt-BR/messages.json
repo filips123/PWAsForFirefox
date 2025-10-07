@@ -216,7 +216,7 @@
     "description": "The notice for downloaded Firefox on the setup page"
   },
   "setupPageLicensePrivacyPolicy": {
-    "message": "Esta extensão troca dados pessoais (URLs atuais do site e manifesto, bem como outros detalhes do PWA) com o programa nativo quando o usuário inicia a instalação do PWA. Isso é necessário para obter e analisar corretamente o Web Application Manifest e instalar o PWA. Os dados são armazenados no computador enquanto o PWA estiver instalado. Nenhum dado pessoal sai do computador ou é enviado a terceiros.",
+    "message": "A extensão troca dados pessoais (URLs do site atual e do manifesto, assim como outros detalhes do PWA) com o programa nativo quando o usuário inicia a instalação do aplicativo web. Isso é necessário para obter e interpretar corretamente o Manifesto da Aplicação Web e instalar o aplicativo web. Os dados são armazenados no computador enquanto o aplicativo web estiver instalado. Nenhum dado pessoal sai do computador ou é enviado a terceiros.",
     "description": "The privacy policy notice on the setup page"
   },
   "setupPageLicenseLinks": {
