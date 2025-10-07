@@ -291,9 +291,17 @@
     "message": "Установите альтернативный Firefox-based браузер (например, LibreWolf):",
     "description": "Instructions for using alternative browser for runtime, title"
   },
+  "setupPageAdvancedOptionsAlternativeBrowserLink": {
+    "message": "Подробные инструкции доступны <a href=\"https://pwasforfirefox.filips.si/help/faq/#how-to-use-an-alternative-browser-as-an-app-browser\" target=\"_blank\">на сайте документации</a>.",
+    "description": "Instructions for using alternative browser for runtime, link to the documentation"
+  },
   "setupPageAdvancedOptionsOverlayTitle": {
     "message": "Связывание глобальной установки Firefox с FUSE OverlayFS:",
     "description": "Instructions for linking the runtime with FUSE OverlayFS, title"
+  },
+  "setupPageAdvancedOptionsOverlayLink": {
+    "message": "Подробные инструкции доступны <a href=\"https://pwasforfirefox.filips.si/help/faq/#how-to-use-fuse-overlayfs-with-the-app-browser\" target=\"_blank\">на сайте документации</a>.",
+    "description": "Instructions for linking the runtime with FUSE OverlayFS, link to the documentation"
   },
   "setupPageDefaultRuntimeLocationTitle": {
     "message": "Стандартное место установки среды выполнения:",
@@ -818,6 +826,26 @@
   "managePageSettingsAutoLaunchExclusionPlaceholder": {
     "message": "Введите regex исключённых URL-адресов",
     "description": "The placeholder for auto launch exclusion"
+  },
+  "managePageSettingsDefaultTab": {
+    "message": "Вкладка по умолчанию",
+    "description": "The setting for default tab"
+  },
+  "managePageSettingsDefaultTabSiteGrid": {
+    "message": "Сетка веб-приложений",
+    "description": "The option to select web app grid as default tab"
+  },
+  "managePageSettingsDefaultTabSiteList": {
+    "message": "Список веб-приложений",
+    "description": "The option to select web app list as default tab"
+  },
+  "managePageSettingsDefaultTabProfiles": {
+    "message": "Профили",
+    "description": "The option to select profiles as default tab"
+  },
+  "managePageSettingsDefaultTabSettings": {
+    "message": "Настройки",
+    "description": "The option to select settings as default tab"
   },
   "managePageSettingsLanguage": {
     "message": "Язык",
