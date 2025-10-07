@@ -211,6 +211,10 @@
     "message": "Установка среды выполнения на Windows скачает <a href=\"https://7-zip.org/\" target=\"_blank\">7-Zip</a>, если он уже не установлен. Проект 7-Zip создан Игорем Павловым и находится под лицензией <a href=\"https://7-zip.org/license.txt\" target=\"_blank\">GNU LGPL license</a>. Наш проект ни коим образом не связан с 7-Zip или его разработчиками.",
     "description": "The notice for downloaded 7-Zip on the setup page"
   },
+  "setupPageLicenseFirefoxDownloaded": {
+    "message": "Установка среды выполнения в любой системе приведёт к загрузке немодифицированного браузера <a href=\"https://www.mozilla.org/firefox/\" target=\"_blank\">Mozilla Firefox</a> и локальному модифицирует. Используя среду выполнения, вы соглашаетесь с <a href=\"https://www.mozilla.org/about/legal/terms/firefox/\">Условиями использования</a> и <a href=\"https://www.mozilla.org/privacy/firefox/\">Уведомлением о конфиденциальности</a> Firefox. Firefox распространяется по лицензии Mozilla Public License 2.0. Firefox и логотип Firefox являются товарными знаками Mozilla Foundation в США и других странах. Этот проект никак не связан с Mozilla Foundation.",
+    "description": "The notice for downloaded Firefox on the setup page"
+  },
   "setupPageLicensePrivacyPolicy": {
     "message": "Это расширение передаёт персональные данные (текущий сайт и манифесты URL-адресов, как и другие данные PWA) с приложением, где пользователь осуществляет установку PWA. Это обязательно для правильного получения и разбора манифеста веб-приложения и установки PWA. Данные хранятся на компьютере, пока PWA установлен. Никакие персональные данные не покидают компьютер и не передаются третьим лицам.",
     "description": "The privacy policy notice on the setup page"
@@ -290,6 +294,18 @@
   "setupPageAdvancedOptionsAlternativeBrowserTitle": {
     "message": "Установите альтернативный Firefox-based браузер (например, LibreWolf):",
     "description": "Instructions for using alternative browser for runtime, title"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserStep1": {
+    "message": "Загрузите портативный архив (двоичный tarball) для вашего предпочитаемого браузера на базе Firefox.",
+    "description": "Instructions for using alternative browser for runtime, step 1"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserStep2": {
+    "message": "Извлеките загруженный архив и скопируйте файлы в нужный каталог (см. ниже).",
+    "description": "Instructions for using alternative browser for runtime, step 2"
+  },
+  "setupPageAdvancedOptionsAlternativeBrowserStep3": {
+    "message": "Внутри этого каталога создайте символическую ссылку на основной исполняемый файл вашего браузера как <kbd>firefox.exe</kbd>/<kbd>firefox</kbd>.",
+    "description": "Instructions for using alternative browser for runtime, step 3"
   },
   "setupPageAdvancedOptionsAlternativeBrowserLink": {
     "message": "Подробные инструкции доступны <a href=\"https://pwasforfirefox.filips.si/help/faq/#how-to-use-an-alternative-browser-as-an-app-browser\" target=\"_blank\">на сайте документации</a>.",
