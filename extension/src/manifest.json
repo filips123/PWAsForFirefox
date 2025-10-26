@@ -8,7 +8,10 @@
   "default_locale": "en",
   "browser_specific_settings": {
     "gecko": {
-      "id": "firefoxpwa@filips.si"
+      "id": "firefoxpwa@filips.si",
+      "data_collection_permissions": {
+        "required": ["browsingActivity"]
+      }
     }
   },
   "icons": {
