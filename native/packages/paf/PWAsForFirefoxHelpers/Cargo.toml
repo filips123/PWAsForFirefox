@@ -11,4 +11,4 @@ lto = true
 [dependencies]
 tauri-winrt-notification = { version = "0.7.2", default-features = false }
 trayicon = { version = "0.3.0", default-features = false }
-winit = { version = "0.30.11", default-features = false }
+winit = { version = "0.30.12", default-features = false }
