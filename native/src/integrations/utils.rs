@@ -40,6 +40,7 @@ pub fn sanitize_name<'a>(name: &'a str, id: &'a str) -> String {
 #[cfg(any(
     platform_linux,
     platform_macos,
+    platform_termux,
     platform_bsd,
     all(platform_windows, feature = "portable")
 ))]

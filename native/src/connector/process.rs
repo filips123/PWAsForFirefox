@@ -83,11 +83,11 @@ impl Process for SetConfig {
 
 impl Process for InstallRuntime {
     fn process(&self, _connection: &Connection) -> Result<ConnectorResponse> {
-        #[cfg(platform_linux)]
+        #[cfg(any(platform_linux, platform_termux))]
         let options = self.clone().unwrap_or_default();
 
         let command = RuntimeInstallCommand {
-            #[cfg(platform_linux)]
+            #[cfg(any(platform_linux, platform_termux))]
             link: options.link,
         };
         command.run()?;
