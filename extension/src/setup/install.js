@@ -2,7 +2,7 @@ import '../utils/i18nHtml'
 
 import { iframeResize } from 'iframe-resizer'
 
-import { isAutoRuntimeInstallSupported, PREF_LOCALE } from '../utils'
+import { isAutoRuntimeInstallSupported, PREF_LOCALE, STORAGE_LICENSE_ACCEPTED } from '../utils'
 import { getAllLocales, getCurrentLocale, getMessage } from '../utils/i18n'
 
 const iframeResizer = iframeResize({}, '#connector-instructions')[0].iFrameResizer
@@ -10,8 +10,6 @@ const iframeResizer = iframeResize({}, '#connector-instructions')[0].iFrameResiz
 /*****************************
  License Agreement
  *****************************/
-
-const STORAGE_LICENSE_ACCEPTED = 'storage.license-agreement-accepted'
 
 async function checkLicenseAgreement () {
   document.getElementById('license-agreement').classList.add('active')

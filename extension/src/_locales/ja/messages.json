@@ -588,12 +588,12 @@
     "description": "The button in settings to reinstall runtime"
   },
   "managePageFooterOutdatedExtension": {
-    "message": "この拡張機能は古くなっています！",
+    "message": "この拡張機能は古くなっています。",
     "description": "The warning in the popup footer saying the extension is outdated"
   },
-  "managePageFooterOutdatedUpdate": {
+  "managePageFooterOutdatedExtensionUpdate": {
     "message": "更新してください！",
-    "description": "The action in the popup footer telling users to update the extension or native component"
+    "description": "The link telling users to update the extension"
   },
   "managePageAppEditLaunchOnWebsiteLabel": {
     "message": "このウェブアプリケーションをマッチするウェブサイトで起動する",

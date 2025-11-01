@@ -926,16 +926,28 @@
   },
 
   "managePageFooterOutdatedExtension": {
-    "message": "The extension is outdated!",
+    "message": "The extension is outdated.",
     "description": "The warning in the popup footer saying the extension is outdated"
   },
+  "managePageFooterOutdatedExtensionUpdate": {
+    "message": "Please update it!",
+    "description": "The link telling users to update the extension"
+  },
   "managePageFooterOutdatedNative": {
-    "message": "The native component is outdated!",
+    "message": "The native component is outdated.",
     "description": "The warning in the popup footer saying the native component is outdated"
   },
-  "managePageFooterOutdatedUpdate": {
+  "managePageFooterOutdatedNativeUpdate": {
     "message": "Please update it!",
-    "description": "The action in the popup footer telling users to update the extension or native component"
+    "description": "The link telling users to update the native component"
+  },
+  "managePageFooterOutdatedIncompatible": {
+    "message": "You may encounter compatibility issues.",
+    "description": "The message displayed when the extension and the native component may be incompatible"
+  },
+  "managePageFooterOutdatedPending": {
+    "message": "The update is currently in review.",
+    "description": "The message displayed when the latest version has not been approved yet"
   },
   "managePageFooterSearchPlaceholder": {
     "message": "Search by name",

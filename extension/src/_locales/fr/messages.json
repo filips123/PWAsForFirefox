@@ -404,12 +404,12 @@
     "description": "The button in settings to display project info"
   },
   "managePageFooterOutdatedExtension": {
-    "message": "L'extension est obsolète !",
+    "message": "L'extension est obsolète.",
     "description": "The warning in the popup footer saying the extension is outdated"
   },
-  "managePageFooterOutdatedUpdate": {
+  "managePageFooterOutdatedExtensionUpdate": {
     "message": "Veuillez la mettre à jour !",
-    "description": "The action in the popup footer telling users to update the extension or native component"
+    "description": "The link telling users to update the extension"
   },
   "managePageFooterSearchPlaceholder": {
     "message": "Recherche par nom",

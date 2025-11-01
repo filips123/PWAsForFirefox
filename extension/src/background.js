@@ -57,11 +57,9 @@ browser.runtime.onMessage.addListener(async ({ manifestUrl, documentUrl, isSecur
   documentUrl = documentUrl ? new URL(documentUrl) : undefined
 
   // Check status of the native program and hide page action if needed
-  switch ((await checkNativeStatus()).status) {
-    case 'install':
-    case 'update-major':
-      await browser.pageAction.hide(tab.id)
-      return
+  if ((await checkNativeStatus()).status === 'install') {
+    await browser.pageAction.hide(tab.id)
+    return
   }
 
   // Check if the web app is loaded over a secure context

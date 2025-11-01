@@ -8,9 +8,16 @@ export const PREF_DEFAULT_TAB = 'settings.default-tab'
 export const PREF_LOCALE = 'settings.locale'
 export const PREF_DISABLE_UPDATE_CHECKING = 'settings.disable-update-checking'
 
+export const STORAGE_LICENSE_ACCEPTED = 'storage.license-agreement-accepted'
+export const STORAGE_LAST_UPDATE_CHECK_TIME = 'storage.last-update-check-time'
+export const STORAGE_LAST_UPDATE_CHECK_VERSION = 'storage.last-update-check-version'
+
 export const AUTO_LAUNCH_PERMISSIONS = { permissions: ['webNavigation', 'webRequest', 'webRequestBlocking'] }
 
 export const EVENT_LOCALIZATION_READY = 'localizationReady'
+
+const UPDATE_CHECK_INTERVAL = 8 * 60 * 60 * 1000
+const UPDATE_CHECK_ID = 'pwas-for-firefox'
 
 /**
  * Obtains the manifest and the document URLs by asking the content script of current tab.
@@ -167,6 +174,40 @@ export async function checkNativeStatus () {
     if (error.message === 'No such native application firefoxpwa') return { status: 'install' }
     throw error
   }
+}
+
+/**
+ * Gets the latest released extension version from AMO.
+ *
+ * @returns {Promise<string|null>}
+ */
+export async function getLatestAmoVersion () {
+  const {
+    [STORAGE_LAST_UPDATE_CHECK_TIME]: lastTime,
+    [STORAGE_LAST_UPDATE_CHECK_VERSION]: lastVersion
+  } = await browser.storage.local.get([
+    STORAGE_LAST_UPDATE_CHECK_TIME,
+    STORAGE_LAST_UPDATE_CHECK_VERSION
+  ])
+
+  if (lastTime && lastVersion && (Date.now() - lastTime) < UPDATE_CHECK_INTERVAL) return lastVersion
+
+  try {
+    const response = await fetch(`https://addons.mozilla.org/api/v5/addons/addon/${UPDATE_CHECK_ID}/`)
+    const version = (await response.json())?.current_version?.version
+    if (version) {
+      await browser.storage.local.set({
+        [STORAGE_LAST_UPDATE_CHECK_TIME]: Date.now(),
+        [STORAGE_LAST_UPDATE_CHECK_VERSION]: version
+      })
+      return version
+    }
+  } catch (error) {
+    console.error('Failed to get latest AMO version')
+    console.error(error)
+  }
+
+  return lastVersion || null
 }
 
 /**

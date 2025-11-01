@@ -392,12 +392,12 @@
     "description": "The button in settings to display project info"
   },
   "managePageFooterOutdatedExtension": {
-    "message": "擴充套件已經過期！",
+    "message": "擴充套件已經過期。",
     "description": "The warning in the popup footer saying the extension is outdated"
   },
-  "managePageFooterOutdatedUpdate": {
+  "managePageFooterOutdatedExtensionUpdate": {
     "message": "請更新！",
-    "description": "The action in the popup footer telling users to update the extension or native component"
+    "description": "The link telling users to update the extension"
   },
   "managePageFooterSearchPlaceholder": {
     "message": "按名稱搜索",
