@@ -23,7 +23,7 @@ browser.runtime.onInstalled.addListener(async ({ reason }) => {
     case 'update':
       if (
         (await browser.storage.local.get({ [PREF_SHOW_UPDATE_POPUP]: true }))[PREF_SHOW_UPDATE_POPUP] &&
-        (await checkNativeStatus()) !== 'ok'
+        ((await checkNativeStatus()).status) !== 'ok'
       ) {
         // We use browser localization here as otherwise the messages would get duplicated
         // See: https://github.com/parcel-bundler/parcel/issues/9446
@@ -57,7 +57,7 @@ browser.runtime.onMessage.addListener(async ({ manifestUrl, documentUrl, isSecur
   documentUrl = documentUrl ? new URL(documentUrl) : undefined
 
   // Check status of the native program and hide page action if needed
-  switch (await checkNativeStatus()) {
+  switch ((await checkNativeStatus()).status) {
     case 'install':
     case 'update-major':
       await browser.pageAction.hide(tab.id)

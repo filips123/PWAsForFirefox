@@ -290,9 +290,13 @@
         </div>
       </div>
 
-      <div class="card-footer ps-2 pe-0 m-0 row bg-warning text-dark d-none" id="extension-outdated-box">
-        <p class="col-11 mx-0 my-auto"><span data-i18n="managePageFooterOutdated1"></span> <a id="extension-outdated-update" target="_blank" data-i18n="managePageFooterOutdated2"></a></p>
-        <button type="button" class="col-1 btn-close my-auto tiny" id="extension-outdated-close" data-i18n data-i18n-aria-label="commonClose"></button>
+      <div class="card-footer ps-2 pe-0 m-0 row bg-warning-subtle d-none" id="outdated-box">
+        <div class="col-11 mx-0 my-auto">
+          <div data-i18n="managePageFooterOutdatedExtension" id="outdated-box-extension"></div>
+          <div data-i18n="managePageFooterOutdatedNative" id="outdated-box-native"></div>
+          <div><a id="outdated-box-update" target="_blank" data-i18n="managePageFooterOutdatedUpdate"></a></div>
+        </div>
+        <button type="button" class="col-1 btn-close my-auto tiny" id="outdated-box-close" data-i18n data-i18n-aria-label="commonClose"></button>
       </div>
       <div class="card-footer px-2 mx-0 row" id="search-box">
         <label for="search-input" class="form-label visually-hidden" data-i18n="managePageFooterSearchPlaceholder"></label>

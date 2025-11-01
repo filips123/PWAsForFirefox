@@ -925,13 +925,17 @@
     "description": "The button in settings to display project info"
   },
 
-  "managePageFooterOutdated1": {
+  "managePageFooterOutdatedExtension": {
     "message": "The extension is outdated!",
-    "description": "The first part of the extension outdated warning"
+    "description": "The warning in the popup footer saying the extension is outdated"
   },
-  "managePageFooterOutdated2": {
+  "managePageFooterOutdatedNative": {
+    "message": "The native component is outdated!",
+    "description": "The warning in the popup footer saying the native component is outdated"
+  },
+  "managePageFooterOutdatedUpdate": {
     "message": "Please update it!",
-    "description": "The second part of the extension outdated warning"
+    "description": "The action in the popup footer telling users to update the extension or native component"
   },
   "managePageFooterSearchPlaceholder": {
     "message": "Search by name",

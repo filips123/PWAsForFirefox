@@ -587,13 +587,13 @@
     "message": "ランタイムを再インストールする",
     "description": "The button in settings to reinstall runtime"
   },
-  "managePageFooterOutdated1": {
+  "managePageFooterOutdatedExtension": {
     "message": "この拡張機能は古くなっています！",
-    "description": "The first part of the extension outdated warning"
+    "description": "The warning in the popup footer saying the extension is outdated"
   },
-  "managePageFooterOutdated2": {
+  "managePageFooterOutdatedUpdate": {
     "message": "更新してください！",
-    "description": "The second part of the extension outdated warning"
+    "description": "The action in the popup footer telling users to update the extension or native component"
   },
   "managePageAppEditLaunchOnWebsiteLabel": {
     "message": "このウェブアプリケーションをマッチするウェブサイトで起動する",

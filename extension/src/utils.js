@@ -135,7 +135,7 @@ export async function setConfig (config) {
  * * If `update-major` is returned, versions of extension and native are different and incompatible.
  * * If `update-minor` is returned, versions of extension and native are different but compatible.
  *
- * @returns {Promise<"ok"|"install"|"update-major"|"update-minor">}
+ * @returns {Promise<{status: "ok"|"install"|"update-major"|"update-minor", extension?: string, native?: string}>}
  */
 export async function checkNativeStatus () {
   try {
@@ -145,25 +145,26 @@ export async function checkNativeStatus () {
     if (response.type !== 'SystemVersions') throw new Error(`Received invalid response type: ${response.type}`)
 
     // Runtime always needs to be installed, we cannot disable that
-    if (!response.data.firefox) return 'install'
+    if (!response.data.firefox) return { status: 'install' }
 
     // We can disable update/version checks with a "secret" setting
-    if ((await browser.storage.local.get(PREF_DISABLE_UPDATE_CHECKING))[PREF_DISABLE_UPDATE_CHECKING] === true) return 'ok'
+    if ((await browser.storage.local.get(PREF_DISABLE_UPDATE_CHECKING))[PREF_DISABLE_UPDATE_CHECKING] === true) return { status: 'ok' }
 
     // Get both extension and native versions
     const versionExtension = browser.runtime.getManifest().version
     const versionNative = response.data.firefoxpwa
 
     // If versions are the same, everything is fine
-    if (versionExtension === versionNative) return 'ok'
+    if (versionExtension === versionNative) return { status: 'ok' }
 
     // Check if versions are compatible (have the same major component)
     const majorExtension = versionExtension.split('.', 1)[0]
     const majorNative = versionNative.split('.', 1)[0]
-    return majorExtension === majorNative ? 'update-minor' : 'update-major'
+    const status = majorExtension === majorNative ? 'update-minor' : 'update-major'
+    return { status, extension: versionExtension, native: versionNative }
   } catch (error) {
-    if (error.message === 'Attempt to postMessage on disconnected port') return 'install'
-    if (error.message === 'No such native application firefoxpwa') return 'install'
+    if (error.message === 'Attempt to postMessage on disconnected port') return { status: 'install' }
+    if (error.message === 'No such native application firefoxpwa') return { status: 'install' }
     throw error
   }
 }

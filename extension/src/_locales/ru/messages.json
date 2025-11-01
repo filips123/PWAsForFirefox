@@ -883,13 +883,13 @@
     "message": "О проекте",
     "description": "The button in settings to display project info"
   },
-  "managePageFooterOutdated1": {
+  "managePageFooterOutdatedExtension": {
     "message": "Расширение устарело!",
-    "description": "The first part of the extension outdated warning"
+    "description": "The warning in the popup footer saying the extension is outdated"
   },
-  "managePageFooterOutdated2": {
+  "managePageFooterOutdatedUpdate": {
     "message": "Пожалуйста, обновитесь!",
-    "description": "The second part of the extension outdated warning"
+    "description": "The action in the popup footer telling users to update the extension or native component"
   },
   "managePageFooterSearchPlaceholder": {
     "message": "Искать по названию",

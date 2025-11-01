@@ -347,13 +347,17 @@
     "message": "O projektu",
     "description": "The button in settings to display project info"
   },
-  "managePageFooterOutdated1": {
+  "managePageFooterOutdatedExtension": {
     "message": "Razširitev ni posodobljena!",
-    "description": "The first part of the extension outdated warning"
+    "description": "The warning in the popup footer saying the extension is outdated"
   },
-  "managePageFooterOutdated2": {
+  "managePageFooterOutdatedNative": {
+    "message": "Sistemska komponenta ni posodobljena!",
+    "description": "The warning in the popup footer saying the native component is outdated"
+  },
+  "managePageFooterOutdatedUpdate": {
     "message": "Prosimo, posodobite jo!",
-    "description": "The second part of the extension outdated warning"
+    "description": "The action in the popup footer telling users to update the extension or native component"
   },
   "managePageFooterSearchPlaceholder": {
     "message": "Išči po imenu",

@@ -883,13 +883,13 @@
     "message": "Sobre o projeto",
     "description": "The button in settings to display project info"
   },
-  "managePageFooterOutdated1": {
+  "managePageFooterOutdatedExtension": {
     "message": "A extensão está desatualizada!",
-    "description": "The first part of the extension outdated warning"
+    "description": "The warning in the popup footer saying the extension is outdated"
   },
-  "managePageFooterOutdated2": {
+  "managePageFooterOutdatedUpdate": {
     "message": "Por favor, atualize -o!",
-    "description": "The second part of the extension outdated warning"
+    "description": "The action in the popup footer telling users to update the extension or native component"
   },
   "managePageFooterSearchPlaceholder": {
     "message": "Pesquise por nome",

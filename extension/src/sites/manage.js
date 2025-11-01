@@ -6,6 +6,7 @@ import Offcanvas from 'bootstrap/js/src/offcanvas'
 import Tab from 'bootstrap/js/src/tab'
 import Toast from 'bootstrap/js/src/toast'
 import Tags from 'bootstrap5-tags/tags'
+import semverCompare from 'semver/functions/compare'
 
 import {
   AUTO_LAUNCH_PERMISSIONS,
@@ -35,7 +36,8 @@ import { knownCategories } from './categories'
 
 // Display install/update page when clicked on browser action and the native program is not correctly installed
 async function handleNativeStatus () {
-  switch (await checkNativeStatus()) {
+  const nativeStatus = await checkNativeStatus()
+  switch (nativeStatus.status) {
     case 'install':
       await browser.tabs.create({ url: browser.runtime.getURL('setup/install.html') })
       window.close()
@@ -45,9 +47,28 @@ async function handleNativeStatus () {
       window.close()
       break
     case 'update-minor': {
-      const outdatedBox = document.getElementById('extension-outdated-box')
-      document.getElementById('extension-outdated-update').setAttribute('href', browser.runtime.getURL('setup/update.html'))
-      document.getElementById('extension-outdated-close').addEventListener('click', () => outdatedBox.classList.add('d-none'))
+      const comparedVersions = semverCompare(nativeStatus.extension, nativeStatus.native)
+
+      const outdatedBox = document.getElementById('outdated-box')
+      const outdatedBoxExtension = document.getElementById('outdated-box-extension')
+      const outdatedBoxNative = document.getElementById('outdated-box-native')
+      const outdatedBoxUpdate = document.getElementById('outdated-box-update')
+      const outdatedBoxClose = document.getElementById('outdated-box-close')
+
+      // Native is outdated
+      if (comparedVersions > 0) {
+        outdatedBoxExtension.classList.add('d-none')
+        outdatedBoxNative.classList.remove('d-none')
+      }
+
+      // Extension is outdated
+      if (comparedVersions < 0) {
+        outdatedBoxExtension.classList.remove('d-none')
+        outdatedBoxNative.classList.add('d-none')
+      }
+
+      outdatedBoxUpdate.setAttribute('href', browser.runtime.getURL('setup/update.html'))
+      outdatedBoxClose.addEventListener('click', () => outdatedBox.classList.add('d-none'))
       outdatedBox.classList.remove('d-none')
     }
       break
