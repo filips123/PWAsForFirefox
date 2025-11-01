@@ -26,6 +26,7 @@ html, body {
 .card-footer {
   position: sticky;
   bottom: 0;
+  height: max-content;
   width: 100%;
 }
 
@@ -191,6 +192,14 @@ html, body {
 
 .grid-status {
   padding: 0.5rem 0.75rem;
+}
+
+//////////////////////////////
+// Outdated Warning Styles
+//////////////////////////////
+
+#outdated-box {
+  width: 100vw;
 }
 
 //////////////////////////////
