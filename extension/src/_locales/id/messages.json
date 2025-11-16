@@ -28,7 +28,7 @@
     "description": "The message of the update notification, displayed when an update is available"
   },
   "commonError": {
-    "message": "Gagal",
+    "message": "Kesalahan",
     "description": "Displayed before error messages or as a popup title"
   },
   "commonWarning": {
@@ -44,7 +44,7 @@
     "description": "Displayed as a label for a close button"
   },
   "commonCancel": {
-    "message": "Batalkan",
+    "message": "Batal",
     "description": "Displayed as a label for a cancel button"
   },
   "commonLoading": {
@@ -199,6 +199,14 @@
     "message": "File instalasi Windows memuat <a href=\"https://icons.getbootstrap.com/\" target=\"_blank\">Ikon Bootstrap</a>, yang terlisensi di bawah <a href=\"https://opensource.org/licenses/MIT\" target=\"_blank\">Lisensi MIT</a>. Informasi detail lisensi dapat diakses melalui <a href=\"https://github.com/filips123/PWAsForFirefox/blob/main/native/packages/wix/main.wxs\" target=\"_blank\">file konfigurasi WiX</a>.",
     "description": "The notice for Bootstrap Icons on the setup page"
   },
+  "setupPageLicenseThirdPartyDownloaded": {
+    "message": "Perangkat lunak sumber terbuka tambahan akan diunduh dan diinstal saat runtime ketika diinisiasi oleh pengguna:",
+    "description": "The downloaded third-party assets and code notice on the setup page"
+  },
+  "instructionsPageTitle": {
+    "message": "Petunjuk Instalasi",
+    "description": "The title of the installation instructions page"
+  },
   "instructionsPageTabWindows": {
     "message": "Windows",
     "description": "The Microsoft Windows tab on the instructions page"
@@ -239,6 +247,18 @@
     "message": "Atau…",
     "description": "The \"or\" conjunction, displayed in the installation options list"
   },
+  "instructionsPageAfterProgramsInstalled": {
+    "message": "Setelah program-program diinstal, Anda akan secara otomatis diarahkan ke langkah berikutnya. Jika tidak ada perubahan setelah sekitar 30 detik, mulai ulang peramban Anda.",
+    "description": "The final installation step in installation options that use the \"program\" terminology"
+  },
+  "instructionsPageAfterPackageInstalled": {
+    "message": "Setelah paket diinstal, Anda akan secara otomatis diarahkan ke langkah berikutnya. Jika tidak ada perubahan setelah sekitar 30 detik, mulai ulang peramban Anda.",
+    "description": "The final installation step in installation options that use the \"package\" terminology"
+  },
+  "instructionsPageAfterProjectInstalled": {
+    "message": "Setelah proyek diinstal, Anda akan secara otomatis diarahkan ke langkah berikutnya. Jika tidak ada perubahan setelah sekitar 30 detik, mulai ulang peramban Anda.",
+    "description": "The final installation step in installation options that use the \"project\" terminology"
+  },
   "instructionsPageInstallManualMSITitle": {
     "message": "Untuk menginstal program secara manual:",
     "description": "The title of the manual MSI installation option"
@@ -270,5 +290,77 @@
   "instructionsPageInstallNpackdStep2": {
     "message": "Instal paketnya menggunakan ncl:",
     "description": "The step 2 of the Npackd installation option"
+  },
+  "managePageTabApps": {
+    "message": "Aplikasi",
+    "description": "The apps tab on the manage page"
+  },
+  "managePageTabProfiles": {
+    "message": "Profil",
+    "description": "The profiles tab on the manage page"
+  },
+  "managePageTabSettings": {
+    "message": "Pengaturan",
+    "description": "The settings tab on the manage page"
+  },
+  "managePageAppListIcon": {
+    "message": "Ikon",
+    "description": "The icon alternative text on the web app list"
+  },
+  "managePageAppListAdd": {
+    "message": "Instal situs saat ini",
+    "description": "A button that is displayed on the web app list to install the current site"
+  },
+  "managePageProfileListUnnamed": {
+    "message": "Tanpa nama",
+    "description": "The unnamed profile on the profile list"
+  },
+  "managePageSettingsDisplayPageActionAlways": {
+    "message": "Selalu",
+    "description": "The option to always display page action"
+  },
+  "managePageSettingsDisplayPageActionNever": {
+    "message": "Jangan pernah",
+    "description": "The option to never display page action"
+  },
+  "managePageSettingsDarkMode": {
+    "message": "Aktifkan mode gelap",
+    "description": "The setting for enabling dark mode"
+  },
+  "managePageSettingsDarkModeTooltip": {
+    "message": "Hanya dapat diaktifkan di pengaturan sistem.",
+    "description": "The tooltip for the dark mode setting"
+  },
+  "managePageSettingsLanguage": {
+    "message": "Bahasa",
+    "description": "The setting for language"
+  },
+  "managePageSettingsAboutProject": {
+    "message": "Tentang proyek",
+    "description": "The button in settings to display project info"
+  },
+  "buttonCreateDefault": {
+    "message": "Buat baru",
+    "description": "The create button, allowing the user to create something (profile)"
+  },
+  "buttonCreateProcessing": {
+    "message": "Membuat...",
+    "description": "The create button, while something (profile) is being created"
+  },
+  "buttonCreateFinished": {
+    "message": "Berhasil dibuat!",
+    "description": "The create button, after something (profile) has been created"
+  },
+  "buttonEditDefault": {
+    "message": "Terapkan",
+    "description": "The edit button, allowing the user to edit something (web app or profile)"
+  },
+  "buttonEditProcessing": {
+    "message": "Menyimpan…",
+    "description": "The edit button, while something (web app or profile) is being edited"
+  },
+  "buttonEditFinished": {
+    "message": "Disimpan!",
+    "description": "The edit button, after something (web app or profile) has been edited"
   }
 }
