@@ -270,5 +270,9 @@
   "instructionsPageInstallNpackdStep2": {
     "message": "Instal paketnya menggunakan ncl:",
     "description": "The step 2 of the Npackd installation option"
+  },
+  "buttonEditDefault": {
+    "message": "Terapkan",
+    "description": "The edit button, allowing the user to edit something (web app or profile)"
   }
 }
