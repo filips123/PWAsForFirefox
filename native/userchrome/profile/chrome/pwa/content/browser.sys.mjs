@@ -389,7 +389,10 @@ class PwaBrowser {
       !xPref.get('extensions.webextensions.restrictedDomains').split(',').includes(uri.host);
 
     // Handle hiding/showing URL bar when the URL is out-of-scope
-    hookFunction(window.gURLBar, 'setURI', null, (_, [uri]) => {
+    hookFunction(window.gURLBar, 'setURI', null, (_, [args]) => {
+      // Handle both passing URI directly and as a named options object
+      let uri = args?.uri ?? args;
+
       // Check whether the URL is in scope
       const canLoad = this.canLoad(uri);
       let displayBar = !canLoad && !uri.spec.startsWith('about:firefoxview');
