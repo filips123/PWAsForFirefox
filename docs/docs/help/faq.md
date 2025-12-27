@@ -207,7 +207,7 @@ runtime](../user-guide/extension.md#patch-profiles-and-runtime) from the extensi
         2. Download [the latest `-macos-x86_64-package.dmg` file](https://gitlab.com/librewolf-community/browser/bsys6/-/releases) from the LibreWolf releases.
         3. Extract file and copy `LibreWolf/LibreWolf.app` to the the runtime directory.
         4. Rename `LibreWolf.app` directory in the runtime directory to `Firefox.app`.
-        5. Open Terminal inside `Firefox.app/Contents/MacOS` and run: `ln librewolf firefox`.
+        5. Open Terminal inside `Firefox.app/Contents/MacOS` and run: `ln -s librewolf firefox`.
 
 ??? note "Waterfox"
 
@@ -232,7 +232,7 @@ runtime](../user-guide/extension.md#patch-profiles-and-runtime) from the extensi
         2. Download [the latest disk image](https://www.waterfox.net/download/) from the Waterfox website.
         3. Extract file and copy `Waterfox/Waterfox.app` to the the runtime directory.
         4. Rename `Waterfox.app` directory in the runtime directory to `Firefox.app`.
-        5. Open Terminal inside `Firefox.app/Contents/MacOS` and run: `ln waterfox firefox`.
+        5. Open Terminal inside `Firefox.app/Contents/MacOS` and run: `ln -s waterfox firefox`.
 
 ### How to use FUSE OverlayFS with the app browser?
 
