@@ -282,12 +282,16 @@ CSS for your platform that is provided below (you can also customize it if you w
     ```css
     @-moz-document url('chrome://browser/content/browser.xhtml') {
       /* Horizontally center the title element */
-      .site-info {
-        justify-content: center !important;
+      .site-info > .tab-label-container {
+        position: absolute;
+        transform: translateX(-50%) translateY(-50%);
+        left: 50%;
+        top: 50%;
+        z-index: -1;
       }
 
       /* Remove the icon element */
-      .tab-icon-image {
+      .site-info > .tab-icon-image {
         display: none !important;
       }
 
@@ -306,10 +310,11 @@ CSS for your platform that is provided below (you can also customize it if you w
     @-moz-document url('chrome://browser/content/browser.xhtml') {
       /* Horizontally center the title element */
       .site-info > .tab-label-container {
-        position: relative;
-        margin-left: auto;
-        margin-right: auto;
-        left: 9rem;
+        position: absolute;
+        transform: translateX(-50%) translateY(-50%);
+        left: 50%;
+        top: 50%;
+        z-index: -1;
       }
     }
     ```
