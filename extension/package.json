@@ -36,18 +36,18 @@
     "base64-js": "^1.5.1",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
-    "bootstrap5-tags": "^1.7.15",
-    "dompurify": "^3.3.0",
+    "bootstrap5-tags": "^1.7.16",
+    "dompurify": "^3.3.1",
     "iframe-resizer": "4.4.2",
     "semver": "^7.7.3"
   },
   "devDependencies": {
-    "@parcel/config-webextension": "^2.16.0",
-    "@parcel/core": "^2.16.0",
-    "@parcel/plugin": "^2.16.0",
-    "@parcel/resolver-glob": "^2.16.0",
-    "@parcel/transformer-raw": "^2.16.0",
-    "@parcel/transformer-sass": "^2.16.0",
+    "@parcel/config-webextension": "^2.16.3",
+    "@parcel/core": "^2.16.3",
+    "@parcel/plugin": "^2.16.3",
+    "@parcel/resolver-glob": "^2.16.3",
+    "@parcel/transformer-raw": "^2.16.3",
+    "@parcel/transformer-sass": "^2.16.3",
     "@twbs/fantasticon": "^3.1.0",
     "eslint": "^8.57.1",
     "eslint-config-standard": "^17.1.0",
@@ -56,10 +56,10 @@
     "eslint-plugin-promise": "^7.2.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "npm-run-all": "^4.1.5",
-    "parcel": "^2.16.0",
-    "rimraf": "^6.0.1",
+    "parcel": "^2.16.3",
+    "rimraf": "^6.1.2",
     "svgo": "^4.0.0",
-    "web-ext": "^9.1.0"
+    "web-ext": "^9.2.0"
   },
   "resolutions": {
     "sass": "1.77.6"
