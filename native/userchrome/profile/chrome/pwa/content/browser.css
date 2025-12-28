@@ -81,6 +81,12 @@
     }
   }
 
+  /* Ensure toolbar is the correct height */
+
+  #TabsToolbar {
+    min-height: var(--tab-min-height) !important;
+  }
+
   /* Vertically center icon bar elements */
 
   #TabsToolbar-customization-target {
