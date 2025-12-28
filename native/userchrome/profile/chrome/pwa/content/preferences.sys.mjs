@@ -163,7 +163,13 @@ class PwaPreferences {
 
   handleTabsModePreferenceSwitch (onLoad = false) {
     function setTabsSectionDisabled (disabled) {
-      document.querySelector('[data-l10n-id="tabs-group-header"]').closest('groupbox').childNodes.forEach(elem => elem.disabled = disabled);
+      // Disable the original tabs section
+      document.querySelector('[data-l10n-id="tabs-group-header"]')?.closest('groupbox').childNodes.forEach(elem => elem.disabled = disabled);
+
+      // Disable the new declarative tabs section
+      document.querySelectorAll('setting-group[groupid="tabs"] moz-checkbox')?.forEach(elem => elem.disabled = disabled);
+
+      // Disable the new tab launch type option
       document.querySelector('#launchTypeNewTab').disabled = disabled;
     }
 

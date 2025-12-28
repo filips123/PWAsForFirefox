@@ -7,7 +7,10 @@
 
   /* Hide the default browser box */
   /* Not needed because PWAsForFirefox browser installation is not supposed to be made default */
-  #defaultBrowserBox {
+  #defaultBrowserBox,
+  setting-control:has(> #alwaysCheckDefault),
+  setting-control:has(> #isDefaultPane),
+  setting-control:has(> #isNotDefaultPane) {
     display: none;
   }
 
