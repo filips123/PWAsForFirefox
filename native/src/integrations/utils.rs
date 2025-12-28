@@ -6,7 +6,7 @@ use ab_glyph::{Font, FontRef, PxScale};
 use anyhow::{Context, Result, bail};
 use data_url::DataUrl;
 use image::imageops::Lanczos3;
-use image::{DynamicImage, ImageBuffer, Rgb, RgbImage, RgbaImage};
+use image::{ImageBuffer, Rgb, RgbImage, RgbaImage};
 use log::{debug, error, warn};
 use reqwest::blocking::Client;
 use resvg::{tiny_skia, usvg};
@@ -164,7 +164,7 @@ pub fn store_multisize_icon(
         for &size in sizes {
             let icon = generate_fallback_icon(letter, &ImageSize::Fixed(size, size))
                 .context("Failed to generate fallback icon")?;
-            let icon = DynamicImage::ImageRgb8(icon).into_rgba8();
+            let icon = image::DynamicImage::ImageRgb8(icon).into_rgba8();
             let image = ico::IconImage::from_rgba_data(size, size, icon.into_raw());
             let entry = ico::IconDirEntry::encode(&image).context("Failed to encode ICO entry")?;
             icondir.add_entry(entry);
