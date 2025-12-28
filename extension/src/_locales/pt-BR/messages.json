@@ -888,8 +888,24 @@
     "description": "The warning in the popup footer saying the extension is outdated"
   },
   "managePageFooterOutdatedExtensionUpdate": {
-    "message": "Por favor, atualize -o!",
+    "message": "Por favor, atualize-o!",
     "description": "The link telling users to update the extension"
+  },
+  "managePageFooterOutdatedNative": {
+    "message": "O componente nativo está desatualizado.",
+    "description": "The warning in the popup footer saying the native component is outdated"
+  },
+  "managePageFooterOutdatedNativeUpdate": {
+    "message": "Por favor, atualize-o!",
+    "description": "The link telling users to update the native component"
+  },
+  "managePageFooterOutdatedIncompatible": {
+    "message": "Você pode encontrar problemas de compatibilidade.",
+    "description": "The message displayed when the extension and the native component may be incompatible"
+  },
+  "managePageFooterOutdatedPending": {
+    "message": "A atualização está atualmente em revisão.",
+    "description": "The message displayed when the latest version has not been approved yet"
   },
   "managePageFooterSearchPlaceholder": {
     "message": "Pesquise por nome",
