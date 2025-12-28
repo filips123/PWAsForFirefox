@@ -6,7 +6,6 @@ use std::process::{Command, ExitStatus};
 
 use anyhow::{Context, Result, bail};
 use cfg_if::cfg_if;
-use const_format::formatcp;
 use log::{info, warn};
 use tempfile::Builder;
 use windows::Win32::System::Com::{
