@@ -144,7 +144,7 @@ function setWindowColors (window, site) {
   const styles = createOrGetStyles(window, INTEGRATION_STATIC_STYLES);
 
   // Set the window background color
-  if (lazy.xPref.get(window.ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR) && site.manifest.background_color) {
+  if (lazy.xPref.get('firefoxpwa.sitesSetBackgroundColor') && site.manifest.background_color) {
     const backgroundColor = site.manifest.background_color.substring(0, 7);
 
     // Set background color to the browser window
@@ -163,7 +163,7 @@ function setWindowColors (window, site) {
   }
 
   // Set the theme (titlebar) background and text colors
-  if (lazy.xPref.get(window.ChromeLoader.PREF_SITES_SET_THEME_COLOR) && site.manifest.theme_color) {
+  if (lazy.xPref.get('firefoxpwa.sitesSetThemeColor') && site.manifest.theme_color) {
     // Set the static theme color from the manifest
     const colorHex = site.manifest.theme_color.substring(0, 7);
     const colorRGB = colorHex.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i).slice(1).map(c => parseInt(c, 16));

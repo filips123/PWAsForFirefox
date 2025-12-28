@@ -45,22 +45,17 @@ class ChromeLoader {
   static INITIALIZED_PREFERENCES = false;
 
   constructor () {
-    Services.obs.addObserver(this, 'chrome-document-global-created', false);
+    Services.obs.addObserver(this, 'chrome-document-global-created');
   }
 
   observe (window) {
-    window.ChromeLoader = ChromeLoader;
-    window.addEventListener('DOMContentLoaded', this, { once: true });
+    window.addEventListener('DOMContentLoaded', () => {
+      window.parent.ChromeLoader = ChromeLoader;
+      this.onDomContentLoaded(window);
+    }, { once: true });
   }
 
-  handleEvent (event) {
-    /**
-     * @type Document
-     * @property {Window} originalTarget
-     */
-    let document = event.originalTarget;
-
-    let window = document.defaultView;
+  onDomContentLoaded (window) {
     let location = window.location;
 
     if (window._gBrowser) window.gBrowser = window._gBrowser;
