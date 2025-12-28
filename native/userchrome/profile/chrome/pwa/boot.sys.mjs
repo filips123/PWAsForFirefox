@@ -214,9 +214,10 @@ if (AppConstants.platform === 'macosx') {
 
 // Allow opening HTTP(S) links in a default browser without a confirmation popup
 nsContentDispatchChooser.prototype._hasProtocolHandlerPermissionOriginal = nsContentDispatchChooser.prototype._hasProtocolHandlerPermission;
-nsContentDispatchChooser.prototype._hasProtocolHandlerPermission = function(scheme, principal, triggeredExternally) {
+nsContentDispatchChooser.prototype._hasProtocolHandlerPermission = function(...args) {
+  const scheme = typeof args[0] === 'string' ? args[0] : args[0].type;
   if (scheme === 'http' || scheme === 'https') return true;
-  return this._hasProtocolHandlerPermissionOriginal(scheme, principal, triggeredExternally);
+  return this._hasProtocolHandlerPermissionOriginal(...args);
 };
 
 // Handle opening new window from keyboard shortcuts
