@@ -3,7 +3,7 @@
 !!! tip
 
     The extension should automatically display the installation instructions after
-    installing it and accepting the licence agreement. If it does not, you can click
+    installing it and accepting the license agreement. If it does not, you can click
     the extension widget to display them again. The extension will not work properly
     without the native component installed.
 
