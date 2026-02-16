@@ -80,10 +80,10 @@ display-address-bar-choice-never =
 
 ## Allowed Domains Preference
 
-allowed-domains-description = Domains always allowed to be opened in the app browser
+allowed-domains-description = Comma-separated list of domains always allowed to be opened in the app browser (e.g. example.com,*.example.com)
 
 allowed-domains-input =
-    .placeholder = Enter a comma-separated list of domains...
+    .placeholder = example.com,*.example.com
 
 ## Keyboard Shortcuts Group Details
 
