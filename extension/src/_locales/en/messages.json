@@ -180,7 +180,7 @@
   },
   "setupPageTabLicenseAgreement": {
     "message": "License Agreement",
-    "description": "The licence agreement tab on the setup page"
+    "description": "The license agreement tab on the setup page"
   },
   "setupPageTabConnectorInstallation": {
     "message": "Connector Installation",
@@ -243,8 +243,8 @@
     "description": "The privacy policy notice on the setup page"
   },
   "setupPageLicenseLinks": {
-    "message": "You can also read this <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/eula/\" target=\"_blank\">licence agreement</a> and <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/privacy/\" target=\"_blank\">privacy policy</a> on the AMO page.",
-    "description": "The links to the licence agreement and privacy policy on AMO on the setup page"
+    "message": "You can also read this <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/eula/\" target=\"_blank\">license agreement</a> and <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/privacy/\" target=\"_blank\">privacy policy</a> on the AMO page.",
+    "description": "The links to the license agreement and privacy policy on AMO on the setup page"
   },
   "setupPageLicenseConsent": {
     "message": "You cannot use the extension if you do not consent to the above terms. In this case, you can uninstall it with the button below.",
