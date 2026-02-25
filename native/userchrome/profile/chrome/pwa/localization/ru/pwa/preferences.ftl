@@ -65,8 +65,6 @@ display-address-bar-choice-never =
 ## Allowed Domains Preference
 
 allowed-domains-description = Домены, которые всегда разрешено открывать в браузере
-allowed-domains-input =
-    .placeholder = Введите список доменов, разделённых запятыми…
 
 ## Keyboard Shortcuts Group Details
 
