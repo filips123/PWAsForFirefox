@@ -105,7 +105,7 @@
   },
   "setupPageTabLicenseAgreement": {
     "message": "ライセンス通知",
-    "description": "The licence agreement tab on the setup page"
+    "description": "The license agreement tab on the setup page"
   },
   "setupPageTabConnectorInstallation": {
     "message": "コネクションのインストール",

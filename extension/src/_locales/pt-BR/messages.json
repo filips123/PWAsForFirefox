@@ -157,7 +157,7 @@
   },
   "setupPageTabLicenseAgreement": {
     "message": "Contrato de licença",
-    "description": "The licence agreement tab on the setup page"
+    "description": "The license agreement tab on the setup page"
   },
   "setupPageTabConnectorInstallation": {
     "message": "Instalação do conector",
@@ -221,7 +221,7 @@
   },
   "setupPageLicenseLinks": {
     "message": "Você também pode ler esta política de privacidade <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/eula/\" target=\"_blank\"> e</a> <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/privacy/\" target=\"_blank\">privacy na</a> página AMO.",
-    "description": "The links to the licence agreement and privacy policy on AMO on the setup page"
+    "description": "The links to the license agreement and privacy policy on AMO on the setup page"
   },
   "setupPageLicenseConsent": {
     "message": "Você não pode usar a extensão se não concordar com os termos acima. Neste caso, você pode desinstalá-la com o botão abaixo.",

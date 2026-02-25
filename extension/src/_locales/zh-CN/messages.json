@@ -145,7 +145,7 @@
   },
   "setupPageTabLicenseAgreement": {
     "message": "授权协议",
-    "description": "The licence agreement tab on the setup page"
+    "description": "The license agreement tab on the setup page"
   },
   "setupPageTabRuntimeInstallation": {
     "message": "运行环境安装",

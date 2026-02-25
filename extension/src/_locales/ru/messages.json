@@ -157,7 +157,7 @@
   },
   "setupPageTabLicenseAgreement": {
     "message": "Лицензионное соглашение",
-    "description": "The licence agreement tab on the setup page"
+    "description": "The license agreement tab on the setup page"
   },
   "setupPageTabConnectorInstallation": {
     "message": "Установка коннектора",
@@ -221,7 +221,7 @@
   },
   "setupPageLicenseLinks": {
     "message": "Вы также можете прочитать <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/eula/\" target=\"_blank\">Лицензионное соглашение</a> и <a href=\"https://addons.mozilla.org/firefox/addon/pwas-for-firefox/privacy/\" target=\"_blank\">Условия пользования</a> на странице AMO.",
-    "description": "The links to the licence agreement and privacy policy on AMO on the setup page"
+    "description": "The links to the license agreement and privacy policy on AMO on the setup page"
   },
   "setupPageLicenseConsent": {
     "message": "Вы не сможете воспользоваться расширением, если не примите приведённые правила. В ином случае вы можете удалить его, нажав на кнопку ниже.",
