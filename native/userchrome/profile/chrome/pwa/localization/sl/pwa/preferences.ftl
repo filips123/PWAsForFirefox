@@ -65,8 +65,7 @@ display-address-bar-choice-never =
 ## Allowed Domains Preference
 
 allowed-domains-description = Domene, ki so vedno lahko odprte v aplikaciji
-allowed-domains-input =
-    .placeholder = Vnesite seznam domen, ločenih z vejico ...
+allowed-domains-format = Vnesite seznam domen, ločenih z vejico (npr. example.com,*.example.com)
 
 ## Keyboard Shortcuts Group Details
 
