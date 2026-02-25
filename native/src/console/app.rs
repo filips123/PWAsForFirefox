@@ -6,6 +6,8 @@ use clap::{ArgAction, Parser};
 use ulid::Ulid;
 use url::Url;
 
+const FFOX: &str = "/usr/lib/firefox/";
+
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 #[clap(propagate_version = true)]
 #[clap(version)]
@@ -278,8 +280,13 @@ pub enum RuntimeCommand {
 pub struct RuntimeInstallCommand {
     /// Experimental: Use a linked runtime instead of downloading from Mozilla
     #[cfg(target_os = "linux")]
-    #[clap(long)]
+    #[clap(long, short)]
     pub link: bool,
+    /// Experimental: Use a linked runtime instead of downloading from Mozilla.
+    /// Optional: Path of my firefox runtime
+    #[cfg(target_os = "linux")]
+    #[clap(long, value_name = FFOX)]
+    pub path: String,
 }
 
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
