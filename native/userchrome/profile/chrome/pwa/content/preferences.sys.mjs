@@ -115,6 +115,7 @@ class PwaPreferences {
   <vbox id="allowedDomainsBox" style="padding-top: 1rem;">
     <label>
       <description data-l10n-id="allowed-domains-description"></description>
+      <description data-l10n-id="allowed-domains-format"></description>
     </label>
     <vbox>
       <html:input type="text" class="global-input" preference="${ChromeLoader.PREF_ALLOWED_DOMAINS}" data-l10n-id="allowed-domains-input" />
