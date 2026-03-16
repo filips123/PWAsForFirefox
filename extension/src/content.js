@@ -12,6 +12,9 @@ function getIconPurpose (link) {
 
 function getIconSizes (link) {
   const sizes = link.getAttribute('sizes')
+    ?.split(/\s+/)
+    .filter(size => /^(any|\d+x\d+)$/i.test(size))
+    .join(' ')
   if (sizes) return sizes
 
   if (getIconType(link) === 'image/svg+xml') return 'any'
