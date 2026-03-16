@@ -249,30 +249,27 @@ impl Site {
     /// First tries the user-specified name, then tries manifest name
     /// and then short name. If no name is specified, uses the domain.
     pub fn name(&self) -> String {
-        sanitize_string(
-            &self
-                .config
-                .name
-                .as_ref()
-                .cloned()
-                .or_else(|| self.manifest.name.as_ref().cloned())
-                .or_else(|| self.manifest.short_name.as_ref().cloned())
-                .unwrap_or_else(|| self.domain()),
-        )
+        [
+            self.config.name.as_deref(),
+            self.manifest.name.as_deref(),
+            self.manifest.short_name.as_deref(),
+        ]
+        .into_iter()
+        .flatten()
+        .map(sanitize_string)
+        .find(|name| !name.is_empty())
+        .unwrap_or_else(|| sanitize_string(&self.domain()))
     }
 
     /// First tries the user-specified description, then tries manifest description.
     /// If no description is specified, returns an empty string.
     pub fn description(&self) -> String {
-        sanitize_string(
-            &self
-                .config
-                .description
-                .as_ref()
-                .cloned()
-                .or_else(|| self.manifest.description.as_ref().cloned())
-                .unwrap_or_else(|| "".into()),
-        )
+        [self.config.description.as_deref(), self.manifest.description.as_deref()]
+            .into_iter()
+            .flatten()
+            .map(sanitize_string)
+            .find(|description| !description.is_empty())
+            .unwrap_or_else(|| "".into())
     }
 
     /// First tries the user-specified icon, then tries manifest icons.

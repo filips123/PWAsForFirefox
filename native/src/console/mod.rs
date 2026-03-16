@@ -47,7 +47,8 @@ macro_rules! store_value_vec {
     };
 }
 
-pub(in crate::console) use {store_value, store_value_vec};
+pub(in crate::console) use store_value;
+pub(in crate::console) use store_value_vec;
 
 pub trait Run {
     fn run(&self) -> Result<()>;
