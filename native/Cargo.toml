@@ -26,30 +26,45 @@ immutable-runtime = []
 
 [dependencies]
 ab_glyph = "0.2.32"
-anyhow = "1.0.100"
+anyhow = "1.0.102"
 byteorder = "1.5.0"
 cfg-if = "1.0.4"
-clap = { version = "^4.5.53", features = ["derive"] }
+clap = { version = "^4.6.0", features = ["derive"] }
 configparser = "3.1.0"
 const_format = "0.2.35"
 data-url = "0.3.2"
 directories = "6.0.0"
 fs_extra = "1.3.0"
 gag = "1.0.0"
-image = "0.25.9"
+image = "0.25.10"
 log = "0.4.29"
-reqwest = { version = "0.12.28", features = ["blocking", "socks", "gzip", "brotli", "zstd", "deflate", "native-tls", "native-tls-alpn"] }
-resvg = "0.45.1"
+resvg = "0.47.0"
 serde = { version = "1.0.228", features = ["derive"] }
-serde_json = "1.0.148"
-serde_with = "3.16.1"
+serde_json = "1.0.149"
+serde_with = "3.18.0"
 simplelog = "0.12.2"
 smart-default = "0.7.1"
-tempfile = "3.24.0"
+tempfile = "3.27.0"
 ulid = { version = "1.2.1", features = ["serde"] }
-url = "2.5.7"
+url = "2.5.8"
 urlencoding = "2.1.3"
 web_app_manifest = { git = "https://github.com/filips123/WebAppManifestRS", branch = "main" }
+
+[dependencies.reqwest]
+version = "0.13.2"
+default-features = false
+features = [
+    "blocking",
+    "charset",
+    "socks",
+    "gzip",
+    "brotli",
+    "zstd",
+    "deflate",
+    "http2",
+    "system-proxy",
+    "native-tls",
+]
 
 [target.'cfg(target_os = "windows")'.dependencies]
 ico = "0.5.0"
@@ -79,24 +94,24 @@ glob = "0.3.3"
 phf = { version = "0.13.1", features = ["macros"] }
 
 [target.'cfg(target_os = "linux")'.dependencies]
-blake3 = "1.8.2"
+blake3 = "1.8.3"
 xz2 = "0.1.7"
-tar = "0.4.44"
+tar = "0.4.45"
 
 [target.'cfg(target_os = "macos")'.dependencies]
 dmg = "0.1.2"
 phf = { version = "0.13.1", features = ["macros"] }
-icns = "0.3.1"
+icns = "0.4.0"
 pix = "0.14.0"
 plist = "1.8.0"
 sanitize-filename = "0.6.0"
 
 [build-dependencies]
 cfg_aliases = "0.2.1"
-clap = { version = "4.5.53", features = ["derive"] }
-clap_complete = "4.5.62"
+clap = { version = "4.6.0", features = ["derive"] }
+clap_complete = "4.6.0"
 ulid = "1.2.1"
-url = "2.5.7"
+url = "2.5.8"
 
 [package.metadata.wix]
 include = [

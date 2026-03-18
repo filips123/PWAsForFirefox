@@ -29,7 +29,7 @@ const fn get_download_url() -> &'static str {
     use const_format::formatcp;
 
     #[allow(dead_code)]
-    const VERSION: &str = "2500";
+    const VERSION: &str = "2600";
 
     cfg_if! {
         if #[cfg(target_arch = "x86")] {
