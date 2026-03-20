@@ -289,7 +289,7 @@ jobs:
         with:
           name: build-artifacts-shell-completions
           path: native/target/completions.zip
-          archive: false
+          compression-level: 0
 
       # == Packaging Linux DEB
 
@@ -305,7 +305,7 @@ jobs:
         with:
           name: unsigned-artifacts-linux-deb-${{ steps.target.outputs.target }}
           path: native/target/debian/*.deb
-          archive: false
+          compression-level: 0
 
       # == Packaging Linux RPM
 
@@ -320,7 +320,7 @@ jobs:
         with:
           name: unsigned-artifacts-linux-rpm-${{ steps.target.outputs.target }}
           path: native/target/rpm/*.rpm
-          archive: false
+          compression-level: 0
 
       # == Packaging Windows MSI
 
@@ -357,7 +357,7 @@ jobs:
         with:
           name: unsigned-artifacts-windows-msi-${{ steps.target.outputs.target }}
           path: native/target/wix/*.msi
-          archive: false
+          compression-level: 0
 
       - name: Sign MSI with SignPath (Windows, MSI)
         if: matrix.os == 'windows-latest' && matrix.portable != true && startsWith(github.ref, 'refs/tags/v')
@@ -377,7 +377,7 @@ jobs:
         with:
           name: build-artifacts-windows-msi-${{ steps.target.outputs.target }}
           path: signed/msi/*.msi
-          archive: false
+          compression-level: 0
 
       # == Packaging Windows PAF
 
@@ -454,7 +454,7 @@ jobs:
         with:
           name: unsigned-artifacts-windows-paf-${{ steps.target.outputs.target }}
           path: native/target/paf/*.paf.exe
-          archive: false
+          compression-level: 0
 
       - name: Sign PAF with SignPath (Windows, PAF)
         if: matrix.os == 'windows-latest' && matrix.portable == true && startsWith(github.ref, 'refs/tags/v')
@@ -474,7 +474,7 @@ jobs:
         with:
           name: build-artifacts-windows-paf-${{ steps.target.outputs.target }}
           path: signed/paf/*.paf.exe
-          archive: false
+          compression-level: 0
 
       # == Build Provenance
 
@@ -552,14 +552,14 @@ jobs:
         with:
           name: build-artifacts-linux-deb
           path: artifacts/*.deb
-          archive: false
+          compression-level: 0
 
       - name: Upload signed RPM packages
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: build-artifacts-linux-rpm
           path: artifacts/*.rpm
-          archive: false
+          compression-level: 0
 
       - name: Attest artifacts
         uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
