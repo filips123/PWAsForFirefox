@@ -1,11 +1,11 @@
 /assets/icons/*
-  Cache-Control max-age=3600, public, must-revalidate
+  Cache-Control: max-age=3600, public, must-revalidate
 
 /assets/images/*
-  Cache-Control max-age=3600, public, must-revalidate
+  Cache-Control: max-age=3600, public, must-revalidate
 
 /assets/external/*
-  Cache-Control max-age=3600, public, must-revalidate
+  Cache-Control: max-age=3600, public, must-revalidate
 
 /assets/stylesheets/*
   Cache-Control: max-age=31536000, public, immutable
@@ -14,4 +14,4 @@
   Cache-Control: max-age=31536000, public, immutable
 
 /assets/javascripts/lunr/*
-  ! Cache-Control
+  Cache-Control: max-age=3600, public, must-revalidate
