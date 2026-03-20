@@ -44,17 +44,17 @@ jobs:
 
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           egress-policy: audit
 
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
       - name: Configure Rust and Clippy
-        uses: actions-rust-lang/setup-rust-toolchain@fb51252c7ba57d633bc668f941da052e410add48 # v1.13.0
+        uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
         with:
           toolchain: stable
           components: clippy
@@ -62,7 +62,7 @@ jobs:
           rustflags: ''
 
       - name: Configure cache
-        uses: Swatinem/rust-cache@98c8021b550208e191a6a3145459bfc9fb29c4c0 # v2.8.0
+        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
         with:
           workspaces: native
           cache-on-failure: true
@@ -86,17 +86,17 @@ jobs:
 
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           egress-policy: audit
 
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
       - name: Configure Rust and Rustfmt
-        uses: actions-rust-lang/setup-rust-toolchain@fb51252c7ba57d633bc668f941da052e410add48 # v1.13.0
+        uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
         with:
           toolchain: nightly
           components: rustfmt
@@ -104,7 +104,7 @@ jobs:
           rustflags: ''
 
       - name: Configure cache
-        uses: Swatinem/rust-cache@98c8021b550208e191a6a3145459bfc9fb29c4c0 # v2.8.0
+        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
         with:
           workspaces: native
           cache-on-failure: true
@@ -160,17 +160,17 @@ jobs:
       # == Setting Environment
 
       - name: Harden runner
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           egress-policy: audit
 
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
       - name: Configure Rust
-        uses: actions-rust-lang/setup-rust-toolchain@fb51252c7ba57d633bc668f941da052e410add48 # v1.13.0
+        uses: actions-rust-lang/setup-rust-toolchain@150fca883cd4034361b621bd4e6a9d34e5143606 # v1.15.4
         with:
           toolchain: stable
           target: ${{ matrix.target }}
@@ -178,7 +178,7 @@ jobs:
           rustflags: ''
 
       - name: Configure cache
-        uses: Swatinem/rust-cache@98c8021b550208e191a6a3145459bfc9fb29c4c0 # v2.8.0
+        uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
         with:
           workspaces: |
             native
@@ -285,11 +285,11 @@ jobs:
 
       - name: Upload shell completions
         if: matrix.target == 'x86_64-unknown-linux-gnu'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: build-artifacts-shell-completions
           path: native/target/completions.zip
-          compression-level: 0
+          archive: false
 
       # == Packaging Linux DEB
 
@@ -301,11 +301,11 @@ jobs:
 
       - name: Upload DEB (Linux)
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: unsigned-artifacts-linux-deb-${{ steps.target.outputs.target }}
           path: native/target/debian/*.deb
-          compression-level: 0
+          archive: false
 
       # == Packaging Linux RPM
 
@@ -316,25 +316,25 @@ jobs:
 
       - name: Upload RPM (Linux)
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: unsigned-artifacts-linux-rpm-${{ steps.target.outputs.target }}
           path: native/target/rpm/*.rpm
-          compression-level: 0
+          archive: false
 
       # == Packaging Windows MSI
 
       - name: Upload unsigned executables (Windows, MSI)
         id: unsigned-executables-normal
         if: matrix.os == 'windows-latest' && matrix.portable != true && startsWith(github.ref, 'refs/tags/v')
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: unsigned-executables-normal-${{ steps.target.outputs.target }}
           path: native/target/${{ matrix.target }}/release/*.exe
 
       - name: Sign executables with SignPath (Windows, MSI)
         if: matrix.os == 'windows-latest' && matrix.portable != true && startsWith(github.ref, 'refs/tags/v')
-        uses: signpath/github-action-submit-signing-request@4f13d373e8f0cd8d3c0465ff4877feff27aed2ae # v1.2
+        uses: signpath/github-action-submit-signing-request@3f9250c56651ff692d6729a2fbb0603a42d7d322 # v2.0
         with:
           api-token: ${{ secrets.SIGNPATH_TOKEN }}
           organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
@@ -353,15 +353,15 @@ jobs:
       - name: Upload unsigned MSI (Windows, MSI)
         id: artifact-unsigned-msi
         if: matrix.os == 'windows-latest' && matrix.portable != true
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: unsigned-artifacts-windows-msi-${{ steps.target.outputs.target }}
           path: native/target/wix/*.msi
-          compression-level: 0
+          archive: false
 
       - name: Sign MSI with SignPath (Windows, MSI)
         if: matrix.os == 'windows-latest' && matrix.portable != true && startsWith(github.ref, 'refs/tags/v')
-        uses: signpath/github-action-submit-signing-request@4f13d373e8f0cd8d3c0465ff4877feff27aed2ae # v1.2
+        uses: signpath/github-action-submit-signing-request@3f9250c56651ff692d6729a2fbb0603a42d7d322 # v2.0
         with:
           api-token: ${{ secrets.SIGNPATH_TOKEN }}
           organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
@@ -373,11 +373,11 @@ jobs:
 
       - name: Upload signed MSI (Windows, MSI)
         if: matrix.os == 'windows-latest' && matrix.portable != true && startsWith(github.ref, 'refs/tags/v')
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: build-artifacts-windows-msi-${{ steps.target.outputs.target }}
           path: signed/msi/*.msi
-          compression-level: 0
+          archive: false
 
       # == Packaging Windows PAF
 
@@ -416,14 +416,14 @@ jobs:
       - name: Upload unsigned executables (Windows, PAF)
         id: unsigned-executables-portable
         if: matrix.os == 'windows-latest' && matrix.portable == true && startsWith(github.ref, 'refs/tags/v')
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: unsigned-executables-portable-${{ steps.target.outputs.target }}
           path: native/packages/paf/PWAsForFirefoxPortable
 
       - name: Sign executables with SignPath (Windows, PAF)
         if: matrix.os == 'windows-latest' && matrix.portable == true && startsWith(github.ref, 'refs/tags/v')
-        uses: signpath/github-action-submit-signing-request@4f13d373e8f0cd8d3c0465ff4877feff27aed2ae # v1.2
+        uses: signpath/github-action-submit-signing-request@3f9250c56651ff692d6729a2fbb0603a42d7d322 # v2.0
         with:
           api-token: ${{ secrets.SIGNPATH_TOKEN }}
           organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
@@ -450,15 +450,15 @@ jobs:
       - name: Upload unsigned PAF (Windows, PAF)
         id: artifact-unsigned-paf
         if: matrix.os == 'windows-latest' && matrix.portable == true
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: unsigned-artifacts-windows-paf-${{ steps.target.outputs.target }}
           path: native/target/paf/*.paf.exe
-          compression-level: 0
+          archive: false
 
       - name: Sign PAF with SignPath (Windows, PAF)
         if: matrix.os == 'windows-latest' && matrix.portable == true && startsWith(github.ref, 'refs/tags/v')
-        uses: signpath/github-action-submit-signing-request@4f13d373e8f0cd8d3c0465ff4877feff27aed2ae # v1.2
+        uses: signpath/github-action-submit-signing-request@3f9250c56651ff692d6729a2fbb0603a42d7d322 # v2.0
         with:
           api-token: ${{ secrets.SIGNPATH_TOKEN }}
           organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
@@ -470,17 +470,17 @@ jobs:
 
       - name: Upload signed PAF (Windows, PAF)
         if: matrix.os == 'windows-latest' && matrix.portable == true && startsWith(github.ref, 'refs/tags/v')
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: build-artifacts-windows-paf-${{ steps.target.outputs.target }}
           path: signed/paf/*.paf.exe
-          compression-level: 0
+          archive: false
 
       # == Build Provenance
 
       - name: Attest artifacts
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
         with:
           subject-path: |
             native/target/completions.zip
@@ -507,7 +507,7 @@ jobs:
 
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           egress-policy: audit
 
@@ -517,7 +517,7 @@ jobs:
           sudo apt-get install gnupg debsigs rpm
 
       - name: Download artifacts
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           pattern: unsigned-artifacts-linux-*
           path: artifacts
@@ -548,21 +548,21 @@ jobs:
           done
 
       - name: Upload signed DEB packages
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: build-artifacts-linux-deb
           path: artifacts/*.deb
-          compression-level: 0
+          archive: false
 
       - name: Upload signed RPM packages
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
           name: build-artifacts-linux-rpm
           path: artifacts/*.rpm
-          compression-level: 0
+          archive: false
 
       - name: Attest artifacts
-        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
         with:
           subject-path: |
             artifacts/*.deb
@@ -585,19 +585,19 @@ jobs:
 
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           egress-policy: audit
 
       - name: Download artifacts
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           pattern: build-artifacts-*
           path: artifacts
           merge-multiple: true
 
       - name: Upload artifacts to GitHub Release
-        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.3.2
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
         with:
           fail_on_unmatched_files: true
           files: |
@@ -626,12 +626,12 @@ jobs:
 
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           egress-policy: audit
 
       - name: Download artifacts
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           pattern: build-artifacts-linux-*
           path: artifacts
@@ -665,17 +665,17 @@ jobs:
       # == Setting Environment
 
       - name: Harden runner
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           egress-policy: audit
 
       - name: Checkout project repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
       - name: Checkout GURU repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           repository: gentoo/guru
           path: tmp/guru
@@ -686,7 +686,7 @@ jobs:
         run: echo "CACHE_ID=$(date --utc '+%Y-%V')" >> $GITHUB_ENV
 
       - name: Configure cache
-        uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
         with:
           path: /var/cache/distfiles
           key: gentoo-distfiles-${{ env.CACHE_ID }}
@@ -725,12 +725,12 @@ jobs:
           pycargoebuild -i "firefoxpwa-$VERSION.ebuild" -c "$GITHUB_WORKSPACE/native"
 
       - name: Attest crates tarball
-        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
+        uses: actions/attest-build-provenance@a2bbfa25375fe432b6a289bc6b6cd05ecd0c4c32 # v4.1.0
         with:
           subject-path: /var/cache/distfiles/firefoxpwa-*-crates.tar.xz
 
       - name: Upload crates tarball to GitHub Release
-        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.3.2
+        uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
         with:
           fail_on_unmatched_files: true
           files: /var/cache/distfiles/firefoxpwa-*-crates.tar.xz
@@ -809,7 +809,7 @@ jobs:
         run: pkgcheck scan --net --commits
 
       - name: Push package changes
-        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
+        uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8.1.0
         with:
           token: ${{ secrets.GH_TOKEN }}
           push-to-fork: filips123/gentoo-guru
@@ -837,7 +837,7 @@ jobs:
 
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           egress-policy: audit
 
@@ -871,17 +871,17 @@ jobs:
 
     steps:
       - name: Harden runner
-        uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911 # v2.13.0
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
         with:
           egress-policy: audit
 
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
       - name: Download artifacts
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           pattern: build-artifacts-windows-msi-*
           path: artifacts
