@@ -48,6 +48,8 @@ theme:
     - content.tooltips
     - navigation.footer
     - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
     - navigation.path
     - navigation.prune
     - navigation.sections
@@ -107,7 +109,23 @@ plugins:
         - assets/javascripts/feedback.js
       css_files:
         - assets/stylesheets/theme.css
+  - privacy:
+      assets_exclude:
+        - contrib.rocks/*
+        - img.shields.io/*
+  - social:
+      cards_layout: variant
+      cards_layout_options:
+        logo: layouts/logo.svg
+        background_image: layouts/background.svg
+        background_color: transparent
+        homepage: Progressive Web Apps for Firefox
+  - optimize
+  - typeset
   - macros
+
+watch:
+  - layouts
 
 hooks:
   - hooks/breadcrumbs.py

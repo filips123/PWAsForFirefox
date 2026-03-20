@@ -4,6 +4,9 @@
 /assets/images/*
   Cache-Control max-age=3600, public, must-revalidate
 
+/assets/external/*
+  Cache-Control max-age=3600, public, must-revalidate
+
 /assets/stylesheets/*
   Cache-Control: max-age=31536000, public, immutable
 

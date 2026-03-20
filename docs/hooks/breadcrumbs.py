@@ -18,7 +18,7 @@ def on_page_context(context: dict[str, Any], page: Page, config: MkDocsConfig, n
     elements = [{
         "@type": "ListItem",
         "position": 1,
-        "name": "Home",
+        "name": config.site_name,
         "item": config.site_url,
     }]
 
