@@ -254,4 +254,4 @@ layers:
       font:
         family: *font_family
         variant: *font_variant
-        style: Regular
+        style: Medium
