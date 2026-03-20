@@ -1,5 +1,5 @@
-mkdocs
-mkdocs-material
+mkdocs>=1.0.0,<2.0.0
+mkdocs-material[imaging]
 mkdocs-minify-plugin
 mkdocs-macros-plugin
 beautifulsoup4[lxml]
