@@ -8,7 +8,7 @@
     "description": "The short name of the application, should not be translated"
   },
   "appDescription": {
-    "message": "Uma ferramenta para instalar, gerenciar e usar Aplicativos Web Progressivos (PWAs) no Mozilla Firefox",
+    "message": "Uma ferramenta para instalar, gerenciar e usar aplicativos da Web progressivos (PWAs) no Mozilla Firefox.",
     "description": "The description of the application"
   },
   "actionInstallSite": {
