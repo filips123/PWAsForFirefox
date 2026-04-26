@@ -632,6 +632,30 @@ class PwaBrowser {
     const userPreference = xPref.get(ChromeLoader.PREF_LINKS_TARGET);
     if (!userPreference) return;
 
+    const browserController = this;
+    const matchWildcard = (wildcard, string) => {
+      const pattern = wildcard
+        .replaceAll(/[.+?^=!:${}()|\[\]\/\\]/g, '\\$&')
+        .replaceAll('\\\\*', '\\*')
+        .replaceAll(/(?<!\\)\*/g, '.*');
+
+      const regex = new RegExp(`^${pattern}$`);
+      return regex.test(string);
+    }
+
+    const shouldOpenInDefaultBrowser = (url) => {
+      try {
+        const uri = url instanceof Ci.nsIURI ? url : Services.io.newURI(url);
+        return !browserController.canLoad(uri) &&
+          uri.scheme.startsWith('http') &&
+          xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER) &&
+          !xPref.get(ChromeLoader.PREF_ALLOWED_DOMAINS).split(',').some(pattern => matchWildcard(pattern, uri.host)) &&
+          !xPref.get('extensions.webextensions.restrictedDomains').split(',').includes(uri.host);
+      } catch {
+        return false;
+      }
+    }
+
     // Overwrite built-in preference based on our custom preference
     xPref.set('browser.link.open_newwindow', userPreference);
 
@@ -655,6 +679,11 @@ class PwaBrowser {
         return window.gBrowser._addTab(url, params);
       }
 
+      if (shouldOpenInDefaultBrowser(url)) {
+        MailIntegration._launchExternalUrl(url instanceof Ci.nsIURI ? url : Services.io.newURI(url));
+        return window.gBrowser.selectedTab;
+      }
+
       // Create a new tab and close the previous one when opening tabs with containers or leaving Firefox View
       if (userPreference === 1 && (
         typeof params['userContextId'] !== 'undefined' ||
@@ -673,6 +702,11 @@ class PwaBrowser {
     // Force open link in the same tab if it wanted to be opened in a new tab
     window._openLinkIn = window.openLinkIn;
     window.openLinkIn = function (url, where, params = {}) {
+      if (shouldOpenInDefaultBrowser(url)) {
+        MailIntegration._launchExternalUrl(url instanceof Ci.nsIURI ? url : Services.io.newURI(url));
+        return null;
+      }
+
       if (where === 'tab' || where === 'tabshifted') {
         if (userPreference === 1) where = 'current';
         else if (userPreference === 2) where = 'window';
@@ -1932,7 +1966,7 @@ class PwaBrowser {
     xPref.set(ChromeLoader.PREF_DYNAMIC_WINDOW_ICON, true, true);
 
     // Determines whether out-of-scope URLs should be opened in a default browser
-    xPref.set(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, false, true);
+    xPref.set(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, true, true);
 
     // Determines whether the tabs mode is enabled
     xPref.set(ChromeLoader.PREF_ENABLE_TABS_MODE, false, true);

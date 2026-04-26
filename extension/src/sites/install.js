@@ -135,6 +135,7 @@ async function initializeForm () {
   document.getElementById('web-app-name').setAttribute('placeholder', name)
   document.getElementById('web-app-description').setAttribute('placeholder', description)
   document.getElementById('web-app-start-url').setAttribute('placeholder', manifest?.start_url || documentUrl)
+  document.getElementById('web-app-start-url').value = manifest?.start_url || documentUrl
 
   const categoriesElement = document.getElementById('web-app-categories')
   const categoriesList = manifest?.categories?.map(item => sanitizeString(item)).filter(item => item) || []
