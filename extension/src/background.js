@@ -1,3 +1,4 @@
+import { routePopupTarget } from './routerScope'
 import {
   AUTO_LAUNCH_PERMISSIONS,
   checkNativeStatus,
@@ -125,12 +126,14 @@ const getMatchingUrlHandler = async target => {
   target = new URL(target)
 
   for (const site of Object.values(await obtainSiteList())) {
-    if (site.config.enabled_url_handlers?.some(handler =>
-      target.origin === new URL(handler).origin &&
-      target.pathname.startsWith(new URL(handler).pathname)
-    )) {
-      return site
-    }
+    const route = routePopupTarget({
+      targetUrl: target.toString(),
+      site
+    })
+
+    if (route !== 'isolated') continue
+
+    return site
   }
 }
 
