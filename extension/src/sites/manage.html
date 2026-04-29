@@ -340,6 +340,11 @@
             <div class="warning-feedback" id="web-app-start-url-warning"></div>
           </div>
           <div class="mb-3">
+            <label for="web-app-url-handlers" class="form-label fw-bold">URLs that should stay inside the app</label>
+            <textarea class="form-control form-control-sm" id="web-app-url-handlers" rows="4" placeholder="One pattern per line&#10;https://mail.google.com/mail/&#10;https://*.google.com/*"></textarea>
+            <div class="form-text">One pattern per line. Supports exact prefixes and wildcards like <code>*.domain.com</code> or <code>/path/*</code>.</div>
+          </div>
+          <div class="mb-3">
             <label for="web-app-icon-url" class="form-label fw-bold" data-i18n="webAppIconURL"></label>
             <input type="url" class="form-control form-control-sm" id="web-app-icon-url" />
             <div class="invalid-feedback" id="web-app-icon-url-invalid"></div>
