@@ -13,7 +13,7 @@ edition = "2024"
 publish = false
 
 # Version will be set by CI from the Git tag when building and releasing
-version = "0.0.1"
+version = "0.0.0"
 
 [profile.release]
 codegen-units = 1

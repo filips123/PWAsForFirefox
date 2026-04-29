@@ -1,6 +1,6 @@
 [package]
 name = "firefoxpwa-background"
-version = "0.0.1"
+version = "0.0.0"
 edition = "2024"
 publish = false
 
