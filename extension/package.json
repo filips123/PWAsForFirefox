@@ -2,7 +2,7 @@
   "name": "firefoxpwa",
   "description": "The browser extension part of the PWAsForFirefox project",
   "license": "MPL-2.0",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "https://pwasforfirefox.filips.si/",
   "repository": "https://github.com/filips123/PWAsForFirefox",
   "bugs": "https://github.com/filips123/PWAsForFirefox/issues",

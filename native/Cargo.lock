@@ -839,7 +839,7 @@ checksum = "5baebc0774151f905a1a2cc41989300b1e6fbb29aff0ceffa1064fdd3088d582"
 
 [[package]]
 name = "firefoxpwa"
-version = "0.0.0"
+version = "0.0.1"
 dependencies = [
  "ab_glyph",
  "anyhow",
@@ -1708,7 +1708,7 @@ dependencies = [
 
 [[package]]
 name = "mime-parse"
-version = "0.0.0"
+version = "0.0.1"
 source = "git+https://github.com/filips123/mime?branch=fix-compile-warnings#e3e2e55459d2989a3f4699566ff8f203a8720add"
 
 [[package]]
@@ -3547,7 +3547,7 @@ dependencies = [
 
 [[package]]
 name = "web_app_manifest"
-version = "0.0.0"
+version = "0.0.1"
 source = "git+https://github.com/filips123/WebAppManifestRS?branch=main#c3329f3378a0039c96bd2b3f32529ea6b438c350"
 dependencies = [
  "csscolorparser",

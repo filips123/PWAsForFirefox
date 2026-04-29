@@ -4,7 +4,7 @@
   "short_name": "__MSG_appShortName__",
   "description": "__MSG_appDescription__",
   "homepage_url": "https://pwasforfirefox.filips.si/",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "default_locale": "en",
   "browser_specific_settings": {
     "gecko": {
