@@ -137,6 +137,9 @@ async function initializeForm () {
   document.getElementById('web-app-start-url').setAttribute('placeholder', manifest?.start_url || documentUrl)
   document.getElementById('web-app-start-url').value = manifest?.start_url || documentUrl
 
+  const defaultUrlHandler = manifest?.scope || manifest?.start_url || documentUrl
+  document.getElementById('web-app-url-handlers').value = defaultUrlHandler ? `${defaultUrlHandler}\n` : ''
+
   const categoriesElement = document.getElementById('web-app-categories')
   const categoriesList = manifest?.categories?.map(item => sanitizeString(item)).filter(item => item) || []
   for (const category of categoriesList) categoriesElement.tagsInstance.addItem(category, category)
@@ -367,6 +370,11 @@ async function initializeForm () {
     const manifestKeywords = manifest?.keywords?.map(item => sanitizeString(item)).filter(item => item) || []
     const keywords = userKeywords.toString() !== manifestKeywords.toString() ? userKeywords : null
 
+    const enabledUrlHandlers = document.getElementById('web-app-url-handlers').value
+      .split('\n')
+      .map(item => item.trim())
+      .filter(Boolean)
+
     // If the manifest does not exist, generate a "fake" manifest data URL
     if (!manifestExists) {
       manifest = {
@@ -409,6 +417,7 @@ async function initializeForm () {
         description,
         categories,
         keywords,
+        enabled_url_handlers: enabledUrlHandlers,
         launch_now: launchNow
       }
     })

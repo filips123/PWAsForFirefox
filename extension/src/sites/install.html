@@ -51,6 +51,11 @@
               <select class="form-select form-select-sm" id="web-app-profile" required></select>
               <div class="invalid-feedback" id="web-app-profile-invalid"></div>
             </div>
+            <div class="mb-3">
+              <label for="web-app-url-handlers" class="form-label">URLs that should stay inside the app</label>
+              <textarea class="form-control form-control-sm" id="web-app-url-handlers" rows="3"></textarea>
+              <div class="form-text">One rule per line. Example: https://calendar.google.com/calendar/ or *.google.com</div>
+            </div>
             <div class="mb-3 d-none" id="web-app-profile-warn-box" style="text-align: justify;">
               <strong><span data-i18n="commonNote"></span>:</strong>
               <span data-i18n="installPageSeparateProfiles"></span>
