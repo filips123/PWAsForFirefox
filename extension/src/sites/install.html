@@ -52,9 +52,9 @@
               <div class="invalid-feedback" id="web-app-profile-invalid"></div>
             </div>
             <div class="mb-3">
-              <label for="web-app-url-handlers" class="form-label">URLs that should stay inside the app</label>
-              <textarea class="form-control form-control-sm" id="web-app-url-handlers" rows="3"></textarea>
-              <div class="form-text">One rule per line. Example: https://calendar.google.com/calendar/ or *.google.com</div>
+              <label for="web-app-url-handlers" class="form-label fw-bold">URLs that should stay inside the app</label>
+              <textarea class="form-control form-control-sm" id="web-app-url-handlers" rows="4" placeholder="One pattern per line&#10;https://mail.google.com/mail/&#10;https://*.google.com/*"></textarea>
+              <div class="form-text">One pattern per line. Supports exact prefixes and wildcards like <code>*.domain.com</code> or <code>/path/*</code>.</div>
             </div>
             <div class="mb-3 d-none" id="web-app-profile-warn-box" style="text-align: justify;">
               <strong><span data-i18n="commonNote"></span>:</strong>
