@@ -190,21 +190,21 @@ runtime](../user-guide/extension.md#patch-profiles-and-runtime) from the extensi
     === "Windows"
 
         1. Create [an empty runtime directory](../resources/installation-directories.md#runtime) (or clear it if it already exists).
-        2. Download [the latest `-windows-x86_64-portable.zip` file](https://gitlab.com/librewolf-community/browser/bsys6/-/releases) from the LibreWolf releases.
+        2. Download [the latest `-windows-x86_64-portable.zip` file](https://codeberg.org/librewolf/bsys6/releases) from the LibreWolf releases.
         3. Extract file and copy **content** of `librewolf-VERSION\LibreWolf` to the runtime directory.
         4. Open Command Line in that directory and run `mklink firefox.exe librewolf.exe`.
 
     === "Linux"
 
         1. Create [an empty runtime directory](../resources/installation-directories.md#runtime) (or clear it if it already exists).
-        2. Download [the latest `-linux-x86_64-package.tar.xz` file](https://gitlab.com/librewolf-community/browser/bsys6/-/releases) from the LibreWolf releases.
+        2. Download [the latest `-linux-x86_64-package.tar.xz` file](https://codeberg.org/librewolf/bsys6/releases) from the LibreWolf releases.
         3. Extract file and copy its **content** to the runtime directory.
         4. Open Terminal in that directory and run: `ln librewolf firefox`.
 
     === "macOS"
 
         1. Create [an empty runtime directory](../resources/installation-directories.md#runtime) (or clear it if it already exists).
-        2. Download [the latest `-macos-x86_64-package.dmg` or `-macos-arm64-package.dmg` file](https://gitlab.com/librewolf-community/browser/bsys6/-/releases) from the LibreWolf releases.
+        2. Download [the latest `-macos-x86_64-package.dmg` or `-macos-arm64-package.dmg` file](https://codeberg.org/librewolf/bsys6/releases) from the LibreWolf releases.
         3. Extract file and copy `LibreWolf/LibreWolf.app` to the the runtime directory.
         4. Rename `LibreWolf.app` directory in the runtime directory to `Firefox.app`.
         5. Open Terminal inside `Firefox.app/Contents/MacOS` and run: `ln -s librewolf firefox`.
