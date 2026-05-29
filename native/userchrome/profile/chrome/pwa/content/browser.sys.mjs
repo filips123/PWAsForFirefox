@@ -443,8 +443,8 @@ class PwaBrowser {
     // Handle passing config from old to new window and closing out-of-scope windows
     // Also handles applying the system integration for "disconnected" windows
     WebNavigationManager.addListener('onCreatedNavigationTarget', details => {
-      const newWindow = details.browser.ownerGlobal;
-      const sourceWindow = details.sourceTabBrowser.ownerGlobal;
+      const newWindow = details.browser.documentGlobal ?? details.browser.ownerGlobal;
+      const sourceWindow = details.sourceTabBrowser.documentGlobal ?? details.sourceTabBrowser.ownerGlobal;
 
       // Pass config from the old window to a new one
       if (!newWindow.gFFPWASiteConfig) {
@@ -914,7 +914,8 @@ class PwaBrowser {
       type: 'button',
 
       onCommand (event) {
-        const currentUrl = gURLBar.makeURIReadable(event.target.ownerGlobal.gBrowser.selectedBrowser.currentURI).displaySpec;
+        const window = event.target.documentGlobal ?? event.target.ownerGlobal;
+        const currentUrl = gURLBar.makeURIReadable(window.gBrowser.selectedBrowser.currentURI).displaySpec;
         const clipboardHandler = Cc['@mozilla.org/widget/clipboardhelper;1'].getService(Ci.nsIClipboardHelper);
         clipboardHandler.copyString(currentUrl);
       }
@@ -944,7 +945,7 @@ class PwaBrowser {
         onViewShowing (event) {
           event.detail.addBlocker((async () => {
             const document = event.target.ownerDocument;
-            const window = event.target.ownerGlobal;
+            const window = event.target.documentGlobal ?? event.target.ownerGlobal;
 
             const selectedBrowser = window.gBrowser.selectedBrowser;
             const currentUrl = gURLBar.makeURIReadable(selectedBrowser.currentURI).displaySpec;
@@ -1002,7 +1003,8 @@ class PwaBrowser {
         type: 'button',
 
         onCommand (event) {
-          const browser = event.target.ownerGlobal.gBrowser.selectedBrowser;
+          const window = event.target.documentGlobal ?? event.target.ownerGlobal;
+          const browser = window.gBrowser.selectedBrowser;
           const currentUrl = gURLBar.makeURIReadable(browser.currentURI).displaySpec;
           const currentTitle = browser.contentTitle;
 
@@ -1035,7 +1037,7 @@ class PwaBrowser {
         },
         onViewShowing (event) {
           event.detail.addBlocker((async () => {
-            const window = event.target.ownerGlobal;
+            const window = event.target.documentGlobal ?? event.target.ownerGlobal;
             const document = event.target.ownerDocument;
 
             const widgetView = document.getElementById('send-to-device-view');
@@ -1069,7 +1071,9 @@ class PwaBrowser {
 
       onCommand (event) {
         // "Abusing" mail integration to open current URL in external browser
-        MailIntegration._launchExternalUrl(makeURI(gURLBar.makeURIReadable(event.target.ownerGlobal.gBrowser.selectedBrowser.currentURI).displaySpec));
+        const window = event.target.documentGlobal ?? event.target.ownerGlobal;
+        const browser = window.gBrowser.selectedBrowser;
+        MailIntegration._launchExternalUrl(makeURI(gURLBar.makeURIReadable(browser.currentURI).displaySpec));
       }
     });
   }
@@ -1223,7 +1227,8 @@ class PwaBrowser {
         }
       },
       onCommand (event) {
-        event.target.ownerGlobal.gBrowser.selectedTab.toggleMuteAudio();
+        const window = event.target.documentGlobal ?? event.target.ownerGlobal;
+        window.gBrowser.selectedTab.toggleMuteAudio();
       }
     });
   }
@@ -1368,7 +1373,10 @@ class PwaBrowser {
         });
       },
       onCommand (event) {
-        if (!event.target.disabled) event.target.ownerGlobal.gProtectionsHandler.handleProtectionsButtonEvent(event);
+        if (!event.target.disabled) {
+          const window = event.target.documentGlobal ?? event.target.ownerGlobal;
+          window.gProtectionsHandler.handleProtectionsButtonEvent(event);
+        }
       }
     });
   }
@@ -1432,7 +1440,8 @@ class PwaBrowser {
         });
       },
       onCommand (event) {
-        event.target.ownerGlobal.gIdentityHandler.handleIdentityButtonEvent(event);
+        const window = event.target.documentGlobal ?? event.target.ownerGlobal;
+        window.gIdentityHandler.handleIdentityButtonEvent(event);
       }
     });
   }
@@ -1523,7 +1532,8 @@ class PwaBrowser {
         });
       },
       onCommand (event) {
-        event.target.ownerGlobal.gPermissionPanel.handleIdentityButtonEvent(event);
+        const window = event.target.documentGlobal ?? event.target.ownerGlobal;
+        window.gPermissionPanel.handleIdentityButtonEvent(event);
       }
     });
   }
@@ -1635,7 +1645,7 @@ class PwaBrowser {
       defaultArea: CustomizableUI.AREA_NAVBAR,
 
       onCommand (event) {
-        const window = event.target.ownerGlobal;
+        const window = event.target.documentGlobal ?? event.target.ownerGlobal;
 
         if (window.gFFPWALastScopeUri) {
           let lastScopeTab = window.gBrowser.tabs.find((tab, index) => window.gBrowser.getBrowserAtIndex(index).currentURI === window.gFFPWALastScopeUri);
@@ -1668,7 +1678,7 @@ class PwaBrowser {
       type: 'button',
 
       onCommand (event) {
-        const window = event.target.ownerGlobal;
+        const window = event.target.documentGlobal ?? event.target.ownerGlobal;
         if (window.BrowserCommands) window.BrowserCommands.back(event);
         else window.BrowserBack(event);
       }
@@ -1681,7 +1691,7 @@ class PwaBrowser {
       type: 'button',
 
       onCommand (event) {
-        const window = event.target.ownerGlobal;
+        const window = event.target.documentGlobal ?? event.target.ownerGlobal;
         if (window.BrowserCommands) window.BrowserCommands.forward(event);
         else window.BrowserForward(event);
       }
@@ -1856,6 +1866,7 @@ class PwaBrowser {
     xPref.set('browser.newtabpage.activity-stream.feeds.section.highlights', false, true);
     xPref.set('browser.uidensity', 1, true);
     xPref.set('browser.link.open_newwindow', 1, true);
+    xPref.set('browser.taskbarTabs.enabled', false, true);
     xPref.set('datareporting.policy.firstRunURL', '', true);
     xPref.set('termsofuse.bypassNotification', true, true);
 

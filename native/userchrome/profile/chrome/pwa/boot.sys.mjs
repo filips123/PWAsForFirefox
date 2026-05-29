@@ -140,6 +140,9 @@ Services.prefs.setBoolPref('sidebar.revamp', false);
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.settings-redesign.enabled', false);
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.nova.enabled', false);
 
+// Disable unified trust panel until with make it work with custom widgets
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.urlbar.trustPanel.featureGate', false);
+
 // Disable default browser prompt
 BrowserGlue.prototype._maybeShowDefaultBrowserPrompt = async () => null;
 
