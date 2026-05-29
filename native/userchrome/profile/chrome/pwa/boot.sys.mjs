@@ -136,6 +136,10 @@ Services.prefs.getDefaultBranch(null).setBoolPref('browser.privacySegmentation.c
 Services.prefs.setBoolPref('sidebar.verticalTabs', false);
 Services.prefs.setBoolPref('sidebar.revamp', false);
 
+// Disable Firefox Nova redesign until we add a proper support for it
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.settings-redesign.enabled', false);
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.nova.enabled', false);
+
 // Disable default browser prompt
 BrowserGlue.prototype._maybeShowDefaultBrowserPrompt = async () => null;
 
