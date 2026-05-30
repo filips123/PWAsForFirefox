@@ -89,6 +89,8 @@ impl Process for InstallRuntime {
         let command = RuntimeInstallCommand {
             #[cfg(platform_linux)]
             link: options.link,
+            #[cfg(platform_linux)]
+            path: options.path,
         };
         command.run()?;
 

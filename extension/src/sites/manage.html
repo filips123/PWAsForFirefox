@@ -231,6 +231,27 @@
                 </div>
               </div>
 
+              <div class="list-group-item d-none" id="settings-use-linked-rt" data-i18n data-i18n-title="commonLoading">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <label class="fw-bold mb-0" for="settings-use-linked-rt" data-i18n="managePageSettingsEnableLinkedRuntime"></label>
+                  </div>
+                  <div class="col-auto">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="settings-use-linked-rt" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="list-group-item d-none">
+                <div>
+                  <label class="fw-bold mb-0" for="settings-linked-rt-path" data-i18n="managePageSettingsDefaultProfileTemplate"></label>
+                  <input type="text" class="form-control form-control-sm" id="settings-linked-rt-path" data-i18n data-i18n-placeholder="managePageSettingsLinkedRuntimePath" />
+                  <!-- This has to be a text input because Firefox does not support file inputs in extension popups -->
+                </div>
+              </div>
+
               <div class="list-group-item">
                 <div class="row align-items-center" data-i18n data-i18n-title="managePageSettingsDarkModeTooltip">
                   <div class="col">
