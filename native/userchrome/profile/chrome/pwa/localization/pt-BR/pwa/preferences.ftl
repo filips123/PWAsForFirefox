@@ -65,6 +65,7 @@ display-address-bar-choice-never =
 ## Allowed Domains Preference
 
 allowed-domains-description = Domínios sempre podem ser abertos no navegador do aplicativo
+allowed-domains-format = Insira uma lista de domínios separados por vírgulas (ex.: example.com, *.example.com)
 allowed-domains-input =
     .placeholder = Insira uma lista de domínios separados por vírgulas...
 
