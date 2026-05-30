@@ -379,14 +379,20 @@ class PwaBrowser {
       return regex.test(string);
     }
 
+    const canOpenOutsidePwa = (uri) => uri.scheme.startsWith('http') || uri.scheme === 'file';
+    const isAllowedDomain = (uri) => uri.scheme.startsWith('http') &&
+      xPref.get(ChromeLoader.PREF_ALLOWED_DOMAINS).split(',').some(pattern => matchWildcard(pattern, uri.host));
+    const isRestrictedDomain = (uri) => uri.scheme.startsWith('http') &&
+      xPref.get('extensions.webextensions.restrictedDomains').split(',').includes(uri.host);
+
     // For this check to pass, opening out-of-scope URLs in default browser must be enabled
     // Additionally, the URL must not be one of allow-listed or restricted domains
     // Otherwise, it is impossible to access certain parts of Firefox
     const checkOutOfScope = (uri, target = null) => !this.canLoad(uri, target) &&
-      uri.scheme.startsWith('http') &&
+      canOpenOutsidePwa(uri) &&
       xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER) &&
-      !xPref.get(ChromeLoader.PREF_ALLOWED_DOMAINS).split(',').some(pattern => matchWildcard(pattern, uri.host)) &&
-      !xPref.get('extensions.webextensions.restrictedDomains').split(',').includes(uri.host);
+      !isAllowedDomain(uri) &&
+      !isRestrictedDomain(uri);
 
     // Handle hiding/showing URL bar when the URL is out-of-scope
     hookFunction(window.gURLBar, 'setURI', null, (_, [args]) => {
@@ -632,6 +638,36 @@ class PwaBrowser {
     const userPreference = xPref.get(ChromeLoader.PREF_LINKS_TARGET);
     if (!userPreference) return;
 
+    const browserController = this;
+    const matchWildcard = (wildcard, string) => {
+      const pattern = wildcard
+        .replaceAll(/[.+?^=!:${}()|\[\]\/\\]/g, '\\$&')
+        .replaceAll('\\\\*', '\\*')
+        .replaceAll(/(?<!\\)\*/g, '.*');
+
+      const regex = new RegExp(`^${pattern}$`);
+      return regex.test(string);
+    }
+
+    const canOpenOutsidePwa = (uri) => uri.scheme.startsWith('http') || uri.scheme === 'file';
+    const isAllowedDomain = (uri) => uri.scheme.startsWith('http') &&
+      xPref.get(ChromeLoader.PREF_ALLOWED_DOMAINS).split(',').some(pattern => matchWildcard(pattern, uri.host));
+    const isRestrictedDomain = (uri) => uri.scheme.startsWith('http') &&
+      xPref.get('extensions.webextensions.restrictedDomains').split(',').includes(uri.host);
+
+    const shouldOpenInDefaultBrowser = (url) => {
+      try {
+        const uri = url instanceof Ci.nsIURI ? url : Services.io.newURI(url);
+        return !browserController.canLoad(uri) &&
+          canOpenOutsidePwa(uri) &&
+          xPref.get(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER) &&
+          !isAllowedDomain(uri) &&
+          !isRestrictedDomain(uri);
+      } catch {
+        return false;
+      }
+    }
+
     // Overwrite built-in preference based on our custom preference
     xPref.set('browser.link.open_newwindow', userPreference);
 
@@ -655,6 +691,11 @@ class PwaBrowser {
         return window.gBrowser._addTab(url, params);
       }
 
+      if (shouldOpenInDefaultBrowser(url)) {
+        MailIntegration._launchExternalUrl(url instanceof Ci.nsIURI ? url : Services.io.newURI(url));
+        return window.gBrowser.selectedTab;
+      }
+
       // Create a new tab and close the previous one when opening tabs with containers or leaving Firefox View
       if (userPreference === 1 && (
         typeof params['userContextId'] !== 'undefined' ||
@@ -673,6 +714,11 @@ class PwaBrowser {
     // Force open link in the same tab if it wanted to be opened in a new tab
     window._openLinkIn = window.openLinkIn;
     window.openLinkIn = function (url, where, params = {}) {
+      if (shouldOpenInDefaultBrowser(url)) {
+        MailIntegration._launchExternalUrl(url instanceof Ci.nsIURI ? url : Services.io.newURI(url));
+        return null;
+      }
+
       if (where === 'tab' || where === 'tabshifted') {
         if (userPreference === 1) where = 'current';
         else if (userPreference === 2) where = 'window';
@@ -1943,7 +1989,7 @@ class PwaBrowser {
     xPref.set(ChromeLoader.PREF_DYNAMIC_WINDOW_ICON, true, true);
 
     // Determines whether out-of-scope URLs should be opened in a default browser
-    xPref.set(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, false, true);
+    xPref.set(ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, true, true);
 
     // Determines whether the tabs mode is enabled
     xPref.set(ChromeLoader.PREF_ENABLE_TABS_MODE, false, true);
@@ -2056,6 +2102,36 @@ class PwaBrowser {
 
     if (!uri || uri.spec === 'about:blank') return true;
     if (!target.gFFPWASiteConfig) return false;
+
+    const matchWildcard = (wildcard, string) => {
+      const pattern = wildcard
+        .replaceAll(/[.+?^=!:${}()|\[\]\/\\]/g, '\\$&')
+        .replaceAll('\\\\*', '\\*')
+        .replaceAll(/(?<!\\)\*/g, '.*');
+
+      const regex = new RegExp(`^${pattern}$`);
+      return regex.test(string);
+    }
+
+    const matchesUrlHandler = (handler, uri) => {
+      try {
+        const normalizedHandler = handler.trim();
+
+        // Allow simple host patterns such as `*.google.com` in addition to full URL patterns.
+        if (!normalizedHandler.includes('://')) {
+          return matchWildcard(normalizedHandler, uri.host);
+        }
+
+        const handlerUri = lazy.ioService.newURI(normalizedHandler.replace(/\*$/, ''));
+        if (normalizedHandler.includes('*')) return matchWildcard(normalizedHandler, uri.spec);
+        return handlerUri.prePath === uri.prePath && uri.filePath.startsWith(handlerUri.filePath);
+      } catch {
+        return false;
+      }
+    }
+
+    const handlers = target.gFFPWASiteConfig.config.enabled_url_handlers || [];
+    if (handlers.some(handler => matchesUrlHandler(handler, uri))) return true;
 
     const scope = lazy.ioService.newURI(target.gFFPWASiteConfig.manifest.scope);
 
