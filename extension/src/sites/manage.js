@@ -148,7 +148,7 @@ async function createSiteList () {
 
   // Hide the installation button on sites where it wouldn't work
   const tab = (await browser.tabs.query({ active: true, currentWindow: true }))[0]
-  if (!tab.url || !(tab.url.startsWith('http://') || tab.url.startsWith('https://'))) {
+  if (!tab || !tab.url || !(tab.url.startsWith('http://') || tab.url.startsWith('https://'))) {
     siteInstallButton.classList.add('d-none')
   }
 
