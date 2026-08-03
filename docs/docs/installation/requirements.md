@@ -19,7 +19,7 @@
 
 ## Native Requirements
 
-* Windows: [Visual C++ Redistributable](https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads)
+* Windows: [Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist#latest-supported-redistributable-version)
 * macOS: Xcode Command Line Tools[^2]
 * Linux: `glibc` 2.18 or later[^3]
 
