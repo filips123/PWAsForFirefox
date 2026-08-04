@@ -1,3 +1,5 @@
+import { OnboardingMessageProvider } from 'resource:///modules/asrouter/OnboardingMessageProvider.sys.mjs';
+import { BrowserGlue } from 'resource:///modules/BrowserGlue.sys.mjs';
 import { WebNavigationManager } from 'resource://gre/modules/WebNavigation.sys.mjs';
 import { XPCOMUtils } from 'resource://gre/modules/XPCOMUtils.sys.mjs';
 
@@ -1724,6 +1726,7 @@ class PwaBrowser {
   //////////////////////////////
 
   configureAll () {
+    this.patchBrowserPrompts();
     this.configureLayout();
     this.configureSettings();
 
@@ -1979,6 +1982,14 @@ class PwaBrowser {
       xPref.clear(ChromeLoader.PREF_OPEN_IN_EXISTING_WINDOW);
       xPref.set(ChromeLoader.PREF_LAUNCH_TYPE, 1);
     }
+  }
+
+  patchBrowserPrompts () {
+    // Disable the default browser prompt and onboarding messages again
+    // Disabling just on boot isn't enough because these modules are loaded later
+    BrowserGlue.prototype._maybeShowDefaultBrowserPrompt = async () => null;
+    OnboardingMessageProvider.getMessages = async () => [];
+    OnboardingMessageProvider.getUntranslatedMessages = async () => [];
   }
 
   //////////////////////////////

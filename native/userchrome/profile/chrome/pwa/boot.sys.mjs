@@ -146,9 +146,13 @@ Services.prefs.getDefaultBranch(null).setBoolPref('browser.urlbar.trustPanel.fea
 // Disable default browser prompt
 BrowserGlue.prototype._maybeShowDefaultBrowserPrompt = async () => null;
 
-// Disable onboarding messages
+// Disable onboarding messages by overriding the provider
 OnboardingMessageProvider.getMessages = async () => [];
 OnboardingMessageProvider.getUntranslatedMessages = async () => [];
+
+// Disable onboarding messages in preferences
+Services.prefs.getDefaultBranch(null).setStringPref('browser.newtabpage.activity-stream.asrouter.providers.onboarding', '{"id":"onboarding","enabled":false}');
+Services.prefs.getDefaultBranch(null).setStringPref('browser.newtabpage.activity-stream.asrouter.providers.cfr', '{"id":"cfr","enabled":false}');
 
 // Override command line helper to intercept PWAsForFirefox arguments and start loading the site
 nsDefaultCommandLineHandler.prototype._handle = nsDefaultCommandLineHandler.prototype.handle;
