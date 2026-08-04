@@ -30,7 +30,7 @@ pub fn sanitize_name<'a>(name: &'a str, id: &'a str) -> String {
     sanitized = sanitized.trim_start_matches([' ', '.']).into();
     sanitized = sanitize_filename::sanitize(sanitized);
 
-    if sanitized.is_empty() { format!("Site {}", &id) } else { sanitized }
+    if sanitized.is_empty() { format!("Site {id}") } else { sanitized }
 }
 
 /// Normalize category name.

@@ -290,7 +290,7 @@ impl Runtime {
                 use crate::components::_7zip::_7Zip;
 
                 let _7zip = _7Zip::new()?;
-                let success = _7zip.run(vec!["x", &archive, &format!("-o{}", &extracted)]).context(EXTRACT_ERROR)?.success();
+                let success = _7zip.run(vec!["x", &archive, &format!("-o{extracted}")]).context(EXTRACT_ERROR)?.success();
                 if !success { bail!(EXTRACT_ERROR) }
 
                 source.push("core");

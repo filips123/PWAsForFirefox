@@ -106,10 +106,10 @@ fn create_arp_entry(
     icon: &str,
 ) -> Result<()> {
     let key = CURRENT_USER
-        .create(format!(r"{ADD_REMOVE_PROGRAMS_KEY}\{}", &ids.regid))
+        .create(format!(r"{ADD_REMOVE_PROGRAMS_KEY}\{}", ids.regid))
         .context("Failed to create registry key")?;
 
-    key.set_string("UninstallString", format!("{} site uninstall --quiet {}", &exe, &ids.ulid))?;
+    key.set_string("UninstallString", format!("{} site uninstall --quiet {}", exe, ids.ulid))?;
     key.set_string("DisplayIcon", icon)?;
     key.set_string("DisplayName", &ids.name)?;
     key.set_string("Publisher", args.site.domain())?;
@@ -405,7 +405,7 @@ pub fn uninstall(args: &IntegrationUninstallArgs) -> Result<()> {
     let _ = remove_dir_all(icons_directory);
 
     // Remove ARP entry
-    let _ = CURRENT_USER.remove_tree(format!(r"{ADD_REMOVE_PROGRAMS_KEY}\{}", &ids.regid));
+    let _ = CURRENT_USER.remove_tree(format!(r"{ADD_REMOVE_PROGRAMS_KEY}\{}", ids.regid));
 
     let data = directories::BaseDirs::new()
         .context("Failed to determine base system directories")?
