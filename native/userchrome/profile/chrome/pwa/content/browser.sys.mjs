@@ -393,6 +393,10 @@ class PwaBrowser {
       // Handle both passing URI directly and as a named options object
       let uri = args?.uri ?? args;
 
+      // In some cases (like when bookmarking a page), this function gets called without an URL
+      // In such cases, the function shouldn't do anything
+      if (!uri?.spec) return;
+
       // Check whether the URL is in scope
       const canLoad = this.canLoad(uri);
       let displayBar = !canLoad && !uri.spec.startsWith('about:firefoxview');
