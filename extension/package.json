@@ -30,7 +30,7 @@
     "prepare:icons": "node ./tools/icons/generate.js",
     "set-version": "node ./tools/set-version.js"
   },
-  "packageManager": "yarn@4.13.0",
+  "packageManager": "yarn@4.18.0",
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "base64-js": "^1.5.1",
