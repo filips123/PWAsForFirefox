@@ -237,11 +237,11 @@ Terminal=false
 StartupNotify=true
 StartupWMClass={wmclass}
 ",
-        id = &ids.ulid,
-        name = &ids.name,
-        description = &ids.description,
-        keywords = &args.site.keywords().join(";"),
-        categories = &categories.join(";"),
+        id = ids.ulid,
+        name = ids.name,
+        description = ids.description,
+        keywords = args.site.keywords().join(";"),
+        categories = categories.join(";"),
         actions = (0..args.site.manifest.shortcuts.len()).fold(String::new(), |mut output, i| {
             let _ = write!(output, "{i};");
             output
@@ -253,9 +253,9 @@ StartupWMClass={wmclass}
                 output
             }
         ),
-        icon = &ids.classid,
-        wmclass = &ids.classid,
-        exe = &exe,
+        icon = ids.classid,
+        wmclass = ids.classid,
+        exe = exe,
     );
 
     // Store all shortcuts
@@ -277,11 +277,11 @@ Icon={icon}
 Exec={exe} site launch {siteid} --url \"{url}\"
 ",
             actionid = i,
-            siteid = &ids.ulid,
-            name = &name,
-            icon = &icon,
-            url = &url,
-            exe = &exe,
+            siteid = ids.ulid,
+            name = name,
+            icon = icon,
+            url = url,
+            exe = exe,
         );
 
         entry += &action;
