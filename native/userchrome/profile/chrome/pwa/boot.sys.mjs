@@ -123,15 +123,13 @@ function launchSite (siteConfig, urlList, isStartup) {
   return win;
 }
 
-// Properly disable Firefox Session Restore and Private Window Separation
+// Properly disable session restore and default browser checks
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.sessionstore.resume_from_crash', false);
 Services.prefs.getDefaultBranch(null).setIntPref('browser.sessionstore.max_resumed_crashes', 0);
 Services.prefs.getDefaultBranch(null).setIntPref('browser.sessionstore.max_tabs_undo', 0);
 Services.prefs.getDefaultBranch(null).setIntPref('browser.sessionstore.max_windows_undo', 0);
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.shell.checkDefaultBrowser', false);
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.startup.upgradeDialog.enabled', false);
-Services.prefs.getDefaultBranch(null).setBoolPref('browser.privateWindowSeparation.enabled', false);
-Services.prefs.getDefaultBranch(null).setBoolPref('browser.privacySegmentation.createdShortcut', true);
 
 // Force disable vertical tabs until we figure out how to properly support them (#667)
 Services.prefs.setBoolPref('sidebar.verticalTabs', false);
@@ -154,6 +152,15 @@ OnboardingMessageProvider.getUntranslatedMessages = async () => [];
 // Disable onboarding messages in preferences
 Services.prefs.getDefaultBranch(null).setStringPref('browser.newtabpage.activity-stream.asrouter.providers.onboarding', '{"id":"onboarding","enabled":false}');
 Services.prefs.getDefaultBranch(null).setStringPref('browser.newtabpage.activity-stream.asrouter.providers.cfr', '{"id":"cfr","enabled":false}');
+
+// Disable private window separation
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.privateWindowSeparation.enabled', false);
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.privacySegmentation.createdShortcut', true);
+
+// Disable built-in support for launch on login
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.startup.windowsLaunchOnLogin.enabled', false);
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.startup.windowsLaunchOnLogin.alreadyApplied', true);
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.startup.windowsLaunchOnLogin.disableLaunchOnLoginPrompt', true);
 
 // Disable built-in support for custom icons
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.shell.customIcon.enabled', false);
