@@ -6,6 +6,7 @@ import { BrowserGlue } from 'resource:///modules/BrowserGlue.sys.mjs';
 import { BrowserWindowTracker } from 'resource:///modules/BrowserWindowTracker.sys.mjs';
 import { WebProtocolHandlerRegistrar } from 'resource:///modules/WebProtocolHandlerRegistrar.sys.mjs';
 import { OnboardingMessageProvider } from 'resource:///modules/asrouter/OnboardingMessageProvider.sys.mjs';
+import { CustomIconManager } from 'moz-src:///browser/components/shell/CustomIconManager.sys.mjs';
 
 import { applySystemIntegration } from 'resource://pwa/utils/systemIntegration.sys.mjs';
 
@@ -153,6 +154,12 @@ OnboardingMessageProvider.getUntranslatedMessages = async () => [];
 // Disable onboarding messages in preferences
 Services.prefs.getDefaultBranch(null).setStringPref('browser.newtabpage.activity-stream.asrouter.providers.onboarding', '{"id":"onboarding","enabled":false}');
 Services.prefs.getDefaultBranch(null).setStringPref('browser.newtabpage.activity-stream.asrouter.providers.cfr', '{"id":"cfr","enabled":false}');
+
+// Disable built-in support for custom icons
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.shell.customIcon.enabled', false);
+Object.defineProperty(CustomIconManager, "supported", { get: () => false });
+CustomIconManager.ensureAppliedOrRevert = async () => null;
+CustomIconManager.ensureShortcutInPerUserStartMenu = async () => null;
 
 // Override command line helper to intercept PWAsForFirefox arguments and start loading the site
 nsDefaultCommandLineHandler.prototype._handle = nsDefaultCommandLineHandler.prototype.handle;
