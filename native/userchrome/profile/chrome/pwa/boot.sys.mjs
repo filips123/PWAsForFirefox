@@ -6,7 +6,6 @@ import { BrowserGlue } from 'resource:///modules/BrowserGlue.sys.mjs';
 import { BrowserWindowTracker } from 'resource:///modules/BrowserWindowTracker.sys.mjs';
 import { WebProtocolHandlerRegistrar } from 'resource:///modules/WebProtocolHandlerRegistrar.sys.mjs';
 import { OnboardingMessageProvider } from 'resource:///modules/asrouter/OnboardingMessageProvider.sys.mjs';
-import { CustomIconManager } from 'moz-src:///browser/components/shell/CustomIconManager.sys.mjs';
 
 import { applySystemIntegration } from 'resource://pwa/utils/systemIntegration.sys.mjs';
 
@@ -163,9 +162,14 @@ Services.prefs.getDefaultBranch(null).setBoolPref('browser.startup.windowsLaunch
 
 // Disable built-in support for custom icons
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.shell.customIcon.enabled', false);
-Object.defineProperty(CustomIconManager, 'supported', { get: () => false });
-CustomIconManager.ensureAppliedOrRevert = async () => null;
-CustomIconManager.ensureShortcutInPerUserStartMenu = async () => null;
+try {
+  const { CustomIconManager } = ChromeUtils.importESModule('moz-src:///browser/components/shell/CustomIconManager.sys.mjs');
+  Object.defineProperty(CustomIconManager, 'supported', { get: () => false });
+  CustomIconManager.ensureAppliedOrRevert = async () => null;
+  CustomIconManager.ensureShortcutInPerUserStartMenu = async () => null;
+} catch (error) {
+  // Ignore if CustomIconManager is not available in this Firefox version
+}
 
 // Override command line helper to intercept PWAsForFirefox arguments and start loading the site
 nsDefaultCommandLineHandler.prototype._handle = nsDefaultCommandLineHandler.prototype.handle;
