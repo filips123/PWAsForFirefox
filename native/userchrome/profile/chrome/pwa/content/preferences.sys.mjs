@@ -1,193 +1,336 @@
-import { ShortcutUtils } from 'resource://gre/modules/ShortcutUtils.sys.mjs';
+import { SettingGroupManager } from 'chrome://browser/content/preferences/config/SettingGroupManager.mjs'
+import { SettingPaneManager } from 'chrome://browser/content/preferences/config/SettingPaneManager.mjs'
+import { Preferences } from 'chrome://global/content/preferences/Preferences.mjs'
+import { ShortcutUtils } from 'resource://gre/modules/ShortcutUtils.sys.mjs'
 
-import { hookFunction } from 'resource://pwa/utils/hookFunction.sys.mjs';
-import { xPref } from 'resource://pwa/utils/xPref.sys.mjs';
+import { xPref } from 'resource://pwa/utils/xPref.sys.mjs'
 
-class PwaPreferences {
-  preferenceElementsAdded = false
+function registerPreferences () {
+  Preferences.addAll([
+    { id: ChromeLoader.PREF_LINKS_TARGET, type: 'int' },
+    { id: ChromeLoader.PREF_LAUNCH_TYPE, type: 'int' },
+    { id: ChromeLoader.PREF_DISPLAY_URL_BAR, type: 'int' },
+    { id: ChromeLoader.PREF_SITES_SET_THEME_COLOR, type: 'bool' },
+    { id: ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR, type: 'bool' },
+    { id: ChromeLoader.PREF_DYNAMIC_THEME_COLOR, type: 'bool' },
+    { id: ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE, type: 'bool' },
+    { id: ChromeLoader.PREF_DYNAMIC_WINDOW_ICON, type: 'bool' },
+    { id: ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS, type: 'bool' },
+    { id: ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, type: 'bool' },
+    { id: ChromeLoader.PREF_ENABLE_TABS_MODE, type: 'bool' },
+    { id: ChromeLoader.PREF_ALLOWED_DOMAINS, type: 'wstring' },
+    { id: ChromeLoader.PREF_SHORTCUTS_CLOSE_TAB, type: 'bool' },
+    { id: ChromeLoader.PREF_SHORTCUTS_CLOSE_WINDOW, type: 'bool' },
+    { id: ChromeLoader.PREF_SHORTCUTS_QUIT_APPLICATION, type: 'bool' },
+    { id: ChromeLoader.PREF_SHORTCUTS_PRIVATE_BROWSING, type: 'bool' },
+  ])
+}
 
-  constructor () {
-    // Register preference data
-    this.addPreferenceData();
+function registerLocalization () {
+  document.l10n.addResourceIds([{ path: 'pwa/preferences.ftl', optional: true }])
+}
 
-    // Register preference localization
-    document.l10n.addResourceIds([{ path: 'pwa/preferences.ftl', optional: true }]);
+function registerAppearanceGroup () {
+  // Register subgroups
+  Preferences.addSetting({ id: 'group-appearance-titlebar' })
+  Preferences.addSetting({ id: 'group-appearance-colors' })
 
-    // Register preference elements
-    try { this.addPreferenceElements() } catch {}
-    hookFunction(gMainPane, 'init', null, () => { this.addPreferenceElements(); });
+  // Register titlebar preferences
+  Preferences.addSetting({ id: 'dynamic-window-title', pref: ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE })
+  Preferences.addSetting({ id: 'dynamic-window-icon', pref: ChromeLoader.PREF_DYNAMIC_WINDOW_ICON })
+  Preferences.addSetting({ id: 'native-window-controls', pref: ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS })
 
-    // Handle switch of preferences on load and when they changes
-    setTimeout(() => { this.handleTabsModePreferenceSwitch(true); });
-    xPref.addListener(ChromeLoader.PREF_ENABLE_TABS_MODE, () => { this.handleTabsModePreferenceSwitch() });
+  // Register color preferences
+  Preferences.addSetting({ id: 'sites-set-theme-color', pref: ChromeLoader.PREF_SITES_SET_THEME_COLOR })
+  Preferences.addSetting({ id: 'sites-set-background-color', pref: ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR })
+  Preferences.addSetting({ id: 'dynamic-theme-color', pref: ChromeLoader.PREF_DYNAMIC_THEME_COLOR })
+
+  SettingGroupManager.registerGroup('web-apps-appearance', {
+    l10nId: 'group-appearance-header',
+    headingLevel: 2,
+    items: [
+      {
+        id: 'group-appearance-titlebar',
+        l10nId: 'group-appearance-titlebar-header',
+        control: 'moz-fieldset',
+        headingLevel: 3,
+        items: [
+          {
+            id: 'dynamic-window-title',
+            l10nId: 'dynamic-window-title',
+          },
+          {
+            id: 'dynamic-window-icon',
+            l10nId: 'dynamic-window-icon',
+          },
+          {
+            id: 'native-window-controls',
+            l10nId: 'native-window-controls',
+          },
+        ],
+      },
+      {
+        id: 'group-appearance-colors',
+        l10nId: 'group-appearance-colors-header',
+        control: 'moz-fieldset',
+        headingLevel: 3,
+        items: [
+          {
+            id: 'sites-set-theme-color',
+            l10nId: 'sites-set-theme-color',
+            items: [{
+              id: 'dynamic-theme-color',
+              l10nId: 'dynamic-theme-color',
+            }],
+          },
+          {
+            id: 'sites-set-background-color',
+            l10nId: 'sites-set-background-color',
+          },
+        ],
+      },
+    ],
+  })
+}
+
+function registerInterfaceGroup () {
+  // Register tabs preferences
+  Preferences.addSetting({ id: 'enable-tabs-mode', pref: ChromeLoader.PREF_ENABLE_TABS_MODE })
+  Preferences.addSetting({ id: 'manage-tabs-behavior', onUserClick: () => window.gotoPref('paneTabsBrowsing') })
+
+  // Register address bar preferences
+  Preferences.addSetting({ id: 'display-address-bar', pref: ChromeLoader.PREF_DISPLAY_URL_BAR })
+
+  SettingGroupManager.registerGroup('web-apps-interface', {
+    l10nId: 'group-interface-header',
+    headingLevel: 2,
+    items: [
+      {
+        id: 'enable-tabs-mode',
+        l10nId: 'enable-tabs-mode',
+      },
+      {
+        id: 'manage-tabs-behavior',
+        l10nId: 'manage-tabs-behavior',
+        control: 'moz-box-link',
+      },
+      {
+        id: 'display-address-bar',
+        l10nId: 'display-address-bar-label',
+        control: 'moz-radio-group',
+        options: [
+          {
+            l10nId: 'display-address-bar-choice-out-of-scope',
+            value: 0,
+          },
+          {
+            l10nId: 'display-address-bar-choice-always',
+            value: 2,
+          },
+          {
+            l10nId: 'display-address-bar-choice-never',
+            value: 1,
+          },
+        ],
+      },
+    ],
+  })
+}
+
+function registerBehaviorGroup () {
+  // Register subgroups
+  Preferences.addSetting({ id: 'group-behavior-out-of-scope' })
+
+  // Launch type and links target preferences depend on the tabs mode, as the "new tab" option is only available when tabs mode is enabled
+  // To correctly update this, we need an empty callback here to trigger the update, and the real callback below
+
+  // Register launch type preferences
+  Preferences.addSetting({
+    id: 'launch-type',
+    pref: ChromeLoader.PREF_LAUNCH_TYPE,
+    deps: ['enable-tabs-mode'],
+    disabled: () => false,
+  })
+
+  // Register links target preferences
+  Preferences.addSetting({
+    id: 'links-target',
+    pref: ChromeLoader.PREF_LINKS_TARGET,
+    deps: ['enable-tabs-mode'],
+    disabled: () => false,
+  })
+
+  // Register out-of-scope preferences
+  Preferences.addSetting({
+    id: 'open-out-of-scope-in-default-browser',
+    pref: ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER,
+  })
+  Preferences.addSetting({
+    id: 'allowed-domains',
+    pref: ChromeLoader.PREF_ALLOWED_DOMAINS,
+  })
+
+  SettingGroupManager.registerGroup('web-apps-behavior', {
+    l10nId: 'group-behavior-header',
+    headingLevel: 2,
+    items: [
+      {
+        id: 'launch-type',
+        l10nId: 'launch-type-label',
+        control: 'moz-radio-group',
+        deps: ['enable-tabs-mode'],
+        options: [
+          {
+            l10nId: 'launch-type-choice-new-window',
+            value: 0,
+          },
+          {
+            l10nId: 'launch-type-choice-new-tab',
+            get disabled () { return !xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE) },
+            value: 1,
+          },
+          {
+            l10nId: 'launch-type-choice-replace',
+            value: 2,
+          },
+          {
+            l10nId: 'launch-type-choice-focus',
+            value: 3,
+          },
+        ],
+      },
+      {
+        id: 'links-target',
+        l10nId: 'links-target-label',
+        control: 'moz-radio-group',
+        options: [
+          {
+            l10nId: 'links-target-choice-new-window',
+            value: 2,
+          },
+          {
+            l10nId: 'links-target-choice-new-tab',
+            get disabled () { return !xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE) },
+            value: 3,
+          },
+          {
+            l10nId: 'links-target-choice-current-tab',
+            value: 1,
+          },
+          {
+            l10nId: 'links-target-choice-keep',
+            value: 0,
+          },
+        ],
+      },
+      {
+        id: 'group-behavior-out-of-scope',
+        l10nId: 'group-behavior-out-of-scope-header',
+        control: 'moz-fieldset',
+        headingLevel: 3,
+        items: [
+          {
+            id: 'open-out-of-scope-in-default-browser',
+            l10nId: 'open-out-of-scope-in-default-browser',
+            items: [{
+              id: 'allowed-domains',
+              l10nId: 'allowed-domains',
+              control: 'moz-input-text',
+            }],
+          },
+        ],
+      },
+    ],
+  })
+}
+
+function registerShortcutsGroup () {
+  // Register shortcuts preferences
+  Preferences.addSetting({ id: 'shortcuts-close-tab', pref: ChromeLoader.PREF_SHORTCUTS_CLOSE_TAB })
+  Preferences.addSetting({ id: 'shortcuts-close-window', pref: ChromeLoader.PREF_SHORTCUTS_CLOSE_WINDOW })
+  Preferences.addSetting({ id: 'shortcuts-quit-application', pref: ChromeLoader.PREF_SHORTCUTS_QUIT_APPLICATION })
+  Preferences.addSetting({ id: 'shortcuts-private-browsing', pref: ChromeLoader.PREF_SHORTCUTS_PRIVATE_BROWSING })
+
+  const getShortcutText = shortcut => {
+    const element = window.browsingContext.topChromeWindow.document.getElementById(shortcut)
+    return element ? ShortcutUtils.prettifyShortcut(element) : undefined
   }
 
-  addPreferenceData () {
-    Preferences.addAll([
-      { id: ChromeLoader.PREF_LINKS_TARGET, type: 'int' },
-      { id: ChromeLoader.PREF_LAUNCH_TYPE, type: 'int' },
-      { id: ChromeLoader.PREF_DISPLAY_URL_BAR, type: 'int' },
-      { id: ChromeLoader.PREF_SITES_SET_THEME_COLOR, type: 'bool' },
-      { id: ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR, type: 'bool' },
-      { id: ChromeLoader.PREF_DYNAMIC_THEME_COLOR, type: 'bool' },
-      { id: ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE, type: 'bool' },
-      { id: ChromeLoader.PREF_DYNAMIC_WINDOW_ICON, type: 'bool' },
-      { id: ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS, type: 'bool' },
-      { id: ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER, type: 'bool' },
-      { id: ChromeLoader.PREF_ENABLE_TABS_MODE, type: 'bool' },
-      { id: ChromeLoader.PREF_ALLOWED_DOMAINS, type: 'wstring' },
-      { id: ChromeLoader.PREF_SHORTCUTS_CLOSE_TAB, type: 'bool' },
-      { id: ChromeLoader.PREF_SHORTCUTS_CLOSE_WINDOW, type: 'bool' },
-      { id: ChromeLoader.PREF_SHORTCUTS_QUIT_APPLICATION, type: 'bool' },
-      { id: ChromeLoader.PREF_SHORTCUTS_PRIVATE_BROWSING, type: 'bool' },
-    ]);
+  const prepareShortcutSetting = (shortcutId, settingId) => ({
+    id: settingId,
+    l10nId: settingId,
+    l10nArgs: getShortcutText(shortcutId) ? { shortcut: getShortcutText(shortcutId) } : undefined,
+  })
+
+  SettingGroupManager.registerGroup('web-apps-shortcuts', {
+    l10nId: 'group-shortcuts-header',
+    headingLevel: 2,
+    items: [
+      prepareShortcutSetting('key_close', 'shortcuts-close-tab'),
+      prepareShortcutSetting('key_closeWindow', 'shortcuts-close-window'),
+      prepareShortcutSetting('key_quitApplication', 'shortcuts-quit-application'),
+      prepareShortcutSetting('key_privatebrowsing', 'shortcuts-private-browsing'),
+    ],
+  })
+}
+
+function registerCategory () {
+  const categories = document.getElementById('categories')
+
+  const category = document.createElement('moz-page-nav-button')
+  category.id = 'category-web-apps'
+  category.setAttribute('view', 'paneWebApps')
+  category.setAttribute('iconsrc', 'chrome://browser/skin/window.svg')
+  category.setAttribute('data-l10n-id', 'pane-web-apps-title')
+
+  categories.insertBefore(category, categories.firstChild)
+
+  SettingPaneManager.registerPane('webApps', {
+    iconSrc: 'chrome://browser/skin/window.svg',
+    l10nId: 'pane-web-apps-section',
+    groupIds: ['web-apps-appearance', 'web-apps-interface', 'web-apps-behavior', 'web-apps-shortcuts'],
+  })
+}
+
+function handleTabsModePreferenceSwitch (onLoad = false) {
+  function disableTabsSection (disabled) {
+    // Disable the tabs section
+    document.querySelector('setting-group[groupid="tabs"] moz-fieldset')?.toggleAttribute('disabled', disabled)
   }
 
-  addPreferenceElements () {
-    if (this.preferenceElementsAdded) return;
-    this.preferenceElementsAdded = true;
+  if (xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) {
+    // If the tabs mode is enabled, enable the tabs section and set the links target to a new tab
+    disableTabsSection(false)
+    if (!onLoad && xPref.get(ChromeLoader.PREF_LINKS_TARGET) === 1) xPref.set(ChromeLoader.PREF_LINKS_TARGET, 3)
 
-    const firefoxpwaGroup = MozXULElement.parseXULToFragment(`
-<groupbox id="firefoxpwaGroup" data-category="paneGeneral">
-  <label>
-    <html:h2 data-l10n-id="firefoxpwa-group-header"></html:h2>
-    <description data-l10n-id="firefoxpwa-group-note"></description>
-  </label>
-
-  <vbox id="colorsBox" style="padding-top: 1rem;">
-    <checkbox preference="${ChromeLoader.PREF_SITES_SET_THEME_COLOR}" data-l10n-id="sites-set-theme-color" />
-    <checkbox preference="${ChromeLoader.PREF_SITES_SET_BACKGROUND_COLOR}" data-l10n-id="sites-set-background-color" />
-    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_THEME_COLOR}" data-l10n-id="dynamic-theme-color" />
-  </vbox>
-
-  <vbox id="titlebarBox" style="padding-top: 1rem;">
-    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_WINDOW_TITLE}" data-l10n-id="dynamic-window-title" />
-    <checkbox preference="${ChromeLoader.PREF_DYNAMIC_WINDOW_ICON}" data-l10n-id="dynamic-window-icon" />
-    <checkbox preference="${ChromeLoader.PREF_ALWAYS_USE_NATIVE_WINDOW_CONTROLS}" data-l10n-id="native-window-controls" class="pref-csd-only" />
-  </vbox>
-
-   <vbox id="uxBox" style="padding-top: 1rem;">
-    <checkbox preference="${ChromeLoader.PREF_OPEN_OUT_OF_SCOPE_IN_DEFAULT_BROWSER}" data-l10n-id="open-out-of-scope-in-default-browser" />
-    <checkbox preference="${ChromeLoader.PREF_ENABLE_TABS_MODE}" data-l10n-id="enable-tabs-mode" />
-  </vbox>
-
-  <vbox id="linksTargetBox" style="padding-top: 1rem;">
-    <label>
-      <description data-l10n-id="links-target-description"></description>
-    </label>
-    <vbox>
-      <radiogroup id="linksTargetRadioGroup" preference="${ChromeLoader.PREF_LINKS_TARGET}">
-        <radio value="1" data-l10n-id="links-target-choice-current-tab" />
-        <radio value="2" data-l10n-id="links-target-choice-new-window" />
-        <radio value="3" data-l10n-id="links-target-choice-new-tab" />
-        <radio value="0" data-l10n-id="links-target-choice-keep" />
-      </radiogroup>
-    </vbox>
-  </vbox>
-
-   <vbox id="launchTypeBox" style="padding-top: 1rem;">
-    <label>
-      <description data-l10n-id="launch-type-description"></description>
-    </label>
-    <vbox>
-      <radiogroup id="launchTypeRadioGroup" preference="${ChromeLoader.PREF_LAUNCH_TYPE}">
-        <radio value="0" id="launchTypeNewWindow" data-l10n-id="launch-type-choice-new-window" />
-        <radio value="1" id="launchTypeNewTab" data-l10n-id="launch-type-choice-new-tab" />
-        <radio value="2" id="launchTypeReplace" data-l10n-id="launch-type-choice-replace" />
-        <radio value="3" id="launchTypeFocus" data-l10n-id="launch-type-choice-focus" />
-      </radiogroup>
-    </vbox>
-  </vbox>
-
-  <vbox id="displayUrlBarBox" style="padding-top: 1rem;">
-    <label>
-      <description data-l10n-id="display-address-bar-description"></description>
-    </label>
-    <vbox>
-      <radiogroup id="displayUrlBarRadioGroup" preference="${ChromeLoader.PREF_DISPLAY_URL_BAR}">
-        <radio value="0" data-l10n-id="display-address-bar-choice-out-of-scope" />
-        <radio value="2" data-l10n-id="display-address-bar-choice-always" />
-        <radio value="1" data-l10n-id="display-address-bar-choice-never" />
-      </radiogroup>
-    </vbox>
-  </vbox>
-
-  <vbox id="allowedDomainsBox" style="padding-top: 1rem;">
-    <label>
-      <description data-l10n-id="allowed-domains-description"></description>
-      <description data-l10n-id="allowed-domains-format"></description>
-    </label>
-    <vbox>
-      <html:input type="text" class="global-input" preference="${ChromeLoader.PREF_ALLOWED_DOMAINS}" data-l10n-id="allowed-domains-input" />
-    </vbox>
-  </vbox>
-</groupbox>
-`).firstChild;
-
-    const shortcutsGroup = MozXULElement.parseXULToFragment(`
-<groupbox id="shortcutsGroup" data-category="paneGeneral">
-  <label>
-    <html:h2 data-l10n-id="shortcuts-group-header"></html:h2>
-    <description data-l10n-id="shortcuts-group-note"></description>
-  </label>
-  <vbox id="shortcutsBox" style="padding-top: 1rem;">
-    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_CLOSE_TAB}" id="shortcutsCloseTab" />
-    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_CLOSE_WINDOW}" id="shortcutsCloseWindow" />
-    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_QUIT_APPLICATION}" id="shortcutsQuitApplication" />
-    <checkbox preference="${ChromeLoader.PREF_SHORTCUTS_PRIVATE_BROWSING}" id="shortcutsPrivateBrowsing" />
-  </vbox>
-</groupbox>
-`).firstChild;
-
-    function setShortcutMessage (selector, messageId, shortcutId) {
-      const target = shortcutsGroup.querySelector(selector);
-      target.setAttribute('data-l10n-id', messageId);
-
-      const shortcutElement = window.browsingContext.topChromeWindow.document.getElementById(shortcutId);
-      if (!shortcutElement) return;
-
-      const shortcutText = ShortcutUtils.prettifyShortcut(shortcutElement);
-      target.setAttribute('data-l10n-args', JSON.stringify({ shortcut: shortcutText }));
-    }
-
-    setShortcutMessage('#shortcutsCloseTab', 'shortcuts-close-tab', 'key_close');
-    setShortcutMessage('#shortcutsCloseWindow', 'shortcuts-close-window', 'key_closeWindow');
-    setShortcutMessage('#shortcutsQuitApplication', 'shortcuts-quit-application', 'key_quitApplication');
-    setShortcutMessage('#shortcutsPrivateBrowsing', 'shortcuts-private-browsing', 'key_privatebrowsing');
-
-    const startupGroup = document.getElementById('startupGroup');
-    if (startupGroup.hidden) firefoxpwaGroup.hidden = true;
-    if (startupGroup.hidden) shortcutsGroup.hidden = true;
-    startupGroup.nextElementSibling.after(firefoxpwaGroup);
-    startupGroup.nextElementSibling.nextElementSibling.after(shortcutsGroup);
-  }
-
-  handleTabsModePreferenceSwitch (onLoad = false) {
-    function setTabsSectionDisabled (disabled) {
-      // Disable the original tabs section
-      document.querySelector('[data-l10n-id="tabs-group-header"]')?.closest('groupbox').childNodes.forEach(elem => elem.disabled = disabled);
-
-      // Disable the new declarative tabs section
-      document.querySelectorAll('setting-group[groupid="tabs"] moz-checkbox')?.forEach(elem => elem.disabled = disabled);
-
-      // Disable the new tab launch type option
-      document.querySelector('#launchTypeNewTab').disabled = disabled;
-    }
-
-    if (xPref.get(ChromeLoader.PREF_ENABLE_TABS_MODE)) {
-      // If the tabs mode is enabled, enable the tabs section and set the links target to a new tab
-      setTabsSectionDisabled(false);
-      setTimeout(() => setTabsSectionDisabled(false), 100);
-      if (!onLoad && xPref.get(ChromeLoader.PREF_LINKS_TARGET) === 1) xPref.set(ChromeLoader.PREF_LINKS_TARGET, 3);
-
-    } else {
-      // If the tabs mode is disabled, disable the tabs section and reset preferences
-      setTabsSectionDisabled(true)
-      setTimeout(() => setTabsSectionDisabled(true), 100);
-      if (!onLoad && xPref.get(ChromeLoader.PREF_LINKS_TARGET) === 3) xPref.clear(ChromeLoader.PREF_LINKS_TARGET);
-      if (!onLoad && xPref.get(ChromeLoader.PREF_LAUNCH_TYPE) === 1) xPref.clear(ChromeLoader.PREF_LAUNCH_TYPE);
-    }
+  } else {
+    // If the tabs mode is disabled, disable the tabs section and reset preferences
+    disableTabsSection(true)
+    if (!onLoad && xPref.get(ChromeLoader.PREF_LINKS_TARGET) === 3) xPref.clear(ChromeLoader.PREF_LINKS_TARGET)
+    if (!onLoad && xPref.get(ChromeLoader.PREF_LAUNCH_TYPE) === 1) xPref.clear(ChromeLoader.PREF_LAUNCH_TYPE)
   }
 }
 
-new PwaPreferences();
+// Register the low-level preferences
+registerPreferences()
+
+// Register the localization resources
+registerLocalization()
+
+// Register all settings groups and their fields
+registerAppearanceGroup()
+registerInterfaceGroup()
+registerBehaviorGroup()
+registerShortcutsGroup()
+
+// Register the web apps category in the sidebar
+registerCategory()
+
+// Handle switch of preferences on load and when they changes
+setTimeout(() => { handleTabsModePreferenceSwitch(true) })
+xPref.addListener(ChromeLoader.PREF_ENABLE_TABS_MODE, () => { handleTabsModePreferenceSwitch() })
+
+document.addEventListener('Initialized', () => {
+  // Navigate to the web apps category on direct access
+  if (!document.location.hash) window.gotoPref('webApps')
+})

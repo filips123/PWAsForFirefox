@@ -1,18 +1,40 @@
-## Progressive Web Apps Group Details
+### Pane and group titles should be translated in the same style and capitalization as existing Firefox messages in your language
+### Example: https://pontoon.mozilla.org/sl/firefox/browser/browser/preferences/preferences.ftl/?search=pane-account-sync-title&search_identifiers=true
+### Example: https://pontoon.mozilla.org/sl/firefox/browser/browser/preferences/preferences.ftl/?search=preferences-contrast-control-group&search_identifiers=true
 
-firefoxpwa-group-header = Progressive Web Apps
-firefoxpwa-group-note = You may need to restart the browser to apply these settings
+## Web Applications Pane
 
-## Colors Preferences
+pane-web-apps-title = Web applications
+    .title = { pane-web-apps-title }
 
-sites-set-theme-color =
-    .label = Allow web apps to override a theme (titlebar) color
+pane-web-apps-section =
+    .heading = { pane-web-apps-title }
+    .description = You may need to restart the browser to apply these settings.
 
-sites-set-background-color =
-    .label = Allow web apps to override a background (window) color
+group-appearance-header =
+    .label = Appearance
+    .description = Customize how the web app integrates with your operating system visually.
 
-dynamic-theme-color =
-    .label = Allow web apps to dynamically change a theme color
+group-appearance-titlebar-header =
+    .label = Titlebar
+
+group-appearance-colors-header =
+    .label = Colors
+
+group-interface-header =
+    .label = Interface and layout
+    .description = Customize the toolbars and controls in the web app window.
+
+group-behavior-header =
+    .label = Navigation and behavior
+    .description = Customize how the web app behaves when navigating and opening.
+
+group-behavior-out-of-scope-header =
+    .label = Out-of-scope navigation
+
+group-shortcuts-header =
+    .label = Keyboard shortcuts
+    .description = Customize which keyboard shortcuts are enabled.
 
 ## Titlebar Preferences
 
@@ -25,39 +47,50 @@ dynamic-window-icon =
 native-window-controls =
     .label = Always use native window controls
 
-## User Experience Preferences
+## Colors Preferences
 
-open-out-of-scope-in-default-browser =
-    .label = Open out-of-scope URLs in a default browser (can break some web apps)
+sites-set-theme-color =
+    .label = Allow web apps to override the theme (titlebar) color
+
+sites-set-background-color =
+    .label = Allow web apps to override the background color
+
+dynamic-theme-color =
+    .label = Dynamically change the theme color
+
+## Tabs Preference
 
 enable-tabs-mode =
-    .label = Show browser tabs and enable using multi-tabbed web apps
+    .label = Enable the multi-tabbed interface
 
-## Links Target Preference
+manage-tabs-behavior =
+    .label = Manage more tab behavior settings
 
-links-target-description = When opening a link that should normally open in a new window or tab
+## Address Bar Preference
 
-links-target-choice-current-tab =
-    .label = Force links into the current tab
+display-address-bar-label =
+    .label = Address bar visibility
 
-links-target-choice-new-tab =
-    .label = Force links into a new tab
+display-address-bar-choice-out-of-scope =
+    .label = Visible when the URL is out-of-scope
 
-links-target-choice-new-window =
-    .label = Force links into a new window
+display-address-bar-choice-always =
+    .label = Always visible
 
-links-target-choice-keep =
-    .label = Do not change link behavior
+display-address-bar-choice-never =
+    .label = Never visible
 
 ## Launch Type Preference
 
-launch-type-description = When launching a web app that is already opened
+launch-type-label =
+    .label = App relaunching behavior
+    .description = When launching a web app that is already running…
 
 launch-type-choice-new-window =
-    .label = Open web app in a new window
+    .label = Open app in a new window
 
 launch-type-choice-new-tab =
-    .label = Open web app in a new tab
+    .label = Open app in a new tab
 
 launch-type-choice-replace =
     .label = Replace the existing tab
@@ -65,32 +98,34 @@ launch-type-choice-replace =
 launch-type-choice-focus =
     .label = Focus the existing window
 
-## Address Bar Preference
+## Links Target Preference
 
-display-address-bar-description = Display the address bar
+links-target-label =
+    .label = Link opening behavior
+    .description = When clicking a link that normally opens in a new tab or window…
 
-display-address-bar-choice-out-of-scope =
-    .label = When the URL is out-of-scope
+links-target-choice-new-window =
+    .label = Open link in a new window
 
-display-address-bar-choice-always =
-    .label = Always
+links-target-choice-new-tab =
+    .label = Open link in a new tab
 
-display-address-bar-choice-never =
-    .label = Never
+links-target-choice-current-tab =
+    .label = Replace the current tab
 
-## Allowed Domains Preference
+links-target-choice-keep =
+    .label = Do not change link behavior
 
-allowed-domains-description = Domains always allowed to be opened in the app browser
+# Out-of-Scope Navigation Preferences
 
-allowed-domains-format = Enter a comma-separated list of domains (e.g. example.com,*.example.com)
+open-out-of-scope-in-default-browser =
+    .label = Open out-of-scope URLs in the default browser
+    .description = Warning: Can break authentication flows in some web apps
 
-allowed-domains-input =
+allowed-domains =
+    .label = Domains always allowed to be opened in the app browser
+    .description = Enter a comma-separated list of domains (e.g. example.com,*.example.com)…
     .placeholder = example.com,*.example.com
-
-## Keyboard Shortcuts Group Details
-
-shortcuts-group-header = Keyboard Shortcuts
-shortcuts-group-note = You may need to restart the browser to apply these settings
 
 ## Keyboard Shortcuts Preferences
 

@@ -1911,6 +1911,10 @@ class PwaBrowser {
     xPref.clear('browser.newtabpage.activity-stream.feeds.section.topstories');
     xPref.clear('browser.newtabpage.activity-stream.feeds.section.highlights');
 
+    // Reset the settings redesign preference back to enabled
+    // Will be removed once that preference is no longer used
+    xPref.clear('browser.settings-redesign.enabled');
+
     // Set distribution details
     xPref.set('distribution.id', ChromeLoader.DISTRIBUTION_ID, true);
     xPref.set('distribution.version', ChromeLoader.DISTRIBUTION_VERSION, true);

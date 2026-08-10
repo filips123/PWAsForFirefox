@@ -108,42 +108,16 @@ Opens the link in a default system browser. Displayed only when clicking on link
 
     These settings can be accessed in the same place as standard Firefox settings in the app
     browser: In the web app window, click on the hamburger menu near the top right corner
-    and open settings. Alternatively, they can also be accessed from `about:config`.
+    and open settings. All configuration options are located in the "Web applications" section.
+    Alternatively, they can also be accessed from `about:config`.
 
 !!! tip
 
     You may need to restart the app browser for some configuration options to take effect.
 
-<!-- Section: Colors -->
+<!-- Section: Appearance -->
 
-### Allow web apps to override a theme (titlebar) color
-
-Determines whether the web apps can override a theme (titlebar) color of the window.
-
-On most systems, it will correctly set the theme color to the color specified in the
-manifest. However, it may cause problems on some Linux DEs, so you may need to disable it.
-
-* Preference name: `firefoxpwa.sitesSetThemeColor`
-* Default value: `true`
-
-### Allow web apps to override a background (window) color
-
-Determines whether the web apps can override a background color of the window.
-
-On most websites, it will correctly set the background color to the color specified in the
-manifest. However, it may cause problems on some websites, so you may need to disable it.
-
-* Preference name: `firefoxpwa.sitesSetBackgroundColor`
-* Default value: `true`
-
-### Allow web apps to dynamically change a theme color
-
-Determines whether the web apps can dynamically change a theme color using `meta` tags.
-
-* Preference name: `firefoxpwa.dynamicThemeColor`
-* Default value: `true`
-
-<!-- Section: Titlebar -->
+<!-- Subsection: Titlebar -->
 
 ### Change the window title based on the web app's title
 
@@ -167,14 +141,113 @@ themes. Only displayed and used on Linux with CSD enabled.
 * Preference name: `firefoxpwa.alwaysUseNativeWindowControls`
 * Default value: `false`
 
-<!-- Section: User Experience -->
+<!-- Subsection: Colors -->
 
-### Open out-of-scope URLs in a default browser
+### Allow web apps to override the theme (titlebar) color
 
-Determines whether out-of-scope URLs should be opened in a default browser.
+Determines whether the web apps can override a theme (titlebar) color of the window.
+
+On most systems, it will correctly set the theme color to the color specified in the
+manifest. However, it may cause problems on some Linux DEs, so you may need to disable it.
+
+* Preference name: `firefoxpwa.sitesSetThemeColor`
+* Default value: `true`
+
+### Allow web apps to override the background color
+
+Determines whether the web apps can override a background color of the window.
+
+This color may be temporarily displayed as the background color of the window while the
+web app is loading, which may allow for a more seamless transition between the startup and
+the web app. After the web app is loaded, the web app's normal background color will be
+used instead.
+
+On most websites, it will correctly set the background color to the color specified in the
+manifest. However, it may cause problems on some websites, so you may need to disable it.
+
+* Preference name: `firefoxpwa.sitesSetBackgroundColor`
+* Default value: `true`
+
+### Dynamically change the theme color
+
+Determines whether the web apps can dynamically change a theme color using `meta` tags.
+
+* Preference name: `firefoxpwa.dynamicThemeColor`
+* Default value: `true`
+
+<!-- Section: Interface & Layout -->
+
+<!-- Subsection: Tabs -->
+
+### Enable the multi-tabbed interface
+
+Determines whether the tabs mode is enabled.
+
+Enabling this option will cause the app browser to display tabs, similar to a normal
+browser, but without the address bar. It will also re-enable new tab keyboard shortcuts
+and menu items, and replace the new tab page with a web app start URL. This will allow you
+to use multiple tabs of the same web app in the same window.
+
+* Preference name: `firefoxpwa.enableTabsMode`
+* Default value: `false`
+
+<!-- Subsection: Address Bar -->
+
+### Changing the address bar visibility
+
+> Address bar visibility
+>
+> * 0 - Visible when the URL is out-of-scope (default)
+> * 1 - Always visible
+> * 2 - Never visible
+
+Determines whether the address bar is displayed only when out-of-scope, always, or never.
+
+* Preference name: `firefoxpwa.displayUrlBar`
+* Default value: `0`
+
+<!-- Section: Navigation & Behavior -->
+
+<!-- Subsection: Launch Type -->
+
+### Changing the app launching behavior
+
+> When launching a web app that is already running...
+>
+> * 0 - Open app in a new window (default)
+> * 1 - Open app in a new tab
+> * 2 - Replace the existing tab
+> * 3 - Focus the existing window
+
+Determines what happens when a web app is launched if the same web app is already opened.
+
+* Preference name: `firefoxpwa.launchType`
+* Default value: `0`
+
+<!-- Subsection: Links Target -->
+
+### Changing the link opening behavior
+
+> When clicking a link that normally opens in a new tab or window...
+>
+> * 0 - Do not change link behavior (not recommended)
+> * 1 - Replace the current tab (default)
+> * 2 - Open link in a new window
+> * 3 - Open link in a new tab
+
+Determines whether `_blank` links target is forced into the current tab or a new window.
+
+* Preference name: `firefoxpwa.linksTarget`
+* Default value: `1`
+
+<!-- Subsection: Out-of-Scope Navigation -->
+
+### Open out-of-scope URLs in the default browser
+
+Determines whether out-of-scope URLs should be opened in the default browser.
 
 Enabling this option will automatically close the web app window and open any out-of-scope
-URLs in a default system browser. This may cause problems on some websites, especially
+URLs in the default system browser. This may cause problems on some websites, especially
 ones that use SSO (such as Google, YouTube, Spotify, Outlook). In such cases, it is
 recommended to use it in combination with [domains always allowed to be opened in the
 app browser](#domains-always-allowed-to-be-opened-in-the-app-browser).
@@ -202,66 +275,9 @@ wildcard `*` can to match zero or more characters. A wildcard can be escaped by 
     You can check [a list of recommended values](../resources/specific-website-tips.md#websites-with-multiple-domains)
     for some popular websites.
 
-### Show browser tabs and enable using multi-tabbed web apps
+<!-- Section: Hidden -->
 
-Determines whether the tabs mode is enabled.
-
-Enabling this option will cause the app browser to display tabs, similar to a normal
-browser, but without the address bar. It will also re-enable new tab keyboard shortcuts
-and menu items, and replace the new tab page with a web app start URL. This will allow you
-to use multiple tabs of the same web app in the same window.
-
-* Preference name: `firefoxpwa.enableTabsMode`
-* Default value: `false`
-
-<!-- Section: Links Target -->
-
-### Changing the links target
-
-> When opening a link that should normally open in a new window or tab:
->
-> * 0 - Do not change link behavior (not recommended)
-> * 1 - Force links into the current tab (default)
-> * 2 - Force links into a new window
-> * 3 - Force links into a new tab
-
-Determines whether `_blank` links target is forced into the current tab or a new window.
-
-* Preference name: `firefoxpwa.linksTarget`
-* Default value: `1`
-
-<!-- Section: Launch Type -->
-
-### Changing the launch type
-
-> When launching a web app that is already opened:
->
-> * 0 - Open web app in a new window (default)
-> * 1 - Open web app in a new tab
-> * 2 - Replace the existing tab
-> * 3 - Focus the existing window
-
-Determines what happens when a web app is launched if the same web app is already opened.
-
-* Preference name: `firefoxpwa.launchType`
-* Default value: `0`
-
-<!-- Section: Address Bar -->
-
-### Changing the address bar
-
-> Display the address bar:
->
-> * 0 - Display the address bar when out-of-scope (default)
-> * 1 - Never display the address bar
-> * 2 - Always display the address bar
-
-Determines whether the address bar is displayed only when out-of-scope, always, or never.
-
-* Preference name: `firefoxpwa.displayUrlBar`
-* Default value: `0`
-
-<!-- Section: Icon Bar -->
+<!-- Subsection: Icon Bar -->
 
 ### Allowing hiding the icon bar
 

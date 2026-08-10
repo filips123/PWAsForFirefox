@@ -136,7 +136,6 @@ Services.prefs.setBoolPref('sidebar.verticalTabs', false);
 Services.prefs.setBoolPref('sidebar.revamp', false);
 
 // Disable Firefox Nova redesign until we add a proper support for it
-Services.prefs.getDefaultBranch(null).setBoolPref('browser.settings-redesign.enabled', false);
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.nova.enabled', false);
 
 // Disable unified trust panel until with make it work with custom widgets
@@ -164,7 +163,7 @@ Services.prefs.getDefaultBranch(null).setBoolPref('browser.startup.windowsLaunch
 
 // Disable built-in support for custom icons
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.shell.customIcon.enabled', false);
-Object.defineProperty(CustomIconManager, "supported", { get: () => false });
+Object.defineProperty(CustomIconManager, 'supported', { get: () => false });
 CustomIconManager.ensureAppliedOrRevert = async () => null;
 CustomIconManager.ensureShortcutInPerUserStartMenu = async () => null;
 

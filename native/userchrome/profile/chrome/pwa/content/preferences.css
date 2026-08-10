@@ -1,36 +1,43 @@
 @-moz-document url-prefix('about:preferences') {
-  /* Hide the home category */
-  /* Not needed because it only configures the home and new tab page, which are not accessible */
+  /* Hide the home and startup category */
+  /* It configures the home and new tab page, which are inaccessible here */
   #category-home {
-    display: none;
+    display: none !important;
   }
 
-  /* Hide the default browser box */
-  /* Not needed because PWAsForFirefox browser installation is not supposed to be made default */
+  /* Hide the search category */
+  /* It configures the search options, which do not make sense here */
+  #category-search {
+    display: none !important
+  }
+
+  /* Hide the default browser group */
+  /* Our browser installation is not supposed to be made default */
   #defaultBrowserBox,
+  setting-group[groupid=defaultBrowserHome],
+  setting-group[groupid=defaultBrowserSync],
   setting-control:has(> #alwaysCheckDefault),
   setting-control:has(> #isDefaultPane),
   setting-control:has(> #isNotDefaultPane) {
-    display: none;
+    display: none !important
   }
 
   /* Hide the layout (vertical tabs) group */
   /* Hidden until we figure out how to properly support them (#667) */
-  groupbox[data-subcategory="layout"] {
-    display: none;
+  setting-group[groupid=browserLayout] {
+    display: none !important
+  }
+
+  /* Hide the related settings link to the home category */
+  #setting-control-related-settings-home-link {
+    display: none !important
   }
 
   /* Hide native window controls preference when CSD is not available */
-  /* Because it doesn't have effect on those platforms */
+  /* It does not have an effect when CSD is not available */
   @media not (-moz-gtk-csd-available) {
-    .pref-csd-only {
+    #setting-control-native-window-controls {
       display: none;
     }
-  }
-
-  /* Remove margin on global input elements */
-  .global-input {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
   }
 }

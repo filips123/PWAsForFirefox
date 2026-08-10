@@ -52,7 +52,7 @@ class ChromeLoader {
     window.addEventListener('DOMContentLoaded', () => {
       window.parent.ChromeLoader = ChromeLoader;
       this.onDomContentLoaded(window);
-    }, { once: true });
+    }, { once: true, capture: true });
   }
 
   onDomContentLoaded (window) {
@@ -92,7 +92,7 @@ class ChromeLoader {
     } else if (location.href.startsWith(ChromeLoader.ABOUTPREFERENCES)) {
       if (!ChromeLoader.INITIALIZED_PREFERENCES) this.loadUserStyles(ChromeLoader.PREFERENCES_STYLES);
       this.loadUserScript(ChromeLoader.PREFERENCES_SCRIPT, window);
-      ChromeLoader.INITIALIZED_PREFERENCES = true;
+      // ChromeLoader.INITIALIZED_PREFERENCES = true;
 
     // Load macOS hidden window JS when it is created
     } else if (location.href === ChromeLoader.MACOS_HIDDEN_WINDOW) {
