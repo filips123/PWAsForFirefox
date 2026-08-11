@@ -1,32 +1,30 @@
-## Progressive Web Apps Group Details
+### Pane and group titles should be translated in the same style and capitalization as existing Firefox messages in your language
+### Example: https://pontoon.mozilla.org/sl/firefox/browser/browser/preferences/preferences.ftl/?search=pane-account-sync-title&search_identifiers=true
+### Example: https://pontoon.mozilla.org/sl/firefox/browser/browser/preferences/preferences.ftl/?search=preferences-contrast-control-group&search_identifiers=true
 
 
-## Colors Preferences
+## Web Applications Pane
 
 
 ## Titlebar Preferences
 
 
-## User Experience Preferences
+## Colors Preferences
 
 
-## Links Target Preference
+## Tabs Preference
+
+
+## Address Bar Preference
 
 
 ## Launch Type Preference
 
 
-## Address Bar Preference
-
-display-address-bar-choice-always =
-    .label = Selalu
-display-address-bar-choice-never =
-    .label = Jangan pernah
-
-## Allowed Domains Preference
+## Links Target Preference
 
 
-## Keyboard Shortcuts Group Details
+# Out-of-Scope Navigation Preferences
 
 
 ## Keyboard Shortcuts Preferences
