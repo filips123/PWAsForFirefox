@@ -1,7 +1,7 @@
 import { AppConstants } from 'resource://gre/modules/AppConstants.sys.mjs';
 import { NetUtil } from 'resource://gre/modules/NetUtil.sys.mjs';
 import { nsContentDispatchChooser } from 'resource://gre/modules/ContentDispatchChooser.sys.mjs';
-import { nsDefaultCommandLineHandler, nsBrowserContentHandler } from 'resource:///modules/BrowserContentHandler.sys.mjs';
+import { nsBrowserContentHandler } from 'resource:///modules/BrowserContentHandler.sys.mjs';
 import { BrowserGlue } from 'resource:///modules/BrowserGlue.sys.mjs';
 import { BrowserWindowTracker } from 'resource:///modules/BrowserWindowTracker.sys.mjs';
 import { WebProtocolHandlerRegistrar } from 'resource:///modules/WebProtocolHandlerRegistrar.sys.mjs';
@@ -48,15 +48,17 @@ function readConfig () {
  *
  * @param {object} siteConfig - The web app config.
  * @param {string[]} urlList - The list of URLs to open.
+ * @param {boolean} isPrivate - If the window should be opened in private mode.
  * @param {boolean} isStartup - If this is the initial launch. Used to attempt to use the `navigator:blank` window.
  *
  * @returns {ChromeWindow&Window} - The new window.
  */
-function launchSite (siteConfig, urlList, isStartup) {
+function launchSite (siteConfig, urlList, isPrivate, isStartup) {
   // Handle launching a web app when the same web app is already opened
+  // Private mode is not supported, as it cannot be configured per tab
   // We have to specify pref directly as we cannot access ChromeLoader yet
   const launchType = Services.prefs.getIntPref('firefoxpwa.launchType', 0);
-  if (launchType) {
+  if (launchType && !isPrivate) {
     for (const win of Services.wm.getEnumerator('navigator:browser')) {
       if (win.gFFPWASiteConfig?.ulid === siteConfig.ulid) {
         for (const url of urlList) {
@@ -105,7 +107,7 @@ function launchSite (siteConfig, urlList, isStartup) {
       win.arguments = [urlArray];
 
       ChromeUtils.addProfilerMarker('earlyBlankWindowVisible', openTime);
-      BrowserWindowTracker.registerOpeningWindow(win, false);
+      BrowserWindowTracker.registerOpeningWindow(win, isPrivate);
       return win;
     }
   }
@@ -113,13 +115,24 @@ function launchSite (siteConfig, urlList, isStartup) {
   // Open a new browser window through the window tracker
   const argsArray = Cc['@mozilla.org/array;1'].createInstance(Ci.nsIMutableArray);
   argsArray.appendElement(urlArray);
-  const win = BrowserWindowTracker.openWindow({ args: argsArray });
+  const win = BrowserWindowTracker.openWindow({ args: argsArray, private: isPrivate });
 
   // Apply the system integration and set the site config
   applySystemIntegration(win, siteConfig);
   win.gFFPWASiteConfig = siteConfig;
 
   return win;
+}
+
+/**
+ * Resolve the URL from the command-line flag.
+ *
+ * @param {string} url - The URL to be resolved.
+ *
+ * @returns {*} - The resolved URL object.
+ */
+function fixupUrl (url) {
+  return Services.uriFixup.getFixupURIInfo(url, Services.uriFixup.FIXUP_FLAG_NONE).preferredURI;
 }
 
 // Properly disable session restore and default browser checks
@@ -172,8 +185,8 @@ try {
 }
 
 // Override command line helper to intercept PWAsForFirefox arguments and start loading the site
-nsDefaultCommandLineHandler.prototype._handle = nsDefaultCommandLineHandler.prototype.handle;
-nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
+nsBrowserContentHandler.prototype._handle = nsBrowserContentHandler.prototype.handle;
+nsBrowserContentHandler.prototype.handle = function (cmdLine) {
   const isStartup = cmdLine.state === Ci.nsICommandLine.STATE_INITIAL_LAUNCH;
   const siteId = cmdLine.handleFlagWithParam('pwa', false);
 
@@ -204,9 +217,20 @@ nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
     const urlList = [];
     let urlArgument;
     while ((urlArgument = cmdLine.handleFlagWithParam('url', false))) {
-      const fixedUrl = Services.uriFixup.getFixupURIInfo(urlArgument, Services.uriFixup.FIXUP_FLAG_NONE).preferredURI;
+      const fixedUrl = fixupUrl(urlArgument);
       if (fixedUrl.schemeIs('chrome')) continue;
       urlList.push(fixedUrl.spec);
+    }
+
+    // Support opening private windows for web apps
+    let isPrivate = false;
+    try {
+      let privateWindowUrl = cmdLine.handleFlagWithParam('private-window', false);
+      if (privateWindowUrl) urlList.push(fixupUrl(privateWindowUrl).spec);
+      isPrivate = !!privateWindowUrl;
+    } catch (error) {
+      if (error.result !== Cr.NS_ERROR_INVALID_ARG) throw error;
+      isPrivate = cmdLine.handleFlag('private-window', false);
     }
 
     if (!urlList.length) {
@@ -217,8 +241,7 @@ nsDefaultCommandLineHandler.prototype.handle = function (cmdLine) {
       urlList.push(userStartUrl ? userStartUrl : manifestStartUrl);
     }
 
-    launchSite(siteConfig, urlList, isStartup);
-    return;
+    launchSite(siteConfig, urlList, isPrivate, isStartup);
   }
 
   this._handle(cmdLine);
