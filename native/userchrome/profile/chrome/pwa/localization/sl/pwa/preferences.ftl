@@ -5,6 +5,11 @@
 
 ## Web Applications Pane
 
+pane-web-apps-title = Spletne aplikacije
+    .title = { pane-web-apps-title }
+pane-web-apps-section =
+    .heading = { pane-web-apps-title }
+    .description = You may need to restart the browser to apply these settings.
 
 ## Titlebar Preferences
 
