@@ -1,16 +1,33 @@
-## Progressive Web Apps Group Details
+### Pane and group titles should be translated in the same style and capitalization as existing Firefox messages in your language
+### Example: https://pontoon.mozilla.org/sl/firefox/browser/browser/preferences/preferences.ftl/?search=pane-account-sync-title&search_identifiers=true
+### Example: https://pontoon.mozilla.org/sl/firefox/browser/browser/preferences/preferences.ftl/?search=preferences-contrast-control-group&search_identifiers=true
 
-firefoxpwa-group-header = Aplicativos Web Progressivos
-firefoxpwa-group-note = Pode ser necessário reiniciar o navegador para aplicar essas configurações
 
-## Colors Preferences
+## Web Applications Pane
 
-sites-set-theme-color =
-    .label = Permitir que aplicativos da web substituam uma cor de tema (barra de título)
-sites-set-background-color =
-    .label = Permitir que aplicativos da web substituam uma cor de fundo (janela)
-dynamic-theme-color =
-    .label = Permitir que aplicativos da web alterem dinamicamente a cor de um tema
+pane-web-apps-title = Aplicativos Web
+    .title = { pane-web-apps-title }
+pane-web-apps-section =
+    .heading = { pane-web-apps-title }
+    .description = Pode ser necessário reiniciar o navegador para que essas configurações sejam aplicadas.
+group-appearance-header =
+    .label = Aparência
+    .description = Personalize visualmente a forma como a aplicação web se integra com o seu sistema operativo.
+group-appearance-titlebar-header =
+    .label = Barra de título
+group-appearance-colors-header =
+    .label = Cores
+group-interface-header =
+    .label = Interface e layout
+    .description = Personalize as barras de ferramentas e os controles na janela do aplicativo da web.
+group-behavior-header =
+    .label = Navegação e comportamento
+    .description = Personalize o comportamento do aplicativo web durante a navegação e a abertura.
+group-behavior-out-of-scope-header =
+    .label = Navegação fora do escopo
+group-shortcuts-header =
+    .label = Atalhos de teclado
+    .description = Personalize quais atalhos de teclado estão ativados.
 
 ## Titlebar Preferences
 
@@ -21,58 +38,70 @@ dynamic-window-icon =
 native-window-controls =
     .label = Sempre use controles de janela nativos
 
-## User Experience Preferences
+## Colors Preferences
 
-open-out-of-scope-in-default-browser =
-    .label = Abra URLs fora do escopo em um navegador padrão (pode quebrar alguns aplicativos da web)
+sites-set-theme-color =
+    .label = Permitir que aplicativos da Web substituam a cor do tema (barra de título)
+sites-set-background-color =
+    .label = Permitir que aplicativos da ‘web’ substituam a cor de fundo
+dynamic-theme-color =
+    .label = Alterar dinamicamente a cor do tema
+
+## Tabs Preference
+
 enable-tabs-mode =
-    .label = Mostrar abas do navegador e habilitar o uso de aplicativos da web com várias abas
+    .label = Ative a interface com várias abas
+manage-tabs-behavior =
+    .label = Gerenciar mais configurações de comportamento da guia
 
-## Links Target Preference
+## Address Bar Preference
 
-links-target-description = Ao abrir um link que normalmente deveria abrir em uma nova janela ou aba
-links-target-choice-current-tab =
-    .label = Forçar links na aba atual
-links-target-choice-new-tab =
-    .label = Forçar links em uma nova aba
-links-target-choice-new-window =
-    .label = Forçar links para uma nova janela
-links-target-choice-keep =
-    .label = Não altere o comportamento do link
+display-address-bar-label =
+    .label = Visibilidade da barra de endereço
+display-address-bar-choice-out-of-scope =
+    .label = Visível quando a URL está fora do escopo
+display-address-bar-choice-always =
+    .label = Sempre visível
+display-address-bar-choice-never =
+    .label = Nunca visível
 
 ## Launch Type Preference
 
-launch-type-description = Ao iniciar um aplicativo da web que já está aberto
+launch-type-label =
+    .label = Comportamento de reinicialização do aplicativo
+    .description = Ao iniciar um aplicativo web que já está em execução…
 launch-type-choice-new-window =
-    .label = Abra o aplicativo da web em uma nova janela
+    .label = Abrir aplicativo em uma nova janela
 launch-type-choice-new-tab =
-    .label = Abra o aplicativo da web em uma nova guia
+    .label = Abrir aplicativo em uma nova aba
 launch-type-choice-replace =
     .label = Substituir a aba existente
 launch-type-choice-focus =
     .label = Focar a janela existente
 
-## Address Bar Preference
+## Links Target Preference
 
-display-address-bar-description = Exibir a barra de endereço
-display-address-bar-choice-out-of-scope =
-    .label = Quando o URL está fora do escopo
-display-address-bar-choice-always =
-    .label = Sempre
-display-address-bar-choice-never =
-    .label = Nunca
+links-target-label =
+    .label = Comportamento de abertura de links
+    .description = Ao clicar em um link que normalmente abre em uma nova aba ou janela…
+links-target-choice-new-window =
+    .label = Abrir link em uma nova janela
+links-target-choice-new-tab =
+    .label = Abrir link em uma nova aba
+links-target-choice-current-tab =
+    .label = Substitua a aba atual
+links-target-choice-keep =
+    .label = Não altere o comportamento do link
 
-## Allowed Domains Preference
+# Out-of-Scope Navigation Preferences
 
-allowed-domains-description = Domínios sempre podem ser abertos no navegador do aplicativo
-allowed-domains-format = Insira uma lista de domínios separados por vírgulas (ex.: example.com, *.example.com)
-allowed-domains-input =
-    .placeholder = Insira uma lista de domínios separados por vírgulas...
-
-## Keyboard Shortcuts Group Details
-
-shortcuts-group-header = Atalhos de teclado
-shortcuts-group-note = Pode ser necessário reiniciar o navegador para aplicar essas configurações
+open-out-of-scope-in-default-browser =
+    .label = Abrir URLs fora do escopo no navegador padrão
+    .description = Aviso: Pode interromper os fluxos de autenticação em alguns aplicativos da web
+allowed-domains =
+    .label = Domínios sempre podem ser abertos no navegador do aplicativo
+    .description = Insira uma lista de domínios separados por vírgulas (por exemplo, example.com,*.example.com)…
+    .placeholder = example.com, *.example.com
 
 ## Keyboard Shortcuts Preferences
 

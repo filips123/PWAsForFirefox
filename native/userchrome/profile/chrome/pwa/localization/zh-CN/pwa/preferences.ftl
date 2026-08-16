@@ -1,46 +1,35 @@
-## Progressive Web Apps Group Details
+### Pane and group titles should be translated in the same style and capitalization as existing Firefox messages in your language
+### Example: https://pontoon.mozilla.org/sl/firefox/browser/browser/preferences/preferences.ftl/?search=pane-account-sync-title&search_identifiers=true
+### Example: https://pontoon.mozilla.org/sl/firefox/browser/browser/preferences/preferences.ftl/?search=preferences-contrast-control-group&search_identifiers=true
 
-firefoxpwa-group-header = 渐进式网页应用
-firefoxpwa-group-note = 您可能需要重新启动浏览器以应用这些设置
 
-## Colors Preferences
+## Web Applications Pane
 
 
 ## Titlebar Preferences
 
 
-## User Experience Preferences
+## Colors Preferences
 
 
-## Links Target Preference
+## Tabs Preference
+
+
+## Address Bar Preference
 
 
 ## Launch Type Preference
 
-launch-type-choice-new-window =
-    .label = 在新窗口中打开网页应用
-launch-type-choice-new-tab =
-    .label = 在新标签页中打开网页应用
 launch-type-choice-replace =
     .label = 替换现有标签页
 launch-type-choice-focus =
     .label = 聚焦当前的窗口
 
-## Address Bar Preference
-
-display-address-bar-description = 显示地址栏
-display-address-bar-choice-always =
-    .label = 总是
-display-address-bar-choice-never =
-    .label = 从不
-
-## Allowed Domains Preference
+## Links Target Preference
 
 
-## Keyboard Shortcuts Group Details
+# Out-of-Scope Navigation Preferences
 
-shortcuts-group-header = 键盘快捷键
-shortcuts-group-note = 您可能需要重新启动浏览器以应用这些设置
 
 ## Keyboard Shortcuts Preferences
 
