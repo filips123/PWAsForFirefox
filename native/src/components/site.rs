@@ -151,7 +151,7 @@ impl Site {
         let mut manifest: SiteManifest = serde_json::from_str(&json).context(PARSE_ERROR)?;
         manifest.process(&config.document_url, manifest_url).context(PARSE_ERROR)?;
 
-        Ok(Self { ulid: Ulid::new(), profile, config, manifest })
+        Ok(Self { ulid: Ulid::generate(), profile, config, manifest })
     }
 
     #[inline]

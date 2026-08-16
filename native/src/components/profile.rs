@@ -48,7 +48,7 @@ impl Default for Profile {
 impl Profile {
     #[inline]
     pub fn new(name: Option<String>, description: Option<String>) -> Self {
-        Self { ulid: Ulid::new(), name, description, sites: vec![] }
+        Self { ulid: Ulid::generate(), name, description, sites: vec![] }
     }
 
     pub fn patch(&self, dirs: &ProjectDirs) -> Result<()> {
