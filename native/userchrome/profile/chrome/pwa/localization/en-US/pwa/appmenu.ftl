@@ -2,4 +2,4 @@
 ## Example: https://pontoon.mozilla.org/sl/firefox/browser/browser/appmenu.ftl/?search=appmenuitem-new&search_identifiers=true
 
 app-menu-new-default-browser =
-    .label = New default browser
+    .label = New Default Browser
