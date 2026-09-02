@@ -10,3 +10,5 @@ toolbar-icon-ffpwa =
 
 ## Popup inputs should be translated in imperative mood, without any end punctuation
 
+# The prompt for the address input popup
+popup-address-input = Ingresar ruta
