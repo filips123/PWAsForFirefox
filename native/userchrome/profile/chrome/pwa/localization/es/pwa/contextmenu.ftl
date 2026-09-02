@@ -2,3 +2,6 @@
 ## Example: https://pontoon.mozilla.org/sl/firefox/browser/browser/browserContext.ftl/?search=view-new-tab&search_identifiers=true
 ## Example: https://pontoon.mozilla.org/sl/firefox/browser/browser/browserContext.ftl/?search=open-link&search_identifiers=true
 
+context-menu-open-link-default-browser =
+    .label = Abrir enlace en el navegador predeterminado
+    .accesskey = D
