@@ -539,6 +539,10 @@
     "message": "Agradecemos a la <a href=\"https://signpath.org/\" target=\"_blank\">Fundación SignPath</a> por brindarnos una solución de código abierto para firmar paquetes de Windows y a <a href=\"https://about.signpath.io/\" target=\"_blank\">SignPath</a> por brindar la infraestructura necesaria",
     "description": "A message that thanks SignPath for sponsoring the project"
   },
+  "instructionsPageSignPathAlt": {
+    "message": "Firma de código gratuita para software de código abierto · SignPath",
+    "description": "An alternative text for the SignPath logo"
+  },
   "instructionsPageInstallPackagecloudTitle": {
     "message": "Instalar el paquete desde el repositorio de packagecloud.io:",
     "description": "The title of the packagecloud.io installation option"
@@ -550,6 +554,10 @@
   "instructionsPagePackagecloudThanks": {
     "message": "¡Gracias a packagecloud.io por patrocinar el proyecto y facilitar dónde alojar los paquetes DEB y RPM!",
     "description": "A message that thanks packagecloud.io for sponsoring the project"
+  },
+  "instructionsPagePackagecloudAlt": {
+    "message": "Registro privado de NPM y repositorio de Maven, RPM, DEB, PyPi y RubyGem · packagecloud",
+    "description": "An alternative text for the packagecloud.io logo"
   },
   "instructionsPageLinuxArchInstallStep1": {
     "message": "Instale el paquete usando pacman:",
