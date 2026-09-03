@@ -1,5 +1,4 @@
 {
-  // Extension Properties
   "appName": {
     "message": "Progressive Web Apps for Firefox",
     "description": "The name of the application, should not be translated"
@@ -12,7 +11,6 @@
     "message": "Herramienta para instalar y administrar aplicaciones web progresivas (PWAs) en Mozilla Firefox",
     "description": "The description of the application"
   },
-  // Extension Actions
   "actionInstallSite": {
     "message": "Instalar este sitio",
     "description": "Instruct users that they can install the current site here"
@@ -21,7 +19,6 @@
     "message": "Abrir este sitio",
     "description": "Instruct users that they can launch the current site here"
   },
-  // Update Notification
   "updateNotificationTitle": {
     "message": "Actualizar PWAsForFirefox",
     "description": "The title of the update notification, displayed when an update is available"
@@ -30,7 +27,6 @@
     "message": "Hay una actualización disponible de PWAsForFirefox. Haga clic en la notificación para más instrucciones.",
     "description": "The message of the update notification, displayed when an update is available"
   },
-  // Common Messages
   "commonError": {
     "message": "Error",
     "description": "Displayed before error messages or as a popup title"
@@ -79,7 +75,6 @@
     "message": "Versión de Firefox:",
     "description": "Displayed before the main browser version"
   },
-  // Web App Properties
   "webAppName": {
     "message": "Nombre",
     "description": "The name property of a web app"
@@ -116,7 +111,6 @@
     "message": "Protocolos",
     "description": "The protocol handlers property of a web app"
   },
-  // Profile Properties
   "profileName": {
     "message": "Nombre",
     "description": "The name property of a profile"
@@ -137,7 +131,6 @@
     "message": "ID",
     "description": "The ID property of a profile"
   },
-  // Web App Validation
   "webAppValidationNameReuse": {
     "message": "No se puede usar el nombre porque ya existe",
     "description": "A validation error when the web app name is reused"
@@ -158,7 +151,6 @@
     "message": "Solo se puede instalar una instancia por perfil",
     "description": "A validation error when multiple web app instances are tried to be installed in the same profile"
   },
-  // Setup Page
   "setupPageTitle": {
     "message": "Configuración de Progressive Web Apps para Firefox",
     "description": "The title of the setup page"
@@ -200,7 +192,8 @@
     "description": "The notice for `black7375/Firefox-UI-Fix` on the setup page"
   },
   "setupPageLicenseFirefoxSource": {
-    "message": "Las modificaciones al código del navegador están inspiradas por el repositorio de GitHub <a href=\"https://github.com/mozilla/gecko-dev\" target=\"_blank\">el código fuente original de Firefox</a>, y sigue la Licencia Pública de Mozilla 2.0. Más información en sus respectivos archivos."
+    "message": "Las modificaciones al código del navegador están inspiradas por el repositorio de GitHub <a href=\"https://github.com/mozilla/gecko-dev\" target=\"_blank\">el código fuente original de Firefox</a>, y sigue la Licencia Pública de Mozilla 2.0. Más información en sus respectivos archivos.",
+    "description": "The notice for the Firefox source on the setup page"
   },
   "setupPageLicenseMetropolisFont": {
     "message": "Los conectores contienen <a href=\"https://fontsarena.com/metropolis-by-chris-simpson/\" target=\"_blank\">la fuente Metropolis Semi Bold</a> de Chris Simpson, de dominio público según <a href=\"https://unlicense.org/\" target=\"_blank\">Unlicense</a>.",
@@ -334,7 +327,6 @@
     "message": "Ya se puede utilizar la extensión. Cierre esta ventana.",
     "description": "The ready notice on the setup page"
   },
-  // Update Page
   "updatePageTitle": {
     "message": "Actualizar Progressive Web Apps for Firefox",
     "description": "The title of the update page"
@@ -383,7 +375,6 @@
     "message": "Esta actualización <strong>puede contener cambios incompatibles con la versión anterior</strong>, y puede que tenga que volver a configurar algunos ajustes según esté establecido en las notas de lanzamiento.",
     "description": "Displayed on the update page when an update contains potential backward-incompatible changes"
   },
-  // Installation Instructions Page
   "instructionsPageTitle": {
     "message": "Pasos para instalar",
     "description": "The title of the installation instructions page"
@@ -549,7 +540,7 @@
     "description": "A message that thanks SignPath for sponsoring the project"
   },
   "instructionsPageSignPathAlt": {
-    "message": "Free Code Signing for Open Source software · SignPath",
+    "message": "Firma de código gratuita para software de código abierto · SignPath",
     "description": "An alternative text for the SignPath logo"
   },
   "instructionsPageInstallPackagecloudTitle": {
@@ -565,7 +556,7 @@
     "description": "A message that thanks packagecloud.io for sponsoring the project"
   },
   "instructionsPagePackagecloudAlt": {
-    "message": "Private NPM registry and Maven, RPM, DEB, PyPi and RubyGem Repository · packagecloud",
+    "message": "Registro privado de NPM y repositorio de Maven, RPM, DEB, PyPi y RubyGem · packagecloud",
     "description": "An alternative text for the packagecloud.io logo"
   },
   "instructionsPageLinuxArchInstallStep1": {
@@ -664,7 +655,6 @@
     "message": "Su sistema operativo no tiene soporte oficial. Puede intentar compilar e instalar el proyecto desde el código fuente, recurriendo a las instrucciones de esa sección. Quizá tenga que modificar el código para que funcione en su sistema, y no se garantiza que funcione correctamente",
     "description": "The notice for the other installation option"
   },
-  // Install Page
   "installPageTitle": {
     "message": "Instalar esta aplicación web",
     "description": "The title of the install web app page"
@@ -709,7 +699,6 @@
     "message": "Existen <a href=\"https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts\" target=\"_blank\">sitios web de Mozilla</a> que no se pueden instalar como aplicación web, debido a restricciones de seguridad de Firefox, y esa restricción no se puede desactivar",
     "description": "A message that extends the content script error with more details when used on restricted domains"
   },
-  // Launch Page
   "launchPageTitle": {
     "message": "Abrir esta aplicación",
     "description": "The title of the launch web app page"
@@ -718,7 +707,6 @@
     "message": "Crear una nueva instancia",
     "description": "Displayed on the launch web app page to install a new instance"
   },
-  // Manage Page
   "managePageTitle": {
     "message": "Administrar aplicaciones y perfiles",
     "description": "The title of the manage page"
@@ -1057,7 +1045,6 @@
     "message": "Esto <strong>no afectará</strong> al navegador Firefox y <strong>no eliminará</strong> ningún perfil ni otros datos.",
     "description": "The second part of about reinstalling runtime message"
   },
-  // Buttons
   "buttonRuntimeInstallDefault": {
     "message": "Instalar el runtime",
     "description": "The runtime installation button on the setup page, allowing the user to install the runtime"
