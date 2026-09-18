@@ -336,17 +336,11 @@ class PwaBrowser {
   }
 
   makeUrlBarReadOnly () {
-    const originalToolbarVisibility = window.toolbar.visible;
-
-    // This will lazily construct the URL bar and force it to be read-only
-    window.toolbar.visible = false;
+    // Force the URL bar to be read-only
     window.gURLBar.readOnly = true;
 
     // Also un-focus the URL bar in case it is focused for some reason
     document.getElementById('urlbar').removeAttribute('focused');
-
-    // Restore the original toolbar visibility
-    window.toolbar.visible = originalToolbarVisibility;
 
     // Prevent error when changing search mode when `searchModeSwitcher` is undefined
     Object.defineProperty(window.gURLBar, 'searchMode', {
