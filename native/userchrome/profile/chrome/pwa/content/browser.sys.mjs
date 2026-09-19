@@ -1095,32 +1095,43 @@ class PwaBrowser {
         const document = node.ownerDocument;
         const window = document.defaultView;
 
-        // Store and update current widget area
-        let muteWidgetAreaType = CustomizableUI.getAreaType(this.currentArea);
+        const syncActiveTabAudio = () => {
+          const currentTab = gBrowser.selectedTab;
+          if (!currentTab) return;
 
-        let listener = {
-          onWidgetAdded: (widget, area) => {
-            if (widget !== this.id) return;
-            muteWidgetAreaType = CustomizableUI.getAreaType(area);
-          },
-          onWidgetMoved: (widget, area) => {
-            if (widget !== this.id) return;
-            muteWidgetAreaType = CustomizableUI.getAreaType(area);
-          },
-          onWidgetRemoved: (widget) => {
-            if (widget !== this.id) return;
-            muteWidgetAreaType = undefined;
-          },
-          onWidgetInstanceRemoved: (widget, doc) => {
-            if (widget !== this.id || doc !== document) return;
+          const isCustomizing = document.documentElement.hasAttribute('customizing');
 
-            CustomizableUI.removeListener(listener);
-            muteWidgetAreaType = undefined;
-          },
+          if (isCustomizing) {
+            // Always show the widget in customize mode and reset its state
+            node.setAttribute('playing', 'true');
+            node.removeAttribute('muted');
+            node.hidden = false;
+            return;
+          }
+
+          const isPlaying = currentTab.hasAttribute('soundplaying');
+          const isMuted = currentTab.hasAttribute('muted');
+
+          const autoHideEnabled = xPref.get(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON);
+
+          if (isPlaying) node.setAttribute('playing', 'true');
+          else node.removeAttribute('playing');
+
+          if (isMuted) node.setAttribute('muted', 'true');
+          else node.removeAttribute('muted');
+
+          const currentArea = CustomizableUI.getPlacementOfWidget(this.id)?.area;
+          const currentAreaType = currentArea && CustomizableUI.getAreaType(currentArea);
+
+          // Hide the toolbar widget when not playing or muted and autohide is enabled
+          if (currentAreaType === CustomizableUI.TYPE_TOOLBAR) {
+            node.hidden = (isPlaying || isMuted) ? false : autoHideEnabled;
+          } else {
+            node.hidden = false;
+          }
         };
-        CustomizableUI.addListener(listener);
 
-        // Create autohide panel with checkbox and handle changing the preference
+        // Create the autohide panel with checkbox and handle changing the preference
         setTimeout(() => {
           const muteAutohidePanel = window.gFFPWABrowser.createElement(document, 'panel', {
             id: 'mute-button-autohide-panel',
@@ -1134,7 +1145,7 @@ class PwaBrowser {
             checked: true,
           });
 
-          muteAutohideCheckbox.onclick = function () {
+          muteAutohideCheckbox.oncommand = function () {
             xPref.set(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON, this.checked);
           };
 
@@ -1142,94 +1153,52 @@ class PwaBrowser {
           window.document.getElementById('downloads-button-autohide-panel').after(muteAutohidePanel);
         });
 
-        // Force show widget on customize mode page and reset its state
-        // Also handle showing autohide panel and the checkbox
-        hookFunction(window.gCustomizeMode, 'enter', null, () => {
-          node.setAttribute('playing', 'true');
-          node.removeAttribute('muted');
-          node.hidden = false;
-
+        window.gNavToolbox.addEventListener('customizationstarting', () => {
+          // Enable showing the autohide panel when in customize mode
           document.getElementById('wrapper-mute-button').onclick = () => {
             document.getElementById('mute-button-autohide-checkbox').checked = xPref.get(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON);
             document.getElementById('mute-button-autohide-panel').openPopup(node, 'rightcenter topleft', -8, 0);
+          };
+
+          // Sync the widget state for entering customize mode
+          syncActiveTabAudio();
+        });
+
+        window.gNavToolbox.addEventListener('aftercustomization', () => {
+          // Sync the widget state for leaving customize mode
+          syncActiveTabAudio();
+        });
+
+        // Update the widget state when it changes areas
+        const listener = {
+          onWidgetAdded: (widget) => {
+            if (widget === this.id) syncActiveTabAudio();
+          },
+          onWidgetMoved: (widget) => {
+            if (widget === this.id) syncActiveTabAudio();
+          },
+          onWidgetInstanceRemoved: (widget, holder) => {
+            if (widget === this.id && holder === document) CustomizableUI.removeListener(listener);
+          }
+        };
+        CustomizableUI.addListener(listener);
+
+        window.gBrowser.tabContainer.addEventListener('TabAttrModified', (event) => {
+          if (event.target !== gBrowser.selectedTab) return;
+
+          const changed = event.detail?.changed;
+
+          if (!changed || changed.includes('soundplaying') || changed.includes('muted')) {
+            // Sync the widget state if it has changed
+            syncActiveTabAudio();
           }
         });
 
-        // Add audio playback hooks for every tab
-        let hookPlaybackStatus = () => {
-          const browser = window.gBrowser.selectedBrowser;
-          const tab = window.gBrowser.selectedTab;
+        // Sync the widget state when switching tabs
+        window.gBrowser.tabContainer.addEventListener('TabSelect', syncActiveTabAudio);
 
-          // Force show widget on customize mode page and reset its state
-          if (document.getElementById('main-window').getAttribute('customizing')) {
-            node.setAttribute('playing', 'true');
-            node.removeAttribute('muted');
-            node.hidden = false;
-            return;
-          }
-
-          // Update when switching tabs
-          if (tab.hasAttribute('soundplaying')) {
-            node.setAttribute('playing', 'true');
-            node.hidden = false;
-          } else {
-            if (muteWidgetAreaType === CustomizableUI.TYPE_TOOLBAR) {
-              node.removeAttribute('playing');
-              const autoHideEnabled = xPref.get(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON);
-              if (!browser.audioMuted) node.hidden = autoHideEnabled;
-            }
-          }
-
-          if (browser.audioMuted) {
-            node.setAttribute('muted', 'true');
-            node.hidden = false;
-          } else {
-            node.removeAttribute('muted');
-            const autoHideEnabled = xPref.get(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON);
-            if (!node.hasAttribute('playing')) node.hidden = autoHideEnabled;
-          }
-
-          if ('_pwaPlaybackHooks' in browser) return;
-          browser._pwaPlaybackHooks = true;
-
-          // Create hooks when starting/stopping/muting audio
-          hookFunction(browser, 'audioPlaybackStarted', () => {
-            node.setAttribute('playing', 'true');
-            node.hidden = false;
-          });
-
-          hookFunction(browser, 'audioPlaybackStopped', () => {
-            setTimeout(() => {
-              if (muteWidgetAreaType === CustomizableUI.TYPE_TOOLBAR && (!tab.hasAttribute('soundplaying') || tab.hasAttribute('soundplaying-scheduledremoval'))) {
-                node.removeAttribute('playing');
-                const autoHideEnabled = xPref.get(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON);
-                if (!browser.audioMuted) node.hidden = autoHideEnabled;
-              }
-            }, 1000);
-          });
-
-          hookFunction(tab, 'toggleMuteAudio', null, () => {
-            if (browser.audioMuted) {
-              node.setAttribute('muted', 'true');
-              node.hidden = false;
-            } else {
-              node.removeAttribute('muted');
-              const autoHideEnabled = xPref.get(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON);
-              if (!node.hasAttribute('playing')) node.hidden = autoHideEnabled;
-            }
-          });
-        }
-
-        hookPlaybackStatus();
-        hookFunction(window.gBrowser, 'updateCurrentBrowser', null, hookPlaybackStatus);
-
-        // Hide it by default when in toolbar, otherwise always show playing icon
-        if (muteWidgetAreaType === CustomizableUI.TYPE_TOOLBAR) {
-          node.hidden = xPref.get(ChromeLoader.PREF_AUTOHIDE_MUTE_BUTTON);
-        } else {
-          node.setAttribute('playing', 'true');
-          node.hidden = false;
-        }
+        // Run the initial widget sync
+        syncActiveTabAudio();
       },
       onCommand (event) {
         const window = event.target.documentGlobal ?? event.target.ownerGlobal;
