@@ -95,22 +95,15 @@ impl _7Zip {
     fn new_from_registry() -> Result<Self> {
         let key = LOCAL_MACHINE.open(r"Software\Microsoft\Windows\CurrentVersion\Uninstall\7-Zip");
 
-        let version;
-        let executable;
-
-        match key {
+        let (version, executable) = match key {
             Ok(key) => {
                 let display_version = key.get_string("DisplayVersion")?;
                 let install_location = key.get_string("InstallLocation")?;
 
-                version = Some(display_version);
-                executable = Some(PathBuf::from(install_location).join("7z.exe"));
+                (Some(display_version), Some(PathBuf::from(install_location).join("7z.exe")))
             }
-            Err(_) => {
-                version = None;
-                executable = None;
-            }
-        }
+            Err(_) => (None, None),
+        };
 
         Ok(Self { version, executable })
     }
