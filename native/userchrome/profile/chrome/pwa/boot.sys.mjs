@@ -156,13 +156,11 @@ Services.prefs.getDefaultBranch(null).setBoolPref('browser.urlbar.trustPanel.fea
 // Disable default browser prompt
 BrowserGlue.prototype._maybeShowDefaultBrowserPrompt = async () => null;
 
-// Disable onboarding messages by overriding the provider
-OnboardingMessageProvider.getMessages = async () => [];
-OnboardingMessageProvider.getUntranslatedMessages = async () => [];
-
-// Disable onboarding messages in preferences
+// Disable onboarding messages
 Services.prefs.getDefaultBranch(null).setStringPref('browser.newtabpage.activity-stream.asrouter.providers.onboarding', '{"id":"onboarding","enabled":false}');
 Services.prefs.getDefaultBranch(null).setStringPref('browser.newtabpage.activity-stream.asrouter.providers.cfr', '{"id":"cfr","enabled":false}');
+OnboardingMessageProvider.getMessages = async () => [];
+OnboardingMessageProvider.getUntranslatedMessages = async () => [];
 
 // Disable private window separation
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.privateWindowSeparation.enabled', false);
