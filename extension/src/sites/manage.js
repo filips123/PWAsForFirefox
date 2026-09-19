@@ -1144,6 +1144,8 @@ async function handleSettings (hasChanged = false) {
       document.getElementById('settings-enable-wayland-container').classList.remove('d-none')
       document.getElementById('settings-use-xinput2-container').classList.remove('d-none')
       document.getElementById('settings-use-portals-container').classList.remove('d-none')
+      document.getElementById('settings-use-linked-rt').classList.remove('d-none')
+      document.getElementById('settings-settings-linked-rt-path').classList.remove('d-none')
     }
 
     // Hide patching setting on macOS
@@ -1159,6 +1161,8 @@ async function handleSettings (hasChanged = false) {
     document.getElementById('settings-use-xinput2').checked = config.runtime_use_xinput2
     document.getElementById('settings-use-portals').checked = config.runtime_use_portals
     document.getElementById('settings-always-patch').checked = config.always_patch
+    document.getElementById('settings-use-linked-rt').checked = config.use_linked_runtime
+    document.getElementById('settings-settings-linked-rt-path').checked = config.linked_runtime_path
 
     // Enable settings inputs
     document.getElementById('settings-enable-wayland-container').title = ''
@@ -1191,6 +1195,12 @@ async function handleSettings (hasChanged = false) {
 
     // Listen for patching changes
     document.getElementById('settings-always-patch').addEventListener('change', async function () {
+      config.always_patch = this.checked
+      await setConfig(config)
+    })
+
+    // Listen for use linked Runtime
+    document.getElementById('settings-use-linked-rt').addEventListener('change', async function () {
       config.always_patch = this.checked
       await setConfig(config)
     })

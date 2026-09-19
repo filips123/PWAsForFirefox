@@ -53,6 +53,11 @@ pub struct Config {
     /// Experimental: Using the system runtime to save some disk space.
     /// This might not work on your system.
     pub use_linked_runtime: bool,
+
+    #[cfg(platform_linux)]
+    /// Experimental: Using the system runtime to save some disk space.
+    /// Change the path of Firefox in linked runtime mode.
+    pub linked_runtime_path: String,
 }
 
 #[non_exhaustive]
