@@ -374,16 +374,21 @@
 
   /* Notifications toolbar widget */
 
-  #notification-popup-box {
-    padding: var(--toolbarbutton-inner-padding) !important;
-    padding-inline-end: revert !important;
+  #notifications-button > #notification-popup-box {
+    width: var(--toolbarbutton-icon-size) !important;
+    height: var(--toolbarbutton-icon-size) !important;
+    padding: var(--toolbarbutton-padding-inner) !important;
     margin: 0 !important;
-    height: initial !important;
   }
 
-  #notification-popup-box > image {
+  #notifications-button > #notification-popup-box > image {
     padding: 0 !important;
     margin: 0 !important;
+  }
+
+  #notifications-button > #notification-popup-box:is(:hover:active, [open], [checked]) {
+    background-color: var(--toolbarbutton-background-color-active) !important;
+    color: inherit !important;
   }
 
   #notifications-button[highlighted] {
