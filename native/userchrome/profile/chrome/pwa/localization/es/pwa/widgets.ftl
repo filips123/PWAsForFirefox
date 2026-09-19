@@ -4,7 +4,7 @@
 
 toolbar-button-mute =
     .label = Activar/Desactivar Sonido
-    .tooltiptext = Activar/Desactivar el sonido de la página {{$shortcut}}
+    .tooltiptext = Activar/Desactivar el sonido de la página {{ $shortcut }}
 toolbar-button-reader-view =
     .label = Vista de lectura
     .tooltiptext = Alternar vista de lectura ({ $shortcut })

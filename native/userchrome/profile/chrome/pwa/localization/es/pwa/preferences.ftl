@@ -18,11 +18,11 @@ group-appearance-titlebar-header =
 group-appearance-colors-header =
     .label = Colores
 group-interface-header =
-    .label = Interfaz y 
+    .label = Interfaz y
     .description = Personalizar las barras de tareas y controles de la ventana de la aplicación web
 group-behavior-header =
     .label = Navegación y comportamiento
-    .description = Personalizar el comportamiento al abrir la aplicación web y navegar 
+    .description = Personalizar el comportamiento al abrir la aplicación web y navegar
 group-behavior-out-of-scope-header =
     .label = Navegación fuera de alcance
 group-shortcuts-header =
@@ -96,7 +96,7 @@ links-target-choice-keep =
 # Out-of-Scope Navigation Preferences
 
 open-out-of-scope-in-default-browser =
-    .label = Abrir las URL en el navegador predeterminado 
+    .label = Abrir las URL en el navegador predeterminado
     .description = Atención: Puede dificultarse la autenticación de ciertas aplicaciones web
 allowed-domains =
     .label = Permitir abrir siempre los dominios en la aplicación web
@@ -106,10 +106,10 @@ allowed-domains =
 ## Keyboard Shortcuts Preferences
 
 shortcuts-close-tab =
-    .label = Cerrar pestaña {{$shortcut}}
+    .label = Cerrar pestaña {{ $shortcut }}
 shortcuts-close-window =
-    .label = Cerrar ventana {{$shortcut}}
+    .label = Cerrar ventana {{ $shortcut }}
 shortcuts-quit-application =
-    .label = Salir de la aplicación {{$shortcut}}
+    .label = Salir de la aplicación {{ $shortcut }}
 shortcuts-private-browsing =
-    .label = Navegación privada {{$shortcut}}
+    .label = Navegación privada {{ $shortcut }}
