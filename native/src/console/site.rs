@@ -55,7 +55,7 @@ impl Run for SiteLaunchCommand {
             use blake3::{Hash, hash};
 
             fn hasher<P: AsRef<Path>>(path: P) -> Hash {
-                let mut file = File::open(path.as_ref().join("firefox")).unwrap();
+                let mut file = File::open(path).unwrap();
                 let mut buf = Vec::new();
                 let _ = file.read_to_end(&mut buf);
 
@@ -63,7 +63,8 @@ impl Run for SiteLaunchCommand {
             }
 
             if storage.config.use_linked_runtime
-                && hasher(crate::components::runtime::FFOX) != hasher(&runtime.directory)
+                && hasher(crate::components::runtime::ffox_launcher())
+                    != hasher(runtime.directory.join("firefox"))
             {
                 runtime.link()?;
             }

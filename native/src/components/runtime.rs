@@ -13,8 +13,28 @@ use tempfile::{NamedTempFile, TempDir};
 use crate::components::site::Site;
 use crate::directories::ProjectDirs;
 
-// TODO: Remove this constant and implement variable firefox path into user documentation
-pub const FFOX: &str = "/usr/lib/firefox/";
+pub const FFOX_PATHS: [&str; 2] = ["/usr/lib/firefox/", "/usr/lib/firefox-esr/"];
+pub const FFOX_BINS: [&str; 2] = ["firefox", "firefox-esr"];
+
+// Returns the first system Firefox directory that exists,
+// or the first candidate if none of them exist
+#[inline]
+pub fn ffox() -> &'static str {
+    FFOX_PATHS.into_iter().find(|path| Path::new(path).exists()).unwrap_or(FFOX_PATHS[0])
+}
+
+// Returns the first Firefox binary that exists in ffox() dir,
+// or the first candidate if none of them exist
+#[inline]
+pub fn ffox_binary() -> &'static str {
+    FFOX_BINS.into_iter().find(|name| Path::new(ffox()).join(name).exists()).unwrap_or(FFOX_BINS[0])
+}
+
+// Returns full path to Firefox launcher
+#[inline]
+pub fn ffox_launcher() -> PathBuf {
+    Path::new(ffox()).join(ffox_binary())
+}
 
 cfg_if! {
     if #[cfg(any(platform_linux, platform_bsd))] {
@@ -357,8 +377,8 @@ impl Runtime {
 
         info!("Linking the runtime");
 
-        if Path::new(FFOX).exists() {
-            for entry in read_dir(FFOX)?.flatten() {
+        if Path::new(ffox()).exists() {
+            for entry in read_dir(ffox())?.flatten() {
                 let entry = entry.path();
                 match entry.file_name().expect("Couldn't retrieve a file name").to_str() {
                     // Use a different branch for the "defaults" folder due to the patches to apply afterwhile
@@ -372,8 +392,10 @@ impl Runtime {
                     Some("firefox-bin") => {
                         copy(entry, self.directory.join("firefox-bin"))?;
                     }
-                    Some("firefox") => {
-                        copy(entry, self.directory.join("firefox"))?;
+                    Some(name) if FFOX_BINS.contains(&name) => {
+                        if entry == ffox_launcher() {
+                            copy(entry, self.directory.join("firefox"))?;
+                        }
                     }
                     Some(&_) => {
                         let link = self.directory.join(entry.file_name().unwrap());
