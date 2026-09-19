@@ -2,7 +2,7 @@ const isAppleMaskIcon = link => link.getAttribute('rel').toLowerCase().includes(
 
 function getIconType (link) {
   const type = link.getAttribute('type')
-  if (type) return type.includes('/') ? type : `image/${type}`
+  if (type?.match(/^[-\w.+]+\/[-\w.+]+(\s*;\s*.+)?$/)) return type
   else return isAppleMaskIcon(link) ? 'image/svg+xml' : undefined
 }
 
