@@ -675,12 +675,7 @@ jobs:
           persist-credentials: false
 
       - name: Checkout GURU repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          repository: gentoo/guru
-          path: tmp/guru
-          fetch-depth: 0
-          persist-credentials: false
+        run: git clone https://codeberg.org/gentoo/guru.git tmp/guru
 
       - name: Configure cache
         run: echo "CACHE_ID=$(date --utc '+%Y-%V')" >> $GITHUB_ENV
@@ -809,14 +804,14 @@ jobs:
         run: pkgcheck scan --net --commits
 
       - name: Push package changes
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          push-to-fork: filips123/gentoo-guru
-          path: tmp/guru
-          branch: "add-firefoxpwa-${{ env.VERSION }}"
-          title: "www-plugins/firefoxpwa: add ${{ env.VERSION }}"
-          body: ""
+        working-directory: tmp/guru
+        env:
+          CODEBERG_TOKEN: ${{ secrets.CODEBERG_TOKEN }}
+        run: |
+          git push "https://${CODEBERG_TOKEN}@codeberg.org/gentoo/guru.git" HEAD:refs/for/master \
+            -o topic="add-firefoxpwa-${{ env.VERSION }}" \
+            -o title="www-plugins/firefoxpwa: add ${{ env.VERSION }}" \
+            -o description="Release: https://github.com/filips123/PWAsForFirefox/releases/tag/v${{ env.VERSION }}"
 
       # == Cleanup
 
