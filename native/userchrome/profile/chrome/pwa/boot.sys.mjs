@@ -1,10 +1,12 @@
+import { importModule } from 'resource://pwa/utils/common.sys.mjs';
+
 import { AppConstants } from 'resource://gre/modules/AppConstants.sys.mjs';
 import { NetUtil } from 'resource://gre/modules/NetUtil.sys.mjs';
 import { nsContentDispatchChooser } from 'resource://gre/modules/ContentDispatchChooser.sys.mjs';
-import { nsBrowserContentHandler } from 'resource:///modules/BrowserContentHandler.sys.mjs';
-import { BrowserGlue } from 'resource:///modules/BrowserGlue.sys.mjs';
+const { nsBrowserContentHandler } = importModule('moz-src:///browser/components/BrowserContentHandler.sys.mjs');
+const { BrowserGlue } = importModule('moz-src:///browser/components/BrowserGlue.sys.mjs');
 import { BrowserWindowTracker } from 'resource:///modules/BrowserWindowTracker.sys.mjs';
-import { WebProtocolHandlerRegistrar } from 'resource:///modules/WebProtocolHandlerRegistrar.sys.mjs';
+const { WebProtocolHandlerRegistrar } = importModule('moz-src:///browser/components/protocolhandler/WebProtocolHandlerRegistrar.sys.mjs');
 import { OnboardingMessageProvider } from 'resource:///modules/asrouter/OnboardingMessageProvider.sys.mjs';
 
 import { applySystemIntegration } from 'resource://pwa/utils/systemIntegration.sys.mjs';

@@ -1,5 +1,7 @@
+import { importModule } from 'resource://pwa/utils/common.sys.mjs';
+
 import { OnboardingMessageProvider } from 'resource:///modules/asrouter/OnboardingMessageProvider.sys.mjs';
-import { BrowserGlue } from 'resource:///modules/BrowserGlue.sys.mjs';
+const { BrowserGlue } = importModule('moz-src:///browser/components/BrowserGlue.sys.mjs');
 import { WebNavigationManager } from 'resource://gre/modules/WebNavigation.sys.mjs';
 import { XPCOMUtils } from 'resource://gre/modules/XPCOMUtils.sys.mjs';
 
@@ -345,7 +347,7 @@ class PwaBrowser {
     // Prevent error when changing search mode when `searchModeSwitcher` is undefined
     Object.defineProperty(window.gURLBar, 'searchMode', {
       set: function (searchMode) {
-        this.setSearchMode(searchMode, this.window.gBrowser.selectedBrowser);
+        this.setSearchMode(searchMode, this.documentGlobal.gBrowser.selectedBrowser);
         this.searchModeSwitcher?.onSearchModeChanged();
       },
     });
