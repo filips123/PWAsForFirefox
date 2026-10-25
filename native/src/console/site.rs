@@ -162,10 +162,36 @@ impl Run for SiteInstallCommand {
 }
 
 impl SiteInstallCommand {
-    pub fn _run(&self) -> Result<Ulid> {
-        if self.manifest_url.scheme() == "data" && self.document_url.is_none() {
-            bail!("The document URL is required when the manifest URL is a data URL");
+    /// Resolves installation URLs and supplies a static manifest for non-PWA sites.
+    fn installation_urls(&self) -> Result<(Url, Url)> {
+        match (&self.manifest_url, &self.document_url) {
+            (Some(manifest), document) => {
+                if manifest.scheme() == "data" && document.is_none() {
+                    bail!("The document URL is required when the manifest URL is a data URL");
+                }
+
+                let document = match document {
+                    Some(url) => url.clone(),
+                    None => manifest.join(".")?,
+                };
+
+                Ok((manifest.clone(), document))
+            }
+            (None, Some(document)) => {
+                let manifest = serde_json::json!({
+                    "start_url": self.start_url.as_ref().unwrap_or(document).as_str(),
+                });
+                let manifest = urlencoding::encode(&manifest.to_string()).into_owned();
+                let manifest = Url::parse(&format!("data:application/manifest+json,{manifest}"))?;
+
+                Ok((manifest, document.clone()))
+            }
+            (None, None) => bail!("A manifest URL or document URL is required"),
         }
+    }
+
+    pub fn _run(&self) -> Result<Ulid> {
+        let (manifest_url, document_url) = self.installation_urls()?;
 
         let dirs = ProjectDirs::new()?;
         let mut storage = Storage::load(&dirs)?;
@@ -182,11 +208,8 @@ impl SiteInstallCommand {
             description: self.description.clone(),
             categories: self.categories.clone(),
             keywords: self.keywords.clone(),
-            document_url: match &self.document_url {
-                Some(url) => url.clone(),
-                None => self.manifest_url.join(".")?,
-            },
-            manifest_url: self.manifest_url.clone(),
+            document_url,
+            manifest_url,
             start_url: self.start_url.clone(),
             icon_url: self.icon_url.clone(),
             enabled_url_handlers: vec![],
@@ -241,6 +264,10 @@ impl SiteInstallCommand {
         Ok(ulid)
     }
 }
+
+#[cfg(test)]
+#[path = "site_install_tests.rs"]
+mod tests;
 
 impl Run for SiteUninstallCommand {
     fn run(&self) -> Result<()> {
