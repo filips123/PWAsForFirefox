@@ -295,28 +295,38 @@ class PwaBrowser {
 
       // If unified extensions panel is opened when widget is in menu, reassign anchor element
       if (
-        args[1].id === 'unified-extensions-button'
-        && args[1].unifiedExtensionsAreaType !== CustomizableUI.TYPE_TOOLBAR
+        args[1]?.id === 'unified-extensions-button'
+        && args[1]?.unifiedExtensionsAreaType !== CustomizableUI.TYPE_TOOLBAR
       ) {
         args[1] = document.getElementById('nav-bar-overflow-button');
       }
 
       // If specific extension panel is opened when widget is in menu, reassign anchor element
       if (
-        args[1].getAttribute('consumeanchor') === 'unified-extensions-button'
+        args[1]?.getAttribute('consumeanchor') === 'unified-extensions-button'
         && document.getElementById('unified-extensions-button').unifiedExtensionsAreaType !== CustomizableUI.TYPE_TOOLBAR
       ) {
         args[1] = document.getElementById('nav-bar-overflow-button');
       }
 
       // If tracking protection panel is opened when widget is in menu, reassign anchor element
-      if (args[1].id === 'tracking-protection-button' && args[1].trackingProtectionAreaType !== CustomizableUI.TYPE_TOOLBAR) {
+      if (args[1]?.id === 'tracking-protection-button' && args[1]?.trackingProtectionAreaType !== CustomizableUI.TYPE_TOOLBAR) {
         args[1] = document.getElementById('nav-bar-overflow-button');
       }
 
       // If identity panel is opened when widget is in menu, reassign anchor element
-      if (args[1].id === 'identity-button' && args[1].identityAreaType !== CustomizableUI.TYPE_TOOLBAR) {
+      if (args[1]?.id === 'identity-button' && args[1].identityAreaType !== CustomizableUI.TYPE_TOOLBAR) {
         args[1] = document.getElementById('nav-bar-overflow-button');
+      }
+
+      // If trust panel is opened when widget is in menu, reassign anchor element
+      if (args[0].id === 'trustpanel-popup' && this.isTrustPanelEnabled()) {
+        const trustButton = document.getElementById('trust-button');
+        if (trustButton.trustAreaType === CustomizableUI.TYPE_TOOLBAR) {
+          args[1] = trustButton;
+        } else {
+          args[1] = document.getElementById('nav-bar-overflow-button');
+        }
       }
 
       // If permissions panel is opened when widget is in menu, reassign anchor element
@@ -824,6 +834,8 @@ class PwaBrowser {
   //////////////////////////////
 
   prepareWidgets () {
+    const trustPanelEnabled = this.isTrustPanelEnabled();
+
     this.createReaderViewWidget();
     this.createCopyLinkWidget();
     this.createShareWidget();
@@ -831,13 +843,21 @@ class PwaBrowser {
     this.createOpenInBrowserWidget();
     this.createMuteWidget();
     this.createUnifiedExtensionsWidget();
-    this.createTrackingProtectionWidget();
-    this.createIdentityInformationWidget();
+    if (trustPanelEnabled) {
+      this.createTrustPanelWidget();
+    } else {
+      this.createTrackingProtectionWidget();
+      this.createIdentityInformationWidget();
+    }
     this.createPermissionsWidget();
     this.createNotificationsWidget();
     this.createCloseWidget();
     this.createNavigationWidgets();
     this.modifyHomepageWidget();
+  }
+
+  isTrustPanelEnabled () {
+    return xPref.get('browser.urlbar.trustPanel.featureGate') !== false;
   }
 
   createReaderViewWidget () {
@@ -1372,7 +1392,6 @@ class PwaBrowser {
         if (!window.toolbar.visible) return;
 
         Object.defineProperty(window.gIdentityHandler, '_identityIconBox', { get: () => node });
-        let defaultTooltip = node.getAttribute('tooltiptext');
 
         // Store and update current widget area
         node.identityAreaType = CustomizableUI.getAreaType(this.currentArea);
@@ -1400,6 +1419,7 @@ class PwaBrowser {
         CustomizableUI.addListener(listener);
 
         // Sync attributes from old icon to the new one and update tooltip
+        let defaultTooltip = node.getAttribute('tooltiptext');
         hookFunction(document.getElementById('identity-icon'), 'setAttribute', null, (_, [ name, value ]) => {
           if (name === 'tooltiptext') {
             if (value) node.setAttribute(name, value);
@@ -1418,6 +1438,69 @@ class PwaBrowser {
       onCommand (event) {
         const window = event.target.documentGlobal ?? event.target.ownerGlobal;
         window.gIdentityHandler.handleIdentityButtonEvent(event);
+      }
+    });
+  }
+
+  createTrustPanelWidget () {
+    // Create trust panel widget
+    CustomizableUI.createWidget({
+      id: 'trust-button',
+      l10nId: 'toolbar-button-trust',
+      type: 'button',
+
+      onCreated (node) {
+        const document = node.ownerDocument;
+        const window = document.defaultView;
+
+        // Do not override identity widget box if inside a popup window
+        if (!window.toolbar.visible) return;
+
+        const original = document.getElementById('trust-icon-container');
+
+        const syncAttributes = () => {
+          const icon = node.getElementsByClassName('toolbarbutton-icon')[0];
+          if (icon) icon.className = 'toolbarbutton-icon ' + original.className;
+
+          const tooltip = original.getAttribute('tooltiptext');
+          if (tooltip) node.setAttribute('tooltiptext', tooltip);
+          else node.removeAttribute('tooltiptext');
+        };
+
+        const observer = new MutationObserver(syncAttributes);
+        observer.observe(original, { attributeFilter: ['class', 'tooltiptext'] });
+
+        // Store and update current widget area
+        node.trustAreaType = CustomizableUI.getAreaType(this.currentArea);
+
+        const listener = {
+          onWidgetAdded: (widget, area) => {
+            if (widget !== this.id) return;
+            node.trustAreaType = CustomizableUI.getAreaType(area);
+          },
+          onWidgetMoved: (widget, area) => {
+            if (widget !== this.id) return;
+            node.trustAreaType = CustomizableUI.getAreaType(area);
+          },
+          onWidgetRemoved: (widget) => {
+            if (widget !== this.id) return;
+            node.trustAreaType = undefined;
+          },
+          onWidgetInstanceRemoved: (widget, doc) => {
+            if (widget !== this.id || doc !== document) return;
+
+            CustomizableUI.removeListener(listener);
+            observer.disconnect();
+            node.trustAreaType = undefined;
+          },
+        };
+        CustomizableUI.addListener(listener);
+
+        syncAttributes();
+      },
+      onCommand (event) {
+        const window = event.target.documentGlobal ?? event.target.ownerGlobal;
+        window.gTrustPanelHandler.handleProtectionsButtonEvent(event);
       }
     });
   }
@@ -1700,9 +1783,30 @@ class PwaBrowser {
 
   configureLayout () {
     // Configure the default placements of widgets
+    const trustPanelEnabled = this.isTrustPanelEnabled();
+
+    const tabstripPlacements = [
+      'site-info',
+      'tabbrowser-tabs',
+      'new-tab-button',
+      'alltabs-button',
+      'mute-button',
+      'notifications-button',
+      'permissions-button',
+      'downloads-button',
+    ];
+
+    if (trustPanelEnabled) {
+      tabstripPlacements.push('trust-button');
+    } else {
+      tabstripPlacements.push('tracking-protection-button', 'identity-button');
+    }
+
+    tabstripPlacements.push('unified-extensions-button');
+
     const defaultPlacements = {
       [CustomizableUI.AREA_NAVBAR]: ['close-page-button', 'back-button', 'forward-button', 'urlbar-container'],
-      [CustomizableUI.AREA_TABSTRIP]: ['site-info', 'tabbrowser-tabs', 'new-tab-button', 'alltabs-button', 'mute-button', 'notifications-button', 'permissions-button', 'downloads-button', 'tracking-protection-button', 'identity-button', 'unified-extensions-button']
+      [CustomizableUI.AREA_TABSTRIP]: tabstripPlacements
     };
 
     // We cannot directly set the default placements because Firefox does not expose such a function
@@ -1749,6 +1853,41 @@ class PwaBrowser {
         xPref.clear('browser.toolbars.bookmarks.visibility');
       }
     });
+
+    // Wait for CustomizableUI to restore persisted areas before inspecting placements.
+    setTimeout(() => this.migrateTrustPanelWidgetLayout(trustPanelEnabled));
+  }
+
+  migrateTrustPanelWidgetLayout (trustPanelEnabled) {
+    const area = CustomizableUI.AREA_TABSTRIP;
+    const placements = CustomizableUI.getWidgetIdsInArea(area);
+    const hasTrustWidget = placements.includes('trust-button');
+    const hasSplitWidgets = placements.includes('tracking-protection-button') || placements.includes('identity-button');
+
+    if (trustPanelEnabled ? !hasSplitWidgets : !hasTrustWidget) return;
+
+    const widgetsToRemove = trustPanelEnabled
+      ? ['tracking-protection-button', 'identity-button']
+      : ['trust-button'];
+    const widgetsToAdd = trustPanelEnabled
+      ? ['trust-button']
+      : ['tracking-protection-button', 'identity-button'];
+    const sourceWidget = trustPanelEnabled
+      ? ['identity-button', 'tracking-protection-button', 'trust-button']
+      : ['trust-button', 'identity-button', 'tracking-protection-button'];
+    const oldIndex = placements.findIndex(widget => sourceWidget.includes(widget));
+
+    CustomizableUI.beginBatchUpdate();
+    try {
+      for (const widget of widgetsToRemove) {
+        CustomizableUI.removeWidgetFromArea(widget);
+      }
+      for (const [index, widget] of widgetsToAdd.entries()) {
+        CustomizableUI.addWidgetToArea(widget, area, oldIndex + index);
+      }
+    } finally {
+      CustomizableUI.endBatchUpdate();
+    }
   }
 
   configureWidgets () {

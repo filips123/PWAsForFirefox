@@ -17,6 +17,9 @@ toolbar-button-open-in-browser =
 toolbar-button-identity =
     .label = Informasi Situs
     .tooltiptext = Lihat informasi tentang situs ini
+toolbar-button-trust =
+    .label = Informasi Situs
+    .tooltiptext = Lihat informasi tentang situs ini
 toolbar-button-close =
     .label = Tutup
     .tooltiptext = Tutup halaman saat ini
@@ -25,4 +28,3 @@ toolbar-button-home-ffpwa =
     .tooltiptext = Halaman Awal Aplikasi
 
 ## Internal messages that should not be translated
-

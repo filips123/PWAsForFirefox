@@ -331,6 +331,50 @@
     list-style-image: url("chrome://global/skin/icons/security-broken.svg");
   }
 
+  /* Trust panel toolbar widget */
+
+  #trust-button > .toolbarbutton-icon {
+    -moz-context-properties: fill, fill-opacity, stroke;
+    width: 16px;
+    height: 16px;
+  }
+
+  #trust-button > .toolbarbutton-icon.insecure {
+    list-style-image: url("chrome://browser/skin/trust-icon-insecure.svg");
+    background-color: var(--urlbar-box-background-color);
+    color: var(--urlbar-box-text-color);
+    stroke: var(--icon-color-critical);
+  }
+
+  #trust-button > .toolbarbutton-icon.secure {
+    list-style-image: url("chrome://browser/skin/trust-icon-active.svg");
+  }
+
+  #trust-button > .toolbarbutton-icon.scanning {
+    list-style-image: url("chrome://browser/skin/tracking-protection.svg");
+  }
+
+  #trust-button > .toolbarbutton-icon.breached,
+  #trust-button > .toolbarbutton-icon.warning {
+    list-style-image: url("chrome://browser/skin/trust-icon-warning.svg");
+    color: var(--icon-color-warning);
+  }
+
+  #trust-button > .toolbarbutton-icon.inactive:not(.insecure) {
+    list-style-image: url("chrome://browser/skin/trust-icon-disabled.svg");
+  }
+
+  #trust-button > .toolbarbutton-icon.file {
+    list-style-image: url("chrome://global/skin/icons/page-portrait.svg");
+  }
+
+  :root[customizing] #trust-button > .toolbarbutton-icon {
+    list-style-image: url("chrome://browser/skin/tracking-protection.svg");
+    background-color: transparent;
+    color: inherit;
+    stroke: transparent;
+  }
+
   /* Permissions toolbar widget */
 
   .sharing-icon, .notification-anchor-icon, .blocked-permission-icon {

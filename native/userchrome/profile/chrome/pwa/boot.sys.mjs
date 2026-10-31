@@ -152,9 +152,6 @@ Services.prefs.setBoolPref('sidebar.revamp', false);
 // Disable Firefox Nova redesign until we add a proper support for it
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.nova.enabled', false);
 
-// Disable unified trust panel until with make it work with custom widgets
-Services.prefs.getDefaultBranch(null).setBoolPref('browser.urlbar.trustPanel.featureGate', false);
-
 // Disable default browser prompt
 BrowserGlue.prototype._maybeShowDefaultBrowserPrompt = async () => null;
 
@@ -167,6 +164,9 @@ OnboardingMessageProvider.getUntranslatedMessages = async () => [];
 // Disable private window separation
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.privateWindowSeparation.enabled', false);
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.privacySegmentation.createdShortcut', true);
+
+// Disable URL bar search widget
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.urlbar.scotchBonnet.enableOverride', false);
 
 // Disable built-in support for launch on login
 Services.prefs.getDefaultBranch(null).setBoolPref('browser.startup.windowsLaunchOnLogin.enabled', false);
@@ -183,6 +183,9 @@ try {
 } catch (error) {
   // Ignore if CustomIconManager is not available in this Firefox version
 }
+
+// Prevent auto-adding Firefox VPN widget
+Services.prefs.getDefaultBranch(null).setBoolPref('browser.ipProtection.added', true);
 
 // Override command line helper to intercept PWAsForFirefox arguments and start loading the site
 nsBrowserContentHandler.prototype._handle = nsBrowserContentHandler.prototype.handle;

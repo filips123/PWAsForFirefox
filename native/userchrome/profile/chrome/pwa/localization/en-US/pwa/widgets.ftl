@@ -34,6 +34,10 @@ toolbar-button-identity =
     .label = Site Information
     .tooltiptext = View information about this site
 
+toolbar-button-trust =
+    .label = Site Information
+    .tooltiptext = View information about this site
+
 toolbar-button-permissions =
     .label = Site Permissions
     .tooltiptext = View permissions granted to this site

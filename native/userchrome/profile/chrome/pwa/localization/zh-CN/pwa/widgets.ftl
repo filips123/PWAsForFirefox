@@ -26,6 +26,9 @@ toolbar-button-tracking-protection =
 toolbar-button-identity =
     .label = 站点信息
     .tooltiptext = 查看关于此网站的信息
+toolbar-button-trust =
+    .label = 站点信息
+    .tooltiptext = 查看关于此网站的信息
 toolbar-button-permissions =
     .label = 网站权限
     .tooltiptext = 查看授予此网站的权限
@@ -40,4 +43,3 @@ toolbar-button-home-ffpwa =
     .tooltiptext = 应用启动页面
 
 ## Internal messages that should not be translated
-

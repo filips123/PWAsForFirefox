@@ -26,6 +26,9 @@ toolbar-button-tracking-protection =
 toolbar-button-identity =
     .label = Información del sitio
     .tooltiptext = Ver información sobre este sitio
+toolbar-button-trust =
+    .label = Información del sitio
+    .tooltiptext = Ver información sobre este sitio
 toolbar-button-permissions =
     .label = Permisos del sitio
     .tooltiptext = Ver permisos otorgados a este sitio
@@ -40,4 +43,3 @@ toolbar-button-home-ffpwa =
     .tooltiptext = Página de inicio de App
 
 ## Internal messages that should not be translated
-
