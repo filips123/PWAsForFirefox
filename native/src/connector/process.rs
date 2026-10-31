@@ -131,7 +131,7 @@ impl Process for LaunchSite {
 impl Process for InstallSite {
     fn process(&self, _connection: &Connection) -> Result<ConnectorResponse> {
         let command = SiteInstallCommand {
-            manifest_url: self.manifest_url.to_owned(),
+            manifest_url: Some(self.manifest_url.to_owned()),
             document_url: self.document_url.to_owned(),
             start_url: self.start_url.to_owned(),
             icon_url: self.icon_url.to_owned(),

@@ -63,8 +63,9 @@ pub struct SiteLaunchCommand {
 #[derive(Parser, Debug, Eq, PartialEq, Clone)]
 pub struct SiteInstallCommand {
     /// Direct URL of the site's web app manifest
-    #[clap(value_hint = clap::ValueHint::Url)]
-    pub manifest_url: Url,
+    /// {n}If omitted, install without a manifest using --document-url
+    #[clap(required_unless_present = "document_url", value_hint = clap::ValueHint::Url)]
+    pub manifest_url: Option<Url>,
 
     /// Direct URL of the site's main document
     /// {n}Defaults to the result of parsing a manifest URL with `.`

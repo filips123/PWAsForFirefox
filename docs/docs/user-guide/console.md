@@ -151,6 +151,13 @@ The profile is optional and will default to the shared profile. Other arguments 
 available; you can check them in the program help. You can also check [a list of most
 available web app properties and settings](../resources/web-app-properties.md).
 
+To install a website without a web app manifest, omit the manifest URL and provide
+`--document-url` instead:
+
+```shell
+firefoxpwa site install --document-url https://example.com --name "Example website"
+```
+
 !!! warning
 
     You cannot re-use the same name for multiple web apps, because newer ones can overwrite
