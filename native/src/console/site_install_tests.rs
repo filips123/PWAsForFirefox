@@ -7,6 +7,7 @@ use url::Url;
 
 use crate::components::site::{Site, SiteConfig};
 use crate::console::app::{App, SiteCommand, SiteInstallCommand};
+use crate::utils::construct_client;
 
 /// Parses an install command without accessing profiles or system integration.
 fn parse_install(arguments: &[&str]) -> SiteInstallCommand {
@@ -22,7 +23,7 @@ fn parse_install(arguments: &[&str]) -> SiteInstallCommand {
 }
 
 /// Builds a site through the normal manifest parser without writing application data.
-fn create_site(command: &SiteInstallCommand) -> Site {
+fn create_site(command: &SiteInstallCommand, client: &Client) -> Site {
     let (manifest_url, document_url) = command.installation_urls().unwrap();
     let config = SiteConfig {
         name: command.name.clone(),
@@ -40,7 +41,7 @@ fn create_site(command: &SiteInstallCommand) -> Site {
         launch_on_browser: false,
     };
 
-    Site::new(Ulid::nil(), config, &Client::new()).unwrap()
+    Site::new(Ulid::nil(), config, client).unwrap()
 }
 
 /// Neither a name nor a custom start URL substitutes for the required source URL.
@@ -62,7 +63,7 @@ fn requires_manifest_or_document_url() {
 fn installs_without_remote_manifest() {
     let document = "https://example.com/app/page?value=%22hello%22&other=%23test#section";
     let command = parse_install(&["--document-url", document]);
-    let mut site = create_site(&command);
+    let mut site = create_site(&command, &Client::new());
     assert_eq!(site.config.document_url.as_str(), document);
     assert_eq!(site.config.manifest_url.scheme(), "data");
     assert_eq!(site.url(), document);
@@ -88,9 +89,23 @@ fn preserves_manifestless_overrides() {
         "--icon-url",
         icon,
     ]);
-    let site = create_site(&command);
+    let site = create_site(&command, &Client::new());
     assert_eq!(site.name(), "Example website");
     assert_eq!(site.url(), start);
     assert_eq!(site.config.icon_url, Some(Url::parse(icon).unwrap()));
     assert_eq!(site.icons().len(), 1);
+}
+
+/// Manifests served with response headers larger than hyper's 16 KB HTTP/2 default still download.
+#[test]
+#[ignore = "requires network access"]
+fn downloads_manifest_with_large_http2_headers() {
+    let command = parse_install(&[
+        "https://www.youtube.com/manifest.webmanifest",
+        "--document-url",
+        "https://www.youtube.com/",
+    ]);
+    let client = construct_client(None, vec![], false, false).unwrap();
+    let site = create_site(&command, &client);
+    assert_eq!(site.name(), "YouTube");
 }
