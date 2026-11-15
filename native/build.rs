@@ -7,7 +7,12 @@ mod app;
 
 fn main() {
     let out = std::path::PathBuf::from(std::env::var("OUT_DIR").unwrap());
-    let target = out.ancestors().nth(3).unwrap().to_owned();
+    let target = out
+        .ancestors()
+        .find(|path| path.file_name() == Some("build".as_ref()))
+        .and_then(std::path::Path::parent)
+        .unwrap()
+        .to_owned();
     let completions = target.join("completions");
 
     std::fs::create_dir_all(&completions).unwrap();
