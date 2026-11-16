@@ -43,3 +43,4 @@ toolbar-button-home-ffpwa =
     .tooltiptext = 应用启动页面
 
 ## Internal messages that should not be translated
+
