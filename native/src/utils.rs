@@ -11,6 +11,11 @@ use reqwest::header::{HeaderMap, HeaderValue};
 const APP_USER_AGENT: &str =
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0";
 
+/// Maximum HTTP/2 response header list size, matching Firefox's `network.http.max_response_header_size`.
+///
+/// The hyper default (16 KB) is too small for some sites (e.g., YouTube), causing HTTP/2 protocol errors.
+const MAX_HEADER_LIST_SIZE: u32 = 384 * 1024;
+
 /// Load DER and PEM certificates from files.
 ///
 /// # Parameters
@@ -72,6 +77,7 @@ pub fn construct_client(
     let mut builder = Client::builder()
         .user_agent(user_agent.unwrap_or(APP_USER_AGENT))
         .default_headers(headers)
+        .http2_max_header_list_size(MAX_HEADER_LIST_SIZE)
         .danger_accept_invalid_certs(danger_accept_invalid_certs)
         .danger_accept_invalid_hostnames(danger_accept_invalid_hostnames);
 

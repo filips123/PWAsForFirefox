@@ -122,6 +122,7 @@ impl Site {
                 .get(url.to_owned())
                 .header(reqwest::header::REFERER, url.to_string())
                 .send()?
+                .error_for_status()?
                 .text()?
 
         // If the URL is a data URL (used for installing non-PWA sites), decode it using data-url
