@@ -13,7 +13,8 @@ use tempfile::{NamedTempFile, TempDir};
 use crate::components::site::Site;
 use crate::directories::ProjectDirs;
 
-pub const FFOX_PATHS: [&str; 2] = ["/usr/lib/firefox/", "/usr/lib/firefox-esr/"];
+pub const FFOX_PATHS: [&str; 3] =
+    ["/usr/lib/firefox/", "/usr/lib64/firefox/", "/usr/lib/firefox-esr/"];
 pub const FFOX_BINS: [&str; 2] = ["firefox", "firefox-esr"];
 
 // Returns the first system Firefox directory that exists,
@@ -368,41 +369,45 @@ impl Runtime {
 
         use crate::storage::Storage;
 
+        // Fail before removing the current runtime when there is nothing to link to
+        if !Path::new(ffox()).exists() {
+            anyhow::bail!("No system Firefox found (looked in {})", FFOX_PATHS.join(", "));
+        }
+
         let dirs = ProjectDirs::new()?;
         let mut storage = Storage::load(&dirs)?;
 
         self.uninstall()?;
+        create_dir_all(&self.directory)?;
 
         storage.config.use_linked_runtime = true;
 
         info!("Linking the runtime");
 
-        if Path::new(ffox()).exists() {
-            for entry in read_dir(ffox())?.flatten() {
-                let entry = entry.path();
-                match entry.file_name().expect("Couldn't retrieve a file name").to_str() {
-                    // Use a different branch for the "defaults" folder due to the patches to apply afterwhile
-                    Some("defaults") => {
-                        create_dir_all(self.directory.join("defaults/pref"))?;
-                        symlink(
-                            entry.join("defaults/pref/channel-prefs.js"),
-                            self.directory.join("defaults/pref/channel-prefs.js"),
-                        )?;
-                    }
-                    Some("firefox-bin") => {
-                        copy(entry, self.directory.join("firefox-bin"))?;
-                    }
-                    Some(name) if FFOX_BINS.contains(&name) => {
-                        if entry == ffox_launcher() {
-                            copy(entry, self.directory.join("firefox"))?;
-                        }
-                    }
-                    Some(&_) => {
-                        let link = self.directory.join(entry.file_name().unwrap());
-                        symlink(entry, link)?;
-                    }
-                    None => todo!(),
+        for entry in read_dir(ffox())?.flatten() {
+            let entry = entry.path();
+            match entry.file_name().expect("Couldn't retrieve a file name").to_str() {
+                // Use a different branch for the "defaults" folder due to the patches to apply afterwhile
+                Some("defaults") => {
+                    create_dir_all(self.directory.join("defaults/pref"))?;
+                    symlink(
+                        entry.join("defaults/pref/channel-prefs.js"),
+                        self.directory.join("defaults/pref/channel-prefs.js"),
+                    )?;
                 }
+                Some("firefox-bin") => {
+                    copy(entry, self.directory.join("firefox-bin"))?;
+                }
+                Some(name) if FFOX_BINS.contains(&name) => {
+                    if entry == ffox_launcher() {
+                        copy(entry, self.directory.join("firefox"))?;
+                    }
+                }
+                Some(&_) => {
+                    let link = self.directory.join(entry.file_name().unwrap());
+                    symlink(entry, link)?;
+                }
+                None => todo!(),
             }
         }
 
