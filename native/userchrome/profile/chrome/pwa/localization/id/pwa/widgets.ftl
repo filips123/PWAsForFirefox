@@ -28,3 +28,4 @@ toolbar-button-home-ffpwa =
     .tooltiptext = Halaman Awal Aplikasi
 
 ## Internal messages that should not be translated
+

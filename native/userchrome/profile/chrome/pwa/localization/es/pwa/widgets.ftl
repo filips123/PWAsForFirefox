@@ -43,3 +43,4 @@ toolbar-button-home-ffpwa =
     .tooltiptext = Página de inicio de App
 
 ## Internal messages that should not be translated
+
