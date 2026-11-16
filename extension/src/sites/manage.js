@@ -347,6 +347,12 @@ async function createSiteList () {
       profilesElement.replaceChildren()
       profilesElement.add(new Option(sanitizeString(profiles[site.profile].name) || site.profile, site.profile))
 
+      // Set URL handlers from config or infer a sensible default from the app scope
+      const handlersInput = document.getElementById('web-app-url-handlers')
+      const defaultHandler = site.manifest.scope || site.config.start_url || site.manifest.start_url || ''
+      const enabledHandlers = site.config.enabled_url_handlers?.length ? site.config.enabled_url_handlers : (defaultHandler ? [defaultHandler] : [])
+      handlersInput.value = enabledHandlers.join('\n')
+
       // Create protocol handlers list and set enabled handlers
       // Currently not supported on macOS
       const platform = await browser.runtime.getPlatformInfo()
@@ -519,10 +525,12 @@ async function createSiteList () {
         // Get list of enabled protocol handlers
         const enabledProtocolHandlers = [...document.querySelectorAll('.web-app-protocol-handler:checked')].map(check => check.value)
 
-        // Control whether the auto launch is enabled
-        const autoLaunchEnabled = document.getElementById('web-app-auto-launch').checked
-        const enabledUrlHandlers = []
-        if (autoLaunchEnabled) enabledUrlHandlers.push(site.manifest.scope)
+        // URL handlers are also used for in-app routing, so always persist them
+        // even when the separate auto-launch feature is disabled.
+        const enabledUrlHandlers = document.getElementById('web-app-url-handlers').value
+          .split('\n')
+          .map(item => item.trim())
+          .filter(Boolean)
 
         // Tell the native connector to update the site
         const response = await browser.runtime.sendNativeMessage('firefoxpwa', {

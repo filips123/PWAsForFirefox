@@ -37,6 +37,7 @@
             <div class="mb-3">
               <label for="web-app-start-url" class="form-label" data-i18n="webAppStartURL"></label>
               <input type="url" class="form-control form-control-sm" id="web-app-start-url" />
+              <div class="form-text">Defaults to the current app URL so you can adjust it before installing.</div>
               <div class="invalid-feedback" id="web-app-start-url-invalid"></div>
               <div class="warning-feedback" id="web-app-start-url-warning"></div>
             </div>
@@ -49,6 +50,11 @@
               <label for="web-app-profile" class="form-label" data-i18n="webAppProfile"></label>
               <select class="form-select form-select-sm" id="web-app-profile" required></select>
               <div class="invalid-feedback" id="web-app-profile-invalid"></div>
+            </div>
+            <div class="mb-3">
+              <label for="web-app-url-handlers" class="form-label fw-bold">URLs that should stay inside the app</label>
+              <textarea class="form-control form-control-sm" id="web-app-url-handlers" rows="4" placeholder="One pattern per line&#10;https://mail.google.com/mail/&#10;https://*.google.com/*"></textarea>
+              <div class="form-text">One pattern per line. Supports exact prefixes and wildcards like <code>*.domain.com</code> or <code>/path/*</code>.</div>
             </div>
             <div class="mb-3 d-none" id="web-app-profile-warn-box" style="text-align: justify;">
               <strong><span data-i18n="commonNote"></span>:</strong>
