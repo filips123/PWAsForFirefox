@@ -114,10 +114,7 @@ ulid = "3.0.0"
 url = "2.5.8"
 
 [package.metadata.wix]
-include = [
-    "packages/wix/main.wxs",
-    "packages/wix/userchrome.wxs"
-]
+include = ["packages/wix/main.wxs"]
 
 [package.metadata.deb]
 section = "web"
