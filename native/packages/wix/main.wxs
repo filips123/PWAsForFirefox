@@ -15,231 +15,156 @@
   This project is not affiliated with Mozilla Foundation in any way.
 -->
 
-<!--
-  Important: Generate UserChrome component group before running cargo wix!
-  $ heat dir userchrome -o packages/wix/userchrome.wxs -scom -srd -sreg -gg -cg UserChrome -dr UserChromeDir -var wix.UserChromeSource
--->
-
-<?if $(sys.BUILDARCH) = x64 or $(sys.BUILDARCH) = arm64 ?>
-    <?define PlatformProgramFilesFolder = "ProgramFiles64Folder" ?>
-<?else ?>
-    <?define PlatformProgramFilesFolder = "ProgramFilesFolder" ?>
-<?endif ?>
-
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product
-        Id="*"
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+    <Package
         UpgradeCode="E1CD921B-369E-47CB-AD2E-3BCA94142512"
-
         Name="PWAsForFirefox"
         Manufacturer="filips"
         Version="$(var.Version)"
+        Scope="perMachineOrUser">
 
-        Language="1033"
-        Codepage="1252"
-    >
-        <!-- Installer package that installs PWAsForFirefox native components -->
-        <Package
-            Id="*"
-
-            Keywords="PWAsForFirefox Installer"
+        <SummaryInformation
             Description="The native part of the PWAsForFirefox project"
-            Manufacturer="filips"
+            Keywords="PWAsForFirefox $(var.Version) Installer"
+            Comments="This installer installs PWAsForFirefox $(var.Version)" />
 
-            InstallerVersion="500"
-            Languages="1033"
-            SummaryCodepage="1252"
-            Compressed="yes"
-        />
+        <!-- Embed the installer data directly into the MSI file -->
+        <MediaTemplate EmbedCab="yes" />
 
-        <!-- Handle removing old version when upgrading  -->
-        <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A newer version of [ProductName] is already installed. Setup will now exit." />
+        <!-- Remove an older version after the new install has initialized -->
+        <MajorUpgrade
+            Schedule="afterInstallInitialize"
+            DowngradeErrorMessage="A newer version of [ProductName] is already installed. Setup will now exit." />
 
-        <!-- Apparently needed for WiX to work -->
-        <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" DiskPrompt="CD-ROM #1" />
-        <Property Id="DiskPrompt" Value="PWAsForFirefox Installation [1]" />
+        <!-- Detect existing installation directories -->
+        <Property Id="USERINSTALLDIR" Secure="yes">
+            <RegistrySearch Id="UserInstallDirSearch" Root="HKCU" Key="Software\filips\FirefoxPWA" Name="Path" Type="raw" />
+        </Property>
+        <Property Id="MACHINEINSTALLDIR" Secure="yes">
+            <RegistrySearch Id="MachineInstallDirSearch" Root="HKLM" Key="Software\filips\FirefoxPWA" Name="Path" Type="raw" />
+        </Property>
 
-        <!-- Define all directories and components -->
-        <Directory Id="TARGETDIR" Name="SourceDir">
-            <Directory Id="$(var.PlatformProgramFilesFolder)" Name="PFiles">
-                <Directory Id="APPLICATIONFOLDER" Name="FirefoxPWA">
-                    <!-- Contains the license file -->
-                    <Component Id="License" Guid="B0F7D2BD-47D2-44DE-9F9F-AE5D5CEFE760">
-                        <File
-                            Id="LicenseFile"
-                            Name="LICENSE"
-                            Source="LICENSE"
-                            DiskId="1"
-                            KeyPath="yes"
-                        />
-                    </Component>
+        <!-- Restore the detected installation's scope and then its directory -->
+        <SetProperty Id="ALLUSERS" Action="RestoreUserAllUsers" Value="" After="AppSearch" Sequence="both" Condition="USERINSTALLDIR AND NOT MACHINEINSTALLDIR" />
+        <SetProperty Id="MSIINSTALLPERUSER" Action="RestoreUserScope" Value="1" After="RestoreUserAllUsers" Sequence="both" Condition="USERINSTALLDIR AND NOT MACHINEINSTALLDIR" />
+        <SetProperty Id="APPLICATIONFOLDER" Action="RestoreUserDirectory" Value="[USERINSTALLDIR]" After="RestoreUserScope" Sequence="both" Condition="USERINSTALLDIR AND NOT MACHINEINSTALLDIR" />
+        <SetProperty Id="ALLUSERS" Action="RestoreMachineAllUsers" Value="1" After="RestoreUserDirectory" Sequence="both" Condition="MACHINEINSTALLDIR AND NOT USERINSTALLDIR" />
+        <SetProperty Id="MSIINSTALLPERUSER" Action="RestoreMachineScope" Value="" After="RestoreMachineAllUsers" Sequence="both" Condition="MACHINEINSTALLDIR AND NOT USERINSTALLDIR" />
+        <SetProperty Id="APPLICATIONFOLDER" Action="RestoreMachineDirectory" Value="[MACHINEINSTALLDIR]" After="RestoreMachineScope" Sequence="both" Condition="MACHINEINSTALLDIR AND NOT USERINSTALLDIR" />
 
-                    <!-- Contains the native app manifest for communication with the extension -->
-                    <Component Id="Manifest" Guid="44990C1D-C76C-4CFC-8A36-B94CFD277910">
-                        <File
-                            Id="ManifestFile"
-                            Name="firefoxpwa.json"
-                            Source="manifests/windows.json"
-                            DiskId="1"
-                            KeyPath="yes"
-                        />
-                        <RegistryKey Root="HKMU" Key="SOFTWARE\Mozilla\NativeMessagingHosts\firefoxpwa">
-                            <RegistryValue Type="string" Value="[#ManifestFile]" />
-                        </RegistryKey>
-                    </Component>
+        <InstallUISequence>
+            <FindRelatedProducts After="RestoreMachineDirectory" />
+            <LaunchConditions After="FindRelatedProducts" />
+        </InstallUISequence>
+        <InstallExecuteSequence>
+            <FindRelatedProducts After="RestoreMachineDirectory" />
+            <LaunchConditions After="FindRelatedProducts" />
+        </InstallExecuteSequence>
 
-                    <!-- Contains the main console program -->
-                    <Component Id="MainBinary" Guid="711E74CE-248B-48FA-B4B3-BD46B748DB46">
-                        <File
-                            Id="MainBinaryFile"
-                            Name="firefoxpwa.exe"
-                            Source="$(var.CargoTargetBinDir)\firefoxpwa.exe"
-                            DiskId="1"
-                            KeyPath="yes"
-                        />
-                    </Component>
+        <!-- Prevent multiple installation scopes at the same time -->
+        <Launch
+            Condition="REMOVE OR NOT (USERINSTALLDIR AND MACHINEINSTALLDIR)"
+            Message="Multiple existing installations detected. Uninstall them before continuing." />
 
-                    <!-- Contains the connector program for the extension -->
-                    <Component Id="ConnectorBinary" Guid="1FEAF44F-C68F-46C6-93A7-AB3278FEFCBB">
-                        <File
-                            Id="ConnectorBinaryFile"
-                            Name="firefoxpwa-connector.exe"
-                            Source="$(var.CargoTargetBinDir)\firefoxpwa-connector.exe"
-                            DiskId="1"
-                            KeyPath="yes"
-                        />
-                    </Component>
+        <!-- Prevent upgrades from an unknown installation scope -->
+        <Launch
+            Condition="REMOVE OR NOT WIX_UPGRADE_DETECTED OR USERINSTALLDIR OR MACHINEINSTALLDIR"
+            Message="An incomplete installation was detected. Uninstall it before continuing." />
 
-                    <!-- Contains all shell completions for the console program -->
-                    <!-- Users can manually add them to their shells if they want -->
-                    <Directory Id="CompletionsDir" Name="completions">
-                        <Component Id="BashCompletions" Guid="5E35D355-756E-4E0F-9F99-20F4E21534B2">
-                            <File
-                                Id="BashCompletionsFile"
-                                Name="firefoxpwa.bash"
-                                Source="$(var.CargoTargetBinDir)\completions\firefoxpwa.bash"
-                                DiskId="1"
-                                KeyPath="yes"
-                            />
-                        </Component>
-                        <Component Id="ElvishCompletions" Guid="336E7C03-E919-47EA-A206-A8FD0D9441A9">
-                            <File
-                                Id="ElvishCompletionsFile"
-                                Name="firefoxpwa.elv"
-                                Source="$(var.CargoTargetBinDir)\completions\firefoxpwa.elv"
-                                DiskId="1"
-                                KeyPath="yes"
-                            />
-                        </Component>
-                        <Component Id="FishCompletions" Guid="FF7D9ACA-FDC9-44EF-8204-905EAA8B2BA0">
-                            <File
-                                Id="FishCompletionsFile"
-                                Name="firefoxpwa.fish"
-                                Source="$(var.CargoTargetBinDir)\completions\firefoxpwa.fish"
-                                DiskId="1"
-                                KeyPath="yes"
-                            />
-                        </Component>
-                        <Component Id="PowerShellCompletions" Guid="352140E6-2977-4AF4-AB26-8FDF771A8B2E">
-                            <File
-                                Id="PowerShellCompletionsFile"
-                                Name="_firefoxpwa.ps1"
-                                Source="$(var.CargoTargetBinDir)\completions\_firefoxpwa.ps1"
-                                DiskId="1"
-                                KeyPath="yes"
-                            />
-                        </Component>
-                        <Component Id="ZshCompletions" Guid="60CDAC18-2A12-48FB-89EF-E4C293081307">
-                            <File
-                                Id="ZshCompletionsFile"
-                                Name="_firefoxpwa"
-                                Source="$(var.CargoTargetBinDir)\completions\_firefoxpwa"
-                                DiskId="1"
-                                KeyPath="yes"
-                            />
-                        </Component>
-                    </Directory>
+        <!-- Use per-machine installation scope as default -->
+        <Property Id="MSIINSTALLPERUSER" Secure="yes" />
+        <Property Id="WixAppFolder" Value="WixPerMachineFolder" />
 
-                    <!-- Directory where UserChrome modifications are stored -->
-                    <!-- All files are added by a component group that needs to be manually generated by running heat before building the installer -->
-                    <Directory Id="UserChromeDir" Name="userchrome" />
-
-                    <!-- Adds installation directory to the PATH environment variable -->
-                    <!-- We need two components to support both per-user and per-machine installs -->
-                    <Component Id="PathEntryUser" Guid="20C5BA9A-0C8E-4974-9E43-7B3BBC7165EF">
-                        <Condition>MSIINSTALLPERUSER = 1</Condition>
-                        <CreateFolder />
-                        <Environment
-                            Id="PathUser"
-                            Name="PATH"
-                            Value="[APPLICATIONFOLDER]"
-                            Part="last"
-                            Action="set"
-                            Permanent="yes"
-                            System="no"
-                        />
-                    </Component>
-                    <Component Id="PathEntryMachine" Guid="BC3E15AF-181A-4160-9ACD-F7A39583872A">
-                        <Condition>NOT MSIINSTALLPERUSER = 1</Condition>
-                        <CreateFolder />
-                        <Environment
-                            Id="PathMachine"
-                            Name="PATH"
-                            Value="[APPLICATIONFOLDER]"
-                            Part="last"
-                            Action="set"
-                            Permanent="yes"
-                            System="yes"
-                        />
-                    </Component>
-
-                    <!-- Stores installation directory and version in known registry location so the program can read it -->
-                    <!-- Also marks binaries as a host processes for a better integration with the taskbar -->
-                    <Component Id="RegistryEntries" Guid="C0B6535A-9A56-411E-B8D5-F1Ee901Ec440">
-                        <RegistryKey Root="HKMU" Key="Software\filips\FirefoxPWA">
-                            <RegistryValue Type="string" Name="Path" Value="[APPLICATIONFOLDER]" KeyPath="yes" />
-                            <RegistryValue Type="string" Name="Version" Value="$(var.Version)" />
-                        </RegistryKey>
-                        <RegistryKey Root="HKCR" Key="Applications\firefoxpwa.exe">
-                            <RegistryValue Type="string" Name="IsHostApp" Value="" />
-                            <RegistryValue Type="string" Name="NoOpenWith" Value="" />
-                        </RegistryKey>
-                        <RegistryKey Root="HKCR" Key="Applications\firefoxpwa-connector.exe">
-                            <RegistryValue Type="string" Name="IsHostApp" Value="" />
-                            <RegistryValue Type="string" Name="NoOpenWith" Value="" />
-                        </RegistryKey>
-                    </Component>
-                </Directory>
-            </Directory>
-        </Directory>
-
-        <!-- Everything is packed into the same feature -->
         <Feature
-            Id="Binaries"
-            Level="1"
-
+            Id="Application"
             Title="PWAsForFirefox"
-            Description="Installs the native part of the PWAsForFirefox project"
+            Description="Installs the native part of the PWAsForFirefox project">
 
-            ConfigurableDirectory="APPLICATIONFOLDER"
-            Display="expand"
-            AllowAdvertise="no"
-            Absent="disallow"
-        >
-            <ComponentRef Id="RegistryEntries" />
-            <ComponentRef Id="PathEntryUser" />
-            <ComponentRef Id="PathEntryMachine" />
-            <ComponentRef Id="License" />
-            <ComponentRef Id="Manifest" />
-            <ComponentRef Id="MainBinary" />
-            <ComponentRef Id="ConnectorBinary" />
-            <ComponentRef Id="BashCompletions" />
-            <ComponentRef Id="ElvishCompletions" />
-            <ComponentRef Id="FishCompletions" />
-            <ComponentRef Id="PowerShellCompletions" />
-            <ComponentRef Id="ZshCompletions" />
-            <ComponentGroupRef Id="UserChrome" />
+            <!-- Contains the UserChrome modification files -->
+            <Files Include="..\..\userchrome\**" Directory="APPLICATIONFOLDER" Subdirectory="userchrome" />
+
         </Feature>
+
+        <StandardDirectory Id="ProgramFiles6432Folder">
+            <Directory Id="APPLICATIONFOLDER" Name="FirefoxPWA">
+
+                <!-- Contains the license file -->
+                <Component Guid="B0F7D2BD-47D2-44DE-9F9F-AE5D5CEFE760" Feature="Application">
+                    <File Id="LICENSE" Source="LICENSE" KeyPath="yes" />
+                </Component>
+
+                <!-- Contains the native app manifest for communication with the extension -->
+                <Component Guid="44990C1D-C76C-4CFC-8A36-B94CFD277910" Feature="Application">
+                    <File Id="MANIFEST" Name="firefoxpwa.json" Source="manifests/windows.json" KeyPath="yes" />
+                    <RegistryKey Root="HKMU" Key="SOFTWARE\Mozilla\NativeMessagingHosts\firefoxpwa">
+                        <RegistryValue Type="string" Value="[#MANIFEST]" />
+                    </RegistryKey>
+                </Component>
+
+                <!-- Contains the main console program -->
+                <Component Guid="711E74CE-248B-48FA-B4B3-BD46B748DB46" Feature="Application">
+                    <File Source="$(var.CargoTargetBinDir)\firefoxpwa.exe" KeyPath="yes" />
+                </Component>
+
+                <!-- Contains the connector program for the extension -->
+                <Component Guid="1FEAF44F-C68F-46C6-93A7-AB3278FEFCBB" Feature="Application">
+                    <File Source="$(var.CargoTargetBinDir)\firefoxpwa-connector.exe" KeyPath="yes" />
+                </Component>
+
+                <!-- Contains all shell completions for the console program -->
+                <!-- Users can manually add them to their shells if they want -->
+                <Component Guid="5E35D355-756E-4E0F-9F99-20F4E21534B2" Feature="Application" Subdirectory="completions">
+                    <File Source="$(var.CargoTargetBinDir)\completions\firefoxpwa.bash" KeyPath="yes" />
+                </Component>
+                <Component Guid="336E7C03-E919-47EA-A206-A8FD0D9441A9" Feature="Application" Subdirectory="completions">
+                    <File Source="$(var.CargoTargetBinDir)\completions\firefoxpwa.elv" KeyPath="yes" />
+                </Component>
+                <Component Guid="FF7D9ACA-FDC9-44EF-8204-905EAA8B2BA0" Feature="Application" Subdirectory="completions">
+                    <File Source="$(var.CargoTargetBinDir)\completions\firefoxpwa.fish" KeyPath="yes" />
+                </Component>
+                <Component Guid="352140E6-2977-4AF4-AB26-8FDF771A8B2E" Feature="Application" Subdirectory="completions">
+                    <File Source="$(var.CargoTargetBinDir)\completions\_firefoxpwa.ps1" KeyPath="yes" />
+                </Component>
+                <Component Guid="60CDAC18-2A12-48FB-89EF-E4C293081307" Feature="Application" Subdirectory="completions">
+                    <File Source="$(var.CargoTargetBinDir)\completions\_firefoxpwa" KeyPath="yes" />
+                </Component>
+
+                <!-- Adds installation directory to the PATH environment variable -->
+                <!-- We need two components to support both per-user and per-machine installs -->
+                <Component Id="PATHUSER" Guid="20C5BA9A-0C8E-4974-9E43-7B3BBC7165EF" Feature="Application" Condition="MSIINSTALLPERUSER = 1">
+                    <CreateFolder />
+                    <Environment Name="PATH" Value="[APPLICATIONFOLDER]" Part="last" Action="set" Permanent="yes" System="no" />
+                </Component>
+                <Component Id="PATHMACHINE" Guid="BC3E15AF-181A-4160-9ACD-F7A39583872A" Feature="Application" Condition="NOT MSIINSTALLPERUSER">
+                    <CreateFolder />
+                    <Environment Name="PATH" Value="[APPLICATIONFOLDER]" Part="last" Action="set" Permanent="yes" System="yes" />
+                </Component>
+
+                <!-- Stores installation directory and version in known registry location so the program can read it -->
+                <Component Guid="C0B6535A-9A56-411E-B8D5-F1EE901EC440" Feature="Application">
+                    <RegistryKey Root="HKMU" Key="Software\filips\FirefoxPWA">
+                        <RegistryValue Type="string" Name="Path" Value="[APPLICATIONFOLDER]" KeyPath="yes" />
+                        <RegistryValue Type="string" Name="Version" Value="$(var.Version)" />
+                    </RegistryKey>
+                </Component>
+
+                <!-- Marks binaries as a host processes for a better integration with the taskbar -->
+                <Component Guid="ACEF86E3-AB50-4E0B-856F-193C516D90AE" Feature="Application">
+                    <RegistryKey Root="HKCR" Key="Applications\firefoxpwa.exe">
+                        <RegistryValue Type="string" Name="IsHostApp" Value="" KeyPath="yes" />
+                        <RegistryValue Type="string" Name="NoOpenWith" Value="" />
+                    </RegistryKey>
+                    <RegistryKey Root="HKCR" Key="Applications\firefoxpwa-connector.exe">
+                        <RegistryValue Type="string" Name="IsHostApp" Value="" />
+                        <RegistryValue Type="string" Name="NoOpenWith" Value="" />
+                    </RegistryKey>
+                </Component>
+
+            </Directory>
+        </StandardDirectory>
+
+        <!-- Configure the default installation directory name -->
+        <Property Id="ApplicationFolderName" Value="FirefoxPWA" />
 
         <!-- Configure info that are shown on Windows ARP page -->
         <Icon Id="ProductICO" SourceFile="packages\wix\assets\product.ico" />
@@ -247,7 +172,7 @@
         <Property Id="ARPHELPLINK" Value="https://pwasforfirefox.filips.si/" />
         <Property Id="ARPURLINFOABOUT" Value="https://pwasforfirefox.filips.si/" />
         <Property Id="ARPURLUPDATEINFO" Value="https://github.com/filips123/PWAsForFirefox/releases" />
-        <SetProperty Id="ARPINSTALLLOCATION" Value="[APPLICATIONFOLDER]" After="CostFinalize" />
+        <SetProperty Id="ARPINSTALLLOCATION" Value="[APPLICATIONFOLDER]" After="CostFinalize" Sequence="execute" />
 
         <!-- Configure license, images and icons that are displayed in installer -->
         <WixVariable Id="WixUILicenseRtf" Value="packages\wix\assets\license.rtf" />
@@ -258,53 +183,38 @@
         <WixVariable Id="WixUINewIco" Value="packages\wix\assets\new.ico" />
         <WixVariable Id="WixUIUpIco" Value="packages\wix\assets\up.ico" />
 
-        <!-- Configure WiX to support per-user and per-machine installs -->
-        <WixVariable Id="WixUISupportPerUser" Value="1" />
-        <WixVariable Id="WixUISupportPerMachine" Value="1" />
-        <Property Id="WIXUI_INSTALLDIR" Value="APPLICATIONFOLDER" />
-        <Property Id="MSIINSTALLPERUSER" Secure="yes" />
-        <Property Id="ALLUSERS" Value="2" Secure="yes" />
+        <!-- Support both per-user and per-machine scopes -->
+        <WixVariable Id="virtual WixUISupportPerUser" Value="1" />
+        <WixVariable Id="virtual WixUISupportPerMachine" Value="1" />
 
-        <!-- Configure default installation folders for per-user and per-machine installs -->
-        <Property Id="ApplicationFolderName" Value="FirefoxPWA" />
-        <CustomAction Id="SetDefaultPerUserFolder" Property="WixPerUserFolder" Value="[LocalAppDataFolder]Programs\[ApplicationFolderName]\" Execute="immediate" />
-        <CustomAction Id="SetDefaultPerMachineFolder" Property="WixPerMachineFolder" Value="[$(var.PlatformProgramFilesFolder)][ApplicationFolderName]\" Execute="immediate" />
-        <CustomAction Id="SetPerUserFolder" Property="APPLICATIONFOLDER" Value="[WixPerUserFolder]" Execute="immediate" />
-        <CustomAction Id="SetPerMachineFolder" Property="APPLICATIONFOLDER" Value="[WixPerMachineFolder]" Execute="immediate" />
-        <Property Id="WixAppFolder" Value="WixPerMachineFolder" />
+        <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="APPLICATIONFOLDER" />
 
-        <!-- Configure execute and UI sequences to set the correct directory -->
-        <InstallExecuteSequence>
-            <Custom Action="SetDefaultPerUserFolder" Before="CostFinalize" />
-            <Custom Action="SetDefaultPerMachineFolder" After="SetDefaultPerUserFolder" />
-            <Custom Action="SetPerUserFolder" After="SetDefaultPerMachineFolder">ACTION="INSTALL" AND APPLICATIONFOLDER="" AND (ALLUSERS="" OR (ALLUSERS=2 AND (NOT Privileged)))</Custom>
-            <Custom Action="SetPerMachineFolder" After="SetPerUserFolder">ACTION="INSTALL" AND APPLICATIONFOLDER="" AND (ALLUSERS=1 OR (ALLUSERS=2 AND Privileged))</Custom>
-        </InstallExecuteSequence>
-        <InstallUISequence>
-            <Custom Action="SetDefaultPerUserFolder" Before="CostFinalize" />
-            <Custom Action="SetDefaultPerMachineFolder" After="SetDefaultPerUserFolder" />
-            <Custom Action="SetPerUserFolder" After="SetDefaultPerMachineFolder">ACTION="INSTALL" AND APPLICATIONFOLDER="" AND (ALLUSERS="" OR (ALLUSERS=2 AND (NOT Privileged)))</Custom>
-            <Custom Action="SetPerMachineFolder" After="SetPerUserFolder">ACTION="INSTALL" AND APPLICATIONFOLDER="" AND (ALLUSERS=1 OR (ALLUSERS=2 AND Privileged))</Custom>
-        </InstallUISequence>
-
-        <!-- Modify the UI to allow the user to customize installation scope and directory -->
         <UI>
-            <UIRef Id="WixUI_InstallDir" />
-            <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="InstallScopeDlg">LicenseAccepted = "1"</Publish>
-            <Publish Dialog="InstallScopeDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
-            <Publish Dialog="InstallScopeDlg" Control="Next" Property="WixAppFolder" Value="WixPerUserFolder" Order="1">NOT Privileged</Publish>
-            <Publish Dialog="InstallScopeDlg" Control="Next" Property="ALLUSERS" Value="{}" Order="2">WixAppFolder = "WixPerUserFolder"</Publish>
-            <Publish Dialog="InstallScopeDlg" Control="Next" Property="ALLUSERS" Value="1" Order="2">WixAppFolder = "WixPerMachineFolder"</Publish>
-            <Publish Dialog="InstallScopeDlg" Control="Next" Property="MSIINSTALLPERUSER" Value="1" Order="3">WixAppFolder = "WixPerUserFolder"</Publish>
-            <Publish Dialog="InstallScopeDlg" Control="Next" Property="MSIINSTALLPERUSER" Value="{}" Order="3">WixAppFolder = "WixPerMachineFolder"</Publish>
-            <Publish Dialog="InstallScopeDlg" Control="Next" Property="APPLICATIONFOLDER" Value="[WixPerUserFolder]" Order="4">WixAppFolder = "WixPerUserFolder"</Publish>
-            <Publish Dialog="InstallScopeDlg" Control="Next" Property="APPLICATIONFOLDER" Value="[WixPerMachineFolder]" Order="4">WixAppFolder = "WixPerMachineFolder"</Publish>
-            <Publish Dialog="InstallScopeDlg" Control="Next" Event="DoAction" Value="FindRelatedProducts" Order="5">1</Publish>
-            <Publish Dialog="InstallScopeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="6">1</Publish>
-            <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="InstallScopeDlg">1</Publish>
+            <DialogRef Id="InstallScopeDlg" />
+
+            <!-- On fresh installations, show the scope dialog after the license agreement; on upgrades, skip the scope and directory selection -->
+            <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="InstallScopeDlg" Order="2" Condition='LicenseAccepted = "1" AND NOT WIX_UPGRADE_DETECTED AND NOT USERINSTALLDIR AND NOT MACHINEINSTALLDIR' />
+            <Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg" Order="3" Condition='LicenseAccepted = "1" AND (WIX_UPGRADE_DETECTED OR USERINSTALLDIR OR MACHINEINSTALLDIR)' />
+
+            <Publish Dialog="InstallScopeDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg" />
+
+            <!-- Enable machine scope for privileged users -->
+            <Publish Dialog="InstallScopeDlg" Control="Next" Property="WixAppFolder" Value="WixPerUserFolder" Order="1" Condition='!(wix.WixUISupportPerUser) AND NOT Privileged' />
+
+            <!-- Configure the selected scope and its matching installation directory -->
+            <Publish Dialog="InstallScopeDlg" Control="Next" Property="ALLUSERS" Order="2" Condition='WixAppFolder = "WixPerUserFolder"' />
+            <Publish Dialog="InstallScopeDlg" Control="Next" Property="MSIINSTALLPERUSER" Value="1" Order="3" Condition='WixAppFolder = "WixPerUserFolder"' />
+            <Publish Dialog="InstallScopeDlg" Control="Next" Property="APPLICATIONFOLDER" Value="[LocalAppDataFolder]Programs\[ApplicationFolderName]\" Order="4" Condition='WixAppFolder = "WixPerUserFolder"' />
+            <Publish Dialog="InstallScopeDlg" Control="Next" Property="ALLUSERS" Value="1" Order="5" Condition='WixAppFolder = "WixPerMachineFolder"' />
+            <Publish Dialog="InstallScopeDlg" Control="Next" Property="MSIINSTALLPERUSER" Order="6" Condition='WixAppFolder = "WixPerMachineFolder"' />
+            <Publish Dialog="InstallScopeDlg" Control="Next" Property="APPLICATIONFOLDER" Value="[ProgramFiles6432Folder][ApplicationFolderName]\" Order="7" Condition='WixAppFolder = "WixPerMachineFolder"' />
+            <Publish Dialog="InstallScopeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="8" Condition="1" />
+
+            <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="InstallScopeDlg" Order="2" Condition="1" />
+
+            <!-- Prevent going back to scope or directory selection on upgrades -->
+            <Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg" Order="2" Condition="WIX_UPGRADE_DETECTED OR USERINSTALLDIR OR MACHINEINSTALLDIR" />
         </UI>
 
-        <!-- Needed so UserChrome component group can properly determine the correct source directory -->
-        <WixVariable Id="UserChromeSource" Value="userchrome" />
-    </Product>
+    </Package>
 </Wix>

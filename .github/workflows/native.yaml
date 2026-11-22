@@ -150,6 +150,8 @@ jobs:
             target: x86_64-pc-windows-msvc
           - os: windows-latest
             target: i686-pc-windows-msvc
+          - os: windows-latest
+            target: aarch64-pc-windows-msvc
           # Portable builds for Windows
           - os: windows-latest
             target: x86_64-pc-windows-msvc
@@ -209,8 +211,10 @@ jobs:
       - name: Install Cargo WiX (Windows)
         if: matrix.os == 'windows-latest' && matrix.portable != true
         run: |
-          echo "${WIX}bin" >> $GITHUB_PATH
-          cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev 032be8310f9aa9684e9524db54632792a9d85e28
+          echo "$USERPROFILE/.dotnet/tools" >> $GITHUB_PATH
+          dotnet tool install --global wix --version 7.0.1
+          cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev 9a8ed9486637e1fb839f209730eda6c95fd12d88
+          wix eula accept wix7
 
       - name: Install PortableApps.com (Windows)
         if: matrix.os == 'windows-latest' && matrix.portable == true
@@ -347,8 +351,7 @@ jobs:
       - name: Package MSI (Windows, MSI)
         if: matrix.os == 'windows-latest' && matrix.portable != true
         run: |
-          heat dir userchrome -o packages/wix/userchrome.wxs -scom -srd -sreg -gg -cg UserChrome -dr UserChromeDir -var wix.UserChromeSource
-          cargo wix --verbose --no-build --nocapture --target ${{ matrix.target }}
+          cargo wix --verbose --no-build --nocapture --toolset modern --target ${{ matrix.target }}
 
       - name: Upload unsigned MSI (Windows, MSI)
         id: artifact-unsigned-msi

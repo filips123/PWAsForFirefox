@@ -26,12 +26,11 @@ run_task = [
 dependencies = ["build"]
 private = true
 install_script = [
-    "heat >nul 2>nul || echo FATAL: Make sure the WiX Toolset v3 is installed and available in the PATH environment variable && exit 1",
-    "cargo-wix help >nul 2>nul || cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev 032be8310f9aa9684e9524db54632792a9d85e28",
+    "wix --version >nul 2>nul || echo FATAL: Make sure the WiX Toolset v7 or later is installed and available in the PATH environment variable && exit 1",
+    "cargo-wix help >nul 2>nul || cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev 9a8ed9486637e1fb839f209730eda6c95fd12d88",
 ]
 script = [
-    "heat dir userchrome -o packages/wix/userchrome.wxs -scom -srd -sreg -gg -cg UserChrome -dr UserChromeDir -var wix.UserChromeSource",
-    "cargo wix --verbose --no-build --nocapture --install"
+    "cargo wix --verbose --no-build --nocapture --toolset modern --compiler-arg -acceptEula --compiler-arg wix7 --install"
 ]
 
 [tasks.install-linux]

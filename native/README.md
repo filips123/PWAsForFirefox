@@ -82,7 +82,7 @@ First, you will need make sure you have the following tools installed:
 * Git
 * Rust
 * [`cargo-make`](https://github.com/sagiegurari/cargo-make)
-* Windows-only: [WiX Toolset v3](https://wixtoolset.org/docs/wix3/)
+* Windows-only: [WiX Toolset v7 or newer](https://github.com/wixtoolset/wix)
 
 You can then run the following commands to build and install it using `cargo-make`:
 
