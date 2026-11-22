@@ -10,11 +10,24 @@ async function prepareInstallInstructions () {
   const { os, arch } = await browser.runtime.getPlatformInfo()
 
   // Set CRT download URL based on system arch
-  document.getElementById('connector-download-url-crt').setAttribute('href', `https://aka.ms/vs/16/release/vc_redist.${arch === 'x86-32' ? 'x86' : 'x64'}.exe`)
+  // The x64 package contains both ARM64 and x64 binaries
+  document.getElementById('connector-download-url-crt').setAttribute('href', `https://aka.ms/vc14/vc_redist.${arch === 'x86-32' ? 'x86' : 'x64'}.exe`)
 
   // Set MSI download URL based on system arch and extension version
-  // Currently just relying on x86 emulation for Windows ARM
-  const msiArch = arch === 'x86-64' ? 'x86_64' : 'x86'
+  const msiArch = (() => {
+    switch (arch) {
+      case 'x86-32':
+        return 'x86'
+      case 'x86-64':
+        return 'x86_64'
+      case 'arm64':
+      case 'aarch64':
+        return 'aarch64'
+      default:
+        // This shouldn't happen, but default to x64 just in case
+        return 'x86_64'
+    }
+  })()
   document.getElementById('connector-download-url-msi').setAttribute('href', `https://github.com/filips123/PWAsForFirefox/releases/download/v${version}/firefoxpwa-${version}-${msiArch}.msi`)
 
   // Set PAF download url based on extension version
