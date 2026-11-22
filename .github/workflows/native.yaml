@@ -215,6 +215,8 @@ jobs:
           dotnet tool install --global wix --version 7.0.1
           cargo install cargo-wix --git https://github.com/volks73/cargo-wix.git --rev 9a8ed9486637e1fb839f209730eda6c95fd12d88
           wix eula accept wix7
+          wix extension add --global WixToolset.UI.wixext/7.0.1
+          wix extension add --global WixToolset.Util.wixext/7.0.1
 
       - name: Install PortableApps.com (Windows)
         if: matrix.os == 'windows-latest' && matrix.portable == true
