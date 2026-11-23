@@ -1,4 +1,4 @@
-%_rpmformat 4
+%global _rpmformat 4
 
 %define __spec_install_post %{nil}
 %define __os_install_post %{_dbpath}/brp-compress
