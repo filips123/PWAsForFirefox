@@ -6,7 +6,11 @@ use log::warn;
 use reqwest::blocking::Client;
 use url::Url;
 use web_app_manifest::resources::IconResource;
-use windows::Win32::Storage::EnhancedStorage::{PKEY_AppUserModel_ID, PKEY_Title};
+use windows::Win32::Storage::EnhancedStorage::{
+    PKEY_AppUserModel_ID,
+    PKEY_AppUserModel_UninstallCommand,
+    PKEY_Title,
+};
 use windows::Win32::System::Com::StructuredStorage::InitPropVariantFromStringVector;
 use windows::Win32::System::Com::{
     CLSCTX_ALL,
@@ -109,7 +113,7 @@ fn create_arp_entry(
         .create(format!(r"{ADD_REMOVE_PROGRAMS_KEY}\{}", ids.regid))
         .context("Failed to create registry key")?;
 
-    key.set_string("UninstallString", format!("{} site uninstall --quiet {}", exe, ids.ulid))?;
+    key.set_string("UninstallString", format!("{exe} site uninstall --quiet {}", ids.ulid))?;
     key.set_string("DisplayIcon", icon)?;
     key.set_string("DisplayName", &ids.name)?;
     key.set_string("Publisher", args.site.domain())?;
@@ -155,12 +159,23 @@ fn create_menu_shortcut(
         link.SetIconLocation(&HSTRING::from(icon), 0)?;
         link.SetShowCmd(SW_SHOWMINNOACTIVE)?;
 
+        let store: IPropertyStore = link.cast()?;
+
         // Set app user model ID property
         // Docs: https://docs.microsoft.com/en-us/windows/win32/properties/props-system-appusermodel-id
-        let store: IPropertyStore = link.cast()?;
         let hstring = HSTRING::from(&ids.appid);
         let variant = InitPropVariantFromStringVector(Some(&[PCWSTR(hstring.as_ptr())]))?;
         store.SetValue(&PKEY_AppUserModel_ID, &variant)?;
+
+        // Set app user model uninstall command property
+        let hstring = HSTRING::from(format!(
+            "\"{}\" site uninstall --quiet {}",
+            exe.replace('"', "\\\""),
+            ids.ulid
+        ));
+        let variant = InitPropVariantFromStringVector(Some(&[PCWSTR(hstring.as_ptr())]))?;
+        store.SetValue(&PKEY_AppUserModel_UninstallCommand, &variant)?;
+
         store.Commit()?;
 
         // Save shortcut to file
